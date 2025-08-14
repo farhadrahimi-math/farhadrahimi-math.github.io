@@ -10,7 +10,7 @@
 3. برای هر پاسخ صحیح ۱۰ امتیاز بگیرید
 
 ## 🌐 لینک بازی
-[https://username.github.io/repository-name/](https://username.github.io/repository-name/)
+[https://farhadrahimi-math.github.io/farhadrahimi-math/](https://farhadrahimi-math.github.io/farhadrahimi-math/)
 
 ## 📱 قابلیت‌ها
 - طراحی واکنش‌گرا (مخصوص موبایل و تبلت)
