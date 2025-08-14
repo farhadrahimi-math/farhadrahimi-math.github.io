@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازی دنباله‌های حسابی</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        .sequence {
+            font-size: 24px;
+            margin: 25px 0;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+        #result {
+            font-size: 20px;
+            min-height: 30px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .correct {
+            color: #27ae60;
+        }
+        .wrong {
+            color: #e74c3c;
+        }
+        .score {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #2c3e50;
+        }
+        .next-btn {
+            background-color: #2ecc71;
+            margin-top: 15px;
+        }
+        .next-btn:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>بازی دنباله‌های حسابی</h1>
+        <div class="score">امتیاز: <span id="score">0</span></div>
+        <div class="sequence" id="sequence"></div>
+        <div class="options" id="options"></div>
+        <div id="result"></div>
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">سوال بعدی</button>
+    </div>
+
+    <script>
+        let score = 0;
+        let correctAnswer;
+        let currentSequence = [];
+
+        function generateQuestion() {
+            // پاک کردن نتیجه قبلی
+            document.getElementById('result').innerHTML = '';
+            
+            // تولید دنباله تصادفی
+            const a1 = Math.floor(Math.random() * 10) + 1;
+            const d = Math.floor(Math.random() * 5) + 1;
+            const length = Math.floor(Math.random() * 2) + 4; // 4 یا 5 جمله
+            
+            currentSequence = [];
+            for (let i = 0; i < length; i++) {
+                currentSequence.push(a1 + i * d);
+            }
+            
+            correctAnswer = currentSequence[currentSequence.length - 1];
+            
+            // نمایش دنباله (بدون جمله آخر)
+            const sequenceText = currentSequence.slice(0, -1).join(' , ') + ' , ?';
+            document.getElementById('sequence').textContent = sequenceText;
+            
+            // تولید گزینه‌های تصادفی
+            generateOptions();
+        }
+
+        function generateOptions() {
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            // ایجاد گزینه صحیح و 3 گزینه غلط
+            let options = [correctAnswer];
+            while (options.length < 4) {
+                const randomOffset = Math.floor(Math.random() * 10) - 5;
+                const wrongAnswer = correctAnswer + randomOffset;
+                if (wrongAnswer !== correctAnswer && !options.includes(wrongAnswer) {
+                    options.push(wrongAnswer);
+                }
+            }
+            
+            // مخلوط کردن گزینه‌ها
+            options = shuffleArray(options);
+            
+            // ایجاد دکمه‌های گزینه
+            options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = function() { checkAnswer(option); };
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer) {
+            const resultElement = document.getElementById('result');
+            
+            if (selectedAnswer == correctAnswer) {
+                score += 10;
+                document.getElementById('score').textContent = score;
+                resultElement.innerHTML = '<span class="correct">آفرین! پاسخ صحیح است ✔️</span>';
+            } else {
+                resultElement.innerHTML = `<span class="wrong">پاسخ اشتباه! جواب صحیح: ${correctAnswer}</span>`;
+            }
+            
+            // غیرفعال کردن دکمه‌ها بعد از پاسخ
+            const buttons = document.querySelectorAll('#options button');
+            buttons.forEach(button => {
+                button.disabled = true;
+                if (button.textContent == correctAnswer) {
+                    button.style.backgroundColor = '#2ecc71';
+                } else if (button.textContent == selectedAnswer) {
+                    button.style.backgroundColor = '#e74c3c';
+                }
+            });
+            
+            document.getElementById('nextBtn').style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            document.getElementById('nextBtn').style.display = 'none';
+            generateQuestion();
+        }
+
+        // تابع برای مخلوط کردن آرایه
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // شروع بازی
+        generateQuestion();
+    </script>
+</body>
+</html>
