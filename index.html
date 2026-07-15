@@ -1,83 +1,44 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ورود دانش آموز</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    body {
-      font-family: Tahoma;
-      background: #f2f2f2;
-      text-align: center;
-      padding-top: 100px;
-    }
-    .box {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      width: 300px;
-      margin: auto;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    input {
-      padding: 10px;
-      width: 80%;
-      margin-bottom: 15px;
-    }
-    button {
-      padding: 10px 20px;
-      background: #3498db;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    #message {
-      margin-top: 15px;
-      font-weight: bold;
-      color: red;
-    }
-  </style>
-</head>
-<body>
-
-<div class="box">
-  <h2>ورود به سیستم آزمون</h2>
-  <input type="text" id="code" placeholder="کد دانش آموز">
-  <br>
-  <button onclick="login()">ورود</button>
-  <div id="message"></div>
-</div>
-
 <script>
   const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
+  const supabaseKey = "YOUR_ANON_PUBLIC_KEY_HERE"; 
+  // 👆 اینجا حتماً دوباره از داخل Supabase → Settings → API → anon public key کپی کن
+  // چون کلیدت رو عمومی فرستادی بهتره عوضش کنی بعداً
 
   const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
   async function login() {
-    const code = document.getElementById("code").value;
+    const code = document.getElementById("code").value.trim();
+    document.getElementById("message").innerText = "در حال بررسی...";
 
     const { data, error } = await supabase
       .from("Students")
       .select("*")
-      .eq("Student_code", code)
-      .single();
+      .eq("Student_code", code);
 
-    if (error || !data) {
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
+
+    if (error) {
+      document.getElementById("message").innerText = "خطا در اتصال به دیتابیس ❌";
+      console.log(error);
+      return;
+    }
+
+    if (!data || data.length === 0) {
       document.getElementById("message").innerText = "کد اشتباه است ❌";
       return;
     }
 
-    if (data.Grade == 7) {
+    const student = data[0];
+
+    if (student.Grade == 7) {
       window.location.href = "grade7.html";
-    } else if (data.Grade == 8) {
+    } else if (student.Grade == 8) {
       window.location.href = "grade8.html";
-    } else if (data.Grade == 9) {
+    } else if (student.Grade == 9) {
       window.location.href = "grade9.html";
+    } else {
+      document.getElementById("message").innerText = "پایه تعریف نشده است ❌";
     }
   }
 </script>
-
-</body>
-</html>
