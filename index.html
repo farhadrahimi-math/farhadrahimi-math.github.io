@@ -59,9 +59,9 @@
     const code = document.getElementById("code").value;
 
     const { data, error } = await supabase
-      .from("students")
+      .from("Students")
       .select("*")
-      .eq("student_code", code)
+      .eq("Student_code", code)
       .single();
 
     if (error || !data) {
