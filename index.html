@@ -77,10 +77,13 @@
     }
 
     // ✅ گرفتن پروفایل
-    const { data: profile, error: profileError } = await supabaseClient
-      .from("profiles")
-      .select("*")
-      .single();
+    const user = data.user;
+
+const { data: profile, error: profileError } = await supabaseClient
+  .from("profiles")
+  .select("*")
+  .eq("id", user.id)
+  .single();
 
     if (profileError || !profile) {
       document.getElementById("message").innerText = "خطا در دریافت اطلاعات ❌";
