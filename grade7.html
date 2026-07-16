@@ -2,12 +2,56 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>پایه هفتم</title>
+  <title>پایه هغتم</title>
+  <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 </head>
 <body style="text-align:center; font-family:tahoma; padding-top:100px;">
 
-<h1>✅ خوش آمدی دانش‌آموز پایه هفتم</h1>
-<p>اینجا بازی‌ها و آزمون‌های مخصوص ریاضی هفتم قرار می‌گیرد.</p>
+<h1>پایه هفتم</h1>
+<p>در حال بررسی دسترسی...</p>
+
+<script>
+  const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
+
+  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+  async function checkAccess() {
+
+    const { data: { session } } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    const user = session.user;
+
+    const { data: profile, error } = await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    if (error || !profile || profile.grade != 7) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    document.body.innerHTML = `
+      <h1>✅ خوش آمدی دانش‌آموز پایه هفتم</h1>
+      <p>اینجا آزمون‌های پایه هفتم قرار می‌گیرد.</p>
+      <button onclick="logout()">خروج</button>
+    `;
+  }
+
+  async function logout() {
+    await supabaseClient.auth.signOut();
+    window.location.href = "index.html";
+  }
+
+  checkAccess();
+</script>
 
 </body>
 </html>
