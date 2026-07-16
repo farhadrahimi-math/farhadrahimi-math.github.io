@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ورود دانش آموز</title>
 
-  <!-- Supabase UMD version (ساده و بدون ماژول) -->
   <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 
   <style>
@@ -46,48 +45,57 @@
 
 <div class="box">
   <h2>ورود به سیستم آزمون</h2>
-  <input type="text" id="code" placeholder="کد دانش آموز">
-  <br>
+  <input type="text" id="phone" placeholder="شماره تلفن">
+  <input type="password" id="password" placeholder="رمز عبور">
   <button id="loginBtn">ورود</button>
   <div id="message"></div>
 </div>
 
 <script>
   const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4"; // 👈 کلید واقعی رو بذار
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
 
   const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
   document.getElementById("loginBtn").addEventListener("click", async function () {
 
-    const code = document.getElementById("code").value.trim();
-    document.getElementById("message").innerText = "در حال بررسی...";
+    const phone = document.getElementById("phone").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const email = phone + "@school.local";
 
-    const { data, error } = await supabaseClient
-      .from("Students")
-      .select("*")
-      .eq("Student_code", code);
+    document.getElementById("message").innerText = "در حال ورود...";
+
+    // ✅ لاگین امن
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
 
     if (error) {
-      document.getElementById("message").innerText = "خطا در اتصال ❌";
-      console.log(error);
+      document.getElementById("message").innerText = "شماره یا رمز اشتباه است ❌";
       return;
     }
 
-    if (!data || data.length === 0) {
-      document.getElementById("message").innerText = "کد اشتباه است ❌";
+    // ✅ گرفتن پروفایل
+    const { data: profile, error: profileError } = await supabaseClient
+      .from("profiles")
+      .select("*")
+      .single();
+
+    if (profileError || !profile) {
+      document.getElementById("message").innerText = "خطا در دریافت اطلاعات ❌";
       return;
     }
 
-    const student = data[0];
-
-    if (student.Grade == 7) {
+    // ✅ ریدایرکت امن
+    if (profile.grade == 7) {
       window.location.href = "grade7.html";
-    } else if (student.Grade == 8) {
+    } else if (profile.grade == 8) {
       window.location.href = "grade8.html";
-    } else if (student.Grade == 9) {
+    } else if (profile.grade == 9) {
       window.location.href = "grade9.html";
     }
+
   });
 </script>
 
