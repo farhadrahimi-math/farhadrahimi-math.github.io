@@ -3,11 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <title>پایه هشتم</title>
+  <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 </head>
 <body style="text-align:center; font-family:tahoma; padding-top:100px;">
 
-<h1>✅ خوش آمدی دانش‌آموز پایه هشتم</h1>
-<p>اینجا بازی‌ها و آزمون‌های مخصوص ریاضی هشتم قرار می‌گیرد.</p>
+<h1>پایه هشتم</h1>
+<p>در حال بررسی دسترسی...</p>
+
+<script>
+  const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
+  const supabaseKey = "YOUR_ANON_KEY";
+
+  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+  async function checkAccess() {
+
+    const { data: { session } } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    const user = session.user;
+
+    const { data: profile, error } = await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    if (error || !profile || profile.grade != 8) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    document.body.innerHTML = `
+      <h1>✅ خوش آمدی دانش‌آموز پایه هشتم</h1>
+      <p>اینجا آزمون‌های پایه هشتم قرار می‌گیرد.</p>
+      <button onclick="logout()">خروج</button>
+    `;
+  }
+
+  async function logout() {
+    await supabaseClient.auth.signOut();
+    window.location.href = "index.html";
+  }
+
+  checkAccess();
+</script>
 
 </body>
 </html>
