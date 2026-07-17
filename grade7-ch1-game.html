@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>بازی فصل ۱ - پایه هفتم</title>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<style>
+body {
+  font-family: Tahoma;
+  text-align: center;
+  padding: 30px;
+  background: #f2f2f2;
+}
+
+.box {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 600px;
+  margin: auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+button {
+  padding: 10px 20px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+input {
+  padding: 8px;
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+  <h2>🎮 بازی فصل ۱ (راهبردهای حل مسئله)</h2>
+  <div id="questionBox">در حال بررسی دسترسی...</div>
+  <div id="answerBox"></div>
+  <div id="result"></div>
+  <div id="score"></div>
+</div>
+
+<script>
+const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+let currentQuestion;
+let score = 0;
+let questionCount = 0;
+
+// ✅ بررسی امنیت صفحه
+async function checkAccess() {
+
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (!session) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  const user = session.user;
+
+  const { data: profile } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile || profile.grade != 7) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  startGame();
+}
+
+// ✅ تولید سوال الگو عددی
+function generatePatternQuestion() {
+  const start = Math.floor(Math.random() * 10) + 1;
+  const step = Math.floor(Math.random() * 5) + 2;
+
+  const sequence = [
+    start,
+    start + step,
+    start + 2 * step
+  ];
+
+  const answer = start + 3 * step;
+
+  return {
+    question: `عدد بعدی الگو چیست؟ <br>${sequence.join(" ، ")} ، ؟`,
+    answer: answer
+  };
+}
+
+// ✅ شروع بازی
+function startGame() {
+  score = 0;
+  questionCount = 0;
+  nextQuestion();
+}
+
+// ✅ سوال بعدی
+function nextQuestion() {
+
+  if (questionCount >= 5) {
+    document.getElementById("questionBox").innerHTML = "✅ بازی تمام شد";
+    document.getElementById("answerBox").innerHTML = "";
+    document.getElementById("score").innerHTML = "امتیاز نهایی: " + score;
+    return;
+  }
+
+  currentQuestion = generatePatternQuestion();
+  questionCount++;
+
+  document.getElementById("questionBox").innerHTML = currentQuestion.question;
+
+  document.getElementById("answerBox").innerHTML = `
+    <input type="number" id="userAnswer">
+    <br>
+    <button onclick="checkAnswer()">ثبت پاسخ</button>
+  `;
+
+  document.getElementById("result").innerHTML = "";
+}
+
+// ✅ بررسی جواب
+function checkAnswer() {
+  const userAnswer = parseInt(document.getElementById("userAnswer").value);
+
+  if (userAnswer === currentQuestion.answer) {
+    score += 10;
+    document.getElementById("result").innerHTML = "✅ درست!";
+  } else {
+    document.getElementById("result").innerHTML = "❌ غلط! جواب درست: " + currentQuestion.answer;
+  }
+
+  setTimeout(nextQuestion, 1500);
+}
+
+checkAccess();
+</script>
+
+</body>
+</html>
