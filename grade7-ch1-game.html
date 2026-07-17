@@ -21,18 +21,14 @@ body {
 .box {
   background: white;
   width: 90%;
-  max-width: 600px;
+  max-width: 650px;
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.2);
   text-align: center;
-  animation: fadeIn 0.6s ease;
 }
 
-h2 {
-  margin-bottom: 15px;
-  color: #333;
-}
+h2 { margin-bottom: 15px; }
 
 #questionBox {
   font-size: 20px;
@@ -41,55 +37,32 @@ h2 {
 }
 
 input {
-  padding: 12px;
+  padding: 10px;
   width: 120px;
-  font-size: 16px;
+  margin: 5px;
   border-radius: 8px;
   border: 2px solid #ddd;
-  outline: none;
-  transition: 0.3s;
   text-align: center;
 }
 
-input:focus {
-  border-color: #667eea;
-}
-
 button {
-  padding: 12px 25px;
-  margin-top: 15px;
+  padding: 10px 25px;
   border: none;
   border-radius: 10px;
   background: #667eea;
   color: white;
-  font-size: 16px;
   cursor: pointer;
-  transition: 0.3s;
+  margin-top: 10px;
 }
 
-button:hover {
-  background: #5a67d8;
-  transform: translateY(-2px);
-}
-
-#result {
-  margin-top: 15px;
-  font-weight: bold;
-  min-height: 25px;
-}
-
-#score {
-  margin-top: 15px;
-  font-size: 18px;
-  color: #444;
-}
+button:hover { background: #5a67d8; }
 
 .progress-bar {
   height: 10px;
   background: #eee;
   border-radius: 10px;
   overflow: hidden;
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 .progress {
@@ -99,10 +72,8 @@ button:hover {
   transition: width 0.4s ease;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+#result { font-weight: bold; margin-top: 10px; }
+#score { margin-top: 10px; font-size: 18px; }
 </style>
 </head>
 <body>
@@ -128,100 +99,147 @@ let currentQuestion;
 let score = 0;
 let questionCount = 0;
 
-// ✅ بررسی امنیت صفحه
+// ✅ امنیت
 async function checkAccess() {
   const { data: { session } } = await supabaseClient.auth.getSession();
-
-  if (!session) {
-    window.location.href = "index.html";
-    return;
-  }
-
-  const user = session.user;
+  if (!session) return window.location.href = "index.html";
 
   const { data: profile } = await supabaseClient
     .from("profiles")
     .select("*")
-    .eq("id", user.id)
+    .eq("id", session.user.id)
     .single();
 
-  if (!profile || profile.grade != 7) {
-    window.location.href = "index.html";
-    return;
-  }
+  if (!profile || profile.grade != 7)
+    return window.location.href = "index.html";
 
   startGame();
 }
 
-// ✅ تولید سوال الگو عددی
-function generatePatternQuestion() {
+// ✅ بازی 1: الگو
+function generatePattern() {
   const start = Math.floor(Math.random() * 10) + 1;
   const step = Math.floor(Math.random() * 5) + 2;
-
-  const sequence = [
-    start,
-    start + step,
-    start + 2 * step
-  ];
-
-  const answer = start + 3 * step;
-
+  const seq = [start, start+step, start+2*step];
   return {
-    question: `عدد بعدی الگو چیست؟ <br><b>${sequence.join(" ، ")} ، ؟</b>`,
-    answer: answer
+    type: "pattern",
+    question: `عدد بعدی الگو چیست؟<br><b>${seq.join(" ، ")} ، ؟</b>`,
+    answer: start + 3*step
   };
 }
 
-// ✅ شروع بازی
-function startGame() {
-  score = 0;
-  questionCount = 0;
-  document.getElementById("score").innerHTML = "امتیاز: 0";
-  document.getElementById("progress").style.width = "0%";
+// ✅ بازی 2: مرغ و گاو
+function generateAnimals() {
+  const chickens = Math.floor(Math.random()*6)+3;
+  const cows = Math.floor(Math.random()*4)+2;
+  const heads = chickens + cows;
+  const legs = chickens*2 + cows*4;
+
+  return {
+    type: "animals",
+    question: `در مزرعه ${heads} حیوان و ${legs} پا وجود دارد.<br>چند مرغ و چند گاو داریم؟`,
+    answer: { chickens, cows }
+  };
+}
+
+// ✅ بازی 3: سکه
+function generateCoins() {
+  const c100 = Math.floor(Math.random()*4)+1;
+  const c50 = Math.floor(Math.random()*4)+1;
+  const total = c100*100 + c50*50;
+
+  return {
+    type: "coins",
+    question: `با سکه های 100 و 50 تومانی مبلغ ${total} ساخته شده است.<br>چند سکه 100 و چند سکه 50 داریم؟`,
+    answer: { c100, c50 }
+  };
+}
+
+function generateRandomQuestion() {
+  const type = Math.floor(Math.random()*3);
+  if (type===0) return generatePattern();
+  if (type===1) return generateAnimals();
+  return generateCoins();
+}
+
+// ✅ شروع
+function startGame(){
+  score=0;
+  questionCount=0;
+  document.getElementById("score").innerHTML="امتیاز: 0";
   nextQuestion();
 }
 
-// ✅ سوال بعدی
-function nextQuestion() {
+function nextQuestion(){
 
-  if (questionCount >= 5) {
-    document.getElementById("questionBox").innerHTML = "✅ بازی تمام شد!";
-    document.getElementById("answerBox").innerHTML = "";
-    document.getElementById("result").innerHTML = "";
-    document.getElementById("score").innerHTML = "امتیاز نهایی: " + score;
+  if(questionCount>=5){
+    document.getElementById("questionBox").innerHTML="✅ بازی تمام شد!";
+    document.getElementById("answerBox").innerHTML="";
+    document.getElementById("score").innerHTML="امتیاز نهایی: "+score;
     return;
   }
 
-  currentQuestion = generatePatternQuestion();
   questionCount++;
+  document.getElementById("progress").style.width=(questionCount*20)+"%";
 
-  document.getElementById("progress").style.width = (questionCount * 20) + "%";
+  currentQuestion=generateRandomQuestion();
+  document.getElementById("questionBox").innerHTML=currentQuestion.question;
 
-  document.getElementById("questionBox").innerHTML = currentQuestion.question;
-
-  document.getElementById("answerBox").innerHTML = `
-    <input type="number" id="userAnswer">
-    <br>
-    <button onclick="checkAnswer()">ثبت پاسخ</button>
-  `;
-
-  document.getElementById("result").innerHTML = "";
-}
-
-// ✅ بررسی جواب
-function checkAnswer() {
-  const userAnswer = parseInt(document.getElementById("userAnswer").value);
-
-  if (userAnswer === currentQuestion.answer) {
-    score += 10;
-    document.getElementById("result").innerHTML = "✅ درست!";
-  } else {
-    document.getElementById("result").innerHTML = "❌ غلط! جواب درست: " + currentQuestion.answer;
+  if(currentQuestion.type==="pattern"){
+    document.getElementById("answerBox").innerHTML=
+      `<input type="number" id="a1">
+       <br><button onclick="checkAnswer()">ثبت پاسخ</button>`;
   }
 
-  document.getElementById("score").innerHTML = "امتیاز: " + score;
+  if(currentQuestion.type==="animals"){
+    document.getElementById("answerBox").innerHTML=
+      `مرغ: <input type="number" id="a1">
+       گاو: <input type="number" id="a2">
+       <br><button onclick="checkAnswer()">ثبت پاسخ</button>`;
+  }
 
-  setTimeout(nextQuestion, 1200);
+  if(currentQuestion.type==="coins"){
+    document.getElementById("answerBox").innerHTML=
+      `سکه 100: <input type="number" id="a1">
+       سکه 50: <input type="number" id="a2">
+       <br><button onclick="checkAnswer()">ثبت پاسخ</button>`;
+  }
+
+  document.getElementById("result").innerHTML="";
+}
+
+function checkAnswer(){
+
+  let correct=false;
+
+  if(currentQuestion.type==="pattern"){
+    const user=parseInt(document.getElementById("a1").value);
+    correct=(user===currentQuestion.answer);
+  }
+
+  if(currentQuestion.type==="animals"){
+    const c=parseInt(document.getElementById("a1").value);
+    const w=parseInt(document.getElementById("a2").value);
+    correct=(c===currentQuestion.answer.chickens &&
+             w===currentQuestion.answer.cows);
+  }
+
+  if(currentQuestion.type==="coins"){
+    const c1=parseInt(document.getElementById("a1").value);
+    const c2=parseInt(document.getElementById("a2").value);
+    correct=(c1===currentQuestion.answer.c100 &&
+             c2===currentQuestion.answer.c50);
+  }
+
+  if(correct){
+    score+=10;
+    document.getElementById("result").innerHTML="✅ درست!";
+  }else{
+    document.getElementById("result").innerHTML="❌ غلط!";
+  }
+
+  document.getElementById("score").innerHTML="امتیاز: "+score;
+  setTimeout(nextQuestion,1200);
 }
 
 checkAccess();
