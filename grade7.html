@@ -9,9 +9,7 @@
 
 <h1>پایه هفتم</h1>
 <p>در حال بررسی دسترسی...</p>
-<button onclick="window.location.href='grade7-ch1.html'">
-📘 فصل ۱ - راهبردهای حل مسئله
-</button>
+
 <script>
   const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
   const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
@@ -46,7 +44,9 @@
       <button onclick="logout()">خروج</button>
     `;
   }
-
+<button onclick="window.location.href='grade7-ch1.html'">
+📘 فصل ۱ - راهبردهای حل مسئله
+</button>
   async function logout() {
     await supabaseClient.auth.signOut();
     window.location.href = "index.html";
