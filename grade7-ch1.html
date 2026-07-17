@@ -11,78 +11,162 @@
 body{
   margin:0;
   font-family:Tahoma;
-  background:linear-gradient(135deg,#667eea,#764ba2);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+  background:#f4f6fb;
 }
 
-.container{
-  width:95%;
-  max-width:800px;
-  background:white;
-  padding:30px;
-  border-radius:20px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.25);
+.header{
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  padding:40px 20px;
+  color:white;
   text-align:center;
 }
 
-.card{
-  background:#f8f9fa;
-  padding:20px;
-  border-radius:15px;
-  margin:20px 0;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+.header h1{
+  margin:0;
+  font-size:30px;
 }
 
-button{
-  padding:10px 20px;
-  border:none;
+.container{
+  max-width:1000px;
+  margin:40px auto;
+  padding:0 20px;
+}
+
+.progress-box{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  margin-bottom:30px;
+}
+
+.progress-bar{
+  height:12px;
+  background:#eee;
   border-radius:10px;
-  background:#6c5ce7;
-  color:white;
-  cursor:pointer;
+  overflow:hidden;
   margin-top:10px;
 }
 
-button:hover{
+.progress{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#4facfe,#00f2fe);
+  transition:0.4s;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:white;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 15px 35px rgba(0,0,0,0.12);
+}
+
+.card h3{
+  margin-top:0;
+}
+
+.card p{
+  font-size:14px;
+  color:#666;
+}
+
+.button{
+  display:inline-block;
+  margin-top:15px;
+  padding:10px 18px;
+  border-radius:8px;
+  background:#667eea;
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+  transition:0.3s;
+}
+
+.button:hover{
   background:#5a4bd6;
+}
+
+.locked{
+  background:#ccc !important;
+  cursor:not-allowed;
+}
+
+.back{
+  margin-top:40px;
+  text-align:center;
 }
 </style>
 </head>
+
 <body>
 
+<div class="header">
+  <h1>📘 فصل ۱ - راهبردهای حل مسئله</h1>
+  <p>یادگیری مفهومی با بازی و تمرین تعاملی</p>
+</div>
+
 <div class="container">
-<h2>📘 فصل ۱ - راهبردهای حل مسئله</h2>
 
-<div class="card">
-  <h3>🎮 بازی حرکت توپ</h3>
-  <p>درک مفهوم راهبرد رسم شکل با انیمیشن</p>
-  <button onclick="window.location.href='grade7-ch1-ball.html'">
-    شروع بازی
-  </button>
+<div id="loading" style="text-align:center; font-size:18px;">
+در حال بررسی دسترسی...
 </div>
 
-<div class="card">
-  <h3>📝 تمرین</h3>
-  <p>سوالات تمرینی این فصل</p>
-  <button disabled>
-    به زودی...
-  </button>
-</div>
+<div id="content" style="display:none;">
 
-<div class="card">
-  <h3>📊 آزمون</h3>
-  <p>ارزیابی نهایی فصل</p>
-  <button disabled>
-    به زودی...
-  </button>
-</div>
+  <div class="progress-box">
+    <h3>پیشرفت شما در این فصل</h3>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <p id="progressText">0٪ تکمیل شده</p>
+  </div>
 
-<button onclick="window.location.href='grade7.html'">
-⬅ بازگشت به پایه ۷
-</button>
+  <div class="cards">
+
+    <div class="card">
+      <h3>🎮 بازی</h3>
+      <p>درک راهبرد رسم شکل با انیمیشن توپ</p>
+      <a href="grade7-ch1-ball.html" class="button">
+        شروع بازی
+      </a>
+    </div>
+
+    <div class="card">
+      <h3>📝 تمرین</h3>
+      <p>سوالات تمرینی این فصل</p>
+      <span class="button locked">
+        به زودی
+      </span>
+    </div>
+
+    <div class="card">
+      <h3>📊 آزمون</h3>
+      <p>ارزیابی نهایی فصل</p>
+      <span class="button locked">
+        قفل شده
+      </span>
+    </div>
+
+  </div>
+
+  <div class="back">
+    <a href="grade7.html" class="button">⬅ بازگشت به پایه ۷</a>
+  </div>
+
+</div>
 
 </div>
 
@@ -92,23 +176,38 @@ const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-async function checkAccess() {
+async function checkAccess(){
+
   const { data: { session } } = await supabaseClient.auth.getSession();
-  if (!session) {
-    window.location.href = "index.html";
+
+  if(!session){
+    window.location.href="index.html";
     return;
   }
 
   const { data: profile } = await supabaseClient
     .from("profiles")
     .select("*")
-    .eq("id", session.user.id)
+    .eq("id",session.user.id)
     .single();
 
-  if (!profile || profile.grade != 7) {
-    window.location.href = "index.html";
+  if(!profile || profile.grade!=7){
+    window.location.href="index.html";
     return;
   }
+
+  document.getElementById("loading").style.display="none";
+  document.getElementById("content").style.display="block";
+
+  simulateProgress();
+}
+
+function simulateProgress(){
+  // فعلاً نمایشی — بعداً وصلش می‌کنیم به دیتابیس
+  let percent = Math.floor(Math.random()*40)+10;
+  document.getElementById("progress").style.width=percent+"%";
+  document.getElementById("progressText").innerText=
+    percent+"٪ تکمیل شده";
 }
 
 checkAccess();
