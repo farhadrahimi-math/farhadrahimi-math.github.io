@@ -1,59 +1,200 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>پایه هغتم</title>
-  <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-</head>
-<body style="text-align:center; font-family:tahoma; padding-top:100px;">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پایه هفتم</title>
 
-<h1>پایه هفتم</h1>
-  <button onclick="window.location.href='grade7-ch1.html'">
-📘 فصل ۱ - راهبردهای حل مسئله
-  </button>
-<p>در حال بررسی دسترسی...</p>
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:Tahoma;
+  background:#f4f6fb;
+}
+
+.header{
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  padding:40px 20px;
+  color:white;
+  text-align:center;
+}
+
+.header h1{
+  margin:0;
+  font-size:32px;
+}
+
+.container{
+  max-width:1000px;
+  margin:40px auto;
+  padding:0 20px;
+}
+
+.section-title{
+  font-size:22px;
+  margin-bottom:20px;
+  color:#333;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:white;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 15px 35px rgba(0,0,0,0.12);
+}
+
+.card h3{
+  margin-top:0;
+  color:#333;
+}
+
+.card p{
+  color:#666;
+  font-size:14px;
+}
+
+.button{
+  display:inline-block;
+  margin-top:15px;
+  padding:10px 18px;
+  border-radius:8px;
+  background:#667eea;
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+  transition:0.3s;
+}
+
+.button:hover{
+  background:#5a4bd6;
+}
+
+.logout{
+  margin-top:40px;
+  text-align:center;
+}
+
+.logout button{
+  padding:8px 18px;
+  border:none;
+  border-radius:8px;
+  background:#e74c3c;
+  color:white;
+  cursor:pointer;
+}
+
+.loading{
+  text-align:center;
+  margin-top:100px;
+  font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>📘 پایه هفتم</h1>
+  <p>سامانه هوشمند آموزش ریاضی</p>
+</div>
+
+<div class="container">
+
+  <div id="loading" class="loading">
+    در حال بررسی دسترسی...
+  </div>
+
+  <div id="content" style="display:none;">
+
+    <div class="section-title">فصل‌ها</div>
+
+    <div class="cards">
+
+      <div class="card">
+        <h3>📘 فصل ۱</h3>
+        <p>راهبردهای حل مسئله</p>
+        <a href="grade7-ch1.html" class="button">
+          ورود به فصل
+        </a>
+      </div>
+
+      <div class="card">
+        <h3>📘 فصل ۲</h3>
+        <p>به زودی اضافه می‌شود</p>
+        <span class="button" style="background:#ccc; cursor:not-allowed;">
+          قفل شده
+        </span>
+      </div>
+
+      <div class="card">
+        <h3>📘 فصل ۳</h3>
+        <p>به زودی اضافه می‌شود</p>
+        <span class="button" style="background:#ccc; cursor:not-allowed;">
+          قفل شده
+        </span>
+      </div>
+
+    </div>
+
+    <div class="logout">
+      <button onclick="logout()">🚪 خروج از حساب</button>
+    </div>
+
+  </div>
+
+</div>
 
 <script>
-  const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
 
-  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-  async function checkAccess() {
+async function checkAccess() {
 
-    const { data: { session } } = await supabaseClient.auth.getSession();
+  const { data: { session } } = await supabaseClient.auth.getSession();
 
-    if (!session) {
-      window.location.href = "index.html";
-      return;
-    }
-
-    const user = session.user;
-
-    const { data: profile, error } = await supabaseClient
-      .from("profiles")
-      .select("*")
-      .eq("id", user.id)
-      .single();
-
-    if (error || !profile || profile.grade != 7) {
-      window.location.href = "index.html";
-      return;
-    }
-
-    document.body.innerHTML = `
-      <h1>✅ خوش آمدی دانش‌آموز پایه هفتم</h1>
-      <p>اینجا آزمون‌های پایه هفتم قرار می‌گیرد.</p>
-      <button onclick="logout()">خروج</button>
-    `;
-  }
-
-  async function logout() {
-    await supabaseClient.auth.signOut();
+  if (!session) {
     window.location.href = "index.html";
+    return;
   }
 
-  checkAccess();
+  const { data: profile, error } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", session.user.id)
+    .single();
+
+  if (error || !profile || profile.grade != 7) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  document.getElementById("loading").style.display="none";
+  document.getElementById("content").style.display="block";
+}
+
+async function logout(){
+  await supabaseClient.auth.signOut();
+  window.location.href="index.html";
+}
+
+checkAccess();
+
 </script>
 
 </body>
