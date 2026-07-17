@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فصل ۱ - راهبردهای حل مسئله</title>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:Tahoma;
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.container{
+  width:95%;
+  max-width:800px;
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.25);
+  text-align:center;
+}
+
+.card{
+  background:#f8f9fa;
+  padding:20px;
+  border-radius:15px;
+  margin:20px 0;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+button{
+  padding:10px 20px;
+  border:none;
+  border-radius:10px;
+  background:#6c5ce7;
+  color:white;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+button:hover{
+  background:#5a4bd6;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>📘 فصل ۱ - راهبردهای حل مسئله</h2>
+
+<div class="card">
+  <h3>🎮 بازی حرکت توپ</h3>
+  <p>درک مفهوم راهبرد رسم شکل با انیمیشن</p>
+  <button onclick="window.location.href='grade7-ch1-ball.html'">
+    شروع بازی
+  </button>
+</div>
+
+<div class="card">
+  <h3>📝 تمرین</h3>
+  <p>سوالات تمرینی این فصل</p>
+  <button disabled>
+    به زودی...
+  </button>
+</div>
+
+<div class="card">
+  <h3>📊 آزمون</h3>
+  <p>ارزیابی نهایی فصل</p>
+  <button disabled>
+    به زودی...
+  </button>
+</div>
+
+<button onclick="window.location.href='grade7.html'">
+⬅ بازگشت به پایه ۷
+</button>
+
+</div>
+
+<script>
+
+const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
+const supabaseKey = "YOUR_ANON_KEY";
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+async function checkAccess() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  const { data: profile } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", session.user.id)
+    .single();
+
+  if (!profile || profile.grade != 7) {
+    window.location.href = "index.html";
+    return;
+  }
+}
+
+checkAccess();
+
+</script>
+
+</body>
+</html>
