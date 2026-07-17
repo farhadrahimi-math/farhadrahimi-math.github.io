@@ -1,15 +1,195 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>تست فصل ۱</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فصل ۱ - راهبردهای حل مسئله</title>
+
 <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:Tahoma;
+  background:#f4f6fb;
+}
+
+.header{
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  padding:40px 20px;
+  color:white;
+  text-align:center;
+}
+
+.header h1{
+  margin:0;
+  font-size:30px;
+}
+
+.container{
+  max-width:1000px;
+  margin:40px auto;
+  padding:0 20px;
+}
+
+.loading{
+  text-align:center;
+  font-size:18px;
+  margin-top:80px;
+}
+
+.table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.table th{
+  background:#2d6a4f;
+  color:white;
+  padding:15px;
+  font-size:16px;
+}
+
+.table td{
+  padding:20px;
+  text-align:center;
+  border-bottom:1px solid #eee;
+}
+
+.table tr:hover{
+  background:#f1faee;
+}
+
+.icon{
+  font-size:22px;
+  display:block;
+  margin-bottom:8px;
+}
+
+.button{
+  padding:8px 16px;
+  border:none;
+  border-radius:8px;
+  background:#667eea;
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+  display:inline-block;
+  transition:0.3s;
+}
+
+.button:hover{
+  background:#5a4bd6;
+}
+
+.back{
+  margin-top:30px;
+  text-align:center;
+}
+</style>
 </head>
-<body style="text-align:center; margin-top:100px; font-family:tahoma;">
 
-<h2>تست دسترسی</h2>
+<body>
 
-<div id="status">در حال بررسی...</div>
+<div class="header">
+  <h1>📘 فصل ۱</h1>
+  <p>راهبردهای حل مسئله</p>
+</div>
+
+<div class="container">
+
+<div id="loading" class="loading">
+در حال بررسی دسترسی...
+</div>
+
+<div id="content" style="display:none;">
+
+<table class="table">
+
+  <tr>
+    <th>🎮 بازی</th>
+    <th>📝 تمرین</th>
+    <th>📊 آزمون</th>
+  </tr>
+
+  <!-- ردیف ۱ -->
+  <tr>
+    <td>
+      <span class="icon">🔴</span>
+      بازی توپ<br><br>
+      <a href="grade7-ch1-ball.html" class="button">ورود</a>
+    </td>
+
+    <td>
+      <span class="icon">🟢</span>
+      تمرین ۱<br><br>
+      <a href="grade7-ch1-practice1.html" class="button">ورود</a>
+    </td>
+
+    <td>
+      <span class="icon">🟡</span>
+      آزمون ۱<br><br>
+      <a href="grade7-ch1-exam1.html" class="button">ورود</a>
+    </td>
+  </tr>
+
+  <!-- ردیف ۲ -->
+  <tr>
+    <td>
+      <span class="icon">🔵</span>
+      بازی الگو<br><br>
+      <a href="grade7-ch1-pattern.html" class="button">ورود</a>
+    </td>
+
+    <td>
+      <span class="icon">🟢</span>
+      تمرین ۲<br><br>
+      <a href="grade7-ch1-practice2.html" class="button">ورود</a>
+    </td>
+
+    <td>
+      <span class="icon">🟡</span>
+      آزمون ۲<br><br>
+      <a href="grade7-ch1-exam2.html" class="button">ورود</a>
+    </td>
+  </tr>
+
+  <!-- ردیف ۳ -->
+  <tr>
+    <td>
+      <span class="icon">🟣</span>
+      بازی ۳<br><br>
+      <a href="#" class="button">به زودی</a>
+    </td>
+
+    <td>
+      <span class="icon">🟢</span>
+      تمرین ۳<br><br>
+      <a href="grade7-ch1-practice3.html" class="button">ورود</a>
+    </td>
+
+    <td>
+      <span class="icon">🟡</span>
+      آزمون ۳<br><br>
+      <a href="grade7-ch1-exam3.html" class="button">ورود</a>
+    </td>
+  </tr>
+
+</table>
+
+<div class="back">
+  <a href="grade7.html" class="button">
+    ⬅ بازگشت به پایه ۷
+  </a>
+</div>
+
+</div>
+
+</div>
 
 <script>
 
@@ -17,20 +197,31 @@ const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-async function test(){
+async function checkAccess(){
 
   const { data: { session } } = await supabaseClient.auth.getSession();
 
   if(!session){
-    document.getElementById("status").innerText = "❌ Session وجود ندارد";
+    window.location.href="index.html";
     return;
   }
 
-  document.getElementById("status").innerText = "✅ Session برقرار است";
+  const { data: profile } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id",session.user.id)
+    .single();
 
+  if(!profile || profile.grade!=7){
+    window.location.href="index.html";
+    return;
+  }
+
+  document.getElementById("loading").style.display="none";
+  document.getElementById("content").style.display="block";
 }
 
-test();
+checkAccess();
 
 </script>
 
