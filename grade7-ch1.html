@@ -1,93 +1,36 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>فصل ۱</title>
-
+<title>تست فصل ۱</title>
 <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-
-<style>
-body{
-  margin:0;
-  font-family:Tahoma;
-  background:#f4f6fb;
-}
-
-.header{
-  background:linear-gradient(135deg,#667eea,#764ba2);
-  padding:40px 20px;
-  color:white;
-  text-align:center;
-}
-
-.container{
-  max-width:1000px;
-  margin:40px auto;
-  padding:0 20px;
-}
-
-.loading{
-  text-align:center;
-  font-size:18px;
-  margin-top:80px;
-}
-</style>
 </head>
+<body style="text-align:center; margin-top:100px; font-family:tahoma;">
 
-<body>
+<h2>تست دسترسی</h2>
 
-<div class="header">
-  <h1>📘 فصل ۱</h1>
-</div>
-
-<div id="loading" class="loading">
-در حال بررسی دسترسی...
-</div>
-
-<div id="content" style="display:none;">
-  <h2 style="text-align:center;">صفحه فصل ۱ باز شد ✅</h2>
-</div>
+<div id="status">در حال بررسی...</div>
 
 <script>
 
 const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
-const supabaseKey = "YOUR_ANON_KEY";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-async function checkAccess(){
+async function test(){
 
-  try {
+  const { data: { session } } = await supabaseClient.auth.getSession();
 
-    const { data: { session } } = await supabaseClient.auth.getSession();
-
-    if(!session){
-      console.log("no session");
-      return;
-    }
-
-    const { data: profile, error } = await supabaseClient
-      .from("profiles")
-      .select("grade")
-      .eq("id",session.user.id)
-      .single();
-
-    if(error){
-      console.log("profile error:", error);
-      return;
-    }
-
-    if(parseInt(profile.grade) === 7){
-      document.getElementById("loading").style.display="none";
-      document.getElementById("content").style.display="block";
-    }
-
-  } catch(e){
-    console.log("unexpected error:", e);
+  if(!session){
+    document.getElementById("status").innerText = "❌ Session وجود ندارد";
+    return;
   }
+
+  document.getElementById("status").innerText = "✅ Session برقرار است";
+
 }
 
-checkAccess();
+test();
 
 </script>
 
