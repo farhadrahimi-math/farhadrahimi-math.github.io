@@ -32,43 +32,53 @@ body{
   padding:0 20px;
 }
 
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:20px;
+.loading{
+  text-align:center;
+  font-size:18px;
+  margin-top:80px;
 }
 
-.card{
+.table{
+  width:100%;
+  border-collapse:collapse;
   background:white;
-  padding:25px;
   border-radius:15px;
+  overflow:hidden;
   box-shadow:0 10px 25px rgba(0,0,0,0.08);
-  transition:0.3s;
 }
 
-.card:hover{
-  transform:translateY(-5px);
-  box-shadow:0 15px 35px rgba(0,0,0,0.12);
+.table th{
+  background:#2d6a4f;
+  color:white;
+  padding:15px;
+  font-size:16px;
 }
 
-.card h3{
-  margin-top:0;
+.table td{
+  padding:20px;
+  text-align:center;
+  border-bottom:1px solid #eee;
 }
 
-.card p{
-  font-size:14px;
-  color:#666;
+.table tr:hover{
+  background:#f1faee;
+}
+
+.icon{
+  font-size:22px;
+  display:block;
+  margin-bottom:8px;
 }
 
 .button{
-  display:inline-block;
-  margin-top:15px;
-  padding:10px 18px;
+  padding:8px 16px;
+  border:none;
   border-radius:8px;
   background:#667eea;
   color:white;
   text-decoration:none;
   font-size:14px;
+  display:inline-block;
   transition:0.3s;
 }
 
@@ -76,20 +86,9 @@ body{
   background:#5a4bd6;
 }
 
-.locked{
-  background:#ccc !important;
-  cursor:not-allowed;
-}
-
 .back{
-  margin-top:40px;
+  margin-top:30px;
   text-align:center;
-}
-
-.loading{
-  text-align:center;
-  margin-top:100px;
-  font-size:18px;
 }
 </style>
 </head>
@@ -97,8 +96,8 @@ body{
 <body>
 
 <div class="header">
-  <h1>📘 فصل ۱ - راهبردهای حل مسئله</h1>
-  <p>یادگیری مفهومی با بازی و تمرین تعاملی</p>
+  <h1>📘 فصل ۱</h1>
+  <p>راهبردهای حل مسئله</p>
 </div>
 
 <div class="container">
@@ -109,41 +108,84 @@ body{
 
 <div id="content" style="display:none;">
 
-  <div class="cards">
+<table class="table">
 
-    <div class="card">
-      <h3>🎮 بازی حرکت توپ</h3>
-      <p>درک راهبرد رسم شکل با انیمیشن</p>
-      <a href="grade7-ch1-ball.html" class="button">
-        شروع بازی
-      </a>
-    </div>
+  <tr>
+    <th>🎮 بازی</th>
+    <th>📝 تمرین</th>
+    <th>📊 آزمون</th>
+  </tr>
 
-    <!-- اینجا بعداً بازی جدید رو اضافه می‌کنیم --><a href="grade7-ch1-pattern.html" class="button">
-  شروع بازی
-    </a>
+  <!-- ردیف ۱ -->
+  <tr>
+    <td>
+      <span class="icon">🔴</span>
+      بازی توپ<br><br>
+      <a href="grade7-ch1-ball.html" class="button">ورود</a>
+    </td>
 
-    <div class="card">
-      <h3>📝 تمرین</h3>
-      <p>به زودی اضافه می‌شود</p>
-      <span class="button locked">
-        قفل شده
-      </span>
-    </div>
+    <td>
+      <span class="icon">🟢</span>
+      تمرین ۱<br><br>
+      <a href="grade7-ch1-practice1.html" class="button">ورود</a>
+    </td>
 
-    <div class="card">
-      <h3>📊 آزمون</h3>
-      <p>به زودی اضافه می‌شود</p>
-      <span class="button locked">
-        قفل شده
-      </span>
-    </div>
+    <td>
+      <span class="icon">🟡</span>
+      آزمون ۱<br><br>
+      <a href="grade7-ch1-exam1.html" class="button">ورود</a>
+    </td>
+  </tr>
 
-  </div>
+  <!-- ردیف ۲ -->
+  <tr>
+    <td>
+      <span class="icon">🔵</span>
+      بازی الگو<br><br>
+      <a href="grade7-ch1-pattern.html" class="button">ورود</a>
+    </td>
 
-  <div class="back">
-    <a href="grade7.html" class="button">⬅ بازگشت به پایه ۷</a>
-  </div>
+    <td>
+      <span class="icon">🟢</span>
+      تمرین ۲<br><br>
+      <a href="grade7-ch1-practice2.html" class="button">ورود</a>
+    </td>
+
+    <td>
+      <span class="icon">🟡</span>
+      آزمون ۲<br><br>
+      <a href="grade7-ch1-exam2.html" class="button">ورود</a>
+    </td>
+  </tr>
+
+  <!-- ردیف ۳ -->
+  <tr>
+    <td>
+      <span class="icon">🟣</span>
+      بازی ۳<br><br>
+      <a href="#" class="button">به زودی</a>
+    </td>
+
+    <td>
+      <span class="icon">🟢</span>
+      تمرین ۳<br><br>
+      <a href="grade7-ch1-practice3.html" class="button">ورود</a>
+    </td>
+
+    <td>
+      <span class="icon">🟡</span>
+      آزمون ۳<br><br>
+      <a href="grade7-ch1-exam3.html" class="button">ورود</a>
+    </td>
+  </tr>
+
+</table>
+
+<div class="back">
+  <a href="grade7.html" class="button">
+    ⬅ بازگشت به پایه ۷
+  </a>
+</div>
 
 </div>
 
@@ -152,7 +194,7 @@ body{
 <script>
 
 const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
+const supabaseKey = "YOUR_ANON_KEY";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 async function checkAccess(){
