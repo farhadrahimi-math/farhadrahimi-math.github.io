@@ -14,39 +14,16 @@ body{
   background:#f4f6fb;
 }
 
-/* HERO WITH BLURRED MATH BACKGROUND */
+/* HERO */
 .hero{
-  position:relative;
-  padding:80px 20px;
+  padding:60px 20px;  /* ✅ کوتاه‌تر */
+  background:linear-gradient(135deg,#667eea,#764ba2);
   color:white;
   text-align:center;
-  overflow:hidden;
-}
-
-/* تصویر ریاضی محو */
-.hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:url("https://images.unsplash.com/photo-1581090700227-1e8a6f7e8b0b?auto=format&fit=crop&w=1400&q=80");
-  background-size:cover;
-  background-position:center;
-  filter:blur(8px);
-  transform:scale(1.1);
-  z-index:-2;
-}
-
-/* لایه گرادینت روی تصویر */
-.hero::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(135deg,rgba(45,106,79,0.8),rgba(102,126,234,0.8));
-  z-index:-1;
 }
 
 .hero h1{
-  font-size:26px;
+  font-size:24px; /* ✅ مناسب موبایل */
   margin:0;
 }
 
@@ -73,7 +50,7 @@ body{
 
 .features{
   display:flex;
-  flex-direction:column;
+  flex-direction:column; /* ✅ اول موبایل */
   gap:15px;
 }
 
@@ -115,18 +92,18 @@ button.login{
 #message{
   margin-top:10px;
   font-size:13px;
-  color:#ffdddd;
+  color:#d00000;
 }
 
-/* دسکتاپ */
+/* ✅ حالت دسکتاپ */
 @media(min-width:768px){
 
   .hero{
-    padding:120px 20px;
+    padding:90px 20px;
   }
 
   .hero h1{
-    font-size:40px;
+    font-size:36px;
   }
 
   .hero p{
@@ -159,9 +136,15 @@ button.login{
 <!-- FEATURES -->
 <div class="section">
   <div class="features">
-    <div class="card">🎮 بازی‌های آموزشی تعاملی</div>
-    <div class="card">📝 تمرین‌های مفهومی مرحله‌ای</div>
-    <div class="card">📊 آزمون و تحلیل عملکرد</div>
+    <div class="card">
+      🎮 بازی‌های آموزشی
+    </div>
+    <div class="card">
+      📝 تمرین‌های هوشمند
+    </div>
+    <div class="card">
+      📊 آزمون و تحلیل عملکرد
+    </div>
   </div>
 </div>
 
@@ -206,9 +189,15 @@ async function login(){
     .eq("id", data.user.id)
     .single();
 
-  if(profile.grade == 7) window.location.href="grade7.html";
-  if(profile.grade == 8) window.location.href="grade8.html";
-  if(profile.grade == 9) window.location.href="grade9.html";
+  if(profile.grade == 7){
+    window.location.href="grade7.html";
+  }
+  if(profile.grade == 8){
+    window.location.href="grade8.html";
+  }
+  if(profile.grade == 9){
+    window.location.href="grade9.html";
+  }
 }
 
 </script>
