@@ -1,105 +1,147 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ورود دانش آموز</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>باشگاه نخبگان ریاضی</title>
 
-  <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 
-  <style>
-    body {
-      font-family: Tahoma;
-      background: #f2f2f2;
-      text-align: center;
-      padding-top: 100px;
-    }
-    .box {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      width: 300px;
-      margin: auto;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    input {
-      padding: 10px;
-      width: 80%;
-      margin-bottom: 15px;
-    }
-    button {
-      padding: 10px 20px;
-      background: #3498db;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    #message {
-      margin-top: 15px;
-      font-weight: bold;
-      color: red;
-    }
-  </style>
+<style>
+body{
+  margin:0;
+  font-family:Tahoma;
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.container{
+  width:95%;
+  max-width:420px;
+  background:white;
+  padding:40px 30px;
+  border-radius:20px;
+  box-shadow:0 25px 50px rgba(0,0,0,0.3);
+  text-align:center;
+}
+
+.logo{
+  font-size:32px;
+  font-weight:bold;
+  color:#2d6a4f;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  font-size:14px;
+  color:#555;
+  margin-bottom:30px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:10px;
+  border:2px solid #ddd;
+  font-size:15px;
+}
+
+input:focus{
+  border-color:#667eea;
+  outline:none;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  border:none;
+  border-radius:10px;
+  background:#2d6a4f;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#1b4332;
+}
+
+#message{
+  margin-top:15px;
+  font-size:14px;
+  font-weight:bold;
+  color:#d00000;
+}
+</style>
 </head>
 <body>
 
-<div class="box">
-  <h2>ورود به سیستم آزمون</h2>
-  <input type="text" id="phone" placeholder="شماره تلفن">
-  <input type="password" id="password" placeholder="رمز عبور">
-  <button id="loginBtn">ورود</button>
-  <div id="message"></div>
+<div class="container">
+
+<div class="logo">🏆 باشگاه نخبگان ریاضی</div>
+<div class="subtitle">
+پلتفرم هوشمند آموزش ریاضی پایه هفتم، هشتم و نهم
+</div>
+
+<input type="text" id="phone" placeholder="شماره تلفن">
+<input type="password" id="password" placeholder="رمز عبور">
+
+<button onclick="login()">ورود به حساب کاربری</button>
+
+<div id="message"></div>
+
 </div>
 
 <script>
-  const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
 
-  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-  document.getElementById("loginBtn").addEventListener("click", async function () {
+async function login(){
 
-    const phone = document.getElementById("phone").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const email = phone + "@school.local";
+  const phone = document.getElementById("phone").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const email = phone + "@school.local";
 
-    document.getElementById("message").innerText = "در حال ورود...";
+  document.getElementById("message").innerText = "در حال ورود...";
 
-    // ✅ لاگین امن
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
-
-    if (error) {
-      document.getElementById("message").innerText = "شماره یا رمز اشتباه است ❌";
-      return;
-    }
-
-    // ✅ گرفتن پروفایل
-    const user = data.user;
-
-const { data: profile, error: profileError } = await supabaseClient
-  .from("profiles")
-  .select("*")
-  .eq("id", user.id)
-  .single();
-
-    if (profileError || !profile) {
-      document.getElementById("message").innerText = "خطا در دریافت اطلاعات ❌";
-      return;
-    }
-
-    // ✅ ریدایرکت امن
-    if (profile.grade == 7) {
-      window.location.href = "grade7.html";
-    } else if (profile.grade == 8) {
-      window.location.href = "grade8.html";
-    } else if (profile.grade == 9) {
-      window.location.href = "grade9.html";
-    }
-
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
   });
+
+  if(error){
+    document.getElementById("message").innerText =
+      "شماره یا رمز اشتباه است ❌";
+    return;
+  }
+
+  const { data: profile } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", data.user.id)
+    .single();
+
+  if(profile.grade == 7){
+    window.location.href="grade7.html";
+  }
+
+  if(profile.grade == 8){
+    window.location.href="grade8.html";
+  }
+
+  if(profile.grade == 9){
+    window.location.href="grade9.html";
+  }
+}
+
 </script>
 
 </body>
