@@ -189,15 +189,22 @@ async function login(){
     .eq("id", data.user.id)
     .single();
 
-  if(profile.grade == 7){
-    window.location.href="grade7.html";
-  }
-  if(profile.grade == 8){
-    window.location.href="grade8.html";
-  }
-  if(profile.grade == 9){
-    window.location.href="grade9.html";
-  }
+// ✅ اگر ادمین بود
+if(profile.role === "admin"){
+  window.location.href = "admin.html";
+  return;
+}
+
+// ✅ اگر دانش‌آموز بود
+if(profile.grade == 7){
+  window.location.href="grade7.html";
+}
+if(profile.grade == 8){
+  window.location.href="grade8.html";
+}
+if(profile.grade == 9){
+  window.location.href="grade9.html";
+}
 }
 
 </script>
