@@ -14,153 +14,146 @@ body{
   background:#f4f6fb;
 }
 
+/* HERO */
 .hero{
-  height:100vh;
-  background:linear-gradient(-45deg,#667eea,#764ba2,#2d6a4f,#74c69d);
-  background-size:400% 400%;
-  animation:gradient 12s ease infinite;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  padding:60px 20px;  /* ✅ کوتاه‌تر */
+  background:linear-gradient(135deg,#667eea,#764ba2);
   color:white;
   text-align:center;
 }
 
-@keyframes gradient{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}
-
-.hero-content{
-  max-width:700px;
-}
-
 .hero h1{
-  font-size:40px;
+  font-size:24px; /* ✅ مناسب موبایل */
   margin:0;
 }
 
 .hero p{
-  font-size:18px;
-  margin:20px 0;
+  font-size:14px;
+  margin:15px 0;
 }
 
 .cta{
-  padding:12px 25px;
+  padding:10px 20px;
   border:none;
-  border-radius:30px;
+  border-radius:25px;
   background:white;
   color:#2d6a4f;
-  font-size:16px;
+  font-size:14px;
   cursor:pointer;
-  transition:0.3s;
 }
 
-.cta:hover{
-  transform:scale(1.05);
-}
-
+/* FEATURES */
 .section{
-  padding:80px 20px;
+  padding:40px 20px;
   text-align:center;
 }
 
 .features{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:30px;
-  max-width:1000px;
-  margin:auto;
+  display:flex;
+  flex-direction:column; /* ✅ اول موبایل */
+  gap:15px;
 }
 
 .card{
   background:white;
-  padding:30px;
-  border-radius:20px;
-  box-shadow:0 15px 30px rgba(0,0,0,0.1);
-  transition:0.3s;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 10px 20px rgba(0,0,0,0.08);
+  font-size:14px;
 }
 
-.card:hover{
-  transform:translateY(-10px);
-}
-
+/* LOGIN */
 .login-box{
-  max-width:400px;
-  margin:40px auto;
+  margin-top:20px;
   background:white;
-  padding:30px;
-  border-radius:20px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.15);
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.1);
 }
 
 input{
   width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:10px;
+  padding:10px;
+  margin:6px 0;
+  border-radius:8px;
   border:2px solid #ddd;
 }
 
 button.login{
   width:100%;
-  padding:12px;
+  padding:10px;
   border:none;
-  border-radius:10px;
+  border-radius:8px;
   background:#2d6a4f;
   color:white;
-  font-size:16px;
-  cursor:pointer;
+  font-size:15px;
 }
 
 #message{
   margin-top:10px;
-  font-weight:bold;
+  font-size:13px;
   color:#d00000;
+}
+
+/* ✅ حالت دسکتاپ */
+@media(min-width:768px){
+
+  .hero{
+    padding:90px 20px;
+  }
+
+  .hero h1{
+    font-size:36px;
+  }
+
+  .hero p{
+    font-size:18px;
+  }
+
+  .features{
+    flex-direction:row;
+    justify-content:center;
+  }
+
+  .card{
+    width:280px;
+  }
+
 }
 </style>
 </head>
 <body>
 
-<!-- HERO SECTION -->
+<!-- HERO -->
 <div class="hero">
-  <div class="hero-content">
-    <h1>🏆 باشگاه نخبگان ریاضی</h1>
-    <p>جایی که مسئله‌ها حل می‌شوند، نه حفظ!</p>
-    <button class="cta" onclick="document.getElementById('loginSection').scrollIntoView({behavior:'smooth'})">
-      شروع یادگیری
-    </button>
-  </div>
+  <h1>🏆 باشگاه نخبگان ریاضی</h1>
+  <p>جایی که مسئله‌ها حل می‌شوند، نه حفظ!</p>
+  <button class="cta" onclick="document.getElementById('loginSection').scrollIntoView({behavior:'smooth'})">
+    ورود دانش‌آموز
+  </button>
 </div>
 
 <!-- FEATURES -->
 <div class="section">
-  <h2>چرا باشگاه نخبگان؟</h2>
   <div class="features">
     <div class="card">
-      🎮 بازی‌های تعاملی<br><br>
-      یادگیری مفاهیم با بازی و انیمیشن
+      🎮 بازی‌های آموزشی
     </div>
     <div class="card">
-      📝 تمرین‌های هوشمند<br><br>
-      تمرین مرحله‌ای با توضیح حل
+      📝 تمرین‌های هوشمند
     </div>
     <div class="card">
-      📊 آزمون و تحلیل عملکرد<br><br>
-      بررسی پیشرفت دانش‌آموز
+      📊 آزمون و تحلیل عملکرد
     </div>
   </div>
 </div>
 
-<!-- LOGIN SECTION -->
+<!-- LOGIN -->
 <div class="section" id="loginSection">
-  <h2>ورود دانش‌آموز</h2>
-
   <div class="login-box">
     <input type="text" id="phone" placeholder="شماره تلفن">
     <input type="password" id="password" placeholder="رمز عبور">
-    <button class="login" onclick="login()">ورود به حساب</button>
+    <button class="login" onclick="login()">ورود</button>
     <div id="message"></div>
   </div>
 </div>
