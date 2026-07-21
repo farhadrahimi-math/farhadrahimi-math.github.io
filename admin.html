@@ -26,21 +26,6 @@ body{
 
 h2{margin-top:0;}
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:15px;
-  margin-bottom:30px;
-}
-
-.stat-card{
-  background:#e9f5db;
-  padding:20px;
-  border-radius:12px;
-  text-align:center;
-  font-weight:bold;
-}
-
 input, select{
   padding:8px;
   margin:5px;
@@ -57,13 +42,9 @@ button{
   cursor:pointer;
 }
 
-.search-box{
-  margin-top:20px;
-}
-
 table{
   width:100%;
-  margin-top:15px;
+  margin-top:20px;
   border-collapse:collapse;
 }
 
@@ -72,27 +53,25 @@ th, td{
   border-bottom:1px solid #eee;
   text-align:center;
 }
+
+.edit-btn{
+  background:#667eea;
+}
+
+.toggle-btn{
+  background:#e76f51;
+}
 </style>
 </head>
 <body>
 
 <div class="container">
 
-<h2>👑 پنل مدیریت</h2>
+<h2>👑 پنل مدیریت دانش‌آموزان</h2>
 
-<!-- آمار -->
-<div class="stats">
-  <div class="stat-card" id="totalCount">کل دانش‌آموزان: 0</div>
-  <div class="stat-card" id="grade7Count">پایه ۷: 0</div>
-  <div class="stat-card" id="grade8Count">پایه ۸: 0</div>
-  <div class="stat-card" id="grade9Count">پایه ۹: 0</div>
-  <div class="stat-card" id="activeCount">فعال: 0</div>
-  <div class="stat-card" id="inactiveCount">غیرفعال: 0</div>
-</div>
-
-<!-- افزودن دانش‌آموز -->
 <h3>➕ افزودن دانش‌آموز</h3>
 
+<input type="text" id="name" placeholder="نام دانش‌آموز">
 <input type="text" id="phone" placeholder="شماره تلفن">
 <input type="password" id="password" placeholder="رمز عبور">
 
@@ -104,22 +83,16 @@ th, td{
 
 <button onclick="addStudent()">ثبت</button>
 
-<!-- جستجو -->
-<div class="search-box">
-  <h3>🔍 جستجو</h3>
-  <input type="text" id="searchInput" placeholder="جستجو بر اساس شناسه یا شماره" onkeyup="searchStudents()">
-</div>
-
-<!-- جدول -->
 <h3>📋 لیست دانش‌آموزان</h3>
 
 <table>
 <thead>
 <tr>
-<th>شناسه</th>
+<th>نام</th>
 <th>پایه</th>
 <th>وضعیت</th>
-<th>عملیات</th>
+<th>ویرایش</th>
+<th>فعال/غیرفعال</th>
 </tr>
 </thead>
 <tbody id="studentsTable"></tbody>
@@ -158,6 +131,7 @@ async function checkAdmin(){
 
 async function addStudent(){
 
+  const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const password = document.getElementById("password").value.trim();
   const grade = document.getElementById("grade").value;
@@ -177,12 +151,14 @@ async function addStudent(){
   await supabaseClient.from("profiles").insert([
     {
       id: data.user.id,
+      name: name,
       grade: parseInt(grade),
       is_active: true,
       role: "student"
     }
   ]);
 
+  alert("✅ دانش‌آموز اضافه شد");
   loadStudents();
 }
 
@@ -195,7 +171,6 @@ async function loadStudents(){
 
   studentsData = data;
   renderTable(data);
-  updateStats(data);
 }
 
 function renderTable(data){
@@ -204,52 +179,27 @@ function renderTable(data){
   table.innerHTML="";
 
   data.forEach(student=>{
+
     const row = `
       <tr>
-        <td>${student.id}</td>
+        <td>${student.name || "-"}</td>
         <td>${student.grade}</td>
         <td>${student.is_active ? "✅ فعال" : "❌ غیرفعال"}</td>
         <td>
-          <button onclick="toggleStudent('${student.id}', ${student.is_active})">
+          <button class="edit-btn" onclick="editStudent('${student.id}')">
+            ویرایش
+          </button>
+        </td>
+        <td>
+          <button class="toggle-btn" onclick="toggleStudent('${student.id}', ${student.is_active})">
             ${student.is_active ? "غیرفعال کردن" : "فعال کردن"}
           </button>
         </td>
       </tr>
     `;
+
     table.innerHTML += row;
   });
-}
-
-function updateStats(data){
-
-  document.getElementById("totalCount").innerText =
-    "کل دانش‌آموزان: " + data.length;
-
-  document.getElementById("grade7Count").innerText =
-    "پایه ۷: " + data.filter(s=>s.grade==7).length;
-
-  document.getElementById("grade8Count").innerText =
-    "پایه ۸: " + data.filter(s=>s.grade==8).length;
-
-  document.getElementById("grade9Count").innerText =
-    "پایه ۹: " + data.filter(s=>s.grade==9).length;
-
-  document.getElementById("activeCount").innerText =
-    "فعال: " + data.filter(s=>s.is_active).length;
-
-  document.getElementById("inactiveCount").innerText =
-    "غیرفعال: " + data.filter(s=>!s.is_active).length;
-}
-
-function searchStudents(){
-
-  const value = document.getElementById("searchInput").value.toLowerCase();
-
-  const filtered = studentsData.filter(student =>
-    student.id.toLowerCase().includes(value)
-  );
-
-  renderTable(filtered);
 }
 
 async function toggleStudent(id, currentStatus){
@@ -260,6 +210,28 @@ async function toggleStudent(id, currentStatus){
     .eq("id", id);
 
   loadStudents();
+}
+
+function editStudent(id){
+
+  const student = studentsData.find(s => s.id === id);
+
+  const newName = prompt("نام جدید:", student.name);
+  const newGrade = prompt("پایه جدید (7 یا 8 یا 9):", student.grade);
+
+  if(newName && newGrade){
+
+    supabaseClient
+      .from("profiles")
+      .update({
+        name: newName,
+        grade: parseInt(newGrade)
+      })
+      .eq("id", id)
+      .then(()=>{
+        loadStudents();
+      });
+  }
 }
 
 checkAdmin();
