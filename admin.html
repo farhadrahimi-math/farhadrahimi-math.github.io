@@ -222,27 +222,47 @@ async function addStudent(){
 
   const email = phone + "@school.local";
 
-  const { data, error } = await supabaseClient.auth.signUp({
-    email: email,
-    password: password
-  });
+  // ✅ بررسی وجود کاربر
+  const { data: existingUsers } = await supabaseClient.auth.admin.listUsers();
 
-  if(error){
-  alert("خطا: " + error.message);
-  console.log(error);
-  return;
+  let user = existingUsers?.users?.find(u => u.email === email);
+
+  if(!user){
+
+    const { data, error } = await supabaseClient.auth.signUp({
+      email: email,
+      password: password
+    });
+
+    if(error){
+      alert("خطا: " + error.message);
+      return;
+    }
+
+    user = data.user;
   }
 
-  await supabaseClient.from("profiles").insert([
-    {
-      id: data.user.id,
-      name: name,
-      grade: parseInt(grade),
-      is_active: true,
-      role: "student"
-    }
-  ]);
+  // ✅ بررسی وجود profile
+  const { data: existingProfile } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
 
+  if(!existingProfile){
+
+    await supabaseClient.from("profiles").insert([
+      {
+        id: user.id,
+        name: name,
+        grade: parseInt(grade),
+        is_active: true,
+        role: "student"
+      }
+    ]);
+  }
+
+  alert("✅ دانش‌آموز ثبت شد");
   loadStudents();
 }
 
