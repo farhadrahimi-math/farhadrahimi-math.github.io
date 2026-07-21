@@ -16,7 +16,7 @@ body{
 }
 
 .container{
-  max-width:1100px;
+  max-width:1200px;
   margin:auto;
   background:white;
   padding:30px;
@@ -25,6 +25,23 @@ body{
 }
 
 h2{margin-top:0;}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+  margin-bottom:30px;
+}
+
+.stat-card{
+  background:linear-gradient(135deg,#74c69d,#2d6a4f);
+  color:white;
+  padding:20px;
+  border-radius:15px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+}
 
 input, select{
   padding:8px;
@@ -54,20 +71,25 @@ th, td{
   text-align:center;
 }
 
-.edit-btn{
-  background:#667eea;
-}
-
-.toggle-btn{
-  background:#e76f51;
-}
+.edit-btn{ background:#667eea; }
+.toggle-btn{ background:#e76f51; }
 </style>
 </head>
 <body>
 
 <div class="container">
 
-<h2>👑 پنل مدیریت دانش‌آموزان</h2>
+<h2>👑 داشبورد مدیریت</h2>
+
+<!-- ✅ بخش آمار -->
+<div class="stats">
+  <div class="stat-card" id="totalStudents">کل دانش‌آموزان: 0</div>
+  <div class="stat-card" id="grade7Count">پایه ۷: 0</div>
+  <div class="stat-card" id="grade8Count">پایه ۸: 0</div>
+  <div class="stat-card" id="grade9Count">پایه ۹: 0</div>
+  <div class="stat-card" id="activeCount">فعال: 0</div>
+  <div class="stat-card" id="inactiveCount">غیرفعال: 0</div>
+</div>
 
 <h3>➕ افزودن دانش‌آموز</h3>
 
@@ -129,39 +151,6 @@ async function checkAdmin(){
   }
 }
 
-async function addStudent(){
-
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const grade = document.getElementById("grade").value;
-
-  const email = phone + "@school.local";
-
-  const { data, error } = await supabaseClient.auth.signUp({
-    email: email,
-    password: password
-  });
-
-  if(error){
-    alert("خطا در ساخت کاربر");
-    return;
-  }
-
-  await supabaseClient.from("profiles").insert([
-    {
-      id: data.user.id,
-      name: name,
-      grade: parseInt(grade),
-      is_active: true,
-      role: "student"
-    }
-  ]);
-
-  alert("✅ دانش‌آموز اضافه شد");
-  loadStudents();
-}
-
 async function loadStudents(){
 
   const { data } = await supabaseClient
@@ -171,6 +160,28 @@ async function loadStudents(){
 
   studentsData = data;
   renderTable(data);
+  updateStats(data);
+}
+
+function updateStats(data){
+
+  document.getElementById("totalStudents").innerText =
+    "کل دانش‌آموزان: " + data.length;
+
+  document.getElementById("grade7Count").innerText =
+    "پایه ۷: " + data.filter(s=>s.grade==7).length;
+
+  document.getElementById("grade8Count").innerText =
+    "پایه ۸: " + data.filter(s=>s.grade==8).length;
+
+  document.getElementById("grade9Count").innerText =
+    "پایه ۹: " + data.filter(s=>s.grade==9).length;
+
+  document.getElementById("activeCount").innerText =
+    "فعال: " + data.filter(s=>s.is_active).length;
+
+  document.getElementById("inactiveCount").innerText =
+    "غیرفعال: " + data.filter(s=>!s.is_active).length;
 }
 
 function renderTable(data){
@@ -200,6 +211,38 @@ function renderTable(data){
 
     table.innerHTML += row;
   });
+}
+
+async function addStudent(){
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const grade = document.getElementById("grade").value;
+
+  const email = phone + "@school.local";
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: password
+  });
+
+  if(error){
+    alert("خطا در ساخت کاربر");
+    return;
+  }
+
+  await supabaseClient.from("profiles").insert([
+    {
+      id: data.user.id,
+      name: name,
+      grade: parseInt(grade),
+      is_active: true,
+      role: "student"
+    }
+  ]);
+
+  loadStudents();
 }
 
 async function toggleStudent(id, currentStatus){
