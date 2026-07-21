@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پنل مدیریت - باشگاه نخبگان ریاضی</title>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:Tahoma;
+  background:#f4f6fb;
+  padding:30px;
+}
+
+.container{
+  max-width:1000px;
+  margin:auto;
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.1);
+}
+
+h2{ margin-top:0; }
+
+input, select{
+  padding:8px;
+  margin:5px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+button{
+  padding:8px 16px;
+  border:none;
+  border-radius:8px;
+  background:#2d6a4f;
+  color:white;
+  cursor:pointer;
+}
+
+table{
+  width:100%;
+  margin-top:20px;
+  border-collapse:collapse;
+}
+
+th, td{
+  padding:10px;
+  border-bottom:1px solid #eee;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h2>👑 پنل مدیریت دانش‌آموزان</h2>
+
+<h3>➕ افزودن دانش‌آموز جدید</h3>
+
+<input type="text" id="phone" placeholder="شماره تلفن">
+<input type="password" id="password" placeholder="رمز عبور">
+
+<select id="grade">
+  <option value="7">پایه ۷</option>
+  <option value="8">پایه ۸</option>
+  <option value="9">پایه ۹</option>
+</select>
+
+<button onclick="addStudent()">ثبت دانش‌آموز</button>
+
+<h3>📋 لیست دانش‌آموزان</h3>
+
+<table>
+<thead>
+<tr>
+<th>شناسه</th>
+<th>پایه</th>
+<th>وضعیت</th>
+<th>عملیات</th>
+</tr>
+</thead>
+<tbody id="studentsTable"></tbody>
+</table>
+
+</div>
+
+<script>
+
+const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+async function checkAdmin(){
+
+  const { data:{session} } = await supabaseClient.auth.getSession();
+
+  if(!session){
+    window.location.href="index.html";
+    return;
+  }
+
+  const { data: profile } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", session.user.id)
+    .single();
+
+  if(!profile || profile.role !== "admin"){
+    alert("دسترسی غیرمجاز");
+    window.location.href="index.html";
+  }
+}
+
+async function addStudent(){
+
+  const phone = document.getElementById("phone").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const grade = document.getElementById("grade").value;
+
+  const email = phone + "@school.local";
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: password
+  });
+
+  if(error){
+    alert("خطا در ساخت کاربر");
+    return;
+  }
+
+  await supabaseClient.from("profiles").insert([
+    {
+      id: data.user.id,
+      grade: parseInt(grade),
+      is_active: true,
+      role: "student"
+    }
+  ]);
+
+  alert("✅ دانش‌آموز اضافه شد");
+  loadStudents();
+}
+
+async function loadStudents(){
+
+  const { data } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("role","student");
+
+  const table = document.getElementById("studentsTable");
+  table.innerHTML="";
+
+  data.forEach(student=>{
+
+    const row = `
+      <tr>
+        <td>${student.id}</td>
+        <td>${student.grade}</td>
+        <td>${student.is_active ? "فعال ✅" : "غیرفعال ❌"}</td>
+        <td>
+          <button onclick="toggleStudent('${student.id}', ${student.is_active})">
+            ${student.is_active ? "غیرفعال کردن" : "فعال کردن"}
+          </button>
+        </td>
+      </tr>
+    `;
+
+    table.innerHTML += row;
+  });
+}
+
+async function toggleStudent(id, currentStatus){
+
+  await supabaseClient
+    .from("profiles")
+    .update({ is_active: !currentStatus })
+    .eq("id", id);
+
+  loadStudents();
+}
+
+checkAdmin();
+loadStudents();
+
+</script>
+
+</body>
+</html>
