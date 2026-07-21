@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>باشگاه نخبگان ریاضی</title>
+<title>🏆 باشگاه نخبگان ریاضی</title>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 
@@ -11,34 +11,88 @@
 body{
   margin:0;
   font-family:Tahoma;
-  background:linear-gradient(135deg,#667eea,#764ba2);
+  background:#f4f6fb;
+}
+
+.hero{
+  height:100vh;
+  background:linear-gradient(-45deg,#667eea,#764ba2,#2d6a4f,#74c69d);
+  background-size:400% 400%;
+  animation:gradient 12s ease infinite;
   display:flex;
   justify-content:center;
   align-items:center;
-  height:100vh;
-}
-
-.container{
-  width:95%;
-  max-width:420px;
-  background:white;
-  padding:40px 30px;
-  border-radius:20px;
-  box-shadow:0 25px 50px rgba(0,0,0,0.3);
+  color:white;
   text-align:center;
 }
 
-.logo{
-  font-size:32px;
-  font-weight:bold;
-  color:#2d6a4f;
-  margin-bottom:10px;
+@keyframes gradient{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
 }
 
-.subtitle{
-  font-size:14px;
-  color:#555;
-  margin-bottom:30px;
+.hero-content{
+  max-width:700px;
+}
+
+.hero h1{
+  font-size:40px;
+  margin:0;
+}
+
+.hero p{
+  font-size:18px;
+  margin:20px 0;
+}
+
+.cta{
+  padding:12px 25px;
+  border:none;
+  border-radius:30px;
+  background:white;
+  color:#2d6a4f;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.cta:hover{
+  transform:scale(1.05);
+}
+
+.section{
+  padding:80px 20px;
+  text-align:center;
+}
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+  max-width:1000px;
+  margin:auto;
+}
+
+.card{
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.1);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-10px);
+}
+
+.login-box{
+  max-width:400px;
+  margin:40px auto;
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.15);
 }
 
 input{
@@ -47,34 +101,21 @@ input{
   margin:8px 0;
   border-radius:10px;
   border:2px solid #ddd;
-  font-size:15px;
 }
 
-input:focus{
-  border-color:#667eea;
-  outline:none;
-}
-
-button{
+button.login{
   width:100%;
   padding:12px;
-  margin-top:15px;
   border:none;
   border-radius:10px;
   background:#2d6a4f;
   color:white;
   font-size:16px;
   cursor:pointer;
-  transition:0.3s;
-}
-
-button:hover{
-  background:#1b4332;
 }
 
 #message{
-  margin-top:15px;
-  font-size:14px;
+  margin-top:10px;
   font-weight:bold;
   color:#d00000;
 }
@@ -82,20 +123,46 @@ button:hover{
 </head>
 <body>
 
-<div class="container">
-
-<div class="logo">🏆 باشگاه نخبگان ریاضی</div>
-<div class="subtitle">
-پلتفرم هوشمند آموزش ریاضی پایه هفتم، هشتم و نهم
+<!-- HERO SECTION -->
+<div class="hero">
+  <div class="hero-content">
+    <h1>🏆 باشگاه نخبگان ریاضی</h1>
+    <p>جایی که مسئله‌ها حل می‌شوند، نه حفظ!</p>
+    <button class="cta" onclick="document.getElementById('loginSection').scrollIntoView({behavior:'smooth'})">
+      شروع یادگیری
+    </button>
+  </div>
 </div>
 
-<input type="text" id="phone" placeholder="شماره تلفن">
-<input type="password" id="password" placeholder="رمز عبور">
+<!-- FEATURES -->
+<div class="section">
+  <h2>چرا باشگاه نخبگان؟</h2>
+  <div class="features">
+    <div class="card">
+      🎮 بازی‌های تعاملی<br><br>
+      یادگیری مفاهیم با بازی و انیمیشن
+    </div>
+    <div class="card">
+      📝 تمرین‌های هوشمند<br><br>
+      تمرین مرحله‌ای با توضیح حل
+    </div>
+    <div class="card">
+      📊 آزمون و تحلیل عملکرد<br><br>
+      بررسی پیشرفت دانش‌آموز
+    </div>
+  </div>
+</div>
 
-<button onclick="login()">ورود به حساب کاربری</button>
+<!-- LOGIN SECTION -->
+<div class="section" id="loginSection">
+  <h2>ورود دانش‌آموز</h2>
 
-<div id="message"></div>
-
+  <div class="login-box">
+    <input type="text" id="phone" placeholder="شماره تلفن">
+    <input type="password" id="password" placeholder="رمز عبور">
+    <button class="login" onclick="login()">ورود به حساب</button>
+    <div id="message"></div>
+  </div>
 </div>
 
 <script>
@@ -132,11 +199,9 @@ async function login(){
   if(profile.grade == 7){
     window.location.href="grade7.html";
   }
-
   if(profile.grade == 8){
     window.location.href="grade8.html";
   }
-
   if(profile.grade == 9){
     window.location.href="grade9.html";
   }
