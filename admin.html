@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>پنل مدیریت - باشگاه نخبگان ریاضی</title>
+<title>پنل مدیریت</title>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 
@@ -16,7 +16,7 @@ body{
 }
 
 .container{
-  max-width:1000px;
+  max-width:1100px;
   margin:auto;
   background:white;
   padding:30px;
@@ -24,7 +24,22 @@ body{
   box-shadow:0 15px 30px rgba(0,0,0,0.1);
 }
 
-h2{ margin-top:0; }
+h2{margin-top:0;}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+  margin-bottom:30px;
+}
+
+.stat-card{
+  background:#e9f5db;
+  padding:20px;
+  border-radius:12px;
+  text-align:center;
+  font-weight:bold;
+}
 
 input, select{
   padding:8px;
@@ -42,9 +57,13 @@ button{
   cursor:pointer;
 }
 
+.search-box{
+  margin-top:20px;
+}
+
 table{
   width:100%;
-  margin-top:20px;
+  margin-top:15px;
   border-collapse:collapse;
 }
 
@@ -59,9 +78,20 @@ th, td{
 
 <div class="container">
 
-<h2>👑 پنل مدیریت دانش‌آموزان</h2>
+<h2>👑 پنل مدیریت</h2>
 
-<h3>➕ افزودن دانش‌آموز جدید</h3>
+<!-- آمار -->
+<div class="stats">
+  <div class="stat-card" id="totalCount">کل دانش‌آموزان: 0</div>
+  <div class="stat-card" id="grade7Count">پایه ۷: 0</div>
+  <div class="stat-card" id="grade8Count">پایه ۸: 0</div>
+  <div class="stat-card" id="grade9Count">پایه ۹: 0</div>
+  <div class="stat-card" id="activeCount">فعال: 0</div>
+  <div class="stat-card" id="inactiveCount">غیرفعال: 0</div>
+</div>
+
+<!-- افزودن دانش‌آموز -->
+<h3>➕ افزودن دانش‌آموز</h3>
 
 <input type="text" id="phone" placeholder="شماره تلفن">
 <input type="password" id="password" placeholder="رمز عبور">
@@ -72,8 +102,15 @@ th, td{
   <option value="9">پایه ۹</option>
 </select>
 
-<button onclick="addStudent()">ثبت دانش‌آموز</button>
+<button onclick="addStudent()">ثبت</button>
 
+<!-- جستجو -->
+<div class="search-box">
+  <h3>🔍 جستجو</h3>
+  <input type="text" id="searchInput" placeholder="جستجو بر اساس شناسه یا شماره" onkeyup="searchStudents()">
+</div>
+
+<!-- جدول -->
 <h3>📋 لیست دانش‌آموزان</h3>
 
 <table>
@@ -95,6 +132,8 @@ th, td{
 const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+let studentsData = [];
 
 async function checkAdmin(){
 
@@ -144,7 +183,6 @@ async function addStudent(){
     }
   ]);
 
-  alert("✅ دانش‌آموز اضافه شد");
   loadStudents();
 }
 
@@ -155,16 +193,22 @@ async function loadStudents(){
     .select("*")
     .eq("role","student");
 
+  studentsData = data;
+  renderTable(data);
+  updateStats(data);
+}
+
+function renderTable(data){
+
   const table = document.getElementById("studentsTable");
   table.innerHTML="";
 
   data.forEach(student=>{
-
     const row = `
       <tr>
         <td>${student.id}</td>
         <td>${student.grade}</td>
-        <td>${student.is_active ? "فعال ✅" : "غیرفعال ❌"}</td>
+        <td>${student.is_active ? "✅ فعال" : "❌ غیرفعال"}</td>
         <td>
           <button onclick="toggleStudent('${student.id}', ${student.is_active})">
             ${student.is_active ? "غیرفعال کردن" : "فعال کردن"}
@@ -172,9 +216,40 @@ async function loadStudents(){
         </td>
       </tr>
     `;
-
     table.innerHTML += row;
   });
+}
+
+function updateStats(data){
+
+  document.getElementById("totalCount").innerText =
+    "کل دانش‌آموزان: " + data.length;
+
+  document.getElementById("grade7Count").innerText =
+    "پایه ۷: " + data.filter(s=>s.grade==7).length;
+
+  document.getElementById("grade8Count").innerText =
+    "پایه ۸: " + data.filter(s=>s.grade==8).length;
+
+  document.getElementById("grade9Count").innerText =
+    "پایه ۹: " + data.filter(s=>s.grade==9).length;
+
+  document.getElementById("activeCount").innerText =
+    "فعال: " + data.filter(s=>s.is_active).length;
+
+  document.getElementById("inactiveCount").innerText =
+    "غیرفعال: " + data.filter(s=>!s.is_active).length;
+}
+
+function searchStudents(){
+
+  const value = document.getElementById("searchInput").value.toLowerCase();
+
+  const filtered = studentsData.filter(student =>
+    student.id.toLowerCase().includes(value)
+  );
+
+  renderTable(filtered);
 }
 
 async function toggleStudent(id, currentStatus){
