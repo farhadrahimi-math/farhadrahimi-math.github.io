@@ -228,8 +228,9 @@ async function addStudent(){
   });
 
   if(error){
-    alert("خطا در ساخت کاربر");
-    return;
+  alert("خطا: " + error.message);
+  console.log(error);
+  return;
   }
 
   await supabaseClient.from("profiles").insert([
