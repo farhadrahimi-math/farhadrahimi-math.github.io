@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>فصل ۱ - راهبردهای حل مسئله</title>
 
-<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-
 <style>
 body{
   margin:0;
@@ -21,74 +19,51 @@ body{
   text-align:center;
 }
 
-.header h1{
-  margin:0;
-  font-size:30px;
-}
-
 .container{
   max-width:1000px;
   margin:40px auto;
   padding:0 20px;
 }
 
-.loading{
-  text-align:center;
-  font-size:18px;
-  margin-top:80px;
+.section{
+  margin-bottom:50px;
 }
 
-.table{
-  width:100%;
-  border-collapse:collapse;
+.section h2{
+  border-right:5px solid #2d6a4f;
+  padding-right:10px;
+  color:#2d6a4f;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  margin-top:20px;
+}
+
+.card{
   background:white;
-  border-radius:15px;
-  overflow:hidden;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-.table th{
-  background:#2d6a4f;
-  color:white;
-  padding:15px;
-  font-size:16px;
-}
-
-.table td{
   padding:20px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
   text-align:center;
-  border-bottom:1px solid #eee;
+  transition:0.3s;
 }
 
-.table tr:hover{
-  background:#f1faee;
-}
-
-.icon{
-  font-size:22px;
-  display:block;
-  margin-bottom:8px;
+.card:hover{
+  transform:translateY(-5px);
 }
 
 .button{
+  display:inline-block;
+  margin-top:10px;
   padding:8px 16px;
-  border:none;
   border-radius:8px;
   background:#667eea;
   color:white;
   text-decoration:none;
   font-size:14px;
-  display:inline-block;
-  transition:0.3s;
-}
-
-.button:hover{
-  background:#5a4bd6;
-}
-
-.back{
-  margin-top:30px;
-  text-align:center;
 }
 </style>
 </head>
@@ -102,128 +77,74 @@ body{
 
 <div class="container">
 
-<div id="loading" class="loading">
-در حال بررسی دسترسی...
-</div>
-
-<div id="content" style="display:none;">
-
-<table class="table">
-
-  <tr>
-    <th>🎮 بازی</th>
-    <th>📝 تمرین</th>
-    <th>📊 آزمون</th>
-  </tr>
-
-  <!-- ردیف ۱ -->
-  <tr>
-    <td>
-      <span class="icon">🔴</span>
-      بازی توپ<br><br>
+<!-- ✅ بخش بازی‌ها -->
+<div class="section">
+  <h2>🎮 بازی‌های فصل</h2>
+  <div class="cards">
+    <div class="card">
+      بازی حرکت توپ
+      <br>
       <a href="grade7-ch1-ball.html" class="button">ورود</a>
-    </td>
+    </div>
 
-    <td>
-      <span class="icon">🟢</span>
-      تمرین ۱<br><br>
-      <a href="grade7-ch1-practice1.html" class="button">ورود</a>
-    </td>
-
-    <td>
-      <span class="icon">🟡</span>
-      آزمون ۱<br><br>
-      <a href="grade7-ch1-exam1.html" class="button">ورود</a>
-    </td>
-  </tr>
-
-  <!-- ردیف ۲ -->
-  <tr>
-    <td>
-      <span class="icon">🔵</span>
-      بازی الگو<br><br>
+    <div class="card">
+      بازی کشف الگو
+      <br>
       <a href="grade7-ch1-pattern.html" class="button">ورود</a>
-    </td>
+    </div>
+  </div>
+</div>
 
-    <td>
-      <span class="icon">🟢</span>
-      تمرین ۲<br><br>
-      <a href="grade7-ch1-practice2.html" class="button">ورود</a>
-    </td>
+<!-- ✅ بخش درس‌ها -->
+<div class="section">
+  <h2>📚 درس‌های فصل</h2>
+  <div class="cards">
 
-    <td>
-      <span class="icon">🟡</span>
-      آزمون ۲<br><br>
-      <a href="grade7-ch1-exam2.html" class="button">ورود</a>
-    </td>
-  </tr>
+    <div class="card">درس ۱<br><a href="practice-d1.html" class="button">تمرین</a></div>
+    <div class="card">درس ۲<br><a href="practice-d2.html" class="button">تمرین</a></div>
+    <div class="card">درس ۳<br><a href="practice-d3.html" class="button">تمرین</a></div>
+    <div class="card">درس ۴<br><a href="practice-d4.html" class="button">تمرین</a></div>
+    <div class="card">درس ۵<br><a href="practice-d5.html" class="button">تمرین</a></div>
+    <div class="card">درس ۶<br><a href="practice-d6.html" class="button">تمرین</a></div>
+    <div class="card">درس ۷<br><a href="practice-d7.html" class="button">تمرین</a></div>
+    <div class="card">درس ۸<br><a href="practice-d8.html" class="button">تمرین</a></div>
 
-  <!-- ردیف ۳ -->
-  <tr>
-    <td>
-      <span class="icon">🟣</span>
-      بازی ۳<br><br>
-      <a href="#" class="button">به زودی</a>
-    </td>
+  </div>
+</div>
 
-    <td>
-      <span class="icon">🟢</span>
-      تمرین ۳<br><br>
-      <a href="grade7-ch1-practice3.html" class="button">ورود</a>
-    </td>
+<!-- ✅ جمع‌بندی فصل -->
+<div class="section">
+  <h2>🧠 جمع‌بندی فصل</h2>
+  <div class="cards">
 
-    <td>
-      <span class="icon">🟡</span>
-      آزمون ۳<br><br>
-      <a href="grade7-ch1-exam3.html" class="button">ورود</a>
-    </td>
-  </tr>
+    <div class="card">
+      تمرین سطح ساده
+      <br>
+      <a href="review-easy.html" class="button">ورود</a>
+    </div>
 
-</table>
+    <div class="card">
+      تمرین سطح متوسط
+      <br>
+      <a href="review-medium.html" class="button">ورود</a>
+    </div>
 
-<div class="back">
-  <a href="grade7.html" class="button">
-    ⬅ بازگشت به پایه ۷
-  </a>
+    <div class="card">
+      تمرین سطح سخت
+      <br>
+      <a href="review-hard.html" class="button">ورود</a>
+    </div>
+
+    <div class="card">
+      آزمون نهایی فصل
+      <br>
+      <a href="exam-final.html" class="button">شروع آزمون</a>
+    </div>
+
+  </div>
 </div>
 
 </div>
-
-</div>
-
-<script>
-
-const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-
-async function checkAccess(){
-
-  const { data: { session } } = await supabaseClient.auth.getSession();
-
-  if(!session){
-    window.location.href="index.html";
-    return;
-  }
-
-  const { data: profile } = await supabaseClient
-    .from("profiles")
-    .select("*")
-    .eq("id",session.user.id)
-    .single();
-
-  if(!profile || profile.grade!=7){
-    window.location.href="index.html";
-    return;
-  }
-
-  document.getElementById("loading").style.display="none";
-  document.getElementById("content").style.display="block";
-}
-
-checkAccess();
-
-</script>
 
 </body>
 </html>
