@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>فصل ۱ - راهبردهای حل مسئله</title>
 
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
 <style>
 body{
   margin:0;
@@ -65,10 +67,22 @@ body{
   text-decoration:none;
   font-size:14px;
 }
+
+.loading{
+  text-align:center;
+  margin-top:100px;
+  font-size:18px;
+}
 </style>
 </head>
 
 <body>
+
+<div id="loading" class="loading">
+در حال بررسی دسترسی...
+</div>
+
+<div id="content" style="display:none;">
 
 <div class="header">
   <h1>📘 فصل ۱</h1>
@@ -77,7 +91,7 @@ body{
 
 <div class="container">
 
-<!-- ✅ بخش بازی‌ها -->
+<!-- ✅ بازی‌ها -->
 <div class="section">
   <h2>🎮 بازی‌های فصل</h2>
   <div class="cards">
@@ -95,11 +109,10 @@ body{
   </div>
 </div>
 
-<!-- ✅ بخش درس‌ها -->
+<!-- ✅ درس‌ها -->
 <div class="section">
   <h2>📚 درس‌های فصل</h2>
   <div class="cards">
-
     <div class="card">درس ۱<br><a href="practice-d1.html" class="button">تمرین</a></div>
     <div class="card">درس ۲<br><a href="practice-d2.html" class="button">تمرین</a></div>
     <div class="card">درس ۳<br><a href="practice-d3.html" class="button">تمرین</a></div>
@@ -108,43 +121,69 @@ body{
     <div class="card">درس ۶<br><a href="practice-d6.html" class="button">تمرین</a></div>
     <div class="card">درس ۷<br><a href="practice-d7.html" class="button">تمرین</a></div>
     <div class="card">درس ۸<br><a href="practice-d8.html" class="button">تمرین</a></div>
-
   </div>
 </div>
 
-<!-- ✅ جمع‌بندی فصل -->
+<!-- ✅ جمع‌بندی -->
 <div class="section">
   <h2>🧠 جمع‌بندی فصل</h2>
   <div class="cards">
-
-    <div class="card">
-      تمرین سطح ساده
-      <br>
-      <a href="review-easy.html" class="button">ورود</a>
-    </div>
-
-    <div class="card">
-      تمرین سطح متوسط
-      <br>
-      <a href="review-medium.html" class="button">ورود</a>
-    </div>
-
-    <div class="card">
-      تمرین سطح سخت
-      <br>
-      <a href="review-hard.html" class="button">ورود</a>
-    </div>
-
-    <div class="card">
-      آزمون نهایی فصل
-      <br>
-      <a href="exam-final.html" class="button">شروع آزمون</a>
-    </div>
-
+    <div class="card">تمرین ساده<br><a href="review-easy.html" class="button">ورود</a></div>
+    <div class="card">تمرین متوسط<br><a href="review-medium.html" class="button">ورود</a></div>
+    <div class="card">تمرین سخت<br><a href="review-hard.html" class="button">ورود</a></div>
+    <div class="card">آزمون نهایی<br><a href="exam-final.html" class="button">شروع</a></div>
   </div>
 </div>
 
 </div>
+</div>
+
+<script>
+
+const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+async function checkAccess(){
+
+  const { data:{session} } = await supabaseClient.auth.getSession();
+
+  if(!session){
+    window.location.href="index.html";
+    return;
+  }
+
+  const { data: profile } = await supabaseClient
+    .from("profiles")
+    .select("grade, role")
+    .eq("id", session.user.id)
+    .single();
+
+  if(!profile){
+    window.location.href="index.html";
+    return;
+  }
+
+  // ✅ اگر ادمین بود
+  if(profile.role === "admin"){
+    window.location.href="admin.html";
+    return;
+  }
+
+  // ✅ اگر پایه ۷ نبود
+  if(parseInt(profile.grade) !== 7){
+    window.location.href="grade"+profile.grade+".html";
+    return;
+  }
+
+  // ✅ اجازه نمایش
+  document.getElementById("loading").style.display="none";
+  document.getElementById("content").style.display="block";
+}
+
+checkAccess();
+
+</script>
 
 </body>
 </html>
