@@ -99,14 +99,17 @@ async function loadPractice(){
   }
 
   const { data, error } = await supabaseClient
-    .from("practices")
-    .select("*")
-    .eq("id", id)
-    .single();
+  .from("practices")
+  .select("*");
 
-  if(error || !data){
-    document.getElementById("loading").innerText = "تمرین یافت نشد.";
-    return;
+console.log(data, error);
+
+if(!data || data.length === 0){
+  document.getElementById("loading").innerText = "تمرین یافت نشد.";
+  return;
+}
+
+const practice = data[0];
   }
 
   document.getElementById("title").innerText = data.title;
