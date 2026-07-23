@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تمرین</title>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:Tahoma;
+  background:#f4f6fb;
+  padding:30px;
+}
+
+.container{
+  max-width:800px;
+  margin:auto;
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.1);
+}
+
+img{
+  max-width:100%;
+  border-radius:10px;
+  margin-bottom:20px;
+}
+
+h2{
+  margin-top:0;
+}
+
+.loading{
+  text-align:center;
+  margin-top:100px;
+}
+
+.answer-space{
+  height:120px;
+  border-bottom:1px dashed #999;
+  margin-top:15px;
+}
+
+button{
+  padding:8px 16px;
+  border:none;
+  border-radius:8px;
+  background:#2d6a4f;
+  color:white;
+  cursor:pointer;
+  margin-top:15px;
+}
+</style>
+</head>
+<body>
+
+<div id="loading" class="loading">
+در حال بارگذاری تمرین...
+</div>
+
+<div id="content" style="display:none;">
+
+<div class="container">
+
+<h2 id="title"></h2>
+<p id="description"></p>
+
+<img id="practiceImage" src="" alt="تمرین">
+
+<p><b>پاسخ تشریحی:</b></p>
+<div class="answer-space"></div>
+<div class="answer-space"></div>
+<div class="answer-space"></div>
+
+<button onclick="window.print()">🖨 چاپ تمرین</button>
+
+</div>
+
+</div>
+
+<script>
+
+const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+async function loadPractice(){
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+
+  if(!id){
+    document.getElementById("loading").innerText = "شناسه تمرین نامعتبر است.";
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from("practices")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if(error || !data){
+    document.getElementById("loading").innerText = "تمرین یافت نشد.";
+    return;
+  }
+
+  document.getElementById("title").innerText = data.title;
+  document.getElementById("description").innerText = data.description || "";
+  document.getElementById("practiceImage").src = data.image_url;
+
+  document.getElementById("loading").style.display = "none";
+  document.getElementById("content").style.display = "block";
+}
+
+loadPractice();
+
+</script>
+
+</body>
+</html>
