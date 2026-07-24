@@ -22,7 +22,7 @@ body{
 }
 
 .container{
-  max-width:1000px;
+  max-width:900px;
   margin:40px auto;
   padding:0 20px;
 }
@@ -109,29 +109,21 @@ body{
   </div>
 </div>
 
-<!-- ✅ درس‌ها -->
+<!-- ✅ آزمون‌ها -->
 <div class="section">
-  <h2>📚 درس‌های فصل</h2>
+  <h2>📊 آزمون‌های فصل</h2>
   <div class="cards">
-    <div class="card">درس ۱<br><a href="practice-d1.html" class="button">تمرین</a></div>
-    <div class="card">درس ۲<br><a href="practice-d2.html" class="button">تمرین</a></div>
-    <div class="card">درس ۳<br><a href="practice-d3.html" class="button">تمرین</a></div>
-    <div class="card">درس ۴<br><a href="practice-d4.html" class="button">تمرین</a></div>
-    <div class="card">درس ۵<br><a href="practice-d5.html" class="button">تمرین</a></div>
-    <div class="card">درس ۶<br><a href="practice-d6.html" class="button">تمرین</a></div>
-    <div class="card">درس ۷<br><a href="practice-d7.html" class="button">تمرین</a></div>
-    <div class="card">درس ۸<br><a href="practice-d8.html" class="button">تمرین</a></div>
-  </div>
-</div>
+    <div class="card">
+      آزمون مرحله‌ای ۱
+      <br>
+      <a href="grade7-ch1-exam1.html" class="button">شروع</a>
+    </div>
 
-<!-- ✅ جمع‌بندی -->
-<div class="section">
-  <h2>🧠 جمع‌بندی فصل</h2>
-  <div class="cards">
-    <div class="card">تمرین ساده<br><a href="review-easy.html" class="button">ورود</a></div>
-    <div class="card">تمرین متوسط<br><a href="review-medium.html" class="button">ورود</a></div>
-    <div class="card">تمرین سخت<br><a href="review-hard.html" class="button">ورود</a></div>
-    <div class="card">آزمون نهایی<br><a href="exam-final.html" class="button">شروع</a></div>
+    <div class="card">
+      آزمون نهایی فصل
+      <br>
+      <a href="grade7-ch1-final-exam.html" class="button">شروع</a>
+    </div>
   </div>
 </div>
 
@@ -170,13 +162,12 @@ async function checkAccess(){
     return;
   }
 
-  // ✅ اگر پایه ۷ نبود
+  // ✅ فقط پایه ۷ اجازه دارد
   if(parseInt(profile.grade) !== 7){
     window.location.href="grade"+profile.grade+".html";
     return;
   }
 
-  // ✅ اجازه نمایش
   document.getElementById("loading").style.display="none";
   document.getElementById("content").style.display="block";
 }
