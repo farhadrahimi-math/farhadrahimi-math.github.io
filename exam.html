@@ -84,31 +84,52 @@ const params = new URLSearchParams(window.location.search);
 const grade = parseInt(params.get("grade"));
 const chapter = parseInt(params.get("chapter"));
 const examNumber = parseInt(params.get("exam"));
+const level = parseInt(params.get("level")); // ✅ سطح آزمون
 
 let questions = [];
 let currentIndex = 0;
-let score = 0;
-
-// ✅ تایمر
+let correctCount = 0;
+let wrongCount = 0;
 let timeLeft = 300;
+let timerInterval;
 
-function startTimer(){
-  const timer = setInterval(()=>{
-    timeLeft--;
+let sessionUser;
 
-    let minutes = Math.floor(timeLeft/60);
-    let seconds = timeLeft%60;
+async function checkAccess(){
 
-    document.getElementById("time").innerText =
-      (minutes<10?"0":"")+minutes+":"+
-      (seconds<10?"0":"")+seconds;
+  const { data:{session} } = await supabaseClient.auth.getSession();
 
-    if(timeLeft<=0){
-      clearInterval(timer);
-      finishExam();
+  if(!session){
+    window.location.href="index.html";
+    return;
+  }
+
+  sessionUser = session.user;
+
+  // ✅ بررسی آخرین سطح قبول شده
+  const { data } = await supabaseClient
+    .from("exam_results")
+    .select("level")
+    .eq("user_id", sessionUser.id)
+    .eq("grade", grade)
+    .eq("chapter", chapter)
+    .order("level", { ascending:false });
+
+  let maxLevelPassed = 0;
+
+  data.forEach(r=>{
+    if(r.level > maxLevelPassed){
+      maxLevelPassed = r.level;
     }
+  });
 
-  },1000);
+  if(level > maxLevelPassed + 1){
+    document.getElementById("examContent").innerText =
+      "ابتدا باید سطح قبلی را با موفقیت بگذرانید.";
+    return;
+  }
+
+  loadExam();
 }
 
 async function loadExam(){
@@ -118,12 +139,36 @@ async function loadExam(){
     .select("*")
     .eq("grade", grade)
     .eq("chapter", chapter)
-    .eq("exam_number", examNumber);
+    .eq("exam_number", examNumber)
+    .eq("level", level);
 
-  questions = data;
+  if(!data || data.length === 0){
+    document.getElementById("examContent").innerText="سوالی ثبت نشده.";
+    return;
+  }
+
+  questions = data.sort(() => 0.5 - Math.random());
 
   loadQuestion();
   startTimer();
+}
+
+function startTimer(){
+  timerInterval = setInterval(()=>{
+    timeLeft--;
+
+    let m = Math.floor(timeLeft/60);
+    let s = timeLeft%60;
+
+    document.getElementById("time").innerText =
+      (m<10?"0":"")+m+":"+(s<10?"0":"")+s;
+
+    if(timeLeft<=0){
+      clearInterval(timerInterval);
+      finishExam();
+    }
+
+  },1000);
 }
 
 function loadQuestion(){
@@ -139,18 +184,20 @@ function loadQuestion(){
     <p>سوال ${currentIndex+1} از ${questions.length}</p>
     <img src="${q.image_url}">
     <div class="options">
-      <button onclick="checkAnswer(1)">${q.option1}</button>
-      <button onclick="checkAnswer(2)">${q.option2}</button>
-      <button onclick="checkAnswer(3)">${q.option3}</button>
-      <button onclick="checkAnswer(4)">${q.option4}</button>
+      <button onclick="answer(1)">${q.option1}</button>
+      <button onclick="answer(2)">${q.option2}</button>
+      <button onclick="answer(3)">${q.option3}</button>
+      <button onclick="answer(4)">${q.option4}</button>
     </div>
   `;
 }
 
-function checkAnswer(selected){
+function answer(choice){
 
-  if(selected === questions[currentIndex].correct_option){
-    score++;
+  if(choice === questions[currentIndex].correct_option){
+    correctCount++;
+  }else{
+    wrongCount++;
   }
 
   currentIndex++;
@@ -159,29 +206,39 @@ function checkAnswer(selected){
 
 async function finishExam(){
 
+  clearInterval(timerInterval);
+
+  const score = correctCount * 2; // ✅ اگر 10 سوال باشد، نمره از 20
+
   document.getElementById("examContent").innerHTML = "";
-  document.getElementById("result").innerText =
-    "نمره شما: " + score + " از " + questions.length;
+  document.getElementById("result").innerHTML = `
+    ✅ آزمون تمام شد<br>
+    تعداد صحیح: ${correctCount}<br>
+    نمره: ${score} از 20
+  `;
 
-  const { data:{session} } = await supabaseClient.auth.getSession();
+  await supabaseClient
+    .from("exam_results")
+    .insert([{
+      user_id: sessionUser.id,
+      grade: grade,
+      chapter: chapter,
+      exam_number: examNumber,
+      level: level,
+      score: score,
+      total_questions: questions.length
+    }]);
 
-  if(session){
-
-    await supabaseClient
-      .from("exam_results")
-      .insert([{
-        user_id: session.user.id,
-        grade: grade,
-        chapter: chapter,
-        exam_number: examNumber,
-        score: score,
-        total_questions: questions.length
-      }]);
+  if(score >= 15){
+    document.getElementById("result").innerHTML +=
+      "<br>🎉 سطح بعدی برای شما باز شد!";
+  }else{
+    document.getElementById("result").innerHTML +=
+      "<br>🔁 لطفاً دوباره تلاش کنید.";
   }
 }
 
-loadExam();
-
+checkAccess();
 </script>
 
 </body>
