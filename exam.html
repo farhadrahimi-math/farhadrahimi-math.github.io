@@ -77,28 +77,27 @@ img{
 <script>
 
 const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
+const supabaseKey = "YOUR_ANON_KEY";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 const params = new URLSearchParams(window.location.search);
 const grade = parseInt(params.get("grade"));
 const chapter = parseInt(params.get("chapter"));
 const examNumber = parseInt(params.get("exam"));
-const level = parseInt(params.get("level")); // ✅ سطح آزمون
+const level = parseInt(params.get("level"));
 
 let questions = [];
 let currentIndex = 0;
 let correctCount = 0;
 let wrongCount = 0;
+let userAnswers = [];
 let timeLeft = 300;
 let timerInterval;
-
 let sessionUser;
 
 async function checkAccess(){
 
   const { data:{session} } = await supabaseClient.auth.getSession();
-
   if(!session){
     window.location.href="index.html";
     return;
@@ -106,26 +105,19 @@ async function checkAccess(){
 
   sessionUser = session.user;
 
-  // ✅ بررسی آخرین سطح قبول شده
+  // جلوگیری از شرکت دوباره در صورت قبولی
   const { data } = await supabaseClient
     .from("exam_results")
-    .select("level")
+    .select("*")
     .eq("user_id", sessionUser.id)
     .eq("grade", grade)
     .eq("chapter", chapter)
-    .order("level", { ascending:false });
+    .eq("level", level)
+    .gte("score", 15);
 
-  let maxLevelPassed = 0;
-
-  data.forEach(r=>{
-    if(r.level > maxLevelPassed){
-      maxLevelPassed = r.level;
-    }
-  });
-
-  if(level > maxLevelPassed + 1){
-    document.getElementById("examContent").innerText =
-      "ابتدا باید سطح قبلی را با موفقیت بگذرانید.";
+  if(data.length > 0){
+    document.getElementById("examContent").innerHTML =
+      "✅ شما قبلاً این سطح را با موفقیت گذرانده‌اید.";
     return;
   }
 
@@ -142,11 +134,6 @@ async function loadExam(){
     .eq("exam_number", examNumber)
     .eq("level", level);
 
-  if(!data || data.length === 0){
-    document.getElementById("examContent").innerText="سوالی ثبت نشده.";
-    return;
-  }
-
   questions = data.sort(() => 0.5 - Math.random());
 
   loadQuestion();
@@ -156,7 +143,6 @@ async function loadExam(){
 function startTimer(){
   timerInterval = setInterval(()=>{
     timeLeft--;
-
     let m = Math.floor(timeLeft/60);
     let s = timeLeft%60;
 
@@ -167,7 +153,6 @@ function startTimer(){
       clearInterval(timerInterval);
       finishExam();
     }
-
   },1000);
 }
 
@@ -194,7 +179,15 @@ function loadQuestion(){
 
 function answer(choice){
 
-  if(choice === questions[currentIndex].correct_option){
+  const correct = questions[currentIndex].correct_option;
+
+  userAnswers.push({
+    question_id: questions[currentIndex].id,
+    selected: choice,
+    correct: correct
+  });
+
+  if(choice === correct){
     correctCount++;
   }else{
     wrongCount++;
@@ -208,14 +201,25 @@ async function finishExam(){
 
   clearInterval(timerInterval);
 
-  const score = correctCount * 2; // ✅ اگر 10 سوال باشد، نمره از 20
+  const score = correctCount * 2;
+  const percent = ((correctCount / questions.length) * 100).toFixed(1);
+
+  let resultHtml = `
+    ✅ آزمون تمام شد<br>
+    صحیح: ${correctCount}<br>
+    غلط: ${wrongCount}<br>
+    نمره: ${score} از 20<br>
+    درصد: ${percent}٪<br><br>
+  `;
+
+  if(score >= 15){
+    resultHtml += "🎉 قبولی! سطح بعدی برای شما فعال شد.";
+  }else{
+    resultHtml += "🔁 مردود شدید. برای ارتقا باید حداقل 15 بگیرید.";
+  }
 
   document.getElementById("examContent").innerHTML = "";
-  document.getElementById("result").innerHTML = `
-    ✅ آزمون تمام شد<br>
-    تعداد صحیح: ${correctCount}<br>
-    نمره: ${score} از 20
-  `;
+  document.getElementById("result").innerHTML = resultHtml;
 
   await supabaseClient
     .from("exam_results")
@@ -226,16 +230,9 @@ async function finishExam(){
       exam_number: examNumber,
       level: level,
       score: score,
-      total_questions: questions.length
+      total_questions: questions.length,
+      answers: userAnswers
     }]);
-
-  if(score >= 15){
-    document.getElementById("result").innerHTML +=
-      "<br>🎉 سطح بعدی برای شما باز شد!";
-  }else{
-    document.getElementById("result").innerHTML +=
-      "<br>🔁 لطفاً دوباره تلاش کنید.";
-  }
 }
 
 checkAccess();
