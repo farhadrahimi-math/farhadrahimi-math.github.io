@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>کارنامه من</title>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:Tahoma;
+  background:#f4f6fb;
+  padding:30px;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.1);
+}
+
+h2{text-align:center;}
+
+table{
+  width:100%;
+  margin-top:20px;
+  border-collapse:collapse;
+}
+
+th, td{
+  padding:10px;
+  border-bottom:1px solid #eee;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h2>📊 کارنامه من</h2>
+
+<table>
+<thead>
+<tr>
+<th>پایه</th>
+<th>فصل</th>
+<th>آزمون</th>
+<th>نمره</th>
+<th>تاریخ</th>
+</tr>
+</thead>
+<tbody id="resultsTable"></tbody>
+</table>
+
+<h3 id="average"></h3>
+
+</div>
+
+<script>
+
+const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+async function loadResults(){
+
+  const { data:{session} } = await supabaseClient.auth.getSession();
+
+  if(!session){
+    window.location.href="index.html";
+    return;
+  }
+
+  const { data } = await supabaseClient
+    .from("exam_results")
+    .select("*")
+    .eq("user_id", session.user.id);
+
+  const table = document.getElementById("resultsTable");
+  table.innerHTML="";
+
+  let totalScore = 0;
+
+  data.forEach(r=>{
+    totalScore += r.score;
+
+    table.innerHTML += `
+      <tr>
+        <td>${r.grade}</td>
+        <td>${r.chapter}</td>
+        <td>${r.exam_number}</td>
+        <td>${r.score} / ${r.total_questions}</td>
+        <td>${new Date(r.created_at).toLocaleDateString()}</td>
+      </tr>
+    `;
+  });
+
+  if(data.length > 0){
+    const avg = (totalScore / data.length).toFixed(2);
+    document.getElementById("average").innerText =
+      "میانگین نمرات: " + avg;
+  }
+}
+
+loadResults();
+
+</script>
+
+</body>
+</html>
