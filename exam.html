@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>آزمون</title>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:Tahoma;
+  background:#f4f6fb;
+  padding:20px;
+}
+
+.container{
+  max-width:700px;
+  margin:auto;
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.1);
+}
+
+.timer{
+  text-align:left;
+  font-weight:bold;
+  color:#d00000;
+}
+
+img{
+  max-width:100%;
+  border-radius:10px;
+  margin:15px 0;
+}
+
+.options button{
+  display:block;
+  width:100%;
+  margin:8px 0;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#74c69d;
+  color:white;
+  cursor:pointer;
+}
+
+.options button:hover{
+  background:#52b788;
+}
+
+#result{
+  margin-top:20px;
+  font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h2>📊 آزمون</h2>
+
+<div class="timer">
+زمان باقی‌مانده: <span id="time">05:00</span>
+</div>
+
+<div id="examContent"></div>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+const params = new URLSearchParams(window.location.search);
+const grade = parseInt(params.get("grade"));
+const chapter = parseInt(params.get("chapter"));
+const examNumber = parseInt(params.get("exam"));
+
+let questions = [];
+let currentIndex = 0;
+let score = 0;
+
+// ✅ تایمر
+let timeLeft = 300;
+
+function startTimer(){
+  const timer = setInterval(()=>{
+    timeLeft--;
+
+    let minutes = Math.floor(timeLeft/60);
+    let seconds = timeLeft%60;
+
+    document.getElementById("time").innerText =
+      (minutes<10?"0":"")+minutes+":"+
+      (seconds<10?"0":"")+seconds;
+
+    if(timeLeft<=0){
+      clearInterval(timer);
+      finishExam();
+    }
+
+  },1000);
+}
+
+async function loadExam(){
+
+  const { data } = await supabaseClient
+    .from("exam_questions")
+    .select("*")
+    .eq("grade", grade)
+    .eq("chapter", chapter)
+    .eq("exam_number", examNumber);
+
+  questions = data;
+
+  loadQuestion();
+  startTimer();
+}
+
+function loadQuestion(){
+
+  if(currentIndex >= questions.length){
+    finishExam();
+    return;
+  }
+
+  const q = questions[currentIndex];
+
+  document.getElementById("examContent").innerHTML = `
+    <p>سوال ${currentIndex+1} از ${questions.length}</p>
+    <img src="${q.image_url}">
+    <div class="options">
+      <button onclick="checkAnswer(1)">${q.option1}</button>
+      <button onclick="checkAnswer(2)">${q.option2}</button>
+      <button onclick="checkAnswer(3)">${q.option3}</button>
+      <button onclick="checkAnswer(4)">${q.option4}</button>
+    </div>
+  `;
+}
+
+function checkAnswer(selected){
+
+  if(selected === questions[currentIndex].correct_option){
+    score++;
+  }
+
+  currentIndex++;
+  loadQuestion();
+}
+
+async function finishExam(){
+
+  document.getElementById("examContent").innerHTML = "";
+  document.getElementById("result").innerText =
+    "نمره شما: " + score + " از " + questions.length;
+
+  const { data:{session} } = await supabaseClient.auth.getSession();
+
+  if(session){
+
+    await supabaseClient
+      .from("exam_results")
+      .insert([{
+        user_id: session.user.id,
+        grade: grade,
+        chapter: chapter,
+        exam_number: examNumber,
+        score: score,
+        total_questions: questions.length
+      }]);
+  }
+}
+
+loadExam();
+
+</script>
+
+</body>
+</html>
