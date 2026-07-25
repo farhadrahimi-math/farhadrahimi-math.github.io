@@ -39,7 +39,7 @@ h2{margin-top:0;}
   padding:20px;
   border-radius:15px;
   text-align:center;
-  font-size:18px;
+  font-size:16px;
   font-weight:bold;
 }
 
@@ -57,43 +57,44 @@ button{
   background:#2d6a4f;
   color:white;
   cursor:pointer;
+  margin:5px;
 }
+
+.edit-btn{ background:#667eea; }
+.delete-btn{ background:#e76f51; }
 
 table{
   width:100%;
-  margin-top:20px;
+  margin-top:15px;
   border-collapse:collapse;
 }
 
 th, td{
-  padding:10px;
+  padding:8px;
   border-bottom:1px solid #eee;
   text-align:center;
 }
-
-.edit-btn{ background:#667eea; }
-.toggle-btn{ background:#e76f51; }
 </style>
 </head>
 <body>
 
 <div class="container">
 
-<h2>👑 داشبورد مدیریت</h2>
+<h2>👑 پنل مدیریت</h2>
 
-<!-- ✅ بخش آمار -->
+<!-- ✅ داشبورد آماری -->
 <div class="stats">
   <div class="stat-card" id="totalStudents">کل دانش‌آموزان: 0</div>
   <div class="stat-card" id="grade7Count">پایه ۷: 0</div>
   <div class="stat-card" id="grade8Count">پایه ۸: 0</div>
   <div class="stat-card" id="grade9Count">پایه ۹: 0</div>
-  <div class="stat-card" id="activeCount">فعال: 0</div>
-  <div class="stat-card" id="inactiveCount">غیرفعال: 0</div>
 </div>
+
+<hr>
 
 <h3>➕ افزودن دانش‌آموز</h3>
 
-<input type="text" id="name" placeholder="نام دانش‌آموز">
+<input type="text" id="name" placeholder="نام">
 <input type="text" id="phone" placeholder="شماره تلفن">
 <input type="password" id="password" placeholder="رمز عبور">
 
@@ -103,7 +104,7 @@ th, td{
   <option value="9">پایه ۹</option>
 </select>
 
-<button onclick="addStudent()">ثبت</button>
+<button onclick="addStudent()">ثبت دانش‌آموز</button>
 
 <h3>📋 لیست دانش‌آموزان</h3>
 
@@ -113,11 +114,59 @@ th, td{
 <th>نام</th>
 <th>پایه</th>
 <th>وضعیت</th>
-<th>ویرایش</th>
 <th>فعال/غیرفعال</th>
 </tr>
 </thead>
 <tbody id="studentsTable"></tbody>
+</table>
+
+<hr>
+
+<h3>📊 افزودن سوال آزمون</h3>
+
+<select id="examGrade">
+  <option value="7">پایه ۷</option>
+  <option value="8">پایه ۸</option>
+  <option value="9">پایه ۹</option>
+</select>
+
+<input type="number" id="examChapter" placeholder="شماره فصل">
+<input type="number" id="examNumber" placeholder="شماره آزمون">
+
+<br><br>
+
+<input type="file" id="questionImage" accept="image/*">
+
+<br><br>
+
+<input type="text" id="option1" placeholder="گزینه ۱">
+<input type="text" id="option2" placeholder="گزینه ۲">
+<input type="text" id="option3" placeholder="گزینه ۳">
+<input type="text" id="option4" placeholder="گزینه ۴">
+
+<select id="correctOption">
+  <option value="1">گزینه صحیح: ۱</option>
+  <option value="2">گزینه صحیح: ۲</option>
+  <option value="3">گزینه صحیح: ۳</option>
+  <option value="4">گزینه صحیح: ۴</option>
+</select>
+
+<button onclick="addExamQuestion()">ثبت سوال</button>
+
+<h3>📋 لیست سوال‌های آزمون</h3>
+
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>پایه</th>
+<th>فصل</th>
+<th>آزمون</th>
+<th>ویرایش</th>
+<th>حذف</th>
+</tr>
+</thead>
+<tbody id="examQuestionsTable"></tbody>
 </table>
 
 </div>
@@ -127,8 +176,6 @@ th, td{
 const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-
-let studentsData = [];
 
 async function checkAdmin(){
 
@@ -146,7 +193,6 @@ async function checkAdmin(){
     .single();
 
   if(!profile || profile.role !== "admin"){
-    alert("دسترسی غیرمجاز");
     window.location.href="index.html";
   }
 }
@@ -157,13 +203,6 @@ async function loadStudents(){
     .from("profiles")
     .select("*")
     .eq("role","student");
-
-  studentsData = data;
-  renderTable(data);
-  updateStats(data);
-}
-
-function updateStats(data){
 
   document.getElementById("totalStudents").innerText =
     "کل دانش‌آموزان: " + data.length;
@@ -177,93 +216,23 @@ function updateStats(data){
   document.getElementById("grade9Count").innerText =
     "پایه ۹: " + data.filter(s=>s.grade==9).length;
 
-  document.getElementById("activeCount").innerText =
-    "فعال: " + data.filter(s=>s.is_active).length;
-
-  document.getElementById("inactiveCount").innerText =
-    "غیرفعال: " + data.filter(s=>!s.is_active).length;
-}
-
-function renderTable(data){
-
   const table = document.getElementById("studentsTable");
   table.innerHTML="";
 
-  data.forEach(student=>{
-
-    const row = `
+  data.forEach(s=>{
+    table.innerHTML += `
       <tr>
-        <td>${student.name || "-"}</td>
-        <td>${student.grade}</td>
-        <td>${student.is_active ? "✅ فعال" : "❌ غیرفعال"}</td>
+        <td>${s.name}</td>
+        <td>${s.grade}</td>
+        <td>${s.is_active ? "✅ فعال" : "❌ غیرفعال"}</td>
         <td>
-          <button class="edit-btn" onclick="editStudent('${student.id}')">
-            ویرایش
-          </button>
-        </td>
-        <td>
-          <button class="toggle-btn" onclick="toggleStudent('${student.id}', ${student.is_active})">
-            ${student.is_active ? "غیرفعال کردن" : "فعال کردن"}
+          <button onclick="toggleStudent('${s.id}', ${s.is_active})">
+            ${s.is_active ? "غیرفعال" : "فعال"}
           </button>
         </td>
       </tr>
     `;
-
-    table.innerHTML += row;
   });
-}
-
-async function addStudent(){
-
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const grade = document.getElementById("grade").value;
-
-  const email = phone + "@school.local";
-
-  // ✅ بررسی وجود کاربر
-  const { data: existingUsers } = await supabaseClient.auth.admin.listUsers();
-
-  let user = existingUsers?.users?.find(u => u.email === email);
-
-  if(!user){
-
-    const { data, error } = await supabaseClient.auth.signUp({
-      email: email,
-      password: password
-    });
-
-    if(error){
-      alert("خطا: " + error.message);
-      return;
-    }
-
-    user = data.user;
-  }
-
-  // ✅ بررسی وجود profile
-  const { data: existingProfile } = await supabaseClient
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
-
-  if(!existingProfile){
-
-    await supabaseClient.from("profiles").insert([
-      {
-        id: user.id,
-        name: name,
-        grade: parseInt(grade),
-        is_active: true,
-        role: "student"
-      }
-    ]);
-  }
-
-  alert("✅ دانش‌آموز ثبت شد");
-  loadStudents();
 }
 
 async function toggleStudent(id, currentStatus){
@@ -276,30 +245,107 @@ async function toggleStudent(id, currentStatus){
   loadStudents();
 }
 
-function editStudent(id){
+async function addStudent(){
 
-  const student = studentsData.find(s => s.id === id);
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const password = document.getElementById("password").value;
+  const grade = document.getElementById("grade").value;
 
-  const newName = prompt("نام جدید:", student.name);
-  const newGrade = prompt("پایه جدید (7 یا 8 یا 9):", student.grade);
+  const email = phone + "@school.local";
 
-  if(newName && newGrade){
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: password
+  });
 
-    supabaseClient
-      .from("profiles")
-      .update({
-        name: newName,
-        grade: parseInt(newGrade)
-      })
-      .eq("id", id)
-      .then(()=>{
-        loadStudents();
-      });
+  if(error){
+    alert(error.message);
+    return;
   }
+
+  await supabaseClient.from("profiles").insert([
+    {
+      id: data.user.id,
+      name: name,
+      grade: parseInt(grade),
+      is_active: true,
+      role: "student"
+    }
+  ]);
+
+  loadStudents();
+}
+
+async function addExamQuestion(){
+
+  const file = document.getElementById("questionImage").files[0];
+  if(!file){ alert("تصویر را انتخاب کنید"); return; }
+
+  const fileName = Date.now()+"_"+file.name;
+
+  await supabaseClient.storage
+    .from("exam-questions")
+    .upload(fileName, file);
+
+  const { data } = supabaseClient.storage
+    .from("exam-questions")
+    .getPublicUrl(fileName);
+
+  await supabaseClient.from("exam_questions").insert([{
+    grade: parseInt(document.getElementById("examGrade").value),
+    chapter: parseInt(document.getElementById("examChapter").value),
+    exam_number: parseInt(document.getElementById("examNumber").value),
+    image_url: data.publicUrl,
+    option1: document.getElementById("option1").value,
+    option2: document.getElementById("option2").value,
+    option3: document.getElementById("option3").value,
+    option4: document.getElementById("option4").value,
+    correct_option: parseInt(document.getElementById("correctOption").value)
+  }]);
+
+  loadExamQuestions();
+}
+
+async function loadExamQuestions(){
+
+  const { data } = await supabaseClient
+    .from("exam_questions")
+    .select("*");
+
+  const table = document.getElementById("examQuestionsTable");
+  table.innerHTML="";
+
+  data.forEach(q=>{
+    table.innerHTML += `
+      <tr>
+        <td>${q.id}</td>
+        <td>${q.grade}</td>
+        <td>${q.chapter}</td>
+        <td>${q.exam_number}</td>
+        <td>
+          <button onclick="editQuestion(${q.id})" class="edit-btn">ویرایش</button>
+        </td>
+        <td>
+          <button onclick="deleteQuestion(${q.id})" class="delete-btn">حذف</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+async function deleteQuestion(id){
+  await supabaseClient.from("exam_questions").delete().eq("id",id);
+  loadExamQuestions();
+}
+
+function editQuestion(id){
+  alert("نسخه ساده فعال است. بعداً مودال حرفه‌ای می‌سازیم ✅");
 }
 
 checkAdmin();
 loadStudents();
+loadExamQuestions();
 
 </script>
 
