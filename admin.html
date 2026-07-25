@@ -169,6 +169,24 @@ th, td{
 <tbody id="examQuestionsTable"></tbody>
 </table>
 
+<hr>
+
+<h3>📊 نتایج آزمون‌ها</h3>
+
+<table>
+<thead>
+<tr>
+<th>کاربر</th>
+<th>پایه</th>
+<th>فصل</th>
+<th>آزمون</th>
+<th>نمره</th>
+<th>تاریخ</th>
+</tr>
+</thead>
+<tbody id="examResultsTable"></tbody>
+</table>
+
 </div>
 
 <script>
@@ -178,13 +196,8 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 async function checkAdmin(){
-
   const { data:{session} } = await supabaseClient.auth.getSession();
-
-  if(!session){
-    window.location.href="index.html";
-    return;
-  }
+  if(!session){ window.location.href="index.html"; return; }
 
   const { data: profile } = await supabaseClient
     .from("profiles")
@@ -198,7 +211,6 @@ async function checkAdmin(){
 }
 
 async function loadStudents(){
-
   const { data } = await supabaseClient
     .from("profiles")
     .select("*")
@@ -236,17 +248,13 @@ async function loadStudents(){
 }
 
 async function toggleStudent(id, currentStatus){
-
-  await supabaseClient
-    .from("profiles")
+  await supabaseClient.from("profiles")
     .update({ is_active: !currentStatus })
     .eq("id", id);
-
   loadStudents();
 }
 
 async function addStudent(){
-
   const name = document.getElementById("name").value;
   const phone = document.getElementById("phone").value;
   const password = document.getElementById("password").value;
@@ -259,20 +267,15 @@ async function addStudent(){
     password: password
   });
 
-  if(error){
-    alert(error.message);
-    return;
-  }
+  if(error){ alert(error.message); return; }
 
-  await supabaseClient.from("profiles").insert([
-    {
-      id: data.user.id,
-      name: name,
-      grade: parseInt(grade),
-      is_active: true,
-      role: "student"
-    }
-  ]);
+  await supabaseClient.from("profiles").insert([{
+    id: data.user.id,
+    name: name,
+    grade: parseInt(grade),
+    is_active: true,
+    role: "student"
+  }]);
 
   loadStudents();
 }
@@ -308,7 +311,6 @@ async function addExamQuestion(){
 }
 
 async function loadExamQuestions(){
-
   const { data } = await supabaseClient
     .from("exam_questions")
     .select("*");
@@ -323,12 +325,8 @@ async function loadExamQuestions(){
         <td>${q.grade}</td>
         <td>${q.chapter}</td>
         <td>${q.exam_number}</td>
-        <td>
-          <button onclick="editQuestion(${q.id})" class="edit-btn">ویرایش</button>
-        </td>
-        <td>
-          <button onclick="deleteQuestion(${q.id})" class="delete-btn">حذف</button>
-        </td>
+        <td><button class="edit-btn">ویرایش</button></td>
+        <td><button class="delete-btn" onclick="deleteQuestion(${q.id})">حذف</button></td>
       </tr>
     `;
   });
@@ -339,13 +337,32 @@ async function deleteQuestion(id){
   loadExamQuestions();
 }
 
-function editQuestion(id){
-  alert("نسخه ساده فعال است. بعداً مودال حرفه‌ای می‌سازیم ✅");
+async function loadExamResults(){
+  const { data } = await supabaseClient
+    .from("exam_results")
+    .select("*");
+
+  const table = document.getElementById("examResultsTable");
+  table.innerHTML="";
+
+  data.forEach(r=>{
+    table.innerHTML += `
+      <tr>
+        <td>${r.user_id}</td>
+        <td>${r.grade}</td>
+        <td>${r.chapter}</td>
+        <td>${r.exam_number}</td>
+        <td>${r.score}/${r.total_questions}</td>
+        <td>${new Date(r.created_at).toLocaleDateString()}</td>
+      </tr>
+    `;
+  });
 }
 
 checkAdmin();
 loadStudents();
 loadExamQuestions();
+loadExamResults();
 
 </script>
 
