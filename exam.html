@@ -213,14 +213,36 @@ async function finishExam(){
   `;
 
   if(score >= 15){
-    resultHtml += "🎉 قبولی! سطح بعدی برای شما فعال شد.";
+    resultHtml += "🎉 قبولی! سطح بعدی برای شما فعال شد.<br><br>";
   }else{
-    resultHtml += "🔁 مردود شدید. برای ارتقا باید حداقل 15 بگیرید.";
+    resultHtml += "🔁 مردود شدید. برای ارتقا باید حداقل 15 بگیرید.<br><br>";
   }
+
+  resultHtml += "<hr><h3>📋 بررسی پاسخ‌ها</h3>";
+
+  // ✅ نمایش تحلیل هر سوال
+  userAnswers.forEach((ans, index)=>{
+
+    const q = questions.find(q => q.id === ans.question_id);
+
+    resultHtml += `
+      <div style="margin:15px 0; padding:10px; border:1px solid #ddd; border-radius:10px;">
+        <b>سوال ${index+1}</b><br>
+        <img src="${q.image_url}" style="max-width:100%; border-radius:8px;"><br><br>
+        پاسخ شما: ${q["option"+ans.selected]}<br>
+        پاسخ صحیح: ${q["option"+ans.correct]}<br>
+        ${ans.selected === ans.correct 
+          ? "<span style='color:green;'>✅ درست</span>" 
+          : "<span style='color:red;'>❌ نادرست</span>"
+        }
+      </div>
+    `;
+  });
 
   document.getElementById("examContent").innerHTML = "";
   document.getElementById("result").innerHTML = resultHtml;
 
+  // ✅ ذخیره نتیجه
   await supabaseClient
     .from("exam_results")
     .insert([{
