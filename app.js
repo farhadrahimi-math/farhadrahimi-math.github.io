@@ -1,3 +1,4 @@
+alert("app.js اجرا شد ✅");
 // ✅ تنظیم Supabase
 const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
 const supabaseKey = "// ✅ تنظیم Supabase
