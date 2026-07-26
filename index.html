@@ -6,6 +6,7 @@
 <title>🏆 باشگاه نخبگان ریاضی</title>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script defer src="app.js"></script>
 
 <style>
 body{
@@ -14,208 +15,17 @@ body{
   background:#f4f6fb;
 }
 
-/* HERO */
-.hero{
-  padding:60px 20px;  /* ✅ کوتاه‌تر */
-  background:linear-gradient(135deg,#667eea,#764ba2);
-  color:white;
-  text-align:center;
-}
-
-.hero h1{
-  font-size:24px; /* ✅ مناسب موبایل */
-  margin:0;
-}
-
-.hero p{
-  font-size:14px;
-  margin:15px 0;
-}
-
-.cta{
-  padding:10px 20px;
-  border:none;
-  border-radius:25px;
-  background:white;
-  color:#2d6a4f;
-  font-size:14px;
-  cursor:pointer;
-}
-
-/* FEATURES */
-.section{
-  padding:40px 20px;
-  text-align:center;
-}
-
-.features{
-  display:flex;
-  flex-direction:column; /* ✅ اول موبایل */
-  gap:15px;
-}
-
-.card{
-  background:white;
-  padding:20px;
-  border-radius:15px;
-  box-shadow:0 10px 20px rgba(0,0,0,0.08);
-  font-size:14px;
-}
-
-/* LOGIN */
-.login-box{
-  margin-top:20px;
-  background:white;
-  padding:20px;
-  border-radius:15px;
-  box-shadow:0 15px 30px rgba(0,0,0,0.1);
-}
-
-input{
-  width:100%;
-  padding:10px;
-  margin:6px 0;
-  border-radius:8px;
-  border:2px solid #ddd;
-}
-
-button.login{
-  width:100%;
-  padding:10px;
-  border:none;
-  border-radius:8px;
-  background:#2d6a4f;
-  color:white;
-  font-size:15px;
-}
-
-#message{
-  margin-top:10px;
-  font-size:13px;
-  color:#d00000;
-}
-
-/* ✅ حالت دسکتاپ */
-@media(min-width:768px){
-
-  .hero{
-    padding:90px 20px;
-  }
-
-  .hero h1{
-    font-size:36px;
-  }
-
-  .hero p{
-    font-size:18px;
-  }
-
-  .features{
-    flex-direction:row;
-    justify-content:center;
-  }
-
-  .card{
-    width:280px;
-  }
-
+#app{
+  min-height:100vh;
 }
 </style>
 </head>
+
 <body>
 
-<!-- HERO -->
-<div class="hero">
-  <h1>🏆 باشگاه نخبگان ریاضی</h1>
-  <p>جایی که مسئله‌ها حل می‌شوند، نه حفظ!</p>
-  <button class="cta" onclick="document.getElementById('loginSection').scrollIntoView({behavior:'smooth'})">
-    ورود دانش‌آموز
-  </button>
+<div id="app">
+  در حال بارگذاری...
 </div>
-
-<!-- FEATURES -->
-<div class="section">
-  <div class="features">
-    <div class="card">
-      🎮 بازی‌های آموزشی
-    </div>
-    <div class="card">
-      📝 تمرین‌های هوشمند
-    </div>
-    <div class="card">
-      📊 آزمون و تحلیل عملکرد
-    </div>
-  </div>
-</div>
-
-<!-- LOGIN -->
-<div class="section" id="loginSection">
-  <div class="login-box">
-    <input type="text" id="phone" placeholder="شماره تلفن">
-    <input type="password" id="password" placeholder="رمز عبور">
-    <button class="login" onclick="login()">ورود</button>
-    <div id="message"></div>
-  </div>
-</div>
-
-<script>
-
-const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-
-async function login(){
-
-  const phone = document.getElementById("phone").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const email = phone + "@school.local";
-
-  document.getElementById("message").innerText = "در حال ورود...";
-
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: email,
-    password: password
-  });
-
-  if(error){
-    document.getElementById("message").innerText =
-      "شماره یا رمز اشتباه است ❌";
-    return;
-  }
-
-  const { data: profile } = await supabaseClient
-    .from("profiles")
-    .select("*")
-    .eq("id", data.user.id)
-    .single();
-// ✅ اگر غیرفعال بود
-if(profile.is_active === false){
-  document.getElementById("message").innerText =
-    "حساب شما غیرفعال شده است. لطفاً با مدیریت تماس بگیرید.";
-  
-  await supabaseClient.auth.signOut();
-  return;
-}
-
-// ✅ اگر ادمین بود
-if(profile.role === "admin"){
-  window.location.href="admin.html";
-  return;
-}
-
-// ✅ اگر دانش‌آموز بود
-if(profile.grade == 7){
-  window.location.href="grade7.html";
-}
-if(profile.grade == 8){
-  window.location.href="grade8.html";
-}
-if(profile.grade == 9){
-  window.location.href="grade9.html";
-}
-}
-
-</script>
 
 </body>
 </html>
