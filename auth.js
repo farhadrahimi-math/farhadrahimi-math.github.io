@@ -2,7 +2,7 @@ import { supabase } from "./config.js";
 
 export async function login(phone, password) {
 
-    const email = `${phone}@student.math`;
+    const email = `${phone}@school.local`;
 
     const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -12,15 +12,22 @@ export async function login(phone, password) {
     if (error) {
         return {
             success: false,
-            message: error.message
+            message: "شماره یا رمز عبور اشتباه است."
         };
     }
 
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", data.user.id)
         .single();
+
+    if (profileError) {
+        return {
+            success: false,
+            message: "اطلاعات کاربر پیدا نشد."
+        };
+    }
 
     if (!profile.is_active) {
 
@@ -34,6 +41,7 @@ export async function login(phone, password) {
 
     return {
         success: true,
-        user: profile
+        profile
     };
+
 }
