@@ -22,7 +22,6 @@ async function authGuard(requiredGrade = null){
     return;
   }
 
-  // ✅ اگر غیرفعال باشد
   if(profile.is_active === false){
     await supabaseClient.auth.signOut();
     alert("حساب شما غیرفعال شده است.");
@@ -30,15 +29,24 @@ async function authGuard(requiredGrade = null){
     return;
   }
 
-  // ✅ اگر ادمین است اجازه بده
   if(profile.role === "admin"){
+    showPage();
     return;
   }
 
-  // ✅ اگر پایه اشتباه باشد
   if(requiredGrade && profile.grade !== requiredGrade){
     window.location.href = "grade"+profile.grade+".html";
     return;
   }
 
+  showPage();
+}
+
+// ✅ نمایش صفحه بعد از تأیید
+function showPage(){
+  const loading = document.getElementById("loading");
+  const content = document.getElementById("content");
+
+  if(loading) loading.style.display="none";
+  if(content) content.style.display="block";
 }
