@@ -96,3 +96,30 @@ export async function requireAuth() {
     return profile;
 
 }
+export function watchProfile(profileId) {
+
+    return supabase
+        .channel("profile-status")
+        .on(
+            "postgres_changes",
+            {
+                event: "UPDATE",
+                schema: "public",
+                table: "profiles",
+                filter: `id=eq.${profileId}`
+            },
+            async (payload) => {
+
+                if (!payload.new.is_active) {
+
+                    alert("حساب شما توسط مدیر غیرفعال شده است.");
+
+                    await logout();
+
+                }
+
+            }
+        )
+        .subscribe();
+
+}
