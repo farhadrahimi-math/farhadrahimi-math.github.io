@@ -59,3 +59,40 @@ export async function logout() {
     location.hash = "login";
 
 }
+export async function requireAuth() {
+
+    const { data } = await supabase.auth.getUser();
+
+    if (!data.user) {
+
+        location.hash = "login";
+        return null;
+
+    }
+
+    const { data: profile } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", data.user.id)
+        .single();
+
+    if (!profile) {
+
+        await logout();
+        return null;
+
+    }
+
+    if (!profile.is_active) {
+
+        alert("حساب شما توسط مدیر غیرفعال شده است.");
+
+        await logout();
+
+        return null;
+
+    }
+
+    return profile;
+
+}
