@@ -3,54 +3,47 @@ import { login } from "../auth.js";
 export function renderLogin() {
 
     document.getElementById("app").innerHTML = `
+        <div class="login">
 
-    <div class="login">
+            <h2>ورود به سامانه</h2>
 
-        <h2>ورود</h2>
+            <input
+                id="phone"
+                type="text"
+                placeholder="شماره موبایل">
 
-        <input
-            id="phone"
-            placeholder="شماره موبایل">
+            <input
+                id="password"
+                type="password"
+                placeholder="رمز عبور">
 
-        <input
-            id="password"
-            type="password"
-            placeholder="رمز عبور">
+            <button id="loginBtn">
+                ورود
+            </button>
 
-        <button id="loginBtn">
-            ورود
-        </button>
+            <p id="message"></p>
 
-        <p id="message"></p>
-
-    </div>
-
+        </div>
     `;
 
-    document
-        .getElementById("loginBtn")
-        .addEventListener("click", async () => {
+    document.getElementById("loginBtn").addEventListener("click", async () => {
 
-            const phone =
-                document.getElementById("phone").value.trim();
+        const phone = document
+            .getElementById("phone")
+            .value
+            .trim()
+            .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
 
-            const password =
-                document.getElementById("password").value;
+        const password = document.getElementById("password").value;
 
-            const result =
-                await login(phone, password);
+        const result = await login(phone, password);
 
-            if (result.success) {
+        if (result.success) {
+            location.hash = "dashboard";
+        } else {
+            document.getElementById("message").textContent = result.message;
+        }
 
-                location.hash = "dashboard";
-
-            } else {
-
-                document.getElementById("message").textContent =
-                    result.message;
-
-            }
-
-        });
+    });
 
 }
