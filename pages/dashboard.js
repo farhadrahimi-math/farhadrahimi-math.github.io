@@ -1,6 +1,7 @@
 import { createAppLayout } from "../components/appLayout.js";
 import { createWelcomeCard } from "../components/dashboard/welcomeCard.js";
 import { getDashboardData } from "../services/dashboardService.js";
+import { createStatsCard } from "../components/dashboard/statsCard.js";
 
 export async function renderDashboard() {
 
@@ -13,6 +14,8 @@ export async function renderDashboard() {
     const content = `
 
         ${createWelcomeCard(data.profile)}
+
+        ${createStatsCard(data.stats)}
 
         <div id="dashboardContent">
 
