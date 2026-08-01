@@ -4,15 +4,14 @@ import { createStatsCard } from "../components/dashboard/statsCard.js";
 import { createChapterList } from "../components/dashboard/chapterList.js";
 
 import { getDashboardData } from "../services/dashboardService.js";
+
 import { navigate } from "../utils/navigation.js";
 
 export async function renderDashboard() {
 
     const data = await getDashboardData();
 
-    if (!data) {
-        return;
-    }
+    if (!data) return;
 
     const content = `
 
@@ -30,23 +29,28 @@ export async function renderDashboard() {
     document.getElementById("app").innerHTML =
         createAppLayout(content, "داشبورد");
 
-    const chapterCards =
-        document.querySelectorAll(".chapter-card");
+    bindDashboardEvents();
 
-    chapterCards.forEach(card => {
+}
 
-        card.addEventListener("click", () => {
+function bindDashboardEvents() {
 
-            navigate("chapter", {
+    document
+        .querySelectorAll(".chapter-card")
+        .forEach(card => {
 
-                grade: card.dataset.grade,
+            card.addEventListener("click", () => {
 
-                chapter: card.dataset.chapter
+                navigate("chapter", {
+
+                    grade: Number(card.dataset.grade),
+
+                    chapter: Number(card.dataset.chapter)
+
+                });
 
             });
 
         });
-
-    });
 
 }
