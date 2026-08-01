@@ -301,3 +301,78 @@
     background:#E5E7EB;
 
 }
+.card{
+
+    display:flex;
+    align-items:center;
+    gap:16px;
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    margin-bottom:14px;
+
+    box-shadow:var(--shadow);
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.card-icon{
+
+    width:52px;
+    height:52px;
+
+    border-radius:14px;
+
+    background:#EFF6FF;
+
+    color:var(--primary);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.card-content{
+
+    flex:1;
+
+}
+
+.card-content h3{
+
+    font-size:16px;
+    font-weight:700;
+
+}
+
+.card-content p{
+
+    margin-top:4px;
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+}
+
+.card-arrow{
+
+    color:#9CA3AF;
+
+}
