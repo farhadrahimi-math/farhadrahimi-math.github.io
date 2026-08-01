@@ -38,6 +38,7 @@ export async function renderDashboard() {
     showBack: false
 
 });
+    import { initializeLayout } from "../core/layout.js";
 
     bindDashboardEvents();
 
