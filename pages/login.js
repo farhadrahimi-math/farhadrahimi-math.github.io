@@ -34,7 +34,7 @@ export function renderLogin() {
     `;
 
     document.getElementById("app").innerHTML =
-        createLayout(content);
+    createLayout(content, "ورود به سامانه");
 
     document
         .getElementById("loginBtn")
