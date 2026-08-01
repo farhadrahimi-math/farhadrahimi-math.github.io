@@ -1,6 +1,7 @@
 import { renderLogin } from "../pages/login.js";
 import { renderDashboard } from "../pages/dashboard.js";
 import { renderAdmin } from "../pages/admin.js";
+import { renderChapter } from "../pages/chapter.js";
 
 import {
     getCurrentUser,
