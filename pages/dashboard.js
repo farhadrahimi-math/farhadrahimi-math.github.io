@@ -1,6 +1,6 @@
 import { createAppLayout } from "../components/appLayout.js";
 
-import { createWelcomeCard } from "../components/dashboard/welcomeCard.js";
+import { createHeroCard } from "../components/heroCard.js";
 import { createStatsCard } from "../components/dashboard/statsCard.js";
 import { createChapterList } from "../components/dashboard/chapterList.js";
 
@@ -16,9 +16,23 @@ export async function renderDashboard() {
 
     if (!data) return;
 
+    const hero = createHeroCard({
+
+        title: `سلام ${data.profile.name} 👋`,
+
+        subtitle: `🎓 ${data.profile.grade === 7
+            ? "پایه هفتم"
+            : data.profile.grade === 8
+            ? "پایه هشتم"
+            : "پایه نهم"}`,
+
+        progress: 0
+
+    });
+
     const content = `
 
-        ${createWelcomeCard(data.profile)}
+        ${hero}
 
         ${createStatsCard(data.stats)}
 
