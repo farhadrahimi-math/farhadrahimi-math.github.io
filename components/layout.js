@@ -1,25 +1,13 @@
-export function createLayout(content) {
+import { createNavbar } from "./navbar.js";
+import { initIcons } from "./icons.js";
 
-    return `
+export function createLayout(content, title = "باشگاه نخبگان ریاضی") {
+
+    const html = `
 
         <div class="app-layout">
 
-            <header class="app-header">
-
-                <img
-                    src="assets/images/logo.svg"
-                    class="header-logo"
-                    alt="Logo">
-
-                <div>
-
-                    <h1>باشگاه نخبگان ریاضی</h1>
-
-                    <p>یادگیری • تمرین • پیشرفت</p>
-
-                </div>
-
-            </header>
+            ${createNavbar(title)}
 
             <main class="app-content">
 
@@ -29,12 +17,19 @@ export function createLayout(content) {
 
             <footer class="app-footer">
 
-                نسخه 1.0.0
+                <small>
+                    باشگاه نخبگان ریاضی • نسخه 1.0.0
+                </small>
 
             </footer>
 
         </div>
 
     `;
+
+    // بعد از رندر، آیکون‌های Lucide را فعال می‌کنیم
+    setTimeout(() => initIcons(), 0);
+
+    return html;
 
 }
