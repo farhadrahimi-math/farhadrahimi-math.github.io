@@ -1,1 +1,61 @@
+:root{
 
+    /* Brand */
+
+    --primary:#2563EB;
+    --primary-dark:#1D4ED8;
+    --primary-light:#DBEAFE;
+
+    /* Secondary */
+
+    --secondary:#F59E0B;
+    --secondary-light:#FEF3C7;
+
+    /* Status */
+
+    --success:#10B981;
+    --success-light:#D1FAE5;
+
+    --warning:#F59E0B;
+    --warning-light:#FEF3C7;
+
+    --danger:#EF4444;
+    --danger-light:#FEE2E2;
+
+    --info:#06B6D4;
+    --info-light:#CFFAFE;
+
+    --purple:#8B5CF6;
+    --purple-light:#EDE9FE;
+
+    /* Background */
+
+    --background:#F8FAFC;
+    --surface:#FFFFFF;
+
+    /* Text */
+
+    --text:#1F2937;
+    --text-light:#6B7280;
+    --text-muted:#9CA3AF;
+
+    /* Border */
+
+    --border:#E5E7EB;
+
+    /* Radius */
+
+    --radius-sm:12px;
+    --radius:16px;
+    --radius-lg:24px;
+
+    /* Shadow */
+
+    --shadow:0 10px 30px rgba(0,0,0,.08);
+    --shadow-lg:0 20px 50px rgba(0,0,0,.15);
+
+    /* Animation */
+
+    --transition:.25s ease;
+
+}
