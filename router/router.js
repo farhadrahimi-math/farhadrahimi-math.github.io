@@ -12,6 +12,8 @@ import {
     stopSessionWatcher
 } from "../session.js";
 
+import { getRoute, navigate } from "../utils/navigation.js";
+
 const routes = {
     login: renderLogin,
     dashboard: renderDashboard,
@@ -23,7 +25,7 @@ let sessionStarted = false;
 
 export async function router() {
 
-    const page = location.hash.replace("#", "") || "login";
+    const { page } = getRoute();
 
     const user = await getCurrentUser();
 
@@ -47,24 +49,26 @@ export async function router() {
 
         stopSessionWatcher();
         sessionStarted = false;
+
     }
 
     if (user && page === "login") {
-        location.hash = "dashboard";
+        navigate("dashboard");
         return;
     }
 
     if (!user && page !== "login") {
-        location.hash = "login";
+        navigate("login");
         return;
     }
 
-    if (routes[page]) {
-        await routes[page]();
+    const render = routes[page];
+
+    if (render) {
+        await render();
     } else {
-        document.getElementById("app").innerHTML = `
-            <h2>صفحه پیدا نشد.</h2>
-        `;
+        document.getElementById("app").innerHTML =
+            "<h2>صفحه پیدا نشد.</h2>";
     }
 
 }
