@@ -1,6 +1,23 @@
+/* Design Tokens */
 @import url("./variables.css");
-@import url("./components.css");
-@import url("./login.css");
+
+/* Components */
+@import url("./components/button.css");
+@import url("./components/input.css");
+@import url("./components/card.css");
+@import url("./components/action-card.css");
+@import url("./components/navbar.css");
+@import url("./components/drawer.css");
+@import url("./components/hero.css");
+@import url("./components/stats.css");
+@import url("./components/chapter-card.css");
+@import url("./components/section.css");
+@import url("./components/toast.css");
+
+/* Pages */
+@import url("./pages/login.css");
+@import url("./pages/dashboard.css");
+@import url("./pages/chapter.css");
 
 *{
     margin:0;
@@ -23,6 +40,11 @@ body{
 button,
 input{
     font-family:inherit;
+}
+
+img{
+    display:block;
+    max-width:100%;
 }
 
 a{
