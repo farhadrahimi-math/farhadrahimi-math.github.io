@@ -1,3 +1,5 @@
+import { APP } from "../config/constants.js";
+
 export function createAuthLayout(content) {
 
     return `
@@ -9,21 +11,27 @@ export function createAuthLayout(content) {
                 <img
                     src="assets/images/logo.svg"
                     class="auth-logo"
-                    alt="Logo">
+                    alt="${APP.NAME}">
 
                 <h1>
 
-                    باشگاه نخبگان ریاضی
+                    ${APP.NAME}
 
                 </h1>
 
                 <p>
 
-                    یادگیری • تمرین • پیشرفت
+                    ${APP.TAGLINE}
 
                 </p>
 
                 ${content}
+
+                <div class="auth-footer">
+
+                    نسخه ${APP.VERSION}
+
+                </div>
 
             </div>
 
