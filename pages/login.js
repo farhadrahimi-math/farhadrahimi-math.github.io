@@ -1,5 +1,5 @@
 import { login } from "../auth.js";
-import { createLayout } from "../components/layout.js";
+import { createAuthLayout } from "../components/authLayout.js";
 import { createInput } from "../components/input.js";
 import { createButton } from "../components/button.js";
 import { showToast } from "../components/toast.js";
