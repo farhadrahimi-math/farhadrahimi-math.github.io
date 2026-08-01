@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+
+    <defs>
+
+        <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+
+            <stop offset="0%" stop-color="#2563EB"/>
+
+            <stop offset="100%" stop-color="#1D4ED8"/>
+
+        </linearGradient>
+
+        <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+
+            <stop offset="0%" stop-color="#FFD54A"/>
+
+            <stop offset="100%" stop-color="#F59E0B"/>
+
+        </linearGradient>
+
+    </defs>
+
+    <!-- روبان -->
+
+    <path
+        d="M90 20 L115 90 L70 70 Z"
+        fill="url(#g1)"
+    />
+
+    <path
+        d="M166 20 L141 90 L186 70 Z"
+        fill="url(#g1)"
+    />
+
+    <!-- مدال -->
+
+    <circle
+        cx="128"
+        cy="140"
+        r="70"
+        fill="url(#gold)"
+    />
+
+    <circle
+        cx="128"
+        cy="140"
+        r="58"
+        fill="#FFFFFF"
+    />
+
+    <!-- π -->
+
+    <text
+        x="128"
+        y="160"
+        text-anchor="middle"
+        font-size="72"
+        font-family="Arial"
+        font-weight="bold"
+        fill="#2563EB">
+
+        π
+
+    </text>
+
+</svg>
