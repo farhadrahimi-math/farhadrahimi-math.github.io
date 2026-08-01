@@ -3,6 +3,7 @@ import { createAuthLayout } from "../components/authLayout.js";
 import { createInput } from "../components/input.js";
 import { createButton } from "../components/button.js";
 import { showToast } from "../components/toast.js";
+import { navigate } from "../utils/navigation.js";
 
 export function renderLogin() {
 
