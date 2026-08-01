@@ -169,3 +169,27 @@
     font-size:14px;
 
 }
+.chapter-status{
+
+    font-size:13px;
+    font-weight:600;
+
+}
+
+.chapter-status.completed{
+
+    color:#10B981;
+
+}
+
+.chapter-status.progress{
+
+    color:#F59E0B;
+
+}
+
+.chapter-status.not-started{
+
+    color:#9CA3AF;
+
+}
