@@ -1,33 +1,56 @@
 import { supabase } from "../config.js";
 
-export async function getChapterContents(grade, chapter) {
+import { chapters } from "../config/chapters.js";
 
-    const { data, error } = await supabase
+import { getProfile } from "../store/appStore.js";
+
+export async function getChapterData(grade, chapter) {
+
+    const profile = getProfile();
+
+    const title =
+        chapters[grade]?.[chapter - 1] || "فصل";
+
+    const { data: contents } = await supabase
         .from("contents")
         .select("*")
         .eq("grade", grade)
-        .eq("chapter", chapter)
-        .order("order_no");
+        .eq("chapter", chapter);
 
-    if (error) {
-        console.error(error);
-        return [];
-    }
-
-    return data;
-
-}
-
-export async function getChapterProgress(userId, grade, chapter) {
-
-    const { data } = await supabase
+    const { data: progress } = await supabase
         .from("user_progress")
         .select("*")
-        .eq("user_id", userId)
+        .eq("user_id", profile.id)
         .eq("grade", grade)
         .eq("chapter", chapter)
         .maybeSingle();
 
-    return data;
+    const games =
+        (contents || []).filter(item => item.type === "game");
+
+    const videos =
+        (contents || []).filter(item => item.type === "video");
+
+    const pdfs =
+        (contents || []).filter(item => item.type === "pdf");
+
+    const links =
+        (contents || []).filter(item => item.type === "link");
+
+    return {
+
+        title,
+
+        progress,
+
+        games,
+
+        videos,
+
+        pdfs,
+
+        links
+
+    };
 
 }
