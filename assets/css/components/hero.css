@@ -1,1 +1,187 @@
+.hero-card{
 
+    position:relative;
+
+    overflow:hidden;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-dark)
+    );
+
+    border-radius:var(--radius-xl);
+
+    padding:var(--space-6);
+
+    margin-bottom:var(--space-6);
+
+    color:#fff;
+
+    box-shadow:var(--shadow-lg);
+
+}
+
+.hero-brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:var(--space-3);
+
+    margin-bottom:var(--space-6);
+
+}
+
+.hero-logo{
+
+    width:48px;
+
+    height:48px;
+
+}
+
+.hero-app-name{
+
+    font-size:var(--font-small);
+
+    font-weight:700;
+
+    opacity:.95;
+
+}
+
+.hero-body h1{
+
+    font-size:var(--font-h1);
+
+    font-weight:800;
+
+    line-height:1.5;
+
+    margin-bottom:var(--space-2);
+
+}
+
+.hero-body p{
+
+    font-size:var(--font-body);
+
+    opacity:.9;
+
+    margin-bottom:var(--space-6);
+
+}
+
+.hero-progress{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.hero-progress-bar{
+
+    width:100%;
+
+    height:10px;
+
+    background:rgba(255,255,255,.20);
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+    margin-bottom:var(--space-2);
+
+}
+
+.hero-progress-fill{
+
+    height:100%;
+
+    border-radius:999px;
+
+    background:#fff;
+
+    transition:width .4s ease;
+
+}
+
+.hero-progress span{
+
+    font-size:var(--font-small);
+
+    font-weight:600;
+
+}
+
+.hero-message{
+
+    margin-top:var(--space-5);
+
+    padding:var(--space-3) var(--space-4);
+
+    border-radius:var(--radius-md);
+
+    background:rgba(255,255,255,.12);
+
+    backdrop-filter:blur(8px);
+
+    font-size:var(--font-small);
+
+    font-weight:600;
+
+}
+
+.hero-circle{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.08);
+
+}
+
+.hero-circle-1{
+
+    width:220px;
+
+    height:220px;
+
+    top:-90px;
+
+    left:-80px;
+
+}
+
+.hero-circle-2{
+
+    width:140px;
+
+    height:140px;
+
+    bottom:-50px;
+
+    right:-30px;
+
+}
+
+@media (max-width:480px){
+
+    .hero-card{
+
+        padding:var(--space-5);
+
+    }
+
+    .hero-body h1{
+
+        font-size:24px;
+
+    }
+
+}
