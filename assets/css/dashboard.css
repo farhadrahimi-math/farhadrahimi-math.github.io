@@ -1,1 +1,17 @@
+.app-layout{
 
+    min-height:100vh;
+
+    background:var(--background);
+
+}
+
+.app-main{
+
+    padding:20px;
+
+    max-width:480px;
+
+    margin:auto;
+
+}
