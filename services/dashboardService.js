@@ -1,5 +1,6 @@
 import { getMyProfile } from "./profileService.js";
 import { getExamResults } from "./examService.js";
+import { chapters } from "../config/chapters.js";
 
 export async function getDashboardData() {
 
@@ -9,11 +10,40 @@ export async function getDashboardData() {
         return null;
     }
 
-    const results = await getExamResults(profile.id);
+    const examResults = await getExamResults(profile.id);
 
     return {
+
         profile,
-        results
+
+        chapters: chapters[profile.grade] || [],
+
+        stats: {
+
+            exams: examResults.length,
+
+            average: calculateAverage(examResults)
+
+        },
+
+        lastExam:
+            examResults.length
+                ? examResults[0]
+                : null
+
     };
+
+}
+
+function calculateAverage(results) {
+
+    if (!results.length) return 0;
+
+    const total = results.reduce(
+        (sum, exam) => sum + exam.score,
+        0
+    );
+
+    return Math.round(total / results.length);
 
 }
