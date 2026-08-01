@@ -3,6 +3,7 @@ import { renderDashboard } from "./pages/dashboard.js";
 import { renderAdmin } from "./pages/admin.js";
 
 import { getCurrentUser, watchProfile } from "./auth.js";
+import { startSessionWatcher, stopSessionWatcher } from "./session.js";
 
 const routes = {
     login: renderLogin,
@@ -11,6 +12,7 @@ const routes = {
 };
 
 let profileChannel = null;
+let sessionStarted = false;
 
 async function router() {
 
@@ -18,12 +20,34 @@ async function router() {
 
     const user = await getCurrentUser();
 
-    // اگر کاربر وارد شده باشد، فقط یک بار Realtime را فعال کن
-    if (user && !profileChannel) {
-        profileChannel = watchProfile(user.id);
+    // اگر کاربر وارد شده باشد
+    if (user) {
+
+        // فقط یک بار Realtime را فعال کن
+        if (!profileChannel) {
+            profileChannel = watchProfile(user.id);
+        }
+
+        // فقط یک بار تایمر عدم فعالیت را فعال کن
+        if (!sessionStarted) {
+            startSessionWatcher();
+            sessionStarted = true;
+        }
+
+    } else {
+
+        // بستن Realtime
+        if (profileChannel) {
+            await profileChannel.unsubscribe();
+            profileChannel = null;
+        }
+
+        // توقف تایمر
+        stopSessionWatcher();
+        sessionStarted = false;
     }
 
-    // اگر کاربر وارد شده باشد و صفحه login را باز کند
+    // اگر کاربر وارد شده باشد و login را باز کند
     if (user && page === "login") {
         location.hash = "dashboard";
         return;
@@ -31,12 +55,6 @@ async function router() {
 
     // اگر وارد نشده باشد
     if (!user && page !== "login") {
-
-        if (profileChannel) {
-            await profileChannel.unsubscribe();
-            profileChannel = null;
-        }
-
         location.hash = "login";
         return;
     }
