@@ -1,6 +1,6 @@
 import { createNavbar } from "./navbar.js";
 import { createDrawer } from "./drawer/drawer.js";
-import { initIcons } from "./icons.js";
+
 
 export function createAppLayout({
 
@@ -36,9 +36,7 @@ export function createAppLayout({
 
     `;
 
-    requestAnimationFrame(() => {
-        initIcons();
-    });
+    
 
     return html;
 
