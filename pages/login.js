@@ -1,87 +1,85 @@
 import { login } from "../auth.js";
+import { createLayout } from "../components/layout.js";
+import { createInput } from "../components/input.js";
+import { createButton } from "../components/button.js";
+import { showToast } from "../components/toast.js";
 
 export function renderLogin() {
 
-    document.getElementById("app").innerHTML = `
+    const content = `
 
         <div class="login">
 
-            <div class="login-header">
+            ${createInput({
+                id: "phone",
+                label: "شماره موبایل",
+                type: "tel",
+                placeholder: "09123456789"
+            })}
 
-                <img
-                    src="assets/images/logo.svg"
-                    class="logo"
-                    alt="باشگاه نخبگان ریاضی">
+            ${createInput({
+                id: "password",
+                label: "رمز عبور",
+                type: "password",
+                placeholder: "رمز عبور"
+            })}
 
-                <h1>باشگاه نخبگان ریاضی</h1>
-
-                <p>
-                    یادگیری • تمرین • پیشرفت
-                </p>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>شماره موبایل</label>
-
-                <input
-                    id="phone"
-                    type="tel"
-                    placeholder="09123456789">
-
-            </div>
-
-            <div class="form-group">
-
-                <label>رمز عبور</label>
-
-                <input
-                    id="password"
-                    type="password"
-                    placeholder="رمز عبور">
-
-            </div>
-
-            <button id="loginBtn">
-
-                ورود به سامانه
-
-            </button>
-
-            <p id="message"></p>
+            ${createButton({
+                id: "loginBtn",
+                text: "ورود به سامانه"
+            })}
 
         </div>
 
     `;
 
+    document.getElementById("app").innerHTML =
+        createLayout(content);
+
     document
         .getElementById("loginBtn")
-        .addEventListener("click", async () => {
+        .addEventListener("click", handleLogin);
 
-            const phone = document
-                .getElementById("phone")
-                .value
-                .trim()
-                .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+}
 
-            const password =
-                document.getElementById("password").value;
+async function handleLogin() {
 
-            const result =
-                await login(phone, password);
+    const phone = document
+        .getElementById("phone")
+        .value
+        .trim()
+        .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
 
-            if (result.success) {
+    const password =
+        document.getElementById("password").value;
 
-                location.hash = "dashboard";
+    const button =
+        document.getElementById("loginBtn");
 
-            } else {
+    button.disabled = true;
+    button.textContent = "در حال ورود...";
 
-                document.getElementById("message").textContent =
-                    result.message;
+    const result = await login(phone, password);
 
-            }
+    if (result.success) {
 
-        });
+        showToast(
+            "خوش آمدید 🌹",
+            "success"
+        );
+
+        location.hash = "dashboard";
+
+    } else {
+
+        showToast(
+            result.message,
+            "error"
+        );
+
+        button.disabled = false;
+        button.textContent = "ورود به سامانه";
+
+    }
 
 }
