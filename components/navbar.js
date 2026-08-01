@@ -1,27 +1,71 @@
-export function createNavbar(title = "باشگاه نخبگان ریاضی") {
+export function createNavbar({
+
+    title = "باشگاه نخبگان ریاضی",
+
+    showBack = false,
+
+    showMenu = true
+
+}) {
 
     return `
 
         <header class="navbar">
 
-            <div class="navbar-title">
+            <div class="navbar-left">
+
+                ${
+                    showBack
+                        ? `
+                            <button
+                                id="backBtn"
+                                class="icon-btn">
+
+                                <i data-lucide="arrow-right"></i>
+
+                            </button>
+                        `
+                        : `
+                            <div class="navbar-space"></div>
+                        `
+                }
+
+            </div>
+
+            <div class="navbar-center">
 
                 <img
                     src="assets/images/logo.svg"
                     class="navbar-logo"
                     alt="Logo">
 
-                <span>${title}</span>
+                <span class="navbar-title">
+
+                    ${title}
+
+                </span>
 
             </div>
 
-            <button
-                id="menuBtn"
-                class="icon-btn">
+            <div class="navbar-right">
 
-                <i data-lucide="menu"></i>
+                ${
+                    showMenu
+                        ? `
+                            <button
+                                id="menuBtn"
+                                class="icon-btn">
 
-            </button>
+                                <i data-lucide="menu"></i>
+
+                            </button>
+                        `
+                        : `
+                            <div class="navbar-space"></div>
+                        `
+                }
+
+            </div>
 
         </header>
 
