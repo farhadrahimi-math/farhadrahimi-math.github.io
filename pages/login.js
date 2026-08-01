@@ -69,7 +69,7 @@ async function handleLogin() {
             "success"
         );
 
-        location.hash = "dashboard";
+        navigate("dashboard");
 
     } else {
 
