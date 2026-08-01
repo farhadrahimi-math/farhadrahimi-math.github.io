@@ -1,9 +1,26 @@
-export function renderDashboard() {
-    document.getElementById("app").innerHTML = `
-        <h1>داشبورد</h1>
+import { createAppLayout } from "../components/appLayout.js";
+import { createWelcomeCard } from "../components/dashboard/welcomeCard.js";
+import { getDashboardData } from "../services/dashboardService.js";
 
-        <button onclick="location.hash='admin'">
-            پنل ادمین
-        </button>
+export async function renderDashboard() {
+
+    const data = await getDashboardData();
+
+    if (!data) {
+        return;
+    }
+
+    const content = `
+
+        ${createWelcomeCard(data.profile)}
+
+        <div id="dashboardContent">
+
+        </div>
+
     `;
+
+    document.getElementById("app").innerHTML =
+        createAppLayout(content, "داشبورد");
+
 }
