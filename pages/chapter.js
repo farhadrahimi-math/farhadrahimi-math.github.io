@@ -1,10 +1,9 @@
 import { createAppLayout } from "../components/appLayout.js";
+import { createActionCard } from "../components/actionCard.js";
 
 import { getRoute } from "../utils/navigation.js";
 
-import { chapters } from "../config/chapters.js";
-
-import { getProfile } from "../store/appStore.js";
+import { getChapterData } from "../services/chapterService.js";
 
 import { initializeLayout } from "../core/layout.js";
 
@@ -16,42 +15,106 @@ export async function renderChapter() {
 
     const chapter = Number(params.chapter);
 
-    const profile = getProfile();
+    const data = await getChapterData(
+        grade,
+        chapter
+    );
 
-    const title =
-        chapters[grade]?.[chapter - 1] || "فصل";
+    const progress = data.progress?.progress ?? 0;
 
     const content = `
 
         <div class="chapter-page">
 
-            <h2>${title}</h2>
+            <div class="chapter-progress">
 
-            <p>
+                <h2>
 
-                پایه ${grade}
+                    پیشرفت شما
 
-            </p>
+                </h2>
 
-            <hr>
+                <div class="progress-bar">
 
-            <p>
+                    <div
+                        class="progress-fill"
+                        style="width:${progress}%">
 
-                شماره فصل: ${chapter}
+                    </div>
 
-            </p>
+                </div>
 
-            <br>
+                <p>
 
-            <h3>🎮 بازی‌های آموزشی</h3>
+                    ${progress}٪ تکمیل شده
 
-            <p>به زودی...</p>
+                </p>
 
-            <br>
+            </div>
 
-            <h3>📝 آزمون‌ها</h3>
+            ${data.games.length ? createActionCard({
 
-            <p>به زودی...</p>
+                title: "بازی‌های آموزشی",
+
+                subtitle: `${data.games.length} بازی`,
+
+                icon: "gamepad-2",
+
+                color: "warning",
+
+                route: "game",
+
+                data: `data-grade="${grade}" data-chapter="${chapter}"`
+
+            }) : ""}
+
+            ${createActionCard({
+
+                title: "آزمون‌های آنلاین",
+
+                subtitle: "مشاهده آزمون‌های فصل",
+
+                icon: "clipboard-list",
+
+                color: "success",
+
+                route: "exam",
+
+                data: `data-grade="${grade}" data-chapter="${chapter}"`
+
+            })}
+
+            ${data.pdfs.length ? createActionCard({
+
+                title: "جزوه آموزشی",
+
+                subtitle: `${data.pdfs.length} فایل`,
+
+                icon: "file-text",
+
+                color: "primary",
+
+                route: "pdf",
+
+                data: `data-grade="${grade}" data-chapter="${chapter}"`
+
+            }) : ""}
+
+            ${data.videos.length ? createActionCard({
+
+                title: "ویدئوهای آموزشی",
+
+                subtitle: `${data.videos.length} ویدئو`,
+
+                icon: "play-circle",
+
+                color: "purple",
+
+                route: "video",
+
+                data: `data-grade="${grade}" data-chapter="${chapter}"`
+
+            }) : ""}
 
         </div>
 
@@ -60,16 +123,35 @@ export async function renderChapter() {
     document.getElementById("app").innerHTML =
         createAppLayout({
 
-            title,
+            title: data.title,
 
             content,
-
-            profile,
 
             showBack: true
 
         });
 
     initializeLayout();
+
+    bindChapterEvents();
+
+}
+
+function bindChapterEvents() {
+
+    document
+        .querySelectorAll(".action-card")
+        .forEach(card => {
+
+            card.addEventListener("click", () => {
+
+                // مرحله بعد این قسمت را
+                // به Router وصل می‌کنیم.
+
+                console.log(card.dataset);
+
+            });
+
+        });
 
 }
