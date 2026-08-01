@@ -15,3 +15,40 @@
     margin:auto;
 
 }
+.welcome-card{
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        #1D4ED8
+    );
+
+    color:white;
+
+    border-radius:24px;
+
+    padding:24px;
+
+    margin-bottom:24px;
+
+    box-shadow:var(--shadow);
+
+}
+
+.welcome-card h2{
+
+    font-size:24px;
+
+    font-weight:800;
+
+    margin-bottom:8px;
+
+}
+
+.welcome-card p{
+
+    opacity:.9;
+
+    font-size:15px;
+
+}
