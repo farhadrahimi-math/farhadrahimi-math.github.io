@@ -18,6 +18,7 @@ import { getRoute, navigate } from "../utils/navigation.js";
 const routes = {
     login: renderLogin,
     dashboard: renderDashboard,
+    chapter: renderChapter,
     admin: renderAdmin,
 };
 
