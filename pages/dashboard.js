@@ -1,9 +1,12 @@
 import { createAppLayout } from "../components/appLayout.js";
+
 import { createWelcomeCard } from "../components/dashboard/welcomeCard.js";
 import { createStatsCard } from "../components/dashboard/statsCard.js";
 import { createChapterList } from "../components/dashboard/chapterList.js";
 
 import { getDashboardData } from "../services/dashboardService.js";
+
+import { initializeLayout } from "../core/layout.js";
 
 import { navigate } from "../utils/navigation.js";
 
@@ -29,16 +32,17 @@ export async function renderDashboard() {
     document.getElementById("app").innerHTML =
         createAppLayout({
 
-    title: "داشبورد",
+            title: "داشبورد",
 
-    content,
+            content,
 
-    profile: data.profile,
+            profile: data.profile,
 
-    showBack: false
+            showBack: false
 
-});
-    import { initializeLayout } from "../core/layout.js";
+        });
+
+    initializeLayout();
 
     bindDashboardEvents();
 
