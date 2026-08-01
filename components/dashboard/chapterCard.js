@@ -1,7 +1,8 @@
 export function createChapterCard({
+    grade,
     number,
     title,
-    status = "not-started"
+    status
 }) {
 
     const statusMap = {
@@ -22,8 +23,10 @@ export function createChapterCard({
     const current = statusMap[status];
 
     return `
-        <div class="chapter-card"
-             data-chapter="${number}">
+        <div
+    class="chapter-card"
+    data-grade="${grade}"
+    data-chapter="${number}">
 
             <div class="chapter-number">
                 ${number}
