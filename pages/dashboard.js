@@ -18,7 +18,10 @@ export async function renderDashboard() {
 
         ${createStatsCard(data.stats)}
 
-        ${createChapterList(data.chapters)}
+        ${createChapterList(
+    data.profile.grade,
+    data.chapters
+)}
 
         <div id="dashboardContent">
 
