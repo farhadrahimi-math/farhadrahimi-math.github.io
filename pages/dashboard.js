@@ -3,6 +3,7 @@ import { createWelcomeCard } from "../components/dashboard/welcomeCard.js";
 import { getDashboardData } from "../services/dashboardService.js";
 import { createStatsCard } from "../components/dashboard/statsCard.js";
 import { createChapterList } from "../components/dashboard/chapterList.js";
+import { navigate } from "../utils/navigation.js";
 
 export async function renderDashboard() {
 
@@ -33,3 +34,17 @@ export async function renderDashboard() {
         createAppLayout(content, "داشبورد");
 
 }
+const chapterCards = document.querySelectorAll(".chapter-card");
+
+chapterCards.forEach(card => {
+
+    card.addEventListener("click", () => {
+
+        navigate("chapter", {
+            grade: card.dataset.grade,
+            chapter: card.dataset.chapter
+        });
+
+    });
+
+});
