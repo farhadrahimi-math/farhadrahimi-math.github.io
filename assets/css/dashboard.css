@@ -102,3 +102,70 @@
     font-size:14px;
 
 }
+.chapter-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    background:#fff;
+
+    padding:18px;
+
+    border-radius:18px;
+
+    margin-bottom:14px;
+
+    box-shadow:var(--shadow);
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.chapter-card:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.chapter-number{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:14px;
+
+    background:var(--primary);
+
+    color:#fff;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:800;
+
+}
+
+.chapter-info h3{
+
+    font-size:16px;
+
+    margin-bottom:4px;
+
+}
+
+.chapter-info p{
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+}
