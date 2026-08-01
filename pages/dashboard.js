@@ -1,8 +1,9 @@
 import { createAppLayout } from "../components/appLayout.js";
 import { createWelcomeCard } from "../components/dashboard/welcomeCard.js";
-import { getDashboardData } from "../services/dashboardService.js";
 import { createStatsCard } from "../components/dashboard/statsCard.js";
 import { createChapterList } from "../components/dashboard/chapterList.js";
+
+import { getDashboardData } from "../services/dashboardService.js";
 import { navigate } from "../utils/navigation.js";
 
 export async function renderDashboard() {
@@ -20,31 +21,32 @@ export async function renderDashboard() {
         ${createStatsCard(data.stats)}
 
         ${createChapterList(
-    data.profile.grade,
-    data.chapters
-)}
-
-        <div id="dashboardContent">
-
-        </div>
+            data.profile.grade,
+            data.chapters
+        )}
 
     `;
 
     document.getElementById("app").innerHTML =
         createAppLayout(content, "داشبورد");
 
-}
-const chapterCards = document.querySelectorAll(".chapter-card");
+    const chapterCards =
+        document.querySelectorAll(".chapter-card");
 
-chapterCards.forEach(card => {
+    chapterCards.forEach(card => {
 
-    card.addEventListener("click", () => {
+        card.addEventListener("click", () => {
 
-        navigate("chapter", {
-            grade: card.dataset.grade,
-            chapter: card.dataset.chapter
+            navigate("chapter", {
+
+                grade: card.dataset.grade,
+
+                chapter: card.dataset.chapter
+
+            });
+
         });
 
     });
 
-});
+}
