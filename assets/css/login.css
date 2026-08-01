@@ -68,3 +68,15 @@
     margin-bottom:36px;
 
 }
+
+.auth-footer{
+
+    margin-top:32px;
+
+    text-align:center;
+
+    font-size:13px;
+
+    color:var(--text-light);
+
+}
