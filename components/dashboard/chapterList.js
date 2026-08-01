@@ -6,18 +6,27 @@ export function createChapterList(grade, chapters) {
     const cards = chapters.map((title, index) => {
 
         return createChapterCard({
-    grade,
-    number: index + 1,
-    title,
-    status: "not_started"
-});
+
+            grade,
+
+            number: index + 1,
+
+            title,
+
+            status: "not_started"
+
+        });
 
     }).join("");
 
     return createSection({
+
         title: "فصل‌های ریاضی",
+
         icon: "book-open",
+
         content: cards
+
     });
 
 }
