@@ -52,3 +52,53 @@
     font-size:15px;
 
 }
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:16px;
+
+    margin-bottom:24px;
+
+}
+
+.stat-card{
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+}
+
+.stat-value{
+
+    display:block;
+
+    font-size:34px;
+
+    font-weight:800;
+
+    color:var(--primary);
+
+}
+
+.stat-title{
+
+    display:block;
+
+    margin-top:8px;
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+}
