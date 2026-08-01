@@ -27,7 +27,17 @@ export async function renderDashboard() {
     `;
 
     document.getElementById("app").innerHTML =
-        createAppLayout(content, "داشبورد");
+        createAppLayout({
+
+    title: "داشبورد",
+
+    content,
+
+    profile: data.profile,
+
+    showBack: false
+
+});
 
     bindDashboardEvents();
 
