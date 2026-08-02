@@ -26,27 +26,28 @@
 
     display:flex;
 
+    justify-content:center;
+
     align-items:center;
 
-    gap:var(--space-3);
-
-    margin-bottom:var(--space-6);
+    margin-bottom:24px;
 
 }
 
 .hero-logo{
-
-    width:56px;
-    height:56px;
 
     display:flex;
 
     justify-content:center;
     align-items:center;
 
-    font-size:42px;
+    font-size:64px;
 
     line-height:1;
+
+    width:80px;
+
+    height:80px;
 
 }
 
