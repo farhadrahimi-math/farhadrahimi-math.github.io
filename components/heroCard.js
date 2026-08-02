@@ -13,19 +13,11 @@ export function createHeroCard({
 
             <div class="hero-brand">
 
-                <div class="hero-logo">
-    🏆
+    <div class="hero-logo">
+        🏆
+    </div>
+
 </div>
-
-                <div>
-
-                    <span class="hero-app-name">
-                        ${APP.NAME}
-                    </span>
-
-                </div>
-
-            </div>
 
             <div class="hero-body">
 
