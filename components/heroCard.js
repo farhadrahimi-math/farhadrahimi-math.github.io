@@ -17,6 +17,14 @@ export function createHeroCard({
         🏆
     </div>
 
+    <div>
+
+        <span class="hero-app-name">
+            ${APP.NAME}
+        </span>
+
+    </div>
+
 </div>
 
             <div class="hero-body">
