@@ -13,17 +13,15 @@ export function createHeroCard({
 
             <div class="hero-brand">
 
-    <div class="hero-brand">
+                <div class="hero-logo">
+                    🏆
+                </div>
 
-    <div class="hero-logo">
-        🏆
-    </div>
+                <h3 class="hero-app-name">
+                    ${APP.NAME}
+                </h3>
 
-    <h3 class="hero-app-name">
-        ${APP.NAME}
-    </h3>
-
-</div>
+            </div>
 
             <div class="hero-body">
 
