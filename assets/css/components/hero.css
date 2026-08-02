@@ -26,9 +26,11 @@
 
     display:flex;
 
-    justify-content:center;
+    flex-direction:column;
 
     align-items:center;
+
+    justify-content:center;
 
     margin-bottom:24px;
 
@@ -36,26 +38,22 @@
 
 .hero-logo{
 
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
     font-size:64px;
 
     line-height:1;
 
-    width:80px;
-
-    height:80px;
+    margin-bottom:10px;
 
 }
-
 .hero-app-name{
 
-    font-size:var(--font-small);
+    font-size:18px;
 
     font-weight:700;
+
+    color:#fff;
+
+    text-align:center;
 
     opacity:.95;
 
