@@ -13,10 +13,9 @@ export function createHeroCard({
 
             <div class="hero-brand">
 
-                <img
-                    src="assets/images/logo.svg"
-                    class="hero-logo"
-                    alt="${APP.NAME}">
+                <div class="hero-logo">
+    🏆
+</div>
 
                 <div>
 
