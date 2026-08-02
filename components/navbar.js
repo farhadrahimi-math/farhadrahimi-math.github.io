@@ -34,10 +34,9 @@ export function createNavbar({
 
             <div class="navbar-center">
 
-                <img
-                    src="assets/images/logo.svg"
-                    class="navbar-logo"
-                    alt="Logo">
+                <div class="navbar-logo">
+    🏆
+</div>
 
                 <span class="navbar-title">
 
