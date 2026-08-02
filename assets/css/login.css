@@ -37,13 +37,13 @@
 
 .auth-logo{
 
-    width:90px;
+    font-size:72px;
 
-    display:block;
+    text-align:center;
 
-    margin:auto;
+    line-height:1;
 
-    margin-bottom:18px;
+    margin-bottom:20px;
 
 }
 
