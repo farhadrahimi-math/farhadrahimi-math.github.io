@@ -541,10 +541,18 @@
 .drawer-avatar{
 
     width:72px;
-
     height:72px;
 
-    margin-bottom:12px;
+    margin:0 auto 12px;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    font-size:56px;
+
+    line-height:1;
 
 }
 
