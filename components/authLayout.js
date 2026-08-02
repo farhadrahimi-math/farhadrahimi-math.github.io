@@ -8,10 +8,9 @@ export function createAuthLayout(content) {
 
             <div class="auth-card">
 
-                <img
-                    src="assets/images/logo.svg"
-                    class="auth-logo"
-                    alt="${APP.NAME}">
+                <div class="auth-logo">
+    🏆
+</div>
 
                 <h1>
 
