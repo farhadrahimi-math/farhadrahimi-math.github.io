@@ -4,11 +4,9 @@ export function createDrawerHeader(profile) {
 
         <div class="drawer-header">
 
-            <img
-                src="assets/images/logo.svg"
-                class="drawer-avatar"
-                alt="Logo">
-
+            <div class="drawer-avatar">
+    🏆
+</div>
             <h3>
 
                 ${profile.name}
