@@ -8,7 +8,6 @@ export async function renderAdmin() {
 
     const profile = getProfile();
 
-    // محافظت از پنل مدیریت
     if (!profile || profile.role !== "admin") {
         navigate("dashboard");
         return;
@@ -16,37 +15,35 @@ export async function renderAdmin() {
 
     const students = await getStudents();
 
-    const studentCards = students.length
-        ? students.map(createStudentCard).join("")
-        : `
-            <div class="admin-empty">
-                هنوز دانش‌آموزی ثبت نشده است.
-            </div>
-        `;
-
     const content = `
 
         <div class="admin-page">
 
-            <div class="admin-heading">
+            <div class="admin-header">
 
                 <div>
-                    <h1>دانش‌آموزان</h1>
+                    <h2>مدیریت دانش‌آموزان</h2>
                     <p>${students.length} دانش‌آموز</p>
                 </div>
 
-                <button
-                    id="addStudentBtn"
-                    class="btn admin-add-btn">
-
+                <button id="addStudentBtn" class="btn">
                     افزودن دانش‌آموز
-
                 </button>
 
             </div>
 
             <div class="student-list">
-                ${studentCards}
+
+                ${
+                    students.length
+                        ? students.map(createStudentCard).join("")
+                        : `
+                            <div class="empty-state">
+                                هنوز دانش‌آموزی ثبت نشده است.
+                            </div>
+                        `
+                }
+
             </div>
 
         </div>
@@ -88,11 +85,7 @@ function createStudentCard(student) {
                 student.is_active ? "active" : "inactive"
             }">
 
-                ${
-                    student.is_active
-                        ? "فعال"
-                        : "غیرفعال"
-                }
+                ${student.is_active ? "فعال" : "غیرفعال"}
 
             </span>
 
@@ -110,5 +103,4 @@ function bindAdminEvents() {
             console.log("Add student");
 
         });
-
 }
