@@ -13,7 +13,14 @@ import {
     stopSessionWatcher
 } from "../session.js";
 
-import { getRoute, navigate } from "../utils/navigation.js";
+import {
+    getProfile
+} from "../store/appStore.js";
+
+import {
+    getRoute,
+    navigate
+} from "../utils/navigation.js";
 
 const routes = {
     login: renderLogin,
@@ -51,16 +58,51 @@ export async function router() {
 
         stopSessionWatcher();
         sessionStarted = false;
-
     }
 
-    if (user && page === "login") {
+    // کاربر وارد نشده
+    if (!user) {
+
+        if (page !== "login") {
+            navigate("login");
+        }
+
+        return;
+    }
+
+    const profile = getProfile();
+
+    if (!profile) {
+        return;
+    }
+
+    // کاربر واردشده دوباره Login را باز کرده
+    if (page === "login") {
+
+        if (profile.role === "admin") {
+            navigate("admin");
+        } else {
+            navigate("dashboard");
+        }
+
+        return;
+    }
+
+    // دانش‌آموز اجازه ورود به پنل مدیریت ندارد
+    if (
+        page === "admin" &&
+        profile.role !== "admin"
+    ) {
         navigate("dashboard");
         return;
     }
 
-    if (!user && page !== "login") {
-        navigate("login");
+    // مدیر وارد داشبورد دانش‌آموز نشود
+    if (
+        page === "dashboard" &&
+        profile.role === "admin"
+    ) {
+        navigate("admin");
         return;
     }
 
@@ -68,9 +110,9 @@ export async function router() {
 
     if (render) {
         await render();
-    } else {
-        document.getElementById("app").innerHTML =
-            "<h2>صفحه پیدا نشد.</h2>";
+        return;
     }
 
+    document.getElementById("app").innerHTML =
+        "<h2>صفحه پیدا نشد.</h2>";
 }
