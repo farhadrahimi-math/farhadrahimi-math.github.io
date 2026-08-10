@@ -122,93 +122,96 @@
     transform:scale(.97);
 }
 .chapter-card{
-
     display:flex;
-
     align-items:center;
+    gap:14px;
 
-    gap:16px;
+    min-height:82px;
+    padding:14px 16px;
+    margin-bottom:12px;
 
     background:#fff;
 
-    padding:18px;
+    border:1px solid rgba(15,23,42,.05);
+    border-radius:20px;
 
-    border-radius:18px;
-
-    margin-bottom:14px;
-
-    box-shadow:var(--shadow);
+    box-shadow:0 6px 20px rgba(15,23,42,.05);
 
     cursor:pointer;
-
-    transition:.2s;
-
+    transition:transform .2s ease, box-shadow .2s ease;
 }
 
-.chapter-card:hover{
-
-    transform:translateY(-2px);
-
+.chapter-card:active{
+    transform:scale(.98);
 }
 
 .chapter-number{
+    flex:0 0 52px;
 
-    width:48px;
+    width:52px;
+    height:52px;
 
-    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    border-radius:14px;
+    border-radius:16px;
 
-    background:var(--primary);
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-dark)
+    );
 
     color:#fff;
 
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
+    font-size:20px;
     font-weight:800;
 
+    box-shadow:0 6px 16px rgba(37,99,235,.20);
+}
+
+.chapter-info{
+    flex:1;
+    min-width:0;
 }
 
 .chapter-info h3{
+    margin:0 0 6px;
+
+    color:var(--text);
 
     font-size:16px;
-
-    margin-bottom:4px;
-
+    font-weight:800;
+    line-height:1.6;
 }
 
 .chapter-info p{
-
-    color:var(--text-light);
-
-    font-size:14px;
-
+    margin:0;
 }
-.chapter-status{
 
+.chapter-status{
     font-size:13px;
     font-weight:600;
-
 }
 
 .chapter-status.completed{
-
-    color:#10B981;
-
+    color:var(--success);
 }
 
 .chapter-status.progress{
-
-    color:#F59E0B;
-
+    color:var(--warning);
 }
 
 .chapter-status.not-started{
+    color:var(--text-muted);
+}
 
-    color:#9CA3AF;
+@media (hover:hover){
+
+    .chapter-card:hover{
+        transform:translateY(-2px);
+        box-shadow:0 10px 26px rgba(15,23,42,.09);
+    }
 
 }
