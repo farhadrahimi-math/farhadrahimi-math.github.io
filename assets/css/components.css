@@ -225,111 +225,87 @@
 
 }
 .navbar{
-    width:calc(100% - 32px);
-    max-width:448px;
+    height:72px;
 
-    height:64px;
-
-    display:grid;
-    grid-template-columns:44px 1fr 44px;
+    display:flex;
     align-items:center;
+    justify-content:space-between;
 
-    margin:16px auto;
-    padding:0 10px;
+    padding:0 16px;
 
-    background:rgba(255,255,255,.94);
+    background:#fff;
 
-    border:1px solid rgba(15,23,42,.05);
     border-radius:20px;
+    margin:20px;
 
-    box-shadow:0 8px 24px rgba(15,23,42,.06);
+    box-shadow:var(--shadow);
 
     position:sticky;
-    top:12px;
+    top:0;
     z-index:100;
 }
 
 .navbar-left,
 .navbar-right{
-    width:44px;
+    width:48px;
 
     display:flex;
-    align-items:center;
     justify-content:center;
 }
 
 .navbar-center{
-    min-width:0;
+    flex:1;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    gap:8px;
+    gap:12px;
 }
 
 .navbar-logo{
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    width:36px;
+    height:36px;
 
-    font-size:26px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:28px;
     line-height:1;
 }
 
 .navbar-title{
-    overflow:hidden;
-
-    color:var(--text);
-
-    font-size:16px;
+    font-size:18px;
     font-weight:800;
-
-    white-space:nowrap;
-    text-overflow:ellipsis;
+    color:var(--text);
 }
 
 .navbar-space{
-    width:40px;
-    height:40px;
+    width:44px;
+    height:44px;
 }
 
 .icon-btn{
-    width:40px;
-    height:40px;
+    width:44px;
+    height:44px;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    border:none;
+    background:#F3F4F6;
 
-    padding:0;
-
-    border:0;
     border-radius:12px;
 
-    background:#F1F5F9;
-    color:var(--text);
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
     cursor:pointer;
-
-    transition:.2s ease;
+    transition:.2s;
 }
 
-.icon-btn svg{
-    width:21px;
-    height:21px;
+.icon-btn:hover{
+    background:#E5E7EB;
 }
-
-.icon-btn:active{
-    transform:scale(.93);
-    background:#E2E8F0;
-}
-
-@media (hover:hover){
-
-    .icon-btn:hover{
-        background:#E2E8F0;
-    }
 
 
 
