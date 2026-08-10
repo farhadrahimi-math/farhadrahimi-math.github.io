@@ -13,7 +13,12 @@ import {
     stopSessionWatcher
 } from "../session.js";
 
-import { getRoute, navigate } from "../utils/navigation.js";
+import { getMyProfile } from "../services/profileService.js";
+
+import {
+    getRoute,
+    navigate
+} from "../utils/navigation.js";
 
 const routes = {
     login: renderLogin,
@@ -31,18 +36,8 @@ export async function router() {
 
     const user = await getCurrentUser();
 
-    if (user) {
-
-        if (!profileChannel) {
-            profileChannel = watchProfile(user.id);
-        }
-
-        if (!sessionStarted) {
-            startSessionWatcher();
-            sessionStarted = true;
-        }
-
-    } else {
+    // کاربر وارد نشده
+    if (!user) {
 
         if (profileChannel) {
             await profileChannel.unsubscribe();
@@ -52,15 +47,60 @@ export async function router() {
         stopSessionWatcher();
         sessionStarted = false;
 
+        if (page !== "login") {
+            navigate("login");
+            return;
+        }
+
+        await renderLogin();
+        return;
     }
 
-    if (user && page === "login") {
+    // Realtime
+    if (!profileChannel) {
+        profileChannel = watchProfile(user.id);
+    }
+
+    // Idle timeout
+    if (!sessionStarted) {
+        startSessionWatcher();
+        sessionStarted = true;
+    }
+
+    // دریافت پروفایل واقعی از Supabase
+    const profile = await getMyProfile();
+
+    if (!profile) {
+        return;
+    }
+
+    // ورود مدیر
+    if (page === "login" && profile.role === "admin") {
+        navigate("admin");
+        return;
+    }
+
+    // ورود دانش‌آموز
+    if (page === "login") {
         navigate("dashboard");
         return;
     }
 
-    if (!user && page !== "login") {
-        navigate("login");
+    // جلوگیری از ورود دانش‌آموز به Admin
+    if (
+        page === "admin" &&
+        profile.role !== "admin"
+    ) {
+        navigate("dashboard");
+        return;
+    }
+
+    // مدیر نباید Dashboard دانش‌آموز را ببیند
+    if (
+        page === "dashboard" &&
+        profile.role === "admin"
+    ) {
+        navigate("admin");
         return;
     }
 
@@ -68,9 +108,9 @@ export async function router() {
 
     if (render) {
         await render();
-    } else {
-        document.getElementById("app").innerHTML =
-            "<h2>صفحه پیدا نشد.</h2>";
+        return;
     }
 
+    document.getElementById("app").innerHTML =
+        "<h2>صفحه پیدا نشد.</h2>";
 }
