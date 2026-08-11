@@ -1,8 +1,14 @@
 import { createAppLayout } from "../components/appLayout.js";
-import { getStudents } from "../services/studentService.js";
+
+import {
+    getStudents,
+    setStudentActive
+} from "../services/studentService.js";
+
 import { getProfile } from "../store/appStore.js";
 import { initializeLayout } from "../core/layout.js";
 import { navigate } from "../utils/navigation.js";
+import { showToast } from "../components/toast.js";
 
 export async function renderAdmin() {
 
@@ -81,13 +87,36 @@ function createStudentCard(student) {
 
             </div>
 
-            <span class="student-status ${
-                student.is_active ? "active" : "inactive"
-            }">
+            <div class="student-actions">
 
-                ${student.is_active ? "فعال" : "غیرفعال"}
+                <span class="student-status ${
+                    student.is_active
+                        ? "active"
+                        : "inactive"
+                }">
 
-            </span>
+                    ${
+                        student.is_active
+                            ? "فعال"
+                            : "غیرفعال"
+                    }
+
+                </span>
+
+                <button
+                    class="toggle-student-btn"
+                    data-user-id="${student.id}"
+                    data-active="${student.is_active}">
+
+                    ${
+                        student.is_active
+                            ? "غیرفعال کردن"
+                            : "فعال کردن"
+                    }
+
+                </button>
+
+            </div>
 
         </div>
 
@@ -100,7 +129,63 @@ function bindAdminEvents() {
         .getElementById("addStudentBtn")
         ?.addEventListener("click", () => {
 
-            console.log("Add student");
+            showToast(
+                "فرم افزودن دانش‌آموز در مرحله بعد ساخته می‌شود.",
+                "info"
+            );
 
         });
+
+    document
+        .querySelectorAll(".toggle-student-btn")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                handleStudentStatus
+            );
+
+        });
+}
+
+async function handleStudentStatus(event) {
+
+    const button = event.currentTarget;
+
+    const userId = button.dataset.userId;
+
+    const currentlyActive =
+        button.dataset.active === "true";
+
+    const newStatus = !currentlyActive;
+
+    button.disabled = true;
+
+    button.textContent = "در حال تغییر...";
+
+    const result = await setStudentActive(
+        userId,
+        newStatus
+    );
+
+    if (!result.success) {
+
+        showToast(
+            result.message,
+            "error"
+        );
+
+        button.disabled = false;
+
+        return;
+    }
+
+    showToast(
+        newStatus
+            ? "دانش‌آموز فعال شد."
+            : "دانش‌آموز غیرفعال شد.",
+        "success"
+    );
+
+    await renderAdmin();
 }
