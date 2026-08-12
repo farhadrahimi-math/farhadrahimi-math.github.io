@@ -19,6 +19,7 @@
             margin: 0;
             background: #f5f7fb;
             text-align: center;
+            color: #1f2937;
         }
 
         .game {
@@ -34,6 +35,47 @@
             background: #2563eb;
             color: white;
             font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #leaderboard {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 16px;
+        }
+
+        .leaderboard-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin: 8px 0;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .leaderboard-player {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .leaderboard-score {
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            color: #2563eb;
+            text-decoration: none;
         }
 
     </style>
@@ -48,79 +90,266 @@
             🎮 نام بازی
         </h1>
 
-        <p id="playerName"></p>
+        <p id="playerName">
+        </p>
+
 
         <div id="gameArea">
 
-            <!-- محتوای بازی اینجا -->
+            <!--
+                منطق و ظاهر بازی جدید
+                در این قسمت قرار می‌گیرد
+            -->
 
         </div>
 
+
         <p id="score">
-            امتیاز: 0
+            امتیاز: 80
         </p>
 
+
         <button
-            type="button"
-            onclick="finishGame()">
+            id="finishBtn"
+            type="button">
 
             پایان بازی
 
         </button>
 
-        <p>
-            <a href="/#game">
-                بازگشت به بازی‌ها
-            </a>
-        </p>
+
+        <div id="leaderboard">
+
+            <h2>
+                🏆 برترین‌های این بازی
+            </h2>
+
+            <div id="leaderboardList">
+
+                در حال دریافت...
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="/#game"
+            class="back-link">
+
+            ← بازگشت به بازی‌ها
+
+        </a>
 
     </main>
 
 
     <script src="/games/game-sdk.js"></script>
 
+
     <script>
 
         /*
-         * این عدد برای هر بازی متفاوت است.
-         * همان ID بازی در جدول contents است.
+         * برای هر بازی این ID
+         * باید مطابق contents باشد.
          */
         const GAME_ID = 1;
+
 
         const player =
             GameSDK.init(GAME_ID);
 
-        document.getElementById(
-            "playerName"
-        ).textContent =
+
+        document
+            .getElementById(
+                "playerName"
+            )
+            .textContent =
             `بازیکن: ${player.playerName}`;
 
 
+        /*
+         * فعلاً برای تست 80 است.
+         * در بازی واقعی محاسبه می‌شود.
+         */
         let score = 80;
 
 
-        /*
-         * منطق اصلی بازی اینجا نوشته می‌شود.
-         */
+        document
+            .getElementById(
+                "finishBtn"
+            )
+            .addEventListener(
+                "click",
+                finishGame
+            );
 
 
         async function finishGame() {
 
-    const result =
-        await GameSDK.finishGame(80);
+            const button =
+                document.getElementById(
+                    "finishBtn"
+                );
 
-    if (result?.success) {
 
-        alert("امتیاز ۸۰ با موفقیت ثبت شد");
+            button.disabled = true;
 
-    } else {
+            button.textContent =
+                "در حال ثبت امتیاز...";
 
-        alert(
-            result?.message ||
-            "ثبت امتیاز ناموفق بود"
-        );
-    }
-}
+
+            const result =
+                await GameSDK.finishGame(
+                    score
+                );
+
+
+            if (result?.success) {
+
+                button.textContent =
+                    "امتیاز ثبت شد ✅";
+
+
+                await showLeaderboard();
+
+                return;
+            }
+
+
+            button.disabled = false;
+
+            button.textContent =
+                "تلاش مجدد";
+
+
+            alert(
+                result?.message ||
+                "ثبت امتیاز انجام نشد."
+            );
+        }
+
+
+        async function showLeaderboard() {
+
+            const scores =
+                await GameSDK
+                    .getLeaderboard(10);
+
+
+            const list =
+                document.getElementById(
+                    "leaderboardList"
+                );
+
+
+            if (!scores.length) {
+
+                list.innerHTML =
+                    "هنوز امتیازی ثبت نشده است.";
+
+                return;
+            }
+
+
+            list.innerHTML =
+                scores
+                    .map(
+                        (item, index) => {
+
+                            let rank;
+
+
+                            if (index === 0) {
+
+                                rank = "🥇";
+
+                            } else if (
+                                index === 1
+                            ) {
+
+                                rank = "🥈";
+
+                            } else if (
+                                index === 2
+                            ) {
+
+                                rank = "🥉";
+
+                            } else {
+
+                                rank =
+                                    `${index + 1}.`;
+                            }
+
+
+                            return `
+
+                                <div
+                                    class="leaderboard-row">
+
+                                    <div
+                                        class="leaderboard-player">
+
+                                        <span>
+                                            ${rank}
+                                        </span>
+
+                                        <span>
+                                            ${escapeHtml(
+                                                item.player_name
+                                            )}
+                                        </span>
+
+                                    </div>
+
+                                    <span
+                                        class="leaderboard-score">
+
+                                        ${item.score}
+
+                                    </span>
+
+                                </div>
+
+                            `;
+                        }
+                    )
+                    .join("");
+        }
+
+
+        function escapeHtml(value) {
+
+            return String(value ?? "")
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+        }
+
+
+        /*
+         * جدول برترین‌ها هنگام
+         * ورود به بازی هم نمایش داده شود.
+         */
+        showLeaderboard();
 
     </script>
 
