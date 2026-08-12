@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>بازی ریاضی</title>
+
+    <style>
+
+        body {
+            font-family: Tahoma, sans-serif;
+            margin: 0;
+            background: #f5f7fb;
+            text-align: center;
+        }
+
+        .game {
+            max-width: 700px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: 0;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <main class="game">
+
+        <h1>
+            🎮 نام بازی
+        </h1>
+
+        <p id="playerName"></p>
+
+        <div id="gameArea">
+
+            <!-- محتوای بازی اینجا -->
+
+        </div>
+
+        <p id="score">
+            امتیاز: 0
+        </p>
+
+        <button
+            type="button"
+            onclick="finishGame()">
+
+            پایان بازی
+
+        </button>
+
+        <p>
+            <a href="/#game">
+                بازگشت به بازی‌ها
+            </a>
+        </p>
+
+    </main>
+
+
+    <script src="/games/game-sdk.js"></script>
+
+    <script>
+
+        /*
+         * این عدد برای هر بازی متفاوت است.
+         * همان ID بازی در جدول contents است.
+         */
+        const GAME_ID = 1;
+
+        const player =
+            GameSDK.init(GAME_ID);
+
+        document.getElementById(
+            "playerName"
+        ).textContent =
+            `بازیکن: ${player.playerName}`;
+
+
+        let score = 0;
+
+
+        /*
+         * منطق اصلی بازی اینجا نوشته می‌شود.
+         */
+
+
+        function finishGame() {
+
+            GameSDK.finishGame(score);
+
+            alert(
+                `بازی تمام شد. امتیاز شما: ${score}`
+            );
+        }
+
+    </script>
+
+</body>
+
+</html>
