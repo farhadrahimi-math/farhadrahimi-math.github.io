@@ -136,6 +136,45 @@ const GameSDK = {
     },
 
 
+    async getLeaderboard(limit = 10) {
+
+    try {
+
+        const url =
+            `${this.supabaseUrl}/rest/v1/game_scores` +
+            `?game_id=eq.${this.gameId}` +
+            `&select=player_name,score,created_at` +
+            `&order=score.desc,created_at.asc` +
+            `&limit=${limit}`;
+
+        const response =
+            await fetch(url, {
+                headers: {
+                    "apikey": this.anonKey,
+                    "Authorization":
+                        `Bearer ${this.anonKey}`
+                }
+            });
+
+        if (!response.ok) {
+            throw new Error(
+                "دریافت جدول برترین‌ها ناموفق بود."
+            );
+        }
+
+        return await response.json();
+
+    } catch (error) {
+
+        console.error(
+            "Leaderboard error:",
+            error
+        );
+
+        return [];
+    }
+},
+    
     reset() {
 
         this.finished = false;
