@@ -19,6 +19,73 @@ import {
     bindModalClose
 } from "../components/modal.js";
 
+function createAddStudentModal() {
+
+    const formContent = `
+
+        <form id="addStudentForm">
+
+            ${createInput({
+                id: "studentName",
+                label: "نام دانش‌آموز",
+                type: "text",
+                placeholder: "مثلاً علی احمدی"
+            })}
+
+            ${createInput({
+                id: "studentPhone",
+                label: "شماره موبایل",
+                type: "tel",
+                placeholder: "09123456789"
+            })}
+
+            ${createInput({
+                id: "studentPassword",
+                label: "رمز عبور",
+                type: "password",
+                placeholder: "رمز عبور"
+            })}
+
+            <div class="input-group">
+
+                <label for="studentGrade">
+                    پایه
+                </label>
+
+                <select id="studentGrade">
+
+                    <option value="">
+                        انتخاب پایه
+                    </option>
+
+                    <option value="7">
+                        پایه هفتم
+                    </option>
+
+                    <option value="8">
+                        پایه هشتم
+                    </option>
+
+                    <option value="9">
+                        پایه نهم
+                    </option>
+
+                </select>
+
+            </div>
+
+        </form>
+
+    `;
+
+    return createModal({
+        id: "addStudentModal",
+        title: "افزودن دانش‌آموز",
+        content: formContent,
+        submitText: "ثبت دانش‌آموز"
+    });
+}
+
 export async function renderAdmin() {
 
     const profile = getProfile();
