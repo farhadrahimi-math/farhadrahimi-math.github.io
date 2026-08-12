@@ -2,12 +2,8 @@
 <html lang="fa" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>🔢 بازی کشف الگو</title>
 
@@ -20,31 +16,23 @@
 body {
     margin: 0;
     font-family: Tahoma, sans-serif;
-    background: linear-gradient(
-        135deg,
-        #c2ffd8,
-        #465efb
-    );
+    background: linear-gradient(135deg,#c2ffd8,#465efb);
     min-height: 100vh;
-    padding: 15px;
+    padding: 12px;
     color: #1f2937;
 }
 
 .container {
-    width: 100%;
     max-width: 700px;
     margin: auto;
     background: white;
-    padding: 25px;
+    padding: 22px;
     border-radius: 20px;
-    box-shadow:
-        0 20px 40px
-        rgba(0,0,0,.2);
     text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,.2);
 }
 
 h1 {
-    margin-top: 5px;
     color: #2d6a4f;
 }
 
@@ -58,18 +46,32 @@ h1 {
 
 .badge {
     background: #f0fdf4;
-    padding: 10px 14px;
+    padding: 10px 13px;
     border-radius: 10px;
     font-weight: bold;
+}
+
+#timerBox {
+    color: #dc2626;
 }
 
 #scoreBox {
     color: #2563eb;
 }
 
-.question-title {
-    margin-top: 25px;
-    font-weight: bold;
+.timer-track {
+    height: 9px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+#timerBar {
+    height: 100%;
+    width: 100%;
+    background: #22c55e;
+    transition: width .25s linear;
 }
 
 .sequence {
@@ -80,13 +82,11 @@ h1 {
     background: #f1faee;
     padding: 18px;
     border-radius: 12px;
-    overflow-x: auto;
 }
 
 input {
     padding: 11px;
     width: 170px;
-    max-width: 100%;
     border-radius: 9px;
     border: 2px solid #74c69d;
     text-align: center;
@@ -95,38 +95,29 @@ input {
 
 button {
     padding: 11px 20px;
-    border: none;
+    border: 0;
     border-radius: 10px;
     background: #2d6a4f;
     color: white;
-    cursor: pointer;
     margin: 8px;
     font-size: 15px;
 }
 
-button:hover {
-    background: #1b4332;
-}
-
 button:disabled {
     opacity: .5;
-    cursor: not-allowed;
 }
 
 #result {
     min-height: 30px;
     margin-top: 15px;
     font-weight: bold;
-    font-size: 17px;
 }
 
 .solution {
     min-height: 25px;
-    margin-top: 10px;
     background: #e9f5db;
     padding: 12px;
     border-radius: 8px;
-    direction: rtl;
     line-height: 1.8;
 }
 
@@ -136,7 +127,6 @@ button:disabled {
 
 .game-over {
     display: none;
-    margin-top: 20px;
     padding: 20px;
     background: #f0fdf4;
     border-radius: 16px;
@@ -146,11 +136,10 @@ button:disabled {
     font-size: 38px;
     font-weight: bold;
     color: #2563eb;
-    margin: 10px;
 }
 
 #leaderboard {
-    margin-top: 30px;
+    margin-top: 25px;
     padding: 18px;
     background: #f8fafc;
     border-radius: 16px;
@@ -159,9 +148,9 @@ button:disabled {
 .leaderboard-row {
     display: flex;
     justify-content: space-between;
-    padding: 11px 13px;
-    background: white;
+    padding: 11px;
     margin: 7px 0;
+    background: white;
     border-radius: 10px;
 }
 
@@ -172,179 +161,139 @@ button:disabled {
 
 .back-link {
     display: inline-block;
-    margin-top: 22px;
+    margin-top: 20px;
     color: #2563eb;
     text-decoration: none;
     font-weight: bold;
 }
 
-@media(max-width:600px) {
-
-    body {
-        padding: 8px;
-    }
-
-    .container {
-        padding: 15px;
-    }
-
-    .sequence {
-        font-size: 22px;
-    }
-
-    .top-bar {
-        justify-content: center;
-    }
-}
-
 </style>
-
 </head>
 
 <body>
 
-
 <div class="container">
 
-    <h1>
-        🔢 بازی کشف الگو
-    </h1>
+<h1>🔢 بازی کشف الگو</h1>
 
+<div class="top-bar">
 
-    <div class="top-bar">
-
-        <div
-            class="badge"
-            id="playerBox">
-            بازیکن: ...
-        </div>
-
-        <div
-            class="badge"
-            id="questionCounter">
-            سؤال 1 از 10
-        </div>
-
-        <div
-            class="badge"
-            id="scoreBox">
-            امتیاز: 0
-        </div>
-
+    <div class="badge" id="playerBox">
+        بازیکن
     </div>
 
-
-    <div id="gameContent">
-
-        <div class="question-title">
-            عدد بعدی الگو چیست؟
-        </div>
-
-        <div
-            class="sequence"
-            id="sequence">
-        </div>
-
-
-        <input
-            type="number"
-            id="userAnswer"
-            inputmode="numeric"
-            placeholder="عدد بعدی">
-
-
-        <br>
-
-
-        <button
-            id="checkBtn"
-            type="button">
-
-            ثبت پاسخ
-
-        </button>
-
-
-        <div id="result">
-        </div>
-
-
-        <div
-            id="solution"
-            class="solution">
-        </div>
-
-
-        <button
-            id="nextBtn"
-            type="button">
-
-            سؤال بعدی
-
-        </button>
-
+    <div class="badge" id="questionCounter">
+        سؤال 1 از 10
     </div>
 
+    <div class="badge" id="timerBox">
+        ⏱️ 30
+    </div>
+
+    <div class="badge" id="scoreBox">
+        امتیاز: 0
+    </div>
+
+</div>
+
+<div class="timer-track">
+    <div id="timerBar"></div>
+</div>
+
+
+<div id="gameContent">
+
+    <p>
+        عدد بعدی الگو چیست؟
+    </p>
 
     <div
-        class="game-over"
-        id="gameOver">
-
-        <h2>
-            🏁 بازی تمام شد
-        </h2>
-
-        <p id="finalPlayer">
-        </p>
-
-        <div
-            class="final-score"
-            id="finalScore">
-            0
-        </div>
-
-        <p>
-            از 100 امتیاز
-        </p>
-
-
-        <button
-            id="restartBtn"
-            type="button">
-
-            بازی دوباره
-
-        </button>
-
+        class="sequence"
+        id="sequence">
     </div>
 
+    <input
+        id="userAnswer"
+        type="number"
+        inputmode="numeric"
+        placeholder="عدد بعدی">
 
-    <div id="leaderboard">
+    <br>
 
-        <h2>
-            🏆 برترین‌های بازی الگو
-        </h2>
+    <button
+        id="checkBtn"
+        type="button">
+        ثبت پاسخ
+    </button>
 
-        <div id="leaderboardList">
-            در حال دریافت...
-        </div>
+    <div id="result"></div>
 
+    <div
+        id="solution"
+        class="solution">
     </div>
 
+    <button
+        id="nextBtn"
+        type="button">
+        سؤال بعدی
+    </button>
 
-    <a
-        class="back-link"
-        href="/#game">
+</div>
 
-        ← بازگشت به بازی‌های ریاضی
 
-    </a>
+<div
+    class="game-over"
+    id="gameOver">
+
+    <h2>
+        🏁 بازی تمام شد
+    </h2>
+
+    <p id="finalPlayer"></p>
+
+    <div
+        class="final-score"
+        id="finalScore">
+        0
+    </div>
+
+    <p>
+        از 100 امتیاز
+    </p>
+
+    <button
+        id="restartBtn"
+        type="button">
+        بازی دوباره
+    </button>
+
+</div>
+
+
+<div id="leaderboard">
+
+    <h2>
+        🏆 برترین‌های بازی الگو
+    </h2>
+
+    <div id="leaderboardList">
+        در حال دریافت...
+    </div>
+
+</div>
+
+
+<a
+    href="/#game"
+    class="back-link">
+    ← بازگشت به بازی‌های ریاضی
+</a>
 
 </div>
 
 
 <script src="/games/game-sdk.js"></script>
-
 
 <script>
 
@@ -352,39 +301,190 @@ const GAME_ID = 3;
 
 const TOTAL_QUESTIONS = 10;
 
+const QUESTION_TIME = 30;
+
 
 const player =
     GameSDK.init(GAME_ID);
 
 
-document
-    .getElementById(
-        "playerBox"
-    )
-    .textContent =
-    `بازیکن: ${player.playerName}`;
+document.getElementById(
+    "playerBox"
+).textContent =
+    `👤 ${player.playerName}`;
 
 
 let score = 0;
 
 let questionNumber = 1;
 
-let correctAnswer = 0;
+let correctAnswer;
 
 let explanation = "";
 
 let answerChecked = false;
 
+let questionStartedAt = 0;
 
-function randomBetween(
-    min,
-    max
-) {
+let timerInterval = null;
+
+
+function randomBetween(min,max) {
 
     return Math.floor(
         Math.random() *
-        (max - min + 1)
+        (max-min+1)
     ) + min;
+}
+
+
+function startTimer() {
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    questionStartedAt =
+        Date.now();
+
+
+    updateTimer();
+
+
+    timerInterval =
+        setInterval(
+            updateTimer,
+            250
+        );
+}
+
+
+function updateTimer() {
+
+    if (answerChecked) {
+        return;
+    }
+
+
+    const elapsed =
+        (
+            Date.now() -
+            questionStartedAt
+        ) / 1000;
+
+
+    const remaining =
+        Math.max(
+            0,
+            QUESTION_TIME -
+            elapsed
+        );
+
+
+    document.getElementById(
+        "timerBox"
+    ).textContent =
+        `⏱️ ${Math.ceil(remaining)}`;
+
+
+    const percent =
+        (
+            remaining /
+            QUESTION_TIME
+        ) * 100;
+
+
+    const bar =
+        document.getElementById(
+            "timerBar"
+        );
+
+
+    bar.style.width =
+        `${percent}%`;
+
+
+    if (remaining > 15) {
+
+        bar.style.background =
+            "#22c55e";
+
+    } else if (
+        remaining > 7
+    ) {
+
+        bar.style.background =
+            "#f59e0b";
+
+    } else {
+
+        bar.style.background =
+            "#ef4444";
+    }
+
+
+    if (remaining <= 0) {
+
+        clearInterval(
+            timerInterval
+        );
+
+        timeUp();
+    }
+}
+
+
+function getTimeScore(seconds) {
+
+    if (seconds <= 5) {
+        return 10;
+    }
+
+    if (seconds <= 10) {
+        return 8;
+    }
+
+    if (seconds <= 15) {
+        return 6;
+    }
+
+    if (seconds <= 20) {
+        return 4;
+    }
+
+    return 2;
+}
+
+
+function timeUp() {
+
+    if (answerChecked) {
+        return;
+    }
+
+
+    answerChecked = true;
+
+
+    document.getElementById(
+        "checkBtn"
+    ).disabled = true;
+
+
+    document.getElementById(
+        "result"
+    ).textContent =
+        "⏰ زمان تمام شد!";
+
+
+    document.getElementById(
+        "solution"
+    ).innerHTML =
+        explanation;
+
+
+    showNextButton();
 }
 
 
@@ -396,11 +496,11 @@ function generateQuestion() {
 
 
     const type =
-        randomBetween(1, 3);
+        randomBetween(1,3);
 
 
     const direction =
-        randomBetween(1, 2);
+        randomBetween(1,2);
 
 
     if (type === 1) {
@@ -425,52 +525,38 @@ function generateQuestion() {
     }
 
 
-    document
-        .getElementById(
-            "questionCounter"
-        )
-        .textContent =
+    document.getElementById(
+        "questionCounter"
+    ).textContent =
         `سؤال ${questionNumber} از ${TOTAL_QUESTIONS}`;
 
 
-    document
-        .getElementById(
-            "result"
-        )
-        .textContent =
-        "";
+    document.getElementById(
+        "result"
+    ).textContent = "";
 
 
-    document
-        .getElementById(
-            "solution"
-        )
-        .innerHTML =
-        "";
+    document.getElementById(
+        "solution"
+    ).innerHTML = "";
 
 
-    document
-        .getElementById(
-            "userAnswer"
-        )
-        .value =
-        "";
+    document.getElementById(
+        "userAnswer"
+    ).value = "";
 
 
-    document
-        .getElementById(
-            "checkBtn"
-        )
-        .disabled =
-        false;
+    document.getElementById(
+        "checkBtn"
+    ).disabled = false;
 
 
-    document
-        .getElementById(
-            "nextBtn"
-        )
-        .style.display =
-        "none";
+    document.getElementById(
+        "nextBtn"
+    ).style.display = "none";
+
+
+    startTimer();
 }
 
 
@@ -500,13 +586,13 @@ function generateLinear(
         sequence = [
             start,
             start + step,
-            start + 2 * step,
-            start + 3 * step
+            start + 2*step,
+            start + 3*step
         ];
 
 
         correctAnswer =
-            start + 4 * step;
+            start + 4*step;
 
 
         explanation =
@@ -517,14 +603,14 @@ function generateLinear(
 
         sequence = [
             start,
-            start - step,
-            start - 2 * step,
-            start - 3 * step
+            start-step,
+            start-2*step,
+            start-3*step
         ];
 
 
         correctAnswer =
-            start - 4 * step;
+            start-4*step;
 
 
         explanation =
@@ -564,14 +650,9 @@ function generateMultiply(
 
         sequence = [
             start,
-            start * ratio,
-            start *
-                ratio *
-                ratio,
-            start *
-                ratio *
-                ratio *
-                ratio
+            start*ratio,
+            start*Math.pow(ratio,2),
+            start*Math.pow(ratio,3)
         ];
 
 
@@ -599,17 +680,9 @@ function generateMultiply(
 
         sequence = [
             start,
-            start / ratio,
-            start /
-                Math.pow(
-                    ratio,
-                    2
-                ),
-            start /
-                Math.pow(
-                    ratio,
-                    3
-                )
+            start/ratio,
+            start/Math.pow(ratio,2),
+            start/Math.pow(ratio,3)
         ];
 
 
@@ -650,41 +723,33 @@ function generateSquare(
     if (direction === 1) {
 
         sequence = [
-            n * n,
-            (n + 1) *
-                (n + 1),
-            (n + 2) *
-                (n + 2),
-            (n + 3) *
-                (n + 3)
+            n*n,
+            (n+1)*(n+1),
+            (n+2)*(n+2),
+            (n+3)*(n+3)
         ];
 
 
         correctAnswer =
-            (n + 4) *
-            (n + 4);
+            (n+4)*(n+4);
 
     } else {
 
         sequence = [
-            (n + 4) *
-                (n + 4),
-            (n + 3) *
-                (n + 3),
-            (n + 2) *
-                (n + 2),
-            (n + 1) *
-                (n + 1)
+            (n+4)*(n+4),
+            (n+3)*(n+3),
+            (n+2)*(n+2),
+            (n+1)*(n+1)
         ];
 
 
         correctAnswer =
-            n * n;
+            n*n;
     }
 
 
     explanation =
-        "اعداد، مربع اعداد طبیعی متوالی هستند.<br>" +
+        "اعداد مربع اعداد طبیعی متوالی هستند.<br>" +
         `عدد بعدی = ${correctAnswer}`;
 
 
@@ -698,24 +763,17 @@ function showSequence(
     sequence
 ) {
 
-    document
-        .getElementById(
-            "sequence"
-        )
-        .textContent =
-        sequence.join(
-            " , "
-        ) +
+    document.getElementById(
+        "sequence"
+    ).textContent =
+        sequence.join(" , ") +
         " , ?";
 }
 
 
 function checkAnswer() {
 
-    if (
-        answerChecked
-    ) {
-
+    if (answerChecked) {
         return;
     }
 
@@ -730,15 +788,43 @@ function checkAnswer() {
         input.value.trim() === ""
     ) {
 
-        document
-            .getElementById(
-                "result"
-            )
-            .textContent =
+        document.getElementById(
+            "result"
+        ).textContent =
             "لطفاً پاسخ را وارد کنید.";
 
         return;
     }
+
+
+    const elapsedSeconds =
+        (
+            Date.now() -
+            questionStartedAt
+        ) / 1000;
+
+
+    if (
+        elapsedSeconds >=
+        QUESTION_TIME
+    ) {
+
+        timeUp();
+
+        return;
+    }
+
+
+    answerChecked = true;
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    document.getElementById(
+        "checkBtn"
+    ).disabled = true;
 
 
     const userAnswer =
@@ -747,71 +833,63 @@ function checkAnswer() {
         );
 
 
-    answerChecked =
-        true;
-
-
-    document
-        .getElementById(
-            "checkBtn"
-        )
-        .disabled =
-        true;
-
-
     if (
         userAnswer ===
         correctAnswer
     ) {
 
-        score += 10;
+        const earned =
+            getTimeScore(
+                elapsedSeconds
+            );
 
 
-        document
-            .getElementById(
-                "result"
-            )
-            .textContent =
-            "✅ آفرین! پاسخ درست بود. +10";
+        score += earned;
+
+
+        document.getElementById(
+            "result"
+        ).textContent =
+            `✅ درست! +${earned} امتیاز`;
 
     } else {
 
-        document
-            .getElementById(
-                "result"
-            )
-            .textContent =
+        document.getElementById(
+            "result"
+        ).textContent =
             `❌ پاسخ درست: ${correctAnswer}`;
     }
 
 
-    document
-        .getElementById(
-            "solution"
-        )
-        .innerHTML =
+    document.getElementById(
+        "solution"
+    ).innerHTML =
         explanation;
 
 
-    document
-        .getElementById(
-            "scoreBox"
-        )
-        .textContent =
+    document.getElementById(
+        "scoreBox"
+    ).textContent =
         `امتیاز: ${score}`;
 
 
-    const nextButton =
+    showNextButton();
+}
+
+
+function showNextButton() {
+
+    const button =
         document.getElementById(
             "nextBtn"
         );
 
 
-    nextButton.style.display =
+    button.style.display =
         "inline-block";
 
 
-    nextButton.textContent =
+    button.textContent =
         questionNumber ===
         TOTAL_QUESTIONS
 
@@ -823,10 +901,7 @@ function checkAnswer() {
 
 async function nextQuestion() {
 
-    if (
-        !answerChecked
-    ) {
-
+    if (!answerChecked) {
         return;
     }
 
@@ -850,54 +925,39 @@ async function nextQuestion() {
 
 async function finishGame() {
 
-    document
-        .getElementById(
-            "gameContent"
-        )
-        .style.display =
+    clearInterval(
+        timerInterval
+    );
+
+
+    document.getElementById(
+        "gameContent"
+    ).style.display =
         "none";
 
 
-    document
-        .getElementById(
-            "gameOver"
-        )
-        .style.display =
+    document.getElementById(
+        "gameOver"
+    ).style.display =
         "block";
 
 
-    document
-        .getElementById(
-            "finalPlayer"
-        )
-        .textContent =
+    document.getElementById(
+        "finalPlayer"
+    ).textContent =
         `${player.playerName}، امتیاز نهایی شما:`;
 
 
-    document
-        .getElementById(
-            "finalScore"
-        )
-        .textContent =
+    document.getElementById(
+        "finalScore"
+    ).textContent =
         score;
 
 
-    const result =
-        await GameSDK
-            .finishGame(
-                score
-            );
-
-
-    if (!result?.success) {
-
-        document
-            .getElementById(
-                "finalPlayer"
-            )
-            .textContent =
-            `${player.playerName} — خطا در ثبت امتیاز`;
-    }
+    await GameSDK
+        .finishGame(
+            score
+        );
 
 
     await showLeaderboard();
@@ -914,10 +974,9 @@ async function showLeaderboard() {
 
 
     const list =
-        document
-            .getElementById(
-                "leaderboardList"
-            );
+        document.getElementById(
+            "leaderboardList"
+        );
 
 
     if (!scores.length) {
@@ -930,99 +989,80 @@ async function showLeaderboard() {
 
 
     list.innerHTML =
-        scores
-            .map(
-                (
-                    item,
-                    index
-                ) => {
+        scores.map(
+            (item,index) => {
 
-                    let rank =
-                        `${index + 1}.`;
+                let rank =
+                    `${index+1}.`;
 
 
-                    if (
-                        index === 0
-                    ) {
-                        rank = "🥇";
-                    }
+                if (index===0)
+                    rank="🥇";
+
+                if (index===1)
+                    rank="🥈";
+
+                if (index===2)
+                    rank="🥉";
 
 
-                    if (
-                        index === 1
-                    ) {
-                        rank = "🥈";
-                    }
+                return `
 
+                    <div
+                        class="leaderboard-row">
 
-                    if (
-                        index === 2
-                    ) {
-                        rank = "🥉";
-                    }
+                        <span>
+                            ${rank}
+                            ${escapeHtml(
+                                item.player_name
+                            )}
+                        </span>
 
+                        <span
+                            class="leaderboard-score">
 
-                    return `
+                            ${item.score}
 
-                        <div
-                            class="leaderboard-row">
+                        </span>
 
-                            <span>
+                    </div>
 
-                                ${rank}
-
-                                ${escapeHtml(
-                                    item.player_name
-                                )}
-
-                            </span>
-
-                            <span
-                                class="leaderboard-score">
-
-                                ${item.score}
-
-                            </span>
-
-                        </div>
-
-                    `;
-                }
-            )
-            .join("");
+                `;
+            }
+        ).join("");
 }
 
 
 function restartGame() {
 
+    clearInterval(
+        timerInterval
+    );
+
+
     score = 0;
 
     questionNumber = 1;
 
+
     GameSDK.reset();
 
 
-    document
-        .getElementById(
-            "scoreBox"
-        )
-        .textContent =
+    document.getElementById(
+        "scoreBox"
+    ).textContent =
         "امتیاز: 0";
 
 
-    document
-        .getElementById(
-            "gameOver"
-        )
-        .style.display =
+    document.getElementById(
+        "gameOver"
+    ).style.display =
         "none";
 
 
-    document
-        .getElementById(
-            "gameContent"
-        )
-        .style.display =
+    document.getElementById(
+        "gameContent"
+    ).style.display =
         "block";
 
 
@@ -1060,34 +1100,28 @@ function escapeHtml(
 }
 
 
-document
-    .getElementById(
-        "checkBtn"
-    )
-    .addEventListener(
-        "click",
-        checkAnswer
-    );
+document.getElementById(
+    "checkBtn"
+).addEventListener(
+    "click",
+    checkAnswer
+);
 
 
-document
-    .getElementById(
-        "nextBtn"
-    )
-    .addEventListener(
-        "click",
-        nextQuestion
-    );
+document.getElementById(
+    "nextBtn"
+).addEventListener(
+    "click",
+    nextQuestion
+);
 
 
-document
-    .getElementById(
-        "restartBtn"
-    )
-    .addEventListener(
-        "click",
-        restartGame
-    );
+document.getElementById(
+    "restartBtn"
+).addEventListener(
+    "click",
+    restartGame
+);
 
 
 generateQuestion();
@@ -1097,5 +1131,4 @@ showLeaderboard();
 </script>
 
 </body>
-
 </html>
