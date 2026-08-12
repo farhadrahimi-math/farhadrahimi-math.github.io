@@ -5,6 +5,7 @@ import { createButton } from "../components/button.js";
 import { showToast } from "../components/toast.js";
 import { navigate } from "../utils/navigation.js";
 
+
 export function renderLogin() {
 
     const content = `
@@ -30,37 +31,101 @@ export function renderLogin() {
                 text: "ورود به سامانه"
             })}
 
+
+            <div class="public-games-entry">
+
+                <div class="public-games-divider">
+
+                    <span>
+                        یا
+                    </span>
+
+                </div>
+
+                <button
+                    id="publicGamesBtn"
+                    type="button"
+                    class="public-games-btn">
+
+                    🎮 ورود به بازی‌های ریاضی
+
+                </button>
+
+                <p>
+                    بدون نیاز به ثبت‌نام
+                </p>
+
+            </div>
+
         </div>
 
     `;
 
     document.getElementById("app").innerHTML =
-    createAuthLayout(content, "ورود به سامانه");
+        createAuthLayout(
+            content,
+            "ورود به سامانه"
+        );
+
 
     document
         .getElementById("loginBtn")
-        .addEventListener("click", handleLogin);
+        ?.addEventListener(
+            "click",
+            handleLogin
+        );
 
+
+    document
+        .getElementById("publicGamesBtn")
+        ?.addEventListener(
+            "click",
+            () => {
+
+                navigate("game");
+
+            }
+        );
 }
+
 
 async function handleLogin() {
 
-    const phone = document
-        .getElementById("phone")
-        .value
-        .trim()
-        .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+    const phone =
+        document
+            .getElementById("phone")
+            .value
+            .trim()
+            .replace(
+                /[۰-۹]/g,
+                d =>
+                    "۰۱۲۳۴۵۶۷۸۹"
+                        .indexOf(d)
+            );
 
     const password =
-        document.getElementById("password").value;
+        document
+            .getElementById("password")
+            .value;
 
     const button =
-        document.getElementById("loginBtn");
+        document.getElementById(
+            "loginBtn"
+        );
+
 
     button.disabled = true;
-    button.textContent = "در حال ورود...";
 
-    const result = await login(phone, password);
+    button.textContent =
+        "در حال ورود...";
+
+
+    const result =
+        await login(
+            phone,
+            password
+        );
+
 
     if (result.success) {
 
@@ -69,18 +134,30 @@ async function handleLogin() {
             "success"
         );
 
-        navigate("dashboard");
+        if (
+            result.profile?.role ===
+            "admin"
+        ) {
 
-    } else {
+            navigate("admin");
 
-        showToast(
-            result.message,
-            "error"
-        );
+        } else {
 
-        button.disabled = false;
-        button.textContent = "ورود به سامانه";
+            navigate("dashboard");
+        }
 
+        return;
     }
 
+
+    showToast(
+        result.message,
+        "error"
+    );
+
+
+    button.disabled = false;
+
+    button.textContent =
+        "ورود به سامانه";
 }
