@@ -76,9 +76,6 @@ export function renderLogin() {
         );
 
 
-    
-}
-
 
 async function handleLogin() {
 
