@@ -19,6 +19,7 @@ import {
     bindModalClose
 } from "../components/modal.js";
 
+
 function createAddStudentModal() {
 
     const formContent = `
@@ -86,6 +87,7 @@ function createAddStudentModal() {
     });
 }
 
+
 export async function renderAdmin() {
 
     const profile = getProfile();
@@ -108,7 +110,10 @@ export async function renderAdmin() {
                     <p>${students.length} دانش‌آموز</p>
                 </div>
 
-                <button id="addStudentBtn" class="btn">
+                <button
+                    id="addStudentBtn"
+                    class="btn"
+                    type="button">
                     افزودن دانش‌آموز
                 </button>
 
@@ -130,6 +135,8 @@ export async function renderAdmin() {
 
         </div>
 
+        ${createAddStudentModal()}
+
     `;
 
     document.getElementById("app").innerHTML =
@@ -143,6 +150,7 @@ export async function renderAdmin() {
     initializeLayout();
     bindAdminEvents();
 }
+
 
 function createStudentCard(student) {
 
@@ -180,6 +188,7 @@ function createStudentCard(student) {
                 </span>
 
                 <button
+                    type="button"
                     class="toggle-student-btn"
                     data-user-id="${student.id}"
                     data-active="${student.is_active}">
@@ -199,16 +208,35 @@ function createStudentCard(student) {
     `;
 }
 
+
 function bindAdminEvents() {
+
+    bindModalClose("addStudentModal");
 
     document
         .getElementById("addStudentBtn")
         ?.addEventListener("click", () => {
 
-            showToast(
-                "فرم افزودن دانش‌آموز در مرحله بعد ساخته می‌شود.",
-                "info"
-            );
+            resetAddStudentForm();
+
+            openModal("addStudentModal");
+
+        });
+
+    document
+        .querySelector("#addStudentModal .modal-submit")
+        ?.addEventListener(
+            "click",
+            handleCreateStudent
+        );
+
+    document
+        .getElementById("addStudentForm")
+        ?.addEventListener("submit", event => {
+
+            event.preventDefault();
+
+            handleCreateStudent();
 
         });
 
@@ -223,6 +251,130 @@ function bindAdminEvents() {
 
         });
 }
+
+
+function resetAddStudentForm() {
+
+    const form =
+        document.getElementById("addStudentForm");
+
+    form?.reset();
+}
+
+
+async function handleCreateStudent() {
+
+    const name =
+        document
+            .getElementById("studentName")
+            ?.value
+            .trim();
+
+    const phone =
+        document
+            .getElementById("studentPhone")
+            ?.value
+            .trim();
+
+    const password =
+        document
+            .getElementById("studentPassword")
+            ?.value;
+
+    const grade =
+        document
+            .getElementById("studentGrade")
+            ?.value;
+
+    if (!name) {
+
+        showToast(
+            "نام دانش‌آموز را وارد کنید.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (!/^09\d{9}$/.test(phone || "")) {
+
+        showToast(
+            "شماره موبایل معتبر وارد کنید.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (!password || password.length < 6) {
+
+        showToast(
+            "رمز عبور باید حداقل ۶ کاراکتر باشد.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (!["7", "8", "9"].includes(grade)) {
+
+        showToast(
+            "پایه دانش‌آموز را انتخاب کنید.",
+            "error"
+        );
+
+        return;
+    }
+
+    const submitButton =
+        document.querySelector(
+            "#addStudentModal .modal-submit"
+        );
+
+    if (submitButton) {
+
+        submitButton.disabled = true;
+        submitButton.textContent =
+            "در حال ثبت...";
+
+    }
+
+    const result = await createStudent({
+        name,
+        phone,
+        password,
+        grade: Number(grade)
+    });
+
+    if (!result.success) {
+
+        showToast(
+            result.message ||
+            "ثبت دانش‌آموز انجام نشد.",
+            "error"
+        );
+
+        if (submitButton) {
+
+            submitButton.disabled = false;
+            submitButton.textContent =
+                "ثبت دانش‌آموز";
+
+        }
+
+        return;
+    }
+
+    showToast(
+        "دانش‌آموز با موفقیت اضافه شد.",
+        "success"
+    );
+
+    closeModal("addStudentModal");
+
+    await renderAdmin();
+}
+
 
 async function handleStudentStatus(event) {
 
@@ -252,6 +404,11 @@ async function handleStudentStatus(event) {
         );
 
         button.disabled = false;
+
+        button.textContent =
+            currentlyActive
+                ? "غیرفعال کردن"
+                : "فعال کردن";
 
         return;
     }
