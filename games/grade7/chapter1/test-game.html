@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>بازی تست</title>
+</head>
+
+<body>
+
+    <h1>🎮 بازی تست</h1>
+
+    <p id="info"></p>
+
+    <script src="/games/game-sdk.js"></script>
+
+    <script>
+
+        const GAME_ID = 4;
+
+        const player =
+            GameSDK.init(GAME_ID);
+
+        document.getElementById(
+            "info"
+        ).textContent =
+            `Game ID: ${GAME_ID} | بازیکن: ${player.playerName}`;
+
+    </script>
+
+</body>
+
+</html>
