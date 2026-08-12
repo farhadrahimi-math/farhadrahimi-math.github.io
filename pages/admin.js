@@ -2,13 +2,22 @@ import { createAppLayout } from "../components/appLayout.js";
 
 import {
     getStudents,
-    setStudentActive
+    setStudentActive,
+    createStudent
 } from "../services/studentService.js";
 
 import { getProfile } from "../store/appStore.js";
 import { initializeLayout } from "../core/layout.js";
 import { navigate } from "../utils/navigation.js";
 import { showToast } from "../components/toast.js";
+import { createInput } from "../components/input.js";
+
+import {
+    createModal,
+    openModal,
+    closeModal,
+    bindModalClose
+} from "../components/modal.js";
 
 export async function renderAdmin() {
 
