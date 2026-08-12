@@ -169,7 +169,7 @@ const GameSDK = {
         try {
 
             const url =
-                `${this.supabaseUrl}/rest/v1/game_leaderboard` +
+                `${this.supabaseUrl}/rest/v1/game_scores` +
                 `?game_id=eq.${this.gameId}` +
                 `&select=player_name,score,created_at` +
                 `&order=score.desc,created_at.asc` +
