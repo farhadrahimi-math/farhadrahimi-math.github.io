@@ -104,14 +104,23 @@
          */
 
 
-        function finishGame() {
+        async function finishGame() {
 
-            GameSDK.finishGame(score);
+    const result =
+        await GameSDK.finishGame(80);
 
-            alert(
-                `بازی تمام شد. امتیاز شما: ${score}`
-            );
-        }
+    if (result?.success) {
+
+        alert("امتیاز ۸۰ با موفقیت ثبت شد");
+
+    } else {
+
+        alert(
+            result?.message ||
+            "ثبت امتیاز ناموفق بود"
+        );
+    }
+}
 
     </script>
 
