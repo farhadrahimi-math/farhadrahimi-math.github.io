@@ -171,3 +171,87 @@ export async function getPublicGames(
 
     return data || [];
 }
+
+export async function publishGame({
+    title,
+    grade,
+    chapter,
+    orderNo,
+    file
+}) {
+
+    try {
+
+        if (!file) {
+            return {
+                success: false,
+                message: "فایل بازی انتخاب نشده است."
+            };
+        }
+
+        const html =
+            await file.text();
+
+        const { data, error } =
+            await supabase.functions.invoke(
+                "publish-game",
+                {
+                    body: {
+                        title,
+                        grade: Number(grade),
+                        chapter: Number(chapter),
+                        orderNo: Number(orderNo),
+                        fileName: file.name,
+                        html
+                    }
+                }
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Publish game error:",
+                error
+            );
+
+            return {
+                success: false,
+                message:
+                    "انتشار بازی انجام نشد."
+            };
+        }
+
+
+        if (!data?.success) {
+
+            return {
+                success: false,
+                message:
+                    data?.message ||
+                    "انتشار بازی انجام نشد."
+            };
+        }
+
+
+        return {
+            success: true,
+            game: data.game
+        };
+
+
+    } catch (error) {
+
+        console.error(
+            "Publish game error:",
+            error
+        );
+
+
+        return {
+            success: false,
+            message:
+                "خطا در خواندن یا انتشار فایل بازی."
+        };
+    }
+}
