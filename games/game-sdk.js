@@ -7,6 +7,7 @@ const GameSDK = {
     supabaseUrl:
         "https://ypjmkigvghybkwyxndcz.supabase.co",
 
+    // دقیقاً همان anon key موجود در config.js
     anonKey:
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4",
 
@@ -37,7 +38,6 @@ const GameSDK = {
 
 
         return {
-
             gameId:
                 this.gameId,
 
@@ -129,14 +129,11 @@ const GameSDK = {
             }
 
 
-            this.finished =
-                true;
+            this.finished = true;
 
 
             return {
-
                 success: true,
-
                 score:
                     finalScore
             };
@@ -151,7 +148,6 @@ const GameSDK = {
 
 
             return {
-
                 success: false,
 
                 message:
@@ -168,40 +164,47 @@ const GameSDK = {
 
         try {
 
-            const url =
-                `${this.supabaseUrl}/rest/v1/game_scores` +
-                `?game_id=eq.${this.gameId}` +
-                `&select=player_name,score,created_at` +
-                `&order=score.desc,created_at.asc` +
-                `&limit=${limit}`;
-
-
             const response =
                 await fetch(
-                    url,
+                    `${this.supabaseUrl}/rest/v1/rpc/get_game_leaderboard`,
                     {
+                        method: "POST",
+
                         headers: {
+
+                            "Content-Type":
+                                "application/json",
 
                             "apikey":
                                 this.anonKey,
 
                             "Authorization":
                                 `Bearer ${this.anonKey}`
-                        }
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                p_game_id:
+                                    this.gameId,
+
+                                p_limit:
+                                    Number(limit) || 10
+                            })
                     }
                 );
 
 
             if (!response.ok) {
 
-                const text =
+                const errorText =
                     await response.text();
 
 
                 console.error(
                     "Leaderboard HTTP error:",
                     response.status,
-                    text
+                    errorText
                 );
 
 
@@ -209,7 +212,13 @@ const GameSDK = {
             }
 
 
-            return await response.json();
+            const scores =
+                await response.json();
+
+
+            return Array.isArray(scores)
+                ? scores
+                : [];
 
 
         } catch (error) {
