@@ -4,6 +4,13 @@ const GameSDK = {
     playerName: null,
     finished: false,
 
+    supabaseUrl:
+        "https://ypjmkigvghybkwyxndcz.supabase.co",
+
+    anonKey:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4",
+
+
     init(gameId) {
 
         this.gameId = Number(gameId);
@@ -31,38 +38,109 @@ const GameSDK = {
         };
     },
 
+
     getPlayerName() {
+
         return this.playerName;
     },
 
-    finishGame(score) {
+
+    async finishGame(score) {
 
         if (this.finished) {
             return;
         }
 
-        this.finished = true;
+        const finalScore =
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    Math.round(
+                        Number(score) || 0
+                    )
+                )
+            );
 
-        const finalScore = Math.max(
-            0,
-            Math.min(100, Number(score) || 0)
-        );
+        try {
 
-        console.log("Game finished:", {
-            gameId: this.gameId,
-            playerName: this.playerName,
-            score: finalScore
-        });
+            const response =
+                await fetch(
+                    `${this.supabaseUrl}/functions/v1/submit-game-score`,
+                    {
+                        method: "POST",
 
-        /*
-         * در مرحله بعد اینجا
-         * امتیاز در Supabase ثبت می‌شود.
-         */
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "apikey":
+                                this.anonKey,
+
+                            "Authorization":
+                                `Bearer ${this.anonKey}`
+                        },
+
+                        body: JSON.stringify({
+                            gameId:
+                                this.gameId,
+
+                            playerName:
+                                this.playerName,
+
+                            score:
+                                finalScore
+                        })
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok ||
+                !result.success) {
+
+                throw new Error(
+                    result.message ||
+                    "ثبت امتیاز انجام نشد."
+                );
+            }
+
+
+            this.finished = true;
+
+
+            return {
+                success: true,
+                score: finalScore
+            };
+
+
+        } catch (error) {
+
+            console.error(
+                "Submit score error:",
+                error
+            );
+
+
+            return {
+                success: false,
+                message:
+                    error.message ||
+                    "ثبت امتیاز انجام نشد."
+            };
+        }
     },
 
+
     reset() {
+
         this.finished = false;
     }
 };
+
 
 window.GameSDK = GameSDK;
