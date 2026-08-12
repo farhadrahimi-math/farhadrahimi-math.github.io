@@ -141,3 +141,33 @@ export async function deleteGame(gameId) {
         success: true
     };
 }
+
+export async function getPublicGames(
+    grade,
+    chapter
+) {
+
+    const { data, error } = await supabase
+        .from("contents")
+        .select(
+            "id, title, grade, chapter, url, order_no"
+        )
+        .eq("type", "game")
+        .eq("grade", Number(grade))
+        .eq("chapter", Number(chapter))
+        .order("order_no", {
+            ascending: true
+        });
+
+    if (error) {
+
+        console.error(
+            "Get public games error:",
+            error
+        );
+
+        return [];
+    }
+
+    return data || [];
+}
