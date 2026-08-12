@@ -35,21 +35,15 @@ export function renderLogin() {
             <div class="public-games-entry">
 
                 <div class="public-games-divider">
-
-                    <span>
-                        یا
-                    </span>
-
+                    <span>یا</span>
                 </div>
 
                 <a
-    href="#game"
-    id="publicGamesBtn"
-    class="public-games-btn">
-
-    🎮 ورود به بازی‌های ریاضی
-
-</a>
+                    href="#game"
+                    id="publicGamesBtn"
+                    class="public-games-btn">
+                    🎮 ورود به بازی‌های ریاضی
+                </a>
 
                 <p>
                     بدون نیاز به ثبت‌نام
@@ -60,6 +54,7 @@ export function renderLogin() {
         </div>
 
     `;
+
 
     document.getElementById("app").innerHTML =
         createAuthLayout(
@@ -74,7 +69,7 @@ export function renderLogin() {
             "click",
             handleLogin
         );
-
+}
 
 
 async function handleLogin() {
@@ -121,6 +116,7 @@ async function handleLogin() {
             "خوش آمدید 🌹",
             "success"
         );
+
 
         if (
             result.profile?.role ===
