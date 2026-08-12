@@ -42,14 +42,14 @@ export function renderLogin() {
 
                 </div>
 
-                <button
-                    id="publicGamesBtn"
-                    type="button"
-                    class="public-games-btn">
+                <a
+    href="#game"
+    id="publicGamesBtn"
+    class="public-games-btn">
 
-                    🎮 ورود به بازی‌های ریاضی
+    🎮 ورود به بازی‌های ریاضی
 
-                </button>
+</a>
 
                 <p>
                     بدون نیاز به ثبت‌نام
@@ -76,16 +76,7 @@ export function renderLogin() {
         );
 
 
-    document
-        .getElementById("publicGamesBtn")
-        ?.addEventListener(
-            "click",
-            () => {
-
-                navigate("game");
-
-            }
-        );
+    
 }
 
 
