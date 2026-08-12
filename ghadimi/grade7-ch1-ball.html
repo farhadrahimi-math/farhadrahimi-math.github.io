@@ -1,360 +1,1081 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
-<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎮 توپ + سیستم امتیاز</title>
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>
+    🎮 بازی حرکت توپ
+</title>
 
 <style>
-body{
-  margin:0;
-  font-family:Tahoma;
-  background:linear-gradient(135deg,#667eea,#764ba2);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+
+body {
+    margin: 0;
+    font-family: Tahoma, sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #667eea,
+            #764ba2
+        );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
 }
 
-.container{
-  width:95%;
-  max-width:1100px;
-  background:white;
-  padding:25px;
-  border-radius:20px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.25);
-  text-align:center;
+
+.container {
+
+    width: 95%;
+    max-width: 1100px;
+
+    background: white;
+
+    padding: 25px;
+
+    margin: 20px auto;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 20px 40px
+        rgba(0, 0, 0, 0.25);
+
+    text-align: center;
 }
 
-.scene{
-  position:relative;
-  height:650px;
-  margin:25px 0;
-  background:linear-gradient(to top,#2ecc71 20%,#87ceeb 20%);
-  border-radius:15px;
-  overflow-x:auto;
+
+h3 {
+
+    margin-top: 0;
+
+    font-size: 24px;
+
+    color: #2d3436;
 }
 
-.ground{
-  position:absolute;
-  bottom:20%;
-  width:100%;
-  height:4px;
-  background:#2d3436;
+
+#question {
+
+    font-size: 18px;
+
+    line-height: 2;
+
+    margin: 20px 0;
 }
 
-.ball{
-  position:absolute;
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  left:80px;
-  background:#e74c3c;
-  box-shadow: inset -8px -8px 15px rgba(0,0,0,0.3),
-              inset 8px 8px 15px rgba(255,255,255,0.3);
+
+.answer-box {
+
+    margin: 20px 0;
 }
 
-.arrow{
-  position:absolute;
-  width:8px;
-  border-radius:4px;
+
+input {
+
+    padding: 10px;
+
+    width: 150px;
+
+    text-align: center;
+
+    border-radius: 8px;
+
+    border: 2px solid #ccc;
+
+    font-size: 16px;
 }
 
-.arrow.up{ background:#00b894; }
-.arrow.down{ background:#e74c3c; }
 
-.arrow::after{
-  content:"";
-  position:absolute;
-  left:-8px;
-  width:0;
-  height:0;
-  border-left:12px solid transparent;
-  border-right:12px solid transparent;
+.scene {
+
+    position: relative;
+
+    height: 500px;
+
+    margin: 25px 0;
+
+    background:
+        linear-gradient(
+            to top,
+            #2ecc71 20%,
+            #87ceeb 20%
+        );
+
+    border-radius: 15px;
+
+    overflow-x: auto;
 }
 
-.arrow.up::after{
-  top:-14px;
-  border-bottom:18px solid #00b894;
+
+.ground {
+
+    position: absolute;
+
+    bottom: 20%;
+
+    width: 100%;
+    height: 4px;
+
+    background: #2d3436;
 }
 
-.arrow.down::after{
-  bottom:-14px;
-  border-top:18px solid #e74c3c;
+
+.ball {
+
+    position: absolute;
+
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+
+    left: 80px;
+
+    background: #e74c3c;
+
+    box-shadow:
+        inset -8px -8px 15px
+        rgba(0, 0, 0, 0.3),
+
+        inset 8px 8px 15px
+        rgba(255, 255, 255, 0.3);
 }
 
-.label{
-  position:absolute;
-  font-size:14px;
-  font-weight:bold;
+
+.arrow {
+
+    position: absolute;
+
+    width: 8px;
+
+    border-radius: 4px;
 }
 
-button{
-  padding:10px 20px;
-  border:none;
-  border-radius:10px;
-  background:#6c5ce7;
-  color:white;
-  cursor:pointer;
-  margin:5px;
+
+.arrow.up {
+    background: #00b894;
 }
 
-button:hover{ background:#5a4bd6; }
 
-input{
-  padding:8px;
-  width:150px;
-  text-align:center;
-  border-radius:8px;
-  border:2px solid #ccc;
+.arrow.down {
+    background: #e74c3c;
 }
 
-#formula{
-  margin-top:15px;
-  font-size:20px;
-  color:#2d3436;
-  font-weight:bold;
-  text-align:right;
-  direction:ltr;
+
+.arrow::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: -8px;
+
+    width: 0;
+    height: 0;
+
+    border-left:
+        12px solid transparent;
+
+    border-right:
+        12px solid transparent;
 }
 
-#scoreBox{
-  margin-top:10px;
-  font-weight:bold;
+
+.arrow.up::after {
+
+    top: -14px;
+
+    border-bottom:
+        18px solid #00b894;
 }
+
+
+.arrow.down::after {
+
+    bottom: -14px;
+
+    border-top:
+        18px solid #e74c3c;
+}
+
+
+.label {
+
+    position: absolute;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+
+.controls {
+
+    margin-top: 15px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 8px;
+}
+
+
+button {
+
+    padding: 11px 20px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #6c5ce7;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 15px;
+}
+
+
+button:hover {
+
+    background: #5a4bd6;
+}
+
+
+button:disabled {
+
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+#formula {
+
+    margin-top: 15px;
+
+    min-height: 30px;
+
+    font-size: 20px;
+
+    color: #2d3436;
+
+    font-weight: bold;
+
+    text-align: right;
+
+    direction: ltr;
+}
+
+
+#info {
+
+    min-height: 35px;
+
+    margin-top: 15px;
+
+    font-size: 17px;
+
+    font-weight: bold;
+}
+
+
+#scoreBox {
+
+    display: inline-block;
+
+    margin-top: 15px;
+
+    padding: 12px 22px;
+
+    border-radius: 12px;
+
+    background: #f1f2f6;
+
+    color: #2d3436;
+
+    font-size: 18px;
+
+    font-weight: bold;
+}
+
+
+.back-link {
+
+    display: inline-block;
+
+    margin-top: 20px;
+
+    color: #6c5ce7;
+
+    text-decoration: none;
+
+    font-weight: bold;
+}
+
+
+@media (max-width: 600px) {
+
+    .container {
+
+        width: calc(100% - 24px);
+
+        box-sizing: border-box;
+
+        padding: 16px;
+
+        margin: 12px;
+    }
+
+
+    .scene {
+
+        height: 430px;
+    }
+
+
+    h3 {
+
+        font-size: 20px;
+    }
+
+
+    #question {
+
+        font-size: 16px;
+    }
+
+
+    button {
+
+        flex: 1;
+
+        min-width: 120px;
+    }
+}
+
 </style>
+
 </head>
+
+
 <body>
 
+
 <div class="container">
-<h3>🎮 حرکت توپ + امتیاز</h3>
-<div id="question"></div>
 
-<div>
-  پاسخ شما:
-  <input type="number" id="userAnswer">
+
+    <h3>
+        🎮 حرکت توپ
+    </h3>
+
+
+    <div id="question">
+    </div>
+
+
+    <div class="answer-box">
+
+        پاسخ شما:
+
+        <input
+            type="number"
+            id="userAnswer"
+            inputmode="numeric">
+
+    </div>
+
+
+    <div
+        class="scene"
+        id="scene">
+
+        <div class="ground">
+        </div>
+
+        <div
+            class="ball"
+            id="ball">
+        </div>
+
+    </div>
+
+
+    <div class="controls">
+
+        <button
+            type="button"
+            onclick="nextStep()">
+
+            مرحله بعد
+
+        </button>
+
+
+        <button
+            type="button"
+            onclick="checkAnswer()">
+
+            بررسی پاسخ
+
+        </button>
+
+
+        <button
+            type="button"
+            onclick="newGame()">
+
+            سوال جدید
+
+        </button>
+
+    </div>
+
+
+    <div id="info">
+    </div>
+
+
+    <div id="formula">
+    </div>
+
+
+    <div id="scoreBox">
+        امتیاز: 0
+    </div>
+
+
+    <br>
+
+
+    <a
+        href="/#game"
+        class="back-link">
+
+        ← بازگشت به بازی‌های ریاضی
+
+    </a>
+
+
 </div>
 
-<div class="scene" id="scene">
-  <div class="ground"></div>
-  <div class="ball" id="ball"></div>
-</div>
-
-<button onclick="nextStep()">مرحله بعد</button>
-<button onclick="checkAnswer()">بررسی پاسخ</button>
-<button onclick="newGame()">سوال جدید</button>
-
-<div id="info"></div>
-<div id="formula"></div>
-<div id="scoreBox">امتیاز: 0</div>
-
-</div>
 
 <script>
-const supabaseUrl = "https://ypjmkigvghybkwyxndcz.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4";
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-async function checkAccess() {
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  if (!session) {
-    window.location.href = "index.html";
-    return;
-  }
 
-  const { data: profile } = await supabaseClient
-    .from("profiles")
-    .select("*")
-    .eq("id", session.user.id)
-    .single();
-
-  if (!profile || profile.grade != 7) {
-    window.location.href = "index.html";
-    return;
-  }
-}
-
-checkAccess();
 let initialHeight;
+
 let currentHeight;
+
 let bounceTarget;
+
 let bounceCount;
+
 let totalDistance;
+
 let distances = [];
+
 let score = 0;
 
+let answerChecked = false;
+
+
 let sceneHeight = 500;
+
 let ballHeight = 60;
-let ball = document.getElementById("ball");
-let scene = document.getElementById("scene");
+
+let ball =
+    document.getElementById("ball");
+
+let scene =
+    document.getElementById("scene");
+
 let arrowOffset = 200;
 
-function getGroundY(){
-  const ground = document.querySelector(".ground");
-  const sceneRect = scene.getBoundingClientRect();
-  const groundRect = ground.getBoundingClientRect();
-  return sceneRect.bottom - groundRect.top;
+
+function getGroundY() {
+
+    const ground =
+        document.querySelector(
+            ".ground"
+        );
+
+    const sceneRect =
+        scene.getBoundingClientRect();
+
+    const groundRect =
+        ground.getBoundingClientRect();
+
+
+    return (
+        sceneRect.bottom -
+        groundRect.top
+    );
 }
 
-function generateQuestion(){
 
-  bounceTarget = Math.floor(Math.random()*4)+2;
-  let power = Math.pow(2,bounceTarget);
-  let multiplier = Math.floor(Math.random()*3)+2;
-  initialHeight = power * multiplier;
+function generateQuestion() {
 
-  currentHeight = initialHeight;
-  bounceCount = 0;
-  totalDistance = 0;
-  distances = [];
-  arrowOffset = 200;
+    bounceTarget =
+        Math.floor(
+            Math.random() * 4
+        ) + 2;
 
-  document.getElementById("question").innerHTML =
-    `توپ از ارتفاع <b>${initialHeight}</b> متر رها می‌شود.
-     هر بار نصف ارتفاع قبلی بالا می‌آید.
-     تا برخورد شماره <b>${bounceTarget}</b> چند متر حرکت می‌کند؟`;
 
-  updateBallPosition(initialHeight);
+    let power =
+        Math.pow(
+            2,
+            bounceTarget
+        );
 
-  document.querySelectorAll(".arrow").forEach(e=>e.remove());
-  document.querySelectorAll(".label").forEach(e=>e.remove());
 
-  document.getElementById("info").innerHTML="";
-  document.getElementById("formula").innerHTML="";
-  document.getElementById("userAnswer").value="";
+    let multiplier =
+        Math.floor(
+            Math.random() * 3
+        ) + 2;
+
+
+    initialHeight =
+        power * multiplier;
+
+
+    currentHeight =
+        initialHeight;
+
+
+    bounceCount = 0;
+
+    totalDistance = 0;
+
+    distances = [];
+
+    arrowOffset = 200;
+
+    answerChecked = false;
+
+
+    document
+        .getElementById(
+            "question"
+        )
+        .innerHTML = `
+
+            توپ از ارتفاع
+
+            <b>
+                ${initialHeight}
+            </b>
+
+            متر رها می‌شود.
+
+            هر بار نصف ارتفاع قبلی
+            بالا می‌آید.
+
+            تا برخورد شماره
+
+            <b>
+                ${bounceTarget}
+            </b>
+
+            چند متر حرکت می‌کند؟
+
+        `;
+
+
+    updateBallPosition(
+        initialHeight
+    );
+
+
+    document
+        .querySelectorAll(
+            ".arrow"
+        )
+        .forEach(
+            element =>
+                element.remove()
+        );
+
+
+    document
+        .querySelectorAll(
+            ".label"
+        )
+        .forEach(
+            element =>
+                element.remove()
+        );
+
+
+    document
+        .getElementById(
+            "info"
+        )
+        .innerHTML = "";
+
+
+    document
+        .getElementById(
+            "formula"
+        )
+        .innerHTML = "";
+
+
+    document
+        .getElementById(
+            "userAnswer"
+        )
+        .value = "";
 }
 
-function meterToPixel(m){
-  const groundY = getGroundY();
-  return (m/initialHeight)*sceneHeight + groundY;
+
+function meterToPixel(meter) {
+
+    const groundY =
+        getGroundY();
+
+
+    return (
+        (meter / initialHeight) *
+        sceneHeight
+    ) + groundY;
 }
 
-function updateBallPosition(height){
-  ball.style.bottom = (meterToPixel(height) - ballHeight)+"px";
+
+function updateBallPosition(
+    height
+) {
+
+    ball.style.bottom =
+        (
+            meterToPixel(height) -
+            ballHeight
+        ) + "px";
 }
 
-function animateMove(from,to,duration,callback){
 
-  let start=null;
-  function step(timestamp){
-    if(!start) start=timestamp;
-    let progress=timestamp-start;
-    let percent=Math.min(progress/duration,1);
-    let height=from+(to-from)*percent;
-    updateBallPosition(height);
-    if(percent<1){
-      requestAnimationFrame(step);
-    }else{
-      if(callback) callback();
+function animateMove(
+    from,
+    to,
+    duration,
+    callback
+) {
+
+    let start = null;
+
+
+    function step(timestamp) {
+
+        if (!start) {
+            start = timestamp;
+        }
+
+
+        let progress =
+            timestamp - start;
+
+
+        let percent =
+            Math.min(
+                progress / duration,
+                1
+            );
+
+
+        let height =
+            from +
+            (to - from) *
+            percent;
+
+
+        updateBallPosition(
+            height
+        );
+
+
+        if (percent < 1) {
+
+            requestAnimationFrame(
+                step
+            );
+
+        } else {
+
+            if (callback) {
+                callback();
+            }
+        }
     }
-  }
-  requestAnimationFrame(step);
+
+
+    requestAnimationFrame(
+        step
+    );
 }
 
-function drawArrow(from,to,dir){
 
-  let startPixel=meterToPixel(from);
-  let endPixel=meterToPixel(to);
-  let length=Math.abs(endPixel-startPixel);
+function drawArrow(
+    from,
+    to,
+    direction
+) {
 
-  let arrow=document.createElement("div");
-  arrow.className="arrow "+dir;
-  arrow.style.height=length+"px";
-  arrow.style.left=arrowOffset+"px";
+    let startPixel =
+        meterToPixel(from);
 
-  if(dir==="down"){
-    arrow.style.bottom=endPixel+"px";
-  }else{
-    arrow.style.bottom=startPixel+"px";
-  }
 
-  let label=document.createElement("div");
-  label.className="label";
-  label.style.left=(arrowOffset-15)+"px";
-  label.style.bottom=(Math.max(startPixel,endPixel)+8)+"px";
-  label.style.color=(dir==="up")?"#00b894":"#e74c3c";
-  label.innerText=Math.round(Math.abs(from-to));
+    let endPixel =
+        meterToPixel(to);
 
-  scene.appendChild(arrow);
-  scene.appendChild(label);
 
-  arrowOffset+=70;
+    let length =
+        Math.abs(
+            endPixel -
+            startPixel
+        );
+
+
+    let arrow =
+        document.createElement(
+            "div"
+        );
+
+
+    arrow.className =
+        "arrow " + direction;
+
+
+    arrow.style.height =
+        length + "px";
+
+
+    arrow.style.left =
+        arrowOffset + "px";
+
+
+    if (
+        direction === "down"
+    ) {
+
+        arrow.style.bottom =
+            endPixel + "px";
+
+    } else {
+
+        arrow.style.bottom =
+            startPixel + "px";
+    }
+
+
+    let label =
+        document.createElement(
+            "div"
+        );
+
+
+    label.className =
+        "label";
+
+
+    label.style.left =
+        (
+            arrowOffset - 15
+        ) + "px";
+
+
+    label.style.bottom =
+        (
+            Math.max(
+                startPixel,
+                endPixel
+            ) + 8
+        ) + "px";
+
+
+    label.style.color =
+        direction === "up"
+            ? "#00b894"
+            : "#e74c3c";
+
+
+    label.innerText =
+        Math.round(
+            Math.abs(
+                from - to
+            )
+        );
+
+
+    scene.appendChild(
+        arrow
+    );
+
+
+    scene.appendChild(
+        label
+    );
+
+
+    arrowOffset += 70;
 }
 
-function updateFormula(){
-  let text = distances.join(" + ");
-  if(distances.length>0){
-    let sum = distances.reduce((a,b)=>a+b,0);
-    text += " = " + sum;
-  }
-  document.getElementById("formula").innerHTML = text;
+
+function updateFormula() {
+
+    let text =
+        distances.join(" + ");
+
+
+    if (
+        distances.length > 0
+    ) {
+
+        let sum =
+            distances.reduce(
+                (a, b) =>
+                    a + b,
+                0
+            );
+
+
+        text +=
+            " = " + sum;
+    }
+
+
+    document
+        .getElementById(
+            "formula"
+        )
+        .innerHTML =
+        text;
 }
 
-function nextStep(){
 
-  if(bounceCount===0){
-    totalDistance+=currentHeight;
-    distances.push(currentHeight);
-    updateFormula();
+function nextStep() {
 
-    drawArrow(currentHeight,0,"down");
+    if (
+        bounceCount === 0
+    ) {
 
-    animateMove(currentHeight,0,800,()=>{
-      bounceCount++;
-    });
-    return;
-  }
+        totalDistance +=
+            currentHeight;
 
-  if(bounceCount < bounceTarget){
 
-    currentHeight=currentHeight/2;
-    totalDistance+=currentHeight*2;
+        distances.push(
+            currentHeight
+        );
 
-    distances.push(currentHeight);
-    distances.push(currentHeight);
-    updateFormula();
 
-    drawArrow(0,currentHeight,"up");
+        updateFormula();
 
-    animateMove(0,currentHeight,700,()=>{
-      drawArrow(currentHeight,0,"down");
-      animateMove(currentHeight,0,700,()=>{
-        bounceCount++;
-      });
-    });
 
-    return;
-  }
+        drawArrow(
+            currentHeight,
+            0,
+            "down"
+        );
 
-  document.getElementById("info").innerHTML=
-    "✅ حرکت کامل شد";
+
+        animateMove(
+            currentHeight,
+            0,
+            800,
+            () => {
+
+                bounceCount++;
+            }
+        );
+
+
+        return;
+    }
+
+
+    if (
+        bounceCount <
+        bounceTarget
+    ) {
+
+        currentHeight =
+            currentHeight / 2;
+
+
+        totalDistance +=
+            currentHeight * 2;
+
+
+        distances.push(
+            currentHeight
+        );
+
+
+        distances.push(
+            currentHeight
+        );
+
+
+        updateFormula();
+
+
+        drawArrow(
+            0,
+            currentHeight,
+            "up"
+        );
+
+
+        animateMove(
+            0,
+            currentHeight,
+            700,
+            () => {
+
+                drawArrow(
+                    currentHeight,
+                    0,
+                    "down"
+                );
+
+
+                animateMove(
+                    currentHeight,
+                    0,
+                    700,
+                    () => {
+
+                        bounceCount++;
+                    }
+                );
+            }
+        );
+
+
+        return;
+    }
+
+
+    document
+        .getElementById(
+            "info"
+        )
+        .innerHTML =
+        "✅ حرکت کامل شد";
 }
 
-function checkAnswer(){
 
-  let userAnswer = parseInt(document.getElementById("userAnswer").value);
+function checkAnswer() {
 
-  if(userAnswer === totalDistance){
-    score += 10;
-    document.getElementById("info").innerHTML =
-      "✅ پاسخ درست! +10 امتیاز";
-  }else{
-    document.getElementById("info").innerHTML =
-      "❌ پاسخ نادرست. جواب صحیح: " + totalDistance;
-  }
+    if (
+        answerChecked
+    ) {
 
-  document.getElementById("scoreBox").innerHTML =
-    "امتیاز: " + score;
+        document
+            .getElementById(
+                "info"
+            )
+            .innerHTML =
+            "این سوال قبلاً بررسی شده است.";
+
+        return;
+    }
+
+
+    const input =
+        document.getElementById(
+            "userAnswer"
+        );
+
+
+    const userAnswer =
+        Number(
+            input.value
+        );
+
+
+    if (
+        input.value.trim() === "" ||
+        Number.isNaN(userAnswer)
+    ) {
+
+        document
+            .getElementById(
+                "info"
+            )
+            .innerHTML =
+            "لطفاً پاسخ را وارد کنید.";
+
+        return;
+    }
+
+
+    answerChecked = true;
+
+
+    if (
+        userAnswer ===
+        totalDistance
+    ) {
+
+        score += 10;
+
+
+        document
+            .getElementById(
+                "info"
+            )
+            .innerHTML =
+            "✅ پاسخ درست! +10 امتیاز";
+
+    } else {
+
+        document
+            .getElementById(
+                "info"
+            )
+            .innerHTML =
+            "❌ پاسخ نادرست. جواب صحیح: " +
+            totalDistance;
+    }
+
+
+    document
+        .getElementById(
+            "scoreBox"
+        )
+        .innerHTML =
+        "امتیاز: " + score;
 }
 
-function newGame(){
-  generateQuestion();
+
+function newGame() {
+
+    generateQuestion();
 }
+
 
 generateQuestion();
 
+
 </script>
 
+
 </body>
-</html>
+
+</html>‌
