@@ -16,6 +16,7 @@ const GameSDK = {
         this.gameId =
             Number(gameId);
 
+
         try {
 
             const player =
@@ -25,9 +26,11 @@ const GameSDK = {
                     )
                 );
 
+
             this.playerName =
                 player?.name?.trim() ||
                 "مهمان";
+
 
         } catch {
 
@@ -37,6 +40,7 @@ const GameSDK = {
 
 
         return {
+
             gameId:
                 this.gameId,
 
@@ -82,6 +86,7 @@ const GameSDK = {
                 await fetch(
                     `${this.supabaseUrl}/functions/v1/submit-game-score`,
                     {
+
                         method: "POST",
 
                         headers: {
@@ -98,6 +103,7 @@ const GameSDK = {
 
                         body:
                             JSON.stringify({
+
                                 gameId:
                                     this.gameId,
 
@@ -131,8 +137,11 @@ const GameSDK = {
 
 
             return {
+
                 success: true,
-                score: finalScore
+
+                score:
+                    finalScore
             };
 
 
@@ -145,6 +154,7 @@ const GameSDK = {
 
 
             return {
+
                 success: false,
 
                 message:
@@ -161,26 +171,18 @@ const GameSDK = {
 
         try {
 
-            /*
-             * عمداً limit را در درخواست
-             * Supabase قرار نمی‌دهیم.
-             *
-             * ابتدا رکوردها بر اساس بیشترین
-             * امتیاز مرتب می‌شوند؛ سپس بهترین
-             * رکورد هر بازیکن انتخاب می‌شود.
-             */
-
             const url =
                 `${this.supabaseUrl}/rest/v1/game_scores` +
                 `?game_id=eq.${this.gameId}` +
                 `&select=player_name,score,created_at` +
-                `&order=score.desc,created_at.asc`;
+                `&order=score.desc`;
 
 
             const response =
                 await fetch(
                     url,
                     {
+
                         headers: {
 
                             "apikey":
@@ -195,9 +197,18 @@ const GameSDK = {
 
             if (!response.ok) {
 
-                throw new Error(
-                    "دریافت جدول برترین‌ها ناموفق بود."
+                const errorText =
+                    await response.text();
+
+
+                console.error(
+                    "Leaderboard HTTP:",
+                    response.status,
+                    errorText
                 );
+
+
+                return [];
             }
 
 
@@ -225,28 +236,27 @@ const GameSDK = {
                 }
 
 
-                /*
-                 * تفاوت حروف بزرگ/کوچک
-                 * باعث ایجاد بازیکن تکراری نشود.
-                 */
                 const key =
-                    name.toLocaleLowerCase(
-                        "fa"
-                    );
+                    name.toLowerCase();
 
 
                 /*
-                 * چون نتایج از بیشترین امتیاز
-                 * مرتب شده‌اند، اولین رکورد
-                 * بهترین رکورد این بازیکن است.
+                 * رکوردها از بیشترین امتیاز
+                 * مرتب شده‌اند.
+                 *
+                 * پس اولین رکورد هر بازیکن
+                 * بهترین امتیاز اوست.
                  */
                 if (
-                    !bestPlayers.has(key)
+                    !bestPlayers.has(
+                        key
+                    )
                 ) {
 
                     bestPlayers.set(
                         key,
                         {
+
                             player_name:
                                 name,
 
@@ -288,9 +298,11 @@ const GameSDK = {
 
     reset() {
 
-        this.finished = false;
+        this.finished =
+            false;
     }
 };
 
 
-window.GameSDK = GameSDK;
+window.GameSDK =
+    GameSDK;
