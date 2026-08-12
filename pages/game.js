@@ -21,7 +21,7 @@ export function renderGame() {
 
     restorePlayer();
 
-    const content = `
+    document.getElementById("app").innerHTML = `
 
         <div class="public-games-page">
 
@@ -51,117 +51,9 @@ export function renderGame() {
             </section>
 
 
-            <section class="player-section">
+            <section id="gameSelector">
 
-                <h2>
-                    👋 اسمت چیه؟
-                </h2>
-
-                <div class="input-group">
-
-                    <label for="playerName">
-                        نام بازیکن
-                    </label>
-
-                    <input
-                        id="playerName"
-                        type="text"
-                        maxlength="30"
-                        autocomplete="off"
-                        placeholder="اسمت رو وارد کن"
-                        value="${escapeHtml(
-                            state.playerName
-                        )}">
-
-                </div>
-
-            </section>
-
-
-            <section class="grade-section">
-
-                <h2>
-                    پایه خودت رو انتخاب کن
-                </h2>
-
-                <div class="grade-list">
-
-                    ${Object.entries(grades)
-                        .map(
-                            ([grade, info]) => `
-
-                                <button
-                                    type="button"
-                                    class="grade-game-btn"
-                                    data-grade="${grade}"
-                                    style="
-                                        --grade-color:
-                                        ${info.color};
-                                    ">
-
-                                    <span>
-                                        پایه
-                                    </span>
-
-                                    <strong>
-                                        ${grade}
-                                    </strong>
-
-                                    <small>
-                                        ${info.title}
-                                    </small>
-
-                                </button>
-
-                            `
-                        )
-                        .join("")}
-
-                </div>
-
-            </section>
-
-
-            <section
-                id="chaptersSection"
-                class="public-chapters-section"
-                hidden>
-
-                <h2 id="chaptersTitle">
-                    فصل‌ها
-                </h2>
-
-                <div
-                    id="publicChapterList"
-                    class="public-chapter-list">
-                </div>
-
-            </section>
-
-
-            <section
-                id="publicGamesSection"
-                class="public-game-list-section"
-                hidden>
-
-                <div class="public-games-title">
-
-                    <h2 id="selectedChapterTitle">
-                        بازی‌های فصل
-                    </h2>
-
-                    <button
-                        type="button"
-                        id="backToChaptersBtn">
-                        بازگشت به فصل‌ها
-                    </button>
-
-                </div>
-
-                <div
-                    id="publicGameList"
-                    class="public-game-list">
-                </div>
+                ${createGradeStep()}
 
             </section>
 
@@ -172,184 +64,258 @@ export function renderGame() {
             </div>
 
 
-            <button
-                id="backToLoginBtn"
-                type="button"
-                class="games-back-btn">
+            <div class="student-login-link">
 
-                ورود به سامانه آزمون دانش‌آموزی
+                <p>
+                    دانش‌آموز سامانه هستی؟
+                </p>
 
-            </button>
+                <button
+                    id="backToLoginBtn"
+                    type="button"
+                    class="games-back-btn">
+
+                    ورود به بخش آزمون‌ها
+
+                </button>
+
+            </div>
 
         </div>
 
     `;
 
-    document.getElementById("app").innerHTML =
-        content;
-
-    bindGamePageEvents();
+    bindGradeEvents();
+    bindLoginEvent();
 }
 
 
-function bindGamePageEvents() {
+function createGradeStep() {
+
+    return `
+
+        <section class="player-section">
+
+            <h2>
+                👋 اول اسمت رو وارد کن
+            </h2>
+
+            <div class="input-group">
+
+                <label for="playerName">
+                    نام بازیکن
+                </label>
+
+                <input
+                    id="playerName"
+                    type="text"
+                    maxlength="30"
+                    autocomplete="off"
+                    placeholder="اسمت رو وارد کن"
+                    value="${escapeHtml(
+                        state.playerName
+                    )}">
+
+            </div>
+
+        </section>
+
+
+        <section class="grade-section">
+
+            <h2>
+                پایه خودت رو انتخاب کن
+            </h2>
+
+            <div class="grade-list">
+
+                ${Object.entries(grades)
+                    .map(
+                        ([grade, info]) => `
+
+                            <button
+                                type="button"
+                                class="grade-game-btn"
+                                data-grade="${grade}">
+
+                                <span>
+                                    پایه
+                                </span>
+
+                                <strong>
+                                    ${grade}
+                                </strong>
+
+                                <small>
+                                    ${escapeHtml(
+                                        info.title
+                                    )}
+                                </small>
+
+                            </button>
+
+                        `
+                    )
+                    .join("")}
+
+            </div>
+
+        </section>
+
+    `;
+}
+
+
+function bindGradeEvents() {
 
     document
-        .querySelectorAll(".grade-game-btn")
+        .querySelectorAll(
+            ".grade-game-btn"
+        )
         .forEach(button => {
 
             button.addEventListener(
                 "click",
                 () => {
 
-                    handleGradeSelect(
+                    const playerName =
+                        document
+                            .getElementById(
+                                "playerName"
+                            )
+                            ?.value
+                            .trim();
+
+                    if (
+                        !playerName ||
+                        playerName.length < 2
+                    ) {
+
+                        showMessage(
+                            "لطفاً اول اسمت رو وارد کن 🌟"
+                        );
+
+                        document
+                            .getElementById(
+                                "playerName"
+                            )
+                            ?.focus();
+
+                        return;
+                    }
+
+
+                    state.playerName =
+                        playerName;
+
+                    state.grade =
                         Number(
                             button.dataset.grade
-                        )
-                    );
+                        );
+
+                    state.chapter = null;
+
+                    savePlayer();
+
+                    showMessage("");
+
+                    renderChapterStep();
                 }
             );
         });
-
-
-    document
-        .getElementById("backToChaptersBtn")
-        ?.addEventListener(
-            "click",
-            showChapters
-        );
-
-
-    document
-        .getElementById("backToLoginBtn")
-        ?.addEventListener(
-            "click",
-            () => {
-
-                navigate("login");
-            }
-        );
 }
 
 
-function handleGradeSelect(grade) {
+function renderChapterStep() {
 
-    const playerName =
-        document
-            .getElementById("playerName")
-            ?.value
-            .trim();
-
-    if (!playerName) {
-
-        showMessage(
-            "اول اسمت رو وارد کن 🌟"
-        );
-
-        document
-            .getElementById("playerName")
-            ?.focus();
-
-        return;
-    }
-
-
-    if (playerName.length < 2) {
-
-        showMessage(
-            "اسم بازیکن خیلی کوتاهه."
-        );
-
-        return;
-    }
-
-
-    state.playerName = playerName;
-    state.grade = grade;
-    state.chapter = null;
-
-    savePlayer();
-
-    showMessage("");
-
-    renderChapters();
-}
-
-
-function renderChapters() {
-
-    const section =
+    const selector =
         document.getElementById(
-            "chaptersSection"
+            "gameSelector"
         );
 
-    const gamesSection =
-        document.getElementById(
-            "publicGamesSection"
-        );
-
-    const list =
-        document.getElementById(
-            "publicChapterList"
-        );
-
-    const title =
-        document.getElementById(
-            "chaptersTitle"
-        );
+    if (!selector) return;
 
 
     const gradeChapters =
         chapters[state.grade] || [];
 
 
-    if (!section || !list) {
-        return;
-    }
+    selector.innerHTML = `
+
+        <section class="public-chapters-section">
+
+            <div class="selection-summary">
+
+                <span>
+                    👤
+                    ${escapeHtml(
+                        state.playerName
+                    )}
+                </span>
+
+                <span>
+                    📚 پایه ${state.grade}
+                </span>
+
+            </div>
 
 
-    if (title) {
-
-        title.textContent =
-            `فصل‌های پایه ${state.grade}`;
-    }
+            <h2>
+                فصل‌های پایه ${state.grade}
+            </h2>
 
 
-    list.innerHTML =
-        gradeChapters
-            .map(
-                (chapterTitle, index) => `
+            <div class="public-chapter-list">
 
-                    <button
-                        type="button"
-                        class="public-chapter-btn"
-                        data-chapter="${index + 1}">
+                ${gradeChapters
+                    .map(
+                        (title, index) => `
 
-                        <span class="chapter-number">
-                            ${index + 1}
-                        </span>
+                            <button
+                                type="button"
+                                class="public-chapter-btn"
+                                data-chapter="${index + 1}">
 
-                        <span class="chapter-name">
-                            ${escapeHtml(
-                                chapterTitle
-                            )}
-                        </span>
+                                <span
+                                    class="chapter-number">
 
-                    </button>
+                                    ${index + 1}
 
-                `
-            )
-            .join("");
+                                </span>
+
+                                <span
+                                    class="chapter-name">
+
+                                    ${escapeHtml(
+                                        title
+                                    )}
+
+                                </span>
+
+                            </button>
+
+                        `
+                    )
+                    .join("")}
+
+            </div>
 
 
-    section.hidden = false;
+            <button
+                type="button"
+                id="changeGradeBtn"
+                class="games-back-btn">
 
-    if (gamesSection) {
-        gamesSection.hidden = true;
-    }
+                تغییر نام یا پایه
+
+            </button>
+
+        </section>
+
+    `;
 
 
-    list
+    document
         .querySelectorAll(
             ".public-chapter-btn"
         )
@@ -359,7 +325,7 @@ function renderChapters() {
                 "click",
                 () => {
 
-                    handleChapterSelect(
+                    loadChapterGames(
                         Number(
                             button.dataset.chapter
                         )
@@ -369,14 +335,24 @@ function renderChapters() {
         });
 
 
-    section.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
+    document
+        .getElementById(
+            "changeGradeBtn"
+        )
+        ?.addEventListener(
+            "click",
+            () => {
+
+                selector.innerHTML =
+                    createGradeStep();
+
+                bindGradeEvents();
+            }
+        );
 }
 
 
-async function handleChapterSelect(
+async function loadChapterGames(
     chapter
 ) {
 
@@ -390,42 +366,24 @@ async function handleChapterSelect(
     const games =
         await getPublicGames(
             state.grade,
-            chapter
+            state.chapter
         );
 
 
     showMessage("");
 
-    renderGames(games);
+    renderGamesStep(games);
 }
 
 
-function renderGames(games) {
+function renderGamesStep(games) {
 
-    const chapterSection =
+    const selector =
         document.getElementById(
-            "chaptersSection"
+            "gameSelector"
         );
 
-    const section =
-        document.getElementById(
-            "publicGamesSection"
-        );
-
-    const list =
-        document.getElementById(
-            "publicGameList"
-        );
-
-    const title =
-        document.getElementById(
-            "selectedChapterTitle"
-        );
-
-
-    if (!section || !list) {
-        return;
-    }
+    if (!selector) return;
 
 
     const chapterTitle =
@@ -434,121 +392,147 @@ function renderGames(games) {
         ] || `فصل ${state.chapter}`;
 
 
-    if (title) {
+    selector.innerHTML = `
 
-        title.textContent =
-            chapterTitle;
-    }
+        <section
+            class="public-game-list-section">
 
+            <div class="selection-summary">
 
-    if (!games.length) {
+                <span>
+                    👤
+                    ${escapeHtml(
+                        state.playerName
+                    )}
+                </span>
 
-        list.innerHTML = `
-
-            <div class="empty-state">
-
-                <div>
-                    🎮
-                </div>
-
-                <p>
-                    هنوز برای این فصل
-                    بازی‌ای قرار داده نشده است.
-                </p>
+                <span>
+                    📚 پایه ${state.grade}
+                </span>
 
             </div>
 
-        `;
 
-    } else {
+            <h2>
+                ${escapeHtml(
+                    chapterTitle
+                )}
+            </h2>
 
-        list.innerHTML =
-            games
-                .map(
-                    game => `
 
-                        <div
-                            class="public-game-card">
+            <div class="public-game-list">
 
-                            <div
-                                class="public-game-icon">
-                                🎮
-                            </div>
+                ${
+                    games.length
+                        ? games
+                            .map(
+                                game =>
+                                    createGameCard(
+                                        game
+                                    )
+                            )
+                            .join("")
+                        : `
 
-                            <div
-                                class="public-game-info">
+                            <div class="empty-state">
 
-                                <h3>
-                                    ${escapeHtml(
-                                        game.title
-                                    )}
-                                </h3>
+                                <div>
+                                    🎮
+                                </div>
 
                                 <p>
-                                    بازی آموزشی ریاضی
+                                    هنوز برای این فصل
+                                    بازی‌ای قرار داده
+                                    نشده است.
                                 </p>
 
                             </div>
 
-                            <a
-                                class="play-game-btn"
-                                href="${escapeAttribute(
-                                    game.url
-                                )}"
-                                data-game-id="${game.id}">
+                        `
+                }
 
-                                شروع بازی
-
-                            </a>
-
-                        </div>
-
-                    `
-                )
-                .join("");
-    }
+            </div>
 
 
-    if (chapterSection) {
-        chapterSection.hidden = true;
-    }
+            <button
+                type="button"
+                id="backToChaptersBtn"
+                class="games-back-btn">
 
-    section.hidden = false;
+                بازگشت به فصل‌ها
+
+            </button>
+
+        </section>
+
+    `;
 
 
-    section.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
+    document
+        .getElementById(
+            "backToChaptersBtn"
+        )
+        ?.addEventListener(
+            "click",
+            renderChapterStep
+        );
 }
 
 
-function showChapters() {
+function createGameCard(game) {
 
-    const chaptersSection =
-        document.getElementById(
-            "chaptersSection"
+    return `
+
+        <div class="public-game-card">
+
+            <div class="public-game-icon">
+                🎮
+            </div>
+
+            <div class="public-game-info">
+
+                <h3>
+                    ${escapeHtml(
+                        game.title
+                    )}
+                </h3>
+
+                <p>
+                    بازی آموزشی ریاضی
+                </p>
+
+            </div>
+
+
+            <a
+                class="play-game-btn"
+                href="${escapeHtml(
+                    game.url
+                )}">
+
+                شروع بازی
+
+            </a>
+
+        </div>
+
+    `;
+}
+
+
+function bindLoginEvent() {
+
+    document
+        .getElementById(
+            "backToLoginBtn"
+        )
+        ?.addEventListener(
+            "click",
+            () => {
+
+                navigate("login");
+            }
         );
-
-    const gamesSection =
-        document.getElementById(
-            "publicGamesSection"
-        );
-
-
-    if (gamesSection) {
-        gamesSection.hidden = true;
-    }
-
-    if (chaptersSection) {
-
-        chaptersSection.hidden = false;
-
-        chaptersSection.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
-    }
 }
 
 
@@ -557,8 +541,10 @@ function savePlayer() {
     sessionStorage.setItem(
         "publicGamePlayer",
         JSON.stringify({
-            name: state.playerName,
-            grade: state.grade
+            name:
+                state.playerName,
+            grade:
+                state.grade
         })
     );
 }
@@ -568,20 +554,25 @@ function restorePlayer() {
 
     try {
 
-        const saved =
-            JSON.parse(
-                sessionStorage.getItem(
-                    "publicGamePlayer"
-                )
+        const value =
+            sessionStorage.getItem(
+                "publicGamePlayer"
             );
 
-        if (!saved) return;
+        if (!value) return;
+
+
+        const saved =
+            JSON.parse(value);
+
 
         state.playerName =
             saved.name || "";
 
         state.grade =
-            Number(saved.grade) || null;
+            Number(
+                saved.grade
+            ) || null;
 
     } catch {
 
@@ -613,10 +604,4 @@ function escapeHtml(value) {
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
-}
-
-
-function escapeAttribute(value) {
-
-    return escapeHtml(value);
 }
