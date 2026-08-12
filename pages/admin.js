@@ -19,6 +19,19 @@ import {
     bindModalClose
 } from "../components/modal.js";
 
+import {
+    getGames,
+    createGame,
+    updateGame,
+    deleteGame
+} from "../services/contentService.js";
+
+import {
+    createGamesSection,
+    createGameForm,
+    getChapterOptions
+} from "../components/adminGames.js";
+
 
 function createAddStudentModal() {
 
@@ -97,7 +110,11 @@ export async function renderAdmin() {
         return;
     }
 
-    const students = await getStudents();
+    const [students, games] =
+    await Promise.all([
+        getStudents(),
+        getGames()
+    ]);
 
     const content = `
 
@@ -132,6 +149,8 @@ export async function renderAdmin() {
                 }
 
             </div>
+
+            ${createGamesSection(games)}
 
         </div>
 
