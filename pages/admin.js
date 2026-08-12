@@ -6,6 +6,19 @@ import {
     createStudent
 } from "../services/studentService.js";
 
+import {
+    getGames,
+    createGame,
+    updateGame,
+    deleteGame
+} from "../services/contentService.js";
+
+import {
+    createGamesSection,
+    createGameForm,
+    getChapterOptions
+} from "../components/adminGames.js";
+
 import { getProfile } from "../store/appStore.js";
 import { initializeLayout } from "../core/layout.js";
 import { navigate } from "../utils/navigation.js";
@@ -19,18 +32,8 @@ import {
     bindModalClose
 } from "../components/modal.js";
 
-import {
-    getGames,
-    createGame,
-    updateGame,
-    deleteGame
-} from "../services/contentService.js";
 
-import {
-    createGamesSection,
-    createGameForm,
-    getChapterOptions
-} from "../components/adminGames.js";
+let currentGames = [];
 
 
 function createAddStudentModal() {
@@ -101,6 +104,17 @@ function createAddStudentModal() {
 }
 
 
+function createGameModal() {
+
+    return createModal({
+        id: "gameModal",
+        title: "افزودن بازی",
+        content: createGameForm(),
+        submitText: "ثبت بازی"
+    });
+}
+
+
 export async function renderAdmin() {
 
     const profile = getProfile();
@@ -111,10 +125,12 @@ export async function renderAdmin() {
     }
 
     const [students, games] =
-    await Promise.all([
-        getStudents(),
-        getGames()
-    ]);
+        await Promise.all([
+            getStudents(),
+            getGames()
+        ]);
+
+    currentGames = games;
 
     const content = `
 
@@ -140,7 +156,9 @@ export async function renderAdmin() {
 
                 ${
                     students.length
-                        ? students.map(createStudentCard).join("")
+                        ? students
+                            .map(createStudentCard)
+                            .join("")
                         : `
                             <div class="empty-state">
                                 هنوز دانش‌آموزی ثبت نشده است.
@@ -156,6 +174,8 @@ export async function renderAdmin() {
 
         ${createAddStudentModal()}
 
+        ${createGameModal()}
+
     `;
 
     document.getElementById("app").innerHTML =
@@ -167,6 +187,7 @@ export async function renderAdmin() {
         });
 
     initializeLayout();
+
     bindAdminEvents();
 }
 
@@ -185,7 +206,11 @@ function createStudentCard(student) {
 
                 <p>
                     پایه ${student.grade}
-                    ${student.phone ? ` • ${student.phone}` : ""}
+                    ${
+                        student.phone
+                            ? ` • ${student.phone}`
+                            : ""
+                    }
                 </p>
 
             </div>
@@ -231,19 +256,19 @@ function createStudentCard(student) {
 function bindAdminEvents() {
 
     bindModalClose("addStudentModal");
+    bindModalClose("gameModal");
 
     document
         .getElementById("addStudentBtn")
-        ?.addEventListener("click", () => {
-
-            resetAddStudentForm();
-
-            openModal("addStudentModal");
-
-        });
+        ?.addEventListener(
+            "click",
+            handleOpenStudentModal
+        );
 
     document
-        .querySelector("#addStudentModal .modal-submit")
+        .querySelector(
+            "#addStudentModal .modal-submit"
+        )
         ?.addEventListener(
             "click",
             handleCreateStudent
@@ -251,33 +276,78 @@ function bindAdminEvents() {
 
     document
         .getElementById("addStudentForm")
-        ?.addEventListener("submit", event => {
+        ?.addEventListener(
+            "submit",
+            event => {
 
-            event.preventDefault();
+                event.preventDefault();
 
-            handleCreateStudent();
-
-        });
+                handleCreateStudent();
+            }
+        );
 
     document
-        .querySelectorAll(".toggle-student-btn")
+        .querySelectorAll(
+            ".toggle-student-btn"
+        )
         .forEach(button => {
 
             button.addEventListener(
                 "click",
                 handleStudentStatus
             );
-
         });
+
+    document
+        .getElementById("addGameBtn")
+        ?.addEventListener(
+            "click",
+            handleOpenAddGame
+        );
+
+    document
+        .querySelectorAll(".edit-game-btn")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                handleOpenEditGame
+            );
+        });
+
+    document
+        .querySelectorAll(".delete-game-btn")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                handleDeleteGame
+            );
+        });
+
+    document
+        .querySelector(
+            "#gameModal .modal-submit"
+        )
+        ?.addEventListener(
+            "click",
+            handleSaveGame
+        );
+
+    bindGameFormEvents();
 }
 
 
-function resetAddStudentForm() {
+function handleOpenStudentModal() {
 
     const form =
-        document.getElementById("addStudentForm");
+        document.getElementById(
+            "addStudentForm"
+        );
 
     form?.reset();
+
+    openModal("addStudentModal");
 }
 
 
@@ -350,20 +420,19 @@ async function handleCreateStudent() {
             "#addStudentModal .modal-submit"
         );
 
-    if (submitButton) {
+    setButtonLoading(
+        submitButton,
+        true,
+        "در حال ثبت..."
+    );
 
-        submitButton.disabled = true;
-        submitButton.textContent =
-            "در حال ثبت...";
-
-    }
-
-    const result = await createStudent({
-        name,
-        phone,
-        password,
-        grade: Number(grade)
-    });
+    const result =
+        await createStudent({
+            name,
+            phone,
+            password,
+            grade: Number(grade)
+        });
 
     if (!result.success) {
 
@@ -373,13 +442,11 @@ async function handleCreateStudent() {
             "error"
         );
 
-        if (submitButton) {
-
-            submitButton.disabled = false;
-            submitButton.textContent =
-                "ثبت دانش‌آموز";
-
-        }
+        setButtonLoading(
+            submitButton,
+            false,
+            "ثبت دانش‌آموز"
+        );
 
         return;
     }
@@ -399,21 +466,25 @@ async function handleStudentStatus(event) {
 
     const button = event.currentTarget;
 
-    const userId = button.dataset.userId;
+    const userId =
+        button.dataset.userId;
 
     const currentlyActive =
         button.dataset.active === "true";
 
-    const newStatus = !currentlyActive;
+    const newStatus =
+        !currentlyActive;
 
     button.disabled = true;
 
-    button.textContent = "در حال تغییر...";
+    button.textContent =
+        "در حال تغییر...";
 
-    const result = await setStudentActive(
-        userId,
-        newStatus
-    );
+    const result =
+        await setStudentActive(
+            userId,
+            newStatus
+        );
 
     if (!result.success) {
 
@@ -440,4 +511,383 @@ async function handleStudentStatus(event) {
     );
 
     await renderAdmin();
+}
+
+
+function handleOpenAddGame() {
+
+    renderGameForm();
+
+    setGameModalTitle(
+        "افزودن بازی",
+        "ثبت بازی"
+    );
+
+    openModal("gameModal");
+}
+
+
+function handleOpenEditGame(event) {
+
+    const gameId =
+        Number(
+            event.currentTarget.dataset.gameId
+        );
+
+    const game =
+        currentGames.find(
+            item =>
+                Number(item.id) === gameId
+        );
+
+    if (!game) {
+
+        showToast(
+            "اطلاعات بازی پیدا نشد.",
+            "error"
+        );
+
+        return;
+    }
+
+    renderGameForm(game);
+
+    setGameModalTitle(
+        "ویرایش بازی",
+        "ذخیره تغییرات"
+    );
+
+    openModal("gameModal");
+}
+
+
+function renderGameForm(game = null) {
+
+    const container =
+        document.querySelector(
+            "#gameModal .modal-content"
+        );
+
+    if (!container) return;
+
+    container.innerHTML =
+        createGameForm({
+            game
+        });
+
+    bindGameFormEvents();
+}
+
+
+function setGameModalTitle(
+    title,
+    submitText
+) {
+
+    const titleElement =
+        document.querySelector(
+            "#gameModal .modal-header h3"
+        );
+
+    const submitButton =
+        document.querySelector(
+            "#gameModal .modal-submit"
+        );
+
+    if (titleElement) {
+        titleElement.textContent = title;
+    }
+
+    if (submitButton) {
+        submitButton.textContent =
+            submitText;
+
+        submitButton.disabled = false;
+    }
+}
+
+
+function bindGameFormEvents() {
+
+    const form =
+        document.getElementById(
+            "gameForm"
+        );
+
+    const gradeSelect =
+        document.getElementById(
+            "gameGrade"
+        );
+
+    const chapterSelect =
+        document.getElementById(
+            "gameChapter"
+        );
+
+    gradeSelect?.addEventListener(
+        "change",
+        () => {
+
+            if (!chapterSelect) {
+                return;
+            }
+
+            chapterSelect.innerHTML =
+                getChapterOptions(
+                    gradeSelect.value,
+                    1
+                );
+        }
+    );
+
+    form?.addEventListener(
+        "submit",
+        event => {
+
+            event.preventDefault();
+
+            handleSaveGame();
+        }
+    );
+}
+
+
+async function handleSaveGame() {
+
+    const gameId =
+        document
+            .getElementById("gameId")
+            ?.value;
+
+    const title =
+        document
+            .getElementById("gameTitle")
+            ?.value
+            .trim();
+
+    const grade =
+        document
+            .getElementById("gameGrade")
+            ?.value;
+
+    const chapter =
+        document
+            .getElementById("gameChapter")
+            ?.value;
+
+    const url =
+        document
+            .getElementById("gameUrl")
+            ?.value
+            .trim();
+
+    const orderNo =
+        document
+            .getElementById("gameOrder")
+            ?.value;
+
+    if (!title) {
+
+        showToast(
+            "عنوان بازی را وارد کنید.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (!["7", "8", "9"].includes(grade)) {
+
+        showToast(
+            "پایه بازی نامعتبر است.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (
+        !chapter ||
+        Number(chapter) < 1
+    ) {
+
+        showToast(
+            "فصل بازی را انتخاب کنید.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (!url) {
+
+        showToast(
+            "آدرس بازی را وارد کنید.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (
+        !orderNo ||
+        Number(orderNo) < 1
+    ) {
+
+        showToast(
+            "ترتیب نمایش معتبر نیست.",
+            "error"
+        );
+
+        return;
+    }
+
+    const submitButton =
+        document.querySelector(
+            "#gameModal .modal-submit"
+        );
+
+    setButtonLoading(
+        submitButton,
+        true,
+        "در حال ذخیره..."
+    );
+
+    let result;
+
+    if (gameId) {
+
+        result =
+            await updateGame(
+                Number(gameId),
+                {
+                    title,
+                    grade: Number(grade),
+                    chapter: Number(chapter),
+                    url,
+                    orderNo: Number(orderNo)
+                }
+            );
+
+    } else {
+
+        result =
+            await createGame({
+                title,
+                grade: Number(grade),
+                chapter: Number(chapter),
+                url,
+                orderNo: Number(orderNo)
+            });
+    }
+
+    if (!result.success) {
+
+        showToast(
+            result.message ||
+            "ذخیره بازی انجام نشد.",
+            "error"
+        );
+
+        setButtonLoading(
+            submitButton,
+            false,
+            gameId
+                ? "ذخیره تغییرات"
+                : "ثبت بازی"
+        );
+
+        return;
+    }
+
+    showToast(
+        gameId
+            ? "بازی با موفقیت ویرایش شد."
+            : "بازی با موفقیت ثبت شد.",
+        "success"
+    );
+
+    closeModal("gameModal");
+
+    await renderAdmin();
+}
+
+
+async function handleDeleteGame(event) {
+
+    const button =
+        event.currentTarget;
+
+    const gameId =
+        Number(
+            button.dataset.gameId
+        );
+
+    const game =
+        currentGames.find(
+            item =>
+                Number(item.id) === gameId
+        );
+
+    if (!game) {
+
+        showToast(
+            "اطلاعات بازی پیدا نشد.",
+            "error"
+        );
+
+        return;
+    }
+
+    const confirmed =
+        window.confirm(
+            `بازی «${game.title}» حذف شود؟`
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    button.disabled = true;
+
+    button.textContent =
+        "در حال حذف...";
+
+    const result =
+        await deleteGame(gameId);
+
+    if (!result.success) {
+
+        showToast(
+            result.message,
+            "error"
+        );
+
+        button.disabled = false;
+
+        button.textContent = "حذف";
+
+        return;
+    }
+
+    showToast(
+        "بازی با موفقیت حذف شد.",
+        "success"
+    );
+
+    await renderAdmin();
+}
+
+
+function setButtonLoading(
+    button,
+    loading,
+    text
+) {
+
+    if (!button) return;
+
+    button.disabled = loading;
+
+    button.textContent = text;
 }
