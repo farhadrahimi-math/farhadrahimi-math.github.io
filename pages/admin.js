@@ -8,9 +8,9 @@ import {
 
 import {
     getGames,
-    createGame,
     updateGame,
-    deleteGame
+    deleteGame,
+    publishGame
 } from "../services/contentService.js";
 
 import {
@@ -519,9 +519,9 @@ function handleOpenAddGame() {
     renderGameForm();
 
     setGameModalTitle(
-        "افزودن بازی",
-        "ثبت بازی"
-    );
+    "افزودن بازی",
+    "ثبت و انتشار بازی"
+);
 
     openModal("gameModal");
 }
@@ -656,35 +656,44 @@ async function handleSaveGame() {
 
     const gameId =
         document
-            .getElementById("gameId")
+            .getElementById(
+                "gameId"
+            )
             ?.value;
+
 
     const title =
         document
-            .getElementById("gameTitle")
+            .getElementById(
+                "gameTitle"
+            )
             ?.value
             .trim();
+
 
     const grade =
         document
-            .getElementById("gameGrade")
+            .getElementById(
+                "gameGrade"
+            )
             ?.value;
+
 
     const chapter =
         document
-            .getElementById("gameChapter")
+            .getElementById(
+                "gameChapter"
+            )
             ?.value;
 
-    const url =
-        document
-            .getElementById("gameUrl")
-            ?.value
-            .trim();
 
     const orderNo =
         document
-            .getElementById("gameOrder")
+            .getElementById(
+                "gameOrder"
+            )
             ?.value;
+
 
     if (!title) {
 
@@ -696,7 +705,11 @@ async function handleSaveGame() {
         return;
     }
 
-    if (!["7", "8", "9"].includes(grade)) {
+
+    if (
+        !["7", "8", "9"]
+            .includes(grade)
+    ) {
 
         showToast(
             "پایه بازی نامعتبر است.",
@@ -705,6 +718,7 @@ async function handleSaveGame() {
 
         return;
     }
+
 
     if (
         !chapter ||
@@ -719,15 +733,6 @@ async function handleSaveGame() {
         return;
     }
 
-    if (!url) {
-
-        showToast(
-            "آدرس بازی را وارد کنید.",
-            "error"
-        );
-
-        return;
-    }
 
     if (
         !orderNo ||
@@ -742,72 +747,193 @@ async function handleSaveGame() {
         return;
     }
 
+
     const submitButton =
         document.querySelector(
             "#gameModal .modal-submit"
         );
 
-    setButtonLoading(
-        submitButton,
-        true,
-        "در حال ذخیره..."
-    );
 
-    let result;
+    /*
+     * ویرایش بازی موجود
+     */
 
     if (gameId) {
 
-        result =
+        const game =
+            currentGames.find(
+                item =>
+                    Number(item.id) ===
+                    Number(gameId)
+            );
+
+
+        if (!game) {
+
+            showToast(
+                "بازی پیدا نشد.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        setButtonLoading(
+            submitButton,
+            true,
+            "در حال ذخیره..."
+        );
+
+
+        const result =
             await updateGame(
                 Number(gameId),
                 {
                     title,
-                    grade: Number(grade),
-                    chapter: Number(chapter),
-                    url,
-                    orderNo: Number(orderNo)
+                    grade:
+                        Number(grade),
+
+                    chapter:
+                        Number(chapter),
+
+                    url:
+                        game.url,
+
+                    orderNo:
+                        Number(orderNo)
                 }
             );
 
-    } else {
 
-        result =
-            await createGame({
-                title,
-                grade: Number(grade),
-                chapter: Number(chapter),
-                url,
-                orderNo: Number(orderNo)
-            });
-    }
+        if (!result.success) {
 
-    if (!result.success) {
+            showToast(
+                result.message,
+                "error"
+            );
+
+
+            setButtonLoading(
+                submitButton,
+                false,
+                "ذخیره تغییرات"
+            );
+
+            return;
+        }
+
 
         showToast(
-            result.message ||
-            "ذخیره بازی انجام نشد.",
-            "error"
+            "اطلاعات بازی ویرایش شد.",
+            "success"
         );
 
-        setButtonLoading(
-            submitButton,
-            false,
-            gameId
-                ? "ذخیره تغییرات"
-                : "ثبت بازی"
+
+        closeModal(
+            "gameModal"
+        );
+
+
+        await renderAdmin();
+
+        return;
+    }
+
+
+    /*
+     * انتشار بازی جدید
+     */
+
+    const fileInput =
+        document.getElementById(
+            "gameFile"
+        );
+
+
+    const file =
+        fileInput?.files?.[0];
+
+
+    if (!file) {
+
+        showToast(
+            "فایل HTML بازی را انتخاب کنید.",
+            "error"
         );
 
         return;
     }
 
+
+    if (
+        !file.name
+            .toLowerCase()
+            .endsWith(".html")
+    ) {
+
+        showToast(
+            "فقط فایل HTML قابل قبول است.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    setButtonLoading(
+        submitButton,
+        true,
+        "در حال انتشار..."
+    );
+
+
+    const result =
+        await publishGame({
+            title,
+
+            grade:
+                Number(grade),
+
+            chapter:
+                Number(chapter),
+
+            orderNo:
+                Number(orderNo),
+
+            file
+        });
+
+
+    if (!result.success) {
+
+        showToast(
+            result.message ||
+            "انتشار بازی انجام نشد.",
+            "error"
+        );
+
+
+        setButtonLoading(
+            submitButton,
+            false,
+            "ثبت و انتشار بازی"
+        );
+
+        return;
+    }
+
+
     showToast(
-        gameId
-            ? "بازی با موفقیت ویرایش شد."
-            : "بازی با موفقیت ثبت شد.",
+        "بازی با موفقیت منتشر شد 🎮",
         "success"
     );
 
-    closeModal("gameModal");
+
+    closeModal(
+        "gameModal"
+    );
+
 
     await renderAdmin();
 }
