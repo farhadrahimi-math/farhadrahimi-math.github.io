@@ -8,14 +8,13 @@ const GameSDK = {
         "https://ypjmkigvghybkwyxndcz.supabase.co",
 
     anonKey:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYXNlIiwicmVmIjoieXBqbWtpZ3ZnaHlia3d5eG5kY3oiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc4NDExNzU1OCwiZXhwIjoyMDk5NjkzNTU4fQ.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInJlZiI6Inlwam1raWd2Z2h5Ymt3eXhuZGN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTc1NTgsImV4cCI6MjA5OTY5MzU1OH0.lJ5RddKmDdPfLecBsqL9XMGejL9Owbv1ZH2PXSqqdv4",
 
 
     init(gameId) {
 
         this.gameId =
             Number(gameId);
-
 
         try {
 
@@ -26,11 +25,9 @@ const GameSDK = {
                     )
                 );
 
-
             this.playerName =
                 player?.name?.trim() ||
                 "مهمان";
-
 
         } catch {
 
@@ -86,7 +83,6 @@ const GameSDK = {
                 await fetch(
                     `${this.supabaseUrl}/functions/v1/submit-game-score`,
                     {
-
                         method: "POST",
 
                         headers: {
@@ -133,7 +129,8 @@ const GameSDK = {
             }
 
 
-            this.finished = true;
+            this.finished =
+                true;
 
 
             return {
@@ -175,14 +172,14 @@ const GameSDK = {
                 `${this.supabaseUrl}/rest/v1/game_scores` +
                 `?game_id=eq.${this.gameId}` +
                 `&select=player_name,score,created_at` +
-                `&order=score.desc`;
+                `&order=score.desc,created_at.asc` +
+                `&limit=${limit}`;
 
 
             const response =
                 await fetch(
                     url,
                     {
-
                         headers: {
 
                             "apikey":
@@ -197,14 +194,14 @@ const GameSDK = {
 
             if (!response.ok) {
 
-                const errorText =
+                const text =
                     await response.text();
 
 
                 console.error(
-                    "Leaderboard HTTP:",
+                    "Leaderboard HTTP error:",
                     response.status,
-                    errorText
+                    text
                 );
 
 
@@ -212,75 +209,7 @@ const GameSDK = {
             }
 
 
-            const scores =
-                await response.json();
-
-
-            const bestPlayers =
-                new Map();
-
-
-            for (
-                const item of scores
-            ) {
-
-                const name =
-                    String(
-                        item.player_name ||
-                        ""
-                    ).trim();
-
-
-                if (!name) {
-                    continue;
-                }
-
-
-                const key =
-                    name.toLowerCase();
-
-
-                /*
-                 * رکوردها از بیشترین امتیاز
-                 * مرتب شده‌اند.
-                 *
-                 * پس اولین رکورد هر بازیکن
-                 * بهترین امتیاز اوست.
-                 */
-                if (
-                    !bestPlayers.has(
-                        key
-                    )
-                ) {
-
-                    bestPlayers.set(
-                        key,
-                        {
-
-                            player_name:
-                                name,
-
-                            score:
-                                Number(
-                                    item.score
-                                ),
-
-                            created_at:
-                                item.created_at
-                        }
-                    );
-                }
-            }
-
-
-            return Array
-                .from(
-                    bestPlayers.values()
-                )
-                .slice(
-                    0,
-                    Number(limit) || 10
-                );
+            return await response.json();
 
 
         } catch (error) {
