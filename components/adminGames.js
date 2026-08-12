@@ -1,6 +1,11 @@
-import { chapters } from "../config/chapters.js";
+import {
+    chapters
+} from "../config/chapters.js";
 
-export function createGamesSection(games = []) {
+
+export function createGamesSection(
+    games = []
+) {
 
     return `
 
@@ -9,30 +14,51 @@ export function createGamesSection(games = []) {
             <div class="admin-header">
 
                 <div>
-                    <h2>مدیریت بازی‌ها</h2>
-                    <p>${games.length} بازی ثبت شده</p>
+
+                    <h2>
+                        مدیریت بازی‌ها
+                    </h2>
+
+                    <p>
+                        ${games.length}
+                        بازی ثبت شده
+                    </p>
+
                 </div>
+
 
                 <button
                     id="addGameBtn"
                     class="btn"
                     type="button">
+
                     افزودن بازی
+
                 </button>
 
             </div>
+
 
             <div class="game-list">
 
                 ${
                     games.length
+
                         ? games
-                            .map(createGameCard)
+                            .map(
+                                createGameCard
+                            )
                             .join("")
+
                         : `
+
                             <div class="empty-state">
-                                هنوز بازی‌ای ثبت نشده است.
+
+                                هنوز بازی‌ای
+                                ثبت نشده است.
+
                             </div>
+
                         `
                 }
 
@@ -44,12 +70,18 @@ export function createGamesSection(games = []) {
 }
 
 
-function createGameCard(game) {
+function createGameCard(
+    game
+) {
 
     const chapterTitle =
         chapters[game.grade]?.[
-            Number(game.chapter) - 1
-        ] || `فصل ${game.chapter}`;
+            Number(
+                game.chapter
+            ) - 1
+        ] ||
+        `فصل ${game.chapter}`;
+
 
     return `
 
@@ -60,26 +92,48 @@ function createGameCard(game) {
             <div class="game-info">
 
                 <h3>
-                    ${escapeHtml(game.title || "بدون عنوان")}
+                    ${escapeHtml(
+                        game.title ||
+                        "بدون عنوان"
+                    )}
                 </h3>
 
+
                 <p>
+
                     پایه ${game.grade}
+
                     •
-                    ${escapeHtml(chapterTitle)}
+
+                    ${escapeHtml(
+                        chapterTitle
+                    )}
+
                 </p>
+
+
+                <small>
+                    شناسه بازی:
+                    ${game.id}
+                </small>
+
 
                 ${
                     game.url
                         ? `
+
                             <small>
-                                ${escapeHtml(game.url)}
+                                ${escapeHtml(
+                                    game.url
+                                )}
                             </small>
+
                         `
                         : ""
                 }
 
             </div>
+
 
             <div class="game-actions">
 
@@ -87,14 +141,19 @@ function createGameCard(game) {
                     type="button"
                     class="edit-game-btn"
                     data-game-id="${game.id}">
-                    ویرایش
+
+                    ویرایش اطلاعات
+
                 </button>
+
 
                 <button
                     type="button"
                     class="delete-game-btn"
                     data-game-id="${game.id}">
+
                     حذف
+
                 </button>
 
             </div>
@@ -110,14 +169,29 @@ export function createGameForm({
     grade = 7
 } = {}) {
 
+    const editing =
+        Boolean(game);
+
+
     const selectedGrade =
-        Number(game?.grade || grade);
+        Number(
+            game?.grade ||
+            grade
+        );
+
 
     const selectedChapter =
-        Number(game?.chapter || 1);
+        Number(
+            game?.chapter ||
+            1
+        );
+
 
     const gradeChapters =
-        chapters[selectedGrade] || [];
+        chapters[
+            selectedGrade
+        ] || [];
+
 
     return `
 
@@ -126,7 +200,10 @@ export function createGameForm({
             <input
                 type="hidden"
                 id="gameId"
-                value="${game?.id || ""}">
+                value="${
+                    game?.id || ""
+                }">
+
 
             <div class="input-group">
 
@@ -137,10 +214,13 @@ export function createGameForm({
                 <input
                     id="gameTitle"
                     type="text"
-                    value="${escapeHtml(game?.title || "")}"
-                    placeholder="عنوان بازی">
+                    value="${escapeHtml(
+                        game?.title || ""
+                    )}"
+                    placeholder="مثلاً بازی کسرها">
 
             </div>
+
 
             <div class="input-group">
 
@@ -151,22 +231,30 @@ export function createGameForm({
                 <select id="gameGrade">
 
                     ${[7, 8, 9]
-                        .map(item => `
-                            <option
-                                value="${item}"
-                                ${
-                                    item === selectedGrade
-                                        ? "selected"
-                                        : ""
-                                }>
-                                پایه ${item}
-                            </option>
-                        `)
+                        .map(
+                            item => `
+
+                                <option
+                                    value="${item}"
+                                    ${
+                                        item ===
+                                        selectedGrade
+                                            ? "selected"
+                                            : ""
+                                    }>
+
+                                    پایه ${item}
+
+                                </option>
+
+                            `
+                        )
                         .join("")}
 
                 </select>
 
             </div>
+
 
             <div class="input-group">
 
@@ -178,18 +266,32 @@ export function createGameForm({
 
                     ${gradeChapters
                         .map(
-                            (title, index) => `
+                            (
+                                title,
+                                index
+                            ) => `
+
                                 <option
-                                    value="${index + 1}"
+                                    value="${
+                                        index + 1
+                                    }"
                                     ${
                                         index + 1 ===
                                         selectedChapter
                                             ? "selected"
                                             : ""
                                     }>
-                                    فصل ${index + 1} -
-                                    ${escapeHtml(title)}
+
+                                    فصل ${
+                                        index + 1
+                                    }
+                                    -
+                                    ${escapeHtml(
+                                        title
+                                    )}
+
                                 </option>
+
                             `
                         )
                         .join("")}
@@ -198,19 +300,6 @@ export function createGameForm({
 
             </div>
 
-            <div class="input-group">
-
-                <label for="gameUrl">
-                    آدرس بازی
-                </label>
-
-                <input
-                    id="gameUrl"
-                    type="url"
-                    value="${escapeHtml(game?.url || "")}"
-                    placeholder="https://...">
-
-            </div>
 
             <div class="input-group">
 
@@ -222,9 +311,81 @@ export function createGameForm({
                     id="gameOrder"
                     type="number"
                     min="1"
-                    value="${game?.order_no || 1}">
+                    value="${
+                        game?.order_no ||
+                        1
+                    }">
 
             </div>
+
+
+            ${
+                editing
+
+                    ? `
+
+                        <div class="input-group">
+
+                            <label>
+                                آدرس فعلی بازی
+                            </label>
+
+                            <input
+                                id="gameUrl"
+                                type="text"
+                                value="${escapeHtml(
+                                    game?.url || ""
+                                )}"
+                                readonly>
+
+                        </div>
+
+
+                        <p class="form-help">
+
+                            در حالت ویرایش،
+                            فایل بازی تغییر نمی‌کند.
+
+                        </p>
+
+                    `
+
+                    : `
+
+                        <div class="input-group">
+
+                            <label for="gameFile">
+                                فایل HTML بازی
+                            </label>
+
+                            <input
+                                id="gameFile"
+                                type="file"
+                                accept=".html,text/html">
+
+                        </div>
+
+
+                        <p class="form-help">
+
+                            فایل باید با پسوند
+                            .html باشد.
+
+                        </p>
+
+
+                        <p class="form-help">
+
+                            داخل فایل بازی از
+                            __GAME_ID__
+                            استفاده کن؛
+                            شناسه واقعی خودکار
+                            جایگزین می‌شود.
+
+                        </p>
+
+                    `
+            }
 
         </form>
 
@@ -238,34 +399,72 @@ export function getChapterOptions(
 ) {
 
     const gradeChapters =
-        chapters[Number(grade)] || [];
+        chapters[
+            Number(grade)
+        ] || [];
+
 
     return gradeChapters
         .map(
-            (title, index) => `
+            (
+                title,
+                index
+            ) => `
+
                 <option
-                    value="${index + 1}"
+                    value="${
+                        index + 1
+                    }"
                     ${
                         index + 1 ===
-                        Number(selectedChapter)
+                        Number(
+                            selectedChapter
+                        )
                             ? "selected"
                             : ""
                     }>
-                    فصل ${index + 1} -
-                    ${escapeHtml(title)}
+
+                    فصل ${
+                        index + 1
+                    }
+                    -
+                    ${escapeHtml(
+                        title
+                    )}
+
                 </option>
+
             `
         )
         .join("");
 }
 
 
-function escapeHtml(value) {
+function escapeHtml(
+    value
+) {
 
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    return String(
+        value ?? ""
+    )
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 }
