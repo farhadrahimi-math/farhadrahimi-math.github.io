@@ -40,9 +40,15 @@ export function renderGame() {
 </h2>
 
                 <p class="games-description">
-                    یادگیری ریاضی با بازی،
-                    تمرین و رقابت
-                </p>
+    یادگیری ریاضی با بازی،
+    تمرین و رقابت
+</p>
+
+<a
+    class="teacher-phone"
+    href="tel:09179649783">
+    📞 09179649783
+</a>
 
             </section>
 
