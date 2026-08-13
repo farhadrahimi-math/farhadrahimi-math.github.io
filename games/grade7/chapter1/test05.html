@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>بازی الگوهای تصویری ریاضی</title>
+  <style>
+    :root {
+      --bg: #f5f9ff;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #2563eb;
+      --ok: #16a34a;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --line: #dbeafe;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      background: linear-gradient(170deg, #eef6ff 0%, #fff9ef 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 10px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 {
+      margin: 6px 0 4px;
+      color: #1e3a8a;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .hero p {
+      margin: 0;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .status {
+      position: sticky;
+      top: 8px;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+      backdrop-filter: blur(5px);
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .status-item {
+      background: #f8fbff;
+      border: 1px solid #e6eefc;
+      border-radius: 10px;
+      padding: 8px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: #1f2937;
+    }
+
+    .timer-zone {
+      margin-top: 10px;
+    }
+
+    .timer-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .bar {
+      width: 100%;
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      width: 100%;
+      height: 100%;
+      background: var(--ok);
+      transition: width 0.15s linear, background-color 0.15s linear;
+    }
+
+    .progress {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 5px;
+      margin: 12px 0;
+      align-items: center;
+    }
+
+    .dot {
+      height: 14px;
+      border-radius: 999px;
+      background: #cbd5e1;
+      position: relative;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .dot.current {
+      background: #93c5fd;
+      animation: pulse 1s infinite;
+      transform: scale(1.05);
+    }
+
+    .dot.correct {
+      background: #22c55e;
+    }
+
+    .dot.wrong {
+      background: #fb923c;
+    }
+
+    .dot.correct::after {
+      content: "★";
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #f59e0b;
+      font-size: 12px;
+      animation: rise 0.35s ease;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+      100% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translate(-50%, 8px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .level {
+      color: #0369a1;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 92px;
+      margin-bottom: 10px;
+      background: #f8fbff;
+      border: 1px dashed #c7ddff;
+      border-radius: 12px;
+      padding: 8px;
+    }
+
+    .question {
+      font-size: 20px;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.9;
+      margin: 8px 0;
+      color: #111827;
+      word-break: break-word;
+    }
+
+    .hint {
+      text-align: center;
+      font-size: 14px;
+      color: #475569;
+      font-weight: 700;
+      margin: 0 0 10px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .opt {
+      border: 2px solid #bfdbfe;
+      background: #eff6ff;
+      color: #1e3a8a;
+      border-radius: 12px;
+      min-height: 54px;
+      font-size: 18px;
+      font-weight: 900;
+      padding: 8px;
+      cursor: pointer;
+      transition: transform 0.1s ease, background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .opt:active {
+      transform: scale(0.98);
+    }
+
+    .opt:disabled {
+      cursor: not-allowed;
+      opacity: 0.8;
+    }
+
+    .opt.correct {
+      background: #dcfce7;
+      border-color: #16a34a;
+      color: #14532d;
+    }
+
+    .opt.wrong {
+      background: #fee2e2;
+      border-color: #ef4444;
+      color: #7f1d1d;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 10px;
+      border-radius: 12px;
+      padding: 10px;
+      font-size: 14px;
+      line-height: 1.9;
+      font-weight: 700;
+    }
+
+    .feedback.ok {
+      display: block;
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      color: #166534;
+    }
+
+    .feedback.bad {
+      display: block;
+      background: #fff7ed;
+      border: 1px solid #fdba74;
+      color: #9a3412;
+    }
+
+    .actions {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .next {
+      flex: 1;
+      min-width: 140px;
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .next:disabled {
+      background: #93c5fd;
+      cursor: not-allowed;
+    }
+
+    .result {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      margin-top: 8px;
+    }
+
+    .result h2 {
+      margin: 0 0 8px;
+      text-align: center;
+      color: #1e3a8a;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .result-score {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 900;
+      margin: 4px 0;
+    }
+
+    .result-msg {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 900;
+      color: #334155;
+      margin: 4px 0 12px;
+    }
+
+    .leader-title {
+      margin: 8px 0;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #f8fafc;
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 14px;
+    }
+
+    th, td {
+      border-bottom: 1px solid #e2e8f0;
+      text-align: center;
+      padding: 9px 8px;
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .result-actions {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .retry {
+      flex: 1;
+      min-width: 130px;
+      background: #16a34a;
+      color: #fff;
+    }
+
+    .back {
+      flex: 1;
+      min-width: 130px;
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .foot-note {
+      margin-top: 8px;
+      text-align: center;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    @media (min-width: 740px) {
+      .status-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .question {
+        font-size: 23px;
+      }
+
+      .opt {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <h1>ماجراجویی الگوهای تصویری</h1>
+      <p>پایه هفتم | فصل الگو و دنباله | موضوع: شمارش در مرحله nام</p>
+    </header>
+
+    <section class="status">
+      <div class="status-grid">
+        <div class="status-item" id="playerBox">بازیکن: -</div>
+        <div class="status-item" id="qBox">سؤال ۱ از ۱۰</div>
+        <div class="status-item" id="scoreBox">امتیاز: ۰</div>
+        <div class="status-item" id="timeBox">زمان: ۳۰</div>
+      </div>
+      <div class="timer-zone">
+        <div class="timer-head">
+          <span>زمان باقی‌مانده</span>
+          <span id="timerLabel">۳۰ ثانیه</span>
+        </div>
+        <div class="bar">
+          <div class="bar-fill" id="timerFill"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="progress" id="progress"></div>
+
+    <section class="panel" id="gamePanel">
+      <div class="level" id="levelText">سطح: آسان</div>
+      <div class="visual" id="visualBox"></div>
+      <div class="question" id="questionText">...</div>
+      <p class="hint" id="hintText">گزینه درست را انتخاب کن.</p>
+      <div class="options" id="optionsBox"></div>
+      <div class="feedback" id="feedbackBox"></div>
+      <div class="actions">
+        <button class="btn next" id="nextBtn" disabled>سؤال بعدی</button>
+      </div>
+    </section>
+
+    <section class="result" id="resultPanel">
+      <h2>پایان بازی</h2>
+      <p class="result-score" id="finalScore">امتیاز نهایی: ۰ از ۱۰۰</p>
+      <p class="result-msg" id="finalMsg">-</p>
+      <div class="leader-title">جدول ۱۰ بازیکن برتر</div>
+      <div class="table-wrap" id="leaderWrap">در حال دریافت رتبه‌ها...</div>
+      <div class="result-actions">
+        <button class="btn retry" id="retryBtn">بازی دوباره</button>
+        <a class="btn back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
+      </div>
+      <div class="foot-note">پاسخ سریع‌تر در هر سؤال، امتیاز بیشتری می‌دهد.</div>
+    </section>
+  </div>
+
+  <script src="/games/game-sdk.js"></script>
+  <script>
+    const GAME_ID = 6;
+
+    const TOTAL_QUESTIONS = 10;
+    const QUESTION_TIME = 30;
+
+    const player = GameSDK.init(GAME_ID);
+
+    const state = {
+      questions: [],
+      current: 0,
+      score: 0,
+      timerId: null,
+      startMs: 0,
+      deadlineMs: 0,
+      answered: false,
+      results: [],
+      finishedSent: false,
+      ended: false
+    };
+
+    const el = {
+      playerBox: document.getElementById("playerBox"),
+      qBox: document.getElementById("qBox"),
+      scoreBox: document.getElementById("scoreBox"),
+      timeBox: document.getElementById("timeBox"),
+      timerLabel: document.getElementById("timerLabel"),
+      timerFill: document.getElementById("timerFill"),
+      progress: document.getElementById("progress"),
+      gamePanel: document.getElementById("gamePanel"),
+      resultPanel: document.getElementById("resultPanel"),
+      levelText: document.getElementById("levelText"),
+      visualBox: document.getElementById("visualBox"),
+      questionText: document.getElementById("questionText"),
+      hintText: document.getElementById("hintText"),
+      optionsBox: document.getElementById("optionsBox"),
+      feedbackBox: document.getElementById("feedbackBox"),
+      nextBtn: document.getElementById("nextBtn"),
+      finalScore: document.getElementById("finalScore"),
+      finalMsg: document.getElementById("finalMsg"),
+      leaderWrap: document.getElementById("leaderWrap"),
+      retryBtn: document.getElementById("retryBtn")
+    };
+
+    function fa(v) {
+      return String(v).replace(/[0-9]/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+    }
+
+    function rand(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function gcd(a, b) {
+      let x = Math.abs(a);
+      let y = Math.abs(b);
+      while (y !== 0) {
+        const t = y;
+        y = x % y;
+        x = t;
+      }
+      return x || 1;
+    }
+
+    function simplifyFraction(n, d) {
+      const g = gcd(n, d);
+      return { n: n / g, d: d / g };
+    }
+
+    function fmtOption(v) {
+      if (typeof v === "number") return fa(v);
+      return v.replace(/[0-9]/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+    }
+
+    function uniqueNumberOptions(correct, spreadMin, spreadMax) {
+      const s = new Set([correct]);
+      let guard = 0;
+      while (s.size < 4 && guard < 120) {
+        guard++;
+        const delta = rand(spreadMin, spreadMax);
+        const sign = Math.random() < 0.5 ? -1 : 1;
+        const c = correct + sign * delta;
+        if (c >= 0 && c !== correct) s.add(c);
+      }
+      while (s.size < 4) s.add(correct + s.size + 1);
+      return shuffle([...s]);
+    }
+
+    function makeQuestion(obj) {
+      const options = obj.options ? shuffle(obj.options) : uniqueNumberOptions(obj.answer, 1, Math.max(4, Math.floor((obj.answer || 8) * 0.3)));
+      const correctIndex = options.findIndex((x) => String(x) === String(obj.answer));
+      return {
+        level: obj.level,
+        visual: obj.visual,
+        text: obj.text,
+        hint: obj.hint || "گزینه درست را انتخاب کن.",
+        options,
+        answer: obj.answer,
+        correctIndex,
+        explanation: obj.explanation
+      };
+    }
+
+    function visualMatchsticks() {
+      return `
+      <svg width="280" height="90" viewBox="0 0 280 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g stroke="#64748b" stroke-width="2" fill="none">
+          <rect x="15" y="30" width="20" height="20"/>
+          <rect x="95" y="30" width="20" height="20"/>
+          <line x1="95" y1="30" x2="82" y2="17"/><line x1="115" y1="30" x2="128" y2="17"/>
+          <line x1="95" y1="50" x2="82" y2="63"/><line x1="115" y1="50" x2="128" y2="63"/>
+          <rect x="175" y="30" width="20" height="20"/>
+          <line x1="175" y1="30" x2="162" y2="17"/><line x1="162" y1="17" x2="149" y2="4"/>
+          <line x1="195" y1="30" x2="208" y2="17"/><line x1="208" y1="17" x2="221" y2="4"/>
+          <line x1="175" y1="50" x2="162" y2="63"/><line x1="162" y1="63" x2="149" y2="76"/>
+          <line x1="195" y1="50" x2="208" y2="63"/><line x1="208" y1="63" x2="221" y2="76"/>
+        </g>
+        <g fill="#0ea5e9" opacity="0.8">
+          <circle cx="82" cy="17" r="3"/><circle cx="128" cy="17" r="3"/><circle cx="82" cy="63" r="3"/><circle cx="128" cy="63" r="3"/>
+        </g>
+      </svg>`;
+    }
+
+    function visualTShape() {
+      return `
+      <svg width="280" height="90" viewBox="0 0 280 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g fill="#bae6fd" stroke="#0ea5e9" stroke-width="1.6">
+          <rect x="16" y="22" width="18" height="18"/>
+          <rect x="90" y="22" width="18" height="18"/><rect x="108" y="22" width="18" height="18"/><rect x="126" y="22" width="18" height="18"/><rect x="144" y="22" width="18" height="18"/><rect x="162" y="22" width="18" height="18"/>
+          <rect x="126" y="40" width="18" height="18"/>
+          <rect x="204" y="22" width="18" height="18"/><rect x="222" y="22" width="18" height="18"/><rect x="240" y="22" width="18" height="18"/>
+          <rect x="186" y="22" width="18" height="18"/>
+          <rect x="258" y="22" width="18" height="18"/>
+          <rect x="231" y="40" width="18" height="18"/><rect x="231" y="58" width="18" height="18"/>
+        </g>
+      </svg>`;
+    }
+
+    function visualFractionGrid() {
+      return `
+      <svg width="280" height="90" viewBox="0 0 280 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g stroke="#0ea5e9" stroke-width="1.5">
+          <rect x="18" y="24" width="14" height="14" fill="#7dd3fc"/><rect x="32" y="24" width="14" height="14" fill="#fff"/>
+          <rect x="18" y="38" width="14" height="14" fill="#fff"/><rect x="32" y="38" width="14" height="14" fill="#fff"/>
+
+          <rect x="102" y="24" width="14" height="14" fill="#7dd3fc"/><rect x="116" y="24" width="14" height="14" fill="#fff"/><rect x="130" y="24" width="14" height="14" fill="#7dd3fc"/>
+          <rect x="102" y="38" width="14" height="14" fill="#fff"/><rect x="116" y="38" width="14" height="14" fill="#7dd3fc"/><rect x="130" y="38" width="14" height="14" fill="#fff"/>
+
+          <rect x="186" y="24" width="14" height="14" fill="#7dd3fc"/><rect x="200" y="24" width="14" height="14" fill="#fff"/><rect x="214" y="24" width="14" height="14" fill="#7dd3fc"/><rect x="228" y="24" width="14" height="14" fill="#fff"/>
+          <rect x="186" y="38" width="14" height="14" fill="#fff"/><rect x="200" y="38" width="14" height="14" fill="#7dd3fc"/><rect x="214" y="38" width="14" height="14" fill="#fff"/><rect x="228" y="38" width="14" height="14" fill="#7dd3fc"/>
+        </g>
+      </svg>`;
+    }
+
+    function visualCircles() {
+      return `
+      <svg width="280" height="90" viewBox="0 0 280 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g fill="#7dd3fc" stroke="#0ea5e9" stroke-width="1.4">
+          <circle cx="22" cy="54" r="9"/><circle cx="46" cy="54" r="9"/>
+
+          <circle cx="95" cy="54" r="8"/><circle cx="113" cy="54" r="8"/><circle cx="131" cy="54" r="8"/><circle cx="149" cy="54" r="8"/>
+          <circle cx="104" cy="36" r="8"/><circle cx="140" cy="36" r="8"/>
+
+          <circle cx="182" cy="56" r="7"/><circle cx="197" cy="56" r="7"/><circle cx="212" cy="56" r="7"/><circle cx="227" cy="56" r="7"/><circle cx="242" cy="56" r="7"/><circle cx="257" cy="56" r="7"/>
+          <circle cx="196" cy="41" r="7"/><circle cx="211" cy="41" r="7"/><circle cx="228" cy="41" r="7"/><circle cx="243" cy="41" r="7"/>
+          <circle cx="212" cy="26" r="7"/><circle cx="228" cy="26" r="7"/>
+        </g>
+      </svg>`;
+    }
+
+    function q1() {
+      const n = rand(7, 13);
+      const answer = 4 * n;
+      return makeQuestion({
+        level: "آسان",
+        visual: visualMatchsticks(),
+        text: "در الگوی چوب‌کبریت شکل‌ها، اگر شکل ۱ یک مربع و در هر مرحله طول هر بازو ۱ واحد زیاد شود، تعداد چوب‌کبریت شکل " + fa(n) + " چندتاست؟",
+        answer,
+        explanation: "چهار ضلع مربع همیشه ثابت است و چهار بازو داریم؛ در شکل nام هر بازو n-1 چوب دارد. پس کل = ۴ + ۴(n-۱) = ۴n."
+      });
+    }
+
+    function q2() {
+      const n = rand(5, 9);
+      const answer = 5 * n - 4;
+      return makeQuestion({
+        level: "آسان",
+        visual: visualTShape(),
+        text: "در الگوی T شکلیِ مربع‌ها، تعداد مربع‌های مرحله " + fa(n) + " را پیدا کن.",
+        answer,
+        explanation: "تعداد مربع‌ها به صورت ۱، ۶، ۱۱، ... پیش می‌رود و هر بار ۵ تا اضافه می‌شود؛ پس جمله nام برابر ۵n-۴ است."
+      });
+    }
+
+    function q3() {
+      const n = rand(6, 12);
+      const total = 2 * (n + 1);
+      const colored = n;
+      const simp = simplifyFraction(colored, total);
+      const answer = simp.n + "/" + simp.d;
+      const wrong1 = simplifyFraction(colored + 1, total).n + "/" + simplifyFraction(colored + 1, total).d;
+      const wrong2 = simplifyFraction(colored, total + 2).n + "/" + simplifyFraction(colored, total + 2).d;
+      const wrong3 = simplifyFraction(n + 1, total).n + "/" + simplifyFraction(n + 1, total).d;
+      const opts = [...new Set([answer, wrong1, wrong2, wrong3])];
+      while (opts.length < 4) {
+        opts.push((simp.n + opts.length) + "/" + (simp.d + 1));
+      }
+      return makeQuestion({
+        level: "آسان",
+        visual: visualFractionGrid(),
+        text: "در الگوی رنگ‌آمیزی شبکه، کسر بخش رنگی در شکل " + fa(n) + " کدام است؟",
+        answer,
+        options: opts.slice(0, 4),
+        explanation: "در شکل nام تعداد خانه‌های رنگی n و کل خانه‌ها ۲(n+۱) است؛ بنابراین کسر رنگی n / [۲(n+۱)] و سپس ساده می‌شود."
+      });
+    }
+
+    function q4() {
+      const n = rand(4, 6);
+      const answer = 2 * (Math.pow(2, n) - 1);
+      return makeQuestion({
+        level: "متوسط",
+        visual: visualCircles(),
+        text: "در الگوی رشد دایره‌ها، تعداد دایره‌های شکل " + fa(n) + " چندتاست؟",
+        answer,
+        explanation: "تعدادها به صورت ۲، ۶، ۱۴، ... است؛ افزایش‌ها دوبرابر می‌شوند. رابطه مستقیم: ۲(۲^n - ۱)."
+      });
+    }
+
+    function q5() {
+      const n = rand(5, 10);
+      const total = 2 * (n + 1);
+      const colored = n;
+      const white = total - colored;
+      const answer = white;
+      return makeQuestion({
+        level: "متوسط",
+        visual: visualFractionGrid(),
+        text: "در همان الگوی شبکه رنگی، در شکل " + fa(n) + " چند خانه سفید داریم؟",
+        answer,
+        explanation: "کل خانه‌ها ۲(n+۱) و خانه‌های رنگی n است. پس سفیدها = ۲(n+۱)-n = n+۲."
+      });
+    }
+
+    function q6() {
+      const stage = rand(8, 16);
+      const sticks = 4 * stage;
+      const answer = stage;
+      const options = [stage, stage - 1, stage + 2, Math.max(1, stage - 3)];
+      return makeQuestion({
+        level: "متوسط",
+        visual: visualMatchsticks(),
+        text: "اگر در الگوی چوب‌کبریت، یک شکل " + fa(sticks) + " چوب داشته باشد، آن شکل چندم است؟",
+        answer,
+        options,
+        explanation: "در این الگو تعداد چوب‌کبریت شکل nام برابر ۴n است. پس n = تعداد چوب / ۴."
+      });
+    }
+
+    function q7() {
+      const n = rand(4, 9);
+      const answer = 4 * n - 3;
+      return makeQuestion({
+        level: "متوسط",
+        visual: visualTShape(),
+        text: "در الگوی T شکلی، فقط ردیف افقی بالایی در شکل " + fa(n) + " چند مربع دارد؟",
+        answer,
+        explanation: "ردیف افقی بالا به صورت ۱، ۵، ۹، ... است و هر بار ۴ تا زیاد می‌شود. پس مقدار آن ۴n-۳ است."
+      });
+    }
+
+    function q8() {
+      const base = rand(3, 8);
+      const seq = [base, base + 5, base + 10, "؟", "؟"];
+      const a1 = base + 15;
+      const a2 = base + 20;
+      const answer = a1 + " و " + a2;
+      const options = [
+        answer,
+        (a1 + 1) + " و " + a2,
+        a1 + " و " + (a2 + 2),
+        (a1 - 1) + " و " + (a2 + 1)
+      ];
+      return makeQuestion({
+        level: "چالشی",
+        visual: "",
+        text: "دنباله تعداد مربع‌های یک الگوی مرحله‌ای چنین است: " + fa(seq.join("، ")) + " . دو جمله بعدی کدام است؟",
+        answer,
+        options,
+        hint: "به ترتیب پاسخ بده (اولی و دومی).",
+        explanation: "الگو یک دنباله حسابی با قدر نسبت ۵ است؛ بنابراین هر بار ۵ واحد اضافه می‌شود."
+      });
+    }
+
+    function q9() {
+      const n = rand(5, 7);
+      const answer = 2 * (Math.pow(2, n) - 1);
+      return makeQuestion({
+        level: "چالشی",
+        visual: visualCircles(),
+        text: "اگر تعداد دایره‌ها در سه مرحله اول به‌ترتیب ۲، ۶، ۱۴ باشد، در مرحله " + fa(n) + " چند دایره خواهیم داشت؟",
+        answer,
+        explanation: "این دنباله با افزایش‌های ۴، ۸، ۱۶، ... جلو می‌رود. رابطه کلی: ۲(۲^n-۱)."
+      });
+    }
+
+    function q10() {
+      const n = rand(8, 12);
+      const total = 2 * (n + 1);
+      const colored = n;
+      const simp = simplifyFraction(colored, total);
+      const answer = simp.n;
+      const options = uniqueNumberOptions(answer, 1, 5);
+      return makeQuestion({
+        level: "چالشی",
+        visual: visualFractionGrid(),
+        text: "در شکل " + fa(n) + " از الگوی کسر رنگی، اگر کسر رنگی را ساده کنیم، صورت کسر چند می‌شود؟",
+        answer,
+        options,
+        explanation: "کسر رنگی برابر n / [۲(n+۱)] است. بعد از ساده‌سازی، صورت کسر به کمک ب.م.م به دست می‌آید."
+      });
+    }
+
+    function generateQuestions() {
+      return [q1(), q2(), q3(), q4(), q5(), q6(), q7(), q8(), q9(), q10()];
+    }
+
+    function createProgress() {
+      el.progress.innerHTML = "";
+      for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const d = document.createElement("div");
+        d.className = "dot";
+        d.id = "dot-" + i;
+        el.progress.appendChild(d);
+      }
+    }
+
+    function updateProgress() {
+      for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const d = document.getElementById("dot-" + i);
+        d.className = "dot";
+        if (!state.ended && i === state.current) d.classList.add("current");
+        if (state.results[i] === true) d.classList.add("correct");
+        if (state.results[i] === false) d.classList.add("wrong");
+      }
+    }
+
+    function scoreFromTime(sec) {
+      if (sec <= 5) return 10;
+      if (sec <= 10) return 8;
+      if (sec <= 15) return 6;
+      if (sec <= 20) return 4;
+      if (sec <= 30) return 2;
+      return 0;
+    }
+
+    function updateHeader(remainSec) {
+      const shown = Math.min(state.current + 1, TOTAL_QUESTIONS);
+      el.playerBox.textContent = "بازیکن: " + (player.playerName || "دانش‌آموز");
+      el.qBox.textContent = "سؤال " + fa(shown) + " از " + fa(TOTAL_QUESTIONS);
+      el.scoreBox.textContent = "امتیاز: " + fa(state.score);
+      el.timeBox.textContent = "زمان: " + fa(remainSec);
+      el.timerLabel.textContent = fa(remainSec) + " ثانیه";
+    }
+
+    function setTimerColor(sec) {
+      if (sec > 20) {
+        el.timerFill.style.backgroundColor = "#16a34a";
+      } else if (sec > 10) {
+        el.timerFill.style.backgroundColor = "#f59e0b";
+      } else {
+        el.timerFill.style.backgroundColor = "#ef4444";
+      }
+    }
+
+    function stopTimer() {
+      if (state.timerId) {
+        clearInterval(state.timerId);
+        state.timerId = null;
+      }
+    }
+
+    function startTimer() {
+      stopTimer();
+      state.startMs = Date.now();
+      state.deadlineMs = state.startMs + QUESTION_TIME * 1000;
+
+      const tick = () => {
+        const now = Date.now();
+        const remainMs = Math.max(0, state.deadlineMs - now);
+        const remainSec = Math.ceil(remainMs / 1000);
+        const pct = (remainMs / (QUESTION_TIME * 1000)) * 100;
+
+        el.timerFill.style.width = Math.max(0, pct) + "%";
+        setTimerColor(remainSec);
+        updateHeader(remainSec);
+
+        if (remainMs <= 0) {
+          onTimeUp();
+        }
+      };
+
+      tick();
+      state.timerId = setInterval(tick, 120);
+    }
+
+    function lockQuestion() {
+      state.answered = true;
+      stopTimer();
+      const btns = el.optionsBox.querySelectorAll(".opt");
+      btns.forEach((b) => {
+        b.disabled = true;
+      });
+      el.nextBtn.disabled = false;
+    }
+
+    function renderQuestion() {
+      const q = state.questions[state.current];
+      el.levelText.textContent = "سطح: " + q.level;
+      el.visualBox.innerHTML = q.visual || "<span style='color:#64748b;font-weight:700'>بدون شکل</span>";
+      el.questionText.textContent = q.text;
+      el.hintText.textContent = q.hint;
+      el.feedbackBox.className = "feedback";
+      el.feedbackBox.textContent = "";
+      el.optionsBox.innerHTML = "";
+      el.nextBtn.disabled = true;
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "opt";
+        btn.type = "button";
+        btn.textContent = fmtOption(opt);
+        btn.addEventListener("click", () => submitAnswer(idx));
+        el.optionsBox.appendChild(btn);
+      });
+
+      state.answered = false;
+      updateProgress();
+      startTimer();
+    }
+
+    function paintAnswers(correctIndex, selectedIndex) {
+      const btns = el.optionsBox.querySelectorAll(".opt");
+      btns.forEach((b, i) => {
+        if (i === correctIndex) b.classList.add("correct");
+      });
+      if (selectedIndex !== null && selectedIndex !== correctIndex) {
+        btns[selectedIndex].classList.add("wrong");
+      }
+    }
+
+    function submitAnswer(selectedIndex) {
+      if (state.answered || state.ended) return;
+
+      const q = state.questions[state.current];
+      const elapsed = (Date.now() - state.startMs) / 1000;
+      const isCorrect = selectedIndex === q.correctIndex;
+      const earned = isCorrect ? scoreFromTime(elapsed) : 0;
+
+      if (isCorrect) state.score += earned;
+      state.results[state.current] = isCorrect;
+
+      lockQuestion();
+      paintAnswers(q.correctIndex, selectedIndex);
+
+      if (isCorrect) {
+        el.feedbackBox.className = "feedback ok";
+        el.feedbackBox.textContent =
+          "پاسخ درست است. " +
+          "امتیاز این سؤال: " +
+          fa(earned) +
+          " | " +
+          q.explanation;
+      } else {
+        el.feedbackBox.className = "feedback bad";
+        el.feedbackBox.textContent =
+          "پاسخ نادرست بود. جواب صحیح: " +
+          fmtOption(q.answer) +
+          " | " +
+          q.explanation;
+      }
+
+      updateHeader(0);
+      updateProgress();
+    }
+
+    function onTimeUp() {
+      if (state.answered || state.ended) return;
+
+      const q = state.questions[state.current];
+      state.results[state.current] = false;
+      lockQuestion();
+      paintAnswers(q.correctIndex, null);
+
+      el.feedbackBox.className = "feedback bad";
+      el.feedbackBox.textContent =
+        "زمان تمام شد. امتیاز این سؤال: ۰ | جواب صحیح: " +
+        fmtOption(q.answer) +
+        " | " +
+        q.explanation;
+
+      updateHeader(0);
+      updateProgress();
+    }
+
+    function finalMessage(score) {
+      if (score >= 90) return "عالی بود! 🌟";
+      if (score >= 70) return "خیلی خوب بود 👏";
+      if (score >= 50) return "خوب بود، ادامه بده 💪";
+      return "دوباره تلاش کن، بهتر می‌شی 🌱";
+    }
+
+    async function sendFinishOnce() {
+      if (state.finishedSent) return;
+      state.finishedSent = true;
+      try {
+        const score = state.score;
+        const result = await GameSDK.finishGame(score);
+        void result;
+      } catch (err) {
+        console.error("finishGame error", err);
+      }
+    }
+
+    function rankLabel(index) {
+      if (index === 0) return "🥇";
+      if (index === 1) return "🥈";
+      if (index === 2) return "🥉";
+      return fa(index + 1);
+    }
+
+    async function loadLeaderboard() {
+      el.leaderWrap.textContent = "در حال دریافت رتبه‌ها...";
+      try {
+        const scores = await GameSDK.getLeaderboard(10);
+        if (!scores || scores.length === 0) {
+          el.leaderWrap.textContent = "هنوز امتیازی ثبت نشده است.";
+          return;
+        }
+
+        let html = "<table><thead><tr><th>رتبه</th><th>نام</th><th>امتیاز</th></tr></thead><tbody>";
+        scores.forEach((item, i) => {
+          const name = item.playerName || item.name || "بازیکن";
+          const sc = item.score ?? 0;
+          html += "<tr><td>" + rankLabel(i) + "</td><td>" + name + "</td><td>" + fa(sc) + "</td></tr>";
+        });
+        html += "</tbody></table>";
+        el.leaderWrap.innerHTML = html;
+      } catch (err) {
+        console.error("leaderboard error", err);
+        el.leaderWrap.textContent = "خطا در دریافت جدول برترین‌ها.";
+      }
+    }
+
+    async function endGame() {
+      if (state.ended) return;
+      state.ended = true;
+      stopTimer();
+
+      el.gamePanel.style.display = "none";
+      el.resultPanel.style.display = "block";
+      el.finalScore.textContent = "امتیاز نهایی " + (player.playerName || "بازیکن") + ": " + fa(state.score) + " از ۱۰۰";
+      el.finalMsg.textContent = finalMessage(state.score);
+
+      await sendFinishOnce();
+      await loadLeaderboard();
+    }
+
+    function nextQuestion() {
+      if (!state.answered) return;
+      if (state.current >= TOTAL_QUESTIONS - 1) {
+        endGame();
+        return;
+      }
+      state.current += 1;
+      renderQuestion();
+    }
+
+    function resetState() {
+      stopTimer();
+      state.questions = generateQuestions();
+      state.current = 0;
+      state.score = 0;
+      state.startMs = 0;
+      state.deadlineMs = 0;
+      state.answered = false;
+      state.results = [];
+      state.finishedSent = false;
+      state.ended = false;
+    }
+
+    function startGame() {
+      resetState();
+      createProgress();
+      updateHeader(QUESTION_TIME);
+      el.gamePanel.style.display = "block";
+      el.resultPanel.style.display = "none";
+      renderQuestion();
+    }
+
+    async function restartGame() {
+      try {
+        GameSDK.reset();
+      } catch (err) {
+        console.error("reset error", err);
+      }
+      startGame();
+    }
+
+    el.nextBtn.addEventListener("click", nextQuestion);
+    el.retryBtn.addEventListener("click", restartGame);
+
+    startGame();
+  </script>
+</body>
+</html>
