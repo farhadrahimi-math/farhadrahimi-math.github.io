@@ -48,7 +48,17 @@ export function renderLogin() {
                 <p>
                     بدون نیاز به ثبت‌نام
                 </p>
+                <div class="login-contact">
 
+    <span>
+        راه ارتباطی با استاد
+    </span>
+
+    <a href="tel:09179649783">
+        📞 09179649783
+    </a>
+
+</div>
             </div>
 
         </div>
