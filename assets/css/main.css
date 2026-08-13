@@ -879,3 +879,26 @@ a{
         font-size: 20px;
     }
 }
+
+
+.teacher-phone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 14px;
+    padding: 9px 16px;
+    border-radius: 50px;
+
+    color: #fff;
+    background: rgba(255, 255, 255, .16);
+    border: 1px solid rgba(255, 255, 255, .25);
+
+    text-decoration: none;
+    direction: ltr;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.teacher-phone:active {
+    transform: scale(.97);
+}
