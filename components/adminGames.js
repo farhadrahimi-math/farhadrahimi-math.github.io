@@ -26,7 +26,6 @@ export function createGamesSection(
 
                 </div>
 
-
                 <button
                     id="addGameBtn"
                     class="btn"
@@ -70,15 +69,11 @@ export function createGamesSection(
 }
 
 
-function createGameCard(
-    game
-) {
+function createGameCard(game) {
 
     const chapterTitle =
         chapters[game.grade]?.[
-            Number(
-                game.chapter
-            ) - 1
+            Number(game.chapter) - 1
         ] ||
         `فصل ${game.chapter}`;
 
@@ -120,6 +115,7 @@ function createGameCard(
 
                 ${
                     game.url
+
                         ? `
 
                             <small>
@@ -129,6 +125,7 @@ function createGameCard(
                             </small>
 
                         `
+
                         : ""
                 }
 
@@ -136,6 +133,37 @@ function createGameCard(
 
 
             <div class="game-actions">
+
+                ${
+                    game.url
+                        ? `
+
+                            <a
+                                href="${escapeHtml(
+                                    game.url
+                                )}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="open-game-btn">
+
+                                اجرای بازی
+
+                            </a>
+
+                        `
+                        : ""
+                }
+
+
+                <button
+                    type="button"
+                    class="replace-game-file-btn"
+                    data-game-id="${game.id}">
+
+                    جایگزینی فایل
+
+                </button>
+
 
                 <button
                     type="button"
@@ -201,7 +229,8 @@ export function createGameForm({
                 type="hidden"
                 id="gameId"
                 value="${
-                    game?.id || ""
+                    game?.id ||
+                    ""
                 }">
 
 
@@ -215,7 +244,8 @@ export function createGameForm({
                     id="gameTitle"
                     type="text"
                     value="${escapeHtml(
-                        game?.title || ""
+                        game?.title ||
+                        ""
                     )}"
                     placeholder="مثلاً بازی کسرها">
 
@@ -230,7 +260,7 @@ export function createGameForm({
 
                 <select id="gameGrade">
 
-                    ${[7, 8, 9]
+                    ${[7,8,9]
                         .map(
                             item => `
 
@@ -327,26 +357,19 @@ export function createGameForm({
                         <div class="input-group">
 
                             <label>
-                                آدرس فعلی بازی
+                                آدرس فایل
                             </label>
 
                             <input
                                 id="gameUrl"
                                 type="text"
                                 value="${escapeHtml(
-                                    game?.url || ""
+                                    game?.url ||
+                                    ""
                                 )}"
                                 readonly>
 
                         </div>
-
-
-                        <p class="form-help">
-
-                            در حالت ویرایش،
-                            فایل بازی تغییر نمی‌کند.
-
-                        </p>
 
                     `
 
@@ -355,7 +378,9 @@ export function createGameForm({
                         <div class="input-group">
 
                             <label for="gameFile">
+
                                 فایل HTML بازی
+
                             </label>
 
                             <input
@@ -368,19 +393,20 @@ export function createGameForm({
 
                         <p class="form-help">
 
-                            فایل باید با پسوند
-                            .html باشد.
+                            فایل HTML را انتخاب کن.
+                            انتشار در GitHub
+                            به صورت خودکار انجام می‌شود.
 
                         </p>
 
 
                         <p class="form-help">
 
-                            داخل فایل بازی از
-                            __GAME_ID__
-                            استفاده کن؛
-                            شناسه واقعی خودکار
-                            جایگزین می‌شود.
+                            داخل فایل بازی بنویس:
+
+                            <code>
+                                const GAME_ID = __GAME_ID__;
+                            </code>
 
                         </p>
 
@@ -388,6 +414,105 @@ export function createGameForm({
             }
 
         </form>
+
+    `;
+}
+
+
+export function createReplaceGameFileModal() {
+
+    return `
+
+        <div
+            class="modal-overlay"
+            id="replaceGameFileModal">
+
+            <div
+                class="modal-box"
+                role="dialog"
+                aria-modal="true">
+
+                <div class="modal-header">
+
+                    <h3>
+                        جایگزینی فایل بازی
+                    </h3>
+
+                    <button
+                        type="button"
+                        class="modal-close"
+                        data-modal-close="replaceGameFileModal">
+
+                        ×
+
+                    </button>
+
+                </div>
+
+
+                <div class="modal-content">
+
+                    <input
+                        type="hidden"
+                        id="replaceGameId">
+
+
+                    <p id="replaceGameTitle">
+                    </p>
+
+
+                    <div class="input-group">
+
+                        <label for="replaceGameFile">
+
+                            فایل HTML جدید
+
+                        </label>
+
+                        <input
+                            id="replaceGameFile"
+                            type="file"
+                            accept=".html,text/html">
+
+                    </div>
+
+
+                    <p class="form-help">
+
+                        شناسه بازی تغییر نمی‌کند
+                        و امتیازات قبلی باقی می‌مانند.
+
+                    </p>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="btn modal-cancel"
+                        data-modal-close="replaceGameFileModal">
+
+                        انصراف
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="confirmReplaceGameFile"
+                        class="btn modal-submit">
+
+                        جایگزینی و انتشار
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
 
     `;
 }
@@ -412,14 +537,13 @@ export function getChapterOptions(
             ) => `
 
                 <option
-                    value="${
-                        index + 1
-                    }"
+                    value="${index + 1}"
                     ${
                         index + 1 ===
                         Number(
                             selectedChapter
                         )
+
                             ? "selected"
                             : ""
                     }>
@@ -427,7 +551,9 @@ export function getChapterOptions(
                     فصل ${
                         index + 1
                     }
+
                     -
+
                     ${escapeHtml(
                         title
                     )}
@@ -440,9 +566,7 @@ export function getChapterOptions(
 }
 
 
-function escapeHtml(
-    value
-) {
+function escapeHtml(value) {
 
     return String(
         value ?? ""
