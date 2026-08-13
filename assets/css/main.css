@@ -1779,3 +1779,463 @@ input[type="file"] {
             repeat(2, 1fr);
     }
     }
+
+
+/* ========================================
+   ADMIN GAMES - ADVANCED
+======================================== */
+
+.admin-games-toolbar {
+    margin-bottom: 15px;
+}
+
+
+.admin-add-game-btn {
+    width: 100%;
+    min-height: 48px;
+
+    margin-bottom: 12px;
+
+    border: 0;
+    border-radius: 14px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #2563eb
+        );
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 24px
+        rgba(79,70,229,.18);
+}
+
+
+.admin-add-game-btn span {
+    font-size: 19px;
+    vertical-align: middle;
+}
+
+
+.admin-games-filters {
+    padding: 12px;
+
+    background: white;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+
+    box-shadow:
+        0 7px 20px
+        rgba(15,23,42,.04);
+}
+
+
+.admin-game-search {
+    height: 44px;
+
+    padding: 0 12px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 12px;
+
+    background: #f8fafc;
+}
+
+
+.admin-game-search input {
+    width: 100%;
+    height: 100%;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    font-family: inherit;
+    font-size: 13px;
+}
+
+
+.admin-filter-row {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 8px;
+
+    margin-top: 9px;
+}
+
+
+.admin-filter-row select {
+    width: 100%;
+    min-width: 0;
+
+    padding: 10px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 11px;
+
+    background: #f8fafc;
+
+    font-family: inherit;
+    font-size: 12px;
+
+    outline: none;
+}
+
+
+.admin-games-result-info {
+    padding: 10px 3px 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+.clear-game-filters {
+    border: 0;
+
+    color: #2563eb;
+
+    background: transparent;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* GAME CARD */
+
+.admin-game-card {
+    overflow: hidden;
+}
+
+
+.admin-game-card[hidden] {
+    display: none !important;
+}
+
+
+.admin-game-card-top {
+    display: grid;
+
+    grid-template-columns:
+        52px 1fr auto;
+
+    gap: 11px;
+
+    align-items: center;
+}
+
+
+.admin-game-icon {
+    width: 52px;
+    height: 52px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 15px;
+
+    font-size: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #dbeafe,
+            #ede9fe
+        );
+}
+
+
+.admin-game-card-top
+.game-info h3 {
+    margin: 0 0 7px;
+}
+
+
+.admin-game-tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+
+.admin-game-tags span {
+    padding: 4px 7px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+
+.grade-tag {
+    color: #1d4ed8;
+    background: #dbeafe;
+}
+
+
+.chapter-tag {
+    color: #6d28d9;
+    background: #ede9fe;
+}
+
+
+.admin-game-order {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 10px;
+
+    color: #475569;
+
+    background: #f1f5f9;
+
+    direction: ltr;
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+
+.admin-game-chapter-name {
+    margin-top: 11px;
+    padding: 9px 10px;
+
+    border-radius: 10px;
+
+    color: #475569;
+
+    background: #f8fafc;
+
+    font-size: 11px;
+}
+
+
+.admin-game-meta {
+    margin-top: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+
+    direction: ltr;
+}
+
+
+.admin-game-path {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ACTIONS */
+
+.admin-game-card
+.game-actions {
+    grid-template-columns:
+        repeat(4, 1fr);
+}
+
+
+.admin-game-card
+.game-actions a,
+.admin-game-card
+.game-actions button {
+    flex-direction: column;
+    gap: 3px;
+
+    min-width: 0;
+
+    font-size: 10px;
+}
+
+
+.admin-game-card
+.game-actions span {
+    font-size: 15px;
+}
+
+
+/* FILTER EMPTY */
+
+.admin-filter-empty {
+    padding: 35px 15px;
+
+    text-align: center;
+
+    color: #64748b;
+
+    background: white;
+
+    border: 1px dashed #cbd5e1;
+
+    border-radius: 18px;
+}
+
+
+.admin-filter-empty[hidden] {
+    display: none;
+}
+
+
+.admin-filter-empty span {
+    font-size: 35px;
+}
+
+
+.admin-filter-empty h3 {
+    margin: 10px 0 4px;
+
+    color: #334155;
+}
+
+
+.admin-filter-empty p {
+    margin: 0;
+    font-size: 12px;
+}
+
+
+/* GAME FORM */
+
+.admin-form-row {
+    display: grid;
+
+    grid-template-columns:
+        2fr 1fr;
+
+    gap: 10px;
+}
+
+
+.admin-current-file {
+    margin-top: 8px;
+    padding: 12px;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    border-radius: 12px;
+
+    background: #f8fafc;
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+.admin-current-file code {
+    direction: ltr;
+
+    color: #334155;
+
+    overflow-wrap: anywhere;
+}
+
+
+.admin-upload-help {
+    margin-top: 12px;
+    padding: 11px;
+
+    display: flex;
+    gap: 8px;
+
+    border-radius: 12px;
+
+    color: #475569;
+
+    background: #eff6ff;
+
+    font-size: 11px;
+
+    line-height: 1.8;
+}
+
+
+.admin-upload-help p {
+    margin: 0;
+}
+
+
+.admin-upload-help code {
+    color: #1d4ed8;
+    font-weight: bold;
+}
+
+
+.replace-game-title {
+    margin-top: 0;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    color: #334155;
+}
+
+
+@media (max-width: 430px) {
+
+    .admin-game-card
+    .game-actions {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+
+@media (min-width: 720px) {
+
+    .admin-games-filters {
+        display: grid;
+
+        grid-template-columns:
+            1.2fr 1fr;
+
+        gap: 10px;
+    }
+
+
+    .admin-filter-row {
+        margin-top: 0;
+    }
+}
