@@ -35,16 +35,14 @@ import {
 } from "../components/modal.js";
 
 
+let currentStudents = [];
 let currentGames = [];
+let adminSection = "home";
 
-
-/* =========================
-   MODALS
-========================= */
 
 function createAddStudentModal() {
 
-    const formContent = `
+    const content = `
 
         <form id="addStudentForm">
 
@@ -66,7 +64,7 @@ function createAddStudentModal() {
                 id: "studentPassword",
                 label: "رمز عبور",
                 type: "password",
-                placeholder: "رمز عبور"
+                placeholder: "حداقل ۶ کاراکتر"
             })}
 
             <div class="input-group">
@@ -101,11 +99,10 @@ function createAddStudentModal() {
 
     `;
 
-
     return createModal({
         id: "addStudentModal",
         title: "افزودن دانش‌آموز",
-        content: formContent,
+        content,
         submitText: "ثبت دانش‌آموز"
     });
 }
@@ -122,23 +119,15 @@ function createGameModal() {
 }
 
 
-/* =========================
-   RENDER
-========================= */
-
 export async function renderAdmin() {
 
-    const profile =
-        getProfile();
-
+    const profile = getProfile();
 
     if (
         !profile ||
         profile.role !== "admin"
     ) {
-
         navigate("dashboard");
-
         return;
     }
 
@@ -150,74 +139,19 @@ export async function renderAdmin() {
         ]);
 
 
-    currentGames =
-        games;
+    currentStudents = students;
+    currentGames = games;
 
 
     const content = `
 
-        <div class="admin-page">
+        <div class="admin-shell">
 
-            <div class="admin-header">
-
-                <div>
-
-                    <h2>
-                        مدیریت دانش‌آموزان
-                    </h2>
-
-                    <p>
-                        ${students.length}
-                        دانش‌آموز
-                    </p>
-
-                </div>
-
-
-                <button
-                    id="addStudentBtn"
-                    class="btn"
-                    type="button">
-
-                    افزودن دانش‌آموز
-
-                </button>
-
+            <div id="adminContent">
+                ${renderCurrentSection()}
             </div>
-
-
-            <div class="student-list">
-
-                ${
-                    students.length
-
-                        ? students
-                            .map(
-                                createStudentCard
-                            )
-                            .join("")
-
-                        : `
-
-                            <div class="empty-state">
-
-                                هنوز دانش‌آموزی
-                                ثبت نشده است.
-
-                            </div>
-
-                        `
-                }
-
-            </div>
-
-
-            ${createGamesSection(
-                games
-            )}
 
         </div>
-
 
         ${createAddStudentModal()}
 
@@ -228,19 +162,12 @@ export async function renderAdmin() {
     `;
 
 
-    document
-        .getElementById("app")
-        .innerHTML =
+    document.getElementById("app").innerHTML =
         createAppLayout({
-            title:
-                "پنل مدیریت",
-
+            title: "پنل مدیریت",
             content,
-
             profile,
-
-            showBack:
-                false
+            showBack: false
         });
 
 
@@ -250,40 +177,336 @@ export async function renderAdmin() {
 }
 
 
-/* =========================
-   STUDENTS
-========================= */
+function renderCurrentSection() {
 
-function createStudentCard(
-    student
+    if (adminSection === "students") {
+        return createStudentsPage();
+    }
+
+    if (adminSection === "games") {
+        return createGamesPage();
+    }
+
+    return createAdminHome();
+}
+
+
+function createAdminHome() {
+
+    return `
+
+        <section class="admin-home">
+
+            <div class="admin-hero">
+
+                <div>
+
+                    <span class="admin-eyebrow">
+                        باشگاه نخبگان ریاضی
+                    </span>
+
+                    <h1>
+                        پنل مدیریت
+                    </h1>
+
+                    <p>
+                        مدیریت بخش‌های سامانه
+                        از یک مکان
+                    </p>
+
+                </div>
+
+                <div class="admin-hero-icon">
+                    🏆
+                </div>
+
+            </div>
+
+
+            <div class="admin-dashboard-grid">
+
+                <button
+                    type="button"
+                    class="admin-dashboard-card students"
+                    data-admin-section="students">
+
+                    <span class="admin-card-icon">
+                        👨‍🎓
+                    </span>
+
+                    <span class="admin-card-content">
+
+                        <strong>
+                            دانش‌آموزان
+                        </strong>
+
+                        <small>
+                            ${currentStudents.length}
+                            دانش‌آموز
+                        </small>
+
+                    </span>
+
+                    <span class="admin-card-arrow">
+                        ←
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="admin-dashboard-card games"
+                    data-admin-section="games">
+
+                    <span class="admin-card-icon">
+                        🎮
+                    </span>
+
+                    <span class="admin-card-content">
+
+                        <strong>
+                            بازی‌ها
+                        </strong>
+
+                        <small>
+                            ${currentGames.length}
+                            بازی منتشرشده
+                        </small>
+
+                    </span>
+
+                    <span class="admin-card-arrow">
+                        ←
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="admin-dashboard-card exams disabled">
+
+                    <span class="admin-card-icon">
+                        📝
+                    </span>
+
+                    <span class="admin-card-content">
+
+                        <strong>
+                            آزمون‌ها
+                        </strong>
+
+                        <small>
+                            به‌زودی
+                        </small>
+
+                    </span>
+
+                    <span class="admin-coming-soon">
+                        به‌زودی
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+    `;
+}
+
+
+function createStudentsPage() {
+
+    return `
+
+        <section class="admin-section-page">
+
+            ${createAdminSectionHeader(
+                "👨‍🎓",
+                "مدیریت دانش‌آموزان",
+                `${currentStudents.length} دانش‌آموز`
+            )}
+
+
+            <button
+                id="addStudentBtn"
+                class="admin-primary-action"
+                type="button">
+
+                <span>＋</span>
+
+                افزودن دانش‌آموز
+
+            </button>
+
+
+            <div class="student-list admin-student-list">
+
+                ${
+                    currentStudents.length
+
+                        ? currentStudents
+                            .map(
+                                createStudentCard
+                            )
+                            .join("")
+
+                        : `
+
+                            <div class="admin-empty">
+
+                                <span>
+                                    👨‍🎓
+                                </span>
+
+                                <h3>
+                                    دانش‌آموزی وجود ندارد
+                                </h3>
+
+                                <p>
+                                    اولین دانش‌آموز را
+                                    اضافه کنید.
+                                </p>
+
+                            </div>
+
+                        `
+                }
+
+            </div>
+
+        </section>
+
+    `;
+}
+
+
+function createGamesPage() {
+
+    return `
+
+        <section class="admin-section-page">
+
+            ${createAdminSectionHeader(
+                "🎮",
+                "مدیریت بازی‌ها",
+                `${currentGames.length} بازی منتشرشده`
+            )}
+
+
+            ${createGamesSection(
+                currentGames
+            )}
+
+        </section>
+
+    `;
+}
+
+
+function createAdminSectionHeader(
+    icon,
+    title,
+    subtitle
 ) {
 
     return `
 
+        <div class="admin-section-heading">
+
+            <button
+                type="button"
+                class="admin-back-home"
+                data-admin-section="home"
+                aria-label="بازگشت">
+
+                →
+
+            </button>
+
+
+            <div class="admin-section-icon">
+                ${icon}
+            </div>
+
+
+            <div>
+
+                <h2>
+                    ${title}
+                </h2>
+
+                <p>
+                    ${subtitle}
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+function createStudentCard(student) {
+
+    const active =
+        Boolean(
+            student.is_active
+        );
+
+
+    return `
+
         <div
-            class="student-card"
+            class="student-card admin-student-card"
             data-user-id="${student.id}">
+
+
+            <div class="student-avatar">
+
+                ${getInitial(
+                    student.name
+                )}
+
+            </div>
+
 
             <div class="student-info">
 
                 <h3>
-                    ${student.name}
+                    ${escapeHtml(
+                        student.name
+                    )}
                 </h3>
 
                 <p>
 
-                    پایه
-                    ${student.grade}
-
-                    ${
-                        student.phone
-
-                            ? ` • ${student.phone}`
-
-                            : ""
-                    }
+                    🎓 پایه
+                    ${student.grade || "—"}
 
                 </p>
+
+                ${
+                    student.phone
+
+                        ? `
+
+                            <p class="student-phone">
+
+                                📱
+                                ${escapeHtml(
+                                    student.phone
+                                )}
+
+                            </p>
+
+                        `
+
+                        : ""
+                }
 
             </div>
 
@@ -292,15 +515,15 @@ function createStudentCard(
 
                 <span
                     class="student-status ${
-                        student.is_active
+                        active
                             ? "active"
                             : "inactive"
                     }">
 
                     ${
-                        student.is_active
-                            ? "فعال"
-                            : "غیرفعال"
+                        active
+                            ? "● فعال"
+                            : "● غیرفعال"
                     }
 
                 </span>
@@ -310,13 +533,11 @@ function createStudentCard(
                     type="button"
                     class="toggle-student-btn"
                     data-user-id="${student.id}"
-                    data-active="${student.is_active}">
+                    data-active="${active}">
 
                     ${
-                        student.is_active
-
+                        active
                             ? "غیرفعال کردن"
-
                             : "فعال کردن"
                     }
 
@@ -329,10 +550,6 @@ function createStudentCard(
     `;
 }
 
-
-/* =========================
-   EVENTS
-========================= */
 
 function bindAdminEvents() {
 
@@ -347,6 +564,26 @@ function bindAdminEvents() {
     bindModalClose(
         "replaceGameFileModal"
     );
+
+
+    document
+        .querySelectorAll(
+            "[data-admin-section]"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    switchAdminSection(
+                        button.dataset
+                            .adminSection
+                    );
+                }
+            );
+
+        });
 
 
     document
@@ -388,15 +625,14 @@ function bindAdminEvents() {
         .querySelectorAll(
             ".toggle-student-btn"
         )
-        .forEach(
-            button => {
+        .forEach(button => {
 
-                button.addEventListener(
-                    "click",
-                    handleStudentStatus
-                );
-            }
-        );
+            button.addEventListener(
+                "click",
+                handleStudentStatus
+            );
+
+        });
 
 
     document
@@ -413,45 +649,42 @@ function bindAdminEvents() {
         .querySelectorAll(
             ".edit-game-btn"
         )
-        .forEach(
-            button => {
+        .forEach(button => {
 
-                button.addEventListener(
-                    "click",
-                    handleOpenEditGame
-                );
-            }
-        );
+            button.addEventListener(
+                "click",
+                handleOpenEditGame
+            );
+
+        });
 
 
     document
         .querySelectorAll(
             ".replace-game-file-btn"
         )
-        .forEach(
-            button => {
+        .forEach(button => {
 
-                button.addEventListener(
-                    "click",
-                    handleOpenReplaceGameFile
-                );
-            }
-        );
+            button.addEventListener(
+                "click",
+                handleOpenReplaceGameFile
+            );
+
+        });
 
 
     document
         .querySelectorAll(
             ".delete-game-btn"
         )
-        .forEach(
-            button => {
+        .forEach(button => {
 
-                button.addEventListener(
-                    "click",
-                    handleDeleteGame
-                );
-            }
-        );
+            button.addEventListener(
+                "click",
+                handleDeleteGame
+            );
+
+        });
 
 
     document
@@ -478,9 +711,32 @@ function bindAdminEvents() {
 }
 
 
-/* =========================
-   STUDENT ACTIONS
-========================= */
+function switchAdminSection(
+    section
+) {
+
+    adminSection =
+        section || "home";
+
+
+    const container =
+        document.getElementById(
+            "adminContent"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML =
+        renderCurrentSection();
+
+
+    bindAdminEvents();
+}
+
 
 function handleOpenStudentModal() {
 
@@ -625,6 +881,7 @@ async function handleCreateStudent() {
             "ثبت دانش‌آموز"
         );
 
+
         return;
     }
 
@@ -640,7 +897,9 @@ async function handleCreateStudent() {
     );
 
 
-    await renderAdmin();
+    await refreshAdminData(
+        "students"
+    );
 }
 
 
@@ -661,10 +920,6 @@ async function handleStudentStatus(
         "true";
 
 
-    const newStatus =
-        !currentlyActive;
-
-
     button.disabled =
         true;
 
@@ -676,7 +931,7 @@ async function handleStudentStatus(
     const result =
         await setStudentActive(
             userId,
-            newStatus
+            !currentlyActive
         );
 
 
@@ -694,9 +949,7 @@ async function handleStudentStatus(
 
         button.textContent =
             currentlyActive
-
                 ? "غیرفعال کردن"
-
                 : "فعال کردن";
 
 
@@ -705,23 +958,18 @@ async function handleStudentStatus(
 
 
     showToast(
-        newStatus
-
+        !currentlyActive
             ? "دانش‌آموز فعال شد."
-
             : "دانش‌آموز غیرفعال شد.",
-
         "success"
     );
 
 
-    await renderAdmin();
+    await refreshAdminData(
+        "students"
+    );
 }
 
-
-/* =========================
-   GAME FORM
-========================= */
 
 function handleOpenAddGame() {
 
@@ -822,7 +1070,6 @@ function setGameModalTitle(
 
 
     if (titleElement) {
-
         titleElement.textContent =
             title;
     }
@@ -891,10 +1138,6 @@ function bindGameFormEvents() {
         );
 }
 
-
-/* =========================
-   SAVE / PUBLISH GAME
-========================= */
 
 async function handleSaveGame() {
 
@@ -998,10 +1241,6 @@ async function handleSaveGame() {
         );
 
 
-    /*
-     * EDIT
-     */
-
     if (gameId) {
 
         const game =
@@ -1011,12 +1250,6 @@ async function handleSaveGame() {
 
 
         if (!game) {
-
-            showToast(
-                "بازی پیدا نشد.",
-                "error"
-            );
-
             return;
         }
 
@@ -1068,26 +1301,25 @@ async function handleSaveGame() {
         }
 
 
+        closeModal(
+            "gameModal"
+        );
+
+
         showToast(
             "اطلاعات بازی ویرایش شد.",
             "success"
         );
 
 
-        closeModal(
-            "gameModal"
+        await refreshAdminData(
+            "games"
         );
 
-
-        await renderAdmin();
 
         return;
     }
 
-
-    /*
-     * NEW GAME
-     */
 
     const file =
         document
@@ -1101,21 +1333,6 @@ async function handleSaveGame() {
 
         showToast(
             "فایل HTML بازی را انتخاب کنید.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    if (
-        !file.name
-            .toLowerCase()
-            .endsWith(".html")
-    ) {
-
-        showToast(
-            "فقط فایل HTML قابل قبول است.",
             "error"
         );
 
@@ -1150,8 +1367,7 @@ async function handleSaveGame() {
     if (!result.success) {
 
         showToast(
-            result.message ||
-            "انتشار بازی انجام نشد.",
+            result.message,
             "error"
         );
 
@@ -1167,24 +1383,22 @@ async function handleSaveGame() {
     }
 
 
+    closeModal(
+        "gameModal"
+    );
+
+
     showToast(
         "بازی با موفقیت منتشر شد 🎮",
         "success"
     );
 
 
-    closeModal(
-        "gameModal"
+    await refreshAdminData(
+        "games"
     );
-
-
-    await renderAdmin();
 }
 
-
-/* =========================
-   REPLACE GAME FILE
-========================= */
 
 function handleOpenReplaceGameFile(
     event
@@ -1198,26 +1412,24 @@ function handleOpenReplaceGameFile(
 
 
     if (!game) {
-
-        showToast(
-            "بازی پیدا نشد.",
-            "error"
-        );
-
         return;
     }
 
 
-    const idInput =
-        document.getElementById(
+    document
+        .getElementById(
             "replaceGameId"
-        );
+        )
+        .value =
+        game.id;
 
 
-    const title =
-        document.getElementById(
+    document
+        .getElementById(
             "replaceGameTitle"
-        );
+        )
+        .textContent =
+        `فایل جدید برای «${game.title}»`;
 
 
     const fileInput =
@@ -1226,24 +1438,8 @@ function handleOpenReplaceGameFile(
         );
 
 
-    if (idInput) {
-
-        idInput.value =
-            game.id;
-    }
-
-
-    if (title) {
-
-        title.textContent =
-            `فایل جدید برای «${game.title}»`;
-    }
-
-
     if (fileInput) {
-
-        fileInput.value =
-            "";
+        fileInput.value = "";
     }
 
 
@@ -1253,14 +1449,11 @@ function handleOpenReplaceGameFile(
         );
 
 
-    if (button) {
-
-        button.disabled =
-            false;
-
-        button.textContent =
-            "جایگزینی و انتشار";
-    }
+    setButtonLoading(
+        button,
+        false,
+        "جایگزینی و انتشار"
+    );
 
 
     openModal(
@@ -1289,39 +1482,10 @@ async function handleReplaceGameFile() {
             ?.files?.[0];
 
 
-    if (
-        !gameId ||
-        gameId < 1
-    ) {
-
-        showToast(
-            "شناسه بازی نامعتبر است.",
-            "error"
-        );
-
-        return;
-    }
-
-
     if (!file) {
 
         showToast(
             "فایل HTML جدید را انتخاب کنید.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    if (
-        !file.name
-            .toLowerCase()
-            .endsWith(".html")
-    ) {
-
-        showToast(
-            "فقط فایل HTML قابل قبول است.",
             "error"
         );
 
@@ -1352,8 +1516,7 @@ async function handleReplaceGameFile() {
     if (!result.success) {
 
         showToast(
-            result.message ||
-            "جایگزینی فایل انجام نشد.",
+            result.message,
             "error"
         );
 
@@ -1369,24 +1532,22 @@ async function handleReplaceGameFile() {
     }
 
 
-    showToast(
-        "فایل بازی با موفقیت جایگزین شد ✅",
-        "success"
-    );
-
-
     closeModal(
         "replaceGameFileModal"
     );
 
 
-    await renderAdmin();
+    showToast(
+        "فایل بازی جایگزین شد ✅",
+        "success"
+    );
+
+
+    await refreshAdminData(
+        "games"
+    );
 }
 
-
-/* =========================
-   DELETE GAME
-========================= */
 
 async function handleDeleteGame(
     event
@@ -1403,23 +1564,15 @@ async function handleDeleteGame(
 
 
     if (!game) {
-
-        showToast(
-            "بازی پیدا نشد.",
-            "error"
-        );
-
         return;
     }
 
 
-    const confirmed =
-        window.confirm(
+    if (
+        !window.confirm(
             `بازی «${game.title}» حذف شود؟`
-        );
-
-
-    if (!confirmed) {
+        )
+    ) {
         return;
     }
 
@@ -1464,22 +1617,79 @@ async function handleDeleteGame(
     );
 
 
-    await renderAdmin();
+    await refreshAdminData(
+        "games"
+    );
 }
 
 
-/* =========================
-   HELPERS
-========================= */
+async function refreshAdminData(
+    section = adminSection
+) {
+
+    const [
+        students,
+        games
+    ] =
+        await Promise.all([
+            getStudents(),
+            getGames()
+        ]);
+
+
+    currentStudents =
+        students;
+
+
+    currentGames =
+        games;
+
+
+    adminSection =
+        section;
+
+
+    const container =
+        document.getElementById(
+            "adminContent"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML =
+        renderCurrentSection();
+
+
+    bindAdminEvents();
+}
+
 
 function findGame(gameId) {
 
-    return currentGames
-        .find(
-            item =>
-                Number(item.id) ===
-                Number(gameId)
-        );
+    return currentGames.find(
+        item =>
+            Number(item.id) ===
+            Number(gameId)
+    );
+}
+
+
+function getInitial(name) {
+
+    const value =
+        String(
+            name || "?"
+        ).trim();
+
+
+    return escapeHtml(
+        value.charAt(0)
+            .toUpperCase()
+    );
 }
 
 
@@ -1500,4 +1710,32 @@ function setButtonLoading(
 
     button.textContent =
         text;
+}
+
+
+function escapeHtml(value) {
+
+    return String(
+        value ?? ""
+    )
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 }
