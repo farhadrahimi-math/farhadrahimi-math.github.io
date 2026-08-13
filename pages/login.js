@@ -51,7 +51,7 @@ export function renderLogin() {
                 <div class="login-contact">
 
     <span>
-        راه ارتباطی با استاد
+          راه ارتباطی با استاد رحیمی
     </span>
 
     <a href="tel:09179649783">
