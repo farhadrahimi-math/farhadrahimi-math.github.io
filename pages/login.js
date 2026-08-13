@@ -27,9 +27,9 @@ export function renderLogin() {
             })}
 
             ${createButton({
-                id: "loginBtn",
-                text: "ورود به سامانه"
-            })}
+    id: "loginBtn",
+    text: "ورود به سامانه آموزشی نخبگان"
+})}
 
 
             <div class="public-games-entry">
@@ -58,9 +58,9 @@ export function renderLogin() {
 
     document.getElementById("app").innerHTML =
         createAuthLayout(
-            content,
-            "ورود به سامانه"
-        );
+    content,
+    "ورود به سامانه آموزشی نخبگان"
+);
 
 
     document
