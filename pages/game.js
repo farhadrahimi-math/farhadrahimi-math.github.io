@@ -35,13 +35,9 @@ export function renderGame() {
                     بازی‌های ریاضی
                 </h1>
 
-                <h2>
-                    فرهاد رحیمی
-                </h2>
-
-                <p>
-                    دبیر ریاضی
-                </p>
+                <h2 class="teacher-name">
+    فرهاد رحیمی - استاد ریاضی
+</h2>
 
                 <p class="games-description">
                     یادگیری ریاضی با بازی،
@@ -75,8 +71,7 @@ export function renderGame() {
                     type="button"
                     class="games-back-btn">
 
-                    ورود به بخش آزمون‌ها
-
+                    ورود به سامانه آموزشی باشگاه نخبگان
                 </button>
 
             </div>
