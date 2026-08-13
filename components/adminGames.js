@@ -11,34 +11,102 @@ export function createGamesSection(
 
         <section class="admin-games">
 
-            <div class="admin-header">
-
-                <div>
-
-                    <h2>
-                        مدیریت بازی‌ها
-                    </h2>
-
-                    <p>
-                        ${games.length}
-                        بازی ثبت شده
-                    </p>
-
-                </div>
+            <div class="admin-games-toolbar">
 
                 <button
                     id="addGameBtn"
-                    class="btn"
+                    class="admin-add-game-btn"
                     type="button">
 
-                    افزودن بازی
+                    <span>＋</span>
+
+                    افزودن بازی جدید
 
                 </button>
+
+
+                <div class="admin-games-filters">
+
+                    <div class="admin-game-search">
+
+                        <span>
+                            🔎
+                        </span>
+
+                        <input
+                            id="gameSearchInput"
+                            type="search"
+                            placeholder="جستجوی نام بازی..."
+                            autocomplete="off">
+
+                    </div>
+
+
+                    <div class="admin-filter-row">
+
+                        <select
+                            id="gameGradeFilter">
+
+                            <option value="">
+                                همه پایه‌ها
+                            </option>
+
+                            <option value="7">
+                                پایه هفتم
+                            </option>
+
+                            <option value="8">
+                                پایه هشتم
+                            </option>
+
+                            <option value="9">
+                                پایه نهم
+                            </option>
+
+                        </select>
+
+
+                        <select
+                            id="gameChapterFilter">
+
+                            <option value="">
+                                همه فصل‌ها
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-games-result-info">
+
+                    <span>
+                        🎮
+                        <strong id="visibleGamesCount">
+                            ${games.length}
+                        </strong>
+                        بازی
+                    </span>
+
+                    <button
+                        type="button"
+                        id="clearGameFilters"
+                        class="clear-game-filters">
+
+                        پاک کردن فیلترها
+
+                    </button>
+
+                </div>
 
             </div>
 
 
-            <div class="game-list">
+            <div
+                id="gameList"
+                class="game-list">
 
                 ${
                     games.length
@@ -49,17 +117,29 @@ export function createGamesSection(
                             )
                             .join("")
 
-                        : `
-
-                            <div class="empty-state">
-
-                                هنوز بازی‌ای
-                                ثبت نشده است.
-
-                            </div>
-
-                        `
+                        : createEmptyState()
                 }
+
+            </div>
+
+
+            <div
+                id="gameFilterEmpty"
+                class="admin-filter-empty"
+                hidden>
+
+                <span>
+                    🔍
+                </span>
+
+                <h3>
+                    بازی‌ای پیدا نشد
+                </h3>
+
+                <p>
+                    فیلترها یا عبارت جستجو
+                    را تغییر دهید.
+                </p>
 
             </div>
 
@@ -72,7 +152,9 @@ export function createGamesSection(
 function createGameCard(game) {
 
     const chapterTitle =
-        chapters[game.grade]?.[
+        chapters[
+            Number(game.grade)
+        ]?.[
             Number(game.chapter) - 1
         ] ||
         `فصل ${game.chapter}`;
@@ -80,49 +162,98 @@ function createGameCard(game) {
 
     return `
 
-        <div
+        <article
             class="admin-game-card"
-            data-game-id="${game.id}">
-
-            <div class="game-info">
-
-                <h3>
-                    ${escapeHtml(
-                        game.title ||
-                        "بدون عنوان"
-                    )}
-                </h3>
+            data-game-id="${game.id}"
+            data-game-title="${escapeHtml(
+                normalizeForAttribute(
+                    game.title
+                )
+            )}"
+            data-game-grade="${game.grade}"
+            data-game-chapter="${game.chapter}">
 
 
-                <p>
+            <div class="admin-game-card-top">
 
-                    پایه ${game.grade}
-
-                    •
-
-                    ${escapeHtml(
-                        chapterTitle
-                    )}
-
-                </p>
+                <div class="admin-game-icon">
+                    🎮
+                </div>
 
 
-                <small>
-                    شناسه بازی:
+                <div class="game-info">
+
+                    <h3>
+                        ${escapeHtml(
+                            game.title ||
+                            "بدون عنوان"
+                        )}
+                    </h3>
+
+
+                    <div class="admin-game-tags">
+
+                        <span class="grade-tag">
+                            پایه ${game.grade}
+                        </span>
+
+                        <span class="chapter-tag">
+
+                            فصل
+                            ${game.chapter}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <span class="admin-game-order">
+
+                    #${game.order_no || 1}
+
+                </span>
+
+            </div>
+
+
+            <div class="admin-game-chapter-name">
+
+                📘
+
+                ${escapeHtml(
+                    chapterTitle
+                )}
+
+            </div>
+
+
+            <div class="admin-game-meta">
+
+                <span>
+                    ID:
                     ${game.id}
-                </small>
-
+                </span>
 
                 ${
                     game.url
 
                         ? `
 
-                            <small>
-                                ${escapeHtml(
+                            <span
+                                class="admin-game-path"
+                                title="${escapeHtml(
                                     game.url
+                                )}">
+
+                                ${escapeHtml(
+                                    getFileName(
+                                        game.url
+                                    )
                                 )}
-                            </small>
+
+                            </span>
 
                         `
 
@@ -136,6 +267,7 @@ function createGameCard(game) {
 
                 ${
                     game.url
+
                         ? `
 
                             <a
@@ -146,23 +278,15 @@ function createGameCard(game) {
                                 rel="noopener noreferrer"
                                 class="open-game-btn">
 
-                                اجرای بازی
+                                <span>▶</span>
+                                اجرا
 
                             </a>
 
                         `
+
                         : ""
                 }
-
-
-                <button
-                    type="button"
-                    class="replace-game-file-btn"
-                    data-game-id="${game.id}">
-
-                    جایگزینی فایل
-
-                </button>
 
 
                 <button
@@ -170,7 +294,19 @@ function createGameCard(game) {
                     class="edit-game-btn"
                     data-game-id="${game.id}">
 
-                    ویرایش اطلاعات
+                    <span>✏️</span>
+                    ویرایش
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="replace-game-file-btn"
+                    data-game-id="${game.id}">
+
+                    <span>🔄</span>
+                    فایل جدید
 
                 </button>
 
@@ -180,15 +316,301 @@ function createGameCard(game) {
                     class="delete-game-btn"
                     data-game-id="${game.id}">
 
+                    <span>🗑️</span>
                     حذف
 
                 </button>
 
             </div>
 
+        </article>
+
+    `;
+}
+
+
+function createEmptyState() {
+
+    return `
+
+        <div class="admin-empty">
+
+            <span>
+                🎮
+            </span>
+
+            <h3>
+                هنوز بازی‌ای منتشر نشده
+            </h3>
+
+            <p>
+                با دکمه افزودن بازی،
+                اولین بازی را منتشر کنید.
+            </p>
+
         </div>
 
     `;
+}
+
+
+export function bindGameFilters() {
+
+    const searchInput =
+        document.getElementById(
+            "gameSearchInput"
+        );
+
+
+    const gradeFilter =
+        document.getElementById(
+            "gameGradeFilter"
+        );
+
+
+    const chapterFilter =
+        document.getElementById(
+            "gameChapterFilter"
+        );
+
+
+    const clearButton =
+        document.getElementById(
+            "clearGameFilters"
+        );
+
+
+    if (
+        !searchInput ||
+        !gradeFilter ||
+        !chapterFilter
+    ) {
+        return;
+    }
+
+
+    function updateChapterOptions() {
+
+        const grade =
+            Number(
+                gradeFilter.value
+            );
+
+
+        if (!grade) {
+
+            chapterFilter.innerHTML =
+                `
+
+                    <option value="">
+                        همه فصل‌ها
+                    </option>
+
+                `;
+
+            return;
+        }
+
+
+        const items =
+            chapters[grade] ||
+            [];
+
+
+        chapterFilter.innerHTML = `
+
+            <option value="">
+                همه فصل‌ها
+            </option>
+
+            ${items
+                .map(
+                    (
+                        title,
+                        index
+                    ) => `
+
+                        <option
+                            value="${index + 1}">
+
+                            فصل ${index + 1}
+                            -
+                            ${escapeHtml(
+                                title
+                            )}
+
+                        </option>
+
+                    `
+                )
+                .join("")}
+
+        `;
+    }
+
+
+    function applyFilters() {
+
+        const search =
+            normalizeText(
+                searchInput.value
+            );
+
+
+        const grade =
+            gradeFilter.value;
+
+
+        const chapter =
+            chapterFilter.value;
+
+
+        const cards =
+            document.querySelectorAll(
+                ".admin-game-card"
+            );
+
+
+        let visible =
+            0;
+
+
+        cards.forEach(
+            card => {
+
+                const title =
+                    normalizeText(
+                        card.dataset
+                            .gameTitle ||
+                        ""
+                    );
+
+
+                const cardGrade =
+                    card.dataset
+                        .gameGrade;
+
+
+                const cardChapter =
+                    card.dataset
+                        .gameChapter;
+
+
+                const matchesSearch =
+                    !search ||
+                    title.includes(
+                        search
+                    );
+
+
+                const matchesGrade =
+                    !grade ||
+                    cardGrade ===
+                    grade;
+
+
+                const matchesChapter =
+                    !chapter ||
+                    cardChapter ===
+                    chapter;
+
+
+                const show =
+                    matchesSearch &&
+                    matchesGrade &&
+                    matchesChapter;
+
+
+                card.hidden =
+                    !show;
+
+
+                if (show) {
+                    visible++;
+                }
+
+            }
+        );
+
+
+        const counter =
+            document.getElementById(
+                "visibleGamesCount"
+            );
+
+
+        if (counter) {
+            counter.textContent =
+                visible;
+        }
+
+
+        const empty =
+            document.getElementById(
+                "gameFilterEmpty"
+            );
+
+
+        if (empty) {
+
+            empty.hidden =
+                visible !== 0 ||
+                cards.length === 0;
+        }
+    }
+
+
+    searchInput
+        .addEventListener(
+            "input",
+            applyFilters
+        );
+
+
+    gradeFilter
+        .addEventListener(
+            "change",
+            () => {
+
+                updateChapterOptions();
+
+                chapterFilter.value =
+                    "";
+
+                applyFilters();
+            }
+        );
+
+
+    chapterFilter
+        .addEventListener(
+            "change",
+            applyFilters
+        );
+
+
+    clearButton
+        ?.addEventListener(
+            "click",
+            () => {
+
+                searchInput.value =
+                    "";
+
+                gradeFilter.value =
+                    "";
+
+                updateChapterOptions();
+
+                chapterFilter.value =
+                    "";
+
+                applyFilters();
+            }
+        );
+
+
+    updateChapterOptions();
 }
 
 
@@ -252,36 +674,58 @@ export function createGameForm({
             </div>
 
 
-            <div class="input-group">
+            <div class="admin-form-row">
 
-                <label for="gameGrade">
-                    پایه
-                </label>
+                <div class="input-group">
 
-                <select id="gameGrade">
+                    <label for="gameGrade">
+                        پایه
+                    </label>
 
-                    ${[7,8,9]
-                        .map(
-                            item => `
+                    <select id="gameGrade">
 
-                                <option
-                                    value="${item}"
-                                    ${
-                                        item ===
-                                        selectedGrade
-                                            ? "selected"
-                                            : ""
-                                    }>
+                        ${[7,8,9]
+                            .map(
+                                item => `
 
-                                    پایه ${item}
+                                    <option
+                                        value="${item}"
+                                        ${
+                                            item ===
+                                            selectedGrade
+                                                ? "selected"
+                                                : ""
+                                        }>
 
-                                </option>
+                                        پایه ${item}
 
-                            `
-                        )
-                        .join("")}
+                                    </option>
 
-                </select>
+                                `
+                            )
+                            .join("")}
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="gameOrder">
+                        ترتیب
+                    </label>
+
+                    <input
+                        id="gameOrder"
+                        type="number"
+                        min="1"
+                        value="${
+                            game?.order_no ||
+                            1
+                        }">
+
+                </div>
 
             </div>
 
@@ -331,43 +775,24 @@ export function createGameForm({
             </div>
 
 
-            <div class="input-group">
-
-                <label for="gameOrder">
-                    ترتیب نمایش
-                </label>
-
-                <input
-                    id="gameOrder"
-                    type="number"
-                    min="1"
-                    value="${
-                        game?.order_no ||
-                        1
-                    }">
-
-            </div>
-
-
             ${
                 editing
 
                     ? `
 
-                        <div class="input-group">
+                        <div class="admin-current-file">
 
-                            <label>
-                                آدرس فایل
-                            </label>
+                            <span>
+                                📄 فایل فعلی
+                            </span>
 
-                            <input
-                                id="gameUrl"
-                                type="text"
-                                value="${escapeHtml(
-                                    game?.url ||
-                                    ""
-                                )}"
-                                readonly>
+                            <code>
+                                ${escapeHtml(
+                                    getFileName(
+                                        game?.url
+                                    )
+                                )}
+                            </code>
 
                         </div>
 
@@ -391,24 +816,30 @@ export function createGameForm({
                         </div>
 
 
-                        <p class="form-help">
+                        <div class="admin-upload-help">
 
-                            فایل HTML را انتخاب کن.
-                            انتشار در GitHub
-                            به صورت خودکار انجام می‌شود.
+                            <span>
+                                💡
+                            </span>
 
-                        </p>
+                            <p>
 
+                                فایل به صورت خودکار
+                                در GitHub منتشر می‌شود.
 
-                        <p class="form-help">
+                                <br>
 
-                            داخل فایل بازی بنویس:
+                                داخل فایل از
 
-                            <code>
-                                const GAME_ID = __GAME_ID__;
-                            </code>
+                                <code>
+                                    __GAME_ID__
+                                </code>
 
-                        </p>
+                                استفاده کنید.
+
+                            </p>
+
+                        </div>
 
                     `
             }
@@ -435,7 +866,7 @@ export function createReplaceGameFileModal() {
                 <div class="modal-header">
 
                     <h3>
-                        جایگزینی فایل بازی
+                        🔄 جایگزینی فایل بازی
                     </h3>
 
                     <button
@@ -457,13 +888,16 @@ export function createReplaceGameFileModal() {
                         id="replaceGameId">
 
 
-                    <p id="replaceGameTitle">
+                    <p
+                        id="replaceGameTitle"
+                        class="replace-game-title">
                     </p>
 
 
                     <div class="input-group">
 
-                        <label for="replaceGameFile">
+                        <label
+                            for="replaceGameFile">
 
                             فایل HTML جدید
 
@@ -477,12 +911,21 @@ export function createReplaceGameFileModal() {
                     </div>
 
 
-                    <p class="form-help">
+                    <div class="admin-upload-help">
 
-                        شناسه بازی تغییر نمی‌کند
-                        و امتیازات قبلی باقی می‌مانند.
+                        <span>
+                            ✅
+                        </span>
 
-                    </p>
+                        <p>
+
+                            شناسه بازی تغییر نمی‌کند
+                            و امتیازات قبلی
+                            حفظ می‌شوند.
+
+                        </p>
+
+                    </div>
 
                 </div>
 
@@ -543,17 +986,12 @@ export function getChapterOptions(
                         Number(
                             selectedChapter
                         )
-
                             ? "selected"
                             : ""
                     }>
 
-                    فصل ${
-                        index + 1
-                    }
-
+                    فصل ${index + 1}
                     -
-
                     ${escapeHtml(
                         title
                     )}
@@ -566,29 +1004,51 @@ export function getChapterOptions(
 }
 
 
+function getFileName(url) {
+
+    if (!url) {
+        return "—";
+    }
+
+
+    return String(url)
+        .split("/")
+        .filter(Boolean)
+        .pop() ||
+        "—";
+}
+
+
+function normalizeForAttribute(
+    value
+) {
+
+    return String(
+        value || ""
+    );
+}
+
+
+function normalizeText(value) {
+
+    return String(
+        value || ""
+    )
+        .trim()
+        .toLowerCase()
+        .replaceAll("ي", "ی")
+        .replaceAll("ك", "ک");
+}
+
+
 function escapeHtml(value) {
 
     return String(
         value ?? ""
     )
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
