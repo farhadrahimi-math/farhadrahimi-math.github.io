@@ -18,7 +18,8 @@ import {
     createGamesSection,
     createGameForm,
     createReplaceGameFileModal,
-    getChapterOptions
+    getChapterOptions,
+    bindGameFilters
 } from "../components/adminGames.js";
 
 import { getProfile } from "../store/appStore.js";
@@ -708,6 +709,7 @@ function bindAdminEvents() {
 
 
     bindGameFormEvents();
+    bindGameFilters();
 }
 
 
