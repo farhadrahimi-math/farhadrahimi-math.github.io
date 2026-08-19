@@ -1,0 +1,2873 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>کارخانه حالت‌ها | الگوسازی و تفکر نظام‌دار</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+ --purple:#8b5cf6;
+ --purple2:#6d28d9;
+ --blue:#38bdf8;
+ --blue2:#0284c7;
+ --pink:#f472b6;
+ --yellow:#fbbf24;
+ --orange:#fb923c;
+ --green:#22c55e;
+ --green2:#15803d;
+ --red:#fb7185;
+ --text:#293449;
+ --muted:#64748b;
+}
+
+html{
+ color-scheme:light only;
+ -webkit-text-size-adjust:100%;
+}
+
+body{
+ margin:0;
+ min-height:100vh;
+ direction:rtl;
+ font-family:Tahoma,Arial,sans-serif;
+ color:var(--text);
+ overflow-x:hidden;
+ background:
+  radial-gradient(circle at 8% 5%,#fbcfe855,transparent 24%),
+  radial-gradient(circle at 92% 7%,#7dd3fc66,transparent 25%),
+  radial-gradient(circle at 85% 92%,#fde68a55,transparent 25%),
+  linear-gradient(150deg,#fff7fd,#effcff 53%,#fff9df);
+}
+
+button,a{font-family:inherit}
+
+.app{
+ width:min(100%,960px);
+ margin:auto;
+ padding:12px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.hero{
+ text-align:center;
+ padding:7px 4px 14px;
+}
+
+.badge{
+ display:inline-block;
+ background:linear-gradient(90deg,#fef3c7,#fce7f3);
+ border:1px solid #f1cc5d;
+ color:#825900;
+ padding:6px 14px;
+ border-radius:999px;
+ font-size:12px;
+ font-weight:bold;
+}
+
+.hero h1{
+ margin:9px 0 4px;
+ font-size:clamp(29px,7vw,43px);
+ background:linear-gradient(90deg,var(--purple),var(--blue2),var(--pink));
+ color:transparent;
+ -webkit-background-clip:text;
+ background-clip:text;
+}
+
+.hero p{
+ margin:0;
+ color:var(--muted);
+ font-size:13px;
+ line-height:1.8;
+}
+
+/* =========================
+   PANEL / STATUS
+========================= */
+
+.panel{
+ background:#fffffff7;
+ border-radius:25px;
+ overflow:hidden;
+ box-shadow:0 16px 42px #6d28d91c;
+}
+
+.status{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:8px;
+ padding:10px;
+ background:linear-gradient(90deg,#f5f3ff,#ecfeff,#fff7ed,#fdf2f8);
+}
+
+.stat{
+ background:#fff;
+ text-align:center;
+ padding:8px 4px;
+ border-radius:13px;
+ min-width:0;
+ box-shadow:0 2px 7px #0000000a;
+}
+
+.stat:nth-child(1){border-bottom:4px solid var(--purple)}
+.stat:nth-child(2){border-bottom:4px solid var(--blue)}
+.stat:nth-child(3){border-bottom:4px solid var(--yellow)}
+.stat:nth-child(4){border-bottom:4px solid var(--pink)}
+
+.stat small{
+ display:block;
+ color:var(--muted);
+ font-size:10px;
+}
+
+.stat strong{
+ display:block;
+ margin-top:2px;
+ color:#544274;
+ font-size:14px;
+ overflow:hidden;
+ white-space:nowrap;
+ text-overflow:ellipsis;
+}
+
+/* =========================
+   FACTORY
+========================= */
+
+.factory{
+ height:135px;
+ position:relative;
+ overflow:hidden;
+ background:
+  linear-gradient(#c9f1ff 0 58%,#d7e2e6 58% 100%);
+ border-bottom:1px solid #cbd5e1;
+}
+
+.cloud{
+ position:absolute;
+ background:#fff;
+ border-radius:999px;
+ opacity:.9;
+}
+
+.cloud.one{
+ width:80px;
+ height:22px;
+ top:18px;
+ left:8%;
+}
+
+.cloud.two{
+ width:62px;
+ height:18px;
+ top:35px;
+ right:8%;
+}
+
+.factory-building{
+ position:absolute;
+ bottom:28px;
+ right:7%;
+ width:118px;
+ height:65px;
+ background:#a78bfa;
+ border:4px solid #6d28d9;
+ border-radius:8px 8px 0 0;
+}
+
+.factory-building:before{
+ content:"";
+ position:absolute;
+ top:-30px;
+ right:10px;
+ width:21px;
+ height:30px;
+ background:#64748b;
+ border-radius:4px 4px 0 0;
+}
+
+.factory-building:after{
+ content:"🏭";
+ position:absolute;
+ font-size:43px;
+ right:35px;
+ top:8px;
+}
+
+.conveyor{
+ position:absolute;
+ bottom:18px;
+ left:4%;
+ width:66%;
+ height:19px;
+ background:#64748b;
+ border-radius:6px;
+ border-top:4px solid #475569;
+}
+
+.conveyor:after{
+ content:"";
+ position:absolute;
+ inset:5px 4px;
+ background:repeating-linear-gradient(
+  90deg,
+  #cbd5e1 0 14px,
+  #64748b 14px 23px
+ );
+}
+
+.box-runner{
+ position:absolute;
+ left:9%;
+ bottom:38px;
+ font-size:35px;
+ transition:left .5s;
+}
+
+.gear{
+ position:absolute;
+ font-size:29px;
+ animation:spin 5s linear infinite;
+}
+
+.gear.g1{left:72%;bottom:37px}
+.gear.g2{left:78%;bottom:58px;font-size:21px;animation-direction:reverse}
+
+/* =========================
+   PROGRESS
+========================= */
+
+.content{padding:15px}
+
+.factory-progress{
+ display:grid;
+ grid-template-columns:repeat(10,1fr);
+ gap:5px;
+ margin-bottom:14px;
+}
+
+.lamp{
+ height:24px;
+ border-radius:999px;
+ background:#e5e7eb;
+ border:2px solid #d1d5db;
+ box-shadow:inset 0 2px 4px #00000010;
+ transition:.25s;
+}
+
+.lamp.done{
+ background:var(--green);
+ border-color:#16a34a;
+ box-shadow:0 0 10px #22c55e88;
+}
+
+.lamp.current{
+ background:var(--yellow);
+ border-color:#e5a900;
+ box-shadow:0 0 10px #fbbf2488;
+}
+
+/* =========================
+   TIMER
+========================= */
+
+.timer-head{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ font-size:13px;
+ font-weight:bold;
+ margin-bottom:6px;
+}
+
+#timerNumber{
+ font-size:20px;
+ color:var(--green);
+}
+
+.timer-track{
+ height:13px;
+ padding:2px;
+ background:#e7e9f2;
+ border-radius:999px;
+ overflow:hidden;
+ margin-bottom:14px;
+}
+
+.timer-bar{
+ height:100%;
+ width:100%;
+ border-radius:999px;
+ background:var(--green);
+ transition:width .1s linear,background .2s;
+}
+
+/* =========================
+   MISSION
+========================= */
+
+.labels{
+ display:flex;
+ flex-wrap:wrap;
+ gap:6px;
+ margin-bottom:8px;
+}
+
+.mission-label,
+.family-label{
+ display:inline-block;
+ padding:5px 11px;
+ border-radius:999px;
+ font-size:11px;
+ font-weight:bold;
+}
+
+.mission-label{
+ background:#eee9ff;
+ color:#6835bd;
+}
+
+.family-label{
+ background:#e0f7ff;
+ color:#087aa8;
+}
+
+.problem{
+ margin:8px 0 7px;
+ padding:14px 15px;
+ background:#fff8dd;
+ border:2px solid #f3d36d;
+ border-radius:16px;
+ text-align:center;
+ font-size:clamp(15px,4vw,19px);
+ font-weight:bold;
+ line-height:1.9;
+}
+
+.tip{
+ text-align:center;
+ color:var(--muted);
+ font-size:12px;
+ line-height:1.8;
+ margin:7px 0 13px;
+}
+
+/* =========================
+   MACHINE
+========================= */
+
+.machine{
+ background:linear-gradient(145deg,#f8f7ff,#f0fbff);
+ border:2px solid #ddd8ee;
+ border-radius:19px;
+ padding:12px;
+}
+
+.machine-title{
+ font-size:13px;
+ text-align:center;
+ font-weight:bold;
+ color:#554276;
+ margin-bottom:10px;
+}
+
+.selectors{
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:center;
+ align-items:center;
+ gap:8px;
+ margin-bottom:11px;
+}
+
+.selector{
+ min-width:105px;
+ flex:1;
+ max-width:190px;
+}
+
+.selector label{
+ display:block;
+ text-align:center;
+ font-size:10px;
+ color:var(--muted);
+ margin-bottom:4px;
+}
+
+.selector select{
+ width:100%;
+ padding:11px 7px;
+ border-radius:12px;
+ border:2px solid #c9bcef;
+ background:#fff;
+ color:#3f365c;
+ font-size:14px;
+ font-weight:bold;
+ text-align:center;
+ outline:none;
+}
+
+.selector select:focus{
+ border-color:var(--purple);
+ box-shadow:0 0 0 3px #8b5cf622;
+}
+
+.plus{
+ font-size:20px;
+ font-weight:bold;
+ color:var(--purple);
+ margin-top:12px;
+}
+
+.produce{
+ display:block;
+ width:100%;
+ max-width:430px;
+ margin:8px auto 0;
+ border:0;
+ border-radius:13px;
+ padding:13px;
+ background:linear-gradient(90deg,var(--orange),var(--yellow));
+ color:#674600;
+ font-size:15px;
+ font-weight:bold;
+ cursor:pointer;
+ box-shadow:0 5px 12px #f59e0b25;
+}
+
+.produce:disabled,
+.finish-production:disabled{
+ opacity:.55;
+ cursor:default;
+}
+
+/* =========================
+   OUTPUT
+========================= */
+
+.output-section{
+ margin-top:13px;
+}
+
+.output-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:7px;
+ margin-bottom:7px;
+ font-size:12px;
+ font-weight:bold;
+}
+
+.output-count{
+ background:#ede9fe;
+ color:#6d28d9;
+ border-radius:999px;
+ padding:4px 9px;
+}
+
+.output{
+ min-height:75px;
+ display:flex;
+ flex-wrap:wrap;
+ align-content:flex-start;
+ gap:7px;
+ padding:9px;
+ background:#fff;
+ border:2px dashed #cbd5e1;
+ border-radius:14px;
+}
+
+.empty-output{
+ width:100%;
+ color:#94a3b8;
+ text-align:center;
+ font-size:12px;
+ padding:18px 3px;
+}
+
+.product{
+ border:2px solid #b9a8ed;
+ background:#f4f0ff;
+ color:#57349c;
+ padding:7px 9px;
+ border-radius:11px;
+ font-weight:bold;
+ font-size:13px;
+ cursor:pointer;
+ animation:productIn .2s;
+}
+
+.product:after{
+ content:" ×";
+ color:#a78bfa;
+ font-size:11px;
+}
+
+.production-note{
+ min-height:24px;
+ margin-top:8px;
+ text-align:center;
+ font-size:12px;
+ font-weight:bold;
+}
+
+.production-note.warn{color:#c07900}
+.production-note.good{color:#16803a}
+.production-note.bad{color:#d7435c}
+
+/* =========================
+   SUBMIT
+========================= */
+
+.finish-production{
+ width:100%;
+ margin-top:10px;
+ padding:14px;
+ border:0;
+ border-radius:14px;
+ background:linear-gradient(90deg,var(--purple),var(--blue2));
+ color:#fff;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer;
+ box-shadow:0 6px 15px #6d28d925;
+}
+
+/* =========================
+   FEEDBACK
+========================= */
+
+.feedback{
+ display:none;
+ margin-top:14px;
+ padding:13px;
+ border-radius:14px;
+ line-height:1.8;
+}
+
+.feedback.show{
+ display:block;
+ animation:pop .25s;
+}
+
+.feedback.success{
+ background:#e8faed;
+ border:2px solid #a6dfb7;
+}
+
+.feedback.error{
+ background:#fff0f3;
+ border:2px solid #f3bbc5;
+}
+
+.feedback.timeout{
+ background:#fff7d9;
+ border:2px solid #e9cb69;
+}
+
+.feedback strong{
+ display:block;
+ font-size:17px;
+ margin-bottom:3px;
+}
+
+.feedback-text{
+ color:#4d5c61;
+ font-size:13px;
+}
+
+.answer-list{
+ margin-top:7px;
+ padding:7px 9px;
+ border-radius:9px;
+ background:#ffffffaa;
+ font-size:12px;
+ line-height:1.9;
+}
+
+.next{
+ display:none;
+ width:100%;
+ margin-top:12px;
+ padding:14px;
+ border:0;
+ border-radius:14px;
+ background:linear-gradient(90deg,var(--pink),var(--purple));
+ color:#fff;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+.next.show{display:block}
+
+/* =========================
+   RESULT
+========================= */
+
+.result{
+ display:none;
+ text-align:center;
+ padding:25px 16px;
+ background:
+  radial-gradient(circle at 10% 5%,#fbcfe844,transparent 25%),
+  radial-gradient(circle at 90% 5%,#7dd3fc44,transparent 25%);
+}
+
+.result.show{display:block}
+
+.result-icon{
+ font-size:72px;
+ animation:float 2s ease-in-out infinite;
+}
+
+.result h2{
+ color:var(--purple2);
+ font-size:27px;
+ margin:5px;
+}
+
+.final-score{
+ width:160px;
+ height:160px;
+ margin:17px auto;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ border-radius:50%;
+ border:8px solid transparent;
+ background:
+  linear-gradient(#fff,#fff) padding-box,
+  linear-gradient(135deg,var(--pink),var(--yellow),var(--blue),var(--purple)) border-box;
+}
+
+.final-score strong{
+ font-size:43px;
+ color:var(--purple2);
+}
+
+.final-score span{
+ font-size:13px;
+ color:var(--muted);
+}
+
+.motivation{
+ font-size:20px;
+ font-weight:bold;
+ margin-bottom:19px;
+}
+
+.leaderboard{
+ max-width:540px;
+ margin:20px auto;
+ padding:13px;
+ text-align:right;
+ background:#faf8ff;
+ border:2px solid #e4dafa;
+ border-radius:16px;
+}
+
+.leaderboard h3{
+ text-align:center;
+ color:var(--purple2);
+ margin:0 0 10px;
+}
+
+.rank-row{
+ display:flex;
+ justify-content:space-between;
+ gap:8px;
+ padding:9px 5px;
+ border-bottom:1px dashed #ddd6e8;
+}
+
+.rank-row:last-child{border:0}
+
+.rank-name{
+ overflow:hidden;
+ text-overflow:ellipsis;
+ white-space:nowrap;
+}
+
+.rank-score{
+ font-weight:bold;
+ color:var(--purple2);
+}
+
+.loading{
+ text-align:center;
+ color:var(--muted);
+ padding:8px;
+}
+
+.restart{
+ width:100%;
+ max-width:420px;
+ padding:14px;
+ border:0;
+ border-radius:14px;
+ background:linear-gradient(90deg,var(--pink),var(--purple));
+ color:white;
+ font-weight:bold;
+ font-size:16px;
+ cursor:pointer;
+}
+
+.back{
+ display:block;
+ text-align:center;
+ margin:17px 0;
+ padding:10px;
+ text-decoration:none;
+ color:var(--purple2);
+ font-weight:bold;
+}
+
+/* =========================
+   EFFECTS
+========================= */
+
+.spark{
+ position:fixed;
+ z-index:999;
+ pointer-events:none;
+ font-size:20px;
+ animation:spark .8s forwards;
+}
+
+@keyframes spark{
+ from{opacity:1;transform:translate(0,0) scale(.5)}
+ to{opacity:0;transform:translate(var(--x),var(--y)) scale(1.5) rotate(180deg)}
+}
+
+@keyframes productIn{
+ from{opacity:.2;transform:translateY(-7px) scale(.9)}
+ to{opacity:1;transform:none}
+}
+
+@keyframes spin{
+ to{transform:rotate(360deg)}
+}
+
+@keyframes pop{
+ from{opacity:.2;transform:scale(.97)}
+ to{opacity:1;transform:scale(1)}
+}
+
+@keyframes float{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-7px)}
+}
+
+@media(max-width:650px){
+ .app{padding:7px}
+ .status{grid-template-columns:1fr 1fr}
+ .content{padding:11px}
+ .factory{height:115px}
+ .factory-building{transform:scale(.8);transform-origin:right bottom}
+ .selectors{gap:5px}
+ .selector{min-width:90px}
+}
+
+@media(max-width:390px){
+ .selectors{display:grid;grid-template-columns:1fr}
+ .plus{display:none}
+ .selector{max-width:none;width:100%}
+}
+
+@media(prefers-reduced-motion:reduce){
+ *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+<header class="hero">
+ <div class="badge">🎓 ریاضی هفتم • فصل اول • درس ۳</div>
+ <h1>🏭 کارخانه حالت‌ها</h1>
+ <p>همه حالت‌های ممکن را منظم بساز؛ نه چیزی جا بیفتد و نه چیزی تکرار شود!</p>
+</header>
+
+<section class="panel">
+
+<div id="gameScreen">
+
+ <div class="status">
+  <div class="stat">
+   <small>👷 کارخانه‌دار</small>
+   <strong id="playerName">---</strong>
+  </div>
+  <div class="stat">
+   <small>📦 مأموریت</small>
+   <strong id="questionNumber">۱ از ۱۰</strong>
+  </div>
+  <div class="stat">
+   <small>⭐ امتیاز</small>
+   <strong id="score">۰</strong>
+  </div>
+  <div class="stat">
+   <small>⏱️ زمان</small>
+   <strong id="timeStatus">۳۰ ثانیه</strong>
+  </div>
+ </div>
+
+ <div class="factory">
+  <div class="cloud one"></div>
+  <div class="cloud two"></div>
+  <div class="factory-building"></div>
+  <div class="conveyor"></div>
+  <div class="box-runner" id="boxRunner">📦</div>
+  <div class="gear g1">⚙️</div>
+  <div class="gear g2">⚙️</div>
+ </div>
+
+ <div class="content">
+
+  <div class="factory-progress" id="factoryProgress"></div>
+
+  <div class="timer-head">
+   <span>⏱️ زمان تولید</span>
+   <strong id="timerNumber">۳۰</strong>
+  </div>
+
+  <div class="timer-track">
+   <div class="timer-bar" id="timerBar"></div>
+  </div>
+
+  <div class="labels">
+   <span class="mission-label" id="missionLabel">📦 سفارش ۱</span>
+   <span class="family-label" id="familyLabel"></span>
+  </div>
+
+  <div class="problem" id="problemText"></div>
+
+  <div class="tip" id="tipText">
+   💡 حالت‌ها را با نظم بساز؛ یک انتخاب را ثابت نگه دار و انتخاب‌های دیگر را تغییر بده.
+  </div>
+
+  <div class="machine">
+
+   <div class="machine-title">
+    ⚙️ دستگاه حالت‌ساز
+   </div>
+
+   <div class="selectors" id="selectors"></div>
+
+   <button class="produce" id="produceButton" type="button">
+    🏭 تولید این حالت
+   </button>
+
+   <div class="output-section">
+
+    <div class="output-head">
+     <span>📦 حالت‌های ساخته‌شده</span>
+     <span class="output-count" id="outputCount">۰ حالت</span>
+    </div>
+
+    <div class="output" id="output"></div>
+
+    <div class="production-note" id="productionNote"></div>
+
+   </div>
+
+  </div>
+
+  <button class="finish-production" id="finishButton" type="button">
+   ✅ پایان تولید و بررسی
+  </button>
+
+  <div class="feedback" id="feedback">
+   <strong id="feedbackTitle"></strong>
+   <div class="feedback-text" id="feedbackText"></div>
+   <div class="answer-list" id="answerList"></div>
+  </div>
+
+  <button class="next" id="nextButton" type="button">
+   سفارش بعدی 📦
+  </button>
+
+ </div>
+</div>
+
+
+<div class="result" id="resultScreen">
+
+ <div class="result-icon">🏭🏆</div>
+
+ <h2>شیفت کارخانه تمام شد!</h2>
+
+ <p>
+  کارخانه‌دار:
+  <strong id="resultName"></strong>
+ </p>
+
+ <div class="final-score">
+  <strong id="finalScore">۰</strong>
+  <span>از 100 امتیاز</span>
+ </div>
+
+ <div class="motivation" id="motivation"></div>
+
+ <div class="leaderboard">
+  <h3>🏅 برترین کارخانه‌دارها</h3>
+  <div id="leaderboardContent" class="loading">
+   در حال دریافت جدول برترین‌ها...
+  </div>
+ </div>
+
+ <button class="restart" id="restartButton" type="button">
+  🔄 بازی دوباره
+ </button>
+
+</div>
+
+</section>
+
+<a class="back" href="/#game">
+ ← بازگشت به بازی‌های ریاضی
+</a>
+
+</main>
+
+<script src="/games/game-sdk.js"></script>
+
+<script>
+
+const GAME_ID = 10;
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 30;
+
+const player = GameSDK.init(GAME_ID);
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
+
+const HISTORY_KEY="math_factory_states_recent_v1";
+const MAX_HISTORY=40;
+
+
+/* =====================================================
+   TOOLS
+===================================================== */
+
+function faNumber(value){
+ return String(value).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+function randomInt(min,max){
+ return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function pick(array){
+ return array[Math.floor(Math.random()*array.length)];
+}
+
+function shuffle(array){
+ const a=[...array];
+
+ for(let i=a.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [a[i],a[j]]=[a[j],a[i]];
+ }
+
+ return a;
+}
+
+function pointsForTime(seconds){
+
+ if(seconds<=5)return 10;
+ if(seconds<=10)return 8;
+ if(seconds<=15)return 6;
+ if(seconds<=20)return 4;
+ if(seconds<=30)return 2;
+
+ return 0;
+}
+
+function loadHistory(){
+
+ try{
+  const data=JSON.parse(
+   localStorage.getItem(HISTORY_KEY)||"[]"
+  );
+
+  return Array.isArray(data)?data:[];
+ }catch{
+  return [];
+ }
+}
+
+function saveHistory(signatures){
+
+ try{
+
+  const merged=[
+   ...signatures,
+   ...loadHistory()
+  ];
+
+  const unique=[
+   ...new Set(merged)
+  ].slice(0,MAX_HISTORY);
+
+  localStorage.setItem(
+   HISTORY_KEY,
+   JSON.stringify(unique)
+  );
+
+ }catch(error){
+  console.warn("History unavailable:",error);
+ }
+}
+
+function arraysEqualAsSets(a,b){
+
+ if(a.length!==b.length)return false;
+
+ const setA=new Set(a);
+
+ if(setA.size!==a.length)return false;
+
+ return b.every(x=>setA.has(x));
+}
+
+function displayList(items){
+
+ return items
+  .map(x=>faNumber(x))
+  .join(" ، ");
+}
+
+
+/* =====================================================
+   QUESTION OBJECT
+
+   choices:
+   آرایه انتخاب‌ها برای هر Selector
+
+   build:
+   تبدیل انتخاب‌ها به حالت
+
+   answers:
+   تمام حالت‌های درست
+===================================================== */
+
+
+/* =====================================================
+   1) اعداد دو رقمی بدون تکرار
+===================================================== */
+
+function genTwoDigit(){
+
+ const pool=shuffle([1,2,3,4,5,6,7,8,9]);
+ const digits=pool.slice(0,3).sort((a,b)=>a-b);
+
+ const answers=[];
+
+ for(const a of digits){
+  for(const b of digits){
+   if(a!==b){
+    answers.push(String(a)+String(b));
+   }
+  }
+ }
+
+ return{
+  family:"عددسازی",
+  signature:"two-"+digits.join("-"),
+  q:
+   `با رقم‌های ${digits.map(faNumber).join("، ")} تمام عددهای دو رقمی بدون تکرار رقم را بساز.`,
+  labels:["دهگان","یکان"],
+  choices:[digits,digits],
+  answers,
+  build:selected=>{
+
+   if(selected[0]===selected[1]){
+    return{
+     valid:false,
+     message:"یک رقم نباید در این عدد تکرار شود."
+    };
+   }
+
+   return{
+    valid:true,
+    key:String(selected[0])+String(selected[1]),
+    label:faNumber(String(selected[0])+String(selected[1]))
+   };
+  },
+  explanation:
+   "برای منظم‌نویسی، رقم دهگان را ثابت نگه می‌داریم و رقم یکان را بین انتخاب‌های مجاز تغییر می‌دهیم."
+ };
+}
+
+
+/* =====================================================
+   2) اعداد سه رقمی
+===================================================== */
+
+function genThreeDigit(){
+
+ const digits=
+  shuffle([1,2,3,4,5,6,7,8,9])
+  .slice(0,3)
+  .sort((a,b)=>a-b);
+
+ const answers=[];
+
+ for(const a of digits){
+  for(const b of digits){
+   for(const c of digits){
+
+    if(a!==b && a!==c && b!==c){
+     answers.push(
+      String(a)+String(b)+String(c)
+     );
+    }
+   }
+  }
+ }
+
+ return{
+  family:"عدد سه‌رقمی",
+  signature:"three-"+digits.join("-"),
+  q:
+   `با رقم‌های ${digits.map(faNumber).join("، ")} تمام عددهای سه‌رقمی بدون تکرار رقم را بساز.`,
+  labels:["صدگان","دهگان","یکان"],
+  choices:[digits,digits,digits],
+  answers,
+  build:selected=>{
+
+   const unique=new Set(selected);
+
+   if(unique.size!==3){
+    return{
+     valid:false,
+     message:"در این مأموریت هیچ رقمی نباید تکرار شود."
+    };
+   }
+
+   const key=selected.join("");
+
+   return{
+    valid:true,
+    key,
+    label:faNumber(key)
+   };
+  },
+  explanation:
+   "ابتدا صدگان را ثابت می‌کنیم؛ سپس دهگان و یکان را با نظم تغییر می‌دهیم تا هیچ ترتیب ممکنی جا نیفتد."
+ };
+}
+
+
+/* =====================================================
+   3) ترتیب نشستن افراد
+===================================================== */
+
+function genSeating(){
+
+ const groups=[
+  ["آراد","بهار","پارسا"],
+  ["سارا","مینا","علی"],
+  ["رها","نیما","کیان"],
+  ["هلیا","سام","آوا"]
+ ];
+
+ const names=pick(groups);
+ const answers=[];
+
+ for(const a of names){
+  for(const b of names){
+   for(const c of names){
+
+    if(
+     a!==b &&
+     a!==c &&
+     b!==c
+    ){
+     answers.push(
+      a+"|"+b+"|"+c
+     );
+    }
+   }
+  }
+ }
+
+ return{
+  family:"ترتیب افراد",
+  signature:"seat-"+names.join("-"),
+  q:
+   `${names.join("، ")} می‌خواهند روی سه صندلی کنار هم بنشینند. تمام ترتیب‌های ممکن را بساز.`,
+  labels:["صندلی ۱","صندلی ۲","صندلی ۳"],
+  choices:[names,names,names],
+  answers,
+  build:selected=>{
+
+   if(new Set(selected).size!==3){
+    return{
+     valid:false,
+     message:"هر دانش‌آموز فقط روی یک صندلی می‌نشیند."
+    };
+   }
+
+   const key=selected.join("|");
+
+   return{
+    valid:true,
+    key,
+    label:selected.join(" ← ")
+   };
+  },
+  explanation:
+   "نفر صندلی اول را ثابت نگه می‌داریم و جای دو نفر دیگر را تغییر می‌دهیم؛ سپس نفر اول را عوض می‌کنیم."
+ };
+}
+
+
+/* =====================================================
+   4) لباس‌ها
+===================================================== */
+
+function genClothes(){
+
+ const tops=
+  pick([
+   ["آبی","قرمز"],
+   ["سبز","زرد"],
+   ["سفید","بنفش"]
+  ]);
+
+ const bottoms=
+  pick([
+   ["مشکی","طوسی","آبی"],
+   ["سفید","مشکی","قهوه‌ای"],
+   ["سرمه‌ای","طوسی","کرم"]
+  ]);
+
+ const answers=[];
+
+ for(const top of tops){
+  for(const bottom of bottoms){
+   answers.push(top+"|"+bottom);
+  }
+ }
+
+ return{
+  family:"ترکیب انتخاب‌ها",
+  signature:
+   "clothes-"+
+   tops.join("-")+"-"+
+   bottoms.join("-"),
+
+  q:
+   `دو پیراهن ${tops.join(" و ")} و سه شلوار ${bottoms.join("، ")} داریم. تمام ترکیب‌های ممکنِ یک پیراهن و یک شلوار را بساز.`,
+
+  labels:["پیراهن","شلوار"],
+  choices:[tops,bottoms],
+  answers,
+
+  build:selected=>({
+   valid:true,
+   key:selected.join("|"),
+   label:selected[0]+" + "+selected[1]
+  }),
+
+  explanation:
+   "هر پیراهن را ثابت نگه می‌داریم و آن را با همه شلوارها ترکیب می‌کنیم؛ سپس سراغ پیراهن بعدی می‌رویم."
+ };
+}
+
+
+/* =====================================================
+   5) غذا و نوشیدنی
+===================================================== */
+
+function genMenu(){
+
+ const foods=
+  pick([
+   ["ساندویچ","پیتزا"],
+   ["کیک","بیسکویت"],
+   ["سیب","موز"]
+  ]);
+
+ const drinks=
+  pick([
+   ["آب","شیر","آبمیوه"],
+   ["شیر","چای","آب"],
+   ["آب","دوغ","آبمیوه"]
+  ]);
+
+ const answers=[];
+
+ foods.forEach(food=>{
+  drinks.forEach(drink=>{
+   answers.push(food+"|"+drink);
+  });
+ });
+
+ return{
+  family:"انتخاب منظم",
+  signature:
+   "menu-"+foods.join("-")+"-"+drinks.join("-"),
+
+  q:
+   `برای میان‌وعده می‌توان یکی از «${foods.join("، ")}» و یکی از «${drinks.join("، ")}» را انتخاب کرد. تمام حالت‌های ممکن را بساز.`,
+
+  labels:["خوراکی","نوشیدنی"],
+  choices:[foods,drinks],
+  answers,
+
+  build:selected=>({
+   valid:true,
+   key:selected.join("|"),
+   label:selected.join(" + ")
+  }),
+
+  explanation:
+   "یک خوراکی را ثابت نگه می‌داریم و همه نوشیدنی‌ها را کنارش قرار می‌دهیم؛ بعد همین کار را برای خوراکی بعدی انجام می‌دهیم."
+ };
+}
+
+
+/* =====================================================
+   6) زوج‌های حاصل‌ضرب
+===================================================== */
+
+function genProductPairs(){
+
+ const targets=[24,30,36,40,48];
+ const target=pick(targets);
+
+ const answers=[];
+
+ for(let a=1;a<=Math.sqrt(target);a++){
+
+  if(target%a===0){
+   const b=target/a;
+   answers.push(a+"|"+b);
+  }
+ }
+
+ const divisors=[];
+
+ for(let i=1;i<=target;i++){
+  if(target%i===0){
+   divisors.push(i);
+  }
+ }
+
+ return{
+  family:"زوج‌های ضرب",
+  signature:"product-"+target,
+
+  q:
+   `دو عدد طبیعی حاصل‌ضربشان ${faNumber(target)} است. تمام زوج‌های ممکن را بدون درنظرگرفتن جابه‌جایی بساز.`,
+
+  labels:["عدد کوچک‌تر","عدد بزرگ‌تر"],
+  choices:[divisors,divisors],
+  answers,
+
+  build:selected=>{
+
+   let a=Number(selected[0]);
+   let b=Number(selected[1]);
+
+   if(a>b){
+    [a,b]=[b,a];
+   }
+
+   if(a*b!==target){
+    return{
+     valid:false,
+     message:
+      `حاصل‌ضرب ${faNumber(a)} و ${faNumber(b)} برابر ${faNumber(target)} نیست.`
+    };
+   }
+
+   return{
+    valid:true,
+    key:a+"|"+b,
+    label:faNumber(a)+" × "+faNumber(b)
+   };
+  },
+
+  explanation:
+   "از کوچک‌ترین مقسوم‌علیه شروع می‌کنیم و زوج عامل آن را می‌نویسیم؛ وقتی زوج‌ها تکراری شوند، فهرست کامل شده است."
+ };
+}
+
+
+/* =====================================================
+   7) زوج‌های مجموع
+===================================================== */
+
+function genSumPairs(){
+
+ const target=pick([8,9,10,11,12]);
+
+ const maxFirst=Math.floor(target/2);
+
+ const firstChoices=
+  Array.from(
+   {length:maxFirst},
+   (_,i)=>i+1
+  );
+
+ const allChoices=
+  Array.from(
+   {length:target-1},
+   (_,i)=>i+1
+  );
+
+ const answers=[];
+
+ for(let a=1;a<=maxFirst;a++){
+
+  const b=target-a;
+
+  if(a<=b){
+   answers.push(a+"|"+b);
+  }
+ }
+
+ return{
+  family:"زوج‌های جمع",
+  signature:"sum-"+target,
+
+  q:
+   `تمام زوج‌های عدد طبیعی را که مجموعشان ${faNumber(target)} است، بدون درنظرگرفتن جابه‌جایی بساز.`,
+
+  labels:["عدد کوچک‌تر","عدد بزرگ‌تر"],
+  choices:[firstChoices,allChoices],
+  answers,
+
+  build:selected=>{
+
+   let a=Number(selected[0]);
+   let b=Number(selected[1]);
+
+   if(a>b){
+    [a,b]=[b,a];
+   }
+
+   if(a+b!==target){
+    return{
+     valid:false,
+     message:
+      `مجموع این دو عدد ${faNumber(target)} نمی‌شود.`
+    };
+   }
+
+   return{
+    valid:true,
+    key:a+"|"+b,
+    label:faNumber(a)+" + "+faNumber(b)
+   };
+  },
+
+  explanation:
+   "عدد اول را از کوچک به بزرگ افزایش می‌دهیم و عدد دوم را طوری انتخاب می‌کنیم که مجموع ثابت بماند."
+ };
+}
+
+
+/* =====================================================
+   8) سکه‌ها
+===================================================== */
+
+function genCoins(){
+
+ const configs=[
+  {a:5,b:10,target:30},
+  {a:10,b:20,target:60},
+  {a:5,b:15,target:30},
+  {a:10,b:30,target:60}
+ ];
+
+ const c=pick(configs);
+
+ const maxA=Math.floor(c.target/c.a);
+ const maxB=Math.floor(c.target/c.b);
+
+ const aChoices=
+  Array.from({length:maxA+1},(_,i)=>i);
+
+ const bChoices=
+  Array.from({length:maxB+1},(_,i)=>i);
+
+ const answers=[];
+
+ for(const na of aChoices){
+  for(const nb of bChoices){
+
+   if(
+    na*c.a+
+    nb*c.b===
+    c.target
+   ){
+    answers.push(na+"|"+nb);
+   }
+  }
+ }
+
+ return{
+  family:"روش‌های پرداخت",
+  signature:
+   `coins-${c.a}-${c.b}-${c.target}`,
+
+  q:
+   `با سکه‌های ${faNumber(c.a)} و ${faNumber(c.b)} هزار تومانی، مبلغ ${faNumber(c.target)} هزار تومان را به چند حالت می‌توان پرداخت؟ تمام حالت‌ها را بساز. استفاده نکردن از یک نوع سکه مجاز است.`,
+
+  labels:[
+   `تعداد ${faNumber(c.a)}هزاری`,
+   `تعداد ${faNumber(c.b)}هزاری`
+  ],
+
+  choices:[aChoices,bChoices],
+  answers,
+
+  build:selected=>{
+
+   const na=Number(selected[0]);
+   const nb=Number(selected[1]);
+
+   const sum=
+    na*c.a+
+    nb*c.b;
+
+   if(sum!==c.target){
+    return{
+     valid:false,
+     message:
+      `این ترکیب ${faNumber(sum)} هزار تومان می‌شود، نه ${faNumber(c.target)} هزار تومان.`
+    };
+   }
+
+   return{
+    valid:true,
+    key:na+"|"+nb,
+    label:
+     faNumber(na)+"×"+faNumber(c.a)+
+     " + "+
+     faNumber(nb)+"×"+faNumber(c.b)
+   };
+  },
+
+  explanation:
+   `تعداد سکه‌های ${faNumber(c.a)}هزاری را منظم تغییر می‌دهیم و هر بار بررسی می‌کنیم چند سکه ${faNumber(c.b)}هزاری لازم است.`
+ };
+}
+
+
+/* =====================================================
+   9) مسیر دو مرحله‌ای
+===================================================== */
+
+function genRoutes(){
+
+ const first=
+  pick([
+   ["پل","تونل"],
+   ["مسیر A","مسیر B"],
+   ["خیابان ۱","خیابان ۲"]
+  ]);
+
+ const second=
+  pick([
+   ["راه قرمز","راه آبی","راه سبز"],
+   ["خروجی ۱","خروجی ۲","خروجی ۳"],
+   ["کوچه A","کوچه B","کوچه C"]
+  ]);
+
+ const answers=[];
+
+ first.forEach(a=>{
+  second.forEach(b=>{
+   answers.push(a+"|"+b);
+  });
+ });
+
+ return{
+  family:"مسیرها",
+  signature:
+   "routes-"+first.join("-")+"-"+second.join("-"),
+
+  q:
+   `برای رسیدن به مقصد ابتدا باید یکی از «${first.join(" یا ")}» و سپس یکی از «${second.join("، ")}» را انتخاب کنیم. تمام مسیرهای ممکن را بساز.`,
+
+  labels:["مرحله اول","مرحله دوم"],
+  choices:[first,second],
+  answers,
+
+  build:selected=>({
+   valid:true,
+   key:selected.join("|"),
+   label:selected.join(" ← ")
+  }),
+
+  explanation:
+   "یک انتخاب از مرحله اول را ثابت می‌کنیم و آن را با تمام انتخاب‌های مرحله دوم جفت می‌کنیم."
+ };
+}
+
+
+/* =====================================================
+   10) کد رنگ و عدد
+===================================================== */
+
+function genCodes(){
+
+ const colors=
+  pick([
+   ["قرمز","آبی"],
+   ["سبز","بنفش"],
+   ["زرد","آبی"]
+  ]);
+
+ const numbers=
+  shuffle([1,2,3,4,5])
+  .slice(0,3)
+  .sort((a,b)=>a-b);
+
+ const answers=[];
+
+ colors.forEach(color=>{
+  numbers.forEach(number=>{
+   answers.push(color+"|"+number);
+  });
+ });
+
+ return{
+  family:"کدسازی",
+  signature:
+   "codes-"+colors.join("-")+"-"+numbers.join("-"),
+
+  q:
+   `هر کد از یک رنگ «${colors.join(" یا ")}» و یکی از عددهای ${numbers.map(faNumber).join("، ")} ساخته می‌شود. تمام کدهای متفاوت را تولید کن.`,
+
+  labels:["رنگ","عدد"],
+  choices:[colors,numbers],
+  answers,
+
+  build:selected=>({
+   valid:true,
+   key:selected[0]+"|"+selected[1],
+   label:selected[0]+" "+faNumber(selected[1])
+  }),
+
+  explanation:
+   "یک رنگ را ثابت نگه می‌داریم و همه عددها را با آن می‌سازیم؛ سپس رنگ بعدی را انتخاب می‌کنیم."
+ };
+}
+
+
+/* =====================================================
+   11) حیوان و خانه
+===================================================== */
+
+function genAnimals(){
+
+ const animals=
+  pick([
+   ["🐱 گربه","🐶 سگ"],
+   ["🐰 خرگوش","🐼 پاندا"],
+   ["🐸 قورباغه","🐢 لاک‌پشت"]
+  ]);
+
+ const homes=
+  ["خانه ۱","خانه ۲","خانه ۳"];
+
+ const answers=[];
+
+ animals.forEach(a=>{
+  homes.forEach(h=>{
+   answers.push(a+"|"+h);
+  });
+ });
+
+ return{
+  family:"جدول حالت‌ها",
+  signature:"animals-"+animals.join("-"),
+
+  q:
+   `هرکدام از «${animals.join(" و ")}» می‌تواند یکی از سه خانه را انتخاب کند. تمام حالت‌های انتخاب یک حیوان و یک خانه را بساز.`,
+
+  labels:["حیوان","خانه"],
+  choices:[animals,homes],
+  answers,
+
+  build:selected=>({
+   valid:true,
+   key:selected.join("|"),
+   label:selected.join(" ← ")
+  }),
+
+  explanation:
+   "نام یک حیوان را ثابت نگه می‌داریم و هر سه خانه را برای آن می‌نویسیم؛ سپس سراغ حیوان بعدی می‌رویم."
+ };
+}
+
+
+/* =====================================================
+   12) شکل و رنگ
+===================================================== */
+
+function genShapeColor(){
+
+ const shapes=
+  pick([
+   ["دایره","مربع"],
+   ["مثلث","ستاره"],
+   ["مستطیل","دایره"]
+  ]);
+
+ const colors=
+  pick([
+   ["قرمز","سبز","آبی"],
+   ["زرد","بنفش","آبی"],
+   ["نارنجی","سبز","صورتی"]
+  ]);
+
+ const answers=[];
+
+ shapes.forEach(shape=>{
+  colors.forEach(color=>{
+   answers.push(shape+"|"+color);
+  });
+ });
+
+ return{
+  family:"شکل و رنگ",
+  signature:
+   "shape-"+shapes.join("-")+"-"+colors.join("-"),
+
+  q:
+   `می‌خواهیم نشانه‌ای با یکی از شکل‌های «${shapes.join("، ")}» و یکی از رنگ‌های «${colors.join("، ")}» بسازیم. تمام نشانه‌های ممکن را تولید کن.`,
+
+  labels:["شکل","رنگ"],
+  choices:[shapes,colors],
+  answers,
+
+  build:selected=>({
+   valid:true,
+   key:selected.join("|"),
+   label:selected.join(" • ")
+  }),
+
+  explanation:
+   "هر شکل را یک‌بار ثابت می‌کنیم و تمام رنگ‌ها را برای آن می‌سازیم؛ به این ترتیب حالت تکراری یا جاافتاده نداریم."
+ };
+}
+
+
+/* =====================================================
+   GENERATORS
+===================================================== */
+
+const GENERATORS=[
+ genTwoDigit,
+ genThreeDigit,
+ genSeating,
+ genClothes,
+ genMenu,
+ genProductPairs,
+ genSumPairs,
+ genCoins,
+ genRoutes,
+ genCodes,
+ genAnimals,
+ genShapeColor
+];
+
+
+/* =====================================================
+   CREATE ROUND
+===================================================== */
+
+let questions=[];
+
+function generateRound(){
+
+ const recent=new Set(loadHistory());
+
+ const generators=
+  shuffle(GENERATORS)
+  .slice(0,TOTAL_QUESTIONS);
+
+ const generated=[];
+
+ for(const generator of generators){
+
+  let candidate=null;
+
+  for(let attempt=0;attempt<30;attempt++){
+
+   const q=generator();
+   candidate=q;
+
+   if(!recent.has(q.signature)){
+    break;
+   }
+  }
+
+  generated.push(candidate);
+  recent.add(candidate.signature);
+ }
+
+ questions=shuffle(generated);
+
+ saveHistory(
+  generated.map(x=>x.signature)
+ );
+}
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let currentIndex=0;
+let score=0;
+let answerChecked=false;
+
+let questionStartTime=0;
+let timerInterval=null;
+
+let gameFinished=false;
+let finishSubmitted=false;
+
+let produced=[];
+let productLabels=new Map();
+
+
+/* =====================================================
+   DOM
+===================================================== */
+
+const $=id=>document.getElementById(id);
+
+const playerNameEl=$("playerName");
+const questionNumberEl=$("questionNumber");
+const scoreEl=$("score");
+const timeStatusEl=$("timeStatus");
+
+const timerNumberEl=$("timerNumber");
+const timerBarEl=$("timerBar");
+
+const factoryProgressEl=$("factoryProgress");
+const boxRunnerEl=$("boxRunner");
+
+const missionLabelEl=$("missionLabel");
+const familyLabelEl=$("familyLabel");
+const problemTextEl=$("problemText");
+const tipTextEl=$("tipText");
+
+const selectorsEl=$("selectors");
+const produceButton=$("produceButton");
+
+const outputEl=$("output");
+const outputCountEl=$("outputCount");
+const productionNoteEl=$("productionNote");
+
+const finishButton=$("finishButton");
+
+const feedbackEl=$("feedback");
+const feedbackTitleEl=$("feedbackTitle");
+const feedbackTextEl=$("feedbackText");
+const answerListEl=$("answerList");
+
+const nextButton=$("nextButton");
+
+const gameScreen=$("gameScreen");
+const resultScreen=$("resultScreen");
+
+const resultNameEl=$("resultName");
+const finalScoreEl=$("finalScore");
+const motivationEl=$("motivation");
+
+const leaderboardContent=$("leaderboardContent");
+const restartButton=$("restartButton");
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function buildProgress(){
+
+ factoryProgressEl.innerHTML="";
+
+ for(let i=0;i<TOTAL_QUESTIONS;i++){
+
+  const lamp=
+   document.createElement("div");
+
+  lamp.className="lamp";
+
+  factoryProgressEl.appendChild(lamp);
+ }
+}
+
+function updateProgress(){
+
+ const lamps=[
+  ...factoryProgressEl.children
+ ];
+
+ lamps.forEach((lamp,index)=>{
+
+  lamp.classList.toggle(
+   "done",
+   index<currentIndex
+  );
+
+  lamp.classList.toggle(
+   "current",
+   index===currentIndex
+  );
+ });
+
+ const ratio=
+  currentIndex/
+  (TOTAL_QUESTIONS-1);
+
+ boxRunnerEl.style.left=
+  (9+ratio*50)+"%";
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+function stopTimer(){
+
+ if(timerInterval){
+  clearInterval(timerInterval);
+  timerInterval=null;
+ }
+}
+
+function startTimer(){
+
+ stopTimer();
+
+ questionStartTime=Date.now();
+
+ timerNumberEl.textContent=
+  faNumber(QUESTION_TIME);
+
+ timeStatusEl.textContent=
+  faNumber(QUESTION_TIME)+" ثانیه";
+
+ timerBarEl.style.width="100%";
+ timerBarEl.style.background="var(--green)";
+ timerNumberEl.style.color="var(--green)";
+
+ timerInterval=
+  setInterval(updateTimer,100);
+}
+
+function updateTimer(){
+
+ if(answerChecked||gameFinished){
+  stopTimer();
+  return;
+ }
+
+ const elapsed=
+  (Date.now()-questionStartTime)/1000;
+
+ const remaining=
+  Math.max(
+   0,
+   QUESTION_TIME-elapsed
+  );
+
+ const seconds=
+  Math.ceil(remaining);
+
+ timerNumberEl.textContent=
+  faNumber(seconds);
+
+ timeStatusEl.textContent=
+  faNumber(seconds)+" ثانیه";
+
+ timerBarEl.style.width=
+  (remaining/QUESTION_TIME*100)+"%";
+
+ if(remaining>15){
+
+  timerBarEl.style.background=
+   "var(--green)";
+
+  timerNumberEl.style.color=
+   "var(--green)";
+
+ }else if(remaining>7){
+
+  timerBarEl.style.background=
+   "var(--yellow)";
+
+  timerNumberEl.style.color=
+   "#ad7700";
+
+ }else{
+
+  timerBarEl.style.background=
+   "var(--red)";
+
+  timerNumberEl.style.color=
+   "var(--red)";
+ }
+
+ if(remaining<=0){
+  handleTimeout();
+ }
+}
+
+
+/* =====================================================
+   SHOW QUESTION
+===================================================== */
+
+function showQuestion(){
+
+ stopTimer();
+
+ answerChecked=false;
+
+ produced=[];
+ productLabels=new Map();
+
+ updateProgress();
+
+ const q=questions[currentIndex];
+
+ questionNumberEl.textContent=
+  faNumber(currentIndex+1)+
+  " از "+
+  faNumber(TOTAL_QUESTIONS);
+
+ scoreEl.textContent=faNumber(score);
+
+ missionLabelEl.textContent=
+  "📦 سفارش "+
+  faNumber(currentIndex+1);
+
+ familyLabelEl.textContent=
+  "🎯 "+q.family;
+
+ problemTextEl.textContent=q.q;
+
+ feedbackEl.className="feedback";
+ feedbackTitleEl.textContent="";
+ feedbackTextEl.textContent="";
+ answerListEl.textContent="";
+
+ productionNoteEl.textContent="";
+ productionNoteEl.className=
+  "production-note";
+
+ finishButton.disabled=false;
+ produceButton.disabled=false;
+
+ finishButton.style.display="block";
+ produceButton.style.display="block";
+
+ nextButton.classList.remove("show");
+
+ nextButton.textContent=
+  currentIndex===TOTAL_QUESTIONS-1
+   ? "مشاهده نتیجه 🏆"
+   : "سفارش بعدی 📦";
+
+ buildSelectors(q);
+ renderOutput();
+
+ startTimer();
+}
+
+
+/* =====================================================
+   SELECTORS
+===================================================== */
+
+function buildSelectors(q){
+
+ selectorsEl.innerHTML="";
+
+ q.choices.forEach(
+  (choices,index)=>{
+
+   const wrapper=
+    document.createElement("div");
+
+   wrapper.className="selector";
+
+   const labelEl=
+    document.createElement("label");
+
+   labelEl.textContent=
+    q.labels[index];
+
+   const select=
+    document.createElement("select");
+
+   select.dataset.index=index;
+
+   choices.forEach(value=>{
+
+    const option=
+     document.createElement("option");
+
+    option.value=String(value);
+
+    option.textContent=
+     typeof value==="number"
+     ?faNumber(value)
+     :value;
+
+    select.appendChild(option);
+   });
+
+   wrapper.appendChild(labelEl);
+   wrapper.appendChild(select);
+
+   selectorsEl.appendChild(wrapper);
+
+   if(index<q.choices.length-1){
+
+    const plus=
+     document.createElement("span");
+
+    plus.className="plus";
+    plus.textContent="＋";
+
+    selectorsEl.appendChild(plus);
+   }
+  }
+ );
+}
+
+
+/* =====================================================
+   GET SELECTION
+===================================================== */
+
+function getSelection(){
+
+ const selects=[
+  ...selectorsEl.querySelectorAll("select")
+ ];
+
+ return selects.map((select,index)=>{
+
+  const source=
+   questions[currentIndex]
+   .choices[index];
+
+  const raw=select.value;
+
+  const numeric=
+   source.every(x=>typeof x==="number");
+
+  return numeric
+   ?Number(raw)
+   :raw;
+ });
+}
+
+
+/* =====================================================
+   PRODUCE
+===================================================== */
+
+produceButton.addEventListener(
+ "click",
+ ()=>{
+  produceCurrent();
+ }
+);
+
+function produceCurrent(){
+
+ if(answerChecked||gameFinished)return;
+
+ const elapsed=
+  (Date.now()-questionStartTime)/1000;
+
+ if(elapsed>=QUESTION_TIME){
+  handleTimeout();
+  return;
+ }
+
+ const q=questions[currentIndex];
+
+ const selected=getSelection();
+ const result=q.build(selected);
+
+ if(!result.valid){
+
+  setProductionNote(
+   result.message,
+   "bad"
+  );
+
+  return;
+ }
+
+ if(produced.includes(result.key)){
+
+  setProductionNote(
+   "🔁 این حالت قبلاً تولید شده است؛ یک حالت تازه بساز.",
+   "warn"
+  );
+
+  return;
+ }
+
+ produced.push(result.key);
+
+ productLabels.set(
+  result.key,
+  result.label
+ );
+
+ setProductionNote(
+  "✅ یک حالت جدید وارد خط تولید شد.",
+  "good"
+ );
+
+ renderOutput();
+
+ animateProduct();
+}
+
+
+/* =====================================================
+   OUTPUT
+===================================================== */
+
+function renderOutput(){
+
+ outputEl.innerHTML="";
+
+ outputCountEl.textContent=
+  faNumber(produced.length)+
+  " حالت";
+
+ if(produced.length===0){
+
+  const empty=
+   document.createElement("div");
+
+  empty.className="empty-output";
+
+  empty.textContent=
+   "هنوز حالتی تولید نشده است.";
+
+  outputEl.appendChild(empty);
+
+  return;
+ }
+
+ produced.forEach(key=>{
+
+  const button=
+   document.createElement("button");
+
+  button.type="button";
+  button.className="product";
+
+  button.textContent=
+   productLabels.get(key)||key;
+
+  button.title=
+   "برای حذف این حالت لمس کن";
+
+  button.disabled=answerChecked;
+
+  button.addEventListener(
+   "click",
+   ()=>{
+
+    if(answerChecked)return;
+
+    produced=
+     produced.filter(x=>x!==key);
+
+    productLabels.delete(key);
+
+    setProductionNote(
+     "حالت از خط تولید حذف شد.",
+     "warn"
+    );
+
+    renderOutput();
+   }
+  );
+
+  outputEl.appendChild(button);
+ });
+}
+
+function setProductionNote(text,type){
+
+ productionNoteEl.textContent=text;
+
+ productionNoteEl.className=
+  "production-note "+type;
+}
+
+function animateProduct(){
+
+ boxRunnerEl.textContent="📦";
+
+ boxRunnerEl.style.transform=
+  "translateY(-7px)";
+
+ setTimeout(()=>{
+  boxRunnerEl.style.transform="";
+ },220);
+}
+
+
+/* =====================================================
+   FINAL ANSWER
+===================================================== */
+
+finishButton.addEventListener(
+ "click",
+ submitAnswer
+);
+
+function submitAnswer(){
+
+ if(answerChecked||gameFinished)return;
+
+ const elapsed=
+  (Date.now()-questionStartTime)/1000;
+
+ if(elapsed>=QUESTION_TIME){
+
+  handleTimeout();
+  return;
+ }
+
+ answerChecked=true;
+
+ stopTimer();
+ lockQuestion();
+
+ const q=questions[currentIndex];
+
+ const correct=
+  arraysEqualAsSets(
+   produced,
+   q.answers
+  );
+
+ if(correct){
+
+  const earned=
+   pointsForTime(elapsed);
+
+  score=Math.min(
+   100,
+   score+earned
+  );
+
+  feedbackEl.className=
+   "feedback success show";
+
+  feedbackTitleEl.textContent=
+   "✅ آفرین! کارخانه کامل شد. +"+
+   faNumber(earned)+
+   " امتیاز";
+
+  feedbackTextEl.textContent=
+   q.explanation;
+
+  answerListEl.textContent=
+   "همه حالت‌ها: "+
+   formatAnswers(q);
+
+  celebrate();
+
+ }else{
+
+  feedbackEl.className=
+   "feedback error show";
+
+  feedbackTitleEl.textContent=
+   "❌ خط تولید کامل نیست.";
+
+  const missing=
+   q.answers.filter(
+    x=>!produced.includes(x)
+   );
+
+  const extras=
+   produced.filter(
+    x=>!q.answers.includes(x)
+   );
+
+  let detail="";
+
+  if(missing.length){
+   detail+=
+    faNumber(missing.length)+
+    " حالت جا افتاده است. ";
+  }
+
+  if(extras.length){
+   detail+=
+    faNumber(extras.length)+
+    " حالت نامعتبر وجود دارد. ";
+  }
+
+  feedbackTextEl.textContent=
+   detail+
+   q.explanation;
+
+  answerListEl.textContent=
+   "✅ پاسخ کامل: "+
+   formatAnswers(q);
+ }
+
+ scoreEl.textContent=
+  faNumber(score);
+
+ nextButton.classList.add("show");
+}
+
+
+/* =====================================================
+   FORMAT CORRECT ANSWERS
+===================================================== */
+
+function formatAnswers(q){
+
+ return q.answers.map(key=>{
+
+  const parts=key.split("|");
+
+  if(q.family==="زوج‌های ضرب"){
+   return faNumber(parts[0])+
+    "×"+
+    faNumber(parts[1]);
+  }
+
+  if(q.family==="زوج‌های جمع"){
+   return faNumber(parts[0])+
+    "+"+
+    faNumber(parts[1]);
+  }
+
+  if(q.family==="روش‌های پرداخت"){
+   return "("+faNumber(parts[0])+
+    "، "+faNumber(parts[1])+")";
+  }
+
+  if(key.includes("|")){
+   return parts
+    .map(x=>faNumber(x))
+    .join(" + ");
+  }
+
+  return faNumber(key);
+
+ }).join(" ، ");
+}
+
+
+/* =====================================================
+   LOCK
+===================================================== */
+
+function lockQuestion(){
+
+ produceButton.disabled=true;
+ finishButton.disabled=true;
+
+ [
+  ...selectorsEl.querySelectorAll("select")
+ ].forEach(select=>{
+  select.disabled=true;
+ });
+
+ [
+  ...outputEl.querySelectorAll(".product")
+ ].forEach(button=>{
+  button.disabled=true;
+ });
+}
+
+
+/* =====================================================
+   TIMEOUT
+===================================================== */
+
+function handleTimeout(){
+
+ if(answerChecked||gameFinished)return;
+
+ answerChecked=true;
+
+ stopTimer();
+ lockQuestion();
+
+ timerNumberEl.textContent="۰";
+ timeStatusEl.textContent="۰ ثانیه";
+
+ timerBarEl.style.width="0%";
+ timerBarEl.style.background="var(--red)";
+
+ const q=questions[currentIndex];
+
+ feedbackEl.className=
+  "feedback timeout show";
+
+ feedbackTitleEl.textContent=
+  "⏰ زمان تمام شد! ۰ امتیاز";
+
+ feedbackTextEl.textContent=
+  "زمان تولید تمام شد. "+
+  q.explanation;
+
+ answerListEl.textContent=
+  "✅ پاسخ کامل: "+
+  formatAnswers(q);
+
+ nextButton.classList.add("show");
+}
+
+
+/* =====================================================
+   CELEBRATION
+===================================================== */
+
+function celebrate(){
+
+ const rect=
+  finishButton.getBoundingClientRect();
+
+ const icons=[
+  "✨","⭐","⚙️","📦","🎉"
+ ];
+
+ for(let i=0;i<11;i++){
+
+  const spark=
+   document.createElement("span");
+
+  spark.className="spark";
+
+  spark.textContent=
+   pick(icons);
+
+  spark.style.left=
+   (rect.left+rect.width/2)+"px";
+
+  spark.style.top=
+   (rect.top+rect.height/2)+"px";
+
+  spark.style.setProperty(
+   "--x",
+   (Math.random()*180-90)+"px"
+  );
+
+  spark.style.setProperty(
+   "--y",
+   (-30-Math.random()*120)+"px"
+  );
+
+  document.body.appendChild(spark);
+
+  setTimeout(
+   ()=>spark.remove(),
+   850
+  );
+ }
+}
+
+
+/* =====================================================
+   NEXT
+===================================================== */
+
+nextButton.addEventListener(
+ "click",
+ ()=>{
+
+  if(!answerChecked)return;
+
+  if(currentIndex<TOTAL_QUESTIONS-1){
+
+   currentIndex++;
+
+   showQuestion();
+
+   window.scrollTo({
+    top:0,
+    behavior:"smooth"
+   });
+
+  }else{
+
+   finishGame();
+  }
+ }
+);
+
+
+/* =====================================================
+   FINISH
+===================================================== */
+
+async function finishGame(){
+
+ if(gameFinished)return;
+
+ gameFinished=true;
+
+ stopTimer();
+
+ [
+  ...factoryProgressEl.children
+ ].forEach(
+  lamp=>{
+   lamp.classList.remove("current");
+   lamp.classList.add("done");
+  }
+ );
+
+ gameScreen.style.display="none";
+
+ resultScreen.classList.add("show");
+
+ const name=
+  player&&player.playerName
+  ?player.playerName
+  :"بازیکن";
+
+ resultNameEl.textContent=name;
+ finalScoreEl.textContent=faNumber(score);
+
+ if(score>=90){
+
+  motivationEl.textContent=
+   "عالی بود! 🌟 هیچ حالتی از خط تولیدت جا نمی‌افتد!";
+
+ }else if(score>=70){
+
+  motivationEl.textContent=
+   "خیلی خوب بود 👏 تفکر نظام‌دارت حسابی قوی شده!";
+
+ }else if(score>=50){
+
+  motivationEl.textContent=
+   "خوب بود، ادامه بده 💪 حالت‌ها را منظم‌تر دسته‌بندی کن!";
+
+ }else{
+
+  motivationEl.textContent=
+   "دوباره تلاش کن 🌱 یک انتخاب را ثابت نگه دار و بقیه را منظم تغییر بده!";
+ }
+
+ leaderboardContent.innerHTML=
+  '<div class="loading">در حال ثبت نتیجه و دریافت جدول برترین‌ها...</div>';
+
+ try{
+
+  if(!finishSubmitted){
+
+   finishSubmitted=true;
+
+   const result=
+    await GameSDK.finishGame(score);
+  }
+
+ }catch(error){
+
+  console.error(
+   "finishGame error:",
+   error
+  );
+ }
+
+ await loadLeaderboard();
+}
+
+
+/* =====================================================
+   LEADERBOARD
+===================================================== */
+
+async function loadLeaderboard(){
+
+ try{
+
+  const scores=
+   await GameSDK.getLeaderboard(10);
+
+  leaderboardContent.innerHTML="";
+
+  if(
+   !Array.isArray(scores) ||
+   scores.length===0
+  ){
+
+   leaderboardContent.innerHTML=
+    '<div class="loading">هنوز رکوردی ثبت نشده است.</div>';
+
+   return;
+  }
+
+  scores.forEach((item,index)=>{
+
+   const row=
+    document.createElement("div");
+
+   row.className="rank-row";
+
+   let rank;
+
+   if(index===0)rank="🥇";
+   else if(index===1)rank="🥈";
+   else if(index===2)rank="🥉";
+   else rank=faNumber(index+1)+".";
+
+   const name=
+    item.playerName ??
+    item.player_name ??
+    item.name ??
+    "بازیکن";
+
+   const value=
+    item.score ?? 0;
+
+   const nameEl=
+    document.createElement("span");
+
+   nameEl.className="rank-name";
+   nameEl.textContent=
+    rank+" "+name;
+
+   const valueEl=
+    document.createElement("span");
+
+   valueEl.className="rank-score";
+   valueEl.textContent=
+    faNumber(value)+" امتیاز";
+
+   row.appendChild(nameEl);
+   row.appendChild(valueEl);
+
+   leaderboardContent.appendChild(row);
+  });
+
+ }catch(error){
+
+  console.error(
+   "leaderboard error:",
+   error
+  );
+
+  leaderboardContent.innerHTML=
+   '<div class="loading">دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.</div>';
+ }
+}
+
+
+/* =====================================================
+   RESTART
+===================================================== */
+
+restartButton.addEventListener(
+ "click",
+ ()=>{
+
+  stopTimer();
+
+  GameSDK.reset();
+
+  score=0;
+  currentIndex=0;
+
+  answerChecked=false;
+  questionStartTime=0;
+
+  gameFinished=false;
+  finishSubmitted=false;
+
+  produced=[];
+  productLabels=new Map();
+
+  resultScreen.classList.remove("show");
+
+  gameScreen.style.display="block";
+
+  leaderboardContent.innerHTML="";
+
+  generateRound();
+  buildProgress();
+  showQuestion();
+
+  window.scrollTo({
+   top:0,
+   behavior:"smooth"
+  });
+ }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+function startGame(){
+
+ const name=
+  player&&player.playerName
+  ?player.playerName
+  :"بازیکن";
+
+ playerNameEl.textContent=name;
+
+ score=0;
+ currentIndex=0;
+
+ answerChecked=false;
+ gameFinished=false;
+ finishSubmitted=false;
+
+ produced=[];
+ productLabels=new Map();
+
+ generateRound();
+ buildProgress();
+ showQuestion();
+}
+
+startGame();
+
+</script>
+
+</body>
+</html>
