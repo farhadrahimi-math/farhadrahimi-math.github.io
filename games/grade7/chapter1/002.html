@@ -4,24 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>نقشه‌کش گنج | راهبرد رسم شکل</title>
+<title>کارگاه مهندس ریاضی | راهبرد رسم شکل</title>
 
 <style>
 *{box-sizing:border-box}
 
 :root{
     --blue:#38bdf8;
-    --blue-dark:#0284c7;
+    --blue2:#0284c7;
     --purple:#8b5cf6;
-    --purple-dark:#6d28d9;
+    --purple2:#6d28d9;
     --pink:#f472b6;
     --yellow:#fbbf24;
     --orange:#fb923c;
     --green:#22c55e;
+    --green2:#15803d;
     --red:#fb7185;
     --text:#273449;
     --muted:#64748b;
-    --card:#fff;
 }
 
 html{
@@ -38,18 +38,22 @@ body{
     overflow-x:hidden;
 
     background:
-        radial-gradient(circle at 8% 5%,rgba(244,114,182,.20),transparent 22%),
-        radial-gradient(circle at 92% 8%,rgba(56,189,248,.25),transparent 25%),
-        radial-gradient(circle at 75% 85%,rgba(251,191,36,.17),transparent 24%),
-        linear-gradient(155deg,#fff7fd,#effcff 48%,#fffbeb);
+        radial-gradient(circle at 10% 5%,rgba(244,114,182,.20),transparent 22%),
+        radial-gradient(circle at 90% 7%,rgba(56,189,248,.25),transparent 25%),
+        radial-gradient(circle at 80% 90%,rgba(251,191,36,.16),transparent 25%),
+        linear-gradient(155deg,#fff7fd,#effcff 50%,#fffbea);
 }
 
 button,a{
     font-family:inherit;
 }
 
+button{
+    -webkit-tap-highlight-color:transparent;
+}
+
 .app{
-    width:min(100%,930px);
+    width:min(100%,950px);
     margin:auto;
     padding:12px;
 }
@@ -61,53 +65,64 @@ button,a{
 
 .hero{
     text-align:center;
-    padding:7px 4px 15px;
+    padding:6px 5px 15px;
 }
 
 .badge{
     display:inline-block;
+
     padding:6px 14px;
+
     border-radius:999px;
 
     background:linear-gradient(90deg,#fef3c7,#fce7f3);
-    border:1px solid #f6d36a;
 
-    color:#865b00;
+    border:1px solid #f7d26b;
+
+    color:#865a00;
+
     font-size:12px;
     font-weight:bold;
 }
 
 .hero h1{
     margin:10px 0 4px;
+
     font-size:clamp(27px,7vw,42px);
 
     background:linear-gradient(
         90deg,
         var(--purple),
-        var(--blue-dark),
+        var(--blue2),
         var(--pink)
     );
 
     color:transparent;
+
     -webkit-background-clip:text;
     background-clip:text;
 }
 
 .hero p{
     margin:0;
+
     color:var(--muted);
+
     font-size:13px;
 }
 
 
 /* =========================
-   پنل اصلی
+   پنل
 ========================= */
 
 .panel{
     background:rgba(255,255,255,.97);
+
     border:2px solid rgba(255,255,255,.9);
+
     border-radius:25px;
+
     overflow:hidden;
 
     box-shadow:
@@ -117,13 +132,14 @@ button,a{
 
 
 /* =========================
-   اطلاعات
+   وضعیت
 ========================= */
 
 .status{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:8px;
+
     padding:10px;
 
     background:linear-gradient(
@@ -134,16 +150,18 @@ button,a{
         #fdf2f8
     );
 
-    border-bottom:1px solid #e8e1f3;
+    border-bottom:1px solid #e9e0f4;
 }
 
 .stat{
     min-width:0;
+
     padding:8px 4px;
 
     text-align:center;
 
     background:#fff;
+
     border-radius:13px;
 
     box-shadow:0 3px 8px rgba(50,50,100,.05);
@@ -156,15 +174,19 @@ button,a{
 
 .stat small{
     display:block;
+
     color:var(--muted);
+
     font-size:10px;
 }
 
 .stat strong{
     display:block;
+
     margin-top:2px;
 
     color:#504075;
+
     font-size:14px;
 
     white-space:nowrap;
@@ -174,41 +196,148 @@ button,a{
 
 
 /* =========================
-   بالای نقشه
+   شهر در حال ساخت
+========================= */
+
+.city{
+    position:relative;
+
+    height:145px;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(circle at 10% 19%,#fff 0 18px,transparent 19px),
+        radial-gradient(circle at 14% 18%,#fff 0 24px,transparent 25px),
+        radial-gradient(circle at 19% 20%,#fff 0 16px,transparent 17px),
+        linear-gradient(#bdeeff 0 68%,#a9df72 68%);
+
+    border-bottom:1px solid #d4e5d2;
+}
+
+.city-sun{
+    position:absolute;
+
+    right:25px;
+    top:18px;
+
+    width:43px;
+    height:43px;
+
+    border-radius:50%;
+
+    background:#ffd84d;
+
+    box-shadow:0 0 0 8px rgba(255,216,77,.18);
+}
+
+.city-road{
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:28px;
+
+    background:#7b8794;
+}
+
+.city-road::after{
+    content:"";
+
+    position:absolute;
+
+    top:12px;
+    left:0;
+    right:0;
+
+    height:4px;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #fff 0 22px,
+            transparent 22px 42px
+        );
+}
+
+.city-buildings{
+    position:absolute;
+
+    left:12px;
+    right:12px;
+    bottom:26px;
+
+    display:flex;
+
+    align-items:flex-end;
+    justify-content:space-around;
+
+    direction:ltr;
+}
+
+.building{
+    width:8.5%;
+    min-width:27px;
+
+    height:18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:7px 7px 2px 2px;
+
+    background:#d7dde5;
+
+    color:transparent;
+
+    opacity:.45;
+
+    transform:scale(.78);
+
+    transition:
+        height .45s,
+        opacity .45s,
+        transform .45s,
+        background .45s;
+
+    box-shadow:inset 0 -5px 0 rgba(0,0,0,.07);
+}
+
+.building.done{
+    opacity:1;
+    transform:scale(1);
+
+    color:#fff;
+
+    font-size:18px;
+}
+
+.building:nth-child(4n+1).done{
+    background:var(--purple);
+}
+
+.building:nth-child(4n+2).done{
+    background:var(--pink);
+}
+
+.building:nth-child(4n+3).done{
+    background:var(--blue2);
+}
+
+.building:nth-child(4n+4).done{
+    background:var(--orange);
+}
+
+
+/* =========================
+   محتوای بازی
 ========================= */
 
 .game{
     padding:16px;
-}
-
-.progress-map{
-    display:flex;
-    align-items:center;
-    gap:4px;
-
-    direction:ltr;
-
-    margin-bottom:15px;
-}
-
-.progress-node{
-    flex:1;
-    height:8px;
-
-    background:#e5e7eb;
-    border-radius:99px;
-
-    transition:.25s;
-}
-
-.progress-node.done{
-    background:linear-gradient(
-        90deg,
-        var(--yellow),
-        var(--orange)
-    );
-
-    box-shadow:0 0 7px rgba(251,191,36,.3);
 }
 
 
@@ -229,17 +358,21 @@ button,a{
 
 #timerNumber{
     font-size:20px;
+
     color:var(--green);
 }
 
 .timer-track{
     height:13px;
+
     padding:2px;
+
     margin-bottom:15px;
 
     background:#e9e7f3;
 
     border-radius:999px;
+
     overflow:hidden;
 }
 
@@ -258,263 +391,463 @@ button,a{
 
 
 /* =========================
-   ماموریت
+   سفارش مشتری
 ========================= */
 
-.mission-title{
+.project-label{
     display:inline-block;
 
-    padding:5px 11px;
     margin-bottom:8px;
+
+    padding:5px 11px;
 
     border-radius:999px;
 
     background:linear-gradient(90deg,#ede9fe,#fce7f3);
 
-    color:var(--purple-dark);
+    color:var(--purple2);
 
     font-size:12px;
     font-weight:bold;
 }
 
-.mission-card{
-    padding:14px 15px;
-    margin-bottom:12px;
+.client-card{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:12px;
 
-    text-align:center;
+    align-items:center;
+
+    padding:14px;
+
+    margin-bottom:13px;
 
     background:#fff9e8;
-    border:2px solid #f4d46e;
-    border-radius:16px;
 
-    font-size:clamp(15px,4vw,19px);
-    font-weight:bold;
-    line-height:1.9;
+    border:2px solid #f2d16d;
+
+    border-radius:17px;
 
     box-shadow:0 5px 12px rgba(251,191,36,.08);
 }
 
-.hint{
-    text-align:center;
-    color:var(--muted);
+.client{
+    font-size:40px;
+}
+
+.problem{
+    font-size:clamp(15px,4vw,18px);
+    font-weight:bold;
+    line-height:1.9;
+}
+
+.task{
+    display:block;
+
+    margin-top:4px;
+
+    color:#7c5b00;
+
     font-size:12px;
-    margin:8px 0 12px;
+    font-weight:normal;
 }
 
 
 /* =========================
-   نقشه
+   میز طراحی
 ========================= */
 
-.map-shell{
-    position:relative;
+.workshop{
+    display:grid;
+    grid-template-columns:minmax(250px,1.35fr) minmax(220px,.85fr);
+    gap:14px;
 
-    width:min(100%,560px);
-
-    margin:0 auto;
-
-    padding:12px;
-
-    border-radius:22px;
-
-    background:
-        linear-gradient(135deg,#dff7ff,#f3edff);
-
-    border:3px solid #b8dcf2;
-
-    box-shadow:
-        inset 0 0 25px rgba(56,189,248,.10),
-        0 8px 20px rgba(60,80,140,.10);
+    align-items:stretch;
 }
 
-.map{
-    display:grid;
-    grid-template-columns:repeat(7,1fr);
-    grid-template-rows:repeat(7,1fr);
 
-    width:100%;
-    aspect-ratio:1;
+/* =========================
+   بوم
+========================= */
 
-    direction:ltr;
+.canvas-card{
+    min-height:350px;
 
-    border:3px solid #8198ad;
-    border-radius:12px;
+    display:flex;
+    flex-direction:column;
+
+    padding:13px;
+
+    background:
+        linear-gradient(#fff,#fff) padding-box,
+        linear-gradient(135deg,var(--blue),var(--purple),var(--pink)) border-box;
+
+    border:3px solid transparent;
+
+    border-radius:20px;
+
+    box-shadow:0 7px 18px rgba(70,70,140,.10);
+}
+
+.canvas-title{
+    text-align:center;
+
+    color:#55626c;
+
+    font-size:12px;
+    font-weight:bold;
+
+    margin-bottom:8px;
+}
+
+.drawing-area{
+    position:relative;
+
+    flex:1;
+
+    min-height:270px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:24px 25px 36px 42px;
 
     overflow:hidden;
 
-    background:#fff;
+    border:1px solid #c9dce5;
+
+    border-radius:14px;
+
+    background-color:#fdfefe;
+
+    background-image:
+        linear-gradient(#e5eff3 1px,transparent 1px),
+        linear-gradient(90deg,#e5eff3 1px,transparent 1px);
+
+    background-size:22px 22px;
 }
 
-.cell{
+
+/* مدل مستطیل */
+
+.model-wrap{
     position:relative;
 
-    min-width:0;
+    width:78%;
+    height:70%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.outer-rect{
+    position:absolute;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    padding:0;
+    border:4px solid var(--purple);
+
+    border-radius:8px;
+
+    background:rgba(139,92,246,.10);
+
+    transition:
+        width .25s,
+        height .25s;
+}
+
+.inner-rect{
+    position:absolute;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:4px solid var(--blue2);
+
+    border-radius:6px;
+
+    background:rgba(56,189,248,.15);
+
+    transition:
+        width .25s,
+        height .25s;
+}
+
+.inner-rect::after{
+    content:"🏡";
+
+    font-size:clamp(25px,6vw,42px);
+}
+
+.dim-label{
+    position:absolute;
+
+    z-index:7;
+
+    padding:2px 6px;
+
+    background:#fff;
+
+    border:1px solid #cad5dc;
+
+    border-radius:7px;
+
+    font-size:11px;
+    font-weight:bold;
+
+    color:#42515a;
+
+    box-shadow:0 2px 5px rgba(0,0,0,.06);
+}
+
+.dim-width{
+    bottom:-29px;
+    left:50%;
+
+    transform:translateX(-50%);
+}
+
+.dim-height{
+    left:-37px;
+    top:50%;
+
+    transform:translateY(-50%) rotate(-90deg);
+}
+
+.margin-note{
+    position:absolute;
+
+    top:7px;
+    right:7px;
+
+    max-width:120px;
+
+    padding:4px 7px;
+
+    border-radius:8px;
+
+    background:#fff7cf;
+
+    color:#7d6000;
+
+    font-size:10px;
+    font-weight:bold;
+}
+
+
+/* =========================
+   ابزارها
+========================= */
+
+.tools{
+    padding:13px;
+
+    background:linear-gradient(145deg,#f8f5ff,#effbff);
+
+    border:2px solid #ded7f0;
+
+    border-radius:20px;
+
+    box-shadow:0 7px 18px rgba(70,70,140,.07);
+}
+
+.tools h3{
+    margin:0 0 4px;
+
+    color:var(--purple2);
+
+    text-align:center;
+
+    font-size:16px;
+}
+
+.tool-help{
+    margin:0 0 12px;
+
+    color:var(--muted);
+
+    text-align:center;
+
+    font-size:11px;
+    line-height:1.7;
+}
+
+.control{
+    margin-bottom:13px;
+
+    padding:9px;
+
+    background:#fff;
+
+    border:1px solid #dde5e9;
+    border-radius:13px;
+}
+
+.control-label{
+    display:flex;
+    justify-content:space-between;
+
+    gap:8px;
+
+    margin-bottom:7px;
+
+    font-size:12px;
+    font-weight:bold;
+}
+
+.control-value{
+    color:var(--purple2);
+
+    font-size:15px;
+}
+
+.stepper{
+    display:grid;
+
+    grid-template-columns:44px 1fr 44px;
+
+    gap:6px;
+
+    direction:ltr;
+}
+
+.step-btn{
+    height:42px;
 
     border:0;
-    border-right:1px solid #c4d7df;
-    border-bottom:1px solid #c4d7df;
+    border-radius:11px;
 
-    background:#fdfefe;
+    background:linear-gradient(145deg,var(--blue),var(--blue2));
+
+    color:#fff;
+
+    font-size:22px;
+    font-weight:bold;
 
     cursor:pointer;
 
-    touch-action:manipulation;
-
-    transition:
-        background .15s,
-        transform .15s,
-        box-shadow .15s;
+    box-shadow:0 4px 9px rgba(2,132,199,.17);
 }
 
-.cell:nth-child(7n){
-    border-right:0;
+.step-btn.minus{
+    background:linear-gradient(145deg,var(--pink),#db528d);
 }
 
-.cell:hover:not(:disabled){
-    z-index:2;
-
-    background:#e6f8ff;
-
-    box-shadow:inset 0 0 0 2px var(--blue);
-
-    transform:scale(.96);
-}
-
-.cell:disabled{
-    cursor:default;
-}
-
-.cell.path{
-    background:#dff4ff;
-}
-
-.cell.path::after{
-    content:"•";
-
-    position:absolute;
-
-    color:#279ed1;
-    font-size:21px;
-    line-height:1;
-}
-
-.cell.start{
-    background:#e9ddff;
-}
-
-.cell.start::before{
-    content:"🚩";
-
-    position:absolute;
-    z-index:4;
-
-    font-size:clamp(17px,5vw,27px);
-}
-
-.cell.correct{
-    background:#dcfce7!important;
-
-    box-shadow:
-        inset 0 0 0 3px var(--green);
-}
-
-.cell.correct::before{
-    content:"💎";
-
-    position:absolute;
-    z-index:6;
-
-    font-size:clamp(18px,5vw,29px);
-
-    animation:treasurePop .45s ease;
-}
-
-.cell.wrong{
-    background:#ffe4e9!important;
-
-    box-shadow:
-        inset 0 0 0 3px var(--red);
-
-    animation:shake .28s;
-}
-
-.cell.wrong::before{
-    content:"💥";
-
-    position:absolute;
-    z-index:6;
-
-    font-size:clamp(16px,4vw,25px);
-}
-
-
-/* شخصیت */
-
-.explorer{
-    position:absolute;
-    z-index:10;
-
+.number-display{
     display:flex;
     align-items:center;
     justify-content:center;
 
-    width:calc((100% - 24px) / 7);
-    aspect-ratio:1;
+    background:#f8fafc;
 
-    left:12px;
-    top:12px;
+    border:2px solid #dde6eb;
 
-    pointer-events:none;
+    border-radius:11px;
 
-    font-size:clamp(22px,6vw,34px);
+    color:#3b4b59;
 
-    transition:
-        left .35s ease,
-        top .35s ease;
-
-    filter:drop-shadow(0 3px 2px rgba(0,0,0,.15));
+    font-weight:bold;
 }
 
+.mode-box{
+    padding:9px;
 
-/* =========================
-   راهنمای جهت
-========================= */
-
-.legend{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:7px;
-
-    margin-top:10px;
-}
-
-.legend span{
-    padding:5px 8px;
+    margin-bottom:12px;
 
     background:#fff;
-    border:1px solid #d6e4e8;
-    border-radius:10px;
 
-    color:#56676c;
+    border:1px solid #dde5e9;
+
+    border-radius:13px;
+}
+
+.mode-box strong{
+    display:block;
+
+    font-size:12px;
+
+    margin-bottom:7px;
+}
+
+.mode-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+}
+
+.mode-btn{
+    min-height:42px;
+
+    padding:7px 5px;
+
+    border:2px solid #dce5ea;
+    border-radius:11px;
+
+    background:#fff;
+
+    color:#52616a;
+
     font-size:11px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.mode-btn.active{
+    border-color:var(--purple);
+
+    background:#eee8ff;
+
+    color:var(--purple2);
+}
+
+.submit{
+    width:100%;
+
+    min-height:50px;
+
+    border:0;
+    border-radius:14px;
+
+    background:linear-gradient(
+        90deg,
+        var(--green),
+        #16a34a
+    );
+
+    color:#fff;
+
+    font-size:15px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:0 6px 14px rgba(34,197,94,.20);
+}
+
+.submit:disabled,
+.step-btn:disabled,
+.mode-btn:disabled{
+    opacity:.55;
+
+    cursor:default;
 }
 
 
 /* =========================
-   بازخورد
+   پاسخ
 ========================= */
 
 .feedback{
     display:none;
 
-    margin-top:15px;
+    margin-top:14px;
+
     padding:14px;
 
     border-radius:15px;
@@ -524,41 +857,41 @@ button,a{
 
 .feedback.show{
     display:block;
-    animation:pop .25s ease;
+
+    animation:pop .25s;
 }
 
 .feedback.success{
     background:#e8faed;
+
     border:2px solid #a4dfb6;
 }
 
 .feedback.error{
     background:#fff0f3;
+
     border:2px solid #f3bbc5;
 }
 
 .feedback.timeout{
     background:#fff7db;
+
     border:2px solid #ebcd69;
 }
 
 .feedback strong{
     display:block;
 
-    margin-bottom:3px;
+    margin-bottom:4px;
 
     font-size:17px;
 }
 
 .feedback-text{
     color:#4d5c61;
+
     font-size:13px;
 }
-
-
-/* =========================
-   دکمه بعدی
-========================= */
 
 .next-btn{
     display:none;
@@ -566,6 +899,7 @@ button,a{
     width:100%;
 
     padding:14px;
+
     margin-top:13px;
 
     border:0;
@@ -574,10 +908,10 @@ button,a{
     background:linear-gradient(
         90deg,
         var(--purple),
-        var(--blue-dark)
+        var(--blue2)
     );
 
-    color:#fff;
+    color:white;
 
     font-size:16px;
     font-weight:bold;
@@ -614,13 +948,15 @@ button,a{
 
 .trophy{
     font-size:72px;
+
     animation:float 2s ease-in-out infinite;
 }
 
 .result h2{
     margin:5px 0;
 
-    color:var(--purple-dark);
+    color:var(--purple2);
+
     font-size:27px;
 }
 
@@ -646,12 +982,14 @@ button,a{
 }
 
 .final-score strong{
-    color:var(--purple-dark);
+    color:var(--purple2);
+
     font-size:44px;
 }
 
 .final-score span{
     color:var(--muted);
+
     font-size:13px;
 }
 
@@ -686,7 +1024,7 @@ button,a{
 
     text-align:center;
 
-    color:var(--purple-dark);
+    color:var(--purple2);
 }
 
 .rank-row{
@@ -711,7 +1049,7 @@ button,a{
 }
 
 .rank-score{
-    color:var(--purple-dark);
+    color:var(--purple2);
     font-weight:bold;
 }
 
@@ -750,23 +1088,25 @@ button,a{
     display:block;
 
     margin:18px 0 7px;
+
     padding:10px;
 
     text-align:center;
     text-decoration:none;
 
-    color:var(--purple-dark);
+    color:var(--purple2);
 
     font-weight:bold;
 }
 
 
 /* =========================
-   جشن
+   ذرات جشن
 ========================= */
 
 .spark{
     position:fixed;
+
     z-index:999;
 
     pointer-events:none;
@@ -788,26 +1128,26 @@ button,a{
     }
 }
 
-@keyframes treasurePop{
-    0%{transform:scale(.2) rotate(-30deg)}
-    70%{transform:scale(1.3) rotate(10deg)}
-    100%{transform:scale(1)}
-}
-
-@keyframes shake{
-    0%,100%{transform:translateX(0)}
-    25%{transform:translateX(-4px)}
-    75%{transform:translateX(4px)}
-}
-
 @keyframes pop{
-    from{opacity:.2;transform:scale(.97)}
-    to{opacity:1;transform:scale(1)}
+    from{
+        opacity:.2;
+        transform:scale(.97);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
 }
 
 @keyframes float{
-    0%,100%{transform:translateY(0) rotate(-2deg)}
-    50%{transform:translateY(-7px) rotate(2deg)}
+    0%,100%{
+        transform:translateY(0) rotate(-2deg);
+    }
+
+    50%{
+        transform:translateY(-7px) rotate(2deg);
+    }
 }
 
 
@@ -815,28 +1155,48 @@ button,a{
    موبایل
 ========================= */
 
-@media(max-width:600px){
-
-    .app{
-        padding:8px;
-    }
+@media(max-width:720px){
 
     .status{
         grid-template-columns:1fr 1fr;
     }
 
+    .workshop{
+        grid-template-columns:1fr;
+    }
+
+    .canvas-card{
+        min-height:310px;
+    }
+
+    .drawing-area{
+        min-height:230px;
+    }
+}
+
+@media(max-width:450px){
+
+    .app{
+        padding:7px;
+    }
+
     .game{
-        padding:12px;
+        padding:11px;
     }
 
-    .map-shell{
-        padding:8px;
+    .client-card{
+        grid-template-columns:1fr;
+        gap:4px;
+
+        text-align:center;
     }
 
-    .explorer{
-        width:calc((100% - 16px) / 7);
-        left:8px;
-        top:8px;
+    .client{
+        font-size:32px;
+    }
+
+    .drawing-area{
+        padding:20px 20px 35px 37px;
     }
 }
 
@@ -847,6 +1207,7 @@ button,a{
         transition:none!important;
     }
 }
+
 </style>
 </head>
 
@@ -860,10 +1221,12 @@ button,a{
         🎓 ریاضی هفتم • فصل اول • درس ۲
     </div>
 
-    <h1>🗺️ نقشه‌کش گنج</h1>
+    <h1>
+        🏗️ کارگاه مهندس ریاضی
+    </h1>
 
     <p>
-        مسئله را به یک مسیر تبدیل کن و خانه گنج را روی نقشه پیدا کن!
+        مسئله را بخوان، شکل مناسب را بساز و شهر ریاضی را کامل کن!
     </p>
 
 </header>
@@ -873,17 +1236,17 @@ button,a{
 
 <div id="gameScreen">
 
-    <!-- اطلاعات بازی -->
+    <!-- وضعیت -->
 
     <div class="status">
 
         <div class="stat">
-            <small>🧭 نقشه‌کش</small>
+            <small>👷 مهندس</small>
             <strong id="playerName">---</strong>
         </div>
 
         <div class="stat">
-            <small>🗺️ نقشه</small>
+            <small>🏗️ پروژه</small>
             <strong id="questionNumber">۱ از ۱۰</strong>
         </div>
 
@@ -900,22 +1263,30 @@ button,a{
     </div>
 
 
-    <div class="game">
+    <!-- شهر -->
 
-        <!-- پیشرفت -->
+    <div class="city">
+
+        <div class="city-sun"></div>
 
         <div
-            class="progress-map"
-            id="progressMap">
+            class="city-buildings"
+            id="cityBuildings">
         </div>
 
+        <div class="city-road"></div>
+
+    </div>
+
+
+    <div class="game">
 
         <!-- تایمر -->
 
         <div class="timer-head">
 
             <span>
-                ⏱️ زمان پیدا کردن گنج
+                ⏱️ زمان تحویل پروژه
             </span>
 
             <strong id="timerNumber">
@@ -932,54 +1303,254 @@ button,a{
         </div>
 
 
-        <!-- متن ماموریت -->
+        <!-- سفارش -->
 
         <div
-            class="mission-title"
-            id="missionTitle">
+            class="project-label"
+            id="projectLabel">
 
-            🧭 مأموریت نقشه
+            📋 سفارش شماره ۱
+
         </div>
 
 
-        <div
-            class="mission-card"
-            id="missionText">
-        </div>
-
-
-        <div class="hint">
-            🚩 پرچم، نقطه شروع است.
-            حرکت‌ها را روی شبکه تصور کن و خانه مقصد را لمس کن.
-        </div>
-
-
-        <!-- نقشه -->
-
-        <div class="map-shell">
+        <div class="client-card">
 
             <div
-                class="map"
-                id="map">
+                class="client"
+                id="clientEmoji">
+
+                👨‍🌾
+
             </div>
 
-            <div
-                class="explorer"
-                id="explorer">
+            <div class="problem">
 
-                🧙‍♂️
+                <span id="problemText"></span>
+
+                <span
+                    class="task"
+                    id="taskText">
+                </span>
 
             </div>
 
         </div>
 
 
-        <div class="legend">
+        <!-- کارگاه -->
 
-            <span>⬆️ بالا</span>
-            <span>⬇️ پایین</span>
-            <span>⬅️ چپ</span>
-            <span>➡️ راست</span>
+        <div class="workshop">
+
+            <!-- بوم -->
+
+            <div class="canvas-card">
+
+                <div class="canvas-title">
+                    ✏️ مدل تصویری تو
+                </div>
+
+
+                <div
+                    class="drawing-area"
+                    id="drawingArea">
+
+
+                    <div class="margin-note" id="marginNote">
+                    </div>
+
+
+                    <div class="model-wrap">
+
+                        <div
+                            class="outer-rect"
+                            id="outerRect">
+                        </div>
+
+                        <div
+                            class="inner-rect"
+                            id="innerRect">
+                        </div>
+
+                        <div
+                            class="dim-label dim-width"
+                            id="widthLabel">
+                        </div>
+
+                        <div
+                            class="dim-label dim-height"
+                            id="heightLabel">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ابزارها -->
+
+            <div class="tools">
+
+                <h3>
+                    🧰 جعبه ابزار مهندس
+                </h3>
+
+                <p class="tool-help">
+                    از روی متن مسئله ابعاد «شکل موردنیاز» را بساز.
+                </p>
+
+
+                <!-- طول -->
+
+                <div class="control">
+
+                    <div class="control-label">
+
+                        <span>
+                            ↔️ طول مدل
+                        </span>
+
+                        <span
+                            class="control-value"
+                            id="widthValue">
+
+                            ۱
+
+                        </span>
+
+                    </div>
+
+                    <div class="stepper">
+
+                        <button
+                            class="step-btn minus"
+                            data-action="width-minus"
+                            type="button">
+
+                            −
+
+                        </button>
+
+                        <div
+                            class="number-display"
+                            id="widthDisplay">
+
+                            ۱
+
+                        </div>
+
+                        <button
+                            class="step-btn"
+                            data-action="width-plus"
+                            type="button">
+
+                            +
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- عرض -->
+
+                <div class="control">
+
+                    <div class="control-label">
+
+                        <span>
+                            ↕️ عرض مدل
+                        </span>
+
+                        <span
+                            class="control-value"
+                            id="heightValue">
+
+                            ۱
+
+                        </span>
+
+                    </div>
+
+                    <div class="stepper">
+
+                        <button
+                            class="step-btn minus"
+                            data-action="height-minus"
+                            type="button">
+
+                            −
+
+                        </button>
+
+                        <div
+                            class="number-display"
+                            id="heightDisplay">
+
+                            ۱
+
+                        </div>
+
+                        <button
+                            class="step-btn"
+                            data-action="height-plus"
+                            type="button">
+
+                            +
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- نوع مدل -->
+
+                <div class="mode-box">
+
+                    <strong>
+                        🖼️ کدام مستطیل را می‌سازی؟
+                    </strong>
+
+                    <div class="mode-buttons">
+
+                        <button
+                            type="button"
+                            class="mode-btn active"
+                            data-mode="original">
+
+                            شکل اصلی
+
+                        </button>
+
+                        <button
+                            type="button"
+                            class="mode-btn"
+                            data-mode="changed">
+
+                            شکل بعد از حاشیه
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="submit"
+                    type="button"
+                    id="submitButton">
+
+                    🔨 مدل را ساختم!
+
+                </button>
+
+            </div>
 
         </div>
 
@@ -1005,7 +1576,7 @@ button,a{
             id="nextButton"
             type="button">
 
-            نقشه بعدی 🗺️
+            پروژه بعدی 🏗️
 
         </button>
 
@@ -1021,15 +1592,15 @@ button,a{
     id="resultScreen">
 
     <div class="trophy">
-        🏆💎
+        🏙️🏆
     </div>
 
     <h2>
-        گنج بزرگ پیدا شد!
+        شهر ریاضی ساخته شد!
     </h2>
 
     <p>
-        نقشه‌کش حرفه‌ای:
+        مهندس شهر:
         <strong id="resultName"></strong>
     </p>
 
@@ -1056,7 +1627,7 @@ button,a{
     <div class="leaderboard">
 
         <h3>
-            🏅 برترین نقشه‌کش‌ها
+            🏅 برترین مهندس‌ها
         </h3>
 
         <div
@@ -1071,11 +1642,11 @@ button,a{
 
 
     <button
+        type="button"
         class="restart"
-        id="restartButton"
-        type="button">
+        id="restartButton">
 
-        🔄 جست‌وجوی دوباره گنج
+        🔄 ساخت یک شهر جدید
 
     </button>
 
@@ -1108,156 +1679,204 @@ const player = GameSDK.init(GAME_ID);
 
 
 /* =========================================
-   جهت‌ها
-========================================= */
-
-const DIRS = {
-
-    up:{
-        dr:-1,
-        dc:0,
-        fa:"بالا"
-    },
-
-    down:{
-        dr:1,
-        dc:0,
-        fa:"پایین"
-    },
-
-    left:{
-        dr:0,
-        dc:-1,
-        fa:"چپ"
-    },
-
-    right:{
-        dr:0,
-        dc:1,
-        fa:"راست"
-    }
-
-};
-
-
-/* =========================================
-   بانک الگوهای حرکت
+   بانک پروژه
 ========================================= */
 
 /*
-  هر مأموریت از یک نقطه شروع معتبر ساخته می‌شود.
-  مقصد و مسیر توسط JavaScript محاسبه می‌شوند.
+ type:
+
+ outer:
+ شکل جدید بیرون شکل اصلی ساخته می‌شود.
+ هر طرف margin واحد بیرون‌تر است.
+ پس هر بُعد 2×margin بیشتر می‌شود.
+
+ inner:
+ مسیر/حاشیه داخل شکل ساخته می‌شود.
+ پس هر بُعد 2×margin کمتر می‌شود.
+
+ original:
+ فقط مدل خود مستطیل اصلی لازم است.
+
+ در همه حالات پاسخ قطعی و صحیح است.
 */
 
-const ROUTE_TEMPLATES = [
+const PROJECT_BANK = [
 
-    [
-        ["right",2],
-        ["up",1]
-    ],
+{
+    type:"outer",
+    client:"👨‍🌾",
+    length:8,
+    width:5,
+    margin:1,
+    object:"باغچه",
+    action:"می‌خواهیم نرده را یک متر بیرون‌تر از هر چهار طرف باغچه بکشیم.",
+    task:"مستطیلی را بساز که نرده روی مرز آن قرار می‌گیرد."
+},
 
-    [
-        ["left",2],
-        ["down",2]
-    ],
+{
+    type:"outer",
+    client:"🌳",
+    length:10,
+    width:6,
+    margin:1,
+    object:"پارک",
+    action:"قرار است یک مسیر یک‌متری در بیرون و دور تا دور پارک ساخته شود.",
+    task:"مرز بیرونی مسیر را به شکل یک مستطیل مدل کن."
+},
 
-    [
-        ["up",2],
-        ["right",3]
-    ],
+{
+    type:"outer",
+    client:"🏠",
+    length:7,
+    width:4,
+    margin:2,
+    object:"زمین بازی",
+    action:"حصاری باید دو متر بیرون‌تر از هر ضلع زمین قرار بگیرد.",
+    task:"ابعاد مستطیل حصار را روی بوم بساز."
+},
 
-    [
-        ["down",3],
-        ["left",1]
-    ],
+{
+    type:"outer",
+    client:"🌷",
+    length:9,
+    width:5,
+    margin:1,
+    object:"باغ گل",
+    action:"یک ردیف سنگ‌فرش به عرض یک متر بیرون باغ و دور تا دور آن ساخته می‌شود.",
+    task:"مرز بیرونی سنگ‌فرش را مدل کن."
+},
 
-    [
-        ["right",3],
-        ["down",2],
-        ["left",1]
-    ],
+{
+    type:"outer",
+    client:"🏕️",
+    length:6,
+    width:3,
+    margin:2,
+    object:"محوطه چادر",
+    action:"طناب ایمنی باید دو متر دورتر از هر چهار ضلع محوطه بسته شود.",
+    task:"مستطیل طناب ایمنی را بساز."
+},
 
-    [
-        ["left",3],
-        ["up",2],
-        ["right",1]
-    ],
+{
+    type:"inner",
+    client:"🏊",
+    length:12,
+    width:8,
+    margin:1,
+    object:"محوطه استخر",
+    action:"یک مسیر یک‌متری در داخل محوطه و چسبیده به هر چهار ضلع ساخته می‌شود.",
+    task:"مستطیل باقی‌مانده در وسط مسیر را بساز."
+},
 
-    [
-        ["up",3],
-        ["right",2],
-        ["down",1]
-    ],
+{
+    type:"inner",
+    client:"⚽",
+    length:14,
+    width:10,
+    margin:2,
+    object:"زمین ورزشی",
+    action:"نواری به عرض دو متر از داخل و دور تا دور زمین برای تماشاگران کنار گذاشته می‌شود.",
+    task:"ابعاد قسمت مستطیلی باقی‌مانده برای بازی را بساز."
+},
 
-    [
-        ["down",2],
-        ["right",2],
-        ["up",1]
-    ],
+{
+    type:"inner",
+    client:"🌲",
+    length:11,
+    width:7,
+    margin:1,
+    object:"باغ",
+    action:"یک مسیر یک‌متری از داخل باغ و در امتداد هر چهار ضلع ساخته می‌شود.",
+    task:"مستطیل داخلی باقی‌مانده را مدل کن."
+},
 
-    [
-        ["right",1],
-        ["up",2],
-        ["right",2]
-    ],
+{
+    type:"inner",
+    client:"🎪",
+    length:13,
+    width:9,
+    margin:2,
+    object:"محوطه جشن",
+    action:"از داخل محوطه، نواری دو متری در کنار همه ضلع‌ها برای رفت‌وآمد در نظر گرفته شده است.",
+    task:"مستطیل مرکزی باقی‌مانده را بساز."
+},
 
-    [
-        ["left",1],
-        ["down",3],
-        ["right",2]
-    ],
+{
+    type:"inner",
+    client:"🏫",
+    length:10,
+    width:8,
+    margin:1,
+    object:"حیاط مدرسه",
+    action:"یک نوار یک‌متری از داخل حیاط و دور تا دور آن برای باغچه کنار گذاشته می‌شود.",
+    task:"ابعاد بخش مرکزی حیاط را مدل کن."
+},
 
-    [
-        ["up",1],
-        ["left",3],
-        ["down",2]
-    ],
+{
+    type:"original",
+    client:"🏡",
+    length:9,
+    width:6,
+    margin:0,
+    object:"زمین خانه",
+    action:"می‌خواهیم قبل از هر محاسبه یک شکل ساده از زمین داشته باشیم.",
+    task:"خود مستطیل زمین را با ابعاد داده‌شده بساز."
+},
 
-    [
-        ["down",1],
-        ["right",3],
-        ["down",1]
-    ],
+{
+    type:"original",
+    client:"🧑‍🌾",
+    length:12,
+    width:5,
+    margin:0,
+    object:"مزرعه",
+    action:"برای شروع حل مسئله باید اندازه‌های مزرعه را روی یک شکل ساده نشان دهیم.",
+    task:"مدل مستطیلی خود مزرعه را بساز."
+},
 
-    [
-        ["right",2],
-        ["down",1],
-        ["right",1],
-        ["up",2]
-    ],
+{
+    type:"outer",
+    client:"🐑",
+    length:5,
+    width:3,
+    margin:1,
+    object:"آغل",
+    action:"حصاری یک متر بیرون‌تر از هر طرف آغل نصب می‌شود.",
+    task:"مدل مرز حصار را بساز."
+},
 
-    [
-        ["left",2],
-        ["up",1],
-        ["left",1],
-        ["down",2]
-    ],
+{
+    type:"inner",
+    client:"🌻",
+    length:12,
+    width:10,
+    margin:2,
+    object:"باغ آفتابگردان",
+    action:"یک مسیر دو متری در داخل باغ و دور تا دور آن قرار می‌گیرد.",
+    task:"ابعاد قسمت مرکزی باغ را بساز."
+},
 
-    [
-        ["up",2],
-        ["left",2],
-        ["down",1],
-        ["right",1]
-    ],
+{
+    type:"outer",
+    client:"🚗",
+    length:9,
+    width:4,
+    margin:1,
+    object:"پارکینگ",
+    action:"خط ایمنی یک متر بیرون‌تر از تمام ضلع‌های پارکینگ رسم می‌شود.",
+    task:"مرز مستطیلی خط ایمنی را مدل کن."
+},
 
-    [
-        ["down",2],
-        ["right",1],
-        ["up",2],
-        ["right",2]
-    ],
-
-    [
-        ["right",3],
-        ["up",2],
-        ["left",2]
-    ],
-
-    [
-        ["left",2],
-        ["down",3],
-        ["right",1]
-    ]
+{
+    type:"inner",
+    client:"🛝",
+    length:15,
+    width:9,
+    margin:1,
+    object:"زمین بازی کودکان",
+    action:"یک مسیر یک‌متری در داخل و دور تا دور زمین ساخته می‌شود.",
+    task:"قسمت مرکزی زمین را مدل کن."
+}
 
 ];
 
@@ -1266,18 +1885,30 @@ const ROUTE_TEMPLATES = [
    وضعیت
 ========================================= */
 
-let missions=[];
+let projects=[];
 
 let currentIndex=0;
+
 let score=0;
 
 let answerChecked=false;
 
 let questionStartTime=0;
+
 let timerInterval=null;
 
 let gameFinished=false;
+
 let finishSubmitted=false;
+
+
+/* مدل ساخته‌شده بازیکن */
+
+let modelLength=1;
+
+let modelWidth=1;
+
+let selectedMode="original";
 
 
 /* =========================================
@@ -1302,20 +1933,62 @@ const timerNumberEl=
 const timerBarEl=
     document.getElementById("timerBar");
 
-const progressMapEl=
-    document.getElementById("progressMap");
+const cityBuildingsEl=
+    document.getElementById("cityBuildings");
 
-const missionTitleEl=
-    document.getElementById("missionTitle");
+const projectLabelEl=
+    document.getElementById("projectLabel");
 
-const missionTextEl=
-    document.getElementById("missionText");
+const clientEmojiEl=
+    document.getElementById("clientEmoji");
 
-const mapEl=
-    document.getElementById("map");
+const problemTextEl=
+    document.getElementById("problemText");
 
-const explorerEl=
-    document.getElementById("explorer");
+const taskTextEl=
+    document.getElementById("taskText");
+
+const outerRectEl=
+    document.getElementById("outerRect");
+
+const innerRectEl=
+    document.getElementById("innerRect");
+
+const widthLabelEl=
+    document.getElementById("widthLabel");
+
+const heightLabelEl=
+    document.getElementById("heightLabel");
+
+const marginNoteEl=
+    document.getElementById("marginNote");
+
+const widthValueEl=
+    document.getElementById("widthValue");
+
+const heightValueEl=
+    document.getElementById("heightValue");
+
+const widthDisplayEl=
+    document.getElementById("widthDisplay");
+
+const heightDisplayEl=
+    document.getElementById("heightDisplay");
+
+const stepButtons=[
+    ...document.querySelectorAll(
+        ".step-btn"
+    )
+];
+
+const modeButtons=[
+    ...document.querySelectorAll(
+        ".mode-btn"
+    )
+];
+
+const submitButton=
+    document.getElementById("submitButton");
 
 const feedbackEl=
     document.getElementById("feedback");
@@ -1345,14 +2018,18 @@ const motivationEl=
     document.getElementById("motivation");
 
 const leaderboardContent=
-    document.getElementById("leaderboardContent");
+    document.getElementById(
+        "leaderboardContent"
+    );
 
 const restartButton=
-    document.getElementById("restartButton");
+    document.getElementById(
+        "restartButton"
+    );
 
 
 /* =========================================
-   ابزار عمومی
+   ابزارها
 ========================================= */
 
 function faNumber(value){
@@ -1388,15 +2065,6 @@ function shuffle(array){
 }
 
 
-function randomInt(min,max){
-
-    return Math.floor(
-        Math.random()*
-        (max-min+1)
-    )+min;
-}
-
-
 function pointsForTime(seconds){
 
     if(seconds<=5) return 10;
@@ -1414,431 +2082,118 @@ function pointsForTime(seconds){
 
 
 /* =========================================
-   محاسبات مسیر
+   جواب قطعی پروژه
 ========================================= */
 
-function routeBounds(route){
+function getCorrectModel(project){
 
-    let r=0;
-    let c=0;
+    if(project.type==="outer"){
 
-    let minR=0;
-    let maxR=0;
-    let minC=0;
-    let maxC=0;
+        return{
 
+            length:
+                project.length+
+                2*project.margin,
 
-    route.forEach(
-        ([dir,count])=>{
+            width:
+                project.width+
+                2*project.margin,
 
-            const d=DIRS[dir];
+            mode:"changed"
 
-            for(
-                let i=0;
-                i<count;
-                i++
-            ){
-
-                r+=d.dr;
-                c+=d.dc;
-
-                minR=Math.min(minR,r);
-                maxR=Math.max(maxR,r);
-
-                minC=Math.min(minC,c);
-                maxC=Math.max(maxC,c);
-            }
-
-        }
-    );
+        };
+    }
 
 
-    return{
-        minR,
-        maxR,
-        minC,
-        maxC
-    };
-}
+    if(project.type==="inner"){
 
+        return{
 
-function validStartForRoute(route){
+            length:
+                project.length-
+                2*project.margin,
 
-    const b=
-        routeBounds(route);
+            width:
+                project.width-
+                2*project.margin,
 
+            mode:"changed"
 
-    const minStartRow=
-        -b.minR;
-
-    const maxStartRow=
-        6-b.maxR;
-
-
-    const minStartCol=
-        -b.minC;
-
-    const maxStartCol=
-        6-b.maxC;
-
-
-    if(
-        minStartRow>maxStartRow ||
-        minStartCol>maxStartCol
-    ){
-
-        return null;
+        };
     }
 
 
     return{
 
-        row:randomInt(
-            minStartRow,
-            maxStartRow
-        ),
+        length:project.length,
 
-        col:randomInt(
-            minStartCol,
-            maxStartCol
-        )
+        width:project.width,
+
+        mode:"original"
 
     };
-}
-
-
-function buildPath(start,route){
-
-    let row=start.row;
-    let col=start.col;
-
-    const path=[
-        {row,col}
-    ];
-
-
-    route.forEach(
-        ([dir,count])=>{
-
-            const d=
-                DIRS[dir];
-
-
-            for(
-                let i=0;
-                i<count;
-                i++
-            ){
-
-                row+=d.dr;
-                col+=d.dc;
-
-
-                path.push({
-                    row,
-                    col
-                });
-            }
-
-        }
-    );
-
-
-    return{
-        path,
-        end:{
-            row,
-            col
-        }
-    };
-}
-
-
-function routeText(route){
-
-    const parts=
-        route.map(
-            ([dir,count])=>
-                faNumber(count)+
-                " خانه به "+
-                DIRS[dir].fa
-        );
-
-
-    if(parts.length===1){
-
-        return parts[0];
-    }
-
-
-    if(parts.length===2){
-
-        return parts[0]+
-            " و سپس "+
-            parts[1];
-    }
-
-
-    const last=
-        parts.pop();
-
-
-    return parts.join("، ")+
-        " و در پایان "+
-        last;
 }
 
 
 /* =========================================
-   تولید مأموریت‌ها
+   کنترل اعتبار بانک
 ========================================= */
 
-function createMission(route,index){
+function validProject(project){
 
-    const start=
-        validStartForRoute(route);
-
-
-    const calculated=
-        buildPath(start,route);
+    const answer=
+        getCorrectModel(project);
 
 
-    const intros=[
-        "گنج‌یاب از خانه پرچم حرکت می‌کند.",
-        "کاوشگر نقشه سفرش را از پرچم آغاز می‌کند.",
-        "ربات جست‌وجوگر از محل پرچم راه می‌افتد.",
-        "ماجراجو از نقطه پرچم حرکت خود را شروع می‌کند."
-    ];
-
-
-    const intro=
-        intros[
-            index %
-            intros.length
-        ];
-
-
-    return{
-
-        route,
-
-        start,
-
-        path:calculated.path,
-
-        end:calculated.end,
-
-        text:
-            intro+
-            " ابتدا "+
-            routeText(route)+
-            ". روی خانه‌ای که در پایان به آن می‌رسد بزن."
-
-    };
+    return(
+        Number.isInteger(answer.length) &&
+        Number.isInteger(answer.width) &&
+        answer.length>0 &&
+        answer.width>0 &&
+        answer.length<=20 &&
+        answer.width<=20
+    );
 }
 
 
-function prepareMissions(){
+function prepareProjects(){
 
-    const templates=
-        shuffle(
-            ROUTE_TEMPLATES
-        ).slice(
+    const valid=
+        PROJECT_BANK.filter(
+            validProject
+        );
+
+
+    projects=
+        shuffle(valid)
+        .slice(
             0,
             TOTAL_QUESTIONS
         );
-
-
-    missions=
-        templates.map(
-            (route,index)=>
-                createMission(
-                    route,
-                    index
-                )
-        );
 }
 
 
 /* =========================================
-   ساخت نقشه
+   شهر
 ========================================= */
 
-function cellIndex(row,col){
+function buildCity(){
 
-    return row*7+col;
-}
+    cityBuildingsEl.innerHTML="";
 
 
-function getCell(row,col){
-
-    return mapEl.children[
-        cellIndex(row,col)
+    const emojis=[
+        "🏠",
+        "🏢",
+        "🏫",
+        "🏪",
+        "🏡",
+        "🏨",
+        "🏛️",
+        "🏭",
+        "🏰",
+        "🌆"
     ];
-}
-
-
-function buildMap(){
-
-    mapEl.innerHTML="";
-
-
-    for(let row=0;row<7;row++){
-
-        for(let col=0;col<7;col++){
-
-            const cell=
-                document.createElement(
-                    "button"
-                );
-
-
-            cell.type="button";
-
-            cell.className="cell";
-
-            cell.dataset.row=row;
-
-            cell.dataset.col=col;
-
-
-            cell.setAttribute(
-                "aria-label",
-                "خانه "+
-                faNumber(row+1)+
-                "، "+
-                faNumber(col+1)
-            );
-
-
-            cell.addEventListener(
-                "click",
-                ()=>{
-
-                    chooseCell(
-                        row,
-                        col,
-                        cell
-                    );
-
-                }
-            );
-
-
-            mapEl.appendChild(cell);
-        }
-    }
-}
-
-
-/* =========================================
-   حرکت کاراکتر
-========================================= */
-
-function moveExplorer(row,col,instant=false){
-
-    const shell=
-        mapEl.parentElement;
-
-    const shellPadding=
-        parseFloat(
-            getComputedStyle(shell)
-            .paddingLeft
-        ) || 0;
-
-
-    const size=
-        mapEl.clientWidth/7;
-
-
-    if(instant){
-
-        explorerEl.style.transition=
-            "none";
-    }
-
-    else{
-
-        explorerEl.style.transition=
-            "left .35s ease, top .35s ease";
-    }
-
-
-    explorerEl.style.left=
-        (shellPadding+col*size)+"px";
-
-
-    explorerEl.style.top=
-        (shellPadding+row*size)+"px";
-
-
-    if(instant){
-
-        requestAnimationFrame(
-            ()=>{
-
-                explorerEl.style.transition=
-                    "left .35s ease, top .35s ease";
-            }
-        );
-    }
-}
-
-
-async function animateRoute(path){
-
-    for(
-        let i=1;
-        i<path.length;
-        i++
-    ){
-
-        const point=
-            path[i];
-
-
-        const cell=
-            getCell(
-                point.row,
-                point.col
-            );
-
-
-        if(cell){
-
-            cell.classList.add(
-                "path"
-            );
-        }
-
-
-        moveExplorer(
-            point.row,
-            point.col
-        );
-
-
-        await delay(180);
-    }
-}
-
-
-function delay(ms){
-
-    return new Promise(
-        resolve=>
-            setTimeout(resolve,ms)
-    );
-}
-
-
-/* =========================================
-   پیشرفت
-========================================= */
-
-function buildProgress(){
-
-    progressMapEl.innerHTML="";
 
 
     for(
@@ -1847,33 +2202,276 @@ function buildProgress(){
         i++
     ){
 
-        const node=
+        const building=
             document.createElement(
                 "div"
             );
 
 
-        node.className=
-            "progress-node";
+        building.className=
+            "building";
 
 
-        progressMapEl.appendChild(
-            node
-        );
+        building.textContent=
+            emojis[i];
+
+
+        building.style.height=
+            (
+                18+
+                (i%4)*5
+            )+"px";
+
+
+        cityBuildingsEl
+            .appendChild(
+                building
+            );
     }
 }
 
 
-function updateProgress(){
+function updateCity(){
 
     [
-        ...progressMapEl.children
+        ...cityBuildingsEl.children
     ].forEach(
-        (node,index)=>{
+        (building,index)=>{
 
-            node.classList.toggle(
+            const done=
+                index<currentIndex ||
+                gameFinished;
+
+
+            building.classList.toggle(
                 "done",
-                index<currentIndex
+                done
+            );
+
+
+            if(done){
+
+                building.style.height=
+                    (
+                        48+
+                        (index%4)*12
+                    )+"px";
+            }
+
+        }
+    );
+}
+
+
+/* =========================================
+   مدل تصویری
+========================================= */
+
+function fitDimensions(
+    length,
+    width,
+    maxW=88,
+    maxH=78
+){
+
+    const maxDimension=
+        Math.max(
+            length,
+            width
+        );
+
+
+    return{
+
+        w:
+            Math.max(
+                28,
+                length/
+                maxDimension*
+                maxW
+            ),
+
+        h:
+            Math.max(
+                25,
+                width/
+                maxDimension*
+                maxH
+            )
+
+    };
+}
+
+
+function renderModel(){
+
+    const current=
+        projects[currentIndex];
+
+
+    if(!current){
+        return;
+    }
+
+
+    widthValueEl.textContent=
+        faNumber(modelLength);
+
+    heightValueEl.textContent=
+        faNumber(modelWidth);
+
+    widthDisplayEl.textContent=
+        faNumber(modelLength);
+
+    heightDisplayEl.textContent=
+        faNumber(modelWidth);
+
+
+    widthLabelEl.textContent=
+        "طول: "+
+        faNumber(modelLength);
+
+    heightLabelEl.textContent=
+        "عرض: "+
+        faNumber(modelWidth);
+
+
+    const size=
+        fitDimensions(
+            modelLength,
+            modelWidth
+        );
+
+
+    /*
+      مدل ساخته‌شده توسط دانش‌آموز
+      با outerRect نشان داده می‌شود.
+    */
+
+    outerRectEl.style.width=
+        size.w+"%";
+
+    outerRectEl.style.height=
+        size.h+"%";
+
+
+    /*
+      اگر حالت changed باشد، شکل اصلی
+      را داخل/بیرون مدل به صورت راهنما نشان می‌دهیم.
+    */
+
+    if(
+        selectedMode==="changed"
+    ){
+
+        innerRectEl.style.display=
+            "flex";
+
+
+        const originalSize=
+            fitDimensions(
+                current.length,
+                current.width
+            );
+
+
+        if(current.type==="outer"){
+
+            /*
+              شکل اصلی باید از شکل ساخته‌شده
+              کوچک‌تر دیده شود.
+            */
+
+            const ratioL=
+                current.length/
+                modelLength;
+
+
+            const ratioW=
+                current.width/
+                modelWidth;
+
+
+            innerRectEl.style.width=
+                Math.max(
+                    15,
+                    size.w*
+                    ratioL
+                )+"%";
+
+
+            innerRectEl.style.height=
+                Math.max(
+                    15,
+                    size.h*
+                    ratioW
+                )+"%";
+        }
+
+        else if(
+            current.type==="inner"
+        ){
+
+            /*
+              مدل بازیکن قسمت داخلی است.
+              برای نمایش بصری، مستطیل اصلی
+              با کادر بنفش نشان داده می‌شود
+              و قسمت داخلی آبی است.
+            */
+
+            const main=
+                fitDimensions(
+                    current.length,
+                    current.width
+                );
+
+
+            outerRectEl.style.width=
+                main.w+"%";
+
+            outerRectEl.style.height=
+                main.h+"%";
+
+
+            innerRectEl.style.width=
+                Math.min(
+                    main.w,
+                    size.w
+                )+"%";
+
+
+            innerRectEl.style.height=
+                Math.min(
+                    main.h,
+                    size.h
+                )+"%";
+        }
+
+        else{
+
+            innerRectEl.style.width=
+                originalSize.w+"%";
+
+            innerRectEl.style.height=
+                originalSize.h+"%";
+        }
+
+    }
+
+    else{
+
+        innerRectEl.style.display=
+            "none";
+    }
+
+
+    modeButtons.forEach(
+        button=>{
+
+            button.classList.toggle(
+                "active",
+                button.dataset.mode===
+                selectedMode
             );
 
         }
@@ -1882,81 +2480,149 @@ function updateProgress(){
 
 
 /* =========================================
-   جشن
+   متن پروژه
 ========================================= */
 
-function celebrateAtCell(cell){
+function projectDescription(project){
 
-    const rect=
-        cell.getBoundingClientRect();
-
-
-    const symbols=[
-        "✨","⭐","💎","🎉"
-    ];
-
-
-    for(let i=0;i<10;i++){
-
-        const spark=
-            document.createElement(
-                "span"
-            );
+    return(
+        project.object+
+        " مستطیلی به طول "+
+        faNumber(project.length)+
+        " متر و عرض "+
+        faNumber(project.width)+
+        " متر است. "+
+        project.action
+    );
+}
 
 
-        spark.className="spark";
+function marginText(project){
 
+    if(project.type==="outer"){
 
-        spark.textContent=
-            symbols[
-                Math.floor(
-                    Math.random()*
-                    symbols.length
-                )
-            ];
-
-
-        spark.style.left=
-            (
-                rect.left+
-                rect.width/2
-            )+"px";
-
-
-        spark.style.top=
-            (
-                rect.top+
-                rect.height/2
-            )+"px";
-
-
-        spark.style.setProperty(
-            "--x",
-            (
-                Math.random()*160-80
-            )+"px"
-        );
-
-
-        spark.style.setProperty(
-            "--y",
-            (
-                -30-
-                Math.random()*120
-            )+"px"
-        );
-
-
-        document.body
-            .appendChild(spark);
-
-
-        setTimeout(
-            ()=>spark.remove(),
-            850
+        return(
+            "حاشیه "+
+            faNumber(project.margin)+
+            " متری بیرون شکل"
         );
     }
+
+
+    if(project.type==="inner"){
+
+        return(
+            "حاشیه "+
+            faNumber(project.margin)+
+            " متری داخل شکل"
+        );
+    }
+
+
+    return "مدل خود شکل اصلی";
 }
+
+
+/* =========================================
+   ابزارها
+========================================= */
+
+function clampModel(){
+
+    modelLength=
+        Math.max(
+            1,
+            Math.min(
+                20,
+                modelLength
+            )
+        );
+
+
+    modelWidth=
+        Math.max(
+            1,
+            Math.min(
+                20,
+                modelWidth
+            )
+        );
+}
+
+
+stepButtons.forEach(
+    button=>{
+
+        button.addEventListener(
+            "click",
+            ()=>{
+
+                if(answerChecked){
+                    return;
+                }
+
+
+                const action=
+                    button.dataset.action;
+
+
+                if(
+                    action==="width-plus"
+                ){
+                    modelLength++;
+                }
+
+                else if(
+                    action==="width-minus"
+                ){
+                    modelLength--;
+                }
+
+                else if(
+                    action==="height-plus"
+                ){
+                    modelWidth++;
+                }
+
+                else if(
+                    action==="height-minus"
+                ){
+                    modelWidth--;
+                }
+
+
+                clampModel();
+
+                renderModel();
+            }
+        );
+
+    }
+);
+
+
+modeButtons.forEach(
+    button=>{
+
+        button.addEventListener(
+            "click",
+            ()=>{
+
+                if(answerChecked){
+                    return;
+                }
+
+
+                selectedMode=
+                    button.dataset.mode;
+
+
+                renderModel();
+            }
+        );
+
+    }
+);
 
 
 /* =========================================
@@ -2026,6 +2692,7 @@ function updateTimer(){
     ){
 
         stopTimer();
+
         return;
     }
 
@@ -2103,54 +2770,44 @@ function updateTimer(){
 
 
 /* =========================================
-   مرحله
+   قفل ابزار
 ========================================= */
 
-function clearCells(){
+function setControlsDisabled(value){
 
-    [
-        ...mapEl.children
-    ].forEach(cell=>{
+    stepButtons.forEach(
+        button=>{
+            button.disabled=value;
+        }
+    );
 
-        cell.disabled=false;
 
-        cell.classList.remove(
-            "start",
-            "path",
-            "correct",
-            "wrong"
-        );
+    modeButtons.forEach(
+        button=>{
+            button.disabled=value;
+        }
+    );
 
-    });
+
+    submitButton.disabled=value;
 }
 
 
-function lockCells(){
+/* =========================================
+   نمایش پروژه
+========================================= */
 
-    [
-        ...mapEl.children
-    ].forEach(cell=>{
-
-        cell.disabled=true;
-
-    });
-}
-
-
-function showMission(){
+function showProject(){
 
     stopTimer();
 
     answerChecked=false;
 
-
-    clearCells();
-
-    updateProgress();
+    setControlsDisabled(false);
 
 
-    const mission=
-        missions[currentIndex];
+    const project=
+        projects[currentIndex];
 
 
     questionNumberEl.textContent=
@@ -2163,17 +2820,56 @@ function showMission(){
         faNumber(score);
 
 
-    missionTitleEl.textContent=
-        "🧭 نقشه شماره "+
+    projectLabelEl.textContent=
+        "📋 سفارش شماره "+
         faNumber(currentIndex+1);
 
 
-    missionTextEl.textContent=
-        mission.text;
+    clientEmojiEl.textContent=
+        project.client;
+
+
+    problemTextEl.textContent=
+        projectDescription(
+            project
+        );
+
+
+    taskTextEl.textContent=
+        project.task;
+
+
+    marginNoteEl.textContent=
+        marginText(project);
+
+
+    /*
+      در آغاز عمداً مدل را روی ابعاد
+      ساده و غیرجواب قرار می‌دهیم.
+      نزدیک بودن مقدار اولیه به جواب
+      فقط سرعت کار را منطقی می‌کند.
+    */
+
+    modelLength=
+        Math.max(
+            1,
+            project.length-2
+        );
+
+
+    modelWidth=
+        Math.max(
+            1,
+            project.width-2
+        );
+
+
+    selectedMode="original";
 
 
     feedbackEl.className=
         "feedback";
+
 
     feedbackTitleEl.textContent="";
 
@@ -2188,48 +2884,93 @@ function showMission(){
     nextButton.textContent=
         currentIndex===
         TOTAL_QUESTIONS-1
-        ? "مشاهده گنج بزرگ 🏆"
-        : "نقشه بعدی 🗺️";
+        ? "مشاهده شهر نهایی 🏆"
+        : "پروژه بعدی 🏗️";
 
 
-    const startCell=
-        getCell(
-            mission.start.row,
-            mission.start.col
-        );
+    updateCity();
 
-
-    startCell.classList.add(
-        "start"
-    );
-
-
-    requestAnimationFrame(
-        ()=>{
-
-            moveExplorer(
-                mission.start.row,
-                mission.start.col,
-                true
-            );
-
-        }
-    );
-
+    renderModel();
 
     startTimer();
 }
 
 
 /* =========================================
-   ثبت پاسخ
+   توضیح پاسخ
 ========================================= */
 
-async function chooseCell(
-    row,
-    col,
-    selectedCell
-){
+function explanation(project){
+
+    const answer=
+        getCorrectModel(project);
+
+
+    if(project.type==="outer"){
+
+        return(
+            "حاشیه در بیرون شکل است؛ پس به هر بُعد از دو طرف "+
+            faNumber(project.margin)+
+            " متر اضافه می‌شود. طول: "+
+            faNumber(project.length)+
+            " + "+
+            faNumber(2*project.margin)+
+            " = "+
+            faNumber(answer.length)+
+            " و عرض: "+
+            faNumber(project.width)+
+            " + "+
+            faNumber(2*project.margin)+
+            " = "+
+            faNumber(answer.width)+
+            ". رسم دو مستطیل کمک می‌کند فراموش نکنیم حاشیه در هر بُعد از دو طرف وجود دارد."
+        );
+    }
+
+
+    if(project.type==="inner"){
+
+        return(
+            "حاشیه داخل شکل است؛ بنابراین از هر بُعد در مجموع "+
+            faNumber(2*project.margin)+
+            " متر کم می‌شود. طول داخلی: "+
+            faNumber(project.length)+
+            " − "+
+            faNumber(2*project.margin)+
+            " = "+
+            faNumber(answer.length)+
+            " و عرض داخلی: "+
+            faNumber(project.width)+
+            " − "+
+            faNumber(2*project.margin)+
+            " = "+
+            faNumber(answer.width)+
+            "."
+        );
+    }
+
+
+    return(
+        "در این مسئله کافی بود اطلاعات متن را به یک مستطیل با طول "+
+        faNumber(answer.length)+
+        " و عرض "+
+        faNumber(answer.width)+
+        " تبدیل کنیم. این همان استفاده از راهبرد رسم شکل برای روشن‌کردن اطلاعات مسئله است."
+    );
+}
+
+
+/* =========================================
+   بررسی مدل
+========================================= */
+
+submitButton.addEventListener(
+    "click",
+    checkModel
+);
+
+
+function checkModel(){
 
     if(
         answerChecked ||
@@ -2246,11 +2987,10 @@ async function chooseCell(
         )/1000;
 
 
-    if(
-        elapsed>=QUESTION_TIME
-    ){
+    if(elapsed>=QUESTION_TIME){
 
         handleTimeout();
+
         return;
     }
 
@@ -2259,26 +2999,27 @@ async function chooseCell(
 
     stopTimer();
 
-    lockCells();
+    setControlsDisabled(true);
 
 
-    const mission=
-        missions[currentIndex];
+    const project=
+        projects[currentIndex];
 
 
     const correct=
-        row===mission.end.row &&
-        col===mission.end.col;
+        getCorrectModel(project);
 
 
-    const correctCell=
-        getCell(
-            mission.end.row,
-            mission.end.col
-        );
+    const isCorrect=
+        modelLength===
+            correct.length &&
+        modelWidth===
+            correct.width &&
+        selectedMode===
+            correct.mode;
 
 
-    if(correct){
+    if(isCorrect){
 
         const earned=
             pointsForTime(
@@ -2288,24 +3029,10 @@ async function chooseCell(
 
         score+=earned;
 
+
         if(score>100){
             score=100;
         }
-
-
-        await animateRoute(
-            mission.path
-        );
-
-
-        correctCell.classList.add(
-            "correct"
-        );
-
-
-        celebrateAtCell(
-            correctCell
-        );
 
 
         feedbackEl.className=
@@ -2313,32 +3040,39 @@ async function chooseCell(
 
 
         feedbackTitleEl.textContent=
-            "💎 گنج پیدا شد! +"+
+            "✅ نقشه تأیید شد! +"+
             faNumber(earned)+
-            " امتیاز";
+            " امتیاز 🎉";
 
 
         feedbackTextEl.textContent=
-            buildExplanation(
-                mission
+            explanation(
+                project
             );
+
+
+        celebrate(
+            submitButton
+        );
     }
 
     else{
 
-        selectedCell.classList.add(
-            "wrong"
-        );
+        /*
+          پاسخ صحیح را روی بوم نمایش می‌دهیم.
+        */
+
+        modelLength=
+            correct.length;
+
+        modelWidth=
+            correct.width;
+
+        selectedMode=
+            correct.mode;
 
 
-        await animateRoute(
-            mission.path
-        );
-
-
-        correctCell.classList.add(
-            "correct"
-        );
+        renderModel();
 
 
         feedbackEl.className=
@@ -2346,13 +3080,13 @@ async function chooseCell(
 
 
         feedbackTitleEl.textContent=
-            "💥 این خانه مقصد نبود!";
+            "❌ این مدل با متن مسئله هماهنگ نبود.";
 
 
         feedbackTextEl.textContent=
-            "مسیر درست روی نقشه نمایش داده شد. "+
-            buildExplanation(
-                mission
+            "مدل صحیح روی بوم نمایش داده شد. "+
+            explanation(
+                project
             );
     }
 
@@ -2367,48 +3101,11 @@ async function chooseCell(
 }
 
 
-function buildExplanation(mission){
-
-    const startRow=
-        faNumber(
-            mission.start.row+1
-        );
-
-    const startCol=
-        faNumber(
-            mission.start.col+1
-        );
-
-    const endRow=
-        faNumber(
-            mission.end.row+1
-        );
-
-    const endCol=
-        faNumber(
-            mission.end.col+1
-        );
-
-
-    return(
-        "با رسم حرکت‌ها از خانه ("+
-        startRow+
-        "، "+
-        startCol+
-        ") به خانه ("+
-        endRow+
-        "، "+
-        endCol+
-        ") می‌رسیم. رسم مسیر کمک می‌کند جهت‌ها و حرکت‌ها را بدون اشتباه دنبال کنیم."
-    );
-}
-
-
 /* =========================================
    اتمام زمان
 ========================================= */
 
-async function handleTimeout(){
+function handleTimeout(){
 
     if(
         answerChecked ||
@@ -2422,41 +3119,39 @@ async function handleTimeout(){
 
     stopTimer();
 
-    lockCells();
+    setControlsDisabled(true);
 
 
-    timerNumberEl.textContent=
-        "۰";
+    timerNumberEl.textContent="۰";
 
     timeStatusEl.textContent=
         "۰ ثانیه";
 
-    timerBarEl.style.width=
-        "0%";
+    timerBarEl.style.width="0%";
 
     timerBarEl.style.background=
         "var(--red)";
 
 
-    const mission=
-        missions[currentIndex];
+    const project=
+        projects[currentIndex];
 
 
-    await animateRoute(
-        mission.path
-    );
+    const correct=
+        getCorrectModel(project);
 
 
-    const correctCell=
-        getCell(
-            mission.end.row,
-            mission.end.col
-        );
+    modelLength=
+        correct.length;
+
+    modelWidth=
+        correct.width;
+
+    selectedMode=
+        correct.mode;
 
 
-    correctCell.classList.add(
-        "correct"
-    );
+    renderModel();
 
 
     feedbackEl.className=
@@ -2464,13 +3159,13 @@ async function handleTimeout(){
 
 
     feedbackTitleEl.textContent=
-        "⏰ زمان تمام شد! ۰ امتیاز";
+        "⏰ زمان تحویل تمام شد! ۰ امتیاز";
 
 
     feedbackTextEl.textContent=
-        "مسیر صحیح روی نقشه نمایش داده شد. "+
-        buildExplanation(
-            mission
+        "مدل صحیح روی بوم نمایش داده شد. "+
+        explanation(
+            project
         );
 
 
@@ -2481,7 +3176,91 @@ async function handleTimeout(){
 
 
 /* =========================================
-   بعدی
+   جشن
+========================================= */
+
+function celebrate(element){
+
+    const rect=
+        element.getBoundingClientRect();
+
+
+    const symbols=[
+        "⭐",
+        "✨",
+        "🏗️",
+        "🎉"
+    ];
+
+
+    for(let i=0;i<10;i++){
+
+        const spark=
+            document.createElement(
+                "span"
+            );
+
+
+        spark.className="spark";
+
+
+        spark.textContent=
+            symbols[
+                Math.floor(
+                    Math.random()*
+                    symbols.length
+                )
+            ];
+
+
+        spark.style.left=
+            (
+                rect.left+
+                rect.width/2
+            )+"px";
+
+
+        spark.style.top=
+            (
+                rect.top+
+                rect.height/2
+            )+"px";
+
+
+        spark.style.setProperty(
+            "--x",
+            (
+                Math.random()*170-
+                85
+            )+"px"
+        );
+
+
+        spark.style.setProperty(
+            "--y",
+            (
+                -30-
+                Math.random()*120
+            )+"px"
+        );
+
+
+        document.body
+            .appendChild(
+                spark
+            );
+
+
+        setTimeout(
+            ()=>spark.remove(),
+            850
+        );
+    }
+}
+
+
+/* =========================================
+   پروژه بعد
 ========================================= */
 
 nextButton.addEventListener(
@@ -2500,14 +3279,13 @@ nextButton.addEventListener(
 
             currentIndex++;
 
-            showMission();
+            showProject();
 
 
             window.scrollTo({
                 top:0,
                 behavior:"smooth"
             });
-
         }
 
         else{
@@ -2535,14 +3313,7 @@ async function finishGame(){
     stopTimer();
 
 
-    [
-        ...progressMapEl.children
-    ].forEach(
-        node=>
-            node.classList.add(
-                "done"
-            )
-    );
+    updateCity();
 
 
     gameScreen.style.display=
@@ -2572,25 +3343,25 @@ async function finishGame(){
     if(score>=90){
 
         motivationEl.textContent=
-            "عالی بود! 🌟 هیچ گنجی از چشم تو پنهان نمی‌مونه!";
+            "عالی بود! 🌟 تو مهندس ارشد شهر ریاضی شدی!";
     }
 
     else if(score>=70){
 
         motivationEl.textContent=
-            "خیلی خوب بود 👏 نقشه‌کش ماهری شدی!";
+            "خیلی خوب بود 👏 نقشه‌هایت دقیق و حرفه‌ای بود!";
     }
 
     else if(score>=50){
 
         motivationEl.textContent=
-            "خوب بود 💪 مسیرها رو بیشتر تمرین کن!";
+            "خوب بود 💪 با چند پروژه دیگر مهندس حرفه‌ای می‌شی!";
     }
 
     else{
 
         motivationEl.textContent=
-            "دوباره نقشه را باز کن 🌱 این بار گنج‌های بیشتری پیدا می‌کنی!";
+            "کارگاه هنوز بازه 🌱 دوباره بساز و این بار به دو طرف شکل دقت کن!";
     }
 
 
@@ -2605,6 +3376,7 @@ async function finishGame(){
         if(!finishSubmitted){
 
             finishSubmitted=true;
+
 
             await GameSDK
                 .finishGame(score);
@@ -2672,18 +3444,22 @@ async function loadLeaderboard(){
 
 
                 if(index===0){
+
                     rank="🥇";
                 }
 
                 else if(index===1){
+
                     rank="🥈";
                 }
 
                 else if(index===2){
+
                     rank="🥉";
                 }
 
                 else{
+
                     rank=
                         faNumber(index+1)+
                         ".";
@@ -2715,17 +3491,17 @@ async function loadLeaderboard(){
                     rank+" "+name;
 
 
-                const scoreItemEl=
+                const valueEl=
                     document.createElement(
                         "span"
                     );
 
 
-                scoreItemEl.className=
+                valueEl.className=
                     "rank-score";
 
 
-                scoreItemEl.textContent=
+                valueEl.textContent=
                     faNumber(value)+
                     " امتیاز";
 
@@ -2736,12 +3512,14 @@ async function loadLeaderboard(){
 
 
                 row.appendChild(
-                    scoreItemEl
+                    valueEl
                 );
 
 
                 leaderboardContent
-                    .appendChild(row);
+                    .appendChild(
+                        row
+                    );
             }
         );
 
@@ -2802,63 +3580,17 @@ restartButton.addEventListener(
         leaderboardContent.innerHTML="";
 
 
-        prepareMissions();
+        prepareProjects();
 
-        buildProgress();
+        buildCity();
 
-        showMission();
+        showProject();
 
 
         window.scrollTo({
             top:0,
             behavior:"smooth"
         });
-
-    }
-);
-
-
-/* =========================================
-   تغییر اندازه
-========================================= */
-
-/*
-  وقتی جهت گوشی یا اندازه صفحه عوض شود،
-  شخصیت روی خانه فعلی خودش باقی می‌ماند.
-*/
-
-window.addEventListener(
-    "resize",
-    ()=>{
-
-        if(
-            gameFinished ||
-            !missions.length
-        ){
-            return;
-        }
-
-
-        const mission=
-            missions[currentIndex];
-
-
-        if(!mission){
-            return;
-        }
-
-
-        const target=
-            answerChecked
-            ? mission.end
-            : mission.start;
-
-
-        moveExplorer(
-            target.row,
-            target.col,
-            true
-        );
 
     }
 );
@@ -2892,16 +3624,11 @@ function startGame(){
     finishSubmitted=false;
 
 
-    buildMap();
+    prepareProjects();
 
-    buildProgress();
+    buildCity();
 
-    prepareMissions();
-
-
-    requestAnimationFrame(
-        ()=>showMission()
-    );
+    showProject();
 }
 
 
