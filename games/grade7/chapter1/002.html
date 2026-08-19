@@ -10,12 +10,12 @@
 
 :root{
  --blue:#38bdf8;--blue2:#0284c7;--purple:#8b5cf6;
- --pink:#f472b6;--yellow:#fbbf24;--orange:#fb923c;
- --green:#22c55e;--red:#fb7185;--text:#293449;
- --muted:#64748b;
+ --purple2:#6d28d9;--pink:#f472b6;--yellow:#fbbf24;
+ --orange:#fb923c;--green:#22c55e;--red:#fb7185;
+ --text:#293449;--muted:#64748b
 }
 
-html{color-scheme:light only}
+html{color-scheme:light only;-webkit-text-size-adjust:100%}
 
 body{
  margin:0;min-height:100vh;direction:rtl;
@@ -23,7 +23,8 @@ body{
  background:
  radial-gradient(circle at 10% 5%,#fbcfe855,transparent 25%),
  radial-gradient(circle at 90% 8%,#7dd3fc66,transparent 25%),
- linear-gradient(150deg,#fff7fd,#effcff 55%,#fff9df);
+ radial-gradient(circle at 80% 90%,#fde68a55,transparent 25%),
+ linear-gradient(150deg,#fff7fd,#effcff 55%,#fff9df)
 }
 
 button,a{font-family:inherit}
@@ -40,14 +41,13 @@ button,a{font-family:inherit}
  background:linear-gradient(90deg,var(--purple),var(--blue2),var(--pink));
  color:transparent;background-clip:text;-webkit-background-clip:text
 }
-.hero p{margin:0;color:var(--muted);font-size:13px}
+.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.8}
 
 .panel{
  background:#fffffff7;border-radius:24px;overflow:hidden;
  box-shadow:0 15px 40px #6d28d91b
 }
 
-/* status */
 .status{
  display:grid;grid-template-columns:repeat(4,1fr);gap:7px;
  padding:10px;background:linear-gradient(90deg,#f5f3ff,#ecfeff,#fff7ed,#fdf2f8)
@@ -68,7 +68,6 @@ button,a{font-family:inherit}
 
 .game{padding:16px}
 
-/* treasure map */
 .treasure-progress{
  display:grid;grid-template-columns:repeat(10,1fr);gap:5px;
  margin:2px 0 15px
@@ -84,10 +83,9 @@ button,a{font-family:inherit}
  box-shadow:0 3px 8px #f59e0b44
 }
 
-/* timer */
 .timer-head{
- display:flex;justify-content:space-between;font-size:13px;
- font-weight:bold;margin-bottom:6px
+ display:flex;justify-content:space-between;align-items:center;
+ font-size:13px;font-weight:bold;margin-bottom:6px
 }
 #timerNumber{font-size:20px;color:var(--green)}
 .timer-track{
@@ -99,19 +97,26 @@ button,a{font-family:inherit}
  transition:width .1s linear,background .2s
 }
 
-/* problem */
 .level-label{
  display:inline-block;background:#eee9ff;color:#6835bd;
  padding:5px 11px;border-radius:999px;font-size:12px;font-weight:bold
 }
+.family-label{
+ display:inline-block;margin-right:5px;background:#e0f7ff;color:#087aa8;
+ padding:5px 10px;border-radius:999px;font-size:11px;font-weight:bold
+}
+
 .problem{
- margin:9px 0 7px;padding:13px 15px;background:#fff8dd;
+ margin:9px 0 7px;padding:14px 15px;background:#fff8dd;
  border:2px solid #f3d36d;border-radius:15px;text-align:center;
  font-size:clamp(15px,4vw,19px);font-weight:bold;line-height:1.9
 }
-.help{text-align:center;color:var(--muted);font-size:12px;margin:7px 0 12px}
 
-/* pictures */
+.help{
+ text-align:center;color:var(--muted);font-size:12px;
+ margin:7px 0 12px;line-height:1.8
+}
+
 .pictures{
  display:grid;grid-template-columns:repeat(3,1fr);gap:10px
 }
@@ -137,17 +142,16 @@ button,a{font-family:inherit}
 .pic-number{
  position:absolute;top:7px;right:7px;z-index:5;
  width:27px;height:27px;display:flex;align-items:center;justify-content:center;
- border-radius:50%;background:#8b5cf6;color:#fff;font-weight:bold;font-size:12px
+ border-radius:50%;background:#8b5cf6;color:#fff;
+ font-weight:bold;font-size:12px
 }
 .scene{
  height:145px;display:flex;align-items:center;justify-content:center;
  overflow:hidden;border-radius:12px;
- background:
- linear-gradient(#e0f7ff 0 70%,#d7f0ac 70%);
+ background:linear-gradient(#e0f7ff 0 70%,#d7f0ac 70%)
 }
-.scene svg{width:100%;height:100%}
+.scene svg{width:100%;height:100%;display:block}
 
-/* feedback */
 .feedback{
  display:none;margin-top:14px;padding:13px;border-radius:14px;line-height:1.8
 }
@@ -165,10 +169,10 @@ button,a{font-family:inherit}
 }
 .next.show{display:block}
 
-/* result */
 .result{
  display:none;text-align:center;padding:25px 16px;
- background:radial-gradient(circle at 10% 5%,#fbcfe844,transparent 25%),
+ background:
+ radial-gradient(circle at 10% 5%,#fbcfe844,transparent 25%),
  radial-gradient(circle at 90% 5%,#7dd3fc44,transparent 25%)
 }
 .result.show{display:block}
@@ -222,8 +226,14 @@ button,a{font-family:inherit}
  25%{transform:translateX(-5px)}
  75%{transform:translateX(5px)}
 }
-@keyframes pop{from{opacity:.2;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes pop{
+ from{opacity:.2;transform:scale(.97)}
+ to{opacity:1;transform:scale(1)}
+}
+@keyframes float{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-7px)}
+}
 
 @media(max-width:650px){
  .app{padding:7px}
@@ -251,7 +261,7 @@ button,a{font-family:inherit}
 <header class="hero">
  <div class="badge">🎓 ریاضی هفتم • فصل اول • درس ۲</div>
  <h1>🕵️ شکارچی تصویر</h1>
- <p>شکل درست مسئله را شکار کن و تکه‌های نقشه گنج را پیدا کن!</p>
+ <p>۱۰ نوع مأموریت متفاوت؛ مسئله را به شکل تبدیل کن و تصویر درست را شکار کن!</p>
 </header>
 
 <section class="panel">
@@ -273,13 +283,20 @@ button,a{font-family:inherit}
    <span>⏱️ زمان شکار تصویر</span>
    <strong id="timerNumber">۳۰</strong>
   </div>
-  <div class="timer-track"><div class="timer-bar" id="timerBar"></div></div>
 
-  <div class="level-label" id="levelLabel">🧩 تکه نقشه ۱</div>
+  <div class="timer-track">
+   <div class="timer-bar" id="timerBar"></div>
+  </div>
+
+  <div>
+   <span class="level-label" id="levelLabel">🧩 تکه نقشه ۱</span>
+   <span class="family-label" id="familyLabel"></span>
+  </div>
+
   <div class="problem" id="problemText"></div>
 
   <div class="help">
-   👀 مسئله را در ذهن به یک شکل ساده تبدیل کن؛ سپس روی تصویر درست بزن.
+   👀 لازم نیست شکل هنری باشد؛ فقط باید اطلاعات و رابطه‌های مسئله را درست نشان دهد.
   </div>
 
   <div class="pictures" id="pictures"></div>
@@ -289,15 +306,24 @@ button,a{font-family:inherit}
    <div class="feedback-text" id="feedbackText"></div>
   </div>
 
-  <button class="next" id="nextButton" type="button">تکه بعدی نقشه 🧩</button>
+  <button class="next" id="nextButton" type="button">
+   تکه بعدی نقشه 🧩
+  </button>
 
  </div>
 </div>
 
+
 <div class="result" id="resultScreen">
+
  <div class="chest">🗺️💎</div>
+
  <h2>نقشه گنج کامل شد!</h2>
- <p>شکارچی تصویر: <strong id="resultName"></strong></p>
+
+ <p>
+  شکارچی تصویر:
+  <strong id="resultName"></strong>
+ </p>
 
  <div class="final-score">
   <strong id="finalScore">۰</strong>
@@ -308,17 +334,25 @@ button,a{font-family:inherit}
 
  <div class="leaderboard">
   <h3>🏅 برترین شکارچی‌ها</h3>
-  <div id="leaderboardContent" class="loading">در حال دریافت جدول برترین‌ها...</div>
+  <div id="leaderboardContent" class="loading">
+   در حال دریافت جدول برترین‌ها...
+  </div>
  </div>
 
- <button class="restart" id="restartButton" type="button">🔄 شکار دوباره</button>
+ <button class="restart" id="restartButton" type="button">
+  🔄 شکار دوباره
+ </button>
+
 </div>
 
 </section>
 
-<a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
+<a class="back" href="/#game">
+ ← بازگشت به بازی‌های ریاضی
+</a>
 
 </main>
+
 
 <script src="/games/game-sdk.js"></script>
 
@@ -333,384 +367,688 @@ const player = GameSDK.init(GAME_ID);
 
 
 /* =====================================================
-   تصاویر SVG
+   تنظیم جلوگیری از تکرار
 ===================================================== */
 
-function svgGardenOuter(correctType){
+const HISTORY_KEY = "math_image_hunter_recent_v2";
 
- const map={correct:"outer",inside:"inside",side:"side"};
- const type=map[correctType];
+/*
+  امضاهای 40 سؤال اخیر روی همین مرورگر نگهداری می‌شوند.
+  اگر فضای سؤال اجازه بدهد، ترکیب‌های اخیر دوباره ساخته نمی‌شوند.
+*/
+const MAX_HISTORY = 40;
 
- if(type==="outer"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <rect x="42" y="33" width="116" height="64" rx="3" fill="#8bd36c" stroke="#32904a" stroke-width="3"/>
-   <circle cx="75" cy="60" r="10" fill="#f472b6"/><circle cx="120" cy="70" r="9" fill="#fbbf24"/>
-   <rect x="25" y="17" width="150" height="96" rx="4" fill="none" stroke="#8b5cf6" stroke-width="5" stroke-dasharray="8 5"/>
-  </svg>`;
- }
 
- if(type==="inside"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <rect x="30" y="20" width="140" height="90" rx="3" fill="#8bd36c" stroke="#32904a" stroke-width="3"/>
-   <circle cx="68" cy="52" r="10" fill="#f472b6"/><circle cx="126" cy="77" r="9" fill="#fbbf24"/>
-   <rect x="52" y="40" width="96" height="50" fill="none" stroke="#8b5cf6" stroke-width="5" stroke-dasharray="8 5"/>
-  </svg>`;
- }
+/* =====================================================
+   ابزار عمومی
+===================================================== */
 
- return `
- <svg viewBox="0 0 200 130">
-  <rect x="35" y="28" width="120" height="74" fill="#8bd36c" stroke="#32904a" stroke-width="3"/>
-  <circle cx="70" cy="58" r="10" fill="#f472b6"/>
-  <path d="M155 28 L178 28 L178 102 L155 102" fill="none" stroke="#8b5cf6" stroke-width="5" stroke-dasharray="8 5"/>
- </svg>`;
+function faNumber(value){
+ return String(value).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 }
 
-
-function svgBounce(type){
-
- if(type==="full"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <line x1="18" y1="112" x2="185" y2="112" stroke="#64748b" stroke-width="4"/>
-   <circle cx="38" cy="22" r="9" fill="#f472b6"/>
-   <path d="M38 31 Q38 72 62 108 Q88 64 110 108 Q133 82 150 108"
-    fill="none" stroke="#8b5cf6" stroke-width="5"/>
-   <path d="M57 102 l5 8 5-8M104 102 l6 8 5-8" fill="none" stroke="#fb923c" stroke-width="3"/>
-  </svg>`;
- }
-
- if(type==="onlydown"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <line x1="18" y1="112" x2="185" y2="112" stroke="#64748b" stroke-width="4"/>
-   <circle cx="70" cy="22" r="9" fill="#f472b6"/>
-   <path d="M70 31 L70 108" stroke="#8b5cf6" stroke-width="5"/>
-  </svg>`;
- }
-
- return `
- <svg viewBox="0 0 200 130">
-  <line x1="18" y1="112" x2="185" y2="112" stroke="#64748b" stroke-width="4"/>
-  <circle cx="45" cy="22" r="9" fill="#f472b6"/>
-  <path d="M45 31 Q72 62 95 78 Q122 57 155 30" fill="none" stroke="#8b5cf6" stroke-width="5"/>
- </svg>`;
+function randomInt(min,max){
+ return Math.floor(Math.random()*(max-min+1))+min;
 }
 
-
-function svgFrog(type){
-
- if(type==="zig"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <rect x="155" y="10" width="18" height="110" fill="#a87953"/>
-   <path d="M25 112 L65 75 L48 92 L95 52 L77 68 L145 15"
-    fill="none" stroke="#8b5cf6" stroke-width="5"/>
-   <text x="18" y="110" font-size="24">🐸</text>
-  </svg>`;
- }
-
- if(type==="straight"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <rect x="155" y="10" width="18" height="110" fill="#a87953"/>
-   <path d="M32 108 L145 18" stroke="#8b5cf6" stroke-width="5"/>
-   <text x="15" y="116" font-size="25">🐸</text>
-  </svg>`;
- }
-
- return `
- <svg viewBox="0 0 200 130">
-  <rect x="155" y="10" width="18" height="110" fill="#a87953"/>
-  <path d="M25 110 Q55 30 92 55 Q125 78 145 17" fill="none" stroke="#8b5cf6" stroke-width="5"/>
-  <text x="12" y="118" font-size="25">🐸</text>
- </svg>`;
+function pick(array){
+ return array[Math.floor(Math.random()*array.length)];
 }
 
-
-function svgLinePoints(type){
-
- if(type==="ordered"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <line x1="22" y1="68" x2="178" y2="68" stroke="#64748b" stroke-width="3"/>
-   ${[35,73,123,163].map((x,i)=>`<circle cx="${x}" cy="68" r="7" fill="#38bdf8"/><text x="${x-5}" y="52" font-size="13">${["A","B","C","D"][i]}</text>`).join("")}
-  </svg>`;
+function shuffle(array){
+ const a=[...array];
+ for(let i=a.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [a[i],a[j]]=[a[j],a[i]];
  }
-
- if(type==="square"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <rect x="50" y="25" width="90" height="75" fill="none" stroke="#64748b" stroke-width="3"/>
-   <circle cx="50" cy="25" r="7" fill="#38bdf8"/><circle cx="140" cy="25" r="7" fill="#38bdf8"/>
-   <circle cx="50" cy="100" r="7" fill="#38bdf8"/><circle cx="140" cy="100" r="7" fill="#38bdf8"/>
-  </svg>`;
- }
-
- return `
- <svg viewBox="0 0 200 130">
-  <circle cx="35" cy="30" r="7" fill="#38bdf8"/><circle cx="85" cy="96" r="7" fill="#38bdf8"/>
-  <circle cx="130" cy="35" r="7" fill="#38bdf8"/><circle cx="165" cy="88" r="7" fill="#38bdf8"/>
- </svg>`;
+ return a;
 }
 
-
-function svgCube(type){
-
- if(type==="layers"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <g stroke="#4d7aa1" stroke-width="2">
-    <rect x="47" y="30" width="90" height="75" fill="#bfdbfe"/>
-    ${[1,2].map(i=>`<line x1="${47+i*30}" y1="30" x2="${47+i*30}" y2="105"/>`).join("")}
-    ${[1,2].map(i=>`<line x1="47" y1="${30+i*25}" x2="137" y2="${30+i*25}"/>`).join("")}
-    <rect x="78" y="56" width="28" height="23" fill="#fbbf24"/>
-   </g>
-  </svg>`;
- }
-
- if(type==="single"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <rect x="65" y="30" width="70" height="70" fill="#bfdbfe" stroke="#4d7aa1" stroke-width="3"/>
-  </svg>`;
- }
-
- return `
- <svg viewBox="0 0 200 130">
-  <g fill="#bfdbfe" stroke="#4d7aa1" stroke-width="2">
-   <rect x="35" y="65" width="30" height="30"/><rect x="70" y="45" width="30" height="30"/>
-   <rect x="105" y="65" width="30" height="30"/><rect x="140" y="40" width="30" height="30"/>
-  </g>
- </svg>`;
+function pointsForTime(seconds){
+ if(seconds<=5)return 10;
+ if(seconds<=10)return 8;
+ if(seconds<=15)return 6;
+ if(seconds<=20)return 4;
+ if(seconds<=30)return 2;
+ return 0;
 }
 
-
-function svgPool(type){
-
- if(type==="inside"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <rect x="26" y="22" width="148" height="88" rx="4" fill="#f8d184" stroke="#ba8135" stroke-width="3"/>
-   <rect x="49" y="43" width="102" height="46" rx="3" fill="#67d4ee" stroke="#1596bd" stroke-width="3"/>
-  </svg>`;
+function loadHistory(){
+ try{
+  const data=JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]");
+  return Array.isArray(data)?data:[];
+ }catch{
+  return [];
  }
-
- if(type==="outside"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <rect x="48" y="40" width="105" height="50" fill="#67d4ee" stroke="#1596bd" stroke-width="3"/>
-   <rect x="26" y="20" width="149" height="90" fill="none" stroke="#f472b6" stroke-width="6"/>
-  </svg>`;
- }
-
- return `
- <svg viewBox="0 0 200 130">
-  <ellipse cx="100" cy="65" rx="70" ry="38" fill="#67d4ee" stroke="#1596bd" stroke-width="3"/>
- </svg>`;
 }
 
-
-function svgRope(type){
-
- if(type==="rectangle"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <rect x="45" y="30" width="110" height="70" fill="#b7e78c" stroke="#4c9b48" stroke-width="3"/>
-   <path d="M35 20 H165 V110 H35 Z" fill="none" stroke="#f472b6" stroke-width="5" stroke-dasharray="7 5"/>
-  </svg>`;
+function saveHistory(signatures){
+ try{
+  const old=loadHistory();
+  const merged=[...signatures,...old];
+  const unique=[...new Set(merged)].slice(0,MAX_HISTORY);
+  localStorage.setItem(HISTORY_KEY,JSON.stringify(unique));
+ }catch(e){
+  console.warn("Question history unavailable:",e);
  }
-
- if(type==="diagonal"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <rect x="45" y="30" width="110" height="70" fill="#b7e78c" stroke="#4c9b48" stroke-width="3"/>
-   <line x1="45" y1="30" x2="155" y2="100" stroke="#f472b6" stroke-width="5"/>
-  </svg>`;
- }
-
- return `
- <svg viewBox="0 0 200 130">
-  <rect x="45" y="30" width="110" height="70" fill="#b7e78c" stroke="#4c9b48" stroke-width="3"/>
-  <path d="M45 30 H155 V100" fill="none" stroke="#f472b6" stroke-width="5" stroke-dasharray="7 5"/>
- </svg>`;
-}
-
-
-function svgJump(type){
-
- if(type==="step"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <line x1="22" y1="108" x2="178" y2="108" stroke="#64748b" stroke-width="3"/>
-   <path d="M28 104 Q55 52 78 84 Q103 33 128 66 Q150 20 173 25"
-    fill="none" stroke="#8b5cf6" stroke-width="5"/>
-   <text x="17" y="106" font-size="22">🐇</text>
-  </svg>`;
- }
-
- if(type==="flat"){
-  return `
-  <svg viewBox="0 0 200 130">
-   <line x1="22" y1="108" x2="178" y2="108" stroke="#64748b" stroke-width="3"/>
-   <path d="M30 100 Q80 25 170 100" fill="none" stroke="#8b5cf6" stroke-width="5"/>
-   <text x="18" y="108" font-size="22">🐇</text>
-  </svg>`;
- }
-
- return `
- <svg viewBox="0 0 200 130">
-  <line x1="22" y1="108" x2="178" y2="108" stroke="#64748b" stroke-width="3"/>
-  <path d="M30 103 L168 25" stroke="#8b5cf6" stroke-width="5"/>
-  <text x="18" y="108" font-size="22">🐇</text>
- </svg>`;
 }
 
 
 /* =====================================================
-   بانک مراحل
+   SVG پایه
 ===================================================== */
 
-const BANK=[
-
-{
- q:"باغچه‌ای مستطیلی داریم و می‌خواهیم نرده را یک متر بیرون‌تر از هر چهار ضلع آن بکشیم. کدام شکل مسئله را درست مدل می‌کند؟",
- pics:[
-  ()=>svgGardenOuter("outer"),
-  ()=>svgGardenOuter("inside"),
-  ()=>svgGardenOuter("side")
- ],
- answer:0,
- exp:"چون نرده بیرون باغچه و از هر چهار طرف فاصله دارد، باید یک مستطیل بزرگ‌تر دور باغچه رسم کنیم."
-},
-
-{
- q:"توپی از ارتفاعی رها می‌شود، به زمین می‌خورد و دوباره بالا می‌آید. برای محاسبه کل مسافت حرکت، کدام شکل مفیدتر است؟",
- pics:[
-  ()=>svgBounce("onlydown"),
-  ()=>svgBounce("full"),
-  ()=>svgBounce("wrong")
- ],
- answer:1,
- exp:"برای مسافت کل باید هم مسیر پایین‌آمدن و هم بالا رفتن‌های توپ در شکل دیده شوند."
-},
-
-{
- q:"قورباغه با هر جهش بالا می‌رود و سپس کمی سُر می‌خورد. کدام شکل این وضعیت را بهتر نمایش می‌دهد؟",
- pics:[
-  ()=>svgFrog("straight"),
-  ()=>svgFrog("curve"),
-  ()=>svgFrog("zig")
- ],
- answer:2,
- exp:"حرکت قورباغه شامل بالا رفتن و پایین آمدن‌های پیاپی است؛ شکل پله‌ای این رابطه را روشن‌تر می‌کند."
-},
-
-{
- q:"چهار نقطه A، B، C و D به همین ترتیب روی یک خط قرار دارند. کدام مدل برای نشان دادن مسئله مناسب است؟",
- pics:[
-  ()=>svgLinePoints("random"),
-  ()=>svgLinePoints("ordered"),
-  ()=>svgLinePoints("square")
- ],
- answer:1,
- exp:"عبارت «روی یک خط و به همین ترتیب» باید با چهار نقطه مرتب روی یک خط نمایش داده شود."
-},
-
-{
- q:"یک مکعب بزرگ از مکعب‌های کوچک ساخته شده و می‌خواهیم مکعب‌های داخلی آن را پیدا کنیم. کدام مدل دید بهتری می‌دهد؟",
- pics:[
-  ()=>svgCube("random"),
-  ()=>svgCube("layers"),
-  ()=>svgCube("single")
- ],
- answer:1,
- exp:"شبکه لایه‌ای کمک می‌کند پوسته بیرونی و قسمت داخلی مکعب را از هم تشخیص دهیم."
-},
-
-{
- q:"یک مسیر یک‌متری داخل محوطه مستطیلی استخر و دور تا دور آن ساخته شده است. کدام تصویر مدل مناسب‌تری است؟",
- pics:[
-  ()=>svgPool("outside"),
-  ()=>svgPool("circle"),
-  ()=>svgPool("inside")
- ],
- answer:2,
- exp:"چون مسیر داخل محوطه است، باید مستطیل کوچک‌تری درون مستطیل اصلی دیده شود."
-},
-
-{
- q:"می‌خواهیم طنابی با فاصله مشخص دور تا دور یک زمین مستطیلی بکشیم. کدام شکل بهتر است؟",
- pics:[
-  ()=>svgRope("diagonal"),
-  ()=>svgRope("rectangle"),
-  ()=>svgRope("half")
- ],
- answer:1,
- exp:"طناب دور تا دور زمین قرار دارد، پس باید یک مرز بسته و مستطیلی اطراف زمین رسم شود."
-},
-
-{
- q:"خرگوش چند پرش انجام می‌دهد و در هر پرش به نقطه‌ای جلوتر و بالاتر می‌رسد. برای شمردن پرش‌ها کدام مدل مفیدتر است؟",
- pics:[
-  ()=>svgJump("flat"),
-  ()=>svgJump("step"),
-  ()=>svgJump("line")
- ],
- answer:1,
- exp:"نمایش جداگانه هر پرش باعث می‌شود تعداد حرکت‌ها و نقاط فرود به‌سادگی شمرده شوند."
-},
-
-{
- q:"برای بررسی فاصله میان چند نقطه که همگی روی یک مسیر مستقیم‌اند، کدام شکل مناسب‌تر است؟",
- pics:[
-  ()=>svgLinePoints("ordered"),
-  ()=>svgLinePoints("square"),
-  ()=>svgLinePoints("random")
- ],
- answer:0,
- exp:"وقتی نقاط روی مسیر مستقیم‌اند، قرار دادن آنها روی یک خط ساده‌ترین مدل مسئله است."
-},
-
-{
- q:"یک نوار از داخل و دور تا دور زمین مستطیلی کنار گذاشته شده است. برای دیدن قسمت باقی‌مانده کدام مدل مناسب است؟",
- pics:[
-  ()=>svgGardenOuter("inside"),
-  ()=>svgGardenOuter("outer"),
-  ()=>svgGardenOuter("side")
- ],
- answer:0,
- exp:"نوار داخلی باعث می‌شود قسمت باقی‌مانده یک مستطیل کوچک‌تر در مرکز شکل باشد."
-},
-
-{
- q:"حصاری باید در بیرون یک زمین و دور همه ضلع‌های آن قرار گیرد. کدام شکل احتمال اشتباه در محاسبه را کمتر می‌کند؟",
- pics:[
-  ()=>svgRope("half"),
-  ()=>svgRope("rectangle"),
-  ()=>svgRope("diagonal")
- ],
- answer:1,
- exp:"مدل بسته دور مستطیل نشان می‌دهد حصار باید هر چهار ضلع را پوشش دهد."
-},
-
-{
- q:"می‌خواهیم حرکت چندباره یک جسم بین زمین و ارتفاع‌های مختلف را بررسی کنیم. کدام مدل اطلاعات بیشتری به ما می‌دهد؟",
- pics:[
-  ()=>svgBounce("full"),
-  ()=>svgBounce("onlydown"),
-  ()=>svgBounce("wrong")
- ],
- answer:0,
- exp:"شکل رفت‌وبرگشت، تمام بخش‌های مسیر را نشان می‌دهد و برای محاسبه مسافت مناسب‌تر است."
+function frame(content){
+ return `
+ <svg viewBox="0 0 220 140" aria-hidden="true">
+  ${content}
+ </svg>`;
 }
 
+function label(x,y,text,color="#334155"){
+ return `<text x="${x}" y="${y}" text-anchor="middle"
+ font-family="Tahoma,Arial" font-size="12" font-weight="bold"
+ fill="${color}">${text}</text>`;
+}
+
+
+/* =====================================================
+   1) حصار بیرونی مستطیل
+===================================================== */
+
+function genOuterBorder(){
+
+ const object=pick(["باغچه","زمین بازی","پارک کوچک","محوطه گل‌کاری"]);
+ const L=randomInt(6,14);
+ const W=randomInt(3,Math.min(9,L-1));
+ const m=randomInt(1,2);
+
+ const correct=frame(`
+  <rect x="58" y="43" width="104" height="58" rx="4"
+   fill="#93dc78" stroke="#31904a" stroke-width="3"/>
+  <rect x="37" y="25" width="146" height="94" rx="5"
+   fill="none" stroke="#8b5cf6" stroke-width="5" stroke-dasharray="8 5"/>
+  ${label(110,74,`${L} × ${W}`)}
+  ${label(110,18,`${m} متر بیرون`,"#6d28d9")}
+ `);
+
+ const inside=frame(`
+  <rect x="38" y="25" width="144" height="92" rx="4"
+   fill="#93dc78" stroke="#31904a" stroke-width="3"/>
+  <rect x="62" y="48" width="96" height="46"
+   fill="none" stroke="#8b5cf6" stroke-width="5" stroke-dasharray="8 5"/>
+  ${label(110,75,`${L} × ${W}`)}
+ `);
+
+ const side=frame(`
+  <rect x="45" y="35" width="115" height="70"
+   fill="#93dc78" stroke="#31904a" stroke-width="3"/>
+  <path d="M160 35 H190 V105 H160"
+   fill="none" stroke="#8b5cf6" stroke-width="5" stroke-dasharray="8 5"/>
+  ${label(102,76,`${L} × ${W}`)}
+ `);
+
+ return{
+  family:"حصار بیرونی",
+  signature:`outer-${object}-${L}-${W}-${m}`,
+  q:`یک ${object} مستطیلی به طول ${faNumber(L)} و عرض ${faNumber(W)} متر داریم. قرار است حصار در فاصله ${faNumber(m)} متریِ بیرونِ هر چهار ضلع کشیده شود. کدام شکل مدل مناسب مسئله است؟`,
+  options:[correct,inside,side],
+  answer:0,
+  exp:`کلمه «بیرونِ هر چهار ضلع» مهم است. شکل مناسب باید یک مستطیل بزرگ‌تر را دور ${object} نشان دهد. رسم شکل کمک می‌کند فراموش نکنیم فاصله در هر بُعد از دو طرف اضافه می‌شود.`
+ };
+}
+
+
+/* =====================================================
+   2) حاشیه داخلی مستطیل
+===================================================== */
+
+function genInnerBorder(){
+
+ const object=pick(["حیاط مدرسه","زمین ورزشی","باغ","محوطه استخر"]);
+ const L=randomInt(9,16);
+ const W=randomInt(7,Math.min(12,L));
+ const m=randomInt(1,2);
+
+ const correct=frame(`
+  <rect x="32" y="25" width="156" height="90"
+   rx="4" fill="#f7d58d" stroke="#ad772f" stroke-width="3"/>
+  <rect x="60" y="47" width="100" height="48"
+   rx="3" fill="#8ed9f3" stroke="#168eb6" stroke-width="4"/>
+  ${label(110,18,`${m} متر از داخل`,"#805500")}
+ `);
+
+ const outer=frame(`
+  <rect x="57" y="43" width="106" height="57"
+   fill="#8ed9f3" stroke="#168eb6" stroke-width="3"/>
+  <rect x="30" y="20" width="160" height="100"
+   fill="none" stroke="#f472b6" stroke-width="5"/>
+ `);
+
+ const noMargin=frame(`
+  <rect x="44" y="35" width="132" height="70"
+   fill="#8ed9f3" stroke="#168eb6" stroke-width="4"/>
+  ${label(110,76,`${L} × ${W}`)}
+ `);
+
+ return{
+  family:"حاشیه داخلی",
+  signature:`inner-${object}-${L}-${W}-${m}`,
+  q:`در یک ${object} مستطیلی ${faNumber(L)} در ${faNumber(W)} متر، نواری به عرض ${faNumber(m)} متر از داخل و دور تا دور محوطه کنار گذاشته شده است. کدام شکل قسمت مرکزی باقی‌مانده را بهتر نشان می‌دهد؟`,
+  options:[correct,outer,noMargin],
+  answer:0,
+  exp:"چون نوار «داخل» شکل قرار دارد، بخش باقی‌مانده باید به صورت یک مستطیل کوچک‌تر درون مستطیل اصلی دیده شود."
+ };
+}
+
+
+/* =====================================================
+   3) توپ و مسیر رفت و برگشت
+===================================================== */
+
+function genBounce(){
+
+ const h=pick([8,12,16,18,20,24]);
+ const divisor=pick([2,4]);
+ const rise=h/divisor;
+
+ const correct=frame(`
+  <line x1="18" y1="119" x2="202" y2="119" stroke="#64748b" stroke-width="4"/>
+  <circle cx="35" cy="23" r="9" fill="#f472b6"/>
+  <path d="M35 32 Q38 80 62 115 Q87 77 110 ${119-rise}
+           Q135 89 155 116"
+   fill="none" stroke="#8b5cf6" stroke-width="5"/>
+  ${label(37,17,`${h}m`)}
+  ${label(105,61,`${rise}m`,"#6d28d9")}
+ `);
+
+ const down=frame(`
+  <line x1="18" y1="119" x2="202" y2="119" stroke="#64748b" stroke-width="4"/>
+  <circle cx="90" cy="23" r="9" fill="#f472b6"/>
+  <path d="M90 32 L90 115" stroke="#8b5cf6" stroke-width="5"/>
+  ${label(110,62,"فقط پایین")}
+ `);
+
+ const floating=frame(`
+  <line x1="18" y1="119" x2="202" y2="119" stroke="#64748b" stroke-width="4"/>
+  <circle cx="30" cy="30" r="9" fill="#f472b6"/>
+  <path d="M38 35 Q105 105 190 30"
+   fill="none" stroke="#8b5cf6" stroke-width="5"/>
+ `);
+
+ return{
+  family:"مسیر توپ",
+  signature:`bounce-${h}-${divisor}`,
+  q:`توپی از ارتفاع ${faNumber(h)} متر رها می‌شود و پس از برخورد با زمین تا ${faNumber(rise)} متر بالا می‌آید. برای پیدا کردن کل مسافت حرکت توپ، کدام شکل اطلاعات لازم را بهتر نمایش می‌دهد؟`,
+  options:[correct,down,floating],
+  answer:0,
+  exp:"در مسافت کل، فقط سقوط اول مهم نیست؛ مسیر بالا آمدن و پایین آمدن‌های بعدی هم باید در شکل دیده شوند."
+ };
+}
+
+
+/* =====================================================
+   4) جهش و سرخوردن
+===================================================== */
+
+function genClimb(){
+
+ const up=randomInt(3,5);
+ const down=randomInt(1,up-1);
+ const wall=randomInt(8,14);
+
+ const zig=frame(`
+  <rect x="184" y="12" width="18" height="112" fill="#a87953"/>
+  <path d="M28 116 L70 75 L53 92 L108 48 L89 65 L168 17"
+   fill="none" stroke="#8b5cf6" stroke-width="5"/>
+  <text x="14" y="119" font-size="26">🐸</text>
+  ${label(112,132,`↑${up}  ↓${down}`,"#6d28d9")}
+ `);
+
+ const straight=frame(`
+  <rect x="184" y="12" width="18" height="112" fill="#a87953"/>
+  <path d="M35 112 L171 18" stroke="#8b5cf6" stroke-width="5"/>
+  <text x="15" y="119" font-size="26">🐸</text>
+ `);
+
+ const curve=frame(`
+  <rect x="184" y="12" width="18" height="112" fill="#a87953"/>
+  <path d="M30 112 Q78 20 122 75 Q155 100 173 18"
+   fill="none" stroke="#8b5cf6" stroke-width="5"/>
+  <text x="12" y="119" font-size="26">🐸</text>
+ `);
+
+ return{
+  family:"جهش و سرخوردن",
+  signature:`climb-${up}-${down}-${wall}`,
+  q:`قورباغه‌ای می‌خواهد از دیوار ${faNumber(wall)} متری بالا برود. در هر جهش ${faNumber(up)} متر بالا می‌رود و سپس ${faNumber(down)} متر سُر می‌خورد. کدام شکل برای دنبال کردن حرکت‌های او مناسب‌تر است؟`,
+  options:[zig,straight,curve],
+  answer:0,
+  exp:"حرکت قورباغه از چند «بالا رفتن و سرخوردن» تشکیل شده است. مدل زیگزاگی/پله‌ای این رفت‌وبرگشت‌ها را جداگانه نشان می‌دهد."
+ };
+}
+
+
+/* =====================================================
+   5) نقاط روی خط
+===================================================== */
+
+function genLinePoints(){
+
+ const a=randomInt(2,5);
+ const b=randomInt(3,6);
+ const c=randomInt(2,5);
+
+ const ordered=frame(`
+  <line x1="20" y1="72" x2="200" y2="72" stroke="#64748b" stroke-width="3"/>
+  <circle cx="35" cy="72" r="7" fill="#38bdf8"/>
+  <circle cx="77" cy="72" r="7" fill="#38bdf8"/>
+  <circle cx="135" cy="72" r="7" fill="#38bdf8"/>
+  <circle cx="183" cy="72" r="7" fill="#38bdf8"/>
+  ${label(35,52,"A")}${label(77,52,"B")}${label(135,52,"C")}${label(183,52,"D")}
+  ${label(56,96,String(a))}${label(106,96,String(b))}${label(159,96,String(c))}
+ `);
+
+ const square=frame(`
+  <rect x="58" y="28" width="100" height="80" fill="none" stroke="#64748b" stroke-width="3"/>
+  <circle cx="58" cy="28" r="7" fill="#38bdf8"/><circle cx="158" cy="28" r="7" fill="#38bdf8"/>
+  <circle cx="58" cy="108" r="7" fill="#38bdf8"/><circle cx="158" cy="108" r="7" fill="#38bdf8"/>
+  ${label(48,21,"A")}${label(168,21,"B")}${label(48,128,"C")}${label(168,128,"D")}
+ `);
+
+ const random=frame(`
+  <circle cx="35" cy="30" r="7" fill="#38bdf8"/>
+  <circle cx="85" cy="105" r="7" fill="#38bdf8"/>
+  <circle cx="145" cy="35" r="7" fill="#38bdf8"/>
+  <circle cx="190" cy="95" r="7" fill="#38bdf8"/>
+  ${label(35,19,"A")}${label(85,127,"B")}${label(145,22,"C")}${label(190,119,"D")}
+ `);
+
+ return{
+  family:"نقاط روی خط",
+  signature:`line-${a}-${b}-${c}`,
+  q:`چهار نقطه A، B، C و D به همین ترتیب روی یک خط قرار دارند. فاصله‌های AB=${faNumber(a)} ، BC=${faNumber(b)} و CD=${faNumber(c)} است. کدام رسم اطلاعات مسئله را درست سازمان‌دهی می‌کند؟`,
+  options:[ordered,square,random],
+  answer:0,
+  exp:"وقتی صورت مسئله صریحاً می‌گوید نقاط «به همین ترتیب روی یک خط» هستند، مدل باید همان ترتیب خطی را حفظ کند."
+ };
+}
+
+
+/* =====================================================
+   6) مکعب و لایه داخلی
+===================================================== */
+
+function genCube(){
+
+ const n=randomInt(3,6);
+
+ const layers=frame(`
+  <rect x="49" y="25" width="120" height="90" fill="#bfdbfe" stroke="#4779a2" stroke-width="3"/>
+  <rect x="76" y="48" width="66" height="44" fill="#fde68a" stroke="#e0a711" stroke-width="3"/>
+  <path d="M49 25 L70 10 H190 L169 25 M169 25 L190 10 V98 L169 115"
+   fill="#dbeafe" stroke="#4779a2" stroke-width="2"/>
+  ${label(108,72,`${n}×${n}×${n}`)}
+ `);
+
+ const single=frame(`
+  <rect x="64" y="28" width="94" height="82" fill="#bfdbfe" stroke="#4779a2" stroke-width="3"/>
+  ${label(111,74,"فقط یک سطح")}
+ `);
+
+ const scattered=frame(`
+  <g fill="#bfdbfe" stroke="#4779a2" stroke-width="2">
+   <rect x="25" y="72" width="30" height="30"/><rect x="67" y="35" width="30" height="30"/>
+   <rect x="110" y="75" width="30" height="30"/><rect x="160" y="35" width="30" height="30"/>
+  </g>
+ `);
+
+ return{
+  family:"لایه‌های مکعب",
+  signature:`cube-${n}`,
+  q:`مکعبی ${faNumber(n)}×${faNumber(n)}×${faNumber(n)} از مکعب‌های واحد ساخته شده است. برای تشخیص مکعب‌هایی که کاملاً داخل مکعب بزرگ قرار دارند، کدام مدل تصویری مفیدتر است؟`,
+  options:[layers,single,scattered],
+  answer:0,
+  exp:"برای یافتن قسمت داخلی باید بتوانیم پوسته بیرونی را از هسته داخلی جدا ببینیم؛ مدل لایه‌ای این رابطه را نشان می‌دهد."
+ };
+}
+
+
+/* =====================================================
+   7) اتصال نقاط
+===================================================== */
+
+function genConnectPoints(){
+
+ const n=randomInt(4,7);
+
+ let points="";
+ const cx=110,cy=70,r=48;
+ const coords=[];
+
+ for(let i=0;i<n;i++){
+  const angle=-Math.PI/2+i*2*Math.PI/n;
+  const x=cx+r*Math.cos(angle);
+  const y=cy+r*Math.sin(angle);
+  coords.push([x,y]);
+  points+=`<circle cx="${x}" cy="${y}" r="6" fill="#f472b6"/>`;
+ }
+
+ let lines="";
+ for(let i=0;i<n;i++){
+  for(let j=i+1;j<n;j++){
+   lines+=`<line x1="${coords[i][0]}" y1="${coords[i][1]}"
+    x2="${coords[j][0]}" y2="${coords[j][1]}"
+    stroke="#8b5cf6" stroke-width="1.7" opacity=".7"/>`;
+  }
+ }
+
+ const all=frame(lines+points);
+
+ const edges=frame(
+  coords.map((p,i)=>{
+   const q=coords[(i+1)%n];
+   return `<line x1="${p[0]}" y1="${p[1]}" x2="${q[0]}" y2="${q[1]}"
+    stroke="#8b5cf6" stroke-width="2.5"/>`;
+  }).join("")+points
+ );
+
+ const random=frame(points);
+
+ return{
+  family:"وصل کردن نقاط",
+  signature:`connect-${n}`,
+  q:`${faNumber(n)} نقطه داریم و می‌خواهیم هر دو نقطه را با یک پاره‌خط به هم وصل کنیم. کدام رسم معنای «هر دو نقطه را به هم وصل کنیم» بهتر نشان می‌دهد؟`,
+  options:[all,edges,random],
+  answer:0,
+  exp:"در مدل درست، از هر نقطه باید به همه نقاط دیگر اتصال وجود داشته باشد، نه فقط به نقاط کناری."
+ };
+}
+
+
+/* =====================================================
+   8) تقسیم شکل
+===================================================== */
+
+function genPartition(){
+
+ const rows=randomInt(2,4);
+ const cols=randomInt(3,5);
+
+ function grid(r,c,highlight){
+  let s=`<rect x="35" y="20" width="150" height="100" fill="#fff" stroke="#64748b" stroke-width="3"/>`;
+  for(let i=1;i<c;i++){
+   const x=35+150*i/c;
+   s+=`<line x1="${x}" y1="20" x2="${x}" y2="120" stroke="#64748b" stroke-width="2"/>`;
+  }
+  for(let i=1;i<r;i++){
+   const y=20+100*i/r;
+   s+=`<line x1="35" y1="${y}" x2="185" y2="${y}" stroke="#64748b" stroke-width="2"/>`;
+  }
+  if(highlight){
+   s+=`<rect x="35" y="20" width="${150/c}" height="${100/r}" fill="#fde68a" opacity=".8"/>`;
+  }
+  return frame(s);
+ }
+
+ return{
+  family:"تقسیم شکل",
+  signature:`partition-${rows}-${cols}`,
+  q:`یک مستطیل قرار است به ${faNumber(rows*cols)} قسمت مساوی در ${faNumber(rows)} ردیف تقسیم شود. برای دیدن تعداد و اندازه قسمت‌ها کدام شکل مناسب‌تر است؟`,
+  options:[
+   grid(rows,cols,true),
+   grid(1,rows*cols,false),
+   grid(rows+1,Math.max(2,cols-1),false)
+  ],
+  answer:0,
+  exp:`چون ${faNumber(rows*cols)} قسمت در ${faNumber(rows)} ردیف می‌خواهیم، باید شبکه‌ای با ${faNumber(rows)} ردیف و ${faNumber(cols)} ستون بسازیم.`
+ };
+}
+
+
+/* =====================================================
+   9) مسیر شکسته
+===================================================== */
+
+function genBrokenPath(){
+
+ const a=randomInt(2,5);
+ const b=randomInt(2,5);
+ const c=randomInt(1,4);
+
+ const broken=frame(`
+  <path d="M30 105 H90 V50 H175"
+   fill="none" stroke="#8b5cf6" stroke-width="6"/>
+  <circle cx="30" cy="105" r="7" fill="#22c55e"/>
+  <circle cx="175" cy="50" r="7" fill="#f472b6"/>
+  ${label(58,125,`${a}`)}${label(102,77,`${b}`)}${label(148,43,`${c}`)}
+ `);
+
+ const straight=frame(`
+  <line x1="30" y1="105" x2="175" y2="50" stroke="#8b5cf6" stroke-width="6"/>
+  <circle cx="30" cy="105" r="7" fill="#22c55e"/>
+  <circle cx="175" cy="50" r="7" fill="#f472b6"/>
+ `);
+
+ const circle=frame(`
+  <circle cx="110" cy="70" r="48" fill="none" stroke="#8b5cf6" stroke-width="6"/>
+  <circle cx="62" cy="70" r="7" fill="#22c55e"/>
+  <circle cx="158" cy="70" r="7" fill="#f472b6"/>
+ `);
+
+ return{
+  family:"مسیر شکسته",
+  signature:`broken-${a}-${b}-${c}`,
+  q:`مسیر حرکت از ${faNumber(a)} متر افقی، سپس ${faNumber(b)} متر عمودی و بعد ${faNumber(c)} متر افقی تشکیل شده است. برای محاسبه طول کل مسیر، کدام رسم مناسب‌تر است؟`,
+  options:[broken,straight,circle],
+  answer:0,
+  exp:"طول مسیر با فاصله مستقیم ابتدا تا انتها فرق دارد. شکل شکسته همه بخش‌هایی را که واقعاً طی شده‌اند جدا نشان می‌دهد."
+ };
+}
+
+
+/* =====================================================
+   10) چیدمان ردیفی اشیا
+===================================================== */
+
+function genRows(){
+
+ const rows=randomInt(2,4);
+ const per=randomInt(3,6);
+
+ function dots(r,c){
+  let out="";
+  const dx=150/Math.max(c,1);
+  const dy=85/Math.max(r,1);
+  for(let i=0;i<r;i++){
+   for(let j=0;j<c;j++){
+    out+=`<circle cx="${38+j*dx}" cy="${35+i*dy}" r="7" fill="#38bdf8"/>`;
+   }
+  }
+  return frame(out);
+ }
+
+ return{
+  family:"چیدمان ردیفی",
+  signature:`rows-${rows}-${per}`,
+  q:`دانش‌آموزان در ${faNumber(rows)} ردیف مساوی ایستاده‌اند و در هر ردیف ${faNumber(per)} نفر هستند. کدام شکل این چیدمان را درست نشان می‌دهد؟`,
+  options:[
+   dots(rows,per),
+   dots(per,rows),
+   dots(1,rows*per)
+  ],
+  answer:0,
+  exp:"رسم آرایه‌ای با تعداد ردیف‌ها و تعداد افراد هر ردیف، ساختار مسئله را مستقیم و بدون ابهام نشان می‌دهد."
+ };
+}
+
+
+/* =====================================================
+   11) محیط شکل
+===================================================== */
+
+function genPerimeterModel(){
+
+ const L=randomInt(6,12);
+ const W=randomInt(3,7);
+
+ const perimeter=frame(`
+  <rect x="45" y="33" width="130" height="72" fill="#d9f99d"
+   stroke="#8b5cf6" stroke-width="6"/>
+  ${label(110,128,`${L}`)}
+  <text x="30" y="73" font-size="12" font-family="Tahoma" fill="#334155">${W}</text>
+ `);
+
+ const diagonal=frame(`
+  <rect x="45" y="33" width="130" height="72" fill="#d9f99d"
+   stroke="#64748b" stroke-width="3"/>
+  <line x1="45" y1="33" x2="175" y2="105" stroke="#f472b6" stroke-width="5"/>
+ `);
+
+ const area=frame(`
+  <rect x="45" y="33" width="130" height="72" fill="#fde68a"
+   stroke="#64748b" stroke-width="3"/>
+  <text x="110" y="74" text-anchor="middle" font-size="15">داخل شکل</text>
+ `);
+
+ return{
+  family:"محیط مستطیل",
+  signature:`perimeter-${L}-${W}`,
+  q:`یک زمین مستطیلی ${faNumber(L)} در ${faNumber(W)} متر است و می‌خواهیم مقدار نوار لازم برای دور تا دور زمین را پیدا کنیم. کدام رسم بیشتر به حل مسئله کمک می‌کند؟`,
+  options:[perimeter,diagonal,area],
+  answer:0,
+  exp:"وقتی «دور تا دور» خواسته شده، باید مرز چهار ضلع را در شکل برجسته کنیم؛ این مدل مستقیماً ما را به محیط هدایت می‌کند."
+ };
+}
+
+
+/* =====================================================
+   12) وسط پاره‌خط
+===================================================== */
+
+function genMidpoint(){
+
+ const total=pick([8,10,12,14,16]);
+
+ const correct=frame(`
+  <line x1="30" y1="70" x2="190" y2="70" stroke="#64748b" stroke-width="4"/>
+  <circle cx="30" cy="70" r="7" fill="#38bdf8"/>
+  <circle cx="110" cy="70" r="8" fill="#fbbf24"/>
+  <circle cx="190" cy="70" r="7" fill="#38bdf8"/>
+  ${label(30,50,"A")}${label(110,50,"M")}${label(190,50,"B")}
+  ${label(110,101,`${total/2} + ${total/2}`)}
+ `);
+
+ const off=frame(`
+  <line x1="30" y1="70" x2="190" y2="70" stroke="#64748b" stroke-width="4"/>
+  <circle cx="30" cy="70" r="7" fill="#38bdf8"/>
+  <circle cx="75" cy="70" r="8" fill="#fbbf24"/>
+  <circle cx="190" cy="70" r="7" fill="#38bdf8"/>
+  ${label(30,50,"A")}${label(75,50,"M")}${label(190,50,"B")}
+ `);
+
+ const triangle=frame(`
+  <polygon points="110,20 35,112 185,112" fill="none" stroke="#8b5cf6" stroke-width="4"/>
+  <circle cx="110" cy="20" r="7" fill="#fbbf24"/>
+ `);
+
+ return{
+  family:"وسط پاره‌خط",
+  signature:`midpoint-${total}`,
+  q:`پاره‌خط AB طول ${faNumber(total)} واحد دارد و M وسط آن است. کدام رسم مفهوم «وسط پاره‌خط» را درست نشان می‌دهد؟`,
+  options:[correct,off,triangle],
+  answer:0,
+  exp:"وسط پاره‌خط یعنی M روی همان پاره‌خط باشد و فاصله‌اش از دو سر پاره‌خط برابر باشد."
+ };
+}
+
+
+/* =====================================================
+   خانواده‌های سؤال
+   در هر دور حداکثر یک سؤال از هر خانواده
+===================================================== */
+
+const GENERATORS=[
+ genOuterBorder,
+ genInnerBorder,
+ genBounce,
+ genClimb,
+ genLinePoints,
+ genCube,
+ genConnectPoints,
+ genPartition,
+ genBrokenPath,
+ genRows,
+ genPerimeterModel,
+ genMidpoint
 ];
 
 
 /* =====================================================
-   وضعیت
+   تولید 10 سؤال غیرهم‌تیپ
+===================================================== */
+
+function generateRound(){
+
+ const recent=new Set(loadHistory());
+
+ /*
+   10 خانواده متفاوت از 12 خانواده انتخاب می‌شوند.
+   بنابراین در یک دور هیچ خانواده مفهومی تکرار نمی‌شود.
+ */
+ const chosenGenerators=shuffle(GENERATORS).slice(0,TOTAL_QUESTIONS);
+
+ const generated=[];
+
+ for(const generator of chosenGenerators){
+
+  let candidate=null;
+
+  /*
+    چند بار تلاش می‌کنیم ترکیبی بسازیم که
+    اخیراً روی همین دستگاه دیده نشده باشد.
+  */
+  for(let attempt=0;attempt<30;attempt++){
+
+   const q=generator();
+
+   if(!recent.has(q.signature)){
+    candidate=q;
+    break;
+   }
+
+   candidate=q;
+  }
+
+  generated.push(candidate);
+  recent.add(candidate.signature);
+ }
+
+ /*
+   گزینه‌های تصویری هر سؤال مستقل Shuffle می‌شوند.
+ */
+ questions=shuffle(generated).map(q=>{
+
+  const options=q.options.map((svg,index)=>({
+   svg,
+   correct:index===q.answer
+  }));
+
+  const mixed=shuffle(options);
+
+  return{
+   ...q,
+   mixed,
+   correctIndex:mixed.findIndex(x=>x.correct)
+  };
+ });
+
+ saveHistory(generated.map(x=>x.signature));
+}
+
+
+/* =====================================================
+   وضعیت بازی
 ===================================================== */
 
 let questions=[];
@@ -735,6 +1073,7 @@ const timerNumberEl=$("timerNumber");
 const timerBarEl=$("timerBar");
 const treasureProgressEl=$("treasureProgress");
 const levelLabelEl=$("levelLabel");
+const familyLabelEl=$("familyLabel");
 const problemTextEl=$("problemText");
 const picturesEl=$("pictures");
 const feedbackEl=$("feedback");
@@ -750,75 +1089,44 @@ const leaderboardContent=$("leaderboardContent");
 const restartButton=$("restartButton");
 
 
-/* ابزار */
-
-function faNumber(v){
- return String(v).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
-}
-
-function shuffle(a){
- const x=[...a];
- for(let i=x.length-1;i>0;i--){
-  const j=Math.floor(Math.random()*(i+1));
-  [x[i],x[j]]=[x[j],x[i]];
- }
- return x;
-}
-
-function pointsForTime(s){
- if(s<=5)return 10;
- if(s<=10)return 8;
- if(s<=15)return 6;
- if(s<=20)return 4;
- if(s<=30)return 2;
- return 0;
-}
-
-
-/* آماده‌سازی سؤال با جابه‌جایی تصاویر */
-
-function prepareQuestions(){
-
- questions=shuffle(BANK).slice(0,TOTAL_QUESTIONS).map(q=>{
-
-  const items=q.pics.map((make,i)=>({
-   make,
-   correct:i===q.answer
-  }));
-
-  const mixed=shuffle(items);
-
-  return{
-   ...q,
-   mixed,
-   correctIndex:mixed.findIndex(x=>x.correct)
-  };
- });
-}
-
-
-/* نقشه گنج */
+/* =====================================================
+   نقشه پیشرفت
+===================================================== */
 
 function buildTreasureProgress(){
+
  treasureProgressEl.innerHTML="";
+
  for(let i=0;i<TOTAL_QUESTIONS;i++){
-  const p=document.createElement("div");
-  p.className="piece";
-  p.textContent="🧩";
-  treasureProgressEl.appendChild(p);
+
+  const piece=document.createElement("div");
+
+  piece.className="piece";
+  piece.textContent="🧩";
+
+  treasureProgressEl.appendChild(piece);
  }
 }
 
 function updateTreasure(){
- [...treasureProgressEl.children].forEach((p,i)=>{
-  p.classList.toggle("found",i<currentIndex);
+
+ [...treasureProgressEl.children].forEach((piece,index)=>{
+
+  piece.classList.toggle(
+   "found",
+   index<currentIndex
+  );
+
  });
 }
 
 
-/* تایمر */
+/* =====================================================
+   تایمر
+===================================================== */
 
 function stopTimer(){
+
  if(timerInterval){
   clearInterval(timerInterval);
   timerInterval=null;
@@ -826,124 +1134,179 @@ function stopTimer(){
 }
 
 function startTimer(){
+
  stopTimer();
+
  questionStartTime=Date.now();
+
  timerNumberEl.textContent=faNumber(QUESTION_TIME);
  timeStatusEl.textContent=faNumber(QUESTION_TIME)+" ثانیه";
+
  timerBarEl.style.width="100%";
  timerBarEl.style.background="var(--green)";
  timerNumberEl.style.color="var(--green)";
+
  timerInterval=setInterval(updateTimer,100);
 }
 
 function updateTimer(){
 
  if(answerChecked||gameFinished){
-  stopTimer();return;
+  stopTimer();
+  return;
  }
 
  const elapsed=(Date.now()-questionStartTime)/1000;
- const remaining=Math.max(0,QUESTION_TIME-elapsed);
- const s=Math.ceil(remaining);
 
- timerNumberEl.textContent=faNumber(s);
- timeStatusEl.textContent=faNumber(s)+" ثانیه";
- timerBarEl.style.width=(remaining/QUESTION_TIME*100)+"%";
+ const remaining=Math.max(
+  0,
+  QUESTION_TIME-elapsed
+ );
+
+ const seconds=Math.ceil(remaining);
+
+ timerNumberEl.textContent=faNumber(seconds);
+ timeStatusEl.textContent=faNumber(seconds)+" ثانیه";
+
+ timerBarEl.style.width=
+  (remaining/QUESTION_TIME*100)+"%";
 
  if(remaining>15){
+
   timerBarEl.style.background="var(--green)";
   timerNumberEl.style.color="var(--green)";
+
  }else if(remaining>7){
+
   timerBarEl.style.background="var(--yellow)";
   timerNumberEl.style.color="#ad7700";
+
  }else{
+
   timerBarEl.style.background="var(--red)";
   timerNumberEl.style.color="var(--red)";
  }
 
- if(remaining<=0) timeout();
+ if(remaining<=0){
+  handleTimeout();
+ }
 }
 
 
-/* نمایش مرحله */
+/* =====================================================
+   نمایش سؤال
+===================================================== */
 
 function showQuestion(){
 
  stopTimer();
+
  answerChecked=false;
+
  updateTreasure();
 
  const q=questions[currentIndex];
 
  questionNumberEl.textContent=
-  faNumber(currentIndex+1)+" از "+faNumber(TOTAL_QUESTIONS);
+  faNumber(currentIndex+1)+
+  " از "+
+  faNumber(TOTAL_QUESTIONS);
 
  scoreEl.textContent=faNumber(score);
 
- levelLabelEl.textContent="🧩 تکه نقشه "+faNumber(currentIndex+1);
+ levelLabelEl.textContent=
+  "🧩 تکه نقشه "+
+  faNumber(currentIndex+1);
+
+ familyLabelEl.textContent=
+  "🎯 "+q.family;
+
  problemTextEl.textContent=q.q;
 
  feedbackEl.className="feedback";
  feedbackTitleEl.textContent="";
  feedbackTextEl.textContent="";
+
  nextButton.classList.remove("show");
 
  nextButton.textContent=
   currentIndex===TOTAL_QUESTIONS-1
-  ?"باز کردن صندوق گنج 💎"
-  :"تکه بعدی نقشه 🧩";
+  ? "باز کردن صندوق گنج 💎"
+  : "تکه بعدی نقشه 🧩";
 
  picturesEl.innerHTML="";
 
  q.mixed.forEach((item,index)=>{
 
-  const btn=document.createElement("button");
-  btn.type="button";
-  btn.className="picture";
+  const button=document.createElement("button");
+
+  button.type="button";
+  button.className="picture";
 
   const number=document.createElement("span");
+
   number.className="pic-number";
   number.textContent=faNumber(index+1);
 
   const scene=document.createElement("div");
+
   scene.className="scene";
-  scene.innerHTML=item.make();
+  scene.innerHTML=item.svg;
 
-  btn.appendChild(number);
-  btn.appendChild(scene);
+  button.appendChild(number);
+  button.appendChild(scene);
 
-  btn.addEventListener("click",()=>checkAnswer(index,btn));
+  button.addEventListener(
+   "click",
+   ()=>checkAnswer(index,button)
+  );
 
-  picturesEl.appendChild(btn);
+  picturesEl.appendChild(button);
  });
 
  startTimer();
 }
 
 
-/* جواب */
+/* =====================================================
+   کنترل پاسخ
+===================================================== */
 
 function lockPictures(){
- [...picturesEl.querySelectorAll(".picture")].forEach(x=>x.disabled=true);
+
+ [...picturesEl.querySelectorAll(".picture")]
+  .forEach(button=>{
+   button.disabled=true;
+  });
 }
 
 function showCorrect(){
- const buttons=[...picturesEl.querySelectorAll(".picture")];
- const i=questions[currentIndex].correctIndex;
- if(buttons[i])buttons[i].classList.add("correct");
+
+ const buttons=[
+  ...picturesEl.querySelectorAll(".picture")
+ ];
+
+ const index=questions[currentIndex].correctIndex;
+
+ if(buttons[index]){
+  buttons[index].classList.add("correct");
+ }
 }
 
-function checkAnswer(index,btn){
+function checkAnswer(index,button){
 
  if(answerChecked||gameFinished)return;
 
- const elapsed=(Date.now()-questionStartTime)/1000;
+ const elapsed=
+  (Date.now()-questionStartTime)/1000;
 
  if(elapsed>=QUESTION_TIME){
-  timeout();return;
+  handleTimeout();
+  return;
  }
 
  answerChecked=true;
+
  stopTimer();
  lockPictures();
 
@@ -952,190 +1315,312 @@ function checkAnswer(index,btn){
  if(index===q.correctIndex){
 
   const earned=pointsForTime(elapsed);
-  score=Math.min(100,score+earned);
 
-  btn.classList.add("correct");
+  score=Math.min(
+   100,
+   score+earned
+  );
 
-  feedbackEl.className="feedback success show";
-  feedbackTitleEl.textContent="✅ تصویر درست شکار شد! +"+faNumber(earned)+" امتیاز";
+  button.classList.add("correct");
+
+  feedbackEl.className=
+   "feedback success show";
+
+  feedbackTitleEl.textContent=
+   "✅ تصویر درست شکار شد! +"+
+   faNumber(earned)+
+   " امتیاز";
+
   feedbackTextEl.textContent=q.exp;
 
-  celebrate(btn);
+  celebrate(button);
 
  }else{
 
-  btn.classList.add("wrong");
+  button.classList.add("wrong");
+
   showCorrect();
 
-  feedbackEl.className="feedback error show";
-  feedbackTitleEl.textContent="❌ این شکل مسئله را درست نشان نمی‌دهد.";
-  feedbackTextEl.textContent="تصویر درست با رنگ سبز مشخص شد. "+q.exp;
+  feedbackEl.className=
+   "feedback error show";
+
+  feedbackTitleEl.textContent=
+   "❌ این تصویر مدل مناسبی نیست.";
+
+  feedbackTextEl.textContent=
+   "تصویر درست با رنگ سبز مشخص شد. "+
+   q.exp;
  }
 
  scoreEl.textContent=faNumber(score);
+
  nextButton.classList.add("show");
 }
 
 
-/* پایان زمان */
+/* =====================================================
+   اتمام زمان
+===================================================== */
 
-function timeout(){
+function handleTimeout(){
 
  if(answerChecked||gameFinished)return;
 
  answerChecked=true;
+
  stopTimer();
  lockPictures();
  showCorrect();
 
  timerNumberEl.textContent="۰";
  timeStatusEl.textContent="۰ ثانیه";
+
  timerBarEl.style.width="0%";
  timerBarEl.style.background="var(--red)";
 
  const q=questions[currentIndex];
 
- feedbackEl.className="feedback timeout show";
- feedbackTitleEl.textContent="⏰ زمان تمام شد! ۰ امتیاز";
- feedbackTextEl.textContent="تصویر صحیح با رنگ سبز مشخص شد. "+q.exp;
+ feedbackEl.className=
+  "feedback timeout show";
+
+ feedbackTitleEl.textContent=
+  "⏰ زمان تمام شد! ۰ امتیاز";
+
+ feedbackTextEl.textContent=
+  "تصویر صحیح با رنگ سبز مشخص شد. "+
+  q.exp;
 
  nextButton.classList.add("show");
 }
 
 
-/* جشن */
+/* =====================================================
+   جشن
+===================================================== */
 
-function celebrate(el){
+function celebrate(element){
 
- const r=el.getBoundingClientRect();
+ const rect=element.getBoundingClientRect();
+
  const icons=["✨","⭐","🧩","🎉"];
 
  for(let i=0;i<10;i++){
 
-  const s=document.createElement("span");
-  s.className="spark";
-  s.textContent=icons[Math.floor(Math.random()*icons.length)];
+  const spark=document.createElement("span");
 
-  s.style.left=(r.left+r.width/2)+"px";
-  s.style.top=(r.top+r.height/2)+"px";
-  s.style.setProperty("--x",(Math.random()*170-85)+"px");
-  s.style.setProperty("--y",(-30-Math.random()*120)+"px");
+  spark.className="spark";
 
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),850);
+  spark.textContent=
+   icons[Math.floor(Math.random()*icons.length)];
+
+  spark.style.left=
+   (rect.left+rect.width/2)+"px";
+
+  spark.style.top=
+   (rect.top+rect.height/2)+"px";
+
+  spark.style.setProperty(
+   "--x",
+   (Math.random()*170-85)+"px"
+  );
+
+  spark.style.setProperty(
+   "--y",
+   (-30-Math.random()*120)+"px"
+  );
+
+  document.body.appendChild(spark);
+
+  setTimeout(()=>spark.remove(),850);
  }
 }
 
 
-/* مرحله بعد */
+/* =====================================================
+   مرحله بعد
+===================================================== */
 
 nextButton.addEventListener("click",()=>{
 
  if(!answerChecked)return;
 
  if(currentIndex<TOTAL_QUESTIONS-1){
+
   currentIndex++;
+
   showQuestion();
-  window.scrollTo({top:0,behavior:"smooth"});
+
+  window.scrollTo({
+   top:0,
+   behavior:"smooth"
+  });
+
  }else{
+
   finishGame();
  }
 });
 
 
-/* پایان بازی */
+/* =====================================================
+   پایان بازی
+===================================================== */
 
 async function finishGame(){
 
  if(gameFinished)return;
 
  gameFinished=true;
+
  stopTimer();
 
- [...treasureProgressEl.children].forEach(x=>x.classList.add("found"));
+ [...treasureProgressEl.children]
+  .forEach(x=>x.classList.add("found"));
 
  gameScreen.style.display="none";
+
  resultScreen.classList.add("show");
 
- const name=player&&player.playerName?player.playerName:"بازیکن";
+ const name=
+  player&&player.playerName
+  ?player.playerName
+  :"بازیکن";
 
  resultNameEl.textContent=name;
  finalScoreEl.textContent=faNumber(score);
 
  if(score>=90){
-  motivationEl.textContent="عالی بود! 🌟 چشم مهندسی فوق‌العاده‌ای داری!";
+
+  motivationEl.textContent=
+   "عالی بود! 🌟 چشم مهندسی فوق‌العاده‌ای داری!";
+
  }else if(score>=70){
-  motivationEl.textContent="خیلی خوب بود 👏 شکل مناسب را خوب تشخیص می‌دهی!";
+
+  motivationEl.textContent=
+   "خیلی خوب بود 👏 شکل مناسب را خوب تشخیص می‌دهی!";
+
  }else if(score>=50){
-  motivationEl.textContent="خوب بود 💪 کمی بیشتر شکل بکش تا حرفه‌ای‌تر شوی!";
+
+  motivationEl.textContent=
+   "خوب بود 💪 کمی بیشتر مسئله‌ها را با شکل مدل کن!";
+
  }else{
-  motivationEl.textContent="یک شکار دیگر برو 🌱 این بار قبل از انتخاب، مسئله را در ذهنت نقاشی کن!";
+
+  motivationEl.textContent=
+   "دوباره شکار کن 🌱 این بار قبل از انتخاب، مسئله را در ذهنت نقاشی کن!";
  }
 
- leaderboardContent.innerHTML='<div class="loading">در حال ثبت نتیجه و دریافت جدول برترین‌ها...</div>';
+ leaderboardContent.innerHTML=
+  '<div class="loading">در حال ثبت نتیجه و دریافت جدول برترین‌ها...</div>';
 
  try{
+
   if(!finishSubmitted){
+
    finishSubmitted=true;
+
    await GameSDK.finishGame(score);
   }
- }catch(e){
-  console.error("finishGame error:",e);
+
+ }catch(error){
+
+  console.error(
+   "finishGame error:",
+   error
+  );
  }
 
  await loadLeaderboard();
 }
 
 
-/* leaderboard */
+/* =====================================================
+   جدول برترین‌ها
+===================================================== */
 
 async function loadLeaderboard(){
 
  try{
 
-  const scores=await GameSDK.getLeaderboard(10);
+  const scores=
+   await GameSDK.getLeaderboard(10);
+
   leaderboardContent.innerHTML="";
 
-  if(!Array.isArray(scores)||!scores.length){
-   leaderboardContent.innerHTML='<div class="loading">هنوز رکوردی ثبت نشده است.</div>';
+  if(
+   !Array.isArray(scores) ||
+   scores.length===0
+  ){
+
+   leaderboardContent.innerHTML=
+    '<div class="loading">هنوز رکوردی ثبت نشده است.</div>';
+
    return;
   }
 
-  scores.forEach((item,i)=>{
+  scores.forEach((item,index)=>{
 
-   const row=document.createElement("div");
+   const row=
+    document.createElement("div");
+
    row.className="rank-row";
 
-   const rank=i===0?"🥇":i===1?"🥈":i===2?"🥉":faNumber(i+1)+".";
+   let rank;
 
-   const name=item.playerName??item.player_name??item.name??"بازیکن";
-   const value=item.score??0;
+   if(index===0)rank="🥇";
+   else if(index===1)rank="🥈";
+   else if(index===2)rank="🥉";
+   else rank=faNumber(index+1)+".";
 
-   const n=document.createElement("span");
-   n.className="rank-name";
-   n.textContent=rank+" "+name;
+   const name=
+    item.playerName ??
+    item.player_name ??
+    item.name ??
+    "بازیکن";
 
-   const sc=document.createElement("span");
-   sc.className="rank-score";
-   sc.textContent=faNumber(value)+" امتیاز";
+   const value=
+    item.score ?? 0;
 
-   row.appendChild(n);
-   row.appendChild(sc);
+   const nameEl=
+    document.createElement("span");
+
+   nameEl.className="rank-name";
+   nameEl.textContent=rank+" "+name;
+
+   const valueEl=
+    document.createElement("span");
+
+   valueEl.className="rank-score";
+   valueEl.textContent=
+    faNumber(value)+" امتیاز";
+
+   row.appendChild(nameEl);
+   row.appendChild(valueEl);
+
    leaderboardContent.appendChild(row);
   });
 
- }catch(e){
-  console.error("leaderboard error:",e);
-  leaderboardContent.innerHTML='<div class="loading">دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.</div>';
+ }catch(error){
+
+  console.error(
+   "leaderboard error:",
+   error
+  );
+
+  leaderboardContent.innerHTML=
+   '<div class="loading">دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.</div>';
  }
 }
 
 
-/* بازی دوباره */
+/* =====================================================
+   بازی دوباره
+===================================================== */
 
 restartButton.addEventListener("click",()=>{
 
  stopTimer();
+
  GameSDK.reset();
 
  score=0;
@@ -1146,22 +1631,40 @@ restartButton.addEventListener("click",()=>{
  finishSubmitted=false;
 
  resultScreen.classList.remove("show");
+
  gameScreen.style.display="block";
+
  leaderboardContent.innerHTML="";
 
- prepareQuestions();
+ /*
+   نکته مهم:
+   اینجا سؤال‌ها دوباره از Generator ساخته می‌شوند،
+   نه اینکه همان آرایه قبلی Shuffle شود.
+ */
+ generateRound();
+
  buildTreasureProgress();
+
  showQuestion();
 
- window.scrollTo({top:0,behavior:"smooth"});
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ });
 });
 
 
-/* شروع */
+/* =====================================================
+   شروع
+===================================================== */
 
 function startGame(){
 
- const name=player&&player.playerName?player.playerName:"بازیکن";
+ const name=
+  player&&player.playerName
+  ?player.playerName
+  :"بازیکن";
+
  playerNameEl.textContent=name;
 
  score=0;
@@ -1170,13 +1673,16 @@ function startGame(){
  gameFinished=false;
  finishSubmitted=false;
 
- prepareQuestions();
+ generateRound();
+
  buildTreasureProgress();
+
  showQuestion();
 }
 
 startGame();
 
 </script>
+
 </body>
 </html>
