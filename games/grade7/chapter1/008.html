@@ -1,0 +1,3241 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>شبیه‌ساز کوچک | راهبرد حل مسئله ساده‌تر</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+ --purple:#8b5cf6;--purple2:#6d28d9;
+ --blue:#38bdf8;--blue2:#0284c7;
+ --pink:#f472b6;--yellow:#fbbf24;
+ --orange:#fb923c;--green:#22c55e;
+ --red:#fb7185;--text:#293449;--muted:#64748b
+}
+
+html{color-scheme:light only;-webkit-text-size-adjust:100%}
+
+body{
+ margin:0;min-height:100vh;direction:rtl;
+ font-family:Tahoma,Arial,sans-serif;color:var(--text);
+ overflow-x:hidden;
+ background:
+ radial-gradient(circle at 8% 5%,#fbcfe855,transparent 24%),
+ radial-gradient(circle at 92% 7%,#7dd3fc66,transparent 25%),
+ radial-gradient(circle at 82% 94%,#fde68a55,transparent 25%),
+ linear-gradient(150deg,#fff7fd,#effcff 53%,#fff9df)
+}
+
+button,a{font-family:inherit}
+button{touch-action:manipulation}
+
+.app{width:min(100%,950px);margin:auto;padding:10px}
+
+/* HEADER */
+
+.hero{text-align:center;padding:7px 4px 13px}
+
+.badge{
+ display:inline-block;padding:6px 14px;border-radius:999px;
+ background:linear-gradient(90deg,#fef3c7,#fce7f3);
+ border:1px solid #f1cc5d;color:#825900;
+ font-size:12px;font-weight:bold
+}
+
+.hero h1{
+ margin:9px 0 4px;font-size:clamp(29px,7vw,43px);
+ background:linear-gradient(90deg,var(--purple),var(--blue2),var(--pink));
+ color:transparent;background-clip:text;-webkit-background-clip:text
+}
+
+.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.8}
+
+/* PANEL */
+
+.panel{
+ background:#fffffff7;border-radius:25px;overflow:hidden;
+ box-shadow:0 16px 42px #6d28d91c
+}
+
+/* STATUS */
+
+.status{
+ display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px;
+ background:linear-gradient(90deg,#f5f3ff,#ecfeff,#fff7ed,#fdf2f8)
+}
+
+.stat{
+ min-width:0;background:#fff;text-align:center;padding:8px 4px;
+ border-radius:13px;box-shadow:0 2px 7px #0000000a
+}
+
+.stat:nth-child(1){border-bottom:4px solid var(--purple)}
+.stat:nth-child(2){border-bottom:4px solid var(--blue)}
+.stat:nth-child(3){border-bottom:4px solid var(--yellow)}
+.stat:nth-child(4){border-bottom:4px solid var(--pink)}
+
+.stat small{display:block;color:var(--muted);font-size:10px}
+
+.stat strong{
+ display:block;margin-top:2px;color:#544274;font-size:14px;
+ overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+}
+
+.content{padding:14px}
+
+/* PROGRESS */
+
+.progress{
+ display:grid;grid-template-columns:repeat(10,1fr);
+ gap:5px;margin-bottom:13px
+}
+
+.progress-item{
+ height:21px;border-radius:999px;
+ background:#e5e7eb;border:2px solid #d1d5db
+}
+
+.progress-item.done{background:#bbf7d0;border-color:#22c55e}
+
+.progress-item.current{
+ background:#fde68a;border-color:#f59e0b;
+ box-shadow:0 0 8px #fbbf2466
+}
+
+/* TIMER */
+
+.timer-head{
+ display:flex;justify-content:space-between;align-items:center;
+ font-size:13px;font-weight:bold;margin-bottom:6px
+}
+
+#timerNumber{font-size:20px;color:var(--green)}
+
+.timer-track{
+ height:13px;padding:2px;background:#e7e9f2;
+ border-radius:999px;overflow:hidden;margin-bottom:13px
+}
+
+.timer-bar{
+ width:100%;height:100%;border-radius:999px;
+ background:var(--green);
+ transition:width .1s linear,background .2s
+}
+
+/* QUESTION */
+
+.labels{
+ display:flex;flex-wrap:wrap;gap:6px;margin-bottom:7px
+}
+
+.mission-label,.family-label{
+ padding:5px 11px;border-radius:999px;font-size:11px;font-weight:bold
+}
+
+.mission-label{background:#eee9ff;color:#6835bd}
+.family-label{background:#e0f7ff;color:#087aa8}
+
+.problem{
+ margin:8px 0;padding:13px 15px;background:#fff8dd;
+ border:2px solid #f3d36d;border-radius:16px;text-align:center;
+ font-size:clamp(15px,4vw,19px);font-weight:bold;line-height:1.9
+}
+
+/* MAIN TARGET */
+
+.big-target{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:9px;margin:9px 0;padding:10px 12px;
+ background:linear-gradient(90deg,#f3e8ff,#e0f2fe);
+ border:2px solid #c4b5fd;border-radius:15px
+}
+
+.big-target-text{
+ font-size:11px;color:#5b4b78;font-weight:bold;line-height:1.7
+}
+
+.big-target-number{
+ min-width:68px;padding:8px;border-radius:12px;
+ background:#fff;color:#6d28d9;text-align:center;
+ font-size:17px;font-weight:bold
+}
+
+/* SIMULATOR */
+
+.simulator{
+ padding:11px;background:linear-gradient(145deg,#f8f7ff,#eefbff);
+ border:2px solid #ddd8ee;border-radius:19px
+}
+
+.sim-title{
+ text-align:center;color:#554276;font-size:13px;font-weight:bold
+}
+
+.sim-help{
+ text-align:center;color:var(--muted);font-size:10px;
+ line-height:1.7;margin:4px 0 9px
+}
+
+.size-control{
+ direction:ltr;display:flex;align-items:center;
+ justify-content:center;gap:8px;margin-bottom:9px
+}
+
+.size-button{
+ width:43px;height:43px;border:0;border-radius:11px;
+ background:linear-gradient(145deg,var(--purple),var(--blue2));
+ color:#fff;font-size:21px;font-weight:bold;cursor:pointer
+}
+
+.size-button:disabled{opacity:.4;cursor:default}
+
+.size-display{
+ min-width:125px;padding:9px;
+ background:#fff;border:3px solid #c4b5fd;
+ border-radius:12px;text-align:center;
+ color:#6d28d9;font-size:13px;font-weight:bold
+}
+
+/* VISUAL */
+
+.sim-stage{
+ position:relative;min-height:205px;padding:8px;
+ overflow:hidden;background:#fff;border:2px solid #dce5ea;
+ border-radius:15px
+}
+
+.stage-caption{
+ position:absolute;z-index:10;top:6px;right:8px;
+ padding:4px 8px;border-radius:999px;
+ background:#f1f5f9;color:#64748b;
+ font-size:9px;font-weight:bold
+}
+
+.svg-stage{
+ width:100%;height:180px;display:block
+}
+
+.simple-stage{
+ min-height:180px;display:flex;flex-direction:column;
+ align-items:center;justify-content:center;gap:10px;text-align:center
+}
+
+.visual-row{
+ direction:ltr;display:flex;align-items:center;
+ justify-content:center;flex-wrap:wrap;gap:6px
+}
+
+.visual-item{
+ min-width:39px;min-height:39px;padding:6px;
+ display:flex;align-items:center;justify-content:center;
+ border-radius:10px;background:#f8fafc;
+ border:2px solid #dbe4ea;font-size:21px;font-weight:bold
+}
+
+.math-display{
+ direction:ltr;padding:12px 15px;border-radius:13px;
+ background:#f5f3ff;color:#6d28d9;
+ font-size:clamp(17px,5vw,25px);font-weight:bold;
+ overflow-wrap:anywhere
+}
+
+.sim-result{
+ margin-top:8px;padding:9px;text-align:center;
+ border-radius:12px;background:#fff8dd;
+ border:2px solid #f3d36d;
+ color:#755b07;font-size:12px;font-weight:bold
+}
+
+.record{
+ width:100%;margin-top:9px;padding:12px;border:0;border-radius:13px;
+ background:linear-gradient(90deg,var(--orange),var(--yellow));
+ color:#674500;font-size:14px;font-weight:bold;cursor:pointer
+}
+
+.record:disabled{opacity:.5;cursor:default}
+
+/* NOTEBOOK */
+
+.notebook{
+ margin-top:10px;border:2px solid #dce5ea;
+ border-radius:15px;background:#fff;overflow:hidden
+}
+
+.notebook-head{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:7px;padding:8px 10px;background:#f8fafc;
+ font-size:10px;font-weight:bold
+}
+
+.notebook-status{
+ padding:3px 8px;background:#ede9fe;color:#6d28d9;border-radius:999px
+}
+
+.notebook-row{
+ direction:ltr;display:grid;grid-template-columns:1fr 1fr;
+ border-top:1px dashed #dce5ea;text-align:center;font-size:11px
+}
+
+.notebook-row span{padding:7px}
+
+.notebook-row.header{
+ background:#f0f9ff;color:#536273;font-weight:bold
+}
+
+.notebook-empty{
+ text-align:center;padding:10px;color:#94a3b8;font-size:10px
+}
+
+/* DISCOVERY */
+
+.discovery{
+ margin-top:10px;padding:10px;border:2px solid #ddd8ee;
+ border-radius:16px;background:#faf8ff
+}
+
+.discovery-title{
+ text-align:center;color:#554276;font-size:12px;font-weight:bold
+}
+
+.discovery-help{
+ text-align:center;color:#64748b;font-size:10px;
+ margin:4px 0 8px;line-height:1.7
+}
+
+.rule-options{
+ display:grid;grid-template-columns:1fr 1fr;gap:6px
+}
+
+.rule-button{
+ min-height:48px;padding:7px;border:2px solid #d5caef;
+ border-radius:11px;background:#fff;color:#534174;
+ font-size:10px;font-weight:bold;line-height:1.55;cursor:pointer
+}
+
+.rule-button.selected{
+ border-color:#8b5cf6;background:#ede9fe;color:#6d28d9
+}
+
+.rule-button:disabled{opacity:.65;cursor:default}
+
+/* FINAL ANSWER */
+
+.final-answer-box{
+ margin-top:10px;padding:10px;background:#fffaf0;
+ border:2px solid #f3d36d;border-radius:16px
+}
+
+.final-answer-title{
+ text-align:center;color:#725b0b;font-size:11px;
+ font-weight:bold;margin-bottom:7px
+}
+
+.answer-options{
+ display:grid;grid-template-columns:repeat(4,1fr);gap:6px
+}
+
+.answer-btn{
+ min-height:43px;padding:6px;border:2px solid #e1d9c2;
+ background:#fff;border-radius:11px;color:#5c5340;
+ font-size:12px;font-weight:bold;cursor:pointer
+}
+
+.answer-btn.selected{
+ border-color:#f59e0b;background:#fef3c7;color:#835c00
+}
+
+.solve-main{
+ width:100%;margin-top:9px;padding:13px;border:0;border-radius:13px;
+ background:linear-gradient(90deg,var(--purple),var(--blue2));
+ color:#fff;font-size:15px;font-weight:bold;cursor:pointer
+}
+
+.solve-main:disabled{opacity:.5;cursor:default}
+
+/* FEEDBACK */
+
+.feedback{
+ display:none;margin-top:12px;padding:12px;border-radius:14px;line-height:1.8
+}
+
+.feedback.show{display:block;animation:pop .25s}
+.feedback.success{background:#e8faed;border:2px solid #a6dfb7}
+.feedback.error{background:#fff0f3;border:2px solid #f3bbc5}
+.feedback.timeout{background:#fff7d9;border:2px solid #e9cb69}
+
+.feedback strong{display:block;font-size:16px;margin-bottom:3px}
+.feedback-text{font-size:12px;color:#4d5c61}
+
+.solution{
+ margin-top:7px;padding:8px 9px;background:#ffffffaa;
+ border-radius:9px;font-size:11px;line-height:1.8
+}
+
+.next{
+ display:none;width:100%;margin-top:11px;padding:14px;border:0;
+ border-radius:14px;background:linear-gradient(90deg,var(--pink),var(--purple));
+ color:#fff;font-size:16px;font-weight:bold;cursor:pointer
+}
+
+.next.show{display:block}
+
+/* RESULT */
+
+.result{
+ display:none;text-align:center;padding:25px 16px;
+ background:
+ radial-gradient(circle at 10% 5%,#fbcfe844,transparent 25%),
+ radial-gradient(circle at 90% 5%,#7dd3fc44,transparent 25%)
+}
+
+.result.show{display:block}
+
+.result-icon{font-size:72px;animation:float 2s ease-in-out infinite}
+.result h2{color:var(--purple2);font-size:27px;margin:5px}
+
+.final-score{
+ width:160px;height:160px;margin:17px auto;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ border-radius:50%;border:8px solid transparent;
+ background:linear-gradient(#fff,#fff) padding-box,
+ linear-gradient(135deg,var(--pink),var(--yellow),var(--blue),var(--purple)) border-box
+}
+
+.final-score strong{font-size:43px;color:var(--purple2)}
+.final-score span{font-size:13px;color:var(--muted)}
+
+.motivation{font-size:20px;font-weight:bold;margin-bottom:19px}
+
+.leaderboard{
+ max-width:540px;margin:20px auto;padding:13px;text-align:right;
+ background:#faf8ff;border:2px solid #e4dafa;border-radius:16px
+}
+
+.leaderboard h3{text-align:center;color:var(--purple2);margin:0 0 10px}
+
+.rank-row{
+ display:flex;justify-content:space-between;gap:8px;
+ padding:9px 5px;border-bottom:1px dashed #ddd6e8
+}
+
+.rank-row:last-child{border:0}
+.rank-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-score{font-weight:bold;color:var(--purple2)}
+.loading{text-align:center;color:var(--muted);padding:8px}
+
+.restart{
+ width:100%;max-width:420px;padding:14px;border:0;border-radius:14px;
+ background:linear-gradient(90deg,var(--pink),var(--purple));
+ color:#fff;font-weight:bold;font-size:16px;cursor:pointer
+}
+
+.back{
+ display:block;text-align:center;margin:17px 0;padding:10px;
+ text-decoration:none;color:var(--purple2);font-weight:bold
+}
+
+/* EFFECT */
+
+.spark{
+ position:fixed;z-index:999;pointer-events:none;
+ font-size:20px;animation:spark .8s forwards
+}
+
+@keyframes pop{
+ from{opacity:.2;transform:scale(.97)}
+ to{opacity:1;transform:scale(1)}
+}
+
+@keyframes spark{
+ from{opacity:1;transform:translate(0,0) scale(.5)}
+ to{opacity:0;transform:translate(var(--x),var(--y)) scale(1.5) rotate(180deg)}
+}
+
+@keyframes float{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-7px)}
+}
+
+@media(max-width:650px){
+ .app{padding:6px}
+ .status{grid-template-columns:1fr 1fr}
+ .content{padding:10px}
+ .sim-stage{min-height:190px}
+ .svg-stage{height:165px}
+ .rule-options{grid-template-columns:1fr}
+}
+
+@media(max-width:390px){
+ .answer-options{gap:4px}
+ .answer-btn{font-size:10px;padding:4px}
+ .size-display{min-width:105px}
+}
+
+@media(prefers-reduced-motion:reduce){
+ *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+<header class="hero">
+ <div class="badge">🎓 ریاضی هفتم • فصل اول • درس ۸</div>
+ <h1>🔬 شبیه‌ساز کوچک</h1>
+ <p>کوچک حل کن، رابطه را کشف کن و بعد سراغ مسئله بزرگ برو!</p>
+</header>
+
+<section class="panel">
+
+<div id="gameScreen">
+
+ <div class="status">
+  <div class="stat"><small>🔬 پژوهشگر</small><strong id="playerName">---</strong></div>
+  <div class="stat"><small>🧩 مأموریت</small><strong id="questionNumber">۱ از ۱۰</strong></div>
+  <div class="stat"><small>⭐ امتیاز</small><strong id="score">۰</strong></div>
+  <div class="stat"><small>⏱️ زمان</small><strong id="timeStatus">۱۲۰ ثانیه</strong></div>
+ </div>
+
+ <div class="content">
+
+  <div class="progress" id="progress"></div>
+
+  <div class="timer-head">
+   <span>⏱️ زمان شبیه‌سازی</span>
+   <strong id="timerNumber">۱۲۰</strong>
+  </div>
+
+  <div class="timer-track">
+   <div class="timer-bar" id="timerBar"></div>
+  </div>
+
+  <div class="labels">
+   <span class="mission-label" id="missionLabel"></span>
+   <span class="family-label" id="familyLabel"></span>
+  </div>
+
+  <div class="problem" id="problemText"></div>
+
+  <div class="big-target">
+   <div class="big-target-text" id="bigTargetText"></div>
+   <div class="big-target-number" id="bigTargetNumber"></div>
+  </div>
+
+  <div class="simulator">
+
+   <div class="sim-title">
+    🔎 اول یک نمونه ساده‌تر بساز
+   </div>
+
+   <div class="sim-help">
+    اندازه نمونه را تغییر بده، آن را اجرا کن و نتیجه چند نمونه کوچک را ثبت کن.
+   </div>
+
+   <div class="size-control">
+    <button class="size-button" id="minusSize" type="button">−</button>
+    <div class="size-display" id="sizeDisplay"></div>
+    <button class="size-button" id="plusSize" type="button">+</button>
+   </div>
+
+   <div class="sim-stage" id="simStage">
+    <div class="stage-caption" id="stageCaption"></div>
+    <div id="visualContainer"></div>
+   </div>
+
+   <div class="sim-result" id="simResult"></div>
+
+   <button class="record" id="recordButton" type="button">
+    📝 ثبت این نمونه در دفترچه
+   </button>
+
+  </div>
+
+  <div class="notebook">
+
+   <div class="notebook-head">
+    <span>📒 دفترچه نمونه‌های ساده‌تر</span>
+    <span class="notebook-status" id="notebookStatus">۰ نمونه</span>
+   </div>
+
+   <div class="notebook-row header">
+    <span>اندازه نمونه</span>
+    <span>نتیجه</span>
+   </div>
+
+   <div id="notebookRows"></div>
+
+  </div>
+
+  <div class="discovery">
+
+   <div class="discovery-title">
+    🧠 از نمونه‌ها چه رابطه‌ای کشف کردی؟
+   </div>
+
+   <div class="discovery-help">
+    قانونی را انتخاب کن که با همه نمونه‌های ثبت‌شده سازگار باشد.
+   </div>
+
+   <div class="rule-options" id="ruleOptions"></div>
+
+  </div>
+
+  <div class="final-answer-box">
+
+   <div class="final-answer-title" id="finalAnswerTitle">
+    🚀 حالا مسئله اصلی را حل کن
+   </div>
+
+   <div class="answer-options" id="answerOptions"></div>
+
+   <button class="solve-main" id="solveMainButton" type="button">
+    🚀 حل مسئله اصلی
+   </button>
+
+  </div>
+
+  <div class="feedback" id="feedback">
+   <strong id="feedbackTitle"></strong>
+   <div class="feedback-text" id="feedbackText"></div>
+   <div class="solution" id="solution"></div>
+  </div>
+
+  <button class="next" id="nextButton" type="button">
+   شبیه‌سازی بعدی 🔬
+  </button>
+
+ </div>
+
+</div>
+
+
+<div class="result" id="resultScreen">
+
+ <div class="result-icon">🔬🏆</div>
+
+ <h2>همه شبیه‌سازی‌ها کامل شدند!</h2>
+
+ <p>
+  پژوهشگر:
+  <strong id="resultName"></strong>
+ </p>
+
+ <div class="final-score">
+  <strong id="finalScore">۰</strong>
+  <span>از 100 امتیاز</span>
+ </div>
+
+ <div class="motivation" id="motivation"></div>
+
+ <div class="leaderboard">
+  <h3>🏅 برترین پژوهشگرها</h3>
+  <div id="leaderboardContent" class="loading">
+   در حال دریافت جدول برترین‌ها...
+  </div>
+ </div>
+
+ <button class="restart" id="restartButton" type="button">
+  🔄 بازی دوباره
+ </button>
+
+</div>
+
+</section>
+
+<a class="back" href="/#game">
+ ← بازگشت به بازی‌های ریاضی
+</a>
+
+</main>
+
+
+<script src="/games/game-sdk.js"></script>
+
+<script>
+
+const GAME_ID = 15;
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 120;
+
+const player = GameSDK.init(GAME_ID);
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
+
+const HISTORY_KEY="math_simpler_simulator_recent_v1";
+const MAX_HISTORY=45;
+
+
+/* =====================================================
+   TOOLS
+===================================================== */
+
+function faNumber(value){
+ return String(value).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+function pick(array){
+ return array[Math.floor(Math.random()*array.length)];
+}
+
+function randomInt(min,max){
+ return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function shuffle(array){
+
+ const a=[...array];
+
+ for(let i=a.length-1;i>0;i--){
+
+  const j=Math.floor(Math.random()*(i+1));
+
+  [a[i],a[j]]=[a[j],a[i]];
+ }
+
+ return a;
+}
+
+function pointsForTime(seconds){
+
+ if(seconds<=30)return 10;
+ if(seconds<=50)return 8;
+ if(seconds<=75)return 6;
+ if(seconds<=95)return 4;
+ if(seconds<=120)return 2;
+
+ return 0;
+}
+
+function loadHistory(){
+
+ try{
+
+  const data=JSON.parse(
+   localStorage.getItem(HISTORY_KEY)||"[]"
+  );
+
+  return Array.isArray(data)?data:[];
+
+ }catch{
+
+  return [];
+ }
+}
+
+function saveHistory(signatures){
+
+ try{
+
+  const merged=[
+   ...signatures,
+   ...loadHistory()
+  ];
+
+  const unique=[
+   ...new Set(merged)
+  ].slice(0,MAX_HISTORY);
+
+  localStorage.setItem(
+   HISTORY_KEY,
+   JSON.stringify(unique)
+  );
+
+ }catch(error){
+
+  console.warn(
+   "History unavailable:",
+   error
+  );
+ }
+}
+
+function makeAnswerOptions(correct){
+
+ const values=new Set([correct]);
+
+ const offsets=[
+  1,2,3,5,10,
+  Math.max(1,Math.round(correct*.1)),
+  Math.max(2,Math.round(correct*.2))
+ ];
+
+ while(values.size<4){
+
+  const candidate=
+   correct+
+   pick([-1,1])*
+   pick(offsets);
+
+  if(candidate>=0){
+   values.add(candidate);
+  }
+ }
+
+ return shuffle([...values]);
+}
+
+
+/* =====================================================
+   QUESTION FACTORY
+===================================================== */
+
+function makeQuestion(config){
+
+ const correctRule={
+  text:config.rule,
+  correct:true
+ };
+
+ const wrongRules=
+  config.wrongRules.map(text=>({
+   text,
+   correct:false
+  }));
+
+ return{
+  ...config,
+  rules:shuffle([
+   correctRule,
+   ...wrongRules
+  ])
+ };
+}
+
+
+/* =====================================================
+   1) HANDSHAKES
+===================================================== */
+
+function genHandshakes(){
+
+ const targetN=randomInt(7,11);
+
+ const answer=
+  targetN*(targetN-1)/2;
+
+ return makeQuestion({
+
+  family:"دست‌دادن",
+
+  signature:
+   `handshake-${targetN}`,
+
+  q:
+   `در یک مهمانی ${faNumber(targetN)} نفر حضور دارند. اگر هر دو نفر دقیقاً یک‌بار با هم دست بدهند، چند دست‌دادن انجام می‌شود؟ ابتدا حالت‌های کوچک‌تر را بررسی کن.`,
+
+  bigLabel:
+   "👥 تعداد افراد مسئله اصلی",
+
+  bigValue:
+   targetN,
+
+  minSize:2,
+  maxSize:Math.min(6,targetN-1),
+
+  sizeLabel:"نفر",
+
+  answer,
+
+  compute:n=>
+   n*(n-1)/2,
+
+  visualType:"connections",
+
+  visualEmoji:"👤",
+
+  rule:
+   "با اضافه‌شدن نفر جدید، او با همه افراد قبلی دست می‌دهد؛ پس به‌ترتیب ۱، ۲، ۳، ... دست‌دادن جدید اضافه می‌شود.",
+
+  wrongRules:[
+   "تعداد دست‌دادن‌ها همیشه دو برابر تعداد افراد است.",
+   "با هر نفر جدید فقط یک دست‌دادن اضافه می‌شود.",
+   "تعداد دست‌دادن‌ها برابر مربع تعداد افراد است."
+  ],
+
+  solution:
+   `${faNumber(targetN)}×${faNumber(targetN-1)}÷۲ = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   2) CONNECT POINTS
+===================================================== */
+
+function genConnectPoints(){
+
+ const targetN=randomInt(7,12);
+
+ const answer=
+  targetN*(targetN-1)/2;
+
+ return makeQuestion({
+
+  family:"وصل‌کردن نقاط",
+
+  signature:
+   `points-${targetN}`,
+
+  q:
+   `${faNumber(targetN)} نقطه داریم و هر دو نقطه را با یک پاره‌خط به هم وصل می‌کنیم. چند پاره‌خط ساخته می‌شود؟ ابتدا تعدادهای کوچک‌تر را شبیه‌سازی کن.`,
+
+  bigLabel:
+   "🔵 تعداد نقاط مسئله اصلی",
+
+  bigValue:targetN,
+
+  minSize:2,
+  maxSize:Math.min(6,targetN-1),
+
+  sizeLabel:"نقطه",
+
+  answer,
+
+  compute:n=>
+   n*(n-1)/2,
+
+  visualType:"connections",
+
+  visualEmoji:"●",
+
+  rule:
+   "هر نقطه جدید به همه نقاط قبلی وصل می‌شود؛ بنابراین تعداد اتصال‌های جدید ۱، ۲، ۳، ... است.",
+
+  wrongRules:[
+   "تعداد پاره‌خط‌ها برابر دو برابر تعداد نقاط است.",
+   "هر نقطه فقط به نقطه کناری وصل می‌شود.",
+   "تعداد پاره‌خط‌ها برابر تعداد نقاط است."
+  ],
+
+  solution:
+   `${faNumber(targetN)}×${faNumber(targetN-1)}÷۲ = ${faNumber(answer)} پاره‌خط`
+ });
+}
+
+
+/* =====================================================
+   3) ODD SUM
+===================================================== */
+
+function genOddSum(){
+
+ const terms=randomInt(7,11);
+
+ const lastOdd=
+  2*terms-1;
+
+ const answer=
+  terms*terms;
+
+ return makeQuestion({
+
+  family:"مجموع اعداد فرد",
+
+  signature:
+   `oddSum-${terms}`,
+
+  q:
+   `مجموع عددهای فرد از ۱ تا ${faNumber(lastOdd)} را پیدا کن. ابتدا مجموع چند عدد فرد اول را بررسی کن.`,
+
+  bigLabel:
+   "🔢 تعداد عددهای فرد",
+
+  bigValue:terms,
+
+  minSize:1,
+  maxSize:Math.min(5,terms-1),
+
+  sizeLabel:"عدد فرد اول",
+
+  answer,
+
+  compute:n=>
+   n*n,
+
+  visualType:"oddSum",
+
+  rule:
+   "مجموع n عدد فرد اول برابر n×n است؛ نمونه‌ها ۱، ۴، ۹، ۱۶، ... می‌شوند.",
+
+  wrongRules:[
+   "مجموع همیشه دو برابر تعداد جمله‌هاست.",
+   "برای هر جمله فقط ۲ واحد به مجموع قبلی اضافه می‌شود.",
+   "مجموع n عدد فرد اول برابر n+1 است."
+  ],
+
+  solution:
+   `${faNumber(terms)} عدد فرد اول → ${faNumber(terms)}×${faNumber(terms)} = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   4) ROUND ROBIN GAMES
+===================================================== */
+
+function genLeague(){
+
+ const teams=randomInt(6,10);
+
+ const answer=
+  teams*(teams-1)/2;
+
+ return makeQuestion({
+
+  family:"مسابقات لیگ",
+
+  signature:
+   `league-${teams}`,
+
+  q:
+   `در یک لیگ ${faNumber(teams)} تیم حضور دارند و هر دو تیم دقیقاً یک‌بار با هم بازی می‌کنند. تعداد بازی‌ها را با بررسی لیگ‌های کوچک‌تر پیدا کن.`,
+
+  bigLabel:
+   "⚽ تعداد تیم‌ها",
+
+  bigValue:teams,
+
+  minSize:2,
+  maxSize:Math.min(6,teams-1),
+
+  sizeLabel:"تیم",
+
+  answer,
+
+  compute:n=>
+   n*(n-1)/2,
+
+  visualType:"connections",
+
+  visualEmoji:"⚽",
+
+  rule:
+   "هر تیم جدید باید یک‌بار با همه تیم‌های قبلی بازی کند؛ پس ۱، ۲، ۳، ... بازی جدید اضافه می‌شود.",
+
+  wrongRules:[
+   "هر تیم فقط یک بازی انجام می‌دهد.",
+   "تعداد بازی‌ها دو برابر تعداد تیم‌هاست.",
+   "هر تیم فقط با دو تیم بازی می‌کند."
+  ],
+
+  solution:
+   `${faNumber(teams)}×${faNumber(teams-1)}÷۲ = ${faNumber(answer)} بازی`
+ });
+}
+
+
+/* =====================================================
+   5) PAIRS OF STUDENTS
+===================================================== */
+
+function genPairs(){
+
+ const students=randomInt(7,11);
+
+ const answer=
+  students*(students-1)/2;
+
+ return makeQuestion({
+
+  family:"گفت‌وگوی دونفره",
+
+  signature:
+   `pairs-${students}`,
+
+  q:
+   `${faNumber(students)} دانش‌آموز داریم و قرار است هر دو دانش‌آموز دقیقاً یک گفت‌وگوی دونفره داشته باشند. چند گفت‌وگو انجام می‌شود؟ با گروه‌های کوچک‌تر شروع کن.`,
+
+  bigLabel:
+   "🧑‍🎓 تعداد دانش‌آموزان",
+
+  bigValue:students,
+
+  minSize:2,
+  maxSize:Math.min(6,students-1),
+
+  sizeLabel:"دانش‌آموز",
+
+  answer,
+
+  compute:n=>
+   n*(n-1)/2,
+
+  visualType:"connections",
+
+  visualEmoji:"🧑",
+
+  rule:
+   "هر عضو جدید با تک‌تک اعضای قبلی یک جفت جدید می‌سازد.",
+
+  wrongRules:[
+   "هر عضو جدید فقط یک جفت می‌سازد.",
+   "تعداد جفت‌ها همیشه برابر تعداد افراد است.",
+   "تعداد جفت‌ها برابر سه برابر تعداد افراد است."
+  ],
+
+  solution:
+   `${faNumber(students)}×${faNumber(students-1)}÷۲ = ${faNumber(answer)} گفت‌وگو`
+ });
+}
+
+
+/* =====================================================
+   6) SQUARE MATCHSTICKS
+===================================================== */
+
+function genSquares(){
+
+ const targetN=randomInt(8,15);
+
+ const answer=
+  3*targetN+1;
+
+ return makeQuestion({
+
+  family:"مربع‌های چوب‌کبریتی",
+
+  signature:
+   `matches-${targetN}`,
+
+  q:
+   `مربع‌ها کنار هم ساخته می‌شوند. شکل اول یک مربع دارد و هر مربع جدید یک ضلع را با قبلی مشترک است. شکل ${faNumber(targetN)} چند چوب کبریت دارد؟ ابتدا شکل‌های کوچک‌تر را بساز.`,
+
+  bigLabel:
+   "⬜ تعداد مربع‌های شکل اصلی",
+
+  bigValue:targetN,
+
+  minSize:1,
+  maxSize:Math.min(5,targetN-1),
+
+  sizeLabel:"مربع",
+
+  answer,
+
+  compute:n=>
+   3*n+1,
+
+  visualType:"matchSquares",
+
+  rule:
+   "شکل اول ۴ چوب دارد و هر مربع جدید فقط ۳ چوب تازه اضافه می‌کند.",
+
+  wrongRules:[
+   "هر مربع همیشه ۴ چوب تازه لازم دارد.",
+   "هر مرحله فقط یک چوب اضافه می‌شود.",
+   "تعداد چوب‌ها دو برابر تعداد مربع‌هاست."
+  ],
+
+  solution:
+   `۴ + (${faNumber(targetN)}−۱)×۳ = ${faNumber(answer)} چوب`
+ });
+}
+
+
+/* =====================================================
+   7) TRIANGULAR DOTS
+===================================================== */
+
+function genTriangleDots(){
+
+ const targetN=randomInt(7,11);
+
+ const answer=
+  targetN*(targetN+1)/2;
+
+ return makeQuestion({
+
+  family:"نقطه‌های مثلثی",
+
+  signature:
+   `triDots-${targetN}`,
+
+  q:
+   `شکل ۱ یک نقطه، شکل ۲ سه نقطه، شکل ۳ شش نقطه دارد. تعداد نقطه‌های شکل ${faNumber(targetN)} را با ساخت شکل‌های کوچک‌تر پیدا کن.`,
+
+  bigLabel:
+   "🔺 شماره شکل اصلی",
+
+  bigValue:targetN,
+
+  minSize:1,
+  maxSize:Math.min(5,targetN-1),
+
+  sizeLabel:"شکل",
+
+  answer,
+
+  compute:n=>
+   n*(n+1)/2,
+
+  visualType:"triDots",
+
+  rule:
+   "در شکل‌های پیاپی ۲، ۳، ۴، ... نقطه جدید اضافه می‌شود.",
+
+  wrongRules:[
+   "در هر مرحله همیشه ۲ نقطه اضافه می‌شود.",
+   "تعداد نقاط دو برابر شماره شکل است.",
+   "در هر مرحله تعداد نقاط قبلی دو برابر می‌شود."
+  ],
+
+  solution:
+   `${faNumber(targetN)}×${faNumber(targetN+1)}÷۲ = ${faNumber(answer)} نقطه`
+ });
+}
+
+
+/* =====================================================
+   8) STAIR BLOCKS
+===================================================== */
+
+function genStairs(){
+
+ const targetN=randomInt(7,11);
+
+ const answer=
+  targetN*(targetN+1)/2;
+
+ return makeQuestion({
+
+  family:"پلکان مکعبی",
+
+  signature:
+   `stairs-${targetN}`,
+
+  q:
+   `یک پلکان ساخته‌ایم: پله اول ۱ مکعب، پله دوم ۲ مکعب، پله سوم ۳ مکعب و ... دارد. برای ساخت ${faNumber(targetN)} پله در مجموع چند مکعب لازم است؟ ابتدا پلکان‌های کوچک‌تر را بررسی کن.`,
+
+  bigLabel:
+   "🧱 تعداد پله‌ها",
+
+  bigValue:targetN,
+
+  minSize:1,
+  maxSize:Math.min(5,targetN-1),
+
+  sizeLabel:"پله",
+
+  answer,
+
+  compute:n=>
+   n*(n+1)/2,
+
+  visualType:"stairs",
+
+  rule:
+   "با اضافه‌شدن پله nام، دقیقاً n مکعب تازه اضافه می‌شود.",
+
+  wrongRules:[
+   "هر پله فقط یک مکعب جدید لازم دارد.",
+   "تعداد مکعب‌ها همیشه دو برابر تعداد پله‌هاست.",
+   "هر مرحله تعداد مکعب‌ها دو برابر می‌شود."
+  ],
+
+  solution:
+   `۱+۲+...+${faNumber(targetN)} = ${faNumber(answer)} مکعب`
+ });
+}
+
+
+/* =====================================================
+   9) SEATS IN ROW PATTERN
+===================================================== */
+
+function genTableSeats(){
+
+ const tables=randomInt(8,14);
+
+ const answer=
+  2*tables+2;
+
+ return makeQuestion({
+
+  family:"میزهای کنار هم",
+
+  signature:
+   `tables-${tables}`,
+
+  q:
+   `${faNumber(tables)} میز مربعی را در یک ردیف به هم چسبانده‌ایم. در دو طرف طولی هر میز یک صندلی و در دو سر ردیف هم یک صندلی قرار می‌گیرد. چند صندلی لازم است؟ ابتدا ۱، ۲، ۳ میز را بررسی کن.`,
+
+  bigLabel:
+   "🟫 تعداد میزهای اصلی",
+
+  bigValue:tables,
+
+  minSize:1,
+  maxSize:Math.min(5,tables-1),
+
+  sizeLabel:"میز",
+
+  answer,
+
+  compute:n=>
+   2*n+2,
+
+  visualType:"tables",
+
+  rule:
+   "با اضافه‌شدن هر میز، دو صندلی جدید اضافه می‌شود و دو صندلی دو سر همیشه باقی می‌مانند.",
+
+  wrongRules:[
+   "هر میز دقیقاً چهار صندلی تازه اضافه می‌کند.",
+   "با هر میز فقط یک صندلی اضافه می‌شود.",
+   "تعداد صندلی‌ها برابر مربع تعداد میزهاست."
+  ],
+
+  solution:
+   `${faNumber(tables)}×۲ + ۲ = ${faNumber(answer)} صندلی`
+ });
+}
+
+
+/* =====================================================
+   10) DIAGONALS? 
+   برای پایه هفتم از اتصال همه نقاط استفاده می‌کنیم
+===================================================== */
+
+function genNetwork(){
+
+ const computers=randomInt(7,10);
+
+ const answer=
+  computers*(computers-1)/2;
+
+ return makeQuestion({
+
+  family:"شبکه ارتباطی",
+
+  signature:
+   `network-${computers}`,
+
+  q:
+   `${faNumber(computers)} رایانه داریم. اگر بین هر دو رایانه یک اتصال مستقیم ایجاد شود، چند اتصال لازم است؟ ابتدا شبکه‌های ۲، ۳ و ۴ رایانه‌ای را شبیه‌سازی کن.`,
+
+  bigLabel:
+   "💻 تعداد رایانه‌ها",
+
+  bigValue:computers,
+
+  minSize:2,
+  maxSize:Math.min(6,computers-1),
+
+  sizeLabel:"رایانه",
+
+  answer,
+
+  compute:n=>
+   n*(n-1)/2,
+
+  visualType:"connections",
+
+  visualEmoji:"💻",
+
+  rule:
+   "هر رایانه جدید به تمام رایانه‌های قبلی وصل می‌شود؛ بنابراین تعداد اتصال‌های تازه مرحله‌به‌مرحله بیشتر می‌شود.",
+
+  wrongRules:[
+   "هر رایانه فقط یک اتصال دارد.",
+   "تعداد اتصال‌ها برابر تعداد رایانه‌هاست.",
+   "هر رایانه فقط به رایانه بعدی وصل می‌شود."
+  ],
+
+  solution:
+   `${faNumber(computers)}×${faNumber(computers-1)}÷۲ = ${faNumber(answer)} اتصال`
+ });
+}
+
+
+/* =====================================================
+   11) SUM 1..N
+===================================================== */
+
+function genSumNatural(){
+
+ const targetN=randomInt(8,12);
+
+ const answer=
+  targetN*(targetN+1)/2;
+
+ return makeQuestion({
+
+  family:"جمع پله‌ای",
+
+  signature:
+   `natural-${targetN}`,
+
+  q:
+   `حاصل ۱+۲+۳+...+${faNumber(targetN)} را پیدا کن. اول همین مسئله را برای عددهای کوچک‌تر اجرا کن.`,
+
+  bigLabel:
+   "🔢 آخرین عدد جمع اصلی",
+
+  bigValue:targetN,
+
+  minSize:1,
+  maxSize:Math.min(5,targetN-1),
+
+  sizeLabel:"آخرین عدد",
+
+  answer,
+
+  compute:n=>
+   n*(n+1)/2,
+
+  visualType:"sumNatural",
+
+  rule:
+   "در هر مرحله عدد بعدی به مجموع قبلی اضافه می‌شود: +۲، +۳، +۴، ... .",
+
+  wrongRules:[
+   "در هر مرحله همیشه ۲ واحد اضافه می‌شود.",
+   "مجموع همیشه دو برابر آخرین عدد است.",
+   "هر مرحله مجموع قبلی دو برابر می‌شود."
+  ],
+
+  solution:
+   `۱+۲+...+${faNumber(targetN)} = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   12) FENCE POSTS
+===================================================== */
+
+function genPosts(){
+
+ const sections=randomInt(8,15);
+
+ const answer=
+  sections+1;
+
+ return makeQuestion({
+
+  family:"تکه‌های حصار",
+
+  signature:
+   `posts-${sections}`,
+
+  q:
+   `برای ساخت یک حصار خطی از ${faNumber(sections)} تکه نرده، در ابتدا و انتهای هر تکه پایه لازم است و تکه‌های کنار هم پایه مشترک دارند. چند پایه لازم است؟ ابتدا حصارهای کوچک‌تر را بساز.`,
+
+  bigLabel:
+   "🪵 تعداد تکه‌های نرده",
+
+  bigValue:sections,
+
+  minSize:1,
+  maxSize:Math.min(5,sections-1),
+
+  sizeLabel:"تکه نرده",
+
+  answer,
+
+  compute:n=>
+   n+1,
+
+  visualType:"fence",
+
+  rule:
+   "یک تکه ۲ پایه می‌خواهد و هر تکه جدید فقط یک پایه تازه اضافه می‌کند.",
+
+  wrongRules:[
+   "هر تکه همیشه دو پایه کاملاً جدید لازم دارد.",
+   "تعداد پایه‌ها با تعداد تکه‌ها برابر است.",
+   "هر تکه سه پایه جدید اضافه می‌کند."
+  ],
+
+  solution:
+   `${faNumber(sections)} + ۱ = ${faNumber(answer)} پایه`
+ });
+}
+
+
+/* =====================================================
+   GENERATORS
+===================================================== */
+
+const GENERATORS=[
+ genHandshakes,
+ genConnectPoints,
+ genOddSum,
+ genLeague,
+ genPairs,
+ genSquares,
+ genTriangleDots,
+ genStairs,
+ genTableSeats,
+ genNetwork,
+ genSumNatural,
+ genPosts
+];
+
+
+/* =====================================================
+   ROUND
+===================================================== */
+
+let questions=[];
+
+
+function generateRound(){
+
+ const recent=
+  new Set(
+   loadHistory()
+  );
+
+
+ const selected=
+  shuffle(GENERATORS)
+  .slice(0,TOTAL_QUESTIONS);
+
+
+ const generated=[];
+
+
+ for(const generator of selected){
+
+  let candidate=null;
+
+
+  for(let attempt=0;attempt<30;attempt++){
+
+   const q=generator();
+
+   candidate=q;
+
+
+   if(!recent.has(q.signature)){
+    break;
+   }
+  }
+
+
+  generated.push(candidate);
+
+  recent.add(candidate.signature);
+ }
+
+
+ questions=
+  shuffle(generated);
+
+
+ saveHistory(
+  generated.map(q=>q.signature)
+ );
+}
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let currentIndex=0;
+let score=0;
+
+let answerChecked=false;
+
+let questionStartTime=0;
+let timerInterval=null;
+
+let gameFinished=false;
+let finishSubmitted=false;
+
+let currentSize=1;
+
+let recorded=new Map();
+
+let selectedRule=null;
+let selectedAnswer=null;
+
+
+/* =====================================================
+   DOM
+===================================================== */
+
+const $=id=>document.getElementById(id);
+
+const playerNameEl=$("playerName");
+const questionNumberEl=$("questionNumber");
+const scoreEl=$("score");
+const timeStatusEl=$("timeStatus");
+
+const progressEl=$("progress");
+
+const timerNumberEl=$("timerNumber");
+const timerBarEl=$("timerBar");
+
+const missionLabelEl=$("missionLabel");
+const familyLabelEl=$("familyLabel");
+const problemTextEl=$("problemText");
+
+const bigTargetText=$("bigTargetText");
+const bigTargetNumber=$("bigTargetNumber");
+
+const minusSize=$("minusSize");
+const plusSize=$("plusSize");
+const sizeDisplay=$("sizeDisplay");
+
+const simStage=$("simStage");
+const stageCaption=$("stageCaption");
+const visualContainer=$("visualContainer");
+const simResult=$("simResult");
+const recordButton=$("recordButton");
+
+const notebookStatus=$("notebookStatus");
+const notebookRows=$("notebookRows");
+
+const ruleOptions=$("ruleOptions");
+
+const finalAnswerTitle=$("finalAnswerTitle");
+const answerOptions=$("answerOptions");
+const solveMainButton=$("solveMainButton");
+
+const feedbackEl=$("feedback");
+const feedbackTitleEl=$("feedbackTitle");
+const feedbackTextEl=$("feedbackText");
+const solutionEl=$("solution");
+
+const nextButton=$("nextButton");
+
+const gameScreen=$("gameScreen");
+const resultScreen=$("resultScreen");
+
+const resultNameEl=$("resultName");
+const finalScoreEl=$("finalScore");
+const motivationEl=$("motivation");
+
+const leaderboardContent=$("leaderboardContent");
+const restartButton=$("restartButton");
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function buildProgress(){
+
+ progressEl.innerHTML="";
+
+
+ for(let i=0;i<TOTAL_QUESTIONS;i++){
+
+  const item=
+   document.createElement("div");
+
+  item.className=
+   "progress-item";
+
+  progressEl.appendChild(item);
+ }
+}
+
+
+function updateProgress(){
+
+ [...progressEl.children]
+  .forEach((item,index)=>{
+
+   item.classList.toggle(
+    "done",
+    index<currentIndex
+   );
+
+   item.classList.toggle(
+    "current",
+    index===currentIndex
+   );
+  });
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+function stopTimer(){
+
+ if(timerInterval){
+
+  clearInterval(timerInterval);
+
+  timerInterval=null;
+ }
+}
+
+
+function startTimer(){
+
+ stopTimer();
+
+ questionStartTime=Date.now();
+
+ timerNumberEl.textContent=
+  faNumber(QUESTION_TIME);
+
+ timeStatusEl.textContent=
+  faNumber(QUESTION_TIME)+" ثانیه";
+
+ timerBarEl.style.width="100%";
+ timerBarEl.style.background="var(--green)";
+ timerNumberEl.style.color="var(--green)";
+
+ timerInterval=
+  setInterval(updateTimer,100);
+}
+
+
+function updateTimer(){
+
+ if(answerChecked||gameFinished){
+
+  stopTimer();
+  return;
+ }
+
+
+ const elapsed=
+  (Date.now()-questionStartTime)/1000;
+
+
+ const remaining=
+  Math.max(
+   0,
+   QUESTION_TIME-elapsed
+  );
+
+
+ const seconds=
+  Math.ceil(remaining);
+
+
+ timerNumberEl.textContent=
+  faNumber(seconds);
+
+ timeStatusEl.textContent=
+  faNumber(seconds)+" ثانیه";
+
+ timerBarEl.style.width=
+  (remaining/QUESTION_TIME*100)+"%";
+
+
+ if(remaining>60){
+
+  timerBarEl.style.background=
+   "var(--green)";
+
+  timerNumberEl.style.color=
+   "var(--green)";
+
+ }else if(remaining>30){
+
+  timerBarEl.style.background=
+   "var(--yellow)";
+
+  timerNumberEl.style.color=
+   "#ad7700";
+
+ }else{
+
+  timerBarEl.style.background=
+   "var(--red)";
+
+  timerNumberEl.style.color=
+   "var(--red)";
+ }
+
+
+ if(remaining<=0){
+  handleTimeout();
+ }
+}
+
+
+/* =====================================================
+   SHOW QUESTION
+===================================================== */
+
+function showQuestion(){
+
+ stopTimer();
+
+ answerChecked=false;
+
+ recorded=new Map();
+
+ selectedRule=null;
+ selectedAnswer=null;
+
+
+ const q=questions[currentIndex];
+
+
+ currentSize=q.minSize;
+
+
+ updateProgress();
+
+
+ questionNumberEl.textContent=
+  faNumber(currentIndex+1)+
+  " از "+
+  faNumber(TOTAL_QUESTIONS);
+
+
+ scoreEl.textContent=
+  faNumber(score);
+
+
+ missionLabelEl.textContent=
+  "🔬 شبیه‌سازی "+
+  faNumber(currentIndex+1);
+
+
+ familyLabelEl.textContent=
+  "🎯 "+q.family;
+
+
+ problemTextEl.textContent=q.q;
+
+
+ bigTargetText.textContent=
+  q.bigLabel;
+
+
+ bigTargetNumber.textContent=
+  faNumber(q.bigValue);
+
+
+ feedbackEl.className="feedback";
+ feedbackTitleEl.textContent="";
+ feedbackTextEl.textContent="";
+ solutionEl.textContent="";
+
+
+ nextButton.classList.remove("show");
+
+
+ nextButton.textContent=
+  currentIndex===TOTAL_QUESTIONS-1
+  ?"مشاهده نتیجه 🏆"
+  :"شبیه‌سازی بعدی 🔬";
+
+
+ setControlsDisabled(false);
+
+
+ renderSimulator();
+
+ renderNotebook();
+
+ renderRules();
+
+ renderAnswers();
+
+ startTimer();
+}
+
+
+/* =====================================================
+   SIZE
+===================================================== */
+
+minusSize.addEventListener(
+ "click",
+ ()=>changeSize(-1)
+);
+
+
+plusSize.addEventListener(
+ "click",
+ ()=>changeSize(1)
+);
+
+
+function changeSize(amount){
+
+ if(answerChecked)return;
+
+
+ const q=questions[currentIndex];
+
+
+ currentSize+=amount;
+
+
+ currentSize=
+  Math.max(
+   q.minSize,
+   Math.min(
+    q.maxSize,
+    currentSize
+   )
+  );
+
+
+ renderSimulator();
+}
+
+
+/* =====================================================
+   SIMULATOR
+===================================================== */
+
+function renderSimulator(){
+
+ const q=questions[currentIndex];
+
+ const result=q.compute(currentSize);
+
+
+ sizeDisplay.textContent=
+  faNumber(currentSize)+
+  " "+
+  q.sizeLabel;
+
+
+ stageCaption.textContent=
+  "نمونه "+
+  faNumber(currentSize);
+
+
+ simResult.textContent=
+  "نتیجه این نمونه ساده‌تر: "+
+  faNumber(result);
+
+
+ minusSize.disabled=
+  answerChecked ||
+  currentSize<=q.minSize;
+
+
+ plusSize.disabled=
+  answerChecked ||
+  currentSize>=q.maxSize;
+
+
+ renderVisual(q,currentSize,result);
+}
+
+
+/* =====================================================
+   VISUALS
+===================================================== */
+
+function renderVisual(q,n,result){
+
+ visualContainer.innerHTML="";
+
+
+ if(q.visualType==="connections"){
+
+  renderConnections(
+   n,
+   q.visualEmoji
+  );
+
+  return;
+ }
+
+
+ if(q.visualType==="oddSum"){
+
+  const odds=
+   Array.from(
+    {length:n},
+    (_,i)=>2*i+1
+   );
+
+
+  visualContainer.innerHTML=
+   `
+   <div class="simple-stage">
+    <div class="visual-row">
+     ${odds.map(
+      x=>`<span class="visual-item">${faNumber(x)}</span>`
+     ).join("")}
+    </div>
+    <div class="math-display">
+     ${odds.map(faNumber).join(" + ")} = ${faNumber(result)}
+    </div>
+   </div>
+   `;
+
+  return;
+ }
+
+
+ if(q.visualType==="matchSquares"){
+
+  renderMatchSquares(n,result);
+
+  return;
+ }
+
+
+ if(q.visualType==="triDots"){
+
+  let rows="";
+
+  for(let r=1;r<=n;r++){
+
+   rows+=`
+    <div class="visual-row">
+     ${Array(r).fill('<span style="color:#8b5cf6;font-size:20px">●</span>').join("")}
+    </div>
+   `;
+  }
+
+
+  visualContainer.innerHTML=
+   `
+   <div class="simple-stage">
+    <div>${rows}</div>
+    <div class="math-display">
+     ${faNumber(result)} نقطه
+    </div>
+   </div>
+   `;
+
+  return;
+ }
+
+
+ if(q.visualType==="stairs"){
+
+  let rows="";
+
+  for(let r=n;r>=1;r--){
+
+   rows+=`
+    <div class="visual-row">
+     ${Array(r).fill('<span class="visual-item">🧱</span>').join("")}
+    </div>
+   `;
+  }
+
+
+  visualContainer.innerHTML=
+   `
+   <div class="simple-stage">
+    <div>${rows}</div>
+    <div class="math-display">
+     ${faNumber(result)} مکعب
+    </div>
+   </div>
+   `;
+
+  return;
+ }
+
+
+ if(q.visualType==="tables"){
+
+  visualContainer.innerHTML=
+   `
+   <div class="simple-stage">
+
+    <div class="visual-row">
+     ${Array(n).fill('<span class="visual-item">🪑</span>').join("")}
+    </div>
+
+    <div class="visual-row">
+     <span class="visual-item">🪑</span>
+     ${Array(n).fill('<span class="visual-item">🟫</span>').join("")}
+     <span class="visual-item">🪑</span>
+    </div>
+
+    <div class="visual-row">
+     ${Array(n).fill('<span class="visual-item">🪑</span>').join("")}
+    </div>
+
+    <div class="math-display">
+     ${faNumber(result)} صندلی
+    </div>
+
+   </div>
+   `;
+
+  return;
+ }
+
+
+ if(q.visualType==="sumNatural"){
+
+  const nums=
+   Array.from(
+    {length:n},
+    (_,i)=>i+1
+   );
+
+
+  visualContainer.innerHTML=
+   `
+   <div class="simple-stage">
+    <div class="visual-row">
+     ${nums.map(
+      x=>`<span class="visual-item">${faNumber(x)}</span>`
+     ).join("")}
+    </div>
+    <div class="math-display">
+     ${nums.map(faNumber).join(" + ")} = ${faNumber(result)}
+    </div>
+   </div>
+   `;
+
+  return;
+ }
+
+
+ if(q.visualType==="fence"){
+
+  let content=
+   `<span style="font-size:32px">🪵</span>`;
+
+
+  for(let i=0;i<n;i++){
+
+   content+=
+    `<span style="font-size:35px;color:#a96835">━</span>
+     <span style="font-size:32px">🪵</span>`;
+  }
+
+
+  visualContainer.innerHTML=
+   `
+   <div class="simple-stage">
+    <div class="visual-row">${content}</div>
+    <div class="math-display">
+     ${faNumber(n)} تکه → ${faNumber(result)} پایه
+    </div>
+   </div>
+   `;
+ }
+}
+
+
+/* =====================================================
+   CONNECTION SVG
+===================================================== */
+
+function renderConnections(n,emoji){
+
+ const width=340;
+ const height=170;
+
+ const cx=170;
+ const cy=88;
+ const radius=62;
+
+ const points=[];
+
+
+ for(let i=0;i<n;i++){
+
+  const angle=
+   -Math.PI/2+
+   i*2*Math.PI/n;
+
+
+  points.push({
+   x:cx+
+    radius*Math.cos(angle),
+
+   y:cy+
+    radius*Math.sin(angle)
+  });
+ }
+
+
+ let lines="";
+
+
+ for(let i=0;i<n;i++){
+
+  for(let j=i+1;j<n;j++){
+
+   lines+=
+    `<line
+      x1="${points[i].x}"
+      y1="${points[i].y}"
+      x2="${points[j].x}"
+      y2="${points[j].y}"
+      stroke="#8b5cf6"
+      stroke-width="1.8"
+      opacity=".55"
+     />`;
+  }
+ }
+
+
+ let nodes="";
+
+
+ points.forEach(point=>{
+
+  if(emoji==="●"){
+
+   nodes+=
+    `<circle
+      cx="${point.x}"
+      cy="${point.y}"
+      r="7"
+      fill="#38bdf8"
+      stroke="#fff"
+      stroke-width="2"
+     />`;
+
+  }else{
+
+   nodes+=
+    `<text
+      x="${point.x}"
+      y="${point.y+7}"
+      text-anchor="middle"
+      font-size="24"
+     >${emoji}</text>`;
+  }
+ });
+
+
+ visualContainer.innerHTML=
+  `
+  <svg
+   class="svg-stage"
+   viewBox="0 0 ${width} ${height}"
+   aria-hidden="true"
+  >
+   ${lines}
+   ${nodes}
+  </svg>
+  `;
+}
+
+
+/* =====================================================
+   MATCH SQUARES
+===================================================== */
+
+function renderMatchSquares(n,result){
+
+ const svgWidth=
+  40+n*38;
+
+
+ let squares="";
+
+
+ for(let i=0;i<n;i++){
+
+  const x=
+   20+i*38;
+
+
+  squares+=
+   `
+   <rect
+    x="${x}"
+    y="55"
+    width="38"
+    height="38"
+    fill="#fef3c7"
+    stroke="#8b5cf6"
+    stroke-width="4"
+   />
+   `;
+ }
+
+
+ visualContainer.innerHTML=
+  `
+  <div class="simple-stage">
+   <svg
+    viewBox="0 0 ${svgWidth} 130"
+    style="width:100%;height:130px"
+   >
+    ${squares}
+   </svg>
+
+   <div class="math-display">
+    ${faNumber(n)} مربع → ${faNumber(result)} چوب
+   </div>
+  </div>
+  `;
+}
+
+
+/* =====================================================
+   RECORD SAMPLE
+===================================================== */
+
+recordButton.addEventListener(
+ "click",
+ recordSample
+);
+
+
+function recordSample(){
+
+ if(answerChecked)return;
+
+
+ const q=questions[currentIndex];
+
+
+ if(
+  recorded.has(currentSize)
+ ){
+
+  return;
+ }
+
+
+ recorded.set(
+  currentSize,
+  q.compute(currentSize)
+ );
+
+
+ renderNotebook();
+}
+
+
+/* =====================================================
+   NOTEBOOK
+===================================================== */
+
+function renderNotebook(){
+
+ notebookRows.innerHTML="";
+
+
+ const entries=[
+  ...recorded.entries()
+ ].sort(
+  (a,b)=>a[0]-b[0]
+ );
+
+
+ notebookStatus.textContent=
+  faNumber(entries.length)+
+  " نمونه";
+
+
+ if(!entries.length){
+
+  const empty=
+   document.createElement("div");
+
+
+  empty.className=
+   "notebook-empty";
+
+
+  empty.textContent=
+   "هنوز نمونه‌ای ثبت نشده است.";
+
+
+  notebookRows.appendChild(
+   empty
+  );
+
+
+  return;
+ }
+
+
+ entries.forEach(
+  ([size,result])=>{
+
+   const row=
+    document.createElement("div");
+
+
+   row.className=
+    "notebook-row";
+
+
+   const left=
+    document.createElement("span");
+
+
+   left.textContent=
+    faNumber(size);
+
+
+   const right=
+    document.createElement("span");
+
+
+   right.textContent=
+    faNumber(result);
+
+
+   row.appendChild(left);
+   row.appendChild(right);
+
+
+   notebookRows.appendChild(row);
+  }
+ );
+}
+
+
+/* =====================================================
+   RULE OPTIONS
+===================================================== */
+
+function renderRules(){
+
+ const q=questions[currentIndex];
+
+
+ ruleOptions.innerHTML="";
+
+
+ q.rules.forEach(
+  (rule,index)=>{
+
+   const button=
+    document.createElement("button");
+
+
+   button.type="button";
+
+
+   button.className=
+    "rule-button";
+
+
+   button.textContent=
+    rule.text;
+
+
+   button.addEventListener(
+    "click",
+    ()=>{
+
+     if(answerChecked)return;
+
+
+     selectedRule=index;
+
+
+     [...ruleOptions.children]
+      .forEach(
+       (item,i)=>{
+
+        item.classList.toggle(
+         "selected",
+         i===index
+        );
+       }
+      );
+    }
+   );
+
+
+   ruleOptions.appendChild(
+    button
+   );
+  }
+ );
+}
+
+
+/* =====================================================
+   ANSWERS
+===================================================== */
+
+function renderAnswers(){
+
+ const q=questions[currentIndex];
+
+
+ answerOptions.innerHTML="";
+
+
+ const options=
+  makeAnswerOptions(
+   q.answer
+  );
+
+
+ options.forEach(value=>{
+
+  const button=
+   document.createElement("button");
+
+
+  button.type="button";
+
+  button.className="answer-btn";
+
+  button.textContent=
+   faNumber(value);
+
+
+  button.dataset.value=
+   value;
+
+
+  button.addEventListener(
+   "click",
+   ()=>{
+
+    if(answerChecked)return;
+
+
+    selectedAnswer=value;
+
+
+    [...answerOptions.children]
+     .forEach(item=>{
+
+      item.classList.toggle(
+       "selected",
+       item===button
+      );
+     });
+   }
+  );
+
+
+  answerOptions.appendChild(
+   button
+  );
+ });
+}
+
+
+/* =====================================================
+   FINAL SUBMIT
+===================================================== */
+
+solveMainButton.addEventListener(
+ "click",
+ solveMain
+);
+
+
+function solveMain(){
+
+ if(answerChecked)return;
+
+
+ const elapsed=
+  (
+   Date.now()-
+   questionStartTime
+  )/1000;
+
+
+ if(elapsed>=QUESTION_TIME){
+
+  handleTimeout();
+  return;
+ }
+
+
+ const q=questions[currentIndex];
+
+
+ /*
+  دانش‌آموز باید حداقل سه نمونه ساده‌تر
+  بررسی کرده باشد.
+ */
+
+ if(recorded.size<3){
+
+  feedbackEl.className=
+   "feedback error show";
+
+
+  feedbackTitleEl.textContent=
+   "🔎 هنوز زود است!";
+
+
+  feedbackTextEl.textContent=
+   "قبل از حل مسئله اصلی، دست‌کم ۳ نمونه ساده‌تر را اجرا و در دفترچه ثبت کن.";
+
+
+  solutionEl.textContent="";
+
+
+  return;
+ }
+
+
+ if(
+  selectedRule===null ||
+  selectedAnswer===null
+ ){
+
+  feedbackEl.className=
+   "feedback error show";
+
+
+  feedbackTitleEl.textContent=
+   "🧠 کشف را کامل کن";
+
+
+  feedbackTextEl.textContent=
+   "قانونی که از نمونه‌های کوچک کشف کردی و پاسخ مسئله اصلی را انتخاب کن.";
+
+
+  solutionEl.textContent="";
+
+
+  return;
+ }
+
+
+ answerChecked=true;
+
+ stopTimer();
+
+ setControlsDisabled(true);
+
+
+ const ruleCorrect=
+  q.rules[
+   selectedRule
+  ].correct;
+
+
+ const answerCorrect=
+  selectedAnswer===
+  q.answer;
+
+
+ if(
+  ruleCorrect &&
+  answerCorrect
+ ){
+
+  const earned=
+   pointsForTime(elapsed);
+
+
+  score=
+   Math.min(
+    100,
+    score+earned
+   );
+
+
+  feedbackEl.className=
+   "feedback success show";
+
+
+  feedbackTitleEl.textContent=
+   "✅ آفرین! +"+
+   faNumber(earned)+
+   " امتیاز";
+
+
+  feedbackTextEl.textContent=
+   "نمونه‌های ساده‌تر را بررسی کردی، رابطه مشترک را کشف کردی و آن را به مسئله اصلی تعمیم دادی.";
+
+
+  solutionEl.textContent=
+   "✅ "+
+   q.rule+
+   " | "+
+   q.solution;
+
+
+  celebrate();
+
+ }else{
+
+  feedbackEl.className=
+   "feedback error show";
+
+
+  feedbackTitleEl.textContent=
+   "❌ تعمیم درست نبود! ۰ امتیاز";
+
+
+  if(
+   !ruleCorrect &&
+   !answerCorrect
+  ){
+
+   feedbackTextEl.textContent=
+    "هم قانون انتخاب‌شده و هم پاسخ مسئله اصلی نیاز به بررسی دارند. نمونه‌های کوچک باید به یک رابطه سازگار منتهی شوند.";
+
+  }else if(!ruleCorrect){
+
+   feedbackTextEl.textContent=
+    "پاسخ عددی را پیدا کردی، اما قانونی که انتخاب کردی توضیح درستی برای نمونه‌ها نیست.";
+
+  }else{
+
+   feedbackTextEl.textContent=
+    "قانون را درست کشف کردی، اما هنگام تعمیم آن به مسئله اصلی پاسخ عددی اشتباه شد.";
+  }
+
+
+  solutionEl.textContent=
+   "✅ قانون درست: "+
+   q.rule+
+   " | پاسخ: "+
+   faNumber(q.answer)+
+   " | "+
+   q.solution;
+
+
+  revealCorrect(q);
+ }
+
+
+ scoreEl.textContent=
+  faNumber(score);
+
+
+ nextButton.classList.add(
+  "show"
+ );
+}
+
+
+/* =====================================================
+   REVEAL
+===================================================== */
+
+function revealCorrect(q){
+
+ [...ruleOptions.children]
+  .forEach(
+   (button,index)=>{
+
+    if(q.rules[index].correct){
+
+     button.style.borderColor=
+      "var(--green)";
+
+     button.style.background=
+      "#e8faed";
+    }
+   }
+  );
+
+
+ [...answerOptions.children]
+  .forEach(button=>{
+
+   if(
+    Number(button.dataset.value)===
+    q.answer
+   ){
+
+    button.style.borderColor=
+     "var(--green)";
+
+    button.style.background=
+     "#e8faed";
+   }
+  });
+}
+
+
+/* =====================================================
+   LOCK
+===================================================== */
+
+function setControlsDisabled(value){
+
+ minusSize.disabled=value;
+ plusSize.disabled=value;
+ recordButton.disabled=value;
+ solveMainButton.disabled=value;
+
+
+ [...ruleOptions.children]
+  .forEach(
+   button=>button.disabled=value
+  );
+
+
+ [...answerOptions.children]
+  .forEach(
+   button=>button.disabled=value
+  );
+}
+
+
+/* =====================================================
+   TIMEOUT
+===================================================== */
+
+function handleTimeout(){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+
+ answerChecked=true;
+
+ stopTimer();
+
+ setControlsDisabled(true);
+
+
+ timerNumberEl.textContent="۰";
+
+ timeStatusEl.textContent=
+  "۰ ثانیه";
+
+ timerBarEl.style.width="0%";
+
+ timerBarEl.style.background=
+  "var(--red)";
+
+
+ const q=questions[currentIndex];
+
+
+ feedbackEl.className=
+  "feedback timeout show";
+
+
+ feedbackTitleEl.textContent=
+  "⏰ زمان تمام شد! ۰ امتیاز";
+
+
+ feedbackTextEl.textContent=
+  "در راهبرد حل مسئله ساده‌تر، ابتدا نمونه‌های کوچک‌تر را حل می‌کنیم، رابطه را کشف می‌کنیم و سپس آن را به مسئله اصلی منتقل می‌کنیم.";
+
+
+ solutionEl.textContent=
+  "✅ قانون: "+
+  q.rule+
+  " | پاسخ مسئله اصلی: "+
+  faNumber(q.answer)+
+  " | "+
+  q.solution;
+
+
+ revealCorrect(q);
+
+
+ nextButton.classList.add(
+  "show"
+ );
+}
+
+
+/* =====================================================
+   CELEBRATE
+===================================================== */
+
+function celebrate(){
+
+ const rect=
+  simStage.getBoundingClientRect();
+
+
+ const icons=[
+  "🔬","🔍","⭐","✨","🧩","🎉"
+ ];
+
+
+ for(let i=0;i<11;i++){
+
+  const spark=
+   document.createElement("span");
+
+
+  spark.className="spark";
+
+
+  spark.textContent=
+   pick(icons);
+
+
+  spark.style.left=
+   (rect.left+rect.width/2)+"px";
+
+
+  spark.style.top=
+   (rect.top+rect.height/2)+"px";
+
+
+  spark.style.setProperty(
+   "--x",
+   (Math.random()*180-90)+"px"
+  );
+
+
+  spark.style.setProperty(
+   "--y",
+   (-30-Math.random()*120)+"px"
+  );
+
+
+  document.body.appendChild(
+   spark
+  );
+
+
+  setTimeout(
+   ()=>spark.remove(),
+   850
+  );
+ }
+}
+
+
+/* =====================================================
+   NEXT
+===================================================== */
+
+nextButton.addEventListener(
+ "click",
+ ()=>{
+
+  if(!answerChecked)return;
+
+
+  if(
+   currentIndex<
+   TOTAL_QUESTIONS-1
+  ){
+
+   currentIndex++;
+
+
+   showQuestion();
+
+
+   window.scrollTo({
+    top:0,
+    behavior:"smooth"
+   });
+
+  }else{
+
+   finishGame();
+  }
+ }
+);
+
+
+/* =====================================================
+   FINISH GAME
+===================================================== */
+
+async function finishGame(){
+
+ if(gameFinished)return;
+
+
+ gameFinished=true;
+
+ stopTimer();
+
+
+ [...progressEl.children]
+  .forEach(item=>{
+
+   item.classList.remove(
+    "current"
+   );
+
+   item.classList.add(
+    "done"
+   );
+  });
+
+
+ gameScreen.style.display="none";
+
+ resultScreen.classList.add("show");
+
+
+ const name=
+  player&&player.playerName
+  ?player.playerName
+  :"بازیکن";
+
+
+ resultNameEl.textContent=name;
+
+ finalScoreEl.textContent=
+  faNumber(score);
+
+
+ if(score>=90){
+
+  motivationEl.textContent=
+   "عالی بود! 🌟 مسئله‌های بزرگ را با نمونه‌های کوچک رام می‌کنی!";
+
+ }else if(score>=70){
+
+  motivationEl.textContent=
+   "خیلی خوب بود 👏 از نمونه‌های کوچک به رابطه اصلی می‌رسی!";
+
+ }else if(score>=50){
+
+  motivationEl.textContent=
+   "خوب بود 💪 چند نمونه کوچک را منظم بررسی کن و بعد تعمیم بده!";
+
+ }else{
+
+  motivationEl.textContent=
+   "دوباره شبیه‌سازی کن 🌱 اول مسئله کوچک، بعد کشف رابطه، بعد مسئله بزرگ!";
+ }
+
+
+ leaderboardContent.innerHTML=
+  '<div class="loading">در حال ثبت نتیجه و دریافت جدول برترین‌ها...</div>';
+
+
+ try{
+
+  if(!finishSubmitted){
+
+   finishSubmitted=true;
+
+   const result=
+    await GameSDK.finishGame(score);
+  }
+
+ }catch(error){
+
+  console.error(
+   "finishGame error:",
+   error
+  );
+ }
+
+
+ await loadLeaderboard();
+}
+
+
+/* =====================================================
+   LEADERBOARD
+===================================================== */
+
+async function loadLeaderboard(){
+
+ try{
+
+  const scores=
+   await GameSDK.getLeaderboard(10);
+
+
+  leaderboardContent.innerHTML="";
+
+
+  if(
+   !Array.isArray(scores) ||
+   scores.length===0
+  ){
+
+   leaderboardContent.innerHTML=
+    '<div class="loading">هنوز رکوردی ثبت نشده است.</div>';
+
+   return;
+  }
+
+
+  scores.forEach(
+   (item,index)=>{
+
+    const row=
+     document.createElement(
+      "div"
+     );
+
+
+    row.className="rank-row";
+
+
+    let rank;
+
+
+    if(index===0)rank="🥇";
+    else if(index===1)rank="🥈";
+    else if(index===2)rank="🥉";
+    else rank=faNumber(index+1)+".";
+
+
+    const name=
+     item.playerName ??
+     item.player_name ??
+     item.name ??
+     "بازیکن";
+
+
+    const value=
+     item.score ?? 0;
+
+
+    const nameEl=
+     document.createElement(
+      "span"
+     );
+
+
+    nameEl.className=
+     "rank-name";
+
+
+    nameEl.textContent=
+     rank+" "+name;
+
+
+    const valueEl=
+     document.createElement(
+      "span"
+     );
+
+
+    valueEl.className=
+     "rank-score";
+
+
+    valueEl.textContent=
+     faNumber(value)+
+     " امتیاز";
+
+
+    row.appendChild(nameEl);
+    row.appendChild(valueEl);
+
+
+    leaderboardContent.appendChild(
+     row
+    );
+   }
+  );
+
+ }catch(error){
+
+  console.error(
+   "leaderboard error:",
+   error
+  );
+
+
+  leaderboardContent.innerHTML=
+   '<div class="loading">دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.</div>';
+ }
+}
+
+
+/* =====================================================
+   RESTART
+===================================================== */
+
+restartButton.addEventListener(
+ "click",
+ ()=>{
+
+  stopTimer();
+
+
+  GameSDK.reset();
+
+
+  score=0;
+  currentIndex=0;
+
+  answerChecked=false;
+  questionStartTime=0;
+
+  gameFinished=false;
+  finishSubmitted=false;
+
+  currentSize=1;
+
+  recorded=new Map();
+
+  selectedRule=null;
+  selectedAnswer=null;
+
+
+  resultScreen.classList.remove(
+   "show"
+  );
+
+
+  gameScreen.style.display=
+   "block";
+
+
+  leaderboardContent.innerHTML="";
+
+
+  generateRound();
+
+  buildProgress();
+
+  showQuestion();
+
+
+  window.scrollTo({
+   top:0,
+   behavior:"smooth"
+  });
+ }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+function startGame(){
+
+ const name=
+  player&&player.playerName
+  ?player.playerName
+  :"بازیکن";
+
+
+ playerNameEl.textContent=name;
+
+
+ score=0;
+ currentIndex=0;
+
+ answerChecked=false;
+ gameFinished=false;
+ finishSubmitted=false;
+
+
+ generateRound();
+
+ buildProgress();
+
+ showQuestion();
+}
+
+
+startGame();
+
+</script>
+
+</body>
+</html>
