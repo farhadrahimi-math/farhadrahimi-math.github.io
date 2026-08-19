@@ -3,24 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ماموریت حل مسئله | ریاضی هفتم</title>
+
+<title>قطار حل مسئله | ریاضی هفتم</title>
 
 <style>
 *{box-sizing:border-box}
 
 :root{
-    --blue:#38bdf8;
-    --blue-dark:#0284c7;
+    --sky1:#dff7ff;
+    --sky2:#f0edff;
     --purple:#8b5cf6;
-    --purple-dark:#6d28d9;
+    --purple2:#6d28d9;
+    --blue:#38bdf8;
+    --blue2:#0284c7;
     --pink:#f472b6;
     --yellow:#fbbf24;
     --orange:#fb923c;
     --green:#22c55e;
     --red:#fb7185;
-    --text:#273449;
+    --text:#293449;
     --muted:#64748b;
-    --card:#ffffff;
 }
 
 html{
@@ -31,25 +33,23 @@ html{
 body{
     margin:0;
     min-height:100vh;
-    color:var(--text);
-    font-family:Tahoma,Arial,sans-serif;
     direction:rtl;
+    font-family:Tahoma,Arial,sans-serif;
+    color:var(--text);
+    overflow-x:hidden;
 
     background:
-        radial-gradient(circle at 10% 5%,rgba(244,114,182,.25),transparent 24%),
-        radial-gradient(circle at 90% 8%,rgba(56,189,248,.28),transparent 28%),
-        radial-gradient(circle at 75% 80%,rgba(251,191,36,.20),transparent 25%),
-        linear-gradient(145deg,#fdf4ff,#effcff 45%,#fffbea);
+        radial-gradient(circle at 8% 5%,rgba(244,114,182,.20),transparent 22%),
+        radial-gradient(circle at 92% 8%,rgba(56,189,248,.25),transparent 24%),
+        linear-gradient(160deg,#fff7fd,#eefbff 48%,#fffbea);
 }
 
-button,a{
-    font-family:inherit;
-}
+button,a{font-family:inherit}
 
 .app{
-    width:min(100%,900px);
+    width:min(100%,960px);
     margin:auto;
-    padding:16px;
+    padding:12px;
 }
 
 
@@ -59,135 +59,315 @@ button,a{
 
 .hero{
     text-align:center;
-    margin:8px 0 20px;
+    padding:6px 4px 14px;
 }
 
-.hero-badge{
+.badge{
     display:inline-block;
-    padding:7px 15px;
-
-    background:linear-gradient(90deg,#fef3c7,#fce7f3);
-    color:#9a5b00;
-
-    border:1px solid #f9c85a;
+    padding:6px 14px;
     border-radius:999px;
 
-    font-size:13px;
-    font-weight:bold;
+    background:linear-gradient(90deg,#fef3c7,#fce7f3);
+    border:1px solid #f7d068;
 
-    box-shadow:0 4px 12px rgba(251,191,36,.18);
+    color:#8a5b00;
+    font-size:12px;
+    font-weight:bold;
 }
 
 .hero h1{
-    margin:12px 0 5px;
+    margin:9px 0 3px;
+    font-size:clamp(27px,7vw,42px);
 
-    font-size:clamp(27px,6vw,40px);
-
-    background:linear-gradient(90deg,var(--purple),var(--blue-dark),var(--pink));
+    background:linear-gradient(90deg,var(--purple),var(--blue2),var(--pink));
+    color:transparent;
     -webkit-background-clip:text;
     background-clip:text;
-    color:transparent;
 }
 
 .hero p{
     margin:0;
     color:var(--muted);
-    font-size:14px;
+    font-size:13px;
 }
 
 
 /* =========================
-   کارت اصلی
+   پنل
 ========================= */
 
 .panel{
-    background:rgba(255,255,255,.96);
-
-    border:2px solid rgba(255,255,255,.8);
+    background:rgba(255,255,255,.97);
+    border:2px solid rgba(255,255,255,.9);
     border-radius:25px;
+    overflow:hidden;
 
     box-shadow:
         0 18px 45px rgba(109,40,217,.12),
-        0 5px 15px rgba(2,132,199,.08);
-
-    overflow:hidden;
+        0 5px 14px rgba(2,132,199,.08);
 }
 
 
 /* =========================
-   وضعیت بازی
+   وضعیت
 ========================= */
 
 .status{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:9px;
+    gap:8px;
 
-    padding:12px;
+    padding:10px;
 
     background:linear-gradient(90deg,#f5f3ff,#effcff,#fff7ed,#fdf2f8);
-
-    border-bottom:1px solid #e9dffc;
+    border-bottom:1px solid #e8e1f3;
 }
 
 .stat{
     min-width:0;
-    padding:9px 5px;
     text-align:center;
-
-    border-radius:14px;
-
+    padding:8px 4px;
     background:#fff;
-
-    box-shadow:0 3px 9px rgba(70,60,120,.07);
+    border-radius:13px;
+    box-shadow:0 3px 8px rgba(50,50,100,.05);
 }
 
-.stat:nth-child(1){
-    border-bottom:4px solid var(--purple);
-}
+.stat:nth-child(1){border-bottom:4px solid var(--purple)}
+.stat:nth-child(2){border-bottom:4px solid var(--blue)}
+.stat:nth-child(3){border-bottom:4px solid var(--yellow)}
+.stat:nth-child(4){border-bottom:4px solid var(--pink)}
 
-.stat:nth-child(2){
-    border-bottom:4px solid var(--blue);
-}
-
-.stat:nth-child(3){
-    border-bottom:4px solid var(--yellow);
-}
-
-.stat:nth-child(4){
-    border-bottom:4px solid var(--pink);
-}
-
-.stat-label{
+.stat small{
     display:block;
-
     color:var(--muted);
-
-    font-size:11px;
-
-    margin-bottom:2px;
+    font-size:10px;
 }
 
-.stat-value{
+.stat strong{
     display:block;
-
+    color:#504075;
     font-size:14px;
-    font-weight:bold;
-
-    color:#4c3b83;
-
+    margin-top:2px;
+    white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
-    white-space:nowrap;
 }
 
 
 /* =========================
-   محتوای بازی
+   منظره قطار
 ========================= */
 
-.game-area{
-    padding:20px;
+.world{
+    position:relative;
+    height:185px;
+    overflow:hidden;
+
+    background:
+        radial-gradient(circle at 15% 18%,#fff 0 23px,transparent 24px),
+        radial-gradient(circle at 19% 17%,#fff 0 30px,transparent 31px),
+        radial-gradient(circle at 24% 20%,#fff 0 20px,transparent 21px),
+        linear-gradient(#bdeeff 0 68%,#b9e878 68% 100%);
+
+    border-bottom:1px solid #cde0d0;
+}
+
+.sun{
+    position:absolute;
+    top:17px;
+    right:22px;
+
+    width:48px;
+    height:48px;
+    border-radius:50%;
+
+    background:#ffd84d;
+    box-shadow:0 0 0 9px rgba(255,216,77,.18);
+}
+
+.hill{
+    position:absolute;
+    bottom:24px;
+
+    width:240px;
+    height:85px;
+
+    background:#88cf64;
+
+    border-radius:60% 60% 0 0;
+}
+
+.hill.one{
+    left:-50px;
+}
+
+.hill.two{
+    right:70px;
+    width:300px;
+    background:#9ddd71;
+}
+
+.track{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:20px;
+
+    height:9px;
+
+    background:#5f6670;
+
+    border-top:3px solid #40464d;
+    border-bottom:3px solid #40464d;
+}
+
+.sleepers{
+    position:absolute;
+    bottom:12px;
+    left:0;
+    right:0;
+    height:23px;
+
+    background:repeating-linear-gradient(
+        90deg,
+        transparent 0 25px,
+        #765644 25px 32px,
+        transparent 32px 48px
+    );
+}
+
+.stations{
+    position:absolute;
+    left:12px;
+    right:12px;
+    top:8px;
+
+    display:flex;
+    justify-content:space-between;
+
+    direction:ltr;
+}
+
+.station{
+    width:27px;
+    height:27px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#fff;
+    border:3px solid #c8d6db;
+
+    color:#809097;
+    font-size:10px;
+    font-weight:bold;
+
+    transition:.3s;
+}
+
+.station.reached{
+    border-color:var(--yellow);
+    background:#fff5b8;
+    color:#895e00;
+    transform:scale(1.12);
+}
+
+.train{
+    position:absolute;
+    bottom:30px;
+    left:2%;
+
+    display:flex;
+    align-items:flex-end;
+
+    direction:ltr;
+
+    transition:left .7s cubic-bezier(.22,.85,.32,1.2);
+}
+
+.engine{
+    position:relative;
+
+    width:72px;
+    height:47px;
+
+    background:linear-gradient(135deg,var(--purple),var(--purple2));
+
+    border-radius:20px 12px 8px 8px;
+
+    box-shadow:0 5px 8px rgba(50,30,100,.2);
+}
+
+.engine:before{
+    content:"";
+    position:absolute;
+
+    width:27px;
+    height:29px;
+
+    left:8px;
+    top:-22px;
+
+    background:#7c3aed;
+    border-radius:7px 7px 0 0;
+}
+
+.engine:after{
+    content:"🚂";
+    position:absolute;
+
+    font-size:34px;
+
+    left:18px;
+    top:4px;
+}
+
+.car{
+    position:relative;
+    width:45px;
+    height:36px;
+
+    margin-left:5px;
+
+    border-radius:8px 8px 5px 5px;
+
+    box-shadow:0 4px 6px rgba(60,60,100,.15);
+}
+
+.car.c1{background:var(--blue)}
+.car.c2{background:var(--pink)}
+.car.c3{background:var(--yellow)}
+
+.engine .wheel,
+.car .wheel{
+    position:absolute;
+    bottom:-8px;
+
+    width:16px;
+    height:16px;
+    border-radius:50%;
+
+    background:#38404b;
+    border:4px solid #65707c;
+}
+
+.w1{left:8px}
+.w2{right:8px}
+
+.train.celebrate{
+    animation:trainHop .45s ease;
+}
+
+
+/* =========================
+   پیشرفت
+========================= */
+
+progress{
+    width:100%;
 }
 
 
@@ -195,184 +375,214 @@ button,a{
    تایمر
 ========================= */
 
-.timer-wrap{
-    margin-bottom:19px;
+.content{
+    padding:16px;
 }
 
-.timer-row{
+.timer-head{
     display:flex;
     justify-content:space-between;
     align-items:center;
+    margin-bottom:6px;
 
-    margin-bottom:7px;
-
-    color:#475569;
     font-size:13px;
     font-weight:bold;
 }
 
-.timer-number{
-    min-width:52px;
-
-    text-align:left;
-
-    font-size:21px;
-    font-weight:bold;
-
+#timerNumber{
+    font-size:20px;
     color:var(--green);
 }
 
 .timer-track{
-    width:100%;
     height:13px;
-
     padding:2px;
 
-    background:#e9e7f4;
-
+    background:#e7e9f2;
     border-radius:999px;
-
     overflow:hidden;
+
+    margin-bottom:16px;
 }
 
 .timer-bar{
-    height:100%;
     width:100%;
-
-    background:var(--green);
+    height:100%;
 
     border-radius:999px;
 
-    box-shadow:0 0 10px rgba(34,197,94,.35);
+    background:var(--green);
 
-    transition:
-        width .12s linear,
-        background .25s;
+    box-shadow:0 0 9px rgba(34,197,94,.35);
+
+    transition:width .1s linear,background .2s;
 }
 
 
 /* =========================
-   نوع مأموریت
+   کارت مأموریت
 ========================= */
 
-.mission{
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
+.mission-label{
+    display:inline-block;
 
-    margin-bottom:11px;
-    padding:6px 12px;
+    margin-bottom:8px;
+    padding:5px 11px;
 
-    background:linear-gradient(90deg,#ede9fe,#fce7f3);
+    background:#f1eafe;
+    color:var(--purple2);
 
-    color:var(--purple-dark);
-
-    border:1px solid #ddd1ff;
     border-radius:999px;
 
     font-size:12px;
     font-weight:bold;
 }
 
+.instruction{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:8px;
+}
 
-/* =========================
-   سؤال
-========================= */
+.problem-card{
+    position:relative;
 
-.question{
-    margin:0 0 20px;
+    max-width:700px;
+    margin:0 auto 17px;
 
-    font-size:clamp(17px,4.5vw,22px);
+    padding:17px 15px;
+
+    background:
+        linear-gradient(#fff,#fff) padding-box,
+        linear-gradient(135deg,var(--blue),var(--purple),var(--pink)) border-box;
+
+    border:3px solid transparent;
+    border-radius:18px;
+
+    box-shadow:0 7px 18px rgba(75,70,140,.10);
+
+    font-size:clamp(16px,4vw,20px);
     font-weight:bold;
     line-height:1.9;
+    text-align:center;
 
-    color:#29374d;
+    cursor:grab;
+
+    user-select:none;
+    touch-action:none;
+}
+
+.problem-card:active{
+    cursor:grabbing;
+}
+
+.problem-card.dragging{
+    opacity:.76;
+    transform:scale(1.03) rotate(-1deg);
+    box-shadow:0 14px 30px rgba(109,40,217,.2);
 }
 
 
 /* =========================
-   گزینه‌ها
+   واگن‌های مرحله
 ========================= */
 
-.options{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:11px;
+.stage-title{
+    text-align:center;
+    font-weight:bold;
+    color:#475569;
+    margin:5px 0 10px;
 }
 
-.option{
-    width:100%;
-    min-height:64px;
+.stage-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
 
-    border:2px solid #dbe7ef;
-    border-radius:16px;
+.stage{
+    min-height:91px;
 
-    color:var(--text);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
 
-    font-size:15px;
-    font-weight:bold;
+    padding:10px 7px;
 
-    padding:12px 10px;
+    border:3px dashed transparent;
+    border-radius:17px;
 
     cursor:pointer;
     touch-action:manipulation;
 
-    box-shadow:0 4px 10px rgba(50,70,100,.06);
+    transition:.18s;
 
-    transition:
-        transform .15s,
-        border-color .15s,
-        box-shadow .15s;
+    font-weight:bold;
 }
 
-/* چهار رنگ شاد برای گزینه‌ها */
-
-.option:nth-child(4n+1){
-    background:#effaff;
-    border-color:#b9e9fb;
+.stage .icon{
+    font-size:27px;
+    margin-bottom:4px;
 }
 
-.option:nth-child(4n+2){
-    background:#f6f0ff;
-    border-color:#ddcafa;
+.stage small{
+    margin-top:3px;
+    font-size:10px;
+    font-weight:normal;
+    opacity:.75;
 }
 
-.option:nth-child(4n+3){
-    background:#fff5fa;
-    border-color:#f9cde1;
+.stage[data-stage="understand"]{
+    background:#e8f8ff;
+    border-color:#76cdf0;
+    color:#036c9b;
 }
 
-.option:nth-child(4n+4){
-    background:#fff9e8;
-    border-color:#f7dfa0;
+.stage[data-stage="strategy"]{
+    background:#f1eaff;
+    border-color:#b494f1;
+    color:#6333b8;
 }
 
-.option:hover:not(:disabled){
-    transform:translateY(-3px) scale(1.01);
-
-    border-color:var(--purple);
-
-    box-shadow:0 7px 17px rgba(139,92,246,.15);
+.stage[data-stage="solve"]{
+    background:#fff6d8;
+    border-color:#edc748;
+    color:#866200;
 }
 
-.option:disabled{
-    cursor:default;
+.stage[data-stage="check"]{
+    background:#e8faed;
+    border-color:#75d492;
+    color:#227641;
 }
 
-.option.correct{
+.stage:hover:not(.locked){
+    transform:translateY(-3px);
+    box-shadow:0 7px 14px rgba(70,70,120,.10);
+}
+
+.stage.drag-over{
+    transform:scale(1.025);
+    box-shadow:0 0 0 4px rgba(139,92,246,.14);
+}
+
+.stage.correct{
     background:#dcfce7!important;
+    border-style:solid;
     border-color:var(--green)!important;
-    color:#16743a!important;
-
-    box-shadow:0 5px 15px rgba(34,197,94,.18);
 }
 
-.option.wrong{
-    background:#ffe4e9!important;
+.stage.wrong{
+    background:#ffe6eb!important;
+    border-style:solid;
     border-color:var(--red)!important;
-    color:#a5233b!important;
+    animation:shake .3s;
+}
 
-    box-shadow:0 5px 15px rgba(251,113,133,.17);
+.stage.locked{
+    cursor:default;
 }
 
 
@@ -382,109 +592,66 @@ button,a{
 
 .feedback{
     display:none;
-
-    margin-top:19px;
-    padding:15px;
-
-    border-radius:16px;
-
+    margin-top:15px;
+    padding:14px;
+    border-radius:15px;
     line-height:1.9;
 }
 
 .feedback.show{
     display:block;
-    animation:pop .25s ease;
+    animation:pop .25s;
 }
 
 .feedback.success{
-    background:linear-gradient(90deg,#e8fbea,#effcf5);
-
-    border:2px solid #a9e6b9;
+    background:#e7faec;
+    border:2px solid #a6e3b7;
 }
 
 .feedback.error{
-    background:linear-gradient(90deg,#fff0f3,#fff6f7);
-
-    border:2px solid #fac0ca;
+    background:#fff0f2;
+    border:2px solid #f3bac4;
 }
 
 .feedback.timeout{
-    background:linear-gradient(90deg,#fff6d9,#fffaf0);
-
-    border:2px solid #f4d47c;
+    background:#fff7dc;
+    border:2px solid #edcf6d;
 }
 
-.feedback-title{
-    margin-bottom:5px;
-
-    font-size:18px;
-    font-weight:bold;
+.feedback strong{
+    display:block;
+    font-size:17px;
+    margin-bottom:3px;
 }
 
-.explanation{
-    color:#48595d;
-    font-size:14px;
+.feedback-text{
+    font-size:13px;
+    color:#4d5d61;
 }
-
-
-/* =========================
-   دکمه بعدی
-========================= */
 
 .next-btn{
     display:none;
 
     width:100%;
+    margin-top:13px;
+    padding:14px;
 
     border:0;
-    border-radius:15px;
+    border-radius:14px;
 
-    padding:15px;
+    background:linear-gradient(90deg,var(--purple),var(--blue2));
 
-    margin-top:15px;
-
-    background:linear-gradient(90deg,var(--purple),var(--blue-dark));
-
-    color:#fff;
-
+    color:white;
     font-size:16px;
     font-weight:bold;
 
     cursor:pointer;
 
-    box-shadow:0 6px 16px rgba(109,40,217,.25);
-
-    transition:transform .15s,box-shadow .15s;
+    box-shadow:0 6px 15px rgba(109,40,217,.22);
 }
 
 .next-btn.show{
     display:block;
-}
-
-.next-btn:hover{
-    transform:translateY(-2px);
-
-    box-shadow:0 9px 20px rgba(109,40,217,.28);
-}
-
-
-/* =========================
-   یادآوری
-========================= */
-
-.mini-guide{
-    margin:0 18px 19px;
-    padding:13px;
-
-    border:1px solid #f6d879;
-    border-radius:15px;
-
-    background:linear-gradient(90deg,#fff7d6,#fff2e4);
-
-    color:#7a5700;
-
-    font-size:13px;
-    line-height:1.8;
 }
 
 
@@ -494,47 +661,36 @@ button,a{
 
 .result{
     display:none;
-
-    padding:26px 18px;
-
+    padding:25px 17px;
     text-align:center;
 
     background:
-        radial-gradient(circle at 20% 10%,rgba(244,114,182,.16),transparent 25%),
-        radial-gradient(circle at 85% 15%,rgba(56,189,248,.18),transparent 25%);
+        radial-gradient(circle at 10% 5%,rgba(244,114,182,.18),transparent 25%),
+        radial-gradient(circle at 90% 7%,rgba(56,189,248,.20),transparent 25%);
 }
 
-.result.show{
-    display:block;
-}
+.result.show{display:block}
 
 .trophy{
     font-size:70px;
-
-    margin:5px;
-
-    filter:drop-shadow(0 6px 5px rgba(251,191,36,.22));
-
     animation:float 2s ease-in-out infinite;
 }
 
 .result h2{
-    margin:7px 0;
-
-    color:var(--purple-dark);
-
+    color:var(--purple2);
     font-size:27px;
+    margin:5px 0;
 }
 
 .final-score{
-    display:inline-flex;
-    flex-direction:column;
-    justify-content:center;
-
     width:165px;
     height:165px;
+    margin:18px auto;
 
-    margin:19px auto;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
 
     border-radius:50%;
 
@@ -544,31 +700,23 @@ button,a{
 
     border:8px solid transparent;
 
-    box-shadow:0 10px 25px rgba(139,92,246,.16);
-
-    color:var(--purple-dark);
+    box-shadow:0 10px 25px rgba(139,92,246,.17);
 }
 
 .final-score strong{
-    font-size:45px;
-    line-height:1.1;
+    font-size:44px;
+    color:var(--purple2);
 }
 
 .final-score span{
-    margin-top:4px;
-
     color:var(--muted);
-
     font-size:13px;
 }
 
 .motivation{
-    margin:5px 0 21px;
-
-    font-size:21px;
+    font-size:20px;
     font-weight:bold;
-
-    color:#374151;
+    margin-bottom:20px;
 }
 
 
@@ -578,144 +726,127 @@ button,a{
 
 .leaderboard{
     max-width:540px;
-
-    margin:26px auto 0;
-    padding:15px;
+    margin:22px auto;
+    padding:14px;
 
     text-align:right;
 
-    background:linear-gradient(145deg,#ffffff,#f8f5ff);
-
-    border:2px solid #e7ddfa;
-    border-radius:18px;
-
-    box-shadow:0 8px 20px rgba(100,70,150,.08);
+    background:#faf8ff;
+    border:2px solid #e4dafa;
+    border-radius:17px;
 }
 
 .leaderboard h3{
-    margin:0 0 12px;
-
     text-align:center;
-
-    color:var(--purple-dark);
+    color:var(--purple2);
+    margin:0 0 10px;
 }
 
 .rank-row{
     display:flex;
     justify-content:space-between;
+    gap:8px;
 
-    gap:12px;
-
-    padding:10px 8px;
-
-    border-bottom:1px dashed #ddd7eb;
-}
-
-.rank-row:first-of-type{
-    background:#fff9dc;
-    border-radius:10px;
+    padding:9px 5px;
+    border-bottom:1px dashed #ddd6e8;
 }
 
 .rank-row:last-child{
-    border-bottom:0;
+    border:0;
 }
 
 .rank-name{
+    white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
-    white-space:nowrap;
 }
 
 .rank-score{
-    color:var(--purple-dark);
+    color:var(--purple2);
     font-weight:bold;
 }
 
 .loading{
-    text-align:center;
-
     color:var(--muted);
-
-    padding:10px;
+    text-align:center;
+    padding:8px;
 }
 
-
-/* =========================
-   بازی دوباره
-========================= */
-
 .restart{
-    display:block;
-
     width:100%;
     max-width:420px;
 
-    margin:23px auto 10px;
-    padding:15px;
+    padding:14px;
 
     border:0;
-    border-radius:15px;
+    border-radius:14px;
 
     background:linear-gradient(90deg,var(--pink),var(--purple));
-
     color:#fff;
 
     font-size:16px;
     font-weight:bold;
-
     cursor:pointer;
-
-    box-shadow:0 7px 17px rgba(244,114,182,.22);
 }
-
-.restart:hover{
-    transform:translateY(-2px);
-}
-
-
-/* =========================
-   بازگشت
-========================= */
 
 .back{
     display:block;
-
-    margin:22px auto 10px;
-    padding:11px;
-
     text-align:center;
 
-    color:var(--purple-dark);
+    margin:18px 0 7px;
+    padding:10px;
 
-    font-weight:bold;
     text-decoration:none;
+    color:var(--purple2);
+    font-weight:bold;
 }
 
 
 /* =========================
-   انیمیشن
+   انیمیشن‌ها
 ========================= */
 
-@keyframes pop{
-    from{
-        transform:scale(.97);
-        opacity:.3;
-    }
+.spark{
+    position:fixed;
+    z-index:999;
 
-    to{
-        transform:scale(1);
+    pointer-events:none;
+
+    font-size:20px;
+
+    animation:sparkFly .75s ease-out forwards;
+}
+
+@keyframes sparkFly{
+    0%{
+        transform:translate(0,0) scale(.5) rotate(0);
         opacity:1;
+    }
+    100%{
+        transform:translate(var(--x),var(--y)) scale(1.5) rotate(180deg);
+        opacity:0;
     }
 }
 
-@keyframes float{
-    0%,100%{
-        transform:translateY(0) rotate(-2deg);
-    }
+@keyframes trainHop{
+    0%,100%{transform:translateY(0)}
+    40%{transform:translateY(-9px)}
+}
 
-    50%{
-        transform:translateY(-7px) rotate(2deg);
-    }
+@keyframes shake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-5px)}
+    75%{transform:translateX(5px)}
+}
+
+@keyframes pop{
+    from{opacity:.2;transform:scale(.97)}
+    to{opacity:1;transform:scale(1)}
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0) rotate(-2deg)}
+    50%{transform:translateY(-6px) rotate(2deg)}
 }
 
 
@@ -726,41 +857,49 @@ button,a{
 @media(max-width:600px){
 
     .app{
-        padding:10px;
+        padding:8px;
     }
 
     .status{
         grid-template-columns:1fr 1fr;
     }
 
-    .game-area{
-        padding:14px;
+    .world{
+        height:155px;
     }
 
-    .options{
-        grid-template-columns:1fr;
+    .train{
+        transform:scale(.82);
+        transform-origin:left bottom;
     }
 
-    .option{
-        min-height:58px;
+    .stage{
+        min-height:87px;
+        font-size:13px;
     }
 
-    .hero h1{
-        font-size:29px;
+    .content{
+        padding:13px;
     }
 }
 
+@media(max-width:370px){
 
-/* کاهش حرکت */
+    .stage-grid{
+        grid-template-columns:1fr;
+    }
+
+    .world{
+        height:145px;
+    }
+}
 
 @media(prefers-reduced-motion:reduce){
-
     *{
         animation:none!important;
         transition:none!important;
     }
 }
-
 </style>
 </head>
 
@@ -770,16 +909,14 @@ button,a{
 
 <header class="hero">
 
-    <div class="hero-badge">
+    <div class="badge">
         🎓 ریاضی هفتم • فصل اول • درس ۱
     </div>
 
-    <h1>
-        🧭 مأموریت حل مسئله
-    </h1>
+    <h1>🚂 قطار حل مسئله</h1>
 
     <p>
-        چهار مرحله حل مسئله را بشناس و مأموریت‌ها را یکی‌یکی فتح کن! 🚀
+        کارت هر مأموریت را به ایستگاه درست بفرست و قطار را به مقصد برسان!
     </p>
 
 </header>
@@ -789,103 +926,209 @@ button,a{
 
 <div id="gameScreen">
 
+    <!-- وضعیت -->
+
     <div class="status">
 
         <div class="stat">
-            <span class="stat-label">👤 بازیکن</span>
-            <span class="stat-value" id="playerName">---</span>
+            <small>👤 مسافر</small>
+            <strong id="playerName">---</strong>
         </div>
 
         <div class="stat">
-            <span class="stat-label">🎯 مرحله</span>
-            <span class="stat-value" id="questionNumber">۱ از ۱۰</span>
+            <small>🚩 مأموریت</small>
+            <strong id="questionNumber">۱ از ۱۰</strong>
         </div>
 
         <div class="stat">
-            <span class="stat-label">⭐ امتیاز</span>
-            <span class="stat-value" id="score">۰</span>
+            <small>⭐ امتیاز</small>
+            <strong id="score">۰</strong>
         </div>
 
         <div class="stat">
-            <span class="stat-label">⏱️ زمان</span>
-            <span class="stat-value" id="timeStatus">۳۰ ثانیه</span>
+            <small>⏱️ زمان</small>
+            <strong id="timeStatus">۳۰ ثانیه</strong>
         </div>
 
     </div>
 
 
-    <div class="game-area">
+    <!-- منظره -->
 
-        <div class="timer-wrap">
+    <div class="world">
 
-            <div class="timer-row">
+        <div class="sun"></div>
 
-                <span>
-                    ⏱️ زمان مأموریت
-                </span>
+        <div class="hill one"></div>
+        <div class="hill two"></div>
 
-                <span class="timer-number" id="timerNumber">
-                    ۳۰
-                </span>
+        <div class="stations" id="stations"></div>
 
+        <div class="sleepers"></div>
+        <div class="track"></div>
+
+        <div class="train" id="train">
+
+            <div class="engine">
+                <span class="wheel w1"></span>
+                <span class="wheel w2"></span>
             </div>
 
-            <div class="timer-track">
-                <div class="timer-bar" id="timerBar"></div>
+            <div class="car c1">
+                <span class="wheel w1"></span>
+                <span class="wheel w2"></span>
+            </div>
+
+            <div class="car c2">
+                <span class="wheel w1"></span>
+                <span class="wheel w2"></span>
+            </div>
+
+            <div class="car c3">
+                <span class="wheel w1"></span>
+                <span class="wheel w2"></span>
             </div>
 
         </div>
 
+    </div>
 
-        <div class="mission" id="missionType">
-            🎯 تشخیص مرحله
+
+    <div class="content">
+
+        <!-- تایمر -->
+
+        <div class="timer-head">
+            <span>⏱️ زمان حرکت</span>
+            <strong id="timerNumber">۳۰</strong>
+        </div>
+
+        <div class="timer-track">
+            <div class="timer-bar" id="timerBar"></div>
         </div>
 
 
-        <p class="question" id="questionText"></p>
+        <!-- ماموریت -->
+
+        <div class="mission-label" id="missionLabel">
+            🎫 کارت مأموریت
+        </div>
+
+        <div class="instruction">
+            کارت را لمس کن و ایستگاه درست را انتخاب کن؛
+            در دسکتاپ می‌توانی آن را Drag هم بکنی.
+        </div>
 
 
-        <div class="options" id="options"></div>
+        <div
+            class="problem-card"
+            id="problemCard"
+            draggable="true">
+        </div>
 
+
+        <div class="stage-title">
+            کارت مربوط به کدام مرحله حل مسئله است؟
+        </div>
+
+
+        <div class="stage-grid">
+
+            <button
+                class="stage"
+                type="button"
+                data-stage="understand">
+
+                <span class="icon">🔎</span>
+
+                فهمیدن مسئله
+
+                <small>
+                    داده‌ها • خواسته • شرط‌ها
+                </small>
+
+            </button>
+
+
+            <button
+                class="stage"
+                type="button"
+                data-stage="strategy">
+
+                <span class="icon">🧰</span>
+
+                انتخاب راهبرد
+
+                <small>
+                    انتخاب ابزار مناسب
+                </small>
+
+            </button>
+
+
+            <button
+                class="stage"
+                type="button"
+                data-stage="solve">
+
+                <span class="icon">⚙️</span>
+
+                حل مسئله
+
+                <small>
+                    اجرای راهبرد
+                </small>
+
+            </button>
+
+
+            <button
+                class="stage"
+                type="button"
+                data-stage="check">
+
+                <span class="icon">✅</span>
+
+                بازگشت به عقب
+
+                <small>
+                    بررسی جواب و منطق
+                </small>
+
+            </button>
+
+        </div>
+
+
+        <!-- بازخورد -->
 
         <div class="feedback" id="feedback">
 
-            <div class="feedback-title" id="feedbackTitle"></div>
+            <strong id="feedbackTitle"></strong>
 
-            <div class="explanation" id="feedbackText"></div>
+            <div
+                class="feedback-text"
+                id="feedbackText">
+            </div>
 
         </div>
 
 
-        <button class="next-btn"
-                id="nextButton"
-                type="button">
+        <button
+            class="next-btn"
+            type="button"
+            id="nextButton">
 
-            سؤال بعدی 🚀
+            حرکت به ایستگاه بعد 🚂
 
         </button>
-
-    </div>
-
-
-    <div class="mini-guide">
-
-        💡 یادآوری:
-        <b>
-        فهمیدن مسئله
-        ← انتخاب راهبرد
-        ← حل مسئله
-        ← بازگشت به عقب
-        </b>
 
     </div>
 
 </div>
 
 
-<!-- =========================
-     نتیجه
-========================= -->
+<!-- نتیجه -->
 
 <div class="result" id="resultScreen">
 
@@ -894,20 +1137,18 @@ button,a{
     </div>
 
     <h2>
-        مأموریت به پایان رسید!
+        قطار به مقصد رسید!
     </h2>
 
     <p>
-        قهرمان امروز:
+        راننده قطار:
         <strong id="resultName"></strong>
     </p>
 
 
     <div class="final-score">
 
-        <strong id="finalScore">
-            ۰
-        </strong>
+        <strong id="finalScore">۰</strong>
 
         <span>
             از 100 امتیاز
@@ -916,17 +1157,21 @@ button,a{
     </div>
 
 
-    <div class="motivation" id="motivation"></div>
+    <div
+        class="motivation"
+        id="motivation">
+    </div>
 
 
     <div class="leaderboard">
 
         <h3>
-            🏅 برترین‌های این بازی
+            🏅 برترین راننده‌های قطار
         </h3>
 
-        <div id="leaderboardContent"
-             class="loading">
+        <div
+            id="leaderboardContent"
+            class="loading">
 
             در حال دریافت جدول برترین‌ها...
 
@@ -935,11 +1180,12 @@ button,a{
     </div>
 
 
-    <button class="restart"
-            id="restartButton"
-            type="button">
+    <button
+        type="button"
+        class="restart"
+        id="restartButton">
 
-        🔄 بازی دوباره
+        🔄 سفر دوباره
 
     </button>
 
@@ -967,332 +1213,217 @@ const QUESTION_TIME = 30;
 const player = GameSDK.init(GAME_ID);
 
 
-/* ========================================
-   بانک سؤال
-======================================== */
+/* =========================================
+   مراحل
+========================================= */
 
-const QUESTION_BANK = [
+const STAGE_DATA = {
+
+    understand:{
+        title:"فهمیدن مسئله",
+        icon:"🔎"
+    },
+
+    strategy:{
+        title:"انتخاب راهبرد",
+        icon:"🧰"
+    },
+
+    solve:{
+        title:"حل مسئله",
+        icon:"⚙️"
+    },
+
+    check:{
+        title:"بازگشت به عقب",
+        icon:"✅"
+    }
+
+};
+
+
+/* =========================================
+   بانک مأموریت‌ها
+========================================= */
+
+const MISSION_BANK = [
 
 {
-type:"🎯 تشخیص مرحله",
-q:"اولین کاری که پس از خواندن یک مسئله باید انجام دهیم چیست؟",
-options:[
-"فهمیدن داده‌ها و خواسته مسئله",
-"شروع سریع محاسبات",
-"نوشتن جواب نهایی",
-"بازگشت به عقب"
-],
-answer:0,
-explanation:"مرحله اول «فهمیدن مسئله» است. ابتدا باید بدانیم چه اطلاعاتی داریم و دقیقاً چه چیزی خواسته شده است."
+text:"صورت مسئله را با دقت می‌خوانی و مشخص می‌کنی دقیقاً چه چیزی از تو خواسته شده است.",
+stage:"understand",
+explanation:"مشخص کردن خواسته یکی از مهم‌ترین کارهای مرحله «فهمیدن مسئله» است."
 },
 
 {
-type:"🎯 تشخیص مرحله",
-q:"علی مسئله را خوب خوانده و داده‌ها و خواسته را مشخص کرده است. حالا باید چه کاری انجام دهد؟",
-options:[
-"جواب را حدس بزند و تمام کند",
-"راهبرد مناسب انتخاب کند",
-"پاسخ را پاک کند",
-"صورت مسئله را تغییر دهد"
-],
-answer:1,
-explanation:"پس از فهمیدن مسئله، مرحله دوم انتخاب یک راهبرد مناسب برای رسیدن به پاسخ است."
+text:"عددها و اطلاعات مهم صورت مسئله را جدا می‌کنی تا داده‌های مسئله مشخص شوند.",
+stage:"understand",
+explanation:"شناخت داده‌ها قبل از هر محاسبه، بخشی از فهمیدن مسئله است."
 },
 
 {
-type:"🧠 تصمیم ریاضی",
-q:"مریم راهبرد رسم شکل را انتخاب کرده است. اکنون در کدام مرحله حل مسئله قرار دارد؟",
-options:[
-"فهمیدن مسئله",
-"انتخاب راهبرد",
-"بازگشت به عقب",
-"نوشتن پاسخ نهایی"
-],
-answer:1,
-explanation:"انتخاب «رسم شکل» یعنی مریم در مرحله دوم، یعنی انتخاب راهبرد مناسب، قرار دارد."
+text:"مسئله را با زبان و کلمات خودت دوباره بیان می‌کنی.",
+stage:"understand",
+explanation:"بازگویی مسئله با زبان خودمان کمک می‌کند مطمئن شویم آن را درست فهمیده‌ایم."
 },
 
 {
-type:"🔍 بازگشت به عقب",
-q:"رضا به جواب ۳۵ متر رسیده است. برای کامل شدن فرایند حل مسئله چه کاری باید انجام دهد؟",
-options:[
-"بدون بررسی جواب را تحویل دهد",
-"فقط عدد ۳۵ را دوباره بنویسد",
-"بررسی کند جواب با خواسته و شرایط مسئله سازگار است",
-"یک مسئله جدید بسازد"
-],
-answer:2,
-explanation:"در مرحله چهارم باید پاسخ را بررسی کنیم و ببینیم آیا منطقی و مطابق خواسته مسئله است."
+text:"شرط‌های خاص مسئله را جدا می‌کنی تا چیزی را از قلم نیندازی.",
+stage:"understand",
+explanation:"مشخص کردن شرط‌ها در مرحله فهم مسئله انجام می‌شود."
 },
 
 {
-type:"⚠️ پیدا کردن اشتباه",
-q:"دانش‌آموزی بدون مشخص کردن خواسته مسئله، فوراً چند عدد را با هم جمع کرده است. کدام مرحله را نادیده گرفته؟",
-options:[
-"فهمیدن مسئله",
-"حل مسئله",
-"بازگشت به عقب",
-"نوشتن عنوان"
-],
-answer:0,
-explanation:"قبل از هر محاسبه باید داده‌ها، شرط‌ها و خواسته مسئله را بفهمیم."
+text:"بعد از خواندن یک مسئله هندسی تصمیم می‌گیری برای دیدن بهتر رابطه‌ها، شکل ساده‌ای رسم کنی.",
+stage:"strategy",
+explanation:"تصمیم درباره استفاده از «رسم شکل» مربوط به مرحله انتخاب راهبرد است."
 },
 
 {
-type:"🧩 ترتیب مراحل",
-q:"کدام ترتیب برای حل یک مسئله درست است؟",
-options:[
-"حل ← فهم ← بررسی ← انتخاب راهبرد",
-"فهم ← انتخاب راهبرد ← حل ← بازگشت به عقب",
-"انتخاب راهبرد ← حل ← فهم ← بررسی",
-"بررسی ← فهم ← حل ← انتخاب راهبرد"
-],
-answer:1,
-explanation:"ترتیب استاندارد چهار مرحله این است: فهم مسئله، انتخاب راهبرد، حل مسئله و بازگشت به عقب."
+text:"می‌بینی باید همه حالت‌های ممکن را پیدا کنی و تصمیم می‌گیری آنها را با نظم در یک جدول بنویسی.",
+stage:"strategy",
+explanation:"انتخاب الگوسازی و جدول، انتخاب یک راهبرد مناسب است."
 },
 
 {
-type:"🎯 تشخیص راهبرد",
-q:"برای مسئله‌ای که باید تمام حالت‌های ممکن را بدون جا انداختن پیدا کنیم، کدام راهبرد مناسب‌تر است؟",
-options:[
-"الگوسازی یا تفکر نظام‌دار",
-"حدس کاملاً تصادفی",
-"پاک کردن داده‌ها",
-"فقط ماشین‌حساب"
-],
-answer:0,
-explanation:"وقتی باید همه حالت‌ها را پیدا کنیم، الگوسازی کمک می‌کند آنها را منظم و بدون تکرار بنویسیم."
+text:"مسئله خیلی بزرگ است؛ تصمیم می‌گیری اول نمونه کوچک‌تر آن را حل کنی.",
+stage:"strategy",
+explanation:"انتخاب «حل مسئله ساده‌تر» در مرحله انتخاب راهبرد انجام می‌شود."
 },
 
 {
-type:"🎯 تشخیص راهبرد",
-q:"در مسئله‌ای رابطه مکانی بین چند نقطه اهمیت زیادی دارد. کدام راهبرد می‌تواند مناسب باشد؟",
-options:[
-"رسم شکل",
-"حذف صورت مسئله",
-"نوشتن جواب قبل از حل",
-"حفظ کردن پاسخ"
-],
-answer:0,
-explanation:"رسم شکل معمولاً برای دیدن رابطه‌های مکانی و هندسی بسیار مفید است."
+text:"برای مقدار مجهول تصمیم می‌گیری از یک مربع □ و یک تساوی استفاده کنی.",
+stage:"strategy",
+explanation:"انتخاب روش نمادین یعنی راهبرد حل مسئله را تعیین کرده‌ای."
 },
 
 {
-type:"🎯 تشخیص راهبرد",
-q:"یک مسئله چند مرحله دارد و جواب هر مرحله برای مرحله بعد لازم است. کدام راهبرد مناسب‌تر است؟",
-options:[
-"زیرمسئله",
-"فقط الگویابی",
-"حذف همه داده‌ها",
-"حدس بدون بررسی"
-],
-answer:0,
-explanation:"در راهبرد زیرمسئله، مسئله اصلی را به چند سؤال کوچک‌تر و وابسته تقسیم می‌کنیم."
+text:"شکلی را که انتخاب کرده بودی رسم می‌کنی و اندازه‌های داده‌شده را روی آن می‌نویسی.",
+stage:"solve",
+explanation:"راهبرد قبلاً انتخاب شده و اکنون در حال اجرای آن هستی؛ پس مرحله حل مسئله است."
 },
 
 {
-type:"🎯 تشخیص راهبرد",
-q:"اگر مسئله اصلی خیلی بزرگ باشد و بتوانیم ابتدا نمونه کوچک‌تری از آن را حل کنیم، از چه راهبردی استفاده کرده‌ایم؟",
-options:[
-"حل مسئله ساده‌تر",
-"رسم نقاشی",
-"حذف جواب",
-"بازگشت بدون حل"
-],
-answer:0,
-explanation:"حل یک نمونه کوچک‌تر و تعمیم نتیجه به مسئله اصلی، راهبرد «حل مسئله ساده‌تر» است."
+text:"جدول تمام حالت‌های ممکن را که تصمیم گرفته بودی بسازی، ردیف‌به‌ردیف کامل می‌کنی.",
+stage:"solve",
+explanation:"اینجا راهبرد الگوسازی در حال اجراست، بنابراین در مرحله حل مسئله هستیم."
 },
 
 {
-type:"🎯 تشخیص راهبرد",
-q:"در دنباله ۳، ۷، ۱۱، ۱۵، ... برای پیدا کردن جمله‌های بعدی چه راهبردی طبیعی‌تر است؟",
-options:[
-"الگویابی",
-"زیرمسئله",
-"رسم نقشه",
-"حذف حالت‌ها"
-],
-answer:0,
-explanation:"در دنباله‌ها معمولاً به دنبال نظم و رابطه بین جمله‌ها می‌گردیم؛ این همان الگویابی است."
+text:"چند عدد را به جای مجهول امتحان می‌کنی و با نتیجه هر آزمایش، حدس بعدی را بهتر می‌کنی.",
+stage:"solve",
+explanation:"در این موقعیت راهبرد حدس و آزمایش در حال اجراست."
 },
 
 {
-type:"🎯 تشخیص راهبرد",
-q:"عدد مجهولی داریم که سه برابر آن به اضافه ۲ برابر ۲۰ شده است. کدام نمایش برای حل مناسب‌تر است؟",
-options:[
-"روش نمادین با یک □ یا مجهول",
-"فقط رسم منظره",
-"حذف عدد ۲۰",
-"مرتب کردن حروف الفبا"
-],
-answer:0,
-explanation:"وقتی رابطه‌ای بین مقدار مجهول و داده‌ها داریم، نمایش نمادین می‌تواند مسئله را روشن کند."
+text:"مسئله اصلی را به سه زیرمسئله تقسیم کرده‌ای و حالا زیرمسئله اول را محاسبه می‌کنی.",
+stage:"solve",
+explanation:"وقتی راهبرد را اجرا و محاسبات را انجام می‌دهی، در مرحله حل مسئله قرار داری."
 },
 
 {
-type:"🧠 انتخاب هوشمند",
-q:"آیا هر مسئله فقط یک راهبرد درست برای حل دارد؟",
-options:[
-"بله، همیشه دقیقاً یک راهبرد دارد",
-"خیر، ممکن است با چند راهبرد حل شود",
-"فقط مسئله‌های هندسی چند راهبرد دارند",
-"هیچ مسئله‌ای راهبرد ندارد"
-],
-answer:1,
-explanation:"یک مسئله ممکن است با چند راهبرد متفاوت حل شود. مهم این است که راهبرد انتخاب‌شده درست و کارآمد باشد."
+text:"به عدد ۴۲ رسیده‌ای و حالا بررسی می‌کنی آیا ۴۲ همان چیزی است که سؤال از تو خواسته بود.",
+stage:"check",
+explanation:"مقایسه پاسخ با خواسته مسئله، مرحله بازگشت به عقب است."
 },
 
 {
-type:"🔍 بازگشت به عقب",
-q:"در مسئله‌ای تعداد دانش‌آموزان کلاس را ۲٫۵ نفر به دست آورده‌ایم. بهترین واکنش چیست؟",
-options:[
-"جواب را همان‌طور قبول کنیم",
-"پاسخ را در مرحله بازگشت به عقب بررسی کنیم",
-"عدد را بدون دلیل گرد کنیم",
-"صورت سؤال را حذف کنیم"
-],
-answer:1,
-explanation:"۲٫۵ دانش‌آموز منطقی نیست. بازگشت به عقب کمک می‌کند خطای راهبرد یا محاسبه را پیدا کنیم."
+text:"جواب تعداد دانش‌آموزان را ۲٫۵ نفر به دست آورده‌ای و متوجه می‌شوی این پاسخ منطقی نیست.",
+stage:"check",
+explanation:"تشخیص غیرمنطقی بودن پاسخ بخشی از بررسی نهایی یا بازگشت به عقب است."
 },
 
 {
-type:"📌 فهم مسئله",
-q:"در مرحله «فهمیدن مسئله» کدام کار مناسب است؟",
-options:[
-"مشخص کردن داده‌ها و خواسته",
-"نوشتن پاسخ بدون محاسبه",
-"نادیده گرفتن شرط‌ها",
-"انتخاب تصادفی جواب"
-],
-answer:0,
-explanation:"یکی از مهم‌ترین کارهای مرحله فهم مسئله، جدا کردن داده‌ها، خواسته و شرط‌های مسئله است."
+text:"بعد از حل، محاسباتت را یک‌بار دیگر کنترل می‌کنی تا اشتباه عددی نداشته باشی.",
+stage:"check",
+explanation:"کنترل مراحل و محاسبات پس از حل در مرحله بازگشت به عقب انجام می‌شود."
 },
 
 {
-type:"📌 فهم مسئله",
-q:"بازنویسی یک مسئله با کلمات خودمان بیشتر به کدام مرحله کمک می‌کند؟",
-options:[
-"فهمیدن مسئله",
-"ثبت امتیاز",
-"پایان بازی",
-"حذف پاسخ"
-],
-answer:0,
-explanation:"بیان مسئله با زبان خودمان کمک می‌کند مطمئن شویم صورت و خواسته مسئله را درست فهمیده‌ایم."
+text:"مسئله را از راه دیگری هم حل می‌کنی تا مطمئن شوی پاسخ قبلی درست بوده است.",
+stage:"check",
+explanation:"استفاده از راه دوم برای کنترل نتیجه نمونه‌ای از بازگشت به عقب است."
 },
 
 {
-type:"🧠 تصمیم ریاضی",
-q:"یک راهبرد را انتخاب کرده‌ایم ولی در هنگام حل متوجه می‌شویم به نتیجه نمی‌رسد. چه کنیم؟",
-options:[
-"همان راهبرد را تا همیشه ادامه دهیم",
-"به مرحله انتخاب راهبرد برگردیم و راه دیگری امتحان کنیم",
-"جواب دلخواه بنویسیم",
-"یکی از داده‌ها را حذف کنیم"
-],
-answer:1,
-explanation:"اگر راهبرد مناسب نبود، می‌توانیم به مرحله دوم برگردیم و راهبرد دیگری انتخاب کنیم."
+text:"قبل از انتخاب هر راهی، تشخیص می‌دهی کدام اطلاعات مسئله لازم و کدام اطلاعات اضافی‌اند.",
+stage:"understand",
+explanation:"تشخیص اطلاعات لازم و اضافی بخشی از فهم صحیح مسئله است."
 },
 
 {
-type:"🔍 کنترل پاسخ",
-q:"کدام مورد نمونه‌ای از «بازگشت به عقب» است؟",
-options:[
-"مشخص کردن داده‌ها",
-"انتخاب رسم شکل",
-"حل محاسبات",
-"جایگذاری جواب در شرایط مسئله و بررسی آن"
-],
-answer:3,
-explanation:"در بازگشت به عقب، جواب و مراحل حل را بررسی می‌کنیم و مطمئن می‌شویم پاسخ با مسئله سازگار است."
+text:"بین «رسم شکل» و «حدس و آزمایش» فکر می‌کنی و یکی را برای مسئله مناسب‌تر می‌دانی.",
+stage:"strategy",
+explanation:"مقایسه راه‌ها و انتخاب یکی از آنها دقیقاً مرحله انتخاب راهبرد است."
 },
 
 {
-type:"🎯 تشخیص راهبرد",
-q:"برای مسئله‌ای که باید چند پاسخ احتمالی را امتحان کنیم و هر بار حدس بعدی را بهتر کنیم، چه راهبردی مناسب است؟",
-options:[
-"حدس و آزمایش",
-"فقط رسم شکل",
-"الگوسازی بدون بررسی",
-"حذف خواسته"
-],
-answer:0,
-explanation:"در حدس و آزمایش، هر حدس بررسی می‌شود و نتیجه آن برای انتخاب حدس بهتر بعدی به کار می‌رود."
+text:"قاعده‌ای را که در نمونه‌های کوچک پیدا کرده‌ای برای مسئله اصلی به کار می‌بری.",
+stage:"solve",
+explanation:"در این مرحله راهبرد حل مسئله ساده‌تر را اجرا می‌کنی."
 },
 
 {
-type:"⚠️ دام آموزشی",
-q:"کدام جمله درباره حل مسئله درست‌تر است؟",
-options:[
-"رسیدن به یک عدد همیشه پایان حل مسئله است",
-"پس از رسیدن به پاسخ باید منطقی بودن آن را بررسی کرد",
-"انتخاب راهبرد قبل از فهم سؤال انجام می‌شود",
-"همه اطلاعات صورت سؤال همیشه لازم‌اند"
-],
-answer:1,
-explanation:"پیدا کردن پاسخ عددی پایان کار نیست؛ باید بررسی کنیم پاسخ همان خواسته مسئله و منطقی است."
+text:"بعد از رسیدن به جواب، واحد پاسخ را بررسی می‌کنی تا مثلاً به جای متر، مترمربع ننوشته باشی.",
+stage:"check",
+explanation:"بررسی واحد و معنای پاسخ بخشی از بازگشت به عقب است."
 },
 
 {
-type:"🧩 ترتیب مراحل",
-q:"دانش‌آموز ابتدا داده‌ها را مشخص کرد، سپس رسم شکل را انتخاب کرد و شکل را رسم نمود. قدم بعدی چیست؟",
-options:[
-"بررسی پاسخ و مراحل حل",
-"شروع دوباره بدون دلیل",
-"حذف داده‌ها",
-"انتخاب نام برای مسئله"
-],
-answer:0,
-explanation:"پس از اجرای راهبرد و رسیدن به پاسخ، مرحله بعد بازگشت به عقب و بررسی نتیجه است."
+text:"در مسئله مشخص می‌کنی چه چیزی معلوم است و چه چیزی مجهول.",
+stage:"understand",
+explanation:"شناخت معلوم‌ها و مجهول‌ها به فهم ساختار مسئله کمک می‌کند."
 },
 
 {
-type:"🎯 تشخیص راهبرد",
-q:"برای یافتن نظم بین شکل‌های ۱، ۲، ۳ و پیش‌بینی شکل دهم، کدام راهبرد مناسب است؟",
-options:[
-"الگویابی",
-"زیرمسئله",
-"حذف حالت نامطلوب",
-"حدس تصادفی"
-],
-answer:0,
-explanation:"وقتی میان شکل‌ها رابطه و نظم وجود دارد، راهبرد الگویابی انتخاب طبیعی است."
+text:"با دیدن یک دنباله عددی تصمیم می‌گیری رابطه بین جمله‌ها را پیدا کنی.",
+stage:"strategy",
+explanation:"تصمیم به استفاده از الگویابی مربوط به انتخاب راهبرد است."
 },
 
 {
-type:"🎯 تشخیص راهبرد",
-q:"ابتدا همه حالت‌های ممکن را نوشته‌ایم و سپس با شرط‌های سؤال بعضی را کنار می‌گذاریم. از چه راهبردی استفاده می‌کنیم؟",
-options:[
-"حذف حالت‌های نامطلوب",
-"رسم شکل",
-"حل مسئله ساده‌تر",
-"روش نمادین"
-],
-answer:0,
-explanation:"این دقیقاً راهبرد حذف حالت‌های نامطلوب است: تولید حالت‌ها و سپس غربال آنها با شرط‌های مسئله."
+text:"اختلاف جمله‌های دنباله را یکی‌یکی محاسبه می‌کنی تا الگو را کشف کنی.",
+stage:"solve",
+explanation:"اینجا راهبرد الگویابی را اجرا می‌کنی، پس در مرحله حل هستی."
 },
 
 {
-type:"🧠 نگاه حرفه‌ای",
-q:"مهم‌ترین فایده شناخت راهبردهای مختلف چیست؟",
-options:[
-"کمک به انتخاب راه مناسب برای مسئله‌های متفاوت",
-"حفظ کردن پاسخ همه سؤال‌ها",
-"بی‌نیاز شدن از فهم مسئله",
-"حذف مرحله بررسی جواب"
-],
-answer:0,
-explanation:"شناخت راهبردهای مختلف یک جعبه‌ابزار ذهنی می‌سازد تا برای هر مسئله راه مناسب‌تری انتخاب کنیم."
+text:"پاسخ را داخل متن مسئله قرار می‌دهی و می‌بینی تمام شرط‌های سؤال برقرار هستند.",
+stage:"check",
+explanation:"بررسی سازگاری پاسخ با تمام شرط‌ها مرحله بازگشت به عقب است."
+},
+
+{
+text:"برای اینکه صورت سؤال را بهتر درک کنی، یک نمایش خیلی ساده از موقعیت مسئله اجرا می‌کنی.",
+stage:"understand",
+explanation:"نمایش ساده موقعیت می‌تواند برای فهم بهتر خود مسئله استفاده شود."
+},
+
+{
+text:"متوجه می‌شوی راهبرد انتخاب‌شده به نتیجه نمی‌رسد و تصمیم می‌گیری راهبرد دیگری انتخاب کنی.",
+stage:"strategy",
+explanation:"وقتی راهبرد مناسب نیست، به مرحله انتخاب راهبرد برمی‌گردیم."
+},
+
+{
+text:"حالت‌های ممکن را نوشته‌ای و حالا با شرط‌های سؤال حالت‌های نامطلوب را یکی‌یکی حذف می‌کنی.",
+stage:"solve",
+explanation:"در حال اجرای راهبرد حذف حالت‌های نامطلوب هستی؛ بنابراین مرحله حل است."
+},
+
+{
+text:"جواب مسئله پول را به دست آورده‌ای و بررسی می‌کنی آیا مقدار پول منفی یا غیرممکن نشده است.",
+stage:"check",
+explanation:"کنترل منطقی بودن نتیجه بخشی از بازگشت به عقب است."
 }
 
 ];
 
 
-/* ========================================
-   وضعیت بازی
-======================================== */
+/* =========================================
+   وضعیت
+========================================= */
 
-let questions=[];
+let missions=[];
 let currentIndex=0;
 let score=0;
 
@@ -1304,48 +1435,92 @@ let timerInterval=null;
 let gameFinished=false;
 let finishSubmitted=false;
 
-
-/* ========================================
-   عناصر
-======================================== */
-
-const playerNameEl=document.getElementById("playerName");
-const questionNumberEl=document.getElementById("questionNumber");
-const scoreEl=document.getElementById("score");
-const timeStatusEl=document.getElementById("timeStatus");
-
-const timerNumberEl=document.getElementById("timerNumber");
-const timerBarEl=document.getElementById("timerBar");
-
-const missionTypeEl=document.getElementById("missionType");
-const questionTextEl=document.getElementById("questionText");
-const optionsEl=document.getElementById("options");
-
-const feedbackEl=document.getElementById("feedback");
-const feedbackTitleEl=document.getElementById("feedbackTitle");
-const feedbackTextEl=document.getElementById("feedbackText");
-
-const nextButton=document.getElementById("nextButton");
-
-const gameScreen=document.getElementById("gameScreen");
-const resultScreen=document.getElementById("resultScreen");
-
-const resultNameEl=document.getElementById("resultName");
-const finalScoreEl=document.getElementById("finalScore");
-const motivationEl=document.getElementById("motivation");
-
-const leaderboardContent=document.getElementById("leaderboardContent");
-const restartButton=document.getElementById("restartButton");
+let selectedCard=false;
 
 
-/* ========================================
-   ابزارها
-======================================== */
+/* =========================================
+   DOM
+========================================= */
+
+const playerNameEl=
+    document.getElementById("playerName");
+
+const questionNumberEl=
+    document.getElementById("questionNumber");
+
+const scoreEl=
+    document.getElementById("score");
+
+const timeStatusEl=
+    document.getElementById("timeStatus");
+
+const timerNumberEl=
+    document.getElementById("timerNumber");
+
+const timerBarEl=
+    document.getElementById("timerBar");
+
+const missionLabelEl=
+    document.getElementById("missionLabel");
+
+const problemCard=
+    document.getElementById("problemCard");
+
+const stages=[
+    ...document.querySelectorAll(".stage")
+];
+
+const feedbackEl=
+    document.getElementById("feedback");
+
+const feedbackTitleEl=
+    document.getElementById("feedbackTitle");
+
+const feedbackTextEl=
+    document.getElementById("feedbackText");
+
+const nextButton=
+    document.getElementById("nextButton");
+
+const train=
+    document.getElementById("train");
+
+const stationsEl=
+    document.getElementById("stations");
+
+const gameScreen=
+    document.getElementById("gameScreen");
+
+const resultScreen=
+    document.getElementById("resultScreen");
+
+const resultNameEl=
+    document.getElementById("resultName");
+
+const finalScoreEl=
+    document.getElementById("finalScore");
+
+const motivationEl=
+    document.getElementById("motivation");
+
+const leaderboardContent=
+    document.getElementById("leaderboardContent");
+
+const restartButton=
+    document.getElementById("restartButton");
+
+
+/* =========================================
+   ابزار
+========================================= */
 
 function faNumber(value){
 
     return String(value)
-        .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+        .replace(
+            /\d/g,
+            d=>"۰۱۲۳۴۵۶۷۸۹"[d]
+        );
 }
 
 
@@ -1353,11 +1528,16 @@ function shuffle(array){
 
     const copy=[...array];
 
-    for(let i=copy.length-1;i>0;i--){
+    for(
+        let i=copy.length-1;
+        i>0;
+        i--
+    ){
 
-        const j=Math.floor(
-            Math.random()*(i+1)
-        );
+        const j=
+            Math.floor(
+                Math.random()*(i+1)
+            );
 
         [copy[i],copy[j]]=
         [copy[j],copy[i]];
@@ -1367,57 +1547,211 @@ function shuffle(array){
 }
 
 
-function prepareQuestions(){
+function pointsForTime(seconds){
 
-    questions=shuffle(QUESTION_BANK)
-        .slice(0,TOTAL_QUESTIONS)
-        .map(item=>{
+    if(seconds<=5) return 10;
 
-            const indexedOptions=
-                item.options.map((text,index)=>({
+    if(seconds<=10) return 8;
 
-                    text,
-                    isCorrect:index===item.answer
+    if(seconds<=15) return 6;
 
-                }));
+    if(seconds<=20) return 4;
 
-            const shuffledOptions=
-                shuffle(indexedOptions);
-
-            return{
-
-                ...item,
-
-                shuffledOptions,
-
-                correctIndex:
-                    shuffledOptions
-                    .findIndex(x=>x.isCorrect)
-            };
-
-        });
-}
-
-
-function pointsForTime(elapsedSeconds){
-
-    if(elapsedSeconds<=5) return 10;
-
-    if(elapsedSeconds<=10) return 8;
-
-    if(elapsedSeconds<=15) return 6;
-
-    if(elapsedSeconds<=20) return 4;
-
-    if(elapsedSeconds<=30) return 2;
+    if(seconds<=30) return 2;
 
     return 0;
 }
 
 
-/* ========================================
+function prepareMissions(){
+
+    /*
+      برای تنوع بهتر، ابتدا تلاش می‌کنیم
+      از هر چهار مرحله سؤال داشته باشیم.
+    */
+
+    const groups={};
+
+    Object.keys(STAGE_DATA)
+        .forEach(key=>{
+
+            groups[key]=shuffle(
+                MISSION_BANK.filter(
+                    x=>x.stage===key
+                )
+            );
+
+        });
+
+
+    const selected=[];
+
+    Object.keys(groups)
+        .forEach(key=>{
+
+            if(groups[key][0]){
+                selected.push(
+                    groups[key][0]
+                );
+            }
+
+        });
+
+
+    const remaining=
+        shuffle(
+            MISSION_BANK.filter(
+                item=>
+                    !selected.includes(item)
+            )
+        );
+
+
+    while(
+        selected.length<TOTAL_QUESTIONS &&
+        remaining.length
+    ){
+
+        selected.push(
+            remaining.shift()
+        );
+    }
+
+
+    missions=
+        shuffle(selected)
+        .slice(0,TOTAL_QUESTIONS);
+}
+
+
+/* =========================================
+   ایستگاه‌ها و حرکت قطار
+========================================= */
+
+function buildStations(){
+
+    stationsEl.innerHTML="";
+
+    for(
+        let i=0;
+        i<TOTAL_QUESTIONS;
+        i++
+    ){
+
+        const dot=
+            document.createElement("div");
+
+        dot.className="station";
+
+        dot.textContent=
+            faNumber(i+1);
+
+        stationsEl.appendChild(dot);
+    }
+}
+
+
+function updateTrain(){
+
+    const maxProgress=76;
+
+    let ratio=
+        currentIndex/
+        (TOTAL_QUESTIONS-1);
+
+    if(gameFinished){
+        ratio=1;
+    }
+
+    train.style.left=
+        (2+ratio*maxProgress)+"%";
+
+
+    const dots=[
+        ...stationsEl.children
+    ];
+
+
+    dots.forEach(
+        (dot,index)=>{
+
+            dot.classList.toggle(
+                "reached",
+                index<=currentIndex
+            );
+
+        }
+    );
+}
+
+
+function celebrateTrain(){
+
+    train.classList.remove("celebrate");
+
+    void train.offsetWidth;
+
+    train.classList.add("celebrate");
+
+
+    const rect=
+        train.getBoundingClientRect();
+
+
+    const emojis=[
+        "⭐","✨","🌟","🎉"
+    ];
+
+
+    for(let i=0;i<9;i++){
+
+        const spark=
+            document.createElement("span");
+
+        spark.className="spark";
+
+        spark.textContent=
+            emojis[
+                Math.floor(
+                    Math.random()*
+                    emojis.length
+                )
+            ];
+
+
+        spark.style.left=
+            (rect.left+rect.width/2)+"px";
+
+        spark.style.top=
+            (rect.top+15)+"px";
+
+
+        spark.style.setProperty(
+            "--x",
+            (Math.random()*150-75)+"px"
+        );
+
+        spark.style.setProperty(
+            "--y",
+            (-30-Math.random()*100)+"px"
+        );
+
+
+        document.body
+            .appendChild(spark);
+
+
+        setTimeout(
+            ()=>spark.remove(),
+            800
+        );
+    }
+}
+
+
+/* =========================================
    تایمر
-======================================== */
+========================================= */
 
 function stopTimer(){
 
@@ -1432,15 +1766,19 @@ function stopTimer(){
 
 function updateTimer(){
 
-    if(answerChecked || gameFinished){
+    if(
+        answerChecked ||
+        gameFinished
+    ){
 
         stopTimer();
-
         return;
     }
 
+
     const elapsed=
         (Date.now()-questionStartTime)/1000;
+
 
     const remaining=
         Math.max(
@@ -1448,29 +1786,31 @@ function updateTimer(){
             QUESTION_TIME-elapsed
         );
 
-    const displaySeconds=
+
+    const seconds=
         Math.ceil(remaining);
 
-    const percent=
-        (remaining/QUESTION_TIME)*100;
 
     timerNumberEl.textContent=
-        faNumber(displaySeconds);
+        faNumber(seconds);
+
 
     timeStatusEl.textContent=
-        faNumber(displaySeconds)+" ثانیه";
+        faNumber(seconds)+" ثانیه";
+
 
     timerBarEl.style.width=
-        percent+"%";
+        (
+            remaining/
+            QUESTION_TIME*
+            100
+        )+"%";
 
 
     if(remaining>15){
 
         timerBarEl.style.background=
             "var(--green)";
-
-        timerBarEl.style.boxShadow=
-            "0 0 10px rgba(34,197,94,.35)";
 
         timerNumberEl.style.color=
             "var(--green)";
@@ -1481,9 +1821,6 @@ function updateTimer(){
         timerBarEl.style.background=
             "var(--yellow)";
 
-        timerBarEl.style.boxShadow=
-            "0 0 10px rgba(251,191,36,.40)";
-
         timerNumberEl.style.color=
             "#b77900";
     }
@@ -1493,9 +1830,6 @@ function updateTimer(){
         timerBarEl.style.background=
             "var(--red)";
 
-        timerBarEl.style.boxShadow=
-            "0 0 10px rgba(251,113,133,.40)";
-
         timerNumberEl.style.color=
             "var(--red)";
     }
@@ -1503,7 +1837,7 @@ function updateTimer(){
 
     if(remaining<=0){
 
-        handleTimeout();
+        timeout();
     }
 }
 
@@ -1518,50 +1852,89 @@ function startTimer(){
         faNumber(QUESTION_TIME);
 
     timeStatusEl.textContent=
-        faNumber(QUESTION_TIME)+" ثانیه";
+        faNumber(QUESTION_TIME)+
+        " ثانیه";
 
     timerBarEl.style.width="100%";
 
     timerBarEl.style.background=
         "var(--green)";
 
-    timerBarEl.style.boxShadow=
-        "0 0 10px rgba(34,197,94,.35)";
-
     timerNumberEl.style.color=
         "var(--green)";
 
+
     timerInterval=
-        setInterval(updateTimer,100);
+        setInterval(
+            updateTimer,
+            100
+        );
 }
 
 
-/* ========================================
-   نمایش سؤال
-======================================== */
+/* =========================================
+   مرحله جدید
+========================================= */
 
-function showQuestion(){
+function resetStages(){
+
+    stages.forEach(stage=>{
+
+        stage.classList.remove(
+            "correct",
+            "wrong",
+            "locked",
+            "drag-over"
+        );
+
+        stage.disabled=false;
+    });
+}
+
+
+function lockStages(){
+
+    stages.forEach(stage=>{
+
+        stage.classList.add("locked");
+
+        stage.disabled=true;
+    });
+}
+
+
+function showMission(){
 
     stopTimer();
 
     answerChecked=false;
+    selectedCard=false;
 
-    const item=
-        questions[currentIndex];
+    resetStages();
+
+
+    const mission=
+        missions[currentIndex];
+
 
     questionNumberEl.textContent=
         faNumber(currentIndex+1)+
         " از "+
         faNumber(TOTAL_QUESTIONS);
 
+
     scoreEl.textContent=
         faNumber(score);
 
-    missionTypeEl.textContent=
-        item.type;
 
-    questionTextEl.textContent=
-        item.q;
+    missionLabelEl.textContent=
+        "🎫 کارت مأموریت "+
+        faNumber(currentIndex+1);
+
+
+    problemCard.textContent=
+        mission.text;
+
 
     feedbackEl.className=
         "feedback";
@@ -1570,98 +1943,49 @@ function showQuestion(){
 
     feedbackTextEl.textContent="";
 
-    nextButton.classList.remove("show");
 
-    optionsEl.innerHTML="";
-
-
-    item.shuffledOptions
-        .forEach((option,index)=>{
-
-            const button=
-                document.createElement("button");
-
-            button.type="button";
-
-            button.className="option";
-
-            button.textContent=
-                option.text;
-
-            button.addEventListener(
-                "click",
-                ()=>checkAnswer(index,button)
-            );
-
-            optionsEl.appendChild(button);
-        });
+    nextButton
+        .classList
+        .remove("show");
 
 
     nextButton.textContent=
-        currentIndex===TOTAL_QUESTIONS-1
-        ? "مشاهده نتیجه 🏆"
-        : "سؤال بعدی 🚀";
+        currentIndex===
+        TOTAL_QUESTIONS-1
+        ? "مشاهده مقصد 🏆"
+        : "حرکت به ایستگاه بعد 🚂";
+
+
+    updateTrain();
 
     startTimer();
 }
 
 
-/* ========================================
-   پاسخ
-======================================== */
+/* =========================================
+   ثبت انتخاب
+========================================= */
 
-function disableOptions(){
+function chooseStage(stageKey){
 
-    [...optionsEl
-        .querySelectorAll(".option")]
-        .forEach(button=>{
-
-            button.disabled=true;
-
-        });
-}
-
-
-function highlightCorrect(){
-
-    const buttons=
-        [...optionsEl
-            .querySelectorAll(".option")];
-
-    const correctButton=
-        buttons[
-            questions[currentIndex]
-            .correctIndex
-        ];
-
-    if(correctButton){
-
-        correctButton
-            .classList
-            .add("correct");
-    }
-}
-
-
-function checkAnswer(
-    selectedIndex,
-    selectedButton
-){
-
-    if(answerChecked || gameFinished){
-
+    if(
+        answerChecked ||
+        gameFinished
+    ){
         return;
     }
 
 
-    const elapsedSeconds=
-        (Date.now()-questionStartTime)
-        /1000;
+    const elapsed=
+        (
+            Date.now()-
+            questionStartTime
+        )/1000;
 
 
-    if(elapsedSeconds>=QUESTION_TIME){
+    if(elapsed>=QUESTION_TIME){
 
-        handleTimeout();
+        timeout();
 
         return;
     }
@@ -1671,38 +1995,48 @@ function checkAnswer(
 
     stopTimer();
 
-    disableOptions();
+    lockStages();
 
 
-    const item=
-        questions[currentIndex];
+    const mission=
+        missions[currentIndex];
 
 
-    const isCorrect=
-        selectedIndex===
-        item.correctIndex;
+    const chosen=
+        stages.find(
+            el=>
+                el.dataset.stage===
+                stageKey
+        );
 
 
-    let earned=0;
+    const correct=
+        stages.find(
+            el=>
+                el.dataset.stage===
+                mission.stage
+        );
 
 
-    if(isCorrect){
+    if(
+        stageKey===
+        mission.stage
+    ){
 
-        earned=
-            pointsForTime(
-                elapsedSeconds
-            );
+        const earned=
+            pointsForTime(elapsed);
+
 
         score+=earned;
 
         if(score>100){
-
             score=100;
         }
 
-        selectedButton
-            .classList
-            .add("correct");
+
+        chosen.classList.add(
+            "correct"
+        );
 
 
         feedbackEl.className=
@@ -1710,23 +2044,27 @@ function checkAnswer(
 
 
         feedbackTitleEl.textContent=
-            "✅ آفرین! +"+
+            "✅ ایستگاه درست! +"+
             faNumber(earned)+
-            " امتیاز 🎉";
+            " امتیاز";
 
 
         feedbackTextEl.textContent=
-            item.explanation;
+            mission.explanation;
+
+
+        celebrateTrain();
     }
 
     else{
 
-        selectedButton
-            .classList
-            .add("wrong");
+        chosen.classList.add(
+            "wrong"
+        );
 
-
-        highlightCorrect();
+        correct.classList.add(
+            "correct"
+        );
 
 
         feedbackEl.className=
@@ -1734,21 +2072,16 @@ function checkAnswer(
 
 
         feedbackTitleEl.textContent=
-            "❌ این پاسخ درست نیست.";
-
-
-        const correctText=
-            item
-            .shuffledOptions[
-                item.correctIndex
-            ].text;
+            "❌ ایستگاه اشتباه!";
 
 
         feedbackTextEl.textContent=
-            "پاسخ درست: «"+
-            correctText+
-            "» — "+
-            item.explanation;
+            "این کارت مربوط به «"+
+            STAGE_DATA[
+                mission.stage
+            ].title+
+            "» است. "+
+            mission.explanation;
     }
 
 
@@ -1762,14 +2095,122 @@ function checkAnswer(
 }
 
 
-/* ========================================
+/* =========================================
+   کلیک روی ایستگاه
+========================================= */
+
+stages.forEach(stage=>{
+
+    stage.addEventListener(
+        "click",
+        ()=>{
+
+            chooseStage(
+                stage.dataset.stage
+            );
+
+        }
+    );
+
+
+    /* Drag & Drop دسکتاپ */
+
+    stage.addEventListener(
+        "dragover",
+        event=>{
+
+            if(answerChecked) return;
+
+            event.preventDefault();
+
+            stage.classList
+                .add("drag-over");
+        }
+    );
+
+
+    stage.addEventListener(
+        "dragleave",
+        ()=>{
+
+            stage.classList
+                .remove("drag-over");
+
+        }
+    );
+
+
+    stage.addEventListener(
+        "drop",
+        event=>{
+
+            event.preventDefault();
+
+            stage.classList
+                .remove("drag-over");
+
+            if(answerChecked) return;
+
+            chooseStage(
+                stage.dataset.stage
+            );
+        }
+    );
+
+});
+
+
+problemCard.addEventListener(
+    "dragstart",
+    event=>{
+
+        if(answerChecked){
+
+            event.preventDefault();
+
+            return;
+        }
+
+        problemCard
+            .classList
+            .add("dragging");
+
+        event.dataTransfer
+            .setData(
+                "text/plain",
+                "mission-card"
+            );
+    }
+);
+
+
+problemCard.addEventListener(
+    "dragend",
+    ()=>{
+
+        problemCard
+            .classList
+            .remove("dragging");
+
+        stages.forEach(
+            stage=>
+                stage.classList
+                .remove("drag-over")
+        );
+    }
+);
+
+
+/* =========================================
    اتمام زمان
-======================================== */
+========================================= */
 
-function handleTimeout(){
+function timeout(){
 
-    if(answerChecked || gameFinished){
-
+    if(
+        answerChecked ||
+        gameFinished
+    ){
         return;
     }
 
@@ -1778,9 +2219,27 @@ function handleTimeout(){
 
     stopTimer();
 
-    disableOptions();
+    lockStages();
 
-    highlightCorrect();
+
+    const mission=
+        missions[currentIndex];
+
+
+    const correct=
+        stages.find(
+            el=>
+                el.dataset.stage===
+                mission.stage
+        );
+
+
+    if(correct){
+
+        correct.classList.add(
+            "correct"
+        );
+    }
 
 
     timerNumberEl.textContent="۰";
@@ -1794,30 +2253,21 @@ function handleTimeout(){
         "var(--red)";
 
 
-    const item=
-        questions[currentIndex];
-
-
-    const correctText=
-        item
-        .shuffledOptions[
-            item.correctIndex
-        ].text;
-
-
     feedbackEl.className=
         "feedback timeout show";
 
 
     feedbackTitleEl.textContent=
-        "⏰ زمان تمام شد! ۰ امتیاز";
+        "⏰ قطار منتظر نماند! ۰ امتیاز";
 
 
     feedbackTextEl.textContent=
-        "پاسخ درست: «"+
-        correctText+
-        "» — "+
-        item.explanation;
+        "ایستگاه درست «"+
+        STAGE_DATA[
+            mission.stage
+        ].title+
+        "» بود. "+
+        mission.explanation;
 
 
     nextButton
@@ -1826,17 +2276,15 @@ function handleTimeout(){
 }
 
 
-/* ========================================
-   سؤال بعد
-======================================== */
+/* =========================================
+   مرحله بعد
+========================================= */
 
-nextButton
-.addEventListener(
+nextButton.addEventListener(
     "click",
     ()=>{
 
         if(!answerChecked){
-
             return;
         }
 
@@ -1848,7 +2296,8 @@ nextButton
 
             currentIndex++;
 
-            showQuestion();
+            showMission();
+
 
             window.scrollTo({
                 top:0,
@@ -1864,14 +2313,13 @@ nextButton
 );
 
 
-/* ========================================
-   پایان بازی
-======================================== */
+/* =========================================
+   پایان
+========================================= */
 
 async function finishGame(){
 
     if(gameFinished){
-
         return;
     }
 
@@ -1880,16 +2328,19 @@ async function finishGame(){
 
     stopTimer();
 
+    updateTrain();
+
 
     gameScreen.style.display=
         "none";
+
 
     resultScreen
         .classList
         .add("show");
 
 
-    const displayName=
+    const name=
         player &&
         player.playerName
         ? player.playerName
@@ -1897,7 +2348,7 @@ async function finishGame(){
 
 
     resultNameEl.textContent=
-        displayName;
+        name;
 
 
     finalScoreEl.textContent=
@@ -1907,31 +2358,31 @@ async function finishGame(){
     if(score>=90){
 
         motivationEl.textContent=
-            "عالی بود! 🌟 تو یک حل‌کننده حرفه‌ای هستی!";
+            "عالی بود! 🌟 استاد چهار مرحله حل مسئله شدی!";
     }
 
     else if(score>=70){
 
         motivationEl.textContent=
-            "خیلی خوب بود 👏 فقط چند قدم تا عالی شدن!";
+            "خیلی خوب بود 👏 قطارت تقریباً بی‌نقص حرکت کرد!";
     }
 
     else if(score>=50){
 
         motivationEl.textContent=
-            "خوب بود، ادامه بده 💪 هر بار قوی‌تر می‌شی!";
+            "خوب بود، ادامه بده 💪 مسیر را داری یاد می‌گیری!";
     }
 
     else{
 
         motivationEl.textContent=
-            "دوباره تلاش کن، بهتر می‌شی 🌱";
+            "یک سفر دیگر برو 🌱 این بار ایستگاه‌ها را بهتر می‌شناسی!";
     }
 
 
     leaderboardContent.innerHTML=
         '<div class="loading">'+
-        'در حال ثبت نتیجه و دریافت جدول برترین‌ها...'+
+        'در حال ثبت نتیجه و دریافت جدول...'+
         '</div>';
 
 
@@ -1960,9 +2411,9 @@ async function finishGame(){
 }
 
 
-/* ========================================
-   جدول برترین‌ها
-======================================== */
+/* =========================================
+   لیدربورد
+========================================= */
 
 async function loadLeaderboard(){
 
@@ -1970,7 +2421,7 @@ async function loadLeaderboard(){
 
         const scores=
             await GameSDK
-            .getLeaderboard(10);
+                .getLeaderboard(10);
 
 
         leaderboardContent.innerHTML="";
@@ -1983,7 +2434,7 @@ async function loadLeaderboard(){
 
             leaderboardContent.innerHTML=
                 '<div class="loading">'+
-                'هنوز امتیازی برای نمایش وجود ندارد.'+
+                'هنوز رکوردی ثبت نشده است.'+
                 '</div>';
 
             return;
@@ -2004,28 +2455,12 @@ async function loadLeaderboard(){
 
                 let rank;
 
-
-                if(index===0){
-
-                    rank="🥇";
-                }
-
-                else if(index===1){
-
-                    rank="🥈";
-                }
-
-                else if(index===2){
-
-                    rank="🥉";
-                }
-
-                else{
-
-                    rank=
-                        faNumber(index+1)+
-                        ".";
-                }
+                if(index===0) rank="🥇";
+                else if(index===1) rank="🥈";
+                else if(index===2) rank="🥉";
+                else rank=
+                    faNumber(index+1)+
+                    ".";
 
 
                 const name=
@@ -2039,41 +2474,31 @@ async function loadLeaderboard(){
                     item.score ?? 0;
 
 
-                const rankName=
+                const left=
                     document
                     .createElement("span");
 
-
-                rankName.className=
+                left.className=
                     "rank-name";
 
-
-                rankName.textContent=
+                left.textContent=
                     rank+" "+name;
 
 
-                const rankScore=
+                const right=
                     document
                     .createElement("span");
 
-
-                rankScore.className=
+                right.className=
                     "rank-score";
 
-
-                rankScore.textContent=
+                right.textContent=
                     faNumber(value)+
                     " امتیاز";
 
 
-                row.appendChild(
-                    rankName
-                );
-
-                row.appendChild(
-                    rankScore
-                );
-
+                row.appendChild(left);
+                row.appendChild(right);
 
                 leaderboardContent
                     .appendChild(row);
@@ -2098,12 +2523,11 @@ async function loadLeaderboard(){
 }
 
 
-/* ========================================
+/* =========================================
    بازی دوباره
-======================================== */
+========================================= */
 
-restartButton
-.addEventListener(
+restartButton.addEventListener(
     "click",
     ()=>{
 
@@ -2126,19 +2550,6 @@ restartButton
         finishSubmitted=false;
 
 
-        feedbackEl.className=
-            "feedback";
-
-        feedbackTitleEl.textContent="";
-
-        feedbackTextEl.textContent="";
-
-
-        nextButton
-            .classList
-            .remove("show");
-
-
         resultScreen
             .classList
             .remove("show");
@@ -2148,13 +2559,14 @@ restartButton
             "block";
 
 
-        leaderboardContent.innerHTML=
-            "";
+        leaderboardContent.innerHTML="";
 
 
-        prepareQuestions();
+        prepareMissions();
 
-        showQuestion();
+        buildStations();
+
+        showMission();
 
 
         window.scrollTo({
@@ -2165,13 +2577,13 @@ restartButton
 );
 
 
-/* ========================================
-   شروع بازی
-======================================== */
+/* =========================================
+   شروع
+========================================= */
 
 function startGame(){
 
-    const displayName=
+    const name=
         player &&
         player.playerName
         ? player.playerName
@@ -2179,11 +2591,10 @@ function startGame(){
 
 
     playerNameEl.textContent=
-        displayName;
+        name;
 
 
     score=0;
-
     currentIndex=0;
 
     answerChecked=false;
@@ -2193,9 +2604,11 @@ function startGame(){
     finishSubmitted=false;
 
 
-    prepareQuestions();
+    prepareMissions();
 
-    showQuestion();
+    buildStations();
+
+    showMission();
 }
 
 
