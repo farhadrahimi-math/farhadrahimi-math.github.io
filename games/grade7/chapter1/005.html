@@ -1,0 +1,3330 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>آزمایشگاه الگو | ریاضی هفتم</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+ --purple:#8b5cf6;--purple2:#6d28d9;
+ --blue:#38bdf8;--blue2:#0284c7;
+ --pink:#f472b6;--yellow:#fbbf24;
+ --orange:#fb923c;--green:#22c55e;--green2:#15803d;
+ --red:#fb7185;--red2:#e11d48;
+ --cyan:#22d3ee;--text:#293449;--muted:#64748b
+}
+
+html{color-scheme:light only;-webkit-text-size-adjust:100%}
+
+body{
+ margin:0;min-height:100vh;direction:rtl;
+ font-family:Tahoma,Arial,sans-serif;color:var(--text);overflow-x:hidden;
+ background:
+ radial-gradient(circle at 8% 5%,#fbcfe855,transparent 24%),
+ radial-gradient(circle at 92% 7%,#7dd3fc66,transparent 25%),
+ radial-gradient(circle at 84% 92%,#fde68a55,transparent 24%),
+ linear-gradient(150deg,#fff7fd,#effcff 53%,#fff9df)
+}
+
+button,a,input{font-family:inherit}
+button{touch-action:manipulation}
+
+.app{
+ width:min(100%,960px);margin:auto;padding:12px
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.hero{text-align:center;padding:7px 4px 14px}
+
+.badge{
+ display:inline-block;padding:6px 14px;border-radius:999px;
+ background:linear-gradient(90deg,#fef3c7,#fce7f3);
+ border:1px solid #f1cc5d;color:#825900;
+ font-size:12px;font-weight:bold
+}
+
+.hero h1{
+ margin:9px 0 4px;font-size:clamp(29px,7vw,43px);
+ background:linear-gradient(90deg,var(--purple),var(--blue2),var(--pink));
+ color:transparent;background-clip:text;-webkit-background-clip:text
+}
+
+.hero p{
+ margin:0;color:var(--muted);font-size:13px;line-height:1.8
+}
+
+/* =========================
+   PANEL + STATUS
+========================= */
+
+.panel{
+ background:#fffffff7;border-radius:25px;overflow:hidden;
+ box-shadow:0 16px 42px #6d28d91c
+}
+
+.status{
+ display:grid;grid-template-columns:repeat(4,1fr);
+ gap:8px;padding:10px;
+ background:linear-gradient(90deg,#f5f3ff,#ecfeff,#fff7ed,#fdf2f8)
+}
+
+.stat{
+ min-width:0;background:#fff;text-align:center;padding:8px 4px;
+ border-radius:13px;box-shadow:0 2px 7px #0000000a
+}
+
+.stat:nth-child(1){border-bottom:4px solid var(--purple)}
+.stat:nth-child(2){border-bottom:4px solid var(--blue)}
+.stat:nth-child(3){border-bottom:4px solid var(--yellow)}
+.stat:nth-child(4){border-bottom:4px solid var(--pink)}
+
+.stat small{
+ display:block;color:var(--muted);font-size:10px
+}
+
+.stat strong{
+ display:block;margin-top:2px;color:#544274;font-size:14px;
+ overflow:hidden;white-space:nowrap;text-overflow:ellipsis
+}
+
+/* =========================
+   LAB SCENE
+========================= */
+
+.lab-scene{
+ position:relative;height:143px;overflow:hidden;
+ background:
+ linear-gradient(#c8f1ff 0 65%,#e2e8f0 65%);
+ border-bottom:1px solid #cbd5e1
+}
+
+.shelf{
+ position:absolute;left:5%;bottom:38px;width:48%;height:8px;
+ background:#64748b;border-radius:4px
+}
+
+.flask{
+ position:absolute;bottom:46px;font-size:39px;
+ animation:bubbleFloat 2.7s ease-in-out infinite
+}
+
+.flask.f1{left:8%}
+.flask.f2{left:23%;animation-delay:.4s}
+.flask.f3{left:39%;animation-delay:.8s}
+
+.lab-machine{
+ position:absolute;right:7%;bottom:27px;width:135px;height:87px;
+ border:4px solid #6d28d9;border-radius:15px;
+ background:linear-gradient(145deg,#a78bfa,#7dd3fc)
+}
+
+.screen{
+ position:absolute;left:16px;right:16px;top:13px;height:38px;
+ background:#172554;border:3px solid #fff;border-radius:8px;
+ display:flex;align-items:center;justify-content:center;
+ color:#67e8f9;font-size:21px;font-weight:bold;direction:ltr
+}
+
+.machine-lights{
+ position:absolute;bottom:9px;left:17px;right:17px;
+ display:flex;justify-content:space-between
+}
+
+.machine-light{
+ width:13px;height:13px;border-radius:50%;background:#64748b
+}
+
+.machine-light.active{
+ background:#22c55e;box-shadow:0 0 10px #22c55e
+}
+
+.bubble{
+ position:absolute;border-radius:50%;
+ border:2px solid #38bdf8;opacity:.55;
+ animation:bubbleUp 3s linear infinite
+}
+
+.bubble.b1{width:12px;height:12px;left:15%;bottom:92px}
+.bubble.b2{width:8px;height:8px;left:30%;bottom:80px;animation-delay:1s}
+.bubble.b3{width:15px;height:15px;left:45%;bottom:98px;animation-delay:.5s}
+
+/* =========================
+   CONTENT + PROGRESS
+========================= */
+
+.content{padding:15px}
+
+.progress{
+ display:grid;grid-template-columns:repeat(10,1fr);
+ gap:5px;margin-bottom:14px
+}
+
+.test-tube{
+ height:23px;border-radius:5px 5px 10px 10px;
+ background:#e5e7eb;border:2px solid #d1d5db;transition:.25s
+}
+
+.test-tube.done{
+ background:#a7f3d0;border-color:#22c55e;
+ box-shadow:0 0 8px #22c55e55
+}
+
+.test-tube.current{
+ background:#fde68a;border-color:#f59e0b;
+ box-shadow:0 0 8px #fbbf2466
+}
+
+/* =========================
+   TIMER
+========================= */
+
+.timer-head{
+ display:flex;justify-content:space-between;align-items:center;
+ font-size:13px;font-weight:bold;margin-bottom:6px
+}
+
+#timerNumber{
+ font-size:20px;color:var(--green)
+}
+
+.timer-track{
+ height:13px;padding:2px;background:#e7e9f2;
+ border-radius:999px;overflow:hidden;margin-bottom:14px
+}
+
+.timer-bar{
+ width:100%;height:100%;border-radius:999px;
+ background:var(--green);
+ transition:width .1s linear,background .2s
+}
+
+/* =========================
+   QUESTION
+========================= */
+
+.labels{
+ display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px
+}
+
+.mission-label,.family-label{
+ padding:5px 11px;border-radius:999px;
+ font-size:11px;font-weight:bold
+}
+
+.mission-label{background:#eee9ff;color:#6835bd}
+.family-label{background:#e0f7ff;color:#087aa8}
+
+.problem{
+ margin:8px 0;padding:13px 15px;background:#fff8dd;
+ border:2px solid #f3d36d;border-radius:16px;
+ text-align:center;font-size:clamp(14px,3.8vw,18px);
+ font-weight:bold;line-height:1.9
+}
+
+/* =========================
+   SEQUENCE
+========================= */
+
+.sequence-card{
+ margin:10px 0;padding:13px;
+ background:linear-gradient(145deg,#f7fbff,#faf5ff);
+ border:2px solid #d9d6ee;border-radius:18px
+}
+
+.sequence-title{
+ text-align:center;font-size:12px;font-weight:bold;
+ color:#64748b;margin-bottom:10px
+}
+
+.sequence{
+ direction:ltr;display:flex;flex-wrap:wrap;
+ align-items:center;justify-content:center;gap:6px
+}
+
+.term{
+ min-width:50px;padding:11px 8px;background:#fff;
+ border:2px solid #8b5cf6;border-radius:12px;
+ text-align:center;color:#543792;font-size:16px;font-weight:bold;
+ box-shadow:0 3px 7px #8b5cf611
+}
+
+.term.target{
+ border-style:dashed;color:#0284c7;border-color:#38bdf8;
+ background:#ecfeff
+}
+
+.arrow{
+ color:#94a3b8;font-weight:bold
+}
+
+/* =========================
+   SCAN DIFFERENCES
+========================= */
+
+.scan-box{
+ margin:11px 0;padding:11px;
+ background:#eefcff;border:2px solid #bae6fd;border-radius:16px
+}
+
+.scan-head{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:8px;margin-bottom:8px;font-size:12px;font-weight:bold;color:#0c789d
+}
+
+.scan-btn{
+ border:0;border-radius:999px;padding:7px 12px;
+ background:linear-gradient(90deg,#06b6d4,#0284c7);
+ color:#fff;font-size:11px;font-weight:bold;cursor:pointer
+}
+
+.differences{
+ direction:ltr;display:flex;flex-wrap:wrap;
+ justify-content:center;gap:7px;min-height:39px
+}
+
+.diff-chip{
+ min-width:48px;padding:7px 8px;border-radius:999px;
+ background:#fff;border:2px solid #67e8f9;
+ color:#0e7490;text-align:center;font-weight:bold;font-size:13px;
+ animation:pop .2s
+}
+
+.scan-placeholder{
+ color:#78909c;font-size:11px;text-align:center;
+ width:100%;padding:8px
+}
+
+/* =========================
+   RULES
+========================= */
+
+.rule-panel{
+ margin-top:11px;padding:12px;
+ background:#f8f7ff;border:2px solid #ddd8ee;border-radius:18px
+}
+
+.rule-title{
+ text-align:center;font-weight:bold;color:#554276;
+ font-size:13px;margin-bottom:9px
+}
+
+.rule-options{
+ display:grid;grid-template-columns:1fr 1fr;gap:8px
+}
+
+.rule-btn{
+ min-height:55px;padding:9px;border:2px solid #c9bcef;
+ background:#fff;border-radius:13px;color:#4f3a78;
+ font-size:12px;font-weight:bold;line-height:1.6;cursor:pointer;
+ transition:.15s
+}
+
+.rule-btn:hover:not(:disabled){
+ transform:translateY(-2px);border-color:var(--purple)
+}
+
+.rule-btn.selected{
+ background:#eee9ff;border-color:var(--purple);
+ box-shadow:0 0 0 3px #8b5cf619
+}
+
+.rule-btn:disabled{cursor:default}
+
+/* =========================
+   ANSWER
+========================= */
+
+.answer-panel{
+ margin-top:12px;padding:12px;
+ border:2px solid #f6d365;border-radius:17px;background:#fffaf0
+}
+
+.answer-title{
+ text-align:center;font-size:12px;color:#7c6208;
+ font-weight:bold;margin-bottom:8px
+}
+
+.number-control{
+ direction:ltr;display:flex;align-items:center;
+ justify-content:center;gap:9px
+}
+
+.num-btn{
+ width:48px;height:48px;border:0;border-radius:14px;
+ background:linear-gradient(145deg,var(--purple),var(--blue2));
+ color:#fff;font-size:23px;font-weight:bold;cursor:pointer
+}
+
+.answer-value{
+ width:110px;min-height:52px;display:flex;
+ align-items:center;justify-content:center;
+ border:3px solid #fbbf24;background:#fff;
+ border-radius:14px;color:#6d28d9;
+ font-size:23px;font-weight:bold
+}
+
+.answer-shortcuts{
+ display:flex;flex-wrap:wrap;justify-content:center;
+ gap:6px;margin-top:9px
+}
+
+.shortcut{
+ border:2px solid #f2ce68;background:#fff;
+ color:#725d17;border-radius:10px;padding:7px 11px;
+ font-weight:bold;cursor:pointer
+}
+
+.submit{
+ width:100%;margin-top:12px;padding:14px;border:0;
+ border-radius:14px;background:linear-gradient(90deg,var(--purple),var(--blue2));
+ color:#fff;font-size:16px;font-weight:bold;cursor:pointer;
+ box-shadow:0 6px 15px #6d28d925
+}
+
+.submit:disabled{opacity:.55;cursor:default}
+
+/* =========================
+   FEEDBACK
+========================= */
+
+.feedback{
+ display:none;margin-top:14px;padding:13px;
+ border-radius:14px;line-height:1.8
+}
+
+.feedback.show{display:block;animation:pop .25s}
+.feedback.success{background:#e8faed;border:2px solid #a6dfb7}
+.feedback.error{background:#fff0f3;border:2px solid #f3bbc5}
+.feedback.timeout{background:#fff7d9;border:2px solid #e9cb69}
+
+.feedback strong{display:block;font-size:17px;margin-bottom:3px}
+.feedback-text{font-size:13px;color:#4d5c61}
+
+.solution{
+ margin-top:7px;padding:8px 9px;
+ background:#ffffffaa;border-radius:9px;
+ font-size:12px;line-height:1.9
+}
+
+.next{
+ display:none;width:100%;margin-top:12px;padding:14px;
+ border:0;border-radius:14px;
+ background:linear-gradient(90deg,var(--pink),var(--purple));
+ color:#fff;font-size:16px;font-weight:bold;cursor:pointer
+}
+
+.next.show{display:block}
+
+/* =========================
+   RESULT
+========================= */
+
+.result{
+ display:none;text-align:center;padding:25px 16px;
+ background:
+ radial-gradient(circle at 10% 5%,#fbcfe844,transparent 25%),
+ radial-gradient(circle at 90% 5%,#7dd3fc44,transparent 25%)
+}
+
+.result.show{display:block}
+
+.result-icon{
+ font-size:72px;animation:float 2s ease-in-out infinite
+}
+
+.result h2{
+ color:var(--purple2);font-size:27px;margin:5px
+}
+
+.final-score{
+ width:160px;height:160px;margin:17px auto;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ border-radius:50%;border:8px solid transparent;
+ background:linear-gradient(#fff,#fff) padding-box,
+ linear-gradient(135deg,var(--pink),var(--yellow),var(--blue),var(--purple)) border-box
+}
+
+.final-score strong{font-size:43px;color:var(--purple2)}
+.final-score span{font-size:13px;color:var(--muted)}
+
+.motivation{
+ font-size:20px;font-weight:bold;margin-bottom:19px
+}
+
+/* LEADERBOARD */
+
+.leaderboard{
+ max-width:540px;margin:20px auto;padding:13px;text-align:right;
+ background:#faf8ff;border:2px solid #e4dafa;border-radius:16px
+}
+
+.leaderboard h3{
+ text-align:center;color:var(--purple2);margin:0 0 10px
+}
+
+.rank-row{
+ display:flex;justify-content:space-between;gap:8px;
+ padding:9px 5px;border-bottom:1px dashed #ddd6e8
+}
+
+.rank-row:last-child{border:0}
+
+.rank-name{
+ overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+}
+
+.rank-score{font-weight:bold;color:var(--purple2)}
+.loading{text-align:center;color:var(--muted);padding:8px}
+
+.restart{
+ width:100%;max-width:420px;padding:14px;border:0;
+ border-radius:14px;background:linear-gradient(90deg,var(--pink),var(--purple));
+ color:#fff;font-weight:bold;font-size:16px;cursor:pointer
+}
+
+.back{
+ display:block;text-align:center;margin:17px 0;padding:10px;
+ text-decoration:none;color:var(--purple2);font-weight:bold
+}
+
+/* ANIMATION */
+
+.spark{
+ position:fixed;z-index:999;pointer-events:none;
+ font-size:20px;animation:spark .8s forwards
+}
+
+@keyframes bubbleFloat{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-5px)}
+}
+
+@keyframes bubbleUp{
+ from{transform:translateY(0);opacity:.6}
+ to{transform:translateY(-60px);opacity:0}
+}
+
+@keyframes pop{
+ from{opacity:.2;transform:scale(.96)}
+ to{opacity:1;transform:scale(1)}
+}
+
+@keyframes spark{
+ from{opacity:1;transform:translate(0,0) scale(.5)}
+ to{opacity:0;transform:translate(var(--x),var(--y)) scale(1.5) rotate(180deg)}
+}
+
+@keyframes float{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-7px)}
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+ .app{padding:7px}
+ .status{grid-template-columns:1fr 1fr}
+ .content{padding:11px}
+ .lab-scene{height:120px}
+ .lab-machine{
+  transform:scale(.8);
+  transform-origin:right bottom
+ }
+ .rule-options{grid-template-columns:1fr}
+}
+
+@media(max-width:380px){
+ .term{min-width:43px;padding:9px 6px;font-size:14px}
+ .num-btn{width:44px;height:44px}
+}
+
+@media(prefers-reduced-motion:reduce){
+ *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+<header class="hero">
+ <div class="badge">🎓 ریاضی هفتم • فصل اول • درس ۵</div>
+ <h1>🔬 آزمایشگاه الگو</h1>
+ <p>تغییرات را اسکن کن، قانون مخفی را کشف کن و نتیجه آزمایش را پیش‌بینی کن!</p>
+</header>
+
+<section class="panel">
+
+<div id="gameScreen">
+
+ <div class="status">
+  <div class="stat">
+   <small>🧑‍🔬 پژوهشگر</small>
+   <strong id="playerName">---</strong>
+  </div>
+
+  <div class="stat">
+   <small>🧪 آزمایش</small>
+   <strong id="questionNumber">۱ از ۱۰</strong>
+  </div>
+
+  <div class="stat">
+   <small>⭐ امتیاز</small>
+   <strong id="score">۰</strong>
+  </div>
+
+  <div class="stat">
+   <small>⏱️ زمان</small>
+   <strong id="timeStatus">۶۰ ثانیه</strong>
+  </div>
+ </div>
+
+
+ <div class="lab-scene">
+
+  <div class="shelf"></div>
+
+  <div class="flask f1">🧪</div>
+  <div class="flask f2">⚗️</div>
+  <div class="flask f3">🧫</div>
+
+  <div class="bubble b1"></div>
+  <div class="bubble b2"></div>
+  <div class="bubble b3"></div>
+
+  <div class="lab-machine">
+   <div class="screen" id="machineScreen">?</div>
+
+   <div class="machine-lights">
+    <span class="machine-light" id="light1"></span>
+    <span class="machine-light" id="light2"></span>
+    <span class="machine-light" id="light3"></span>
+   </div>
+  </div>
+
+ </div>
+
+
+ <div class="content">
+
+  <div class="progress" id="progress"></div>
+
+
+  <div class="timer-head">
+   <span>⏱️ زمان آزمایش</span>
+   <strong id="timerNumber">۶۰</strong>
+  </div>
+
+  <div class="timer-track">
+   <div class="timer-bar" id="timerBar"></div>
+  </div>
+
+
+  <div class="labels">
+   <span class="mission-label" id="missionLabel">🧪 آزمایش ۱</span>
+   <span class="family-label" id="familyLabel"></span>
+  </div>
+
+
+  <div class="problem" id="problemText"></div>
+
+
+  <div class="sequence-card">
+
+   <div class="sequence-title">
+    🧬 داده‌های آزمایش
+   </div>
+
+   <div class="sequence" id="sequence"></div>
+
+  </div>
+
+
+  <div class="scan-box">
+
+   <div class="scan-head">
+    <span>🔎 اسکن تغییرات بین جمله‌ها</span>
+
+    <button class="scan-btn" id="scanButton" type="button">
+     اسکن تغییرات
+    </button>
+   </div>
+
+   <div class="differences" id="differences">
+    <div class="scan-placeholder">
+     قبل از انتخاب قانون، تغییرات را بررسی کن.
+    </div>
+   </div>
+
+  </div>
+
+
+  <div class="rule-panel">
+
+   <div class="rule-title">
+    🧠 کدام قانون با همه داده‌ها سازگار است؟
+   </div>
+
+   <div class="rule-options" id="ruleOptions"></div>
+
+  </div>
+
+
+  <div class="answer-panel">
+
+   <div class="answer-title" id="answerTitle">
+    🧪 نتیجه موردنظر را بساز
+   </div>
+
+   <div class="number-control">
+
+    <button class="num-btn" id="minusButton" type="button">
+     −
+    </button>
+
+    <div class="answer-value" id="answerValue">
+     ۰
+    </div>
+
+    <button class="num-btn" id="plusButton" type="button">
+     +
+    </button>
+
+   </div>
+
+   <div class="answer-shortcuts" id="answerShortcuts"></div>
+
+  </div>
+
+
+  <button class="submit" id="submitButton" type="button">
+   🔬 ثبت نتیجه آزمایش
+  </button>
+
+
+  <div class="feedback" id="feedback">
+
+   <strong id="feedbackTitle"></strong>
+
+   <div class="feedback-text" id="feedbackText"></div>
+
+   <div class="solution" id="solution"></div>
+
+  </div>
+
+
+  <button class="next" id="nextButton" type="button">
+   آزمایش بعدی 🧪
+  </button>
+
+ </div>
+
+</div>
+
+
+<div class="result" id="resultScreen">
+
+ <div class="result-icon">🔬🏆</div>
+
+ <h2>آزمایش‌ها کامل شدند!</h2>
+
+ <p>
+  پژوهشگر:
+  <strong id="resultName"></strong>
+ </p>
+
+ <div class="final-score">
+  <strong id="finalScore">۰</strong>
+  <span>از 100 امتیاز</span>
+ </div>
+
+ <div class="motivation" id="motivation"></div>
+
+
+ <div class="leaderboard">
+
+  <h3>🏅 برترین پژوهشگرها</h3>
+
+  <div id="leaderboardContent" class="loading">
+   در حال دریافت جدول برترین‌ها...
+  </div>
+
+ </div>
+
+
+ <button class="restart" id="restartButton" type="button">
+  🔄 بازی دوباره
+ </button>
+
+</div>
+
+</section>
+
+
+<a class="back" href="/#game">
+ ← بازگشت به بازی‌های ریاضی
+</a>
+
+</main>
+
+
+<script src="/games/game-sdk.js"></script>
+
+<script>
+
+const GAME_ID = 12;
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 60;
+
+const player = GameSDK.init(GAME_ID);
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
+
+const HISTORY_KEY="math_pattern_lab_recent_v1";
+const MAX_HISTORY=40;
+
+
+/* =====================================================
+   TOOLS
+===================================================== */
+
+function faNumber(value){
+
+ return String(value)
+  .replace(
+   /\d/g,
+   d=>"۰۱۲۳۴۵۶۷۸۹"[d]
+  );
+}
+
+
+function faSigned(value){
+
+ const n=Number(value);
+
+ if(n>0){
+  return "+"+faNumber(n);
+ }
+
+ return faNumber(n);
+}
+
+
+function pick(array){
+
+ return array[
+  Math.floor(
+   Math.random()*array.length
+  )
+ ];
+}
+
+
+function shuffle(array){
+
+ const a=[...array];
+
+ for(
+  let i=a.length-1;
+  i>0;
+  i--
+ ){
+
+  const j=
+   Math.floor(
+    Math.random()*(i+1)
+   );
+
+  [a[i],a[j]]=
+  [a[j],a[i]];
+ }
+
+ return a;
+}
+
+
+function pointsForTime(seconds){
+
+ if(seconds<=15)return 10;
+ if(seconds<=25)return 8;
+ if(seconds<=35)return 6;
+ if(seconds<=45)return 4;
+ if(seconds<=60)return 2;
+
+ return 0;
+}
+
+
+function loadHistory(){
+
+ try{
+
+  const data=
+   JSON.parse(
+    localStorage.getItem(HISTORY_KEY)||
+    "[]"
+   );
+
+  return Array.isArray(data)
+   ?data
+   :[];
+
+ }catch{
+
+  return [];
+ }
+}
+
+
+function saveHistory(signatures){
+
+ try{
+
+  const merged=[
+   ...signatures,
+   ...loadHistory()
+  ];
+
+  const unique=[
+   ...new Set(merged)
+  ].slice(0,MAX_HISTORY);
+
+  localStorage.setItem(
+   HISTORY_KEY,
+   JSON.stringify(unique)
+  );
+
+ }catch(error){
+
+  console.warn(
+   "History unavailable:",
+   error
+  );
+ }
+}
+
+
+function firstDifferences(sequence){
+
+ const diffs=[];
+
+ for(
+  let i=0;
+  i<sequence.length-1;
+  i++
+ ){
+
+  diffs.push(
+   sequence[i+1]-
+   sequence[i]
+  );
+ }
+
+ return diffs;
+}
+
+
+/* =====================================================
+   COMMON QUESTION BUILDER
+===================================================== */
+
+function makeQuestion(config){
+
+ const correctRule={
+  text:config.rule,
+  correct:true
+ };
+
+ const wrongRules=
+  config.wrongRules.map(
+   text=>({
+    text,
+    correct:false
+   })
+  );
+
+ return{
+  ...config,
+  rules:
+   shuffle([
+    correctRule,
+    ...wrongRules
+   ])
+ };
+}
+
+
+/* =====================================================
+   1) افزایش ثابت
+===================================================== */
+
+function genAddConstant(){
+
+ const start=
+  pick([1,2,3,4,5,6,7]);
+
+ const step=
+  pick([2,3,4,5,6]);
+
+ const sequence=
+  Array.from(
+   {length:5},
+   (_,i)=>start+i*step
+  );
+
+ const answer=
+  start+5*step;
+
+ return makeQuestion({
+
+  family:"افزایش ثابت",
+
+  signature:
+   `add-${start}-${step}`,
+
+  q:
+   "تغییر بین جمله‌ها را بررسی کن، قانون الگو را پیدا کن و جمله بعدی را به دست آور.",
+
+  sequence,
+
+  targetLabel:"جمله بعدی",
+
+  answer,
+
+  differenceMode:"first",
+
+  rule:
+   `هر بار ${faNumber(step)} واحد اضافه می‌شود.`,
+
+  wrongRules:[
+   `هر بار ${faNumber(step+1)} واحد اضافه می‌شود.`,
+   `هر بار در ${faNumber(2)} ضرب می‌شود.`,
+   `هر بار ${faNumber(Math.max(1,step-1))} واحد اضافه می‌شود.`
+  ],
+
+  explanation:
+   `اختلاف هر دو جمله پیاپی ${faNumber(step)} است؛ بنابراین برای جمله بعد نیز ${faNumber(step)} واحد اضافه می‌کنیم.`,
+
+  solution:
+   `${faNumber(sequence[4])} + ${faNumber(step)} = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   2) کاهش ثابت
+===================================================== */
+
+function genSubtractConstant(){
+
+ const step=
+  pick([2,3,4,5]);
+
+ const last=
+  pick([5,7,9,11]);
+
+ const start=
+  last+4*step;
+
+ const sequence=
+  Array.from(
+   {length:5},
+   (_,i)=>start-i*step
+  );
+
+ const answer=
+  sequence[4]-step;
+
+ return makeQuestion({
+
+  family:"کاهش ثابت",
+
+  signature:
+   `sub-${start}-${step}`,
+
+  q:
+   "دنباله در حال کاهش است. تغییرها را اسکن کن و جمله بعدی را پیدا کن.",
+
+  sequence,
+
+  targetLabel:"جمله بعدی",
+
+  answer,
+
+  differenceMode:"first",
+
+  rule:
+   `هر بار ${faNumber(step)} واحد کم می‌شود.`,
+
+  wrongRules:[
+   `هر بار ${faNumber(step)} واحد اضافه می‌شود.`,
+   `هر بار ${faNumber(step+1)} واحد کم می‌شود.`,
+   "هر جمله نصف جمله قبل است."
+  ],
+
+  explanation:
+   `اختلاف جمله‌های متوالی همیشه ${faNumber(-step)} است؛ پس همان کاهش را ادامه می‌دهیم.`,
+
+  solution:
+   `${faNumber(sequence[4])} − ${faNumber(step)} = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   3) مربع‌ها
+===================================================== */
+
+function genSquares(){
+
+ const offset=
+  pick([0,1]);
+
+ const startN=
+  1+offset;
+
+ const ns=
+  Array.from(
+   {length:5},
+   (_,i)=>startN+i
+  );
+
+ const sequence=
+  ns.map(n=>n*n);
+
+ const nextN=
+  startN+5;
+
+ const answer=
+  nextN*nextN;
+
+ const diffs=
+  firstDifferences(sequence);
+
+ return makeQuestion({
+
+  family:"مربع‌ها",
+
+  signature:
+   `square-${startN}`,
+
+  q:
+   "تغییرات این دنباله را بررسی کن. قانون را کشف کن و جمله بعدی را پیدا کن.",
+
+  sequence,
+
+  targetLabel:"جمله بعدی",
+
+  answer,
+
+  differenceMode:"first",
+
+  rule:
+   `جمله‌ها مربع عددهای طبیعی پیاپی‌اند.`,
+
+  wrongRules:[
+   "هر بار یک عدد ثابت اضافه می‌شود.",
+   "هر جمله دو برابر جمله قبل است.",
+   "هر بار ۳ واحد بیشتر از قبل اضافه می‌شود."
+  ],
+
+  explanation:
+   `این جمله‌ها ${ns.map(n=>faNumber(n)+"²").join("، ")} هستند. اختلاف‌ها نیز با یک نظم مشخص افزایش پیدا می‌کنند.`,
+
+  solution:
+   `${faNumber(nextN)}² = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   4) اعداد مثلثی
+===================================================== */
+
+function genTriangular(){
+
+ const start=
+  pick([1,2]);
+
+ function triangular(n){
+  return n*(n+1)/2;
+ }
+
+ const ns=
+  Array.from(
+   {length:5},
+   (_,i)=>start+i
+  );
+
+ const sequence=
+  ns.map(triangular);
+
+ const nextN=
+  start+5;
+
+ const answer=
+  triangular(nextN);
+
+ return makeQuestion({
+
+  family:"افزایش پله‌ای",
+
+  signature:
+   `triangle-${start}`,
+
+  q:
+   "اختلاف جمله‌ها ثابت نیست. تغییرها را با دقت بررسی کن و جمله بعدی را پیدا کن.",
+
+  sequence,
+
+  targetLabel:"جمله بعدی",
+
+  answer,
+
+  differenceMode:"first",
+
+  rule:
+   "مقدار افزوده‌شده هر بار ۱ واحد بیشتر می‌شود.",
+
+  wrongRules:[
+   "همیشه ۳ واحد اضافه می‌شود.",
+   "مقدار افزوده‌شده هر بار ۲ واحد بیشتر می‌شود.",
+   "هر جمله دو برابر جمله قبل است."
+  ],
+
+  explanation:
+   "اختلاف‌ها خودشان یک الگو می‌سازند؛ هر بار مقدار افزایش یک واحد بیشتر می‌شود.",
+
+  solution:
+   `${faNumber(sequence[4])} + ${faNumber(nextN)} = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   5) n(n+1)
+===================================================== */
+
+function genPronic(){
+
+ const start=
+  pick([1,2]);
+
+ const ns=
+  Array.from(
+   {length:5},
+   (_,i)=>start+i
+  );
+
+ const sequence=
+  ns.map(
+   n=>n*(n+1)
+  );
+
+ const nextN=
+  start+5;
+
+ const answer=
+  nextN*(nextN+1);
+
+ return makeQuestion({
+
+  family:"الگوی حاصل‌ضرب",
+
+  signature:
+   `pronic-${start}`,
+
+  q:
+   "رابطه پنهان بین جمله‌ها را پیدا کن. اسکن تغییرات هم می‌تواند سرنخ بدهد.",
+
+  sequence,
+
+  targetLabel:"جمله بعدی",
+
+  answer,
+
+  differenceMode:"first",
+
+  rule:
+   "هر جمله حاصل‌ضرب دو عدد طبیعی پیاپی است.",
+
+  wrongRules:[
+   "هر جمله مربع یک عدد طبیعی است.",
+   "هر بار ۴ واحد اضافه می‌شود.",
+   "هر جمله دو برابر جمله قبل است."
+  ],
+
+  explanation:
+   "جمله‌ها به شکل ۱×۲، ۲×۳، ۳×۴ و ... ساخته می‌شوند؛ یعنی حاصل‌ضرب دو عدد پیاپی.",
+
+  solution:
+   `${faNumber(nextN)} × ${faNumber(nextN+1)} = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   6) چوب کبریت مربع‌ها
+===================================================== */
+
+function genMatchsticks(){
+
+ const startValue=4;
+ const step=3;
+
+ const sequence=
+  Array.from(
+   {length:5},
+   (_,i)=>startValue+i*step
+  );
+
+ const targetN=
+  pick([8,10,12,15]);
+
+ const answer=
+  4+(targetN-1)*3;
+
+ return makeQuestion({
+
+  family:"چوب کبریت",
+
+  signature:
+   `match-${targetN}`,
+
+  q:
+   `مربع‌ها کنار هم ساخته می‌شوند: شکل اول ${faNumber(4)} چوب و هر مربع جدید ${faNumber(3)} چوب به شکل اضافه می‌کند. شکل ${faNumber(targetN)} چند چوب دارد؟`,
+
+  sequence,
+
+  targetLabel:
+   `شکل ${faNumber(targetN)}`,
+
+  answer,
+
+  differenceMode:"first",
+
+  rule:
+   "با اضافه‌شدن هر مربع، ۳ چوب به تعداد قبلی اضافه می‌شود.",
+
+  wrongRules:[
+   "هر شکل ۴ برابر شماره شکل چوب دارد.",
+   "در هر مرحله ۴ چوب اضافه می‌شود.",
+   "در هر مرحله ۲ چوب اضافه می‌شود."
+  ],
+
+  explanation:
+   "مربع جدید یک ضلع را با مربع قبلی مشترک دارد؛ بنابراین به‌جای ۴ چوب، فقط ۳ چوب جدید لازم است.",
+
+  solution:
+   `۴ + (${faNumber(targetN)}−۱) × ۳ = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   7) الگوی خطی جمله دورتر
+===================================================== */
+
+function genFarLinear(){
+
+ const first=
+  pick([2,3,4,5]);
+
+ const step=
+  pick([3,4,5]);
+
+ const sequence=
+  Array.from(
+   {length:5},
+   (_,i)=>first+i*step
+  );
+
+ const targetN=
+  pick([8,10,12]);
+
+ const answer=
+  first+(targetN-1)*step;
+
+ return makeQuestion({
+
+  family:"جمله دورتر",
+
+  signature:
+   `far-${first}-${step}-${targetN}`,
+
+  q:
+   `قانون الگو را پیدا کن و بدون نوشتن همه جمله‌های میانی، جمله ${faNumber(targetN)} را به دست آور.`,
+
+  sequence,
+
+  targetLabel:
+   `جمله ${faNumber(targetN)}`,
+
+  answer,
+
+  differenceMode:"first",
+
+  rule:
+   `هر بار ${faNumber(step)} واحد اضافه می‌شود.`,
+
+  wrongRules:[
+   `هر بار ${faNumber(step+1)} واحد اضافه می‌شود.`,
+   `هر جمله ${faNumber(step)} برابر جمله قبل است.`,
+   "مقدار افزایش هر بار یک واحد بیشتر می‌شود."
+  ],
+
+  explanation:
+   `اختلاف ثابت ${faNumber(step)} است. از جمله اول تا جمله ${faNumber(targetN)}، ${faNumber(targetN-1)} بار این مقدار اضافه می‌شود.`,
+
+  solution:
+   `${faNumber(first)} + (${faNumber(targetN)}−۱) × ${faNumber(step)} = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   8) افزایش‌های زوج
+===================================================== */
+
+function genEvenGrowth(){
+
+ const start=
+  pick([1,2,3]);
+
+ const firstIncrease=
+  pick([2,4]);
+
+ const sequence=[start];
+
+ let increase=
+  firstIncrease;
+
+ for(let i=1;i<5;i++){
+
+  sequence.push(
+   sequence[i-1]+increase
+  );
+
+  increase+=2;
+ }
+
+ const nextIncrease=
+  firstIncrease+8;
+
+ const answer=
+  sequence[4]+nextIncrease;
+
+ return makeQuestion({
+
+  family:"تغییراتِ الگو‌دار",
+
+  signature:
+   `evenGrowth-${start}-${firstIncrease}`,
+
+  q:
+   "در این دنباله خودِ مقدار افزایش هم تغییر می‌کند. اسکن کن و جمله بعدی را پیدا کن.",
+
+  sequence,
+
+  targetLabel:"جمله بعدی",
+
+  answer,
+
+  differenceMode:"first",
+
+  rule:
+   "مقدارهای افزایش هر بار ۲ واحد بیشتر می‌شوند.",
+
+  wrongRules:[
+   "اختلاف همه جمله‌ها ثابت است.",
+   "مقدارهای افزایش هر بار ۱ واحد بیشتر می‌شوند.",
+   "هر جمله دو برابر جمله قبل است."
+  ],
+
+  explanation:
+   `تغییرها ${faNumber(firstIncrease)}، ${faNumber(firstIncrease+2)}، ${faNumber(firstIncrease+4)}، ${faNumber(firstIncrease+6)} هستند؛ پس تغییر بعدی ${faNumber(nextIncrease)} است.`,
+
+  solution:
+   `${faNumber(sequence[4])} + ${faNumber(nextIncrease)} = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   9) دو برابر شدن
+===================================================== */
+
+function genDoubling(){
+
+ const start=
+  pick([1,2,3,4]);
+
+ const sequence=
+  Array.from(
+   {length:5},
+   (_,i)=>start*Math.pow(2,i)
+  );
+
+ const answer=
+  sequence[4]*2;
+
+ return makeQuestion({
+
+  family:"رشد ضربی",
+
+  signature:
+   `double-${start}`,
+
+  q:
+   "اختلاف‌ها را ببین، اما فقط به اختلاف ثابت فکر نکن. قانون اصلی دنباله چیست؟",
+
+  sequence,
+
+  targetLabel:"جمله بعدی",
+
+  answer,
+
+  differenceMode:"first",
+
+  rule:
+   "هر جمله ۲ برابر جمله قبل است.",
+
+  wrongRules:[
+   "هر بار ۲ واحد اضافه می‌شود.",
+   "هر بار ۴ واحد اضافه می‌شود.",
+   "هر جمله مربع جمله قبل است."
+  ],
+
+  explanation:
+   "اختلاف‌ها ثابت نیستند؛ اما نسبت جمله‌ها ثابت است و هر جمله دو برابر جمله قبلی است.",
+
+  solution:
+   `${faNumber(sequence[4])} × ۲ = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   10) الگوی فردها
+===================================================== */
+
+function genOddSequence(){
+
+ const start=
+  pick([1,3,5]);
+
+ const sequence=
+  Array.from(
+   {length:5},
+   (_,i)=>start+2*i
+  );
+
+ const answer=
+  sequence[4]+2;
+
+ return makeQuestion({
+
+  family:"اعداد فرد",
+
+  signature:
+   `odd-${start}`,
+
+  q:
+   "قانون این دنباله را از روی همه داده‌ها بررسی کن و جمله بعد را پیدا کن.",
+
+  sequence,
+
+  targetLabel:"جمله بعدی",
+
+  answer,
+
+  differenceMode:"first",
+
+  rule:
+   "هر بار ۲ واحد اضافه می‌شود.",
+
+  wrongRules:[
+   "هر بار ۳ واحد اضافه می‌شود.",
+   "هر جمله دو برابر جمله قبل است.",
+   "مقدار افزایش هر بار بیشتر می‌شود."
+  ],
+
+  explanation:
+   "این بخش از اعداد فرد پیاپی است و اختلاف هر دو جمله ۲ است.",
+
+  solution:
+   `${faNumber(sequence[4])} + ۲ = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   11) مضرب‌ها
+===================================================== */
+
+function genMultiples(){
+
+ const k=
+  pick([3,4,5,6]);
+
+ const startMultiplier=
+  pick([1,2]);
+
+ const sequence=
+  Array.from(
+   {length:5},
+   (_,i)=>
+    k*(startMultiplier+i)
+  );
+
+ const nextMultiplier=
+  startMultiplier+5;
+
+ const answer=
+  k*nextMultiplier;
+
+ return makeQuestion({
+
+  family:"مضرب‌ها",
+
+  signature:
+   `multiple-${k}-${startMultiplier}`,
+
+  q:
+   "داده‌ها را بررسی کن، قانون مشترک را انتخاب کن و جمله بعدی را بساز.",
+
+  sequence,
+
+  targetLabel:"جمله بعدی",
+
+  answer,
+
+  differenceMode:"first",
+
+  rule:
+   `جمله‌ها مضرب‌های پیاپی ${faNumber(k)} هستند.`,
+
+  wrongRules:[
+   `هر جمله ${faNumber(k)} برابر جمله قبل است.`,
+   `هر بار ${faNumber(k+1)} واحد اضافه می‌شود.`,
+   "هر جمله مربع شماره خودش است."
+  ],
+
+  explanation:
+   `جمله‌ها با فاصله ثابت ${faNumber(k)} جلو می‌روند و مضرب‌های پیاپی ${faNumber(k)} هستند.`,
+
+  solution:
+   `${faNumber(k)} × ${faNumber(nextMultiplier)} = ${faNumber(answer)}`
+ });
+}
+
+
+/* =====================================================
+   12) نقطه‌های مثلثی - جمله دورتر
+===================================================== */
+
+function genDotPattern(){
+
+ function triangular(n){
+  return n*(n+1)/2;
+ }
+
+ const sequence=[
+  1,3,6,10,15
+ ];
+
+ const targetN=
+  pick([6,7,8,10]);
+
+ const answer=
+  triangular(targetN);
+
+ return makeQuestion({
+
+  family:"الگوی نقطه‌ای",
+
+  signature:
+   `dots-${targetN}`,
+
+  q:
+   `تعداد نقطه‌های پنج شکل اول نمایش داده شده است. الگوی افزایش را کشف کن و تعداد نقطه‌های شکل ${faNumber(targetN)} را پیدا کن.`,
+
+  sequence,
+
+  targetLabel:
+   `شکل ${faNumber(targetN)}`,
+
+  answer,
+
+  differenceMode:"first",
+
+  rule:
+   "برای ساخت هر شکل، به‌ترتیب ۲، ۳، ۴، ۵، ... نقطه جدید اضافه می‌شود.",
+
+  wrongRules:[
+   "هر شکل دو برابر شکل قبل نقطه دارد.",
+   "در هر شکل همیشه ۳ نقطه اضافه می‌شود.",
+   "مقدار افزایش هر بار ۲ واحد بیشتر می‌شود."
+  ],
+
+  explanation:
+   "مقدار افزایش ثابت نیست؛ تعداد نقطه‌های اضافه‌شده در هر مرحله یک واحد بیشتر می‌شود.",
+
+  solution:
+   `تعداد نقاط شکل ${faNumber(targetN)} برابر ${faNumber(targetN)}×${faNumber(targetN+1)}÷۲ = ${faNumber(answer)} است.`
+ });
+}
+
+
+/* =====================================================
+   GENERATORS
+===================================================== */
+
+const GENERATORS=[
+ genAddConstant,
+ genSubtractConstant,
+ genSquares,
+ genTriangular,
+ genPronic,
+ genMatchsticks,
+ genFarLinear,
+ genEvenGrowth,
+ genDoubling,
+ genOddSequence,
+ genMultiples,
+ genDotPattern
+];
+
+
+/* =====================================================
+   ROUND GENERATION
+===================================================== */
+
+let questions=[];
+
+
+function generateRound(){
+
+ const recent=
+  new Set(
+   loadHistory()
+  );
+
+ const selectedGenerators=
+  shuffle(GENERATORS)
+   .slice(
+    0,
+    TOTAL_QUESTIONS
+   );
+
+ const generated=[];
+
+
+ for(
+  const generator
+  of selectedGenerators
+ ){
+
+  let candidate=null;
+
+  for(
+   let attempt=0;
+   attempt<30;
+   attempt++
+  ){
+
+   const q=
+    generator();
+
+   candidate=q;
+
+   if(
+    !recent.has(
+     q.signature
+    )
+   ){
+    break;
+   }
+  }
+
+  generated.push(
+   candidate
+  );
+
+  recent.add(
+   candidate.signature
+  );
+ }
+
+
+ questions=
+  shuffle(generated);
+
+
+ saveHistory(
+  generated.map(
+   q=>q.signature
+  )
+ );
+}
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let currentIndex=0;
+let score=0;
+
+let answerChecked=false;
+let questionStartTime=0;
+let timerInterval=null;
+
+let gameFinished=false;
+let finishSubmitted=false;
+
+let selectedRuleIndex=null;
+let currentAnswer=0;
+let scanned=false;
+
+
+/* =====================================================
+   DOM
+===================================================== */
+
+const $=
+ id=>
+ document.getElementById(id);
+
+const playerNameEl=$("playerName");
+const questionNumberEl=$("questionNumber");
+const scoreEl=$("score");
+const timeStatusEl=$("timeStatus");
+
+const timerNumberEl=$("timerNumber");
+const timerBarEl=$("timerBar");
+
+const progressEl=$("progress");
+
+const missionLabelEl=$("missionLabel");
+const familyLabelEl=$("familyLabel");
+const problemTextEl=$("problemText");
+
+const sequenceEl=$("sequence");
+
+const scanButton=$("scanButton");
+const differencesEl=$("differences");
+
+const ruleOptionsEl=$("ruleOptions");
+
+const answerTitleEl=$("answerTitle");
+const answerValueEl=$("answerValue");
+const minusButton=$("minusButton");
+const plusButton=$("plusButton");
+const answerShortcutsEl=$("answerShortcuts");
+
+const submitButton=$("submitButton");
+
+const feedbackEl=$("feedback");
+const feedbackTitleEl=$("feedbackTitle");
+const feedbackTextEl=$("feedbackText");
+const solutionEl=$("solution");
+
+const nextButton=$("nextButton");
+
+const machineScreenEl=$("machineScreen");
+const light1=$("light1");
+const light2=$("light2");
+const light3=$("light3");
+
+const gameScreen=$("gameScreen");
+const resultScreen=$("resultScreen");
+
+const resultNameEl=$("resultName");
+const finalScoreEl=$("finalScore");
+const motivationEl=$("motivation");
+
+const leaderboardContent=$("leaderboardContent");
+const restartButton=$("restartButton");
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function buildProgress(){
+
+ progressEl.innerHTML="";
+
+ for(
+  let i=0;
+  i<TOTAL_QUESTIONS;
+  i++
+ ){
+
+  const tube=
+   document.createElement(
+    "div"
+   );
+
+  tube.className=
+   "test-tube";
+
+  progressEl.appendChild(
+   tube
+  );
+ }
+}
+
+
+function updateProgress(){
+
+ [
+  ...progressEl.children
+ ].forEach(
+  (tube,index)=>{
+
+   tube.classList.toggle(
+    "done",
+    index<currentIndex
+   );
+
+   tube.classList.toggle(
+    "current",
+    index===currentIndex
+   );
+  }
+ );
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+function stopTimer(){
+
+ if(timerInterval){
+
+  clearInterval(
+   timerInterval
+  );
+
+  timerInterval=null;
+ }
+}
+
+
+function startTimer(){
+
+ stopTimer();
+
+ questionStartTime=
+  Date.now();
+
+ timerNumberEl.textContent=
+  faNumber(
+   QUESTION_TIME
+  );
+
+ timeStatusEl.textContent=
+  faNumber(
+   QUESTION_TIME
+  )+
+  " ثانیه";
+
+ timerBarEl.style.width=
+  "100%";
+
+ timerBarEl.style.background=
+  "var(--green)";
+
+ timerNumberEl.style.color=
+  "var(--green)";
+
+
+ timerInterval=
+  setInterval(
+   updateTimer,
+   100
+  );
+}
+
+
+function updateTimer(){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+
+  stopTimer();
+
+  return;
+ }
+
+
+ const elapsed=
+  (
+   Date.now()-
+   questionStartTime
+  )/1000;
+
+
+ const remaining=
+  Math.max(
+   0,
+   QUESTION_TIME-elapsed
+  );
+
+
+ const seconds=
+  Math.ceil(
+   remaining
+  );
+
+
+ timerNumberEl.textContent=
+  faNumber(seconds);
+
+ timeStatusEl.textContent=
+  faNumber(seconds)+
+  " ثانیه";
+
+
+ timerBarEl.style.width=
+  (
+   remaining/
+   QUESTION_TIME*
+   100
+  )+"%";
+
+
+ if(remaining>30){
+
+  timerBarEl.style.background=
+   "var(--green)";
+
+  timerNumberEl.style.color=
+   "var(--green)";
+ }
+
+ else if(remaining>15){
+
+  timerBarEl.style.background=
+   "var(--yellow)";
+
+  timerNumberEl.style.color=
+   "#ad7700";
+ }
+
+ else{
+
+  timerBarEl.style.background=
+   "var(--red)";
+
+  timerNumberEl.style.color=
+   "var(--red)";
+ }
+
+
+ if(remaining<=0){
+
+  handleTimeout();
+ }
+}
+
+
+/* =====================================================
+   SHOW QUESTION
+===================================================== */
+
+function showQuestion(){
+
+ stopTimer();
+
+ answerChecked=false;
+ selectedRuleIndex=null;
+ scanned=false;
+
+
+ const q=
+  questions[currentIndex];
+
+
+ /*
+  مقدار اولیه پاسخ نزدیک به آخرین جمله است.
+  Shortcutها باعث می‌شوند نیازی به ده‌ها لمس +/- نباشد.
+ */
+
+ currentAnswer=
+  q.sequence[
+   q.sequence.length-1
+  ];
+
+
+ updateProgress();
+
+ resetMachine();
+
+
+ questionNumberEl.textContent=
+  faNumber(
+   currentIndex+1
+  )+
+  " از "+
+  faNumber(
+   TOTAL_QUESTIONS
+  );
+
+
+ scoreEl.textContent=
+  faNumber(score);
+
+
+ missionLabelEl.textContent=
+  "🧪 آزمایش "+
+  faNumber(
+   currentIndex+1
+  );
+
+
+ familyLabelEl.textContent=
+  "🎯 "+
+  q.family;
+
+
+ problemTextEl.textContent=
+  q.q;
+
+
+ answerTitleEl.textContent=
+  "🧪 "+
+  q.targetLabel+
+  " را انتخاب کن";
+
+
+ feedbackEl.className=
+  "feedback";
+
+ feedbackTitleEl.textContent="";
+ feedbackTextEl.textContent="";
+ solutionEl.textContent="";
+
+
+ scanButton.disabled=false;
+ minusButton.disabled=false;
+ plusButton.disabled=false;
+ submitButton.disabled=false;
+
+
+ nextButton.classList.remove(
+  "show"
+ );
+
+
+ nextButton.textContent=
+  currentIndex===
+  TOTAL_QUESTIONS-1
+  ?"مشاهده نتیجه 🏆"
+  :"آزمایش بعدی 🧪";
+
+
+ renderSequence(q);
+
+ resetDifferences();
+
+ renderRules(q);
+
+ buildShortcuts(q);
+
+ updateAnswerDisplay();
+
+ startTimer();
+}
+
+
+/* =====================================================
+   SEQUENCE
+===================================================== */
+
+function renderSequence(q){
+
+ sequenceEl.innerHTML="";
+
+
+ q.sequence.forEach(
+  (number,index)=>{
+
+   const term=
+    document.createElement(
+     "div"
+    );
+
+   term.className="term";
+
+   term.textContent=
+    faNumber(number);
+
+   sequenceEl.appendChild(
+    term
+   );
+
+
+   if(
+    index<
+    q.sequence.length-1
+   ){
+
+    const arrow=
+     document.createElement(
+      "span"
+     );
+
+    arrow.className=
+     "arrow";
+
+    arrow.textContent="→";
+
+    sequenceEl.appendChild(
+     arrow
+    );
+   }
+  }
+ );
+
+
+ const arrow=
+  document.createElement(
+   "span"
+  );
+
+ arrow.className="arrow";
+ arrow.textContent="→";
+
+ sequenceEl.appendChild(arrow);
+
+
+ const target=
+  document.createElement(
+   "div"
+  );
+
+ target.className=
+  "term target";
+
+ target.textContent=
+  q.targetLabel;
+
+ sequenceEl.appendChild(
+  target
+ );
+}
+
+
+/* =====================================================
+   DIFFERENCES
+===================================================== */
+
+function resetDifferences(){
+
+ differencesEl.innerHTML=
+  '<div class="scan-placeholder">'+
+  'قبل از انتخاب قانون، تغییرات را بررسی کن.'+
+  '</div>';
+}
+
+
+scanButton.addEventListener(
+ "click",
+ scanDifferences
+);
+
+
+function scanDifferences(){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+
+ const q=
+  questions[currentIndex];
+
+ const diffs=
+  firstDifferences(
+   q.sequence
+  );
+
+
+ differencesEl.innerHTML="";
+
+
+ diffs.forEach(diff=>{
+
+  const chip=
+   document.createElement(
+    "div"
+   );
+
+  chip.className=
+   "diff-chip";
+
+  chip.textContent=
+   faSigned(diff);
+
+  differencesEl.appendChild(
+   chip
+  );
+ });
+
+
+ scanned=true;
+
+ light1.classList.add(
+  "active"
+ );
+
+
+ machineScreenEl.textContent=
+  "Δ";
+}
+
+
+/* =====================================================
+   RULES
+===================================================== */
+
+function renderRules(q){
+
+ ruleOptionsEl.innerHTML="";
+
+
+ q.rules.forEach(
+  (rule,index)=>{
+
+   const button=
+    document.createElement(
+     "button"
+    );
+
+   button.type="button";
+
+   button.className=
+    "rule-btn";
+
+   button.textContent=
+    rule.text;
+
+
+   button.addEventListener(
+    "click",
+    ()=>selectRule(
+     index
+    )
+   );
+
+
+   ruleOptionsEl.appendChild(
+    button
+   );
+  }
+ );
+}
+
+
+function selectRule(index){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+
+ selectedRuleIndex=
+  index;
+
+
+ [
+  ...ruleOptionsEl.children
+ ].forEach(
+  (button,i)=>{
+
+   button.classList.toggle(
+    "selected",
+    i===index
+   );
+  }
+ );
+
+
+ light2.classList.add(
+  "active"
+ );
+
+
+ machineScreenEl.textContent=
+  "✓?";
+}
+
+
+/* =====================================================
+   ANSWER CONTROLS
+===================================================== */
+
+minusButton.addEventListener(
+ "click",
+ ()=>changeAnswer(-1)
+);
+
+
+plusButton.addEventListener(
+ "click",
+ ()=>changeAnswer(1)
+);
+
+
+function changeAnswer(amount){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+
+ currentAnswer=
+  Math.max(
+   0,
+   currentAnswer+amount
+  );
+
+
+ updateAnswerDisplay();
+
+ light3.classList.add(
+  "active"
+ );
+}
+
+
+function updateAnswerDisplay(){
+
+ answerValueEl.textContent=
+  faNumber(
+   currentAnswer
+  );
+}
+
+
+/* =====================================================
+   SHORTCUT ANSWERS
+===================================================== */
+
+function buildShortcuts(q){
+
+ answerShortcutsEl.innerHTML="";
+
+
+ const correct=
+  q.answer;
+
+
+ const candidates=
+  new Set([
+   correct,
+   Math.max(0,correct-2),
+   correct+2,
+   Math.max(0,correct-4),
+   correct+4,
+   q.sequence[q.sequence.length-1]
+  ]);
+
+
+ const values=
+  shuffle(
+   [...candidates]
+  )
+  .slice(0,5);
+
+
+ if(
+  !values.includes(correct)
+ ){
+
+  values[
+   values.length-1
+  ]=correct;
+ }
+
+
+ shuffle(values)
+  .forEach(value=>{
+
+   const button=
+    document.createElement(
+     "button"
+    );
+
+   button.type="button";
+
+   button.className=
+    "shortcut";
+
+   button.textContent=
+    faNumber(value);
+
+
+   button.addEventListener(
+    "click",
+    ()=>{
+
+     if(
+      answerChecked ||
+      gameFinished
+     ){
+      return;
+     }
+
+     currentAnswer=
+      value;
+
+     updateAnswerDisplay();
+
+     light3.classList.add(
+      "active"
+     );
+    }
+   );
+
+
+   answerShortcutsEl.appendChild(
+    button
+   );
+  });
+}
+
+
+/* =====================================================
+   SUBMIT
+===================================================== */
+
+submitButton.addEventListener(
+ "click",
+ submitAnswer
+);
+
+
+function submitAnswer(){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+
+ const elapsed=
+  (
+   Date.now()-
+   questionStartTime
+  )/1000;
+
+
+ if(
+  elapsed>=
+  QUESTION_TIME
+ ){
+
+  handleTimeout();
+
+  return;
+ }
+
+
+ answerChecked=true;
+
+ stopTimer();
+
+ lockQuestion();
+
+
+ const q=
+  questions[currentIndex];
+
+
+ const ruleCorrect=
+  selectedRuleIndex!==null &&
+  q.rules[
+   selectedRuleIndex
+  ].correct;
+
+
+ const numberCorrect=
+  currentAnswer===
+  q.answer;
+
+
+ /*
+  برای پاسخ کامل، هم قانون و هم مقدار نهایی
+  باید درست باشند.
+ */
+
+ if(
+  ruleCorrect &&
+  numberCorrect
+ ){
+
+  const earned=
+   pointsForTime(
+    elapsed
+   );
+
+
+  score=
+   Math.min(
+    100,
+    score+earned
+   );
+
+
+  feedbackEl.className=
+   "feedback success show";
+
+
+  feedbackTitleEl.textContent=
+   "✅ آفرین! +"+
+   faNumber(earned)+
+   " امتیاز";
+
+
+  feedbackTextEl.textContent=
+   "قانون را از روی داده‌ها درست تشخیص دادی و پیش‌بینی هم صحیح بود. "+
+   q.explanation;
+
+
+  solutionEl.textContent=
+   "🔬 نتیجه: "+
+   q.solution;
+
+
+  machineScreenEl.textContent=
+   faNumber(q.answer);
+
+
+  [
+   light1,
+   light2,
+   light3
+  ].forEach(
+   x=>x.classList.add(
+    "active"
+   )
+  );
+
+
+  celebrate();
+ }
+
+ else{
+
+  feedbackEl.className=
+   "feedback error show";
+
+
+  feedbackTitleEl.textContent=
+   "❌ نتیجه آزمایش درست نیست.";
+
+
+  let reason="";
+
+
+  if(
+   selectedRuleIndex===null
+  ){
+
+   reason=
+    "قانون الگو را انتخاب نکردی. ";
+  }
+
+  else if(
+   !ruleCorrect &&
+   !numberCorrect
+  ){
+
+   reason=
+    "هم قانون انتخاب‌شده و هم مقدار نهایی نیاز به بررسی دارند. ";
+  }
+
+  else if(
+   !ruleCorrect
+  ){
+
+   reason=
+    "مقدار را پیدا کردی، اما قانونی که انتخاب کردی با همه داده‌ها سازگار نیست. ";
+  }
+
+  else{
+
+   reason=
+    "قانون را درست پیدا کردی، اما مقدار نهایی درست نیست. ";
+  }
+
+
+  feedbackTextEl.textContent=
+   reason+
+   q.explanation;
+
+
+  solutionEl.textContent=
+   "✅ قانون درست: "+
+   q.rule+
+   " | پاسخ: "+
+   faNumber(q.answer)+
+   " | "+
+   q.solution;
+
+
+  revealCorrectRule(q);
+
+
+  machineScreenEl.textContent=
+   faNumber(q.answer);
+ }
+
+
+ scoreEl.textContent=
+  faNumber(score);
+
+
+ nextButton.classList.add(
+  "show"
+ );
+}
+
+
+/* =====================================================
+   REVEAL RULE
+===================================================== */
+
+function revealCorrectRule(q){
+
+ [
+  ...ruleOptionsEl.children
+ ].forEach(
+  (button,index)=>{
+
+   if(
+    q.rules[index].correct
+   ){
+
+    button.style.borderColor=
+     "var(--green)";
+
+    button.style.background=
+     "#e8faed";
+
+    button.style.color=
+     "#18723a";
+   }
+  }
+ );
+}
+
+
+/* =====================================================
+   LOCK
+===================================================== */
+
+function lockQuestion(){
+
+ scanButton.disabled=true;
+ minusButton.disabled=true;
+ plusButton.disabled=true;
+ submitButton.disabled=true;
+
+
+ [
+  ...ruleOptionsEl.querySelectorAll(
+   ".rule-btn"
+  )
+ ].forEach(
+  button=>{
+   button.disabled=true;
+  }
+ );
+
+
+ [
+  ...answerShortcutsEl.querySelectorAll(
+   ".shortcut"
+  )
+ ].forEach(
+  button=>{
+   button.disabled=true;
+  }
+ );
+}
+
+
+/* =====================================================
+   TIMEOUT
+===================================================== */
+
+function handleTimeout(){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+
+ answerChecked=true;
+
+ stopTimer();
+
+ lockQuestion();
+
+
+ timerNumberEl.textContent="۰";
+ timeStatusEl.textContent="۰ ثانیه";
+ timerBarEl.style.width="0%";
+ timerBarEl.style.background="var(--red)";
+
+
+ const q=
+  questions[currentIndex];
+
+
+ feedbackEl.className=
+  "feedback timeout show";
+
+
+ feedbackTitleEl.textContent=
+  "⏰ زمان تمام شد! ۰ امتیاز";
+
+
+ feedbackTextEl.textContent=
+  q.explanation;
+
+
+ solutionEl.textContent=
+  "✅ قانون درست: "+
+  q.rule+
+  " | پاسخ: "+
+  faNumber(q.answer)+
+  " | "+
+  q.solution;
+
+
+ revealCorrectRule(q);
+
+
+ machineScreenEl.textContent=
+  faNumber(q.answer);
+
+
+ nextButton.classList.add(
+  "show"
+ );
+}
+
+
+/* =====================================================
+   MACHINE RESET
+===================================================== */
+
+function resetMachine(){
+
+ machineScreenEl.textContent="?";
+
+ [
+  light1,
+  light2,
+  light3
+ ].forEach(
+  light=>
+   light.classList.remove(
+    "active"
+   )
+ );
+}
+
+
+/* =====================================================
+   CELEBRATE
+===================================================== */
+
+function celebrate(){
+
+ const rect=
+  submitButton
+   .getBoundingClientRect();
+
+
+ const icons=[
+  "🧪","✨","⭐","🔬","🎉"
+ ];
+
+
+ for(
+  let i=0;
+  i<10;
+  i++
+ ){
+
+  const spark=
+   document.createElement(
+    "span"
+   );
+
+
+  spark.className=
+   "spark";
+
+
+  spark.textContent=
+   pick(icons);
+
+
+  spark.style.left=
+   (
+    rect.left+
+    rect.width/2
+   )+"px";
+
+
+  spark.style.top=
+   (
+    rect.top+
+    rect.height/2
+   )+"px";
+
+
+  spark.style.setProperty(
+   "--x",
+   (
+    Math.random()*180-
+    90
+   )+"px"
+  );
+
+
+  spark.style.setProperty(
+   "--y",
+   (
+    -30-
+    Math.random()*120
+   )+"px"
+  );
+
+
+  document.body
+   .appendChild(
+    spark
+   );
+
+
+  setTimeout(
+   ()=>spark.remove(),
+   850
+  );
+ }
+}
+
+
+/* =====================================================
+   NEXT
+===================================================== */
+
+nextButton.addEventListener(
+ "click",
+ ()=>{
+
+  if(!answerChecked){
+   return;
+  }
+
+
+  if(
+   currentIndex<
+   TOTAL_QUESTIONS-1
+  ){
+
+   currentIndex++;
+
+   showQuestion();
+
+
+   window.scrollTo({
+    top:0,
+    behavior:"smooth"
+   });
+
+  }else{
+
+   finishGame();
+  }
+ }
+);
+
+
+/* =====================================================
+   FINISH GAME
+===================================================== */
+
+async function finishGame(){
+
+ if(gameFinished){
+  return;
+ }
+
+
+ gameFinished=true;
+
+ stopTimer();
+
+
+ [
+  ...progressEl.children
+ ].forEach(
+  tube=>{
+
+   tube.classList.remove(
+    "current"
+   );
+
+   tube.classList.add(
+    "done"
+   );
+  }
+ );
+
+
+ gameScreen.style.display=
+  "none";
+
+
+ resultScreen
+  .classList
+  .add("show");
+
+
+ const name=
+  player&&player.playerName
+  ?player.playerName
+  :"بازیکن";
+
+
+ resultNameEl.textContent=
+  name;
+
+
+ finalScoreEl.textContent=
+  faNumber(score);
+
+
+ if(score>=90){
+
+  motivationEl.textContent=
+   "عالی بود! 🌟 قوانین مخفی از چشم تو پنهان نمی‌مانند!";
+ }
+
+ else if(score>=70){
+
+  motivationEl.textContent=
+   "خیلی خوب بود 👏 تغییرات الگوها را دقیق کشف می‌کنی!";
+ }
+
+ else if(score>=50){
+
+  motivationEl.textContent=
+   "خوب بود، ادامه بده 💪 قبل از پیش‌بینی، تغییرات را بیشتر بررسی کن!";
+ }
+
+ else{
+
+  motivationEl.textContent=
+   "دوباره آزمایش کن 🌱 اول تغییرها را پیدا کن، بعد قانون را روی همه داده‌ها امتحان کن!";
+ }
+
+
+ leaderboardContent.innerHTML=
+  '<div class="loading">'+
+  'در حال ثبت نتیجه و دریافت جدول برترین‌ها...'+
+  '</div>';
+
+
+ try{
+
+  if(
+   !finishSubmitted
+  ){
+
+   finishSubmitted=true;
+
+   const result=
+    await GameSDK
+     .finishGame(score);
+  }
+
+ }catch(error){
+
+  console.error(
+   "finishGame error:",
+   error
+  );
+ }
+
+
+ await loadLeaderboard();
+}
+
+
+/* =====================================================
+   LEADERBOARD
+===================================================== */
+
+async function loadLeaderboard(){
+
+ try{
+
+  const scores=
+   await GameSDK
+    .getLeaderboard(10);
+
+
+  leaderboardContent.innerHTML=
+   "";
+
+
+  if(
+   !Array.isArray(scores) ||
+   scores.length===0
+  ){
+
+   leaderboardContent.innerHTML=
+    '<div class="loading">'+
+    'هنوز رکوردی ثبت نشده است.'+
+    '</div>';
+
+   return;
+  }
+
+
+  scores.forEach(
+   (item,index)=>{
+
+    const row=
+     document.createElement(
+      "div"
+     );
+
+
+    row.className=
+     "rank-row";
+
+
+    let rank;
+
+
+    if(index===0){
+     rank="🥇";
+    }
+
+    else if(index===1){
+     rank="🥈";
+    }
+
+    else if(index===2){
+     rank="🥉";
+    }
+
+    else{
+     rank=
+      faNumber(index+1)+
+      ".";
+    }
+
+
+    const name=
+     item.playerName ??
+     item.player_name ??
+     item.name ??
+     "بازیکن";
+
+
+    const value=
+     item.score ??
+     0;
+
+
+    const nameEl=
+     document.createElement(
+      "span"
+     );
+
+
+    nameEl.className=
+     "rank-name";
+
+    nameEl.textContent=
+     rank+" "+name;
+
+
+    const valueEl=
+     document.createElement(
+      "span"
+     );
+
+
+    valueEl.className=
+     "rank-score";
+
+    valueEl.textContent=
+     faNumber(value)+
+     " امتیاز";
+
+
+    row.appendChild(nameEl);
+    row.appendChild(valueEl);
+
+    leaderboardContent
+     .appendChild(row);
+   }
+  );
+
+ }catch(error){
+
+  console.error(
+   "leaderboard error:",
+   error
+  );
+
+
+  leaderboardContent.innerHTML=
+   '<div class="loading">'+
+   'دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.'+
+   '</div>';
+ }
+}
+
+
+/* =====================================================
+   RESTART
+===================================================== */
+
+restartButton.addEventListener(
+ "click",
+ ()=>{
+
+  stopTimer();
+
+  GameSDK.reset();
+
+
+  score=0;
+  currentIndex=0;
+
+  answerChecked=false;
+  questionStartTime=0;
+
+  gameFinished=false;
+  finishSubmitted=false;
+
+  selectedRuleIndex=null;
+  currentAnswer=0;
+  scanned=false;
+
+
+  resultScreen
+   .classList
+   .remove("show");
+
+
+  gameScreen.style.display=
+   "block";
+
+
+  leaderboardContent.innerHTML=
+   "";
+
+
+  generateRound();
+
+  buildProgress();
+
+  showQuestion();
+
+
+  window.scrollTo({
+   top:0,
+   behavior:"smooth"
+  });
+ }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+function startGame(){
+
+ const name=
+  player&&player.playerName
+  ?player.playerName
+  :"بازیکن";
+
+
+ playerNameEl.textContent=
+  name;
+
+
+ score=0;
+ currentIndex=0;
+
+ answerChecked=false;
+
+ gameFinished=false;
+ finishSubmitted=false;
+
+ selectedRuleIndex=null;
+ currentAnswer=0;
+ scanned=false;
+
+
+ generateRound();
+
+ buildProgress();
+
+ showQuestion();
+}
+
+
+startGame();
+
+</script>
+
+</body>
+</html>
