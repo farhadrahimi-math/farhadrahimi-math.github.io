@@ -1,0 +1,3229 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>گیت بازرسی حالت‌ها | ریاضی هفتم</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+ --purple:#8b5cf6;--purple2:#6d28d9;
+ --blue:#38bdf8;--blue2:#0284c7;
+ --pink:#f472b6;--yellow:#fbbf24;
+ --orange:#fb923c;--green:#22c55e;--green2:#15803d;
+ --red:#fb7185;--red2:#e11d48;
+ --text:#293449;--muted:#64748b
+}
+
+html{color-scheme:light only;-webkit-text-size-adjust:100%}
+
+body{
+ margin:0;min-height:100vh;direction:rtl;
+ font-family:Tahoma,Arial,sans-serif;color:var(--text);overflow-x:hidden;
+ background:
+  radial-gradient(circle at 8% 5%,#fbcfe855,transparent 24%),
+  radial-gradient(circle at 92% 7%,#7dd3fc66,transparent 25%),
+  radial-gradient(circle at 85% 92%,#fde68a55,transparent 24%),
+  linear-gradient(150deg,#fff7fd,#effcff 53%,#fff9df)
+}
+
+button,a{font-family:inherit}
+button{touch-action:manipulation}
+.app{width:min(100%,960px);margin:auto;padding:12px}
+
+/* HEADER */
+
+.hero{text-align:center;padding:7px 4px 14px}
+
+.badge{
+ display:inline-block;padding:6px 14px;border-radius:999px;
+ background:linear-gradient(90deg,#fef3c7,#fce7f3);
+ border:1px solid #f1cc5d;color:#825900;
+ font-size:12px;font-weight:bold
+}
+
+.hero h1{
+ margin:9px 0 4px;font-size:clamp(28px,7vw,43px);
+ background:linear-gradient(90deg,var(--purple),var(--blue2),var(--pink));
+ color:transparent;background-clip:text;-webkit-background-clip:text
+}
+
+.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.8}
+
+/* PANEL */
+
+.panel{
+ background:#fffffff7;border-radius:25px;overflow:hidden;
+ box-shadow:0 16px 42px #6d28d91c
+}
+
+/* STATUS */
+
+.status{
+ display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px;
+ background:linear-gradient(90deg,#f5f3ff,#ecfeff,#fff7ed,#fdf2f8)
+}
+
+.stat{
+ min-width:0;background:#fff;text-align:center;padding:8px 4px;
+ border-radius:13px;box-shadow:0 2px 7px #0000000a
+}
+
+.stat:nth-child(1){border-bottom:4px solid var(--purple)}
+.stat:nth-child(2){border-bottom:4px solid var(--blue)}
+.stat:nth-child(3){border-bottom:4px solid var(--yellow)}
+.stat:nth-child(4){border-bottom:4px solid var(--pink)}
+
+.stat small{display:block;color:var(--muted);font-size:10px}
+
+.stat strong{
+ display:block;margin-top:2px;color:#544274;font-size:14px;
+ overflow:hidden;white-space:nowrap;text-overflow:ellipsis
+}
+
+/* CHECKPOINT SCENE */
+
+.checkpoint{
+ position:relative;height:143px;overflow:hidden;
+ background:
+  linear-gradient(#c9f1ff 0 64%,#dfe5e8 64%);
+ border-bottom:1px solid #cbd5e1
+}
+
+.checkpoint-road{
+ position:absolute;bottom:0;left:0;right:0;height:48px;
+ background:#697480
+}
+
+.checkpoint-road:after{
+ content:"";position:absolute;left:0;right:0;top:22px;height:4px;
+ background:repeating-linear-gradient(
+  90deg,#fff 0 25px,transparent 25px 45px
+ )
+}
+
+.booth{
+ position:absolute;right:9%;bottom:39px;width:85px;height:66px;
+ background:#fff;border:4px solid var(--blue2);border-radius:11px 11px 3px 3px
+}
+
+.booth:before{
+ content:"🛂";position:absolute;font-size:35px;right:21px;top:12px
+}
+
+.booth:after{
+ content:"گیت";position:absolute;bottom:-24px;right:24px;
+ color:#fff;font-size:11px;font-weight:bold
+}
+
+.barrier{
+ position:absolute;right:20%;bottom:54px;width:105px;height:9px;
+ background:repeating-linear-gradient(90deg,#fff 0 15px,var(--red2) 15px 30px);
+ border:1px solid #b91c1c;transform-origin:right center;
+ transform:rotate(-5deg);transition:.35s;border-radius:5px
+}
+
+.barrier.open{transform:rotate(-58deg)}
+
+.traveler{
+ position:absolute;left:12%;bottom:43px;font-size:38px;
+ transition:left .6s
+}
+
+.light{
+ position:absolute;right:23%;bottom:78px;width:23px;height:46px;
+ border-radius:9px;background:#334155;padding:4px
+}
+
+.light:before,.light:after{
+ content:"";display:block;width:15px;height:15px;border-radius:50%;
+ margin-bottom:4px
+}
+
+.light:before{background:#ef4444}
+.light:after{background:#1f4d32}
+
+.light.go:before{background:#53252b}
+.light.go:after{background:#22c55e;box-shadow:0 0 10px #22c55e}
+
+/* CONTENT */
+
+.content{padding:15px}
+
+.progress{
+ display:grid;grid-template-columns:repeat(10,1fr);
+ gap:5px;margin-bottom:14px
+}
+
+.stamp{
+ height:23px;border-radius:7px;background:#e5e7eb;
+ border:2px solid #d1d5db;transition:.25s
+}
+
+.stamp.done{
+ background:#bbf7d0;border-color:#22c55e;
+ box-shadow:0 0 7px #22c55e44
+}
+
+.stamp.current{
+ background:#fde68a;border-color:#f59e0b;
+ box-shadow:0 0 7px #fbbf2466
+}
+
+/* TIMER */
+
+.timer-head{
+ display:flex;justify-content:space-between;align-items:center;
+ font-size:13px;font-weight:bold;margin-bottom:6px
+}
+
+#timerNumber{font-size:20px;color:var(--green)}
+
+.timer-track{
+ height:13px;padding:2px;background:#e7e9f2;
+ border-radius:999px;overflow:hidden;margin-bottom:14px
+}
+
+.timer-bar{
+ width:100%;height:100%;border-radius:999px;background:var(--green);
+ transition:width .1s linear,background .2s
+}
+
+/* MISSION */
+
+.labels{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+
+.mission-label,.family-label{
+ padding:5px 11px;border-radius:999px;font-size:11px;font-weight:bold
+}
+
+.mission-label{background:#eee9ff;color:#6835bd}
+.family-label{background:#e0f7ff;color:#087aa8}
+
+.problem{
+ margin:8px 0;padding:14px 15px;background:#fff8dd;
+ border:2px solid #f3d36d;border-radius:16px;text-align:center;
+ font-size:clamp(15px,4vw,19px);font-weight:bold;line-height:1.9
+}
+
+/* CONDITIONS */
+
+.conditions{
+ margin:10px 0;padding:11px;
+ background:#f8fafc;border:2px solid #dbe4ea;border-radius:15px
+}
+
+.conditions-title{
+ text-align:center;font-size:12px;font-weight:bold;
+ color:#536273;margin-bottom:8px
+}
+
+.condition-list{
+ display:flex;flex-wrap:wrap;justify-content:center;gap:7px
+}
+
+.condition{
+ padding:7px 10px;border-radius:999px;
+ background:#fff;border:2px solid #cbd5e1;
+ font-size:12px;font-weight:bold;color:#475569
+}
+
+.condition:before{content:"🔍 "}
+
+/* INSPECTION */
+
+.inspection{
+ margin-top:12px;padding:12px;
+ background:linear-gradient(145deg,#f8f7ff,#f0fbff);
+ border:2px solid #ddd8ee;border-radius:19px
+}
+
+.inspection-title{
+ text-align:center;color:#554276;font-size:14px;font-weight:bold
+}
+
+.inspection-help{
+ text-align:center;color:var(--muted);
+ font-size:11px;line-height:1.8;margin:5px 0 11px
+}
+
+.cards{
+ display:grid;grid-template-columns:repeat(4,1fr);gap:8px
+}
+
+.case-card{
+ position:relative;min-height:68px;padding:9px 5px;
+ border:3px solid #cbd5e1;border-radius:13px;background:#fff;
+ color:#334155;font-size:13px;font-weight:bold;cursor:pointer;
+ transition:.16s;overflow:hidden
+}
+
+.case-card:hover:not(:disabled){
+ transform:translateY(-2px);border-color:var(--purple)
+}
+
+.case-card.keep{
+ background:#edfff2;border-color:var(--green);color:#177038
+}
+
+.case-card.remove{
+ background:#fff0f3;border-color:var(--red);color:#b62f49;
+ opacity:.78
+}
+
+.case-card.remove:after{
+ content:"❌ حذف";
+ position:absolute;inset:0;display:flex;
+ align-items:center;justify-content:center;
+ background:#fff0f3df;color:#d51d45;
+ font-size:15px;font-weight:bold;
+ transform:rotate(-6deg)
+}
+
+.case-card.keep:before{
+ content:"✅";position:absolute;top:3px;left:4px;font-size:12px
+}
+
+.legend{
+ display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+ margin-top:10px;font-size:11px;color:var(--muted)
+}
+
+.legend span{display:inline-flex;align-items:center;gap:4px}
+
+.count-box{
+ margin-top:9px;text-align:center;
+ font-size:12px;font-weight:bold;color:#60419e
+}
+
+/* SUBMIT */
+
+.submit{
+ width:100%;margin-top:12px;padding:14px;border:0;border-radius:14px;
+ background:linear-gradient(90deg,var(--purple),var(--blue2));
+ color:#fff;font-size:16px;font-weight:bold;cursor:pointer;
+ box-shadow:0 6px 15px #6d28d925
+}
+
+.submit:disabled{opacity:.55;cursor:default}
+
+/* FEEDBACK */
+
+.feedback{
+ display:none;margin-top:14px;padding:13px;border-radius:14px;line-height:1.8
+}
+
+.feedback.show{display:block;animation:pop .25s}
+.feedback.success{background:#e8faed;border:2px solid #a6dfb7}
+.feedback.error{background:#fff0f3;border:2px solid #f3bbc5}
+.feedback.timeout{background:#fff7d9;border:2px solid #e9cb69}
+
+.feedback strong{display:block;font-size:17px;margin-bottom:3px}
+.feedback-text{font-size:13px;color:#4d5c61}
+
+.answer-list{
+ margin-top:7px;padding:8px 9px;background:#ffffffaa;
+ border-radius:9px;font-size:12px;line-height:1.9
+}
+
+.next{
+ display:none;width:100%;margin-top:12px;padding:14px;border:0;
+ border-radius:14px;background:linear-gradient(90deg,var(--pink),var(--purple));
+ color:#fff;font-size:16px;font-weight:bold;cursor:pointer
+}
+
+.next.show{display:block}
+
+/* RESULT */
+
+.result{
+ display:none;text-align:center;padding:25px 16px;
+ background:
+ radial-gradient(circle at 10% 5%,#fbcfe844,transparent 25%),
+ radial-gradient(circle at 90% 5%,#7dd3fc44,transparent 25%)
+}
+
+.result.show{display:block}
+
+.result-icon{font-size:72px;animation:float 2s ease-in-out infinite}
+
+.result h2{color:var(--purple2);font-size:27px;margin:5px}
+
+.final-score{
+ width:160px;height:160px;margin:17px auto;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ border-radius:50%;border:8px solid transparent;
+ background:linear-gradient(#fff,#fff) padding-box,
+ linear-gradient(135deg,var(--pink),var(--yellow),var(--blue),var(--purple)) border-box
+}
+
+.final-score strong{font-size:43px;color:var(--purple2)}
+.final-score span{font-size:13px;color:var(--muted)}
+.motivation{font-size:20px;font-weight:bold;margin-bottom:19px}
+
+.leaderboard{
+ max-width:540px;margin:20px auto;padding:13px;text-align:right;
+ background:#faf8ff;border:2px solid #e4dafa;border-radius:16px
+}
+
+.leaderboard h3{text-align:center;color:var(--purple2);margin:0 0 10px}
+
+.rank-row{
+ display:flex;justify-content:space-between;gap:8px;
+ padding:9px 5px;border-bottom:1px dashed #ddd6e8
+}
+
+.rank-row:last-child{border:0}
+
+.rank-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-score{font-weight:bold;color:var(--purple2)}
+.loading{text-align:center;color:var(--muted);padding:8px}
+
+.restart{
+ width:100%;max-width:420px;padding:14px;border:0;border-radius:14px;
+ background:linear-gradient(90deg,var(--pink),var(--purple));
+ color:white;font-weight:bold;font-size:16px;cursor:pointer
+}
+
+.back{
+ display:block;text-align:center;margin:17px 0;padding:10px;
+ text-decoration:none;color:var(--purple2);font-weight:bold
+}
+
+/* EFFECT */
+
+.spark{
+ position:fixed;z-index:999;pointer-events:none;font-size:20px;
+ animation:spark .8s forwards
+}
+
+@keyframes spark{
+ from{opacity:1;transform:translate(0,0) scale(.5)}
+ to{opacity:0;transform:translate(var(--x),var(--y)) scale(1.5) rotate(180deg)}
+}
+
+@keyframes pop{
+ from{opacity:.2;transform:scale(.97)}
+ to{opacity:1;transform:scale(1)}
+}
+
+@keyframes float{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-7px)}
+}
+
+@media(max-width:650px){
+ .app{padding:7px}
+ .status{grid-template-columns:1fr 1fr}
+ .content{padding:11px}
+ .checkpoint{height:120px}
+ .booth{transform:scale(.8);transform-origin:right bottom}
+ .barrier{right:23%;transform-origin:right center}
+ .cards{grid-template-columns:repeat(3,1fr)}
+}
+
+@media(max-width:420px){
+ .cards{grid-template-columns:repeat(2,1fr)}
+ .case-card{min-height:62px}
+}
+
+@media(prefers-reduced-motion:reduce){
+ *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+<header class="hero">
+ <div class="badge">🎓 ریاضی هفتم • فصل اول • درس ۴</div>
+ <h1>🛂 گیت بازرسی حالت‌ها</h1>
+ <p>شرط‌ها را بررسی کن، حالت‌های نامطلوب را متوقف کن و فقط حالت‌های مجاز را عبور بده!</p>
+</header>
+
+<section class="panel">
+
+<div id="gameScreen">
+
+ <div class="status">
+  <div class="stat">
+   <small>🛂 بازرس</small>
+   <strong id="playerName">---</strong>
+  </div>
+  <div class="stat">
+   <small>📋 مأموریت</small>
+   <strong id="questionNumber">۱ از ۱۰</strong>
+  </div>
+  <div class="stat">
+   <small>⭐ امتیاز</small>
+   <strong id="score">۰</strong>
+  </div>
+  <div class="stat">
+   <small>⏱️ زمان</small>
+   <strong id="timeStatus">۶۰ ثانیه</strong>
+  </div>
+ </div>
+
+ <div class="checkpoint">
+  <div class="checkpoint-road"></div>
+  <div class="booth"></div>
+  <div class="barrier" id="barrier"></div>
+  <div class="light" id="trafficLight"></div>
+  <div class="traveler" id="traveler">🚙</div>
+ </div>
+
+ <div class="content">
+
+  <div class="progress" id="progress"></div>
+
+  <div class="timer-head">
+   <span>⏱️ زمان بازرسی</span>
+   <strong id="timerNumber">۶۰</strong>
+  </div>
+
+  <div class="timer-track">
+   <div class="timer-bar" id="timerBar"></div>
+  </div>
+
+  <div class="labels">
+   <span class="mission-label" id="missionLabel">📋 مأموریت ۱</span>
+   <span class="family-label" id="familyLabel"></span>
+  </div>
+
+  <div class="problem" id="problemText"></div>
+
+  <div class="conditions">
+   <div class="conditions-title">🔎 شرایط عبور از گیت</div>
+   <div class="condition-list" id="conditionList"></div>
+  </div>
+
+  <div class="inspection">
+
+   <div class="inspection-title">
+    🛂 همه حالت‌های ممکن
+   </div>
+
+   <div class="inspection-help">
+    حالت‌های نامطلوب را لمس کن تا ❌ حذف شوند. حالت‌هایی که باید عبور کنند دست‌نخورده بمانند. با لمس دوباره می‌توانی تصمیم را برگردانی.
+   </div>
+
+   <div class="cards" id="cards"></div>
+
+   <div class="legend">
+    <span>⬜ بررسی‌نشده / مجاز</span>
+    <span>❌ متوقف‌شده</span>
+   </div>
+
+   <div class="count-box" id="countBox"></div>
+
+  </div>
+
+  <button class="submit" id="submitButton" type="button">
+   🔐 ثبت نتیجه بازرسی
+  </button>
+
+  <div class="feedback" id="feedback">
+   <strong id="feedbackTitle"></strong>
+   <div class="feedback-text" id="feedbackText"></div>
+   <div class="answer-list" id="answerList"></div>
+  </div>
+
+  <button class="next" id="nextButton" type="button">
+   گیت بعدی 🛂
+  </button>
+
+ </div>
+
+</div>
+
+
+<div class="result" id="resultScreen">
+
+ <div class="result-icon">🛂🏆</div>
+
+ <h2>همه گیت‌ها بازرسی شدند!</h2>
+
+ <p>
+  بازرس:
+  <strong id="resultName"></strong>
+ </p>
+
+ <div class="final-score">
+  <strong id="finalScore">۰</strong>
+  <span>از 100 امتیاز</span>
+ </div>
+
+ <div class="motivation" id="motivation"></div>
+
+ <div class="leaderboard">
+  <h3>🏅 برترین بازرس‌ها</h3>
+  <div id="leaderboardContent" class="loading">
+   در حال دریافت جدول برترین‌ها...
+  </div>
+ </div>
+
+ <button class="restart" id="restartButton" type="button">
+  🔄 بازی دوباره
+ </button>
+
+</div>
+
+</section>
+
+<a class="back" href="/#game">
+ ← بازگشت به بازی‌های ریاضی
+</a>
+
+</main>
+
+
+<script src="/games/game-sdk.js"></script>
+
+<script>
+
+const GAME_ID = 11;
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 60;
+
+const player = GameSDK.init(GAME_ID);
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
+
+const HISTORY_KEY="math_checkpoint_elimination_v1";
+const MAX_HISTORY=40;
+
+
+/* =====================================================
+   TOOLS
+===================================================== */
+
+function faNumber(value){
+ return String(value).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+function pick(array){
+ return array[Math.floor(Math.random()*array.length)];
+}
+
+function shuffle(array){
+
+ const a=[...array];
+
+ for(let i=a.length-1;i>0;i--){
+
+  const j=
+   Math.floor(Math.random()*(i+1));
+
+  [a[i],a[j]]=
+  [a[j],a[i]];
+ }
+
+ return a;
+}
+
+function pointsForTime(seconds){
+
+ if(seconds<=15)return 10;
+ if(seconds<=25)return 8;
+ if(seconds<=35)return 6;
+ if(seconds<=45)return 4;
+ if(seconds<=60)return 2;
+
+ return 0;
+}
+
+function loadHistory(){
+
+ try{
+
+  const data=
+   JSON.parse(
+    localStorage.getItem(HISTORY_KEY)||"[]"
+   );
+
+  return Array.isArray(data)
+   ?data
+   :[];
+
+ }catch{
+
+  return [];
+ }
+}
+
+function saveHistory(signatures){
+
+ try{
+
+  const merged=[
+   ...signatures,
+   ...loadHistory()
+  ];
+
+  const unique=[
+   ...new Set(merged)
+  ].slice(0,MAX_HISTORY);
+
+  localStorage.setItem(
+   HISTORY_KEY,
+   JSON.stringify(unique)
+  );
+
+ }catch(error){
+
+  console.warn(
+   "History unavailable:",
+   error
+  );
+ }
+}
+
+function range(min,max){
+
+ const result=[];
+
+ for(let i=min;i<=max;i++){
+  result.push(i);
+ }
+
+ return result;
+}
+
+
+/* =====================================================
+   QUESTION FORMAT
+
+   cases:
+   [
+      {
+       key:"",
+       label:"",
+       valid:true/false
+      }
+   ]
+
+   conditions:
+   ["...", "..."]
+
+===================================================== */
+
+
+/* =====================================================
+   1) عدد دو رقمی - زوج و بزرگ‌تر
+===================================================== */
+
+function genEvenAbove(){
+
+ const digits=
+  shuffle([1,2,3,4,5,6,7,8,9])
+  .slice(0,4)
+  .sort((a,b)=>a-b);
+
+ /*
+  شرط را طوری می‌سازیم که
+  حتماً پاسخ مطلوب وجود داشته باشد.
+ */
+
+ const all=[];
+
+ for(const a of digits){
+  for(const b of digits){
+
+   if(a!==b){
+
+    const value=a*10+b;
+
+    all.push(value);
+   }
+  }
+ }
+
+ const even=
+  all.filter(x=>x%2===0);
+
+ if(even.length===0){
+  return genEvenAbove();
+ }
+
+ const candidates=
+  [30,40,50,60,70]
+  .filter(limit=>
+   even.some(x=>x>limit) &&
+   all.some(x=>x<=limit)
+  );
+
+ if(!candidates.length){
+  return genEvenAbove();
+ }
+
+ const limit=pick(candidates);
+
+ return{
+
+  family:"عدد دو رقمی",
+
+  signature:
+   `evenAbove-${digits.join("-")}-${limit}`,
+
+  q:
+   `با رقم‌های ${digits.map(faNumber).join("، ")} عددهای دو رقمی بدون تکرار ساخته‌ایم. فقط عددهایی اجازه عبور دارند که زوج و بزرگ‌تر از ${faNumber(limit)} باشند.`,
+
+  conditions:[
+   "رقم‌ها تکراری نباشند",
+   "عدد زوج باشد",
+   `از ${faNumber(limit)} بزرگ‌تر باشد`
+  ],
+
+  cases:
+   all.map(value=>({
+    key:String(value),
+    label:faNumber(value),
+    valid:
+     value%2===0 &&
+     value>limit
+   })),
+
+  explanation:
+   "ابتدا همه عددهای بدون تکرار را داریم؛ سپس شرط زوج‌بودن و شرط بزرگ‌تر بودن را روی آنها اعمال می‌کنیم."
+ };
+}
+
+
+/* =====================================================
+   2) عدد دو رقمی - فرد و محدوده
+===================================================== */
+
+function genOddRange(){
+
+ const digits=
+  shuffle([1,2,3,4,5,6,7,8,9])
+  .slice(0,4)
+  .sort((a,b)=>a-b);
+
+ const all=[];
+
+ digits.forEach(a=>{
+  digits.forEach(b=>{
+
+   if(a!==b){
+    all.push(a*10+b);
+   }
+  });
+ });
+
+ const possible=
+  all.filter(x=>x%2===1);
+
+ if(possible.length<2){
+  return genOddRange();
+ }
+
+ const low=
+  pick([20,30,40,50]);
+
+ const high=
+  pick([60,70,80,90]);
+
+ const valid=
+  possible.filter(
+   x=>x>low && x<high
+  );
+
+ if(
+  valid.length===0 ||
+  valid.length===all.length
+ ){
+  return genOddRange();
+ }
+
+ return{
+
+  family:"فرد در بازه",
+
+  signature:
+   `oddRange-${digits.join("-")}-${low}-${high}`,
+
+  q:
+   `از رقم‌های ${digits.map(faNumber).join("، ")} عدد دو رقمی بدون تکرار ساخته‌ایم. فقط عددهای فرد بین ${faNumber(low)} و ${faNumber(high)} مجازند.`,
+
+  conditions:[
+   "رقم‌ها متفاوت باشند",
+   "عدد فرد باشد",
+   `بزرگ‌تر از ${faNumber(low)} باشد`,
+   `کوچک‌تر از ${faNumber(high)} باشد`
+  ],
+
+  cases:
+   all.map(value=>({
+    key:String(value),
+    label:faNumber(value),
+    valid:
+     value%2===1 &&
+     value>low &&
+     value<high
+   })),
+
+  explanation:
+   "برای باقی‌ماندن یک حالت، همه شرط‌ها باید هم‌زمان برقرار باشند؛ نقض حتی یک شرط برای حذف آن کافی است."
+ };
+}
+
+
+/* =====================================================
+   3) عدد سه رقمی
+===================================================== */
+
+function genThreeDigit(){
+
+ const digits=
+  shuffle([1,2,3,4,5,6])
+  .slice(0,4)
+  .sort((a,b)=>a-b);
+
+ const all=[];
+
+ for(const a of digits){
+  for(const b of digits){
+   for(const c of digits){
+
+    if(
+     a!==b &&
+     a!==c &&
+     b!==c
+    ){
+
+     all.push(
+      a*100+b*10+c
+     );
+    }
+   }
+  }
+ }
+
+ const parity=pick(["even","odd"]);
+
+ const validPool=
+  all.filter(
+   x=>
+    parity==="even"
+    ?x%2===0
+    :x%2===1
+  );
+
+ if(validPool.length<3){
+  return genThreeDigit();
+ }
+
+ /*
+  فقط بخشی از حالت‌ها نمایش داده می‌شود تا
+  تعداد کارت‌ها برای 60 ثانیه مناسب بماند،
+  اما مجموعه نمایش‌داده‌شده یک مجموعه کامل
+  از کاندیداهای مأموریت تعریف می‌شود.
+ */
+
+ const hundreds=
+  [...new Set(
+   all.map(x=>Math.floor(x/100))
+  )];
+
+ const chosenHundreds=
+  shuffle(hundreds).slice(0,2);
+
+ const candidates=
+  all.filter(
+   x=>chosenHundreds.includes(
+    Math.floor(x/100)
+   )
+  );
+
+ return{
+
+  family:"عدد سه‌رقمی",
+
+  signature:
+   `three-${digits.join("-")}-${parity}-${chosenHundreds.join("-")}`,
+
+  q:
+   `کارت‌های زیر عددهای سه‌رقمی با رقم‌های متفاوت از مجموعه {${digits.map(faNumber).join("،")}} هستند. فقط عددهای ${parity==="even"?"زوج":"فرد"} اجازه عبور دارند.`,
+
+  conditions:[
+   "عدد سه‌رقمی باشد",
+   "رقم‌ها متفاوت باشند",
+   parity==="even"
+    ?"عدد زوج باشد"
+    :"عدد فرد باشد"
+  ],
+
+  cases:
+   candidates.map(value=>({
+    key:String(value),
+    label:faNumber(value),
+    valid:
+     parity==="even"
+     ?value%2===0
+     :value%2===1
+   })),
+
+  explanation:
+   "در عدد سه‌رقمی، برای تشخیص زوج یا فرد بودن کافی است رقم یکان را بررسی کنیم؛ شرط متفاوت‌بودن رقم‌ها نیز باید حفظ شود."
+ };
+}
+
+
+/* =====================================================
+   4) زوج‌های حاصل‌ضرب و شرط مجموع
+===================================================== */
+
+function genProductSum(){
+
+ const target=
+  pick([24,30,36,40,48,60,72]);
+
+ const pairs=[];
+
+ for(
+  let a=1;
+  a<=Math.sqrt(target);
+  a++
+ ){
+
+  if(target%a===0){
+
+   pairs.push([
+    a,
+    target/a
+   ]);
+  }
+ }
+
+ if(pairs.length<3){
+  return genProductSum();
+ }
+
+ const sums=
+  pairs.map(
+   p=>p[0]+p[1]
+  );
+
+ const sorted=
+  [...new Set(sums)]
+  .sort((a,b)=>a-b);
+
+ if(sorted.length<2){
+  return genProductSum();
+ }
+
+ const limit=
+  sorted[
+   Math.min(
+    1,
+    sorted.length-1
+   )
+  ]+1;
+
+ const hasValid=
+  pairs.some(
+   p=>p[0]+p[1]<limit
+  );
+
+ const hasInvalid=
+  pairs.some(
+   p=>p[0]+p[1]>=limit
+  );
+
+ if(!hasValid||!hasInvalid){
+  return genProductSum();
+ }
+
+ return{
+
+  family:"زوج‌های ضرب",
+
+  signature:
+   `prodSum-${target}-${limit}`,
+
+  q:
+   `زوج‌های زیر همه حاصل‌ضرب ${faNumber(target)} دارند. فقط زوج‌هایی اجازه عبور دارند که مجموع دو عددشان کمتر از ${faNumber(limit)} باشد.`,
+
+  conditions:[
+   `حاصل‌ضرب برابر ${faNumber(target)} باشد`,
+   `مجموع کمتر از ${faNumber(limit)} باشد`
+  ],
+
+  cases:
+   pairs.map(pair=>({
+
+    key:
+     pair[0]+"|"+pair[1],
+
+    label:
+     faNumber(pair[0])+
+     " × "+
+     faNumber(pair[1]),
+
+    valid:
+     pair[0]+pair[1]<
+     limit
+   })),
+
+  explanation:
+   "بعد از ساخت زوج‌های عامل، شرط مجموع را بررسی می‌کنیم و زوج‌هایی را که شرط را ندارند حذف می‌کنیم."
+ };
+}
+
+
+/* =====================================================
+   5) زوج‌های جمع با شرط تفاوت
+===================================================== */
+
+function genSumDifference(){
+
+ const target=
+  pick([10,11,12,13,14]);
+
+ const pairs=[];
+
+ for(
+  let a=1;
+  a<=Math.floor(target/2);
+  a++
+ ){
+
+  const b=target-a;
+
+  pairs.push([a,b]);
+ }
+
+ const possibleLimits=[
+  2,3,4,5,6,7
+ ];
+
+ const validLimits=
+  possibleLimits.filter(limit=>{
+
+   const good=
+    pairs.filter(
+     p=>
+      Math.abs(p[1]-p[0])<
+      limit
+    ).length;
+
+   return(
+    good>0 &&
+    good<pairs.length
+   );
+  });
+
+ if(!validLimits.length){
+  return genSumDifference();
+ }
+
+ const limit=
+  pick(validLimits);
+
+ return{
+
+  family:"زوج‌های جمع",
+
+  signature:
+   `sumDiff-${target}-${limit}`,
+
+  q:
+   `زوج‌های زیر مجموع ${faNumber(target)} دارند. فقط زوج‌هایی مجازند که اختلاف دو عددشان کمتر از ${faNumber(limit)} باشد.`,
+
+  conditions:[
+   `مجموع برابر ${faNumber(target)} باشد`,
+   `اختلاف کمتر از ${faNumber(limit)} باشد`
+  ],
+
+  cases:
+   pairs.map(p=>({
+
+    key:
+     p[0]+"|"+p[1],
+
+    label:
+     faNumber(p[0])+
+     " + "+
+     faNumber(p[1]),
+
+    valid:
+     Math.abs(
+      p[1]-p[0]
+     )<limit
+   })),
+
+  explanation:
+   "چون شرط مجموع از قبل برقرار است، با بررسی اختلاف می‌توان حالت‌های نامطلوب را حذف کرد."
+ };
+}
+
+
+/* =====================================================
+   6) عددهای یک بازه با چند شرط
+===================================================== */
+
+function genNumberFilter(){
+
+ const start=
+  pick([10,20,30,40]);
+
+ const end=
+  start+20;
+
+ const divisor=
+  pick([2,3,5]);
+
+ const threshold=
+  start+pick([6,8,10]);
+
+ const values=
+  range(
+   start,
+   end
+  );
+
+ /*
+  برای خوانایی تعدادی کاندیدای منظم نمایش می‌دهیم.
+ */
+
+ const cases=
+  values.filter(
+   (_,index)=>index%2===0
+  );
+
+ const valid=
+  cases.filter(
+   x=>
+    x>threshold &&
+    x%divisor===0
+  );
+
+ if(
+  valid.length===0 ||
+  valid.length===cases.length
+ ){
+  return genNumberFilter();
+ }
+
+ return{
+
+  family:"فیلتر عددی",
+
+  signature:
+   `filter-${start}-${end}-${threshold}-${divisor}`,
+
+  q:
+   `کارت‌های عددی زیر در گیت هستند. فقط عددهایی عبور می‌کنند که از ${faNumber(threshold)} بزرگ‌تر و بر ${faNumber(divisor)} بخش‌پذیر باشند.`,
+
+  conditions:[
+   `بزرگ‌تر از ${faNumber(threshold)}`,
+   `بر ${faNumber(divisor)} بخش‌پذیر`
+  ],
+
+  cases:
+   cases.map(value=>({
+
+    key:String(value),
+
+    label:faNumber(value),
+
+    valid:
+     value>threshold &&
+     value%divisor===0
+   })),
+
+  explanation:
+   "هر عدد باید هر دو شرط را داشته باشد؛ اول می‌توان یک شرط را اعمال کرد و سپس روی باقی‌مانده‌ها شرط دوم را بررسی کرد."
+ };
+}
+
+
+/* =====================================================
+   7) کد دو رقمی با شرط رقم‌ها
+===================================================== */
+
+function genCodeFilter(){
+
+ const digits=
+  shuffle([1,2,3,4,5,6,7,8,9])
+  .slice(0,4)
+  .sort((a,b)=>a-b);
+
+ const all=[];
+
+ for(const a of digits){
+  for(const b of digits){
+
+   if(a!==b){
+    all.push(a*10+b);
+   }
+  }
+ }
+
+ const relation=
+  pick([
+   "firstGreater",
+   "sumEven"
+  ]);
+
+ const cases=
+  all.map(value=>{
+
+   const a=
+    Math.floor(value/10);
+
+   const b=
+    value%10;
+
+   let valid;
+
+   if(
+    relation===
+    "firstGreater"
+   ){
+
+    valid=a>b;
+
+   }else{
+
+    valid=
+     (a+b)%2===0;
+   }
+
+   return{
+    key:String(value),
+    label:faNumber(value),
+    valid
+   };
+  });
+
+ return{
+
+  family:"کدهای عددی",
+
+  signature:
+   `code-${digits.join("-")}-${relation}`,
+
+  q:
+   relation==="firstGreater"
+   ?`کدهای دو رقمی زیر با رقم‌های ${digits.map(faNumber).join("، ")} ساخته شده‌اند. فقط کدهایی مجازند که رقم دهگان از رقم یکان بزرگ‌تر باشد.`
+   :`کدهای دو رقمی زیر با رقم‌های ${digits.map(faNumber).join("، ")} ساخته شده‌اند. فقط کدهایی مجازند که مجموع دو رقمشان زوج باشد.`,
+
+  conditions:[
+   "دو رقم متفاوت باشند",
+   relation==="firstGreater"
+    ?"رقم دهگان > رقم یکان"
+    :"مجموع رقم‌ها زوج باشد"
+  ],
+
+  cases,
+
+  explanation:
+   relation==="firstGreater"
+   ?"هر کارت را با مقایسه دهگان و یکان بررسی می‌کنیم و حالت‌هایی را که دهگان کوچک‌تر است حذف می‌کنیم."
+   :"برای هر کد مجموع دو رقم را بررسی می‌کنیم و فقط کدهایی با مجموع زوج باقی می‌مانند."
+ };
+}
+
+
+/* =====================================================
+   8) روش‌های پرداخت با محدودیت
+===================================================== */
+
+function genPayment(){
+
+ const configs=[
+  {a:5,b:10,target:30},
+  {a:10,b:20,target:60},
+  {a:5,b:15,target:30},
+  {a:10,b:30,target:60}
+ ];
+
+ const c=pick(configs);
+
+ const cases=[];
+
+ for(
+  let a=0;
+  a<=Math.floor(
+   c.target/c.a
+  );
+  a++
+ ){
+
+  for(
+   let b=0;
+   b<=Math.floor(
+    c.target/c.b
+   );
+   b++
+  ){
+
+   if(
+    a*c.a+
+    b*c.b===
+    c.target
+   ){
+
+    cases.push([a,b]);
+   }
+  }
+ }
+
+ if(cases.length<3){
+  return genPayment();
+ }
+
+ const limits=
+  [1,2,3,4,5]
+  .filter(limit=>{
+
+   const good=
+    cases.filter(
+     p=>p[0]<=limit
+    ).length;
+
+   return(
+    good>0 &&
+    good<cases.length
+   );
+  });
+
+ if(!limits.length){
+  return genPayment();
+ }
+
+ const limit=
+  pick(limits);
+
+ return{
+
+  family:"پرداخت محدود",
+
+  signature:
+   `pay-${c.a}-${c.b}-${c.target}-${limit}`,
+
+  q:
+   `همه کارت‌ها روش‌های پرداخت ${faNumber(c.target)} هزار تومان با سکه‌های ${faNumber(c.a)} و ${faNumber(c.b)} هزار تومانی هستند. فقط روش‌هایی مجازند که حداکثر ${faNumber(limit)} سکه ${faNumber(c.a)}هزاری داشته باشند.`,
+
+  conditions:[
+   `مبلغ دقیقاً ${faNumber(c.target)} هزار تومان`,
+   `حداکثر ${faNumber(limit)} سکه ${faNumber(c.a)}هزاری`
+  ],
+
+  cases:
+   cases.map(p=>({
+
+    key:
+     p[0]+"|"+p[1],
+
+    label:
+     faNumber(p[0])+
+     "×"+
+     faNumber(c.a)+
+     " + "+
+     faNumber(p[1])+
+     "×"+
+     faNumber(c.b),
+
+    valid:
+     p[0]<=limit
+   })),
+
+  explanation:
+   "ابتدا همه روش‌های پرداخت مبلغ را داریم؛ سپس محدودیت تعداد سکه را اعمال و روش‌های نامطلوب را حذف می‌کنیم."
+ };
+}
+
+
+/* =====================================================
+   9) سه عدد با مجموع ثابت
+===================================================== */
+
+function genTripleSum(){
+
+ const target=
+  pick([9,10,11,12]);
+
+ const fixed=
+  pick([1,2,3]);
+
+ const pairs=[];
+
+ const remaining=
+  target-fixed;
+
+ for(
+  let a=1;
+  a<=Math.floor(
+   remaining/2
+  );
+  a++
+ ){
+
+  const b=
+   remaining-a;
+
+  if(a<=b){
+
+   pairs.push([
+    fixed,
+    a,
+    b
+   ]);
+  }
+ }
+
+ if(pairs.length<3){
+  return genTripleSum();
+ }
+
+ const condition=
+  "different";
+
+ const cases=
+  pairs.map(p=>{
+
+   const set=
+    new Set(p);
+
+   return{
+
+    key:p.join("|"),
+
+    label:
+     p.map(faNumber)
+      .join(" + "),
+
+    valid:
+     set.size===3
+   };
+  });
+
+ const good=
+  cases.filter(
+   x=>x.valid
+  ).length;
+
+ if(
+  good===0 ||
+  good===cases.length
+ ){
+  return genTripleSum();
+ }
+
+ return{
+
+  family:"سه عدد طبیعی",
+
+  signature:
+   `triple-${target}-${fixed}`,
+
+  q:
+   `سه عدد طبیعی مجموعشان ${faNumber(target)} است و یکی از آنها ${faNumber(fixed)} است. کارت‌های زیر حالت‌های بدون جابه‌جایی‌اند. فقط حالت‌هایی مجازند که هر سه عدد متفاوت باشند.`,
+
+  conditions:[
+   `مجموع برابر ${faNumber(target)}`,
+   `یکی از عددها ${faNumber(fixed)}`,
+   "هر سه عدد متفاوت باشند"
+  ],
+
+  cases,
+
+  explanation:
+   "بعد از پیدا کردن حالت‌های دارای مجموع درست، شرط متفاوت‌بودن عددها را بررسی و حالت‌های تکراری را حذف می‌کنیم."
+ };
+}
+
+
+/* =====================================================
+   10) مضرب و زوج/فرد
+===================================================== */
+
+function genMultipleParity(){
+
+ const start=
+  pick([10,20,30]);
+
+ const values=
+  range(
+   start,
+   start+20
+  )
+  .filter(
+   (_,i)=>i%2===0
+  );
+
+ const multiple=
+  pick([3,4,5]);
+
+ const parity=
+  pick(["even","odd"]);
+
+ const cases=
+  values.map(value=>({
+
+   key:String(value),
+
+   label:faNumber(value),
+
+   valid:
+    value%multiple===0 &&
+    (
+     parity==="even"
+     ?value%2===0
+     :value%2===1
+    )
+  }));
+
+ const count=
+  cases.filter(
+   x=>x.valid
+  ).length;
+
+ if(
+  count===0 ||
+  count===cases.length
+ ){
+  return genMultipleParity();
+ }
+
+ return{
+
+  family:"چند شرط عددی",
+
+  signature:
+   `multiple-${start}-${multiple}-${parity}`,
+
+  q:
+   `فقط عددهایی اجازه عبور دارند که هم مضرب ${faNumber(multiple)} و هم ${parity==="even"?"زوج":"فرد"} باشند.`,
+
+  conditions:[
+   `مضرب ${faNumber(multiple)} باشد`,
+   parity==="even"
+    ?"زوج باشد"
+    :"فرد باشد"
+  ],
+
+  cases,
+
+  explanation:
+   "حالت مطلوب باید همه شرط‌ها را با هم داشته باشد. داشتن فقط یکی از شرط‌ها برای عبور کافی نیست."
+ };
+}
+
+
+/* =====================================================
+   11) عدد دو رقمی با مجموع رقم
+===================================================== */
+
+function genDigitSum(){
+
+ const digits=
+  shuffle([1,2,3,4,5,6,7,8,9])
+  .slice(0,4)
+  .sort((a,b)=>a-b);
+
+ const all=[];
+
+ for(const a of digits){
+  for(const b of digits){
+
+   if(a!==b){
+
+    all.push(
+     a*10+b
+    );
+   }
+  }
+ }
+
+ const sums=
+  [...new Set(
+   all.map(
+    n=>
+     Math.floor(n/10)+
+     n%10
+   )
+  )];
+
+ const target=
+  pick(sums);
+
+ const count=
+  all.filter(
+   n=>
+    Math.floor(n/10)+
+    n%10===
+    target
+  ).length;
+
+ if(
+  count===0 ||
+  count===all.length
+ ){
+  return genDigitSum();
+ }
+
+ return{
+
+  family:"مجموع رقم‌ها",
+
+  signature:
+   `digitSum-${digits.join("-")}-${target}`,
+
+  q:
+   `عددهای زیر با دو رقم متفاوت از ${digits.map(faNumber).join("، ")} ساخته شده‌اند. فقط عددهایی مجازند که مجموع رقم‌هایشان ${faNumber(target)} باشد.`,
+
+  conditions:[
+   "دو رقم متفاوت",
+   `مجموع رقم‌ها = ${faNumber(target)}`
+  ],
+
+  cases:
+   all.map(value=>({
+
+    key:String(value),
+
+    label:faNumber(value),
+
+    valid:
+     Math.floor(value/10)+
+     value%10===
+     target
+   })),
+
+  explanation:
+   "برای هر کارت رقم دهگان و یکان را جمع می‌کنیم و کارت‌هایی را که مجموع موردنظر ندارند حذف می‌کنیم."
+ };
+}
+
+
+/* =====================================================
+   12) زوج عامل با اختلاف
+===================================================== */
+
+function genFactorDifference(){
+
+ const target=
+  pick([24,36,48,60,72]);
+
+ const pairs=[];
+
+ for(
+  let a=1;
+  a<=Math.sqrt(target);
+  a++
+ ){
+
+  if(target%a===0){
+
+   pairs.push([
+    a,
+    target/a
+   ]);
+  }
+ }
+
+ const limits=
+  [4,6,8,10,12]
+  .filter(limit=>{
+
+   const good=
+    pairs.filter(
+     p=>
+      p[1]-p[0]<
+      limit
+    ).length;
+
+   return(
+    good>0 &&
+    good<pairs.length
+   );
+  });
+
+ if(!limits.length){
+  return genFactorDifference();
+ }
+
+ const limit=
+  pick(limits);
+
+ return{
+
+  family:"عامل با اختلاف",
+
+  signature:
+   `factorDiff-${target}-${limit}`,
+
+  q:
+   `تمام کارت‌ها زوج‌های عامل ${faNumber(target)} هستند. فقط زوج‌هایی اجازه عبور دارند که اختلاف دو عددشان کمتر از ${faNumber(limit)} باشد.`,
+
+  conditions:[
+   `حاصل‌ضرب = ${faNumber(target)}`,
+   `اختلاف < ${faNumber(limit)}`
+  ],
+
+  cases:
+   pairs.map(p=>({
+
+    key:
+     p[0]+"|"+p[1],
+
+    label:
+     faNumber(p[0])+
+     " × "+
+     faNumber(p[1]),
+
+    valid:
+     p[1]-p[0]<
+     limit
+   })),
+
+  explanation:
+   "همه زوج‌ها شرط حاصل‌ضرب را دارند؛ پس کافی است اختلاف آنها را محاسبه و زوج‌های نامطلوب را حذف کنیم."
+ };
+}
+
+
+/* =====================================================
+   GENERATORS
+===================================================== */
+
+const GENERATORS=[
+ genEvenAbove,
+ genOddRange,
+ genThreeDigit,
+ genProductSum,
+ genSumDifference,
+ genNumberFilter,
+ genCodeFilter,
+ genPayment,
+ genTripleSum,
+ genMultipleParity,
+ genDigitSum,
+ genFactorDifference
+];
+
+
+/* =====================================================
+   ROUND
+===================================================== */
+
+let questions=[];
+
+function generateRound(){
+
+ const recent=
+  new Set(loadHistory());
+
+ const generators=
+  shuffle(GENERATORS)
+  .slice(
+   0,
+   TOTAL_QUESTIONS
+  );
+
+ const generated=[];
+
+ for(const generator of generators){
+
+  let candidate=null;
+
+  for(
+   let attempt=0;
+   attempt<30;
+   attempt++
+  ){
+
+   const q=
+    generator();
+
+   candidate=q;
+
+   if(
+    !recent.has(
+     q.signature
+    )
+   ){
+    break;
+   }
+  }
+
+  /*
+    ترتیب کارت‌ها Shuffle می‌شود،
+    ولی وضعیت درست/غلط همراه کارت می‌ماند.
+  */
+
+  candidate.cases=
+   shuffle(
+    candidate.cases
+   );
+
+  generated.push(
+   candidate
+  );
+
+  recent.add(
+   candidate.signature
+  );
+ }
+
+ questions=
+  shuffle(generated);
+
+ saveHistory(
+  generated.map(
+   q=>q.signature
+  )
+ );
+}
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let currentIndex=0;
+let score=0;
+
+let answerChecked=false;
+
+let questionStartTime=0;
+let timerInterval=null;
+
+let gameFinished=false;
+let finishSubmitted=false;
+
+/*
+  کلید کارت‌هایی که دانش‌آموز حذف کرده
+*/
+let removedKeys=
+ new Set();
+
+
+/* =====================================================
+   DOM
+===================================================== */
+
+const $=
+ id=>
+ document.getElementById(id);
+
+const playerNameEl=$("playerName");
+const questionNumberEl=$("questionNumber");
+const scoreEl=$("score");
+const timeStatusEl=$("timeStatus");
+
+const timerNumberEl=$("timerNumber");
+const timerBarEl=$("timerBar");
+
+const progressEl=$("progress");
+
+const missionLabelEl=$("missionLabel");
+const familyLabelEl=$("familyLabel");
+const problemTextEl=$("problemText");
+
+const conditionListEl=$("conditionList");
+
+const cardsEl=$("cards");
+const countBoxEl=$("countBox");
+
+const submitButton=$("submitButton");
+
+const feedbackEl=$("feedback");
+const feedbackTitleEl=$("feedbackTitle");
+const feedbackTextEl=$("feedbackText");
+const answerListEl=$("answerList");
+
+const nextButton=$("nextButton");
+
+const barrierEl=$("barrier");
+const trafficLightEl=$("trafficLight");
+const travelerEl=$("traveler");
+
+const gameScreen=$("gameScreen");
+const resultScreen=$("resultScreen");
+
+const resultNameEl=$("resultName");
+const finalScoreEl=$("finalScore");
+const motivationEl=$("motivation");
+
+const leaderboardContent=$("leaderboardContent");
+const restartButton=$("restartButton");
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function buildProgress(){
+
+ progressEl.innerHTML="";
+
+ for(
+  let i=0;
+  i<TOTAL_QUESTIONS;
+  i++
+ ){
+
+  const item=
+   document.createElement("div");
+
+  item.className="stamp";
+
+  progressEl.appendChild(item);
+ }
+}
+
+
+function updateProgress(){
+
+ [
+  ...progressEl.children
+ ].forEach(
+  (item,index)=>{
+
+   item.classList.toggle(
+    "done",
+    index<currentIndex
+   );
+
+   item.classList.toggle(
+    "current",
+    index===currentIndex
+   );
+  }
+ );
+
+
+ const ratio=
+  currentIndex/
+  (TOTAL_QUESTIONS-1);
+
+
+ travelerEl.style.left=
+  (12+ratio*38)+"%";
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+function stopTimer(){
+
+ if(timerInterval){
+
+  clearInterval(
+   timerInterval
+  );
+
+  timerInterval=null;
+ }
+}
+
+
+function startTimer(){
+
+ stopTimer();
+
+ questionStartTime=
+  Date.now();
+
+ timerNumberEl.textContent=
+  faNumber(
+   QUESTION_TIME
+  );
+
+ timeStatusEl.textContent=
+  faNumber(
+   QUESTION_TIME
+  )+
+  " ثانیه";
+
+ timerBarEl.style.width=
+  "100%";
+
+ timerBarEl.style.background=
+  "var(--green)";
+
+ timerNumberEl.style.color=
+  "var(--green)";
+
+
+ timerInterval=
+  setInterval(
+   updateTimer,
+   100
+  );
+}
+
+
+function updateTimer(){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+
+  stopTimer();
+
+  return;
+ }
+
+
+ const elapsed=
+  (
+   Date.now()-
+   questionStartTime
+  )/1000;
+
+
+ const remaining=
+  Math.max(
+   0,
+   QUESTION_TIME-elapsed
+  );
+
+
+ const seconds=
+  Math.ceil(remaining);
+
+
+ timerNumberEl.textContent=
+  faNumber(seconds);
+
+ timeStatusEl.textContent=
+  faNumber(seconds)+
+  " ثانیه";
+
+
+ timerBarEl.style.width=
+  (
+   remaining/
+   QUESTION_TIME*
+   100
+  )+"%";
+
+
+ if(remaining>30){
+
+  timerBarEl.style.background=
+   "var(--green)";
+
+  timerNumberEl.style.color=
+   "var(--green)";
+ }
+
+ else if(remaining>15){
+
+  timerBarEl.style.background=
+   "var(--yellow)";
+
+  timerNumberEl.style.color=
+   "#ad7700";
+ }
+
+ else{
+
+  timerBarEl.style.background=
+   "var(--red)";
+
+  timerNumberEl.style.color=
+   "var(--red)";
+ }
+
+
+ if(remaining<=0){
+
+  handleTimeout();
+ }
+}
+
+
+/* =====================================================
+   SHOW QUESTION
+===================================================== */
+
+function showQuestion(){
+
+ stopTimer();
+
+ answerChecked=false;
+
+ removedKeys=
+  new Set();
+
+
+ const q=
+  questions[currentIndex];
+
+
+ updateProgress();
+
+
+ barrierEl.classList.remove(
+  "open"
+ );
+
+ trafficLightEl.classList.remove(
+  "go"
+ );
+
+
+ questionNumberEl.textContent=
+  faNumber(
+   currentIndex+1
+  )+
+  " از "+
+  faNumber(
+   TOTAL_QUESTIONS
+  );
+
+
+ scoreEl.textContent=
+  faNumber(score);
+
+
+ missionLabelEl.textContent=
+  "📋 مأموریت "+
+  faNumber(
+   currentIndex+1
+  );
+
+
+ familyLabelEl.textContent=
+  "🎯 "+
+  q.family;
+
+
+ problemTextEl.textContent=
+  q.q;
+
+
+ feedbackEl.className=
+  "feedback";
+
+ feedbackTitleEl.textContent="";
+ feedbackTextEl.textContent="";
+ answerListEl.textContent="";
+
+
+ submitButton.disabled=false;
+
+
+ nextButton
+  .classList
+  .remove("show");
+
+
+ nextButton.textContent=
+  currentIndex===
+  TOTAL_QUESTIONS-1
+  ?"مشاهده نتیجه 🏆"
+  :"گیت بعدی 🛂";
+
+
+ renderConditions(q);
+
+ renderCards(q);
+
+ updateCount();
+
+ startTimer();
+}
+
+
+/* =====================================================
+   CONDITIONS
+===================================================== */
+
+function renderConditions(q){
+
+ conditionListEl.innerHTML="";
+
+
+ q.conditions.forEach(
+  text=>{
+
+   const item=
+    document.createElement(
+     "span"
+    );
+
+   item.className=
+    "condition";
+
+   item.textContent=text;
+
+   conditionListEl
+    .appendChild(item);
+  }
+ );
+}
+
+
+/* =====================================================
+   CARDS
+===================================================== */
+
+function renderCards(q){
+
+ cardsEl.innerHTML="";
+
+
+ q.cases.forEach(
+  item=>{
+
+   const button=
+    document.createElement(
+     "button"
+    );
+
+
+   button.type="button";
+
+   button.className=
+    "case-card";
+
+
+   if(
+    removedKeys.has(
+     item.key
+    )
+   ){
+
+    button.classList.add(
+     "remove"
+    );
+   }
+
+
+   button.textContent=
+    item.label;
+
+
+   button.disabled=
+    answerChecked;
+
+
+   button.addEventListener(
+    "click",
+    ()=>toggleCard(
+     item.key
+    )
+   );
+
+
+   cardsEl.appendChild(
+    button
+   );
+  }
+ );
+}
+
+
+/* =====================================================
+   TOGGLE
+===================================================== */
+
+function toggleCard(key){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+
+ const elapsed=
+  (
+   Date.now()-
+   questionStartTime
+  )/1000;
+
+
+ if(
+  elapsed>=
+  QUESTION_TIME
+ ){
+
+  handleTimeout();
+
+  return;
+ }
+
+
+ if(
+  removedKeys.has(key)
+ ){
+
+  removedKeys.delete(key);
+
+ }else{
+
+  removedKeys.add(key);
+ }
+
+
+ renderCards(
+  questions[currentIndex]
+ );
+
+ updateCount();
+}
+
+
+/* =====================================================
+   COUNT
+===================================================== */
+
+function updateCount(){
+
+ const q=
+  questions[currentIndex];
+
+
+ const kept=
+  q.cases.length-
+  removedKeys.size;
+
+
+ countBoxEl.textContent=
+  "🚦 باقی‌مانده برای عبور: "+
+  faNumber(kept)+
+  "  |  ❌ متوقف‌شده: "+
+  faNumber(
+   removedKeys.size
+  );
+}
+
+
+/* =====================================================
+   SUBMIT
+===================================================== */
+
+submitButton.addEventListener(
+ "click",
+ submitInspection
+);
+
+
+function submitInspection(){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+
+ const elapsed=
+  (
+   Date.now()-
+   questionStartTime
+  )/1000;
+
+
+ if(
+  elapsed>=
+  QUESTION_TIME
+ ){
+
+  handleTimeout();
+
+  return;
+ }
+
+
+ answerChecked=true;
+
+ stopTimer();
+
+ lockQuestion();
+
+
+ const q=
+  questions[currentIndex];
+
+
+ /*
+  کارت نامطلوب باید حذف شده باشد
+  و کارت مطلوب نباید حذف شده باشد.
+ */
+
+ const mistakes=
+  q.cases.filter(
+   item=>
+    (
+     item.valid &&
+     removedKeys.has(item.key)
+    )
+    ||
+    (
+     !item.valid &&
+     !removedKeys.has(item.key)
+    )
+  );
+
+
+ if(
+  mistakes.length===0
+ ){
+
+  const earned=
+   pointsForTime(
+    elapsed
+   );
+
+
+  score=
+   Math.min(
+    100,
+    score+earned
+   );
+
+
+  feedbackEl.className=
+   "feedback success show";
+
+
+  feedbackTitleEl.textContent=
+   "✅ آفرین! +"+
+   faNumber(earned)+
+   " امتیاز";
+
+
+  feedbackTextEl.textContent=
+   "همه حالت‌های نامطلوب را درست حذف کردی. "+
+   q.explanation;
+
+
+  answerListEl.textContent=
+   "🚦 حالت‌های مجاز: "+
+   getValidLabels(q);
+
+
+  openGate();
+
+  celebrate();
+ }
+
+ else{
+
+  feedbackEl.className=
+   "feedback error show";
+
+
+  feedbackTitleEl.textContent=
+   "❌ بازرسی کامل درست نیست!";
+
+
+  const wronglyRemoved=
+   q.cases.filter(
+    item=>
+     item.valid &&
+     removedKeys.has(item.key)
+   );
+
+
+  const missed=
+   q.cases.filter(
+    item=>
+     !item.valid &&
+     !removedKeys.has(item.key)
+   );
+
+
+  let message="";
+
+
+  if(wronglyRemoved.length){
+
+   message+=
+    faNumber(
+     wronglyRemoved.length
+    )+
+    " حالت مجاز را اشتباهی حذف کردی. ";
+  }
+
+
+  if(missed.length){
+
+   message+=
+    faNumber(
+     missed.length
+    )+
+    " حالت نامطلوب از گیت عبور داده شده است. ";
+  }
+
+
+  feedbackTextEl.textContent=
+   message+
+   q.explanation;
+
+
+  answerListEl.textContent=
+   "✅ حالت‌هایی که باید عبور می‌کردند: "+
+   getValidLabels(q);
+
+
+  revealCorrect(q);
+ }
+
+
+ scoreEl.textContent=
+  faNumber(score);
+
+
+ nextButton.classList.add(
+  "show"
+ );
+}
+
+
+/* =====================================================
+   VALID LABELS
+===================================================== */
+
+function getValidLabels(q){
+
+ const valid=
+  q.cases.filter(
+   item=>item.valid
+  );
+
+
+ if(!valid.length){
+  return "هیچ‌کدام";
+ }
+
+
+ return valid
+  .map(item=>item.label)
+  .join(" ، ");
+}
+
+
+/* =====================================================
+   REVEAL CORRECT
+===================================================== */
+
+function revealCorrect(q){
+
+ const buttons=[
+  ...cardsEl.children
+ ];
+
+
+ q.cases.forEach(
+  (item,index)=>{
+
+   const button=
+    buttons[index];
+
+   if(!button)return;
+
+
+   button.classList.remove(
+    "remove",
+    "keep"
+   );
+
+
+   if(item.valid){
+
+    button.classList.add(
+     "keep"
+    );
+
+   }else{
+
+    button.classList.add(
+     "remove"
+    );
+   }
+  }
+ );
+}
+
+
+/* =====================================================
+   LOCK
+===================================================== */
+
+function lockQuestion(){
+
+ submitButton.disabled=
+  true;
+
+
+ [
+  ...cardsEl.querySelectorAll(
+   ".case-card"
+  )
+ ].forEach(
+  button=>{
+
+   button.disabled=true;
+  }
+ );
+}
+
+
+/* =====================================================
+   TIMEOUT
+===================================================== */
+
+function handleTimeout(){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+
+ answerChecked=true;
+
+ stopTimer();
+
+ lockQuestion();
+
+
+ timerNumberEl.textContent=
+  "۰";
+
+ timeStatusEl.textContent=
+  "۰ ثانیه";
+
+ timerBarEl.style.width=
+  "0%";
+
+ timerBarEl.style.background=
+  "var(--red)";
+
+
+ const q=
+  questions[currentIndex];
+
+
+ feedbackEl.className=
+  "feedback timeout show";
+
+
+ feedbackTitleEl.textContent=
+  "⏰ زمان تمام شد! ۰ امتیاز";
+
+
+ feedbackTextEl.textContent=
+  "بازرسی متوقف شد. "+
+  q.explanation;
+
+
+ answerListEl.textContent=
+  "✅ حالت‌هایی که باید عبور می‌کردند: "+
+  getValidLabels(q);
+
+
+ revealCorrect(q);
+
+
+ nextButton.classList.add(
+  "show"
+ );
+}
+
+
+/* =====================================================
+   GATE ANIMATION
+===================================================== */
+
+function openGate(){
+
+ barrierEl.classList.add(
+  "open"
+ );
+
+ trafficLightEl.classList.add(
+  "go"
+ );
+}
+
+
+/* =====================================================
+   CELEBRATION
+===================================================== */
+
+function celebrate(){
+
+ const rect=
+  submitButton
+   .getBoundingClientRect();
+
+
+ const icons=[
+  "✅","⭐","✨","🛂","🎉"
+ ];
+
+
+ for(
+  let i=0;
+  i<10;
+  i++
+ ){
+
+  const spark=
+   document.createElement(
+    "span"
+   );
+
+
+  spark.className=
+   "spark";
+
+
+  spark.textContent=
+   pick(icons);
+
+
+  spark.style.left=
+   (
+    rect.left+
+    rect.width/2
+   )+"px";
+
+
+  spark.style.top=
+   (
+    rect.top+
+    rect.height/2
+   )+"px";
+
+
+  spark.style.setProperty(
+   "--x",
+   (
+    Math.random()*180-
+    90
+   )+"px"
+  );
+
+
+  spark.style.setProperty(
+   "--y",
+   (
+    -30-
+    Math.random()*120
+   )+"px"
+  );
+
+
+  document.body
+   .appendChild(
+    spark
+   );
+
+
+  setTimeout(
+   ()=>spark.remove(),
+   850
+  );
+ }
+}
+
+
+/* =====================================================
+   NEXT
+===================================================== */
+
+nextButton.addEventListener(
+ "click",
+ ()=>{
+
+  if(!answerChecked){
+   return;
+  }
+
+
+  if(
+   currentIndex<
+   TOTAL_QUESTIONS-1
+  ){
+
+   currentIndex++;
+
+   showQuestion();
+
+
+   window.scrollTo({
+    top:0,
+    behavior:"smooth"
+   });
+
+  }else{
+
+   finishGame();
+  }
+ }
+);
+
+
+/* =====================================================
+   FINISH GAME
+===================================================== */
+
+async function finishGame(){
+
+ if(gameFinished){
+  return;
+ }
+
+
+ gameFinished=true;
+
+ stopTimer();
+
+
+ [
+  ...progressEl.children
+ ].forEach(
+  item=>{
+
+   item.classList.remove(
+    "current"
+   );
+
+   item.classList.add(
+    "done"
+   );
+  }
+ );
+
+
+ gameScreen.style.display=
+  "none";
+
+
+ resultScreen
+  .classList
+  .add("show");
+
+
+ const name=
+  player&&player.playerName
+  ?player.playerName
+  :"بازیکن";
+
+
+ resultNameEl.textContent=
+  name;
+
+
+ finalScoreEl.textContent=
+  faNumber(score);
+
+
+ if(score>=90){
+
+  motivationEl.textContent=
+   "عالی بود! 🌟 هیچ حالت نامطلوبی از گیتت رد نمی‌شود!";
+ }
+
+ else if(score>=70){
+
+  motivationEl.textContent=
+   "خیلی خوب بود 👏 شرط‌ها را دقیق بررسی می‌کنی!";
+ }
+
+ else if(score>=50){
+
+  motivationEl.textContent=
+   "خوب بود، ادامه بده 💪 شرط‌ها را یکی‌یکی روی همه حالت‌ها بررسی کن!";
+ }
+
+ else{
+
+  motivationEl.textContent=
+   "دوباره تلاش کن 🌱 هر حالت باید از تمام شرط‌های گیت عبور کند!";
+ }
+
+
+ leaderboardContent.innerHTML=
+  '<div class="loading">'+
+  'در حال ثبت نتیجه و دریافت جدول برترین‌ها...'+
+  '</div>';
+
+
+ try{
+
+  if(!finishSubmitted){
+
+   finishSubmitted=true;
+
+   const result=
+    await GameSDK
+     .finishGame(score);
+  }
+
+ }catch(error){
+
+  console.error(
+   "finishGame error:",
+   error
+  );
+ }
+
+
+ await loadLeaderboard();
+}
+
+
+/* =====================================================
+   LEADERBOARD
+===================================================== */
+
+async function loadLeaderboard(){
+
+ try{
+
+  const scores=
+   await GameSDK
+    .getLeaderboard(10);
+
+
+  leaderboardContent.innerHTML=
+   "";
+
+
+  if(
+   !Array.isArray(scores) ||
+   scores.length===0
+  ){
+
+   leaderboardContent.innerHTML=
+    '<div class="loading">'+
+    'هنوز رکوردی ثبت نشده است.'+
+    '</div>';
+
+   return;
+  }
+
+
+  scores.forEach(
+   (item,index)=>{
+
+    const row=
+     document.createElement(
+      "div"
+     );
+
+
+    row.className=
+     "rank-row";
+
+
+    let rank;
+
+
+    if(index===0){
+     rank="🥇";
+    }
+
+    else if(index===1){
+     rank="🥈";
+    }
+
+    else if(index===2){
+     rank="🥉";
+    }
+
+    else{
+     rank=
+      faNumber(index+1)+
+      ".";
+    }
+
+
+    const name=
+     item.playerName ??
+     item.player_name ??
+     item.name ??
+     "بازیکن";
+
+
+    const value=
+     item.score ??
+     0;
+
+
+    const nameEl=
+     document.createElement(
+      "span"
+     );
+
+    nameEl.className=
+     "rank-name";
+
+    nameEl.textContent=
+     rank+" "+name;
+
+
+    const valueEl=
+     document.createElement(
+      "span"
+     );
+
+    valueEl.className=
+     "rank-score";
+
+    valueEl.textContent=
+     faNumber(value)+
+     " امتیاز";
+
+
+    row.appendChild(
+     nameEl
+    );
+
+    row.appendChild(
+     valueEl
+    );
+
+
+    leaderboardContent
+     .appendChild(row);
+   }
+  );
+
+ }catch(error){
+
+  console.error(
+   "leaderboard error:",
+   error
+  );
+
+
+  leaderboardContent.innerHTML=
+   '<div class="loading">'+
+   'دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.'+
+   '</div>';
+ }
+}
+
+
+/* =====================================================
+   RESTART
+===================================================== */
+
+restartButton.addEventListener(
+ "click",
+ ()=>{
+
+  stopTimer();
+
+
+  GameSDK.reset();
+
+
+  score=0;
+
+  currentIndex=0;
+
+  answerChecked=false;
+
+  questionStartTime=0;
+
+  gameFinished=false;
+
+  finishSubmitted=false;
+
+  removedKeys=
+   new Set();
+
+
+  resultScreen
+   .classList
+   .remove("show");
+
+
+  gameScreen.style.display=
+   "block";
+
+
+  leaderboardContent.innerHTML=
+   "";
+
+
+  generateRound();
+
+  buildProgress();
+
+  showQuestion();
+
+
+  window.scrollTo({
+   top:0,
+   behavior:"smooth"
+  });
+ }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+function startGame(){
+
+ const name=
+  player&&player.playerName
+  ?player.playerName
+  :"بازیکن";
+
+
+ playerNameEl.textContent=
+  name;
+
+
+ score=0;
+
+ currentIndex=0;
+
+ answerChecked=false;
+
+ gameFinished=false;
+
+ finishSubmitted=false;
+
+ removedKeys=
+  new Set();
+
+
+ generateRound();
+
+ buildProgress();
+
+ showQuestion();
+}
+
+
+startGame();
+
+</script>
+
+</body>
+</html>
