@@ -1,0 +1,2965 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>پل مسئله‌ها | راهبرد زیرمسئله</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+ --purple:#8b5cf6;--purple2:#6d28d9;--blue:#38bdf8;--blue2:#0284c7;
+ --pink:#f472b6;--yellow:#fbbf24;--orange:#fb923c;--green:#22c55e;
+ --red:#fb7185;--text:#293449;--muted:#64748b
+}
+
+html{color-scheme:light only;-webkit-text-size-adjust:100%}
+
+body{
+ margin:0;min-height:100vh;direction:rtl;font-family:Tahoma,Arial,sans-serif;
+ color:var(--text);overflow-x:hidden;
+ background:
+ radial-gradient(circle at 8% 5%,#fbcfe855,transparent 24%),
+ radial-gradient(circle at 92% 7%,#7dd3fc66,transparent 25%),
+ radial-gradient(circle at 82% 94%,#fde68a55,transparent 25%),
+ linear-gradient(150deg,#fff7fd,#effcff 53%,#fff9df)
+}
+
+button,a{font-family:inherit}
+button{touch-action:manipulation}
+
+.app{width:min(100%,950px);margin:auto;padding:10px}
+
+/* HEADER */
+
+.hero{text-align:center;padding:7px 4px 13px}
+
+.badge{
+ display:inline-block;padding:6px 14px;border-radius:999px;
+ background:linear-gradient(90deg,#fef3c7,#fce7f3);
+ border:1px solid #f1cc5d;color:#825900;font-size:12px;font-weight:bold
+}
+
+.hero h1{
+ margin:9px 0 4px;font-size:clamp(29px,7vw,43px);
+ background:linear-gradient(90deg,var(--purple),var(--blue2),var(--pink));
+ color:transparent;background-clip:text;-webkit-background-clip:text
+}
+
+.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.8}
+
+/* PANEL */
+
+.panel{
+ background:#fffffff7;border-radius:25px;overflow:hidden;
+ box-shadow:0 16px 42px #6d28d91c
+}
+
+/* STATUS */
+
+.status{
+ display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px;
+ background:linear-gradient(90deg,#f5f3ff,#ecfeff,#fff7ed,#fdf2f8)
+}
+
+.stat{
+ min-width:0;background:#fff;text-align:center;padding:8px 4px;
+ border-radius:13px;box-shadow:0 2px 7px #0000000a
+}
+
+.stat:nth-child(1){border-bottom:4px solid var(--purple)}
+.stat:nth-child(2){border-bottom:4px solid var(--blue)}
+.stat:nth-child(3){border-bottom:4px solid var(--yellow)}
+.stat:nth-child(4){border-bottom:4px solid var(--pink)}
+
+.stat small{display:block;color:var(--muted);font-size:10px}
+
+.stat strong{
+ display:block;margin-top:2px;color:#544274;font-size:14px;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+
+.content{padding:14px}
+
+/* PROGRESS */
+
+.progress{
+ display:grid;grid-template-columns:repeat(10,1fr);
+ gap:5px;margin-bottom:13px
+}
+
+.progress-item{
+ height:21px;border-radius:999px;background:#e5e7eb;border:2px solid #d1d5db
+}
+
+.progress-item.done{background:#bbf7d0;border-color:#22c55e}
+
+.progress-item.current{
+ background:#fde68a;border-color:#f59e0b;box-shadow:0 0 8px #fbbf2466
+}
+
+/* TIMER */
+
+.timer-head{
+ display:flex;justify-content:space-between;align-items:center;
+ font-size:13px;font-weight:bold;margin-bottom:6px
+}
+
+#timerNumber{font-size:20px;color:var(--green)}
+
+.timer-track{
+ height:13px;padding:2px;background:#e7e9f2;border-radius:999px;
+ overflow:hidden;margin-bottom:13px
+}
+
+.timer-bar{
+ width:100%;height:100%;border-radius:999px;background:var(--green);
+ transition:width .1s linear,background .2s
+}
+
+/* QUESTION */
+
+.labels{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:7px}
+
+.mission-label,.family-label{
+ padding:5px 11px;border-radius:999px;font-size:11px;font-weight:bold
+}
+
+.mission-label{background:#eee9ff;color:#6835bd}
+.family-label{background:#e0f7ff;color:#087aa8}
+
+.problem{
+ margin:8px 0;padding:13px 15px;background:#fff8dd;
+ border:2px solid #f3d36d;border-radius:16px;text-align:center;
+ font-size:clamp(15px,4vw,19px);font-weight:bold;line-height:1.9
+}
+
+/* BRIDGE WORLD */
+
+.bridge-world{
+ position:relative;height:174px;overflow:hidden;border-radius:18px;
+ background:
+  radial-gradient(circle at 13% 18%,#fff 0 18px,transparent 19px),
+  radial-gradient(circle at 18% 18%,#fff 0 24px,transparent 25px),
+  linear-gradient(#bcecff 0 54%,#60c9ee 54% 100%);
+ border:3px solid #c6e4ec
+}
+
+.bank{
+ position:absolute;bottom:0;width:23%;height:55px;background:#8bc963
+}
+
+.bank.left{left:0;border-radius:0 70% 0 0}
+.bank.right{right:0;border-radius:70% 0 0 0}
+
+.bridge-support{
+ position:absolute;bottom:28px;width:7px;height:57px;background:#7a5845
+}
+
+.bridge-support.s1{left:27%}
+.bridge-support.s2{left:47%}
+.bridge-support.s3{left:67%}
+
+.bridge-track{
+ position:absolute;left:18%;right:18%;top:91px;
+ display:flex;direction:ltr;gap:4px;align-items:center
+}
+
+.bridge-piece{
+ flex:1;height:33px;border-radius:5px;
+ background:#d7dde0;border:3px dashed #89969c;
+ display:flex;align-items:center;justify-content:center;
+ color:#849096;font-size:10px;font-weight:bold;transition:.25s
+}
+
+.bridge-piece.built{
+ background:linear-gradient(#c98b50,#a96835);
+ border:3px solid #7c4b27;color:#fff;
+ box-shadow:0 3px 4px #0002
+}
+
+.walker{
+ position:absolute;z-index:7;left:7%;top:73px;font-size:32px;
+ transition:left .55s cubic-bezier(.2,.8,.3,1.2)
+}
+
+.goal-flag{
+ position:absolute;right:6%;top:60px;font-size:33px
+}
+
+/* MODE */
+
+.mode-box{
+ margin-top:10px;padding:11px;border:2px solid #ddd8ee;
+ border-radius:17px;background:linear-gradient(145deg,#f8f7ff,#eefbff)
+}
+
+.mode-title{
+ text-align:center;color:#554276;font-size:13px;font-weight:bold
+}
+
+.mode-help{
+ text-align:center;color:var(--muted);font-size:10px;
+ line-height:1.7;margin:4px 0 9px
+}
+
+/* ORDERING */
+
+.order-area{display:block}
+
+.card-pool{
+ display:grid;grid-template-columns:1fr 1fr;gap:7px
+}
+
+.step-card{
+ min-height:59px;padding:8px;border:2px solid #c9bcef;
+ border-radius:12px;background:#fff;color:#4e3b73;
+ font-size:11px;font-weight:bold;line-height:1.65;cursor:pointer;
+ transition:.15s
+}
+
+.step-card:hover:not(:disabled){transform:translateY(-2px);border-color:var(--purple)}
+
+.step-card.selected{
+ background:#ede9fe;border-color:var(--purple);opacity:.55
+}
+
+.step-card:disabled{cursor:default}
+
+.order-slots{
+ display:flex;direction:rtl;gap:5px;margin-top:9px
+}
+
+.order-slot{
+ flex:1;min-width:0;min-height:55px;padding:6px;
+ border:2px dashed #aeb9c2;border-radius:11px;background:#fff;
+ display:flex;align-items:center;justify-content:center;
+ text-align:center;color:#87949c;font-size:9px;line-height:1.5
+}
+
+.order-slot.filled{
+ border-style:solid;border-color:#8b5cf6;
+ background:#f5f3ff;color:#574078;font-weight:bold;cursor:pointer
+}
+
+.check-order{
+ width:100%;margin-top:9px;padding:12px;border:0;border-radius:13px;
+ background:linear-gradient(90deg,var(--purple),var(--blue2));
+ color:#fff;font-size:14px;font-weight:bold;cursor:pointer
+}
+
+/* SOLVING */
+
+.solve-area{display:none}
+
+.subproblem-head{
+ display:flex;justify-content:space-between;align-items:center;gap:7px;
+ margin-bottom:7px
+}
+
+.subproblem-number{
+ padding:5px 9px;background:#ede9fe;color:#6d28d9;
+ border-radius:999px;font-size:10px;font-weight:bold
+}
+
+.subproblem-progress{
+ color:#64748b;font-size:10px;font-weight:bold
+}
+
+.subproblem{
+ padding:11px;background:#fff;border:2px solid #d8dfea;
+ border-radius:13px;text-align:center;font-size:13px;
+ font-weight:bold;line-height:1.8
+}
+
+.known-result{
+ margin-top:7px;padding:7px;background:#f0fdf4;
+ border:1px solid #bbf7d0;border-radius:9px;
+ color:#18753a;font-size:10px;text-align:center
+}
+
+/* OPERATION */
+
+.operation-title{
+ text-align:center;margin:9px 0 6px;color:#64748b;font-size:10px;font-weight:bold
+}
+
+.operations{
+ direction:ltr;display:grid;grid-template-columns:repeat(4,1fr);gap:6px
+}
+
+.op-btn{
+ height:42px;border:2px solid #d5caef;border-radius:11px;
+ background:#fff;color:#6d28d9;font-size:20px;font-weight:bold;cursor:pointer
+}
+
+.op-btn.selected{
+ color:#fff;border-color:#6d28d9;background:linear-gradient(145deg,#8b5cf6,#6d28d9)
+}
+
+/* NUMBER OPTIONS */
+
+.answer-title{
+ text-align:center;margin:9px 0 6px;color:#64748b;font-size:10px;font-weight:bold
+}
+
+.answer-options{
+ display:grid;grid-template-columns:repeat(4,1fr);gap:6px
+}
+
+.answer-btn{
+ min-height:42px;padding:6px;border:2px solid #d8dfea;border-radius:11px;
+ background:#fff;color:#45545d;font-size:12px;font-weight:bold;cursor:pointer
+}
+
+.answer-btn.selected{
+ background:#e0f2fe;border-color:#38bdf8;color:#036b91
+}
+
+.submit-step{
+ width:100%;margin-top:9px;padding:12px;border:0;border-radius:13px;
+ background:linear-gradient(90deg,var(--orange),var(--yellow));
+ color:#674500;font-size:14px;font-weight:bold;cursor:pointer
+}
+
+.submit-step:disabled,.check-order:disabled{opacity:.5;cursor:default}
+
+/* MINI FEEDBACK */
+
+.mini-feedback{
+ display:none;margin-top:8px;padding:8px;border-radius:10px;
+ text-align:center;font-size:10px;font-weight:bold;line-height:1.7
+}
+
+.mini-feedback.show{display:block}
+.mini-feedback.good{background:#e8faed;color:#18753a}
+.mini-feedback.bad{background:#fff0f3;color:#b52f49}
+
+/* FINAL FEEDBACK */
+
+.feedback{
+ display:none;margin-top:12px;padding:12px;border-radius:14px;line-height:1.8
+}
+
+.feedback.show{display:block;animation:pop .25s}
+.feedback.success{background:#e8faed;border:2px solid #a6dfb7}
+.feedback.error{background:#fff0f3;border:2px solid #f3bbc5}
+.feedback.timeout{background:#fff7d9;border:2px solid #e9cb69}
+
+.feedback strong{display:block;font-size:16px;margin-bottom:3px}
+.feedback-text{font-size:12px;color:#4d5c61}
+
+.solution{
+ margin-top:7px;padding:8px;background:#ffffffaa;
+ border-radius:9px;font-size:11px;line-height:1.8
+}
+
+.next{
+ display:none;width:100%;margin-top:11px;padding:14px;border:0;
+ border-radius:14px;background:linear-gradient(90deg,var(--pink),var(--purple));
+ color:#fff;font-size:16px;font-weight:bold;cursor:pointer
+}
+
+.next.show{display:block}
+
+/* RESULT */
+
+.result{
+ display:none;text-align:center;padding:25px 16px;
+ background:
+ radial-gradient(circle at 10% 5%,#fbcfe844,transparent 25%),
+ radial-gradient(circle at 90% 5%,#7dd3fc44,transparent 25%)
+}
+
+.result.show{display:block}
+.result-icon{font-size:72px;animation:float 2s ease-in-out infinite}
+.result h2{color:var(--purple2);font-size:27px;margin:5px}
+
+.final-score{
+ width:160px;height:160px;margin:17px auto;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ border-radius:50%;border:8px solid transparent;
+ background:linear-gradient(#fff,#fff) padding-box,
+ linear-gradient(135deg,var(--pink),var(--yellow),var(--blue),var(--purple)) border-box
+}
+
+.final-score strong{font-size:43px;color:var(--purple2)}
+.final-score span{font-size:13px;color:var(--muted)}
+.motivation{font-size:20px;font-weight:bold;margin-bottom:19px}
+
+.leaderboard{
+ max-width:540px;margin:20px auto;padding:13px;text-align:right;
+ background:#faf8ff;border:2px solid #e4dafa;border-radius:16px
+}
+
+.leaderboard h3{text-align:center;color:var(--purple2);margin:0 0 10px}
+
+.rank-row{
+ display:flex;justify-content:space-between;gap:8px;
+ padding:9px 5px;border-bottom:1px dashed #ddd6e8
+}
+
+.rank-row:last-child{border:0}
+.rank-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-score{font-weight:bold;color:var(--purple2)}
+.loading{text-align:center;color:var(--muted);padding:8px}
+
+.restart{
+ width:100%;max-width:420px;padding:14px;border:0;border-radius:14px;
+ background:linear-gradient(90deg,var(--pink),var(--purple));
+ color:#fff;font-weight:bold;font-size:16px;cursor:pointer
+}
+
+.back{
+ display:block;text-align:center;margin:17px 0;padding:10px;
+ text-decoration:none;color:var(--purple2);font-weight:bold
+}
+
+/* FX */
+
+.spark{
+ position:fixed;z-index:999;pointer-events:none;
+ font-size:20px;animation:spark .8s forwards
+}
+
+@keyframes pop{
+ from{opacity:.2;transform:scale(.97)}
+ to{opacity:1;transform:scale(1)}
+}
+
+@keyframes spark{
+ from{opacity:1;transform:translate(0,0) scale(.5)}
+ to{opacity:0;transform:translate(var(--x),var(--y)) scale(1.5) rotate(180deg)}
+}
+
+@keyframes float{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-7px)}
+}
+
+@media(max-width:650px){
+ .app{padding:6px}
+ .status{grid-template-columns:1fr 1fr}
+ .content{padding:10px}
+ .bridge-world{height:155px}
+ .bridge-track{top:82px;left:16%;right:16%}
+ .walker{top:64px}
+ .goal-flag{top:51px}
+ .card-pool{grid-template-columns:1fr}
+ .order-slot{font-size:8px;padding:4px}
+}
+
+@media(max-width:390px){
+ .operations,.answer-options{gap:4px}
+ .op-btn{height:39px}
+ .answer-btn{font-size:10px;padding:4px}
+}
+
+@media(prefers-reduced-motion:reduce){
+ *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+<header class="hero">
+ <div class="badge">🎓 ریاضی هفتم • فصل اول • درس ۷</div>
+ <h1>🏗️ پل مسئله‌ها</h1>
+ <p>مسئله بزرگ را به زیرمسئله‌ها بشکن، قطعات پل را بساز و قدم‌به‌قدم به جواب برس!</p>
+</header>
+
+<section class="panel">
+
+<div id="gameScreen">
+
+ <div class="status">
+  <div class="stat"><small>👷 پل‌ساز</small><strong id="playerName">---</strong></div>
+  <div class="stat"><small>🌉 مأموریت</small><strong id="questionNumber">۱ از ۱۰</strong></div>
+  <div class="stat"><small>⭐ امتیاز</small><strong id="score">۰</strong></div>
+  <div class="stat"><small>⏱️ زمان</small><strong id="timeStatus">۶۰ ثانیه</strong></div>
+ </div>
+
+ <div class="content">
+
+  <div class="progress" id="progress"></div>
+
+  <div class="timer-head">
+   <span>⏱️ زمان ساخت پل</span>
+   <strong id="timerNumber">۶۰</strong>
+  </div>
+
+  <div class="timer-track">
+   <div class="timer-bar" id="timerBar"></div>
+  </div>
+
+  <div class="labels">
+   <span class="mission-label" id="missionLabel"></span>
+   <span class="family-label" id="familyLabel"></span>
+  </div>
+
+  <div class="problem" id="problemText"></div>
+
+  <div class="bridge-world" id="bridgeWorld">
+   <div class="bank left"></div>
+   <div class="bank right"></div>
+   <div class="bridge-support s1"></div>
+   <div class="bridge-support s2"></div>
+   <div class="bridge-support s3"></div>
+   <div class="bridge-track" id="bridgeTrack"></div>
+   <div class="walker" id="walker">🧑‍🏫</div>
+   <div class="goal-flag">🚩</div>
+  </div>
+
+  <div class="mode-box">
+
+   <div class="mode-title" id="modeTitle">
+    🧩 مرحله اول: نقشه ساخت پل
+   </div>
+
+   <div class="mode-help" id="modeHelp">
+    زیرمسئله‌ها را به ترتیبی انتخاب کن که حل مسئله را قدم‌به‌قدم ممکن کند.
+   </div>
+
+   <div class="order-area" id="orderArea">
+
+    <div class="card-pool" id="cardPool"></div>
+
+    <div class="order-slots" id="orderSlots"></div>
+
+    <button class="check-order" id="checkOrderButton" type="button">
+     🔍 بررسی نقشه پل
+    </button>
+
+   </div>
+
+   <div class="solve-area" id="solveArea">
+
+    <div class="subproblem-head">
+     <span class="subproblem-number" id="subproblemNumber"></span>
+     <span class="subproblem-progress" id="subproblemProgress"></span>
+    </div>
+
+    <div class="subproblem" id="subproblemText"></div>
+
+    <div class="known-result" id="knownResult"></div>
+
+    <div class="operation-title">
+     ۱) کدام عمل برای این زیرمسئله مناسب است؟
+    </div>
+
+    <div class="operations" id="operations">
+     <button class="op-btn" type="button" data-op="+">+</button>
+     <button class="op-btn" type="button" data-op="-">−</button>
+     <button class="op-btn" type="button" data-op="*">×</button>
+     <button class="op-btn" type="button" data-op="/">÷</button>
+    </div>
+
+    <div class="answer-title">
+     ۲) حاصل این مرحله کدام است؟
+    </div>
+
+    <div class="answer-options" id="answerOptions"></div>
+
+    <button class="submit-step" id="submitStepButton" type="button">
+     🧱 ساخت این قطعه پل
+    </button>
+
+    <div class="mini-feedback" id="miniFeedback"></div>
+
+   </div>
+
+  </div>
+
+  <div class="feedback" id="feedback">
+   <strong id="feedbackTitle"></strong>
+   <div class="feedback-text" id="feedbackText"></div>
+   <div class="solution" id="solution"></div>
+  </div>
+
+  <button class="next" id="nextButton" type="button">
+   پل بعدی 🏗️
+  </button>
+
+ </div>
+</div>
+
+
+<div class="result" id="resultScreen">
+
+ <div class="result-icon">🌉🏆</div>
+
+ <h2>همه پل‌ها ساخته شدند!</h2>
+
+ <p>
+  پل‌ساز:
+  <strong id="resultName"></strong>
+ </p>
+
+ <div class="final-score">
+  <strong id="finalScore">۰</strong>
+  <span>از 100 امتیاز</span>
+ </div>
+
+ <div class="motivation" id="motivation"></div>
+
+ <div class="leaderboard">
+  <h3>🏅 برترین پل‌سازها</h3>
+  <div id="leaderboardContent" class="loading">
+   در حال دریافت جدول برترین‌ها...
+  </div>
+ </div>
+
+ <button class="restart" id="restartButton" type="button">
+  🔄 بازی دوباره
+ </button>
+
+</div>
+
+</section>
+
+<a class="back" href="/#game">
+ ← بازگشت به بازی‌های ریاضی
+</a>
+
+</main>
+
+
+<script src="/games/game-sdk.js"></script>
+
+<script>
+
+const GAME_ID = 14;
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 60;
+
+const player = GameSDK.init(GAME_ID);
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
+
+const HISTORY_KEY="math_subproblem_bridge_recent_v1";
+const MAX_HISTORY=45;
+
+
+/* =====================================================
+   TOOLS
+===================================================== */
+
+function faNumber(value){
+ return String(value).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+function pick(array){
+ return array[Math.floor(Math.random()*array.length)];
+}
+
+function randomInt(min,max){
+ return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function shuffle(array){
+
+ const a=[...array];
+
+ for(let i=a.length-1;i>0;i--){
+
+  const j=Math.floor(Math.random()*(i+1));
+
+  [a[i],a[j]]=[a[j],a[i]];
+ }
+
+ return a;
+}
+
+function pointsForTime(seconds){
+
+ if(seconds<=15)return 10;
+ if(seconds<=25)return 8;
+ if(seconds<=35)return 6;
+ if(seconds<=45)return 4;
+ if(seconds<=60)return 2;
+
+ return 0;
+}
+
+function loadHistory(){
+
+ try{
+  const data=JSON.parse(
+   localStorage.getItem(HISTORY_KEY)||"[]"
+  );
+
+  return Array.isArray(data)?data:[];
+ }catch{
+  return [];
+ }
+}
+
+function saveHistory(signatures){
+
+ try{
+
+  const merged=[
+   ...signatures,
+   ...loadHistory()
+  ];
+
+  const unique=[
+   ...new Set(merged)
+  ].slice(0,MAX_HISTORY);
+
+  localStorage.setItem(
+   HISTORY_KEY,
+   JSON.stringify(unique)
+  );
+
+ }catch(error){
+  console.warn("History unavailable:",error);
+ }
+}
+
+function makeOptions(correct){
+
+ const candidates=new Set([correct]);
+
+ const offsets=[
+  1,2,5,10,
+  Math.max(1,Math.round(correct*.1)),
+  Math.max(2,Math.round(correct*.2))
+ ];
+
+ while(candidates.size<4){
+
+  const offset=pick(offsets);
+  const sign=Math.random()<.5?-1:1;
+
+  const candidate=
+   correct+sign*offset;
+
+  if(candidate>=0){
+   candidates.add(candidate);
+  }
+ }
+
+ return shuffle([...candidates]);
+}
+
+
+/* =====================================================
+   QUESTION FACTORY
+
+   steps:
+   id
+   title       = کارت نقشه
+   question    = زیرمسئله هنگام حل
+   op          = عمل صحیح
+   answer      = جواب
+   dependsText = یادآوری وابستگی
+===================================================== */
+
+function makeQuestion(config){
+
+ return{
+  ...config,
+  cards:shuffle(
+   config.steps.map(step=>({
+    id:step.id,
+    title:step.title
+   }))
+  )
+ };
+}
+
+
+/* =====================================================
+   1) پس‌انداز و قیمت
+===================================================== */
+
+function genSaving(){
+
+ const weekly=randomInt(12,30);
+ const weeks=randomInt(3,6);
+ const fraction=pick([2,3,4]);
+
+ const saved=weekly*weeks;
+ const price=saved*fraction;
+
+ return makeQuestion({
+
+  family:"پس‌انداز",
+
+  signature:`save-${weekly}-${weeks}-${fraction}`,
+
+  q:
+   `نیلوفر هر هفته ${faNumber(weekly)} هزار تومان پس‌انداز می‌کند. پس‌انداز ${faNumber(weeks)} هفته او یک‌${fraction===2?"دوم":fraction===3?"سوم":"چهارم"} قیمت یک وسیله است. قیمت وسیله چقدر است؟`,
+
+  steps:[
+   {
+    id:"saved",
+    title:"ابتدا پس‌انداز کل را پیدا کن",
+    question:`${faNumber(weeks)} هفته، هر هفته ${faNumber(weekly)} هزار تومان؛ پس‌انداز کل چقدر است؟`,
+    op:"*",
+    answer:saved,
+    dependsText:"داده‌های این مرحله مستقیماً از صورت مسئله آمده‌اند."
+   },
+   {
+    id:"price",
+    title:"با پس‌انداز کل، قیمت وسیله را پیدا کن",
+    question:`پس‌انداز ${faNumber(saved)} هزار تومان، یک‌${fraction===2?"دوم":fraction===3?"سوم":"چهارم"} قیمت وسیله است. قیمت کامل چقدر است؟`,
+    op:"*",
+    answer:price,
+    dependsText:`جواب مرحله قبل (${faNumber(saved)}) داده این زیرمسئله شد.`
+   }
+  ],
+
+  finalAnswer:price,
+
+  solution:
+   `${faNumber(weekly)}×${faNumber(weeks)}=${faNumber(saved)} ، سپس ${faNumber(saved)}×${faNumber(fraction)}=${faNumber(price)} هزار تومان`
+ });
+}
+
+
+/* =====================================================
+   2) خرید و فروش - سود هر واحد سپس سود کل
+===================================================== */
+
+function genProfit(){
+
+ const count=randomInt(20,50);
+ const buy=randomInt(8,20)*2;
+ const profitEach=randomInt(2,8);
+ const sell=buy+profitEach;
+ const totalProfit=profitEach*count;
+
+ return makeQuestion({
+
+  family:"خرید و فروش",
+
+  signature:`profit-${count}-${buy}-${sell}`,
+
+  q:
+   `فروشنده ${faNumber(count)} خودکار را دانه‌ای ${faNumber(buy)} هزار تومان خرید و دانه‌ای ${faNumber(sell)} هزار تومان فروخت. سود کل چقدر است؟`,
+
+  steps:[
+   {
+    id:"unitProfit",
+    title:"اول سود هر خودکار را پیدا کن",
+    question:`قیمت فروش ${faNumber(sell)} و قیمت خرید ${faNumber(buy)} هزار تومان است. سود هر خودکار؟`,
+    op:"-",
+    answer:profitEach,
+    dependsText:"این زیرمسئله مقدار سود یک واحد را می‌سازد."
+   },
+   {
+    id:"totalProfit",
+    title:"بعد سود هر واحد را برای همه خودکارها حساب کن",
+    question:`سود هر خودکار ${faNumber(profitEach)} هزار تومان و تعداد ${faNumber(count)} عدد است. سود کل؟`,
+    op:"*",
+    answer:totalProfit,
+    dependsText:`جواب مرحله قبل (${faNumber(profitEach)}) در تعداد کالاها ضرب می‌شود.`
+   }
+  ],
+
+  finalAnswer:totalProfit,
+
+  solution:
+   `${faNumber(sell)}−${faNumber(buy)}=${faNumber(profitEach)} ، سپس ${faNumber(profitEach)}×${faNumber(count)}=${faNumber(totalProfit)} هزار تومان`
+ });
+}
+
+
+/* =====================================================
+   3) بسته‌های مداد خراب
+===================================================== */
+
+function genDamaged(){
+
+ const packs=randomInt(20,40);
+ const perPack=pick([5,6,8]);
+ const damaged=randomInt(5,15);
+
+ const total=packs*perPack;
+ const healthy=total-damaged;
+
+ return makeQuestion({
+
+  family:"بسته‌بندی",
+
+  signature:`damage-${packs}-${perPack}-${damaged}`,
+
+  q:
+   `یک فروشگاه ${faNumber(packs)} بسته مداد ${faNumber(perPack)}تایی دارد. ${faNumber(damaged)} مداد خراب شده است. چند مداد سالم باقی مانده؟`,
+
+  steps:[
+   {
+    id:"total",
+    title:"تعداد کل مدادها را پیدا کن",
+    question:`${faNumber(packs)} بسته ${faNumber(perPack)}تایی چند مداد دارد؟`,
+    op:"*",
+    answer:total,
+    dependsText:"ابتدا باید تعداد مدادها قبل از خرابی معلوم شود."
+   },
+   {
+    id:"healthy",
+    title:"مدادهای خراب را از کل کم کن",
+    question:`از ${faNumber(total)} مداد، ${faNumber(damaged)} مداد خراب است. چند مداد سالم می‌ماند؟`,
+    op:"-",
+    answer:healthy,
+    dependsText:`تعداد کل (${faNumber(total)}) از زیرمسئله قبلی به دست آمد.`
+   }
+  ],
+
+  finalAnswer:healthy,
+
+  solution:
+   `${faNumber(packs)}×${faNumber(perPack)}=${faNumber(total)} ، سپس ${faNumber(total)}−${faNumber(damaged)}=${faNumber(healthy)}`
+ });
+}
+
+
+/* =====================================================
+   4) کف‌پوش
+===================================================== */
+
+function genFloor(){
+
+ const L=randomInt(8,14);
+ const W=randomInt(5,9);
+ const cost=pick([20,25,30,40,45]);
+
+ const area=L*W;
+ const totalCost=area*cost;
+
+ return makeQuestion({
+
+  family:"کف‌پوش",
+
+  signature:`floor-${L}-${W}-${cost}`,
+
+  q:
+   `سالنی ${faNumber(L)}×${faNumber(W)} متر است. برای هر مترمربع یک کف‌پوش ${faNumber(cost)} هزار تومانی لازم است. هزینه کل چقدر است؟`,
+
+  steps:[
+   {
+    id:"area",
+    title:"مساحت کف سالن را پیدا کن",
+    question:`مساحت مستطیل ${faNumber(L)} در ${faNumber(W)} متر چقدر است؟`,
+    op:"*",
+    answer:area,
+    dependsText:"ابتدا باید بدانیم چند مترمربع کف‌پوش لازم است."
+   },
+   {
+    id:"cost",
+    title:"هزینه همه مترمربع‌ها را پیدا کن",
+    question:`برای ${faNumber(area)} مترمربع، هر مترمربع ${faNumber(cost)} هزار تومان است. هزینه کل؟`,
+    op:"*",
+    answer:totalCost,
+    dependsText:`مساحت ${faNumber(area)} مترمربع، داده مرحله دوم شد.`
+   }
+  ],
+
+  finalAnswer:totalCost,
+
+  solution:
+   `${faNumber(L)}×${faNumber(W)}=${faNumber(area)} مترمربع، سپس ${faNumber(area)}×${faNumber(cost)}=${faNumber(totalCost)} هزار تومان`
+ });
+}
+
+
+/* =====================================================
+   5) پس‌انداز و باقی‌مانده
+===================================================== */
+
+function genSavingSpend(){
+
+ const weekly=randomInt(10,25);
+ const weeks=randomInt(4,7);
+ const spent=randomInt(10,30);
+
+ const saved=weekly*weeks;
+
+ if(spent>=saved){
+  return genSavingSpend();
+ }
+
+ const remaining=saved-spent;
+
+ return makeQuestion({
+
+  family:"پس‌انداز و خرج",
+
+  signature:`saveSpend-${weekly}-${weeks}-${spent}`,
+
+  q:
+   `امیر ${faNumber(weeks)} هفته، هر هفته ${faNumber(weekly)} هزار تومان پس‌انداز کرد و سپس ${faNumber(spent)} هزار تومان خرج کرد. چقدر برایش باقی ماند؟`,
+
+  steps:[
+   {
+    id:"saved",
+    title:"کل پس‌انداز را حساب کن",
+    question:`${faNumber(weeks)} هفته با پس‌انداز هفتگی ${faNumber(weekly)} هزار تومان؛ کل پس‌انداز؟`,
+    op:"*",
+    answer:saved,
+    dependsText:"اول باید مقدار پول قبل از خرید معلوم شود."
+   },
+   {
+    id:"remaining",
+    title:"هزینه را از پس‌انداز کم کن",
+    question:`از ${faNumber(saved)} هزار تومان، ${faNumber(spent)} هزار تومان خرج شد. باقی‌مانده؟`,
+    op:"-",
+    answer:remaining,
+    dependsText:`جواب ${faNumber(saved)} هزار تومان از مرحله قبل آمده است.`
+   }
+  ],
+
+  finalAnswer:remaining,
+
+  solution:
+   `${faNumber(weekly)}×${faNumber(weeks)}=${faNumber(saved)} ، سپس ${faNumber(saved)}−${faNumber(spent)}=${faNumber(remaining)} هزار تومان`
+ });
+}
+
+
+/* =====================================================
+   6) بسته‌ها، خراب، درآمد
+===================================================== */
+
+function genSalesAfterDamage(){
+
+ const packs=randomInt(10,25);
+ const perPack=pick([4,5,6]);
+ const damaged=randomInt(3,9);
+ const sell=pick([5,6,7,8]);
+
+ const total=packs*perPack;
+ const healthy=total-damaged;
+ const revenue=healthy*sell;
+
+ return makeQuestion({
+
+  family:"فروش چندمرحله‌ای",
+
+  signature:`sale-${packs}-${perPack}-${damaged}-${sell}`,
+
+  q:
+   `فروشگاه ${faNumber(packs)} بسته ${faNumber(perPack)}تایی مداد دارد. ${faNumber(damaged)} مداد خراب می‌شود و بقیه دانه‌ای ${faNumber(sell)} هزار تومان فروخته می‌شوند. درآمد فروش چقدر است؟`,
+
+  steps:[
+   {
+    id:"total",
+    title:"کل مدادها را پیدا کن",
+    question:`${faNumber(packs)} بسته ${faNumber(perPack)}تایی چند مداد است؟`,
+    op:"*",
+    answer:total,
+    dependsText:"اول تعداد کل مدادها را لازم داریم."
+   },
+   {
+    id:"healthy",
+    title:"تعداد مدادهای قابل فروش را پیدا کن",
+    question:`از ${faNumber(total)} مداد، ${faNumber(damaged)} مداد خراب شد. چند مداد قابل فروش است؟`,
+    op:"-",
+    answer:healthy,
+    dependsText:`کل مدادها (${faNumber(total)}) جواب زیرمسئله قبلی است.`
+   },
+   {
+    id:"revenue",
+    title:"درآمد فروش مدادهای سالم را حساب کن",
+    question:`${faNumber(healthy)} مداد، دانه‌ای ${faNumber(sell)} هزار تومان فروخته می‌شود. درآمد؟`,
+    op:"*",
+    answer:revenue,
+    dependsText:`تعداد سالم‌ها (${faNumber(healthy)}) اکنون داده این مرحله است.`
+   }
+  ],
+
+  finalAnswer:revenue,
+
+  solution:
+   `${faNumber(packs)}×${faNumber(perPack)}=${faNumber(total)} ، ${faNumber(total)}−${faNumber(damaged)}=${faNumber(healthy)} ، ${faNumber(healthy)}×${faNumber(sell)}=${faNumber(revenue)} هزار تومان`
+ });
+}
+
+
+/* =====================================================
+   7) بلیت گروه
+===================================================== */
+
+function genTickets(){
+
+ const groups=randomInt(3,7);
+ const perGroup=randomInt(4,8);
+ const ticket=pick([15,20,25,30]);
+
+ const people=groups*perGroup;
+ const cost=people*ticket;
+
+ return makeQuestion({
+
+  family:"بلیت گروهی",
+
+  signature:`ticket-${groups}-${perGroup}-${ticket}`,
+
+  q:
+   `${faNumber(groups)} گروه ${faNumber(perGroup)} نفره به اردو می‌روند. بلیت هر نفر ${faNumber(ticket)} هزار تومان است. هزینه کل بلیت‌ها چقدر است؟`,
+
+  steps:[
+   {
+    id:"people",
+    title:"تعداد کل افراد را پیدا کن",
+    question:`${faNumber(groups)} گروه ${faNumber(perGroup)} نفره چند نفر می‌شوند؟`,
+    op:"*",
+    answer:people,
+    dependsText:"برای هزینه کل ابتدا تعداد افراد لازم است."
+   },
+   {
+    id:"cost",
+    title:"هزینه بلیت همه افراد را پیدا کن",
+    question:`برای ${faNumber(people)} نفر، هر بلیت ${faNumber(ticket)} هزار تومان است. هزینه کل؟`,
+    op:"*",
+    answer:cost,
+    dependsText:`تعداد افراد (${faNumber(people)}) در مرحله قبل پیدا شد.`
+   }
+  ],
+
+  finalAnswer:cost,
+
+  solution:
+   `${faNumber(groups)}×${faNumber(perGroup)}=${faNumber(people)} نفر، سپس ${faNumber(people)}×${faNumber(ticket)}=${faNumber(cost)} هزار تومان`
+ });
+}
+
+
+/* =====================================================
+   8) اتاق و کاشی
+===================================================== */
+
+function genTiles(){
+
+ const L=randomInt(6,12);
+ const W=randomInt(4,8);
+ const boxes=pick([2,3,4]);
+
+ const area=L*W;
+
+ if(area%boxes!==0){
+  return genTiles();
+ }
+
+ const perBox=area/boxes;
+
+ return makeQuestion({
+
+  family:"کاشی‌کاری",
+
+  signature:`tile-${L}-${W}-${boxes}`,
+
+  q:
+   `کف اتاقی ${faNumber(L)}×${faNumber(W)} متر است. تمام کف با ${faNumber(boxes)} بسته مساوی کاشی پوشانده می‌شود. هر بسته چند مترمربع را پوشش می‌دهد؟`,
+
+  steps:[
+   {
+    id:"area",
+    title:"اول مساحت کل کف را پیدا کن",
+    question:`مساحت کف ${faNumber(L)}×${faNumber(W)} متر چقدر است؟`,
+    op:"*",
+    answer:area,
+    dependsText:"اول اندازه کل سطح موردنیاز را پیدا می‌کنیم."
+   },
+   {
+    id:"each",
+    title:"مساحت را بین بسته‌ها تقسیم کن",
+    question:`${faNumber(area)} مترمربع بین ${faNumber(boxes)} بسته مساوی تقسیم می‌شود. سهم هر بسته؟`,
+    op:"/",
+    answer:perBox,
+    dependsText:`مساحت کل (${faNumber(area)}) جواب مرحله قبلی است.`
+   }
+  ],
+
+  finalAnswer:perBox,
+
+  solution:
+   `${faNumber(L)}×${faNumber(W)}=${faNumber(area)} ، سپس ${faNumber(area)}÷${faNumber(boxes)}=${faNumber(perBox)} مترمربع`
+ });
+}
+
+
+/* =====================================================
+   9) درآمد و سود
+===================================================== */
+
+function genFullProfit(){
+
+ const count=randomInt(10,25);
+ const buy=pick([10,12,15,20]);
+ const sell=buy+pick([3,4,5,6]);
+
+ const cost=count*buy;
+ const revenue=count*sell;
+ const profit=revenue-cost;
+
+ return makeQuestion({
+
+  family:"سود فروشگاه",
+
+  signature:`fullProfit-${count}-${buy}-${sell}`,
+
+  q:
+   `فروشنده ${faNumber(count)} کالا را دانه‌ای ${faNumber(buy)} هزار تومان خرید و همه را دانه‌ای ${faNumber(sell)} هزار تومان فروخت. سود کل را پیدا کن.`,
+
+  steps:[
+   {
+    id:"cost",
+    title:"هزینه کل خرید را پیدا کن",
+    question:`خرید ${faNumber(count)} کالا، دانه‌ای ${faNumber(buy)} هزار تومان، چقدر هزینه دارد؟`,
+    op:"*",
+    answer:cost,
+    dependsText:"یکی از دو مقدار لازم برای محاسبه سود، هزینه کل است."
+   },
+   {
+    id:"revenue",
+    title:"درآمد کل فروش را پیدا کن",
+    question:`فروش ${faNumber(count)} کالا، دانه‌ای ${faNumber(sell)} هزار تومان، چقدر درآمد دارد؟`,
+    op:"*",
+    answer:revenue,
+    dependsText:"برای سود، درآمد کل را نیز لازم داریم."
+   },
+   {
+    id:"profit",
+    title:"درآمد و هزینه را مقایسه و سود را پیدا کن",
+    question:`درآمد ${faNumber(revenue)} و هزینه ${faNumber(cost)} هزار تومان است. سود چقدر است؟`,
+    op:"-",
+    answer:profit,
+    dependsText:"این مرحله به جواب دو زیرمسئله قبلی نیاز دارد."
+   }
+  ],
+
+  finalAnswer:profit,
+
+  solution:
+   `هزینه=${faNumber(cost)} ، درآمد=${faNumber(revenue)} ، سود=${faNumber(revenue)}−${faNumber(cost)}=${faNumber(profit)} هزار تومان`
+ });
+}
+
+
+/* =====================================================
+   10) مسافت سفر
+===================================================== */
+
+function genTrip(){
+
+ const speed=randomInt(40,70);
+ const hours=randomInt(2,4);
+ const extra=randomInt(20,80);
+
+ const first=speed*hours;
+ const total=first+extra;
+
+ return makeQuestion({
+
+  family:"مسافت سفر",
+
+  signature:`trip-${speed}-${hours}-${extra}`,
+
+  q:
+   `خودرویی ${faNumber(hours)} ساعت با سرعت ${faNumber(speed)} کیلومتر بر ساعت حرکت کرد و سپس ${faNumber(extra)} کیلومتر دیگر پیمود. مسافت کل چقدر شد؟`,
+
+  steps:[
+   {
+    id:"first",
+    title:"مسافت بخش اول سفر را پیدا کن",
+    question:`${faNumber(hours)} ساعت با سرعت ${faNumber(speed)} کیلومتر بر ساعت، چند کیلومتر است؟`,
+    op:"*",
+    answer:first,
+    dependsText:"ابتدا طول بخش اول سفر را پیدا می‌کنیم."
+   },
+   {
+    id:"total",
+    title:"مسافت بخش دوم را به بخش اول اضافه کن",
+    question:`بخش اول ${faNumber(first)} کیلومتر و بخش دوم ${faNumber(extra)} کیلومتر است. کل مسیر؟`,
+    op:"+",
+    answer:total,
+    dependsText:`مسافت ${faNumber(first)} کیلومتر از زیرمسئله قبلی آمده است.`
+   }
+  ],
+
+  finalAnswer:total,
+
+  solution:
+   `${faNumber(speed)}×${faNumber(hours)}=${faNumber(first)} ، سپس ${faNumber(first)}+${faNumber(extra)}=${faNumber(total)} کیلومتر`
+ });
+}
+
+
+/* =====================================================
+   11) تولید و تقسیم
+===================================================== */
+
+function genPacking(){
+
+ const machines=randomInt(3,6);
+ const each=randomInt(8,15);
+ const boxes=pick([2,3,4,6]);
+
+ const total=machines*each;
+
+ if(total%boxes!==0){
+  return genPacking();
+ }
+
+ const perBox=total/boxes;
+
+ return makeQuestion({
+
+  family:"تولید و بسته‌بندی",
+
+  signature:`packing-${machines}-${each}-${boxes}`,
+
+  q:
+   `${faNumber(machines)} دستگاه، هرکدام ${faNumber(each)} قطعه تولید کردند. قطعه‌ها در ${faNumber(boxes)} جعبه مساوی قرار گرفتند. در هر جعبه چند قطعه است؟`,
+
+  steps:[
+   {
+    id:"total",
+    title:"کل قطعه‌های تولیدشده را پیدا کن",
+    question:`${faNumber(machines)} دستگاه، هرکدام ${faNumber(each)} قطعه؛ کل تولید؟`,
+    op:"*",
+    answer:total,
+    dependsText:"ابتدا مقدار کل محصول را لازم داریم."
+   },
+   {
+    id:"eachBox",
+    title:"کل قطعه‌ها را بین جعبه‌ها تقسیم کن",
+    question:`${faNumber(total)} قطعه در ${faNumber(boxes)} جعبه مساوی؛ هر جعبه؟`,
+    op:"/",
+    answer:perBox,
+    dependsText:`تولید کل (${faNumber(total)}) جواب مرحله قبل است.`
+   }
+  ],
+
+  finalAnswer:perBox,
+
+  solution:
+   `${faNumber(machines)}×${faNumber(each)}=${faNumber(total)} ، سپس ${faNumber(total)}÷${faNumber(boxes)}=${faNumber(perBox)}`
+ });
+}
+
+
+/* =====================================================
+   12) کتاب‌خوانی
+===================================================== */
+
+function genReading(){
+
+ const daily=randomInt(10,25);
+ const days=randomInt(3,6);
+ const remaining=randomInt(15,45);
+
+ const read=daily*days;
+ const total=read+remaining;
+
+ return makeQuestion({
+
+  family:"کتاب‌خوانی",
+
+  signature:`read-${daily}-${days}-${remaining}`,
+
+  q:
+   `دانش‌آموزی ${faNumber(days)} روز، هر روز ${faNumber(daily)} صفحه کتاب خوانده و هنوز ${faNumber(remaining)} صفحه باقی مانده است. کتاب چند صفحه دارد؟`,
+
+  steps:[
+   {
+    id:"read",
+    title:"صفحه‌های خوانده‌شده را پیدا کن",
+    question:`${faNumber(days)} روز، روزی ${faNumber(daily)} صفحه؛ چند صفحه خوانده شده؟`,
+    op:"*",
+    answer:read,
+    dependsText:"اول مقدار بخش خوانده‌شده را پیدا می‌کنیم."
+   },
+   {
+    id:"total",
+    title:"صفحه‌های باقی‌مانده را به خوانده‌شده اضافه کن",
+    question:`${faNumber(read)} صفحه خوانده و ${faNumber(remaining)} صفحه باقی مانده است. کل کتاب؟`,
+    op:"+",
+    answer:total,
+    dependsText:`تعداد خوانده‌شده (${faNumber(read)}) جواب مرحله قبل است.`
+   }
+  ],
+
+  finalAnswer:total,
+
+  solution:
+   `${faNumber(days)}×${faNumber(daily)}=${faNumber(read)} ، سپس ${faNumber(read)}+${faNumber(remaining)}=${faNumber(total)} صفحه`
+ });
+}
+
+
+/* =====================================================
+   GENERATORS
+===================================================== */
+
+const GENERATORS=[
+ genSaving,
+ genProfit,
+ genDamaged,
+ genFloor,
+ genSavingSpend,
+ genSalesAfterDamage,
+ genTickets,
+ genTiles,
+ genFullProfit,
+ genTrip,
+ genPacking,
+ genReading
+];
+
+
+/* =====================================================
+   ROUND
+===================================================== */
+
+let questions=[];
+
+function generateRound(){
+
+ const recent=new Set(loadHistory());
+
+ const selected=
+  shuffle(GENERATORS)
+  .slice(0,TOTAL_QUESTIONS);
+
+ const generated=[];
+
+
+ for(const generator of selected){
+
+  let candidate=null;
+
+
+  for(let attempt=0;attempt<30;attempt++){
+
+   const q=generator();
+
+   candidate=q;
+
+
+   if(!recent.has(q.signature)){
+    break;
+   }
+  }
+
+
+  generated.push(candidate);
+
+  recent.add(candidate.signature);
+ }
+
+
+ questions=shuffle(generated);
+
+
+ saveHistory(
+  generated.map(q=>q.signature)
+ );
+}
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let currentIndex=0;
+let score=0;
+
+let answerChecked=false;
+
+let questionStartTime=0;
+let timerInterval=null;
+
+let gameFinished=false;
+let finishSubmitted=false;
+
+
+/*
+ phase:
+ order
+ solve
+ finished
+*/
+let phase="order";
+
+
+/*
+ ترتیب انتخاب‌شده کارت‌ها
+*/
+let selectedOrder=[];
+
+
+/*
+ مرحله فعلی حل
+*/
+let solveIndex=0;
+
+
+/*
+ انتخاب عمل و جواب
+*/
+let selectedOperation=null;
+let selectedAnswer=null;
+
+
+/*
+ خطا در هر بخش باعث می‌شود مأموریت دیگر
+ امتیاز نگیرد، اما دانش‌آموز ادامه می‌دهد.
+*/
+let missionPerfect=true;
+
+
+/* =====================================================
+   DOM
+===================================================== */
+
+const $=id=>document.getElementById(id);
+
+const playerNameEl=$("playerName");
+const questionNumberEl=$("questionNumber");
+const scoreEl=$("score");
+const timeStatusEl=$("timeStatus");
+
+const progressEl=$("progress");
+
+const timerNumberEl=$("timerNumber");
+const timerBarEl=$("timerBar");
+
+const missionLabelEl=$("missionLabel");
+const familyLabelEl=$("familyLabel");
+const problemTextEl=$("problemText");
+
+const bridgeWorld=$("bridgeWorld");
+const bridgeTrack=$("bridgeTrack");
+const walker=$("walker");
+
+const modeTitle=$("modeTitle");
+const modeHelp=$("modeHelp");
+
+const orderArea=$("orderArea");
+const cardPool=$("cardPool");
+const orderSlots=$("orderSlots");
+const checkOrderButton=$("checkOrderButton");
+
+const solveArea=$("solveArea");
+const subproblemNumber=$("subproblemNumber");
+const subproblemProgress=$("subproblemProgress");
+const subproblemText=$("subproblemText");
+const knownResult=$("knownResult");
+
+const operations=$("operations");
+const answerOptions=$("answerOptions");
+const submitStepButton=$("submitStepButton");
+const miniFeedback=$("miniFeedback");
+
+const feedbackEl=$("feedback");
+const feedbackTitleEl=$("feedbackTitle");
+const feedbackTextEl=$("feedbackText");
+const solutionEl=$("solution");
+
+const nextButton=$("nextButton");
+
+const gameScreen=$("gameScreen");
+const resultScreen=$("resultScreen");
+
+const resultNameEl=$("resultName");
+const finalScoreEl=$("finalScore");
+const motivationEl=$("motivation");
+
+const leaderboardContent=$("leaderboardContent");
+const restartButton=$("restartButton");
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function buildProgress(){
+
+ progressEl.innerHTML="";
+
+
+ for(let i=0;i<TOTAL_QUESTIONS;i++){
+
+  const item=document.createElement("div");
+
+  item.className="progress-item";
+
+  progressEl.appendChild(item);
+ }
+}
+
+
+function updateProgress(){
+
+ [...progressEl.children]
+  .forEach((item,index)=>{
+
+   item.classList.toggle(
+    "done",
+    index<currentIndex
+   );
+
+   item.classList.toggle(
+    "current",
+    index===currentIndex
+   );
+  });
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+function stopTimer(){
+
+ if(timerInterval){
+
+  clearInterval(timerInterval);
+
+  timerInterval=null;
+ }
+}
+
+
+function startTimer(){
+
+ stopTimer();
+
+ questionStartTime=Date.now();
+
+ timerNumberEl.textContent=
+  faNumber(QUESTION_TIME);
+
+ timeStatusEl.textContent=
+  faNumber(QUESTION_TIME)+" ثانیه";
+
+ timerBarEl.style.width="100%";
+ timerBarEl.style.background="var(--green)";
+ timerNumberEl.style.color="var(--green)";
+
+ timerInterval=
+  setInterval(updateTimer,100);
+}
+
+
+function updateTimer(){
+
+ if(answerChecked||gameFinished){
+
+  stopTimer();
+  return;
+ }
+
+
+ const elapsed=
+  (Date.now()-questionStartTime)/1000;
+
+
+ const remaining=
+  Math.max(
+   0,
+   QUESTION_TIME-elapsed
+  );
+
+
+ const seconds=
+  Math.ceil(remaining);
+
+
+ timerNumberEl.textContent=
+  faNumber(seconds);
+
+ timeStatusEl.textContent=
+  faNumber(seconds)+" ثانیه";
+
+ timerBarEl.style.width=
+  (remaining/QUESTION_TIME*100)+"%";
+
+
+ if(remaining>30){
+
+  timerBarEl.style.background="var(--green)";
+  timerNumberEl.style.color="var(--green)";
+
+ }else if(remaining>15){
+
+  timerBarEl.style.background="var(--yellow)";
+  timerNumberEl.style.color="#ad7700";
+
+ }else{
+
+  timerBarEl.style.background="var(--red)";
+  timerNumberEl.style.color="var(--red)";
+ }
+
+
+ if(remaining<=0){
+  handleTimeout();
+ }
+}
+
+
+/* =====================================================
+   SHOW QUESTION
+===================================================== */
+
+function showQuestion(){
+
+ stopTimer();
+
+ answerChecked=false;
+
+ phase="order";
+
+ selectedOrder=[];
+
+ solveIndex=0;
+
+ selectedOperation=null;
+ selectedAnswer=null;
+
+ missionPerfect=true;
+
+
+ const q=questions[currentIndex];
+
+
+ updateProgress();
+
+
+ questionNumberEl.textContent=
+  faNumber(currentIndex+1)+
+  " از "+
+  faNumber(TOTAL_QUESTIONS);
+
+
+ scoreEl.textContent=
+  faNumber(score);
+
+
+ missionLabelEl.textContent=
+  "🌉 پل "+
+  faNumber(currentIndex+1);
+
+
+ familyLabelEl.textContent=
+  "🎯 "+q.family;
+
+
+ problemTextEl.textContent=q.q;
+
+
+ feedbackEl.className="feedback";
+ feedbackTitleEl.textContent="";
+ feedbackTextEl.textContent="";
+ solutionEl.textContent="";
+
+
+ miniFeedback.className=
+  "mini-feedback";
+
+ miniFeedback.textContent="";
+
+
+ orderArea.style.display="block";
+ solveArea.style.display="none";
+
+
+ modeTitle.textContent=
+  "🧩 مرحله اول: نقشه ساخت پل";
+
+
+ modeHelp.textContent=
+  "زیرمسئله‌ها را به ترتیب وابستگی منطقی انتخاب کن. روی کارت انتخاب‌شده در پایین بزن تا حذف شود.";
+
+
+ nextButton.classList.remove("show");
+
+
+ nextButton.textContent=
+  currentIndex===TOTAL_QUESTIONS-1
+  ?"مشاهده نتیجه 🏆"
+  :"پل بعدی 🏗️";
+
+
+ buildBridge(q.steps.length);
+
+ renderOrderArea();
+
+ startTimer();
+}
+
+
+/* =====================================================
+   BRIDGE
+===================================================== */
+
+function buildBridge(count){
+
+ bridgeTrack.innerHTML="";
+
+
+ for(let i=0;i<count;i++){
+
+  const piece=
+   document.createElement("div");
+
+  piece.className=
+   "bridge-piece";
+
+  piece.textContent=
+   faNumber(i+1);
+
+  bridgeTrack.appendChild(piece);
+ }
+
+
+ updateBridge(0);
+}
+
+
+function updateBridge(built){
+
+ const pieces=[
+  ...bridgeTrack.children
+ ];
+
+
+ pieces.forEach(
+  (piece,index)=>{
+
+   piece.classList.toggle(
+    "built",
+    index<built
+   );
+  }
+ );
+
+
+ const total=
+  Math.max(
+   1,
+   pieces.length
+  );
+
+
+ const ratio=
+  built/total;
+
+
+ walker.style.left=
+  (7+ratio*78)+"%";
+}
+
+
+/* =====================================================
+   ORDER AREA
+===================================================== */
+
+function renderOrderArea(){
+
+ const q=questions[currentIndex];
+
+
+ cardPool.innerHTML="";
+ orderSlots.innerHTML="";
+
+
+ q.cards.forEach(card=>{
+
+  const button=
+   document.createElement("button");
+
+  button.type="button";
+
+  button.className="step-card";
+
+
+  if(
+   selectedOrder.includes(card.id)
+  ){
+
+   button.classList.add("selected");
+   button.disabled=true;
+  }
+
+
+  button.textContent=
+   "🧩 "+card.title;
+
+
+  button.addEventListener(
+   "click",
+   ()=>selectOrderCard(card.id)
+  );
+
+
+  cardPool.appendChild(button);
+ });
+
+
+ for(let i=0;i<q.steps.length;i++){
+
+  const slot=
+   document.createElement("div");
+
+  slot.className="order-slot";
+
+
+  if(selectedOrder[i]){
+
+   const step=
+    q.steps.find(
+     s=>s.id===selectedOrder[i]
+    );
+
+
+   slot.classList.add("filled");
+
+   slot.textContent=
+    faNumber(i+1)+
+    ". "+
+    step.title;
+
+
+   slot.addEventListener(
+    "click",
+    ()=>removeOrderAt(i)
+   );
+
+  }else{
+
+   slot.textContent=
+    faNumber(i+1)+
+    ". ؟";
+  }
+
+
+  orderSlots.appendChild(slot);
+ }
+
+
+ checkOrderButton.disabled=
+  selectedOrder.length!==
+  q.steps.length;
+}
+
+
+function selectOrderCard(id){
+
+ if(
+  answerChecked ||
+  phase!=="order"
+ ){
+  return;
+ }
+
+
+ if(
+  selectedOrder.includes(id)
+ ){
+  return;
+ }
+
+
+ selectedOrder.push(id);
+
+
+ renderOrderArea();
+}
+
+
+function removeOrderAt(index){
+
+ if(
+  answerChecked ||
+  phase!=="order"
+ ){
+  return;
+ }
+
+
+ selectedOrder.splice(index,1);
+
+
+ renderOrderArea();
+}
+
+
+/* =====================================================
+   CHECK ORDER
+===================================================== */
+
+checkOrderButton.addEventListener(
+ "click",
+ checkOrder
+);
+
+
+function checkOrder(){
+
+ if(
+  answerChecked ||
+  phase!=="order"
+ ){
+  return;
+ }
+
+
+ const q=questions[currentIndex];
+
+
+ const expected=
+  q.steps.map(step=>step.id);
+
+
+ const correct=
+  expected.every(
+   (id,index)=>
+    selectedOrder[index]===id
+  );
+
+
+ if(!correct){
+
+  missionPerfect=false;
+
+
+  miniFeedback.className=
+   "mini-feedback bad show";
+
+
+  miniFeedback.textContent=
+   "❌ این ترتیب وابستگی زیرمسئله‌ها را درست نشان نمی‌دهد. نقشه صحیح نمایش داده شد؛ حالا پل را مرحله‌به‌مرحله بساز.";
+
+
+  selectedOrder=[...expected];
+
+
+  renderOrderArea();
+
+
+  setTimeout(
+   startSolvePhase,
+   900
+  );
+
+  return;
+ }
+
+
+ miniFeedback.className=
+  "mini-feedback good show";
+
+
+ miniFeedback.textContent=
+  "✅ نقشه پل درست است! حالا زیرمسئله‌ها را به همین ترتیب حل کن.";
+
+
+ setTimeout(
+  startSolvePhase,
+  650
+ );
+}
+
+
+/* =====================================================
+   SOLVE PHASE
+===================================================== */
+
+function startSolvePhase(){
+
+ if(answerChecked){
+  return;
+ }
+
+
+ phase="solve";
+
+
+ orderArea.style.display="none";
+ solveArea.style.display="block";
+
+
+ modeTitle.textContent=
+  "🧱 مرحله دوم: ساخت قطعه‌های پل";
+
+
+ modeHelp.textContent=
+  "هر زیرمسئله را حل کن. جواب یک مرحله ممکن است داده مرحله بعد باشد.";
+
+
+ showSolveStep();
+}
+
+
+function showSolveStep(){
+
+ const q=questions[currentIndex];
+
+ const step=q.steps[solveIndex];
+
+
+ selectedOperation=null;
+ selectedAnswer=null;
+
+
+ subproblemNumber.textContent=
+  "🧱 قطعه "+
+  faNumber(solveIndex+1);
+
+
+ subproblemProgress.textContent=
+  faNumber(solveIndex+1)+
+  " از "+
+  faNumber(q.steps.length);
+
+
+ subproblemText.textContent=
+  step.question;
+
+
+ knownResult.textContent=
+  "🔗 "+
+  step.dependsText;
+
+
+ [...operations.querySelectorAll(".op-btn")]
+  .forEach(button=>{
+
+   button.classList.remove("selected");
+   button.disabled=false;
+  });
+
+
+ buildAnswerOptions(step);
+
+
+ submitStepButton.disabled=false;
+
+
+ miniFeedback.className=
+  "mini-feedback";
+
+
+ miniFeedback.textContent="";
+}
+
+
+/* =====================================================
+   OPERATIONS
+===================================================== */
+
+[...operations.querySelectorAll(".op-btn")]
+ .forEach(button=>{
+
+  button.addEventListener(
+   "click",
+   ()=>{
+
+    if(
+     answerChecked ||
+     phase!=="solve"
+    ){
+     return;
+    }
+
+
+    selectedOperation=
+     button.dataset.op;
+
+
+    [...operations.querySelectorAll(".op-btn")]
+     .forEach(item=>{
+
+      item.classList.toggle(
+       "selected",
+       item===button
+      );
+     });
+   }
+  );
+ });
+
+
+/* =====================================================
+   ANSWER OPTIONS
+===================================================== */
+
+function buildAnswerOptions(step){
+
+ answerOptions.innerHTML="";
+
+
+ const options=
+  makeOptions(step.answer);
+
+
+ options.forEach(value=>{
+
+  const button=
+   document.createElement("button");
+
+  button.type="button";
+
+  button.className="answer-btn";
+
+  button.textContent=
+   faNumber(value);
+
+
+  button.addEventListener(
+   "click",
+   ()=>{
+
+    if(
+     answerChecked ||
+     phase!=="solve"
+    ){
+     return;
+    }
+
+
+    selectedAnswer=value;
+
+
+    [...answerOptions.children]
+     .forEach(item=>{
+
+      item.classList.toggle(
+       "selected",
+       item===button
+      );
+     });
+   }
+  );
+
+
+  answerOptions.appendChild(button);
+ });
+}
+
+
+/* =====================================================
+   SUBMIT STEP
+===================================================== */
+
+submitStepButton.addEventListener(
+ "click",
+ submitSolveStep
+);
+
+
+function submitSolveStep(){
+
+ if(
+  answerChecked ||
+  phase!=="solve"
+ ){
+  return;
+ }
+
+
+ if(
+  selectedOperation===null ||
+  selectedAnswer===null
+ ){
+
+  miniFeedback.className=
+   "mini-feedback bad show";
+
+
+  miniFeedback.textContent=
+   "اول عمل مناسب و سپس حاصل این زیرمسئله را انتخاب کن.";
+
+
+  return;
+ }
+
+
+ const q=questions[currentIndex];
+
+ const step=q.steps[solveIndex];
+
+
+ const correct=
+  selectedOperation===step.op &&
+  selectedAnswer===step.answer;
+
+
+ if(!correct){
+
+  missionPerfect=false;
+
+
+  miniFeedback.className=
+   "mini-feedback bad show";
+
+
+  const opLabel={
+   "+":"+",
+   "-":"−",
+   "*":"×",
+   "/":"÷"
+  }[step.op];
+
+
+  miniFeedback.textContent=
+   "❌ این قطعه درست ساخته نشد. پاسخ صحیح: عمل "+
+   opLabel+
+   " و حاصل "+
+   faNumber(step.answer)+
+   ". حالا از این نتیجه برای ادامه مسیر استفاده کن.";
+
+
+  revealStepCorrect(step);
+
+
+  submitStepButton.disabled=true;
+
+
+  setTimeout(
+   advanceSolveStep,
+   950
+  );
+
+
+  return;
+ }
+
+
+ miniFeedback.className=
+  "mini-feedback good show";
+
+
+ miniFeedback.textContent=
+  "✅ قطعه درست ساخته شد! حاصل این زیرمسئله: "+
+  faNumber(step.answer);
+
+
+ submitStepButton.disabled=true;
+
+
+ [...operations.querySelectorAll(".op-btn")]
+  .forEach(button=>button.disabled=true);
+
+
+ [...answerOptions.children]
+  .forEach(button=>button.disabled=true);
+
+
+ setTimeout(
+  advanceSolveStep,
+  650
+ );
+}
+
+
+function revealStepCorrect(step){
+
+ [...operations.querySelectorAll(".op-btn")]
+  .forEach(button=>{
+
+   button.disabled=true;
+
+
+   if(
+    button.dataset.op===step.op
+   ){
+
+    button.classList.add("selected");
+   }
+  });
+
+
+ [...answerOptions.children]
+  .forEach(button=>{
+
+   button.disabled=true;
+
+
+   if(
+    Number(button.textContent.replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)))===
+    step.answer
+   ){
+    button.style.borderColor="var(--green)";
+    button.style.background="#e8faed";
+   }
+  });
+}
+
+
+/* =====================================================
+   NEXT SUBPROBLEM
+===================================================== */
+
+function advanceSolveStep(){
+
+ if(answerChecked){
+  return;
+ }
+
+
+ solveIndex++;
+
+
+ updateBridge(
+  solveIndex
+ );
+
+
+ const q=questions[currentIndex];
+
+
+ if(
+  solveIndex<
+  q.steps.length
+ ){
+
+  showSolveStep();
+
+ }else{
+
+  finishMission();
+ }
+}
+
+
+/* =====================================================
+   FINISH MISSION
+===================================================== */
+
+function finishMission(){
+
+ if(answerChecked){
+  return;
+ }
+
+
+ answerChecked=true;
+
+ phase="finished";
+
+ stopTimer();
+
+
+ const q=questions[currentIndex];
+
+
+ const elapsed=
+  (
+   Date.now()-
+   questionStartTime
+  )/1000;
+
+
+ updateBridge(
+  q.steps.length
+ );
+
+
+ if(missionPerfect){
+
+  const earned=
+   pointsForTime(elapsed);
+
+
+  score=
+   Math.min(
+    100,
+    score+earned
+   );
+
+
+  feedbackEl.className=
+   "feedback success show";
+
+
+  feedbackTitleEl.textContent=
+   "✅ پل کامل شد! +"+
+   faNumber(earned)+
+   " امتیاز";
+
+
+  feedbackTextEl.textContent=
+   "مسئله را به زیرمسئله‌های مناسب شکستی، ترتیب وابستگی را تشخیص دادی و هر مرحله را به جواب مرحله بعد وصل کردی.";
+
+
+  celebrate();
+
+ }else{
+
+  feedbackEl.className=
+   "feedback error show";
+
+
+  feedbackTitleEl.textContent=
+   "🌉 پل کامل شد، اما بدون امتیاز";
+
+
+  feedbackTextEl.textContent=
+   "در یکی از بخش‌های نقشه یا محاسبه نیاز به کمک داشتی. نکته مهم این است که زیرمسئله‌ها را طوری مرتب کنیم که جواب هر مرحله، مسیر مرحله بعد را باز کند.";
+ }
+
+
+ solutionEl.textContent=
+  "✅ مسیر حل: "+
+  q.solution;
+
+
+ scoreEl.textContent=
+  faNumber(score);
+
+
+ nextButton.classList.add("show");
+}
+
+
+/* =====================================================
+   TIMEOUT
+===================================================== */
+
+function handleTimeout(){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+
+ answerChecked=true;
+
+ phase="finished";
+
+ stopTimer();
+
+
+ timerNumberEl.textContent="۰";
+ timeStatusEl.textContent="۰ ثانیه";
+ timerBarEl.style.width="0%";
+ timerBarEl.style.background="var(--red)";
+
+
+ const q=questions[currentIndex];
+
+
+ updateBridge(
+  q.steps.length
+ );
+
+
+ orderArea.style.display="none";
+ solveArea.style.display="none";
+
+
+ feedbackEl.className=
+  "feedback timeout show";
+
+
+ feedbackTitleEl.textContent=
+  "⏰ زمان تمام شد! ۰ امتیاز";
+
+
+ feedbackTextEl.textContent=
+  "پل به‌صورت راهنما تکمیل شد. در راهبرد زیرمسئله، ابتدا سؤال‌های کوچک‌تر را به ترتیب وابستگی حل می‌کنیم.";
+
+
+ solutionEl.textContent=
+  "✅ مسیر صحیح: "+
+  q.steps.map(
+   (step,index)=>
+    faNumber(index+1)+
+    ") "+
+    step.title+
+    " ← "+
+    faNumber(step.answer)
+  ).join(" | ")+
+  " | "+
+  q.solution;
+
+
+ nextButton.classList.add("show");
+}
+
+
+/* =====================================================
+   CELEBRATE
+===================================================== */
+
+function celebrate(){
+
+ const rect=
+  bridgeWorld.getBoundingClientRect();
+
+
+ const icons=[
+  "🧱","🌉","⭐","✨","🚩","🎉"
+ ];
+
+
+ for(let i=0;i<11;i++){
+
+  const spark=
+   document.createElement("span");
+
+  spark.className="spark";
+
+  spark.textContent=pick(icons);
+
+  spark.style.left=
+   (rect.left+rect.width*.75)+"px";
+
+  spark.style.top=
+   (rect.top+rect.height*.45)+"px";
+
+  spark.style.setProperty(
+   "--x",
+   (Math.random()*180-90)+"px"
+  );
+
+  spark.style.setProperty(
+   "--y",
+   (-30-Math.random()*120)+"px"
+  );
+
+  document.body.appendChild(spark);
+
+  setTimeout(
+   ()=>spark.remove(),
+   850
+  );
+ }
+}
+
+
+/* =====================================================
+   NEXT
+===================================================== */
+
+nextButton.addEventListener(
+ "click",
+ ()=>{
+
+  if(!answerChecked)return;
+
+
+  if(
+   currentIndex<
+   TOTAL_QUESTIONS-1
+  ){
+
+   currentIndex++;
+
+   showQuestion();
+
+
+   window.scrollTo({
+    top:0,
+    behavior:"smooth"
+   });
+
+  }else{
+
+   finishGame();
+  }
+ }
+);
+
+
+/* =====================================================
+   FINISH GAME
+===================================================== */
+
+async function finishGame(){
+
+ if(gameFinished)return;
+
+
+ gameFinished=true;
+
+ stopTimer();
+
+
+ [...progressEl.children]
+  .forEach(item=>{
+
+   item.classList.remove("current");
+   item.classList.add("done");
+  });
+
+
+ gameScreen.style.display="none";
+
+ resultScreen.classList.add("show");
+
+
+ const name=
+  player&&player.playerName
+  ?player.playerName
+  :"بازیکن";
+
+
+ resultNameEl.textContent=name;
+
+ finalScoreEl.textContent=
+  faNumber(score);
+
+
+ if(score>=90){
+
+  motivationEl.textContent=
+   "عالی بود! 🌟 مسئله‌های بزرگ را استادانه به پل‌های کوچک تبدیل می‌کنی!";
+
+ }else if(score>=70){
+
+  motivationEl.textContent=
+   "خیلی خوب بود 👏 ارتباط بین زیرمسئله‌ها را خوب تشخیص می‌دهی!";
+
+ }else if(score>=50){
+
+  motivationEl.textContent=
+   "خوب بود 💪 قبل از محاسبه بپرس: اول چه چیزی باید پیدا شود؟";
+
+ }else{
+
+  motivationEl.textContent=
+   "دوباره پل بساز 🌱 مسئله بزرگ را به چند سؤال کوچک و مرتب تبدیل کن!";
+ }
+
+
+ leaderboardContent.innerHTML=
+  '<div class="loading">در حال ثبت نتیجه و دریافت جدول برترین‌ها...</div>';
+
+
+ try{
+
+  if(!finishSubmitted){
+
+   finishSubmitted=true;
+
+   const result=
+    await GameSDK.finishGame(score);
+  }
+
+ }catch(error){
+
+  console.error(
+   "finishGame error:",
+   error
+  );
+ }
+
+
+ await loadLeaderboard();
+}
+
+
+/* =====================================================
+   LEADERBOARD
+===================================================== */
+
+async function loadLeaderboard(){
+
+ try{
+
+  const scores=
+   await GameSDK.getLeaderboard(10);
+
+
+  leaderboardContent.innerHTML="";
+
+
+  if(
+   !Array.isArray(scores) ||
+   scores.length===0
+  ){
+
+   leaderboardContent.innerHTML=
+    '<div class="loading">هنوز رکوردی ثبت نشده است.</div>';
+
+   return;
+  }
+
+
+  scores.forEach(
+   (item,index)=>{
+
+    const row=
+     document.createElement("div");
+
+
+    row.className="rank-row";
+
+
+    let rank;
+
+
+    if(index===0)rank="🥇";
+    else if(index===1)rank="🥈";
+    else if(index===2)rank="🥉";
+    else rank=faNumber(index+1)+".";
+
+
+    const name=
+     item.playerName ??
+     item.player_name ??
+     item.name ??
+     "بازیکن";
+
+
+    const value=
+     item.score ?? 0;
+
+
+    const nameEl=
+     document.createElement("span");
+
+
+    nameEl.className=
+     "rank-name";
+
+
+    nameEl.textContent=
+     rank+" "+name;
+
+
+    const valueEl=
+     document.createElement("span");
+
+
+    valueEl.className=
+     "rank-score";
+
+
+    valueEl.textContent=
+     faNumber(value)+" امتیاز";
+
+
+    row.appendChild(nameEl);
+    row.appendChild(valueEl);
+
+
+    leaderboardContent.appendChild(row);
+   }
+  );
+
+ }catch(error){
+
+  console.error(
+   "leaderboard error:",
+   error
+  );
+
+
+  leaderboardContent.innerHTML=
+   '<div class="loading">دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.</div>';
+ }
+}
+
+
+/* =====================================================
+   RESTART
+===================================================== */
+
+restartButton.addEventListener(
+ "click",
+ ()=>{
+
+  stopTimer();
+
+  GameSDK.reset();
+
+
+  score=0;
+  currentIndex=0;
+
+  answerChecked=false;
+  questionStartTime=0;
+
+  gameFinished=false;
+  finishSubmitted=false;
+
+  phase="order";
+  selectedOrder=[];
+  solveIndex=0;
+
+  selectedOperation=null;
+  selectedAnswer=null;
+
+  missionPerfect=true;
+
+
+  resultScreen.classList.remove("show");
+
+  gameScreen.style.display="block";
+
+  leaderboardContent.innerHTML="";
+
+
+  generateRound();
+
+  buildProgress();
+
+  showQuestion();
+
+
+  window.scrollTo({
+   top:0,
+   behavior:"smooth"
+  });
+ }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+function startGame(){
+
+ const name=
+  player&&player.playerName
+  ?player.playerName
+  :"بازیکن";
+
+
+ playerNameEl.textContent=name;
+
+
+ score=0;
+ currentIndex=0;
+
+ answerChecked=false;
+ gameFinished=false;
+ finishSubmitted=false;
+
+
+ generateRound();
+
+ buildProgress();
+
+ showQuestion();
+}
+
+
+startGame();
+
+</script>
+
+</body>
+</html>
