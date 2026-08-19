@@ -3,1211 +3,244 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>کارگاه مهندس ریاضی | راهبرد رسم شکل</title>
+<title>شکارچی تصویر | راهبرد رسم شکل</title>
 
 <style>
 *{box-sizing:border-box}
 
 :root{
-    --blue:#38bdf8;
-    --blue2:#0284c7;
-    --purple:#8b5cf6;
-    --purple2:#6d28d9;
-    --pink:#f472b6;
-    --yellow:#fbbf24;
-    --orange:#fb923c;
-    --green:#22c55e;
-    --green2:#15803d;
-    --red:#fb7185;
-    --text:#273449;
-    --muted:#64748b;
+ --blue:#38bdf8;--blue2:#0284c7;--purple:#8b5cf6;
+ --pink:#f472b6;--yellow:#fbbf24;--orange:#fb923c;
+ --green:#22c55e;--red:#fb7185;--text:#293449;
+ --muted:#64748b;
 }
 
-html{
-    color-scheme:light only;
-    -webkit-text-size-adjust:100%;
-}
+html{color-scheme:light only}
 
 body{
-    margin:0;
-    min-height:100vh;
-    direction:rtl;
-    font-family:Tahoma,Arial,sans-serif;
-    color:var(--text);
-    overflow-x:hidden;
-
-    background:
-        radial-gradient(circle at 10% 5%,rgba(244,114,182,.20),transparent 22%),
-        radial-gradient(circle at 90% 7%,rgba(56,189,248,.25),transparent 25%),
-        radial-gradient(circle at 80% 90%,rgba(251,191,36,.16),transparent 25%),
-        linear-gradient(155deg,#fff7fd,#effcff 50%,#fffbea);
+ margin:0;min-height:100vh;direction:rtl;
+ font-family:Tahoma,Arial,sans-serif;color:var(--text);
+ background:
+ radial-gradient(circle at 10% 5%,#fbcfe855,transparent 25%),
+ radial-gradient(circle at 90% 8%,#7dd3fc66,transparent 25%),
+ linear-gradient(150deg,#fff7fd,#effcff 55%,#fff9df);
 }
 
-button,a{
-    font-family:inherit;
-}
+button,a{font-family:inherit}
+.app{width:min(100%,930px);margin:auto;padding:12px}
 
-button{
-    -webkit-tap-highlight-color:transparent;
-}
-
-.app{
-    width:min(100%,950px);
-    margin:auto;
-    padding:12px;
-}
-
-
-/* =========================
-   هدر
-========================= */
-
-.hero{
-    text-align:center;
-    padding:6px 5px 15px;
-}
-
+.hero{text-align:center;padding:7px 4px 14px}
 .badge{
-    display:inline-block;
-
-    padding:6px 14px;
-
-    border-radius:999px;
-
-    background:linear-gradient(90deg,#fef3c7,#fce7f3);
-
-    border:1px solid #f7d26b;
-
-    color:#865a00;
-
-    font-size:12px;
-    font-weight:bold;
+ display:inline-block;background:#fff1bd;border:1px solid #f2ce58;
+ color:#815b00;padding:6px 14px;border-radius:999px;
+ font-size:12px;font-weight:bold
 }
-
 .hero h1{
-    margin:10px 0 4px;
-
-    font-size:clamp(27px,7vw,42px);
-
-    background:linear-gradient(
-        90deg,
-        var(--purple),
-        var(--blue2),
-        var(--pink)
-    );
-
-    color:transparent;
-
-    -webkit-background-clip:text;
-    background-clip:text;
+ margin:10px 0 4px;font-size:clamp(29px,7vw,43px);
+ background:linear-gradient(90deg,var(--purple),var(--blue2),var(--pink));
+ color:transparent;background-clip:text;-webkit-background-clip:text
 }
-
-.hero p{
-    margin:0;
-
-    color:var(--muted);
-
-    font-size:13px;
-}
-
-
-/* =========================
-   پنل
-========================= */
+.hero p{margin:0;color:var(--muted);font-size:13px}
 
 .panel{
-    background:rgba(255,255,255,.97);
-
-    border:2px solid rgba(255,255,255,.9);
-
-    border-radius:25px;
-
-    overflow:hidden;
-
-    box-shadow:
-        0 18px 45px rgba(109,40,217,.12),
-        0 5px 14px rgba(2,132,199,.08);
+ background:#fffffff7;border-radius:24px;overflow:hidden;
+ box-shadow:0 15px 40px #6d28d91b
 }
 
-
-/* =========================
-   وضعیت
-========================= */
-
+/* status */
 .status{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:8px;
-
-    padding:10px;
-
-    background:linear-gradient(
-        90deg,
-        #f5f3ff,
-        #effcff,
-        #fff7ed,
-        #fdf2f8
-    );
-
-    border-bottom:1px solid #e9e0f4;
+ display:grid;grid-template-columns:repeat(4,1fr);gap:7px;
+ padding:10px;background:linear-gradient(90deg,#f5f3ff,#ecfeff,#fff7ed,#fdf2f8)
 }
-
 .stat{
-    min-width:0;
-
-    padding:8px 4px;
-
-    text-align:center;
-
-    background:#fff;
-
-    border-radius:13px;
-
-    box-shadow:0 3px 8px rgba(50,50,100,.05);
+ background:#fff;padding:8px 4px;text-align:center;border-radius:12px;
+ box-shadow:0 2px 6px #0000000a;min-width:0
 }
-
 .stat:nth-child(1){border-bottom:4px solid var(--purple)}
 .stat:nth-child(2){border-bottom:4px solid var(--blue)}
 .stat:nth-child(3){border-bottom:4px solid var(--yellow)}
 .stat:nth-child(4){border-bottom:4px solid var(--pink)}
-
-.stat small{
-    display:block;
-
-    color:var(--muted);
-
-    font-size:10px;
-}
-
+.stat small{display:block;font-size:10px;color:var(--muted)}
 .stat strong{
-    display:block;
-
-    margin-top:2px;
-
-    color:#504075;
-
-    font-size:14px;
-
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+ display:block;margin-top:2px;font-size:14px;color:#544274;
+ overflow:hidden;text-overflow:ellipsis;white-space:nowrap
 }
 
+.game{padding:16px}
 
-/* =========================
-   شهر در حال ساخت
-========================= */
-
-.city{
-    position:relative;
-
-    height:145px;
-
-    overflow:hidden;
-
-    background:
-        radial-gradient(circle at 10% 19%,#fff 0 18px,transparent 19px),
-        radial-gradient(circle at 14% 18%,#fff 0 24px,transparent 25px),
-        radial-gradient(circle at 19% 20%,#fff 0 16px,transparent 17px),
-        linear-gradient(#bdeeff 0 68%,#a9df72 68%);
-
-    border-bottom:1px solid #d4e5d2;
+/* treasure map */
+.treasure-progress{
+ display:grid;grid-template-columns:repeat(10,1fr);gap:5px;
+ margin:2px 0 15px
+}
+.piece{
+ aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+ border-radius:9px;background:#e5e7eb;color:#9ca3af;
+ font-size:clamp(13px,3.5vw,20px);transition:.3s
+}
+.piece.found{
+ background:linear-gradient(145deg,#fde68a,#fbbf24);
+ color:#8a5900;transform:rotate(-3deg) scale(1.05);
+ box-shadow:0 3px 8px #f59e0b44
 }
 
-.city-sun{
-    position:absolute;
-
-    right:25px;
-    top:18px;
-
-    width:43px;
-    height:43px;
-
-    border-radius:50%;
-
-    background:#ffd84d;
-
-    box-shadow:0 0 0 8px rgba(255,216,77,.18);
-}
-
-.city-road{
-    position:absolute;
-
-    left:0;
-    right:0;
-    bottom:0;
-
-    height:28px;
-
-    background:#7b8794;
-}
-
-.city-road::after{
-    content:"";
-
-    position:absolute;
-
-    top:12px;
-    left:0;
-    right:0;
-
-    height:4px;
-
-    background:
-        repeating-linear-gradient(
-            90deg,
-            #fff 0 22px,
-            transparent 22px 42px
-        );
-}
-
-.city-buildings{
-    position:absolute;
-
-    left:12px;
-    right:12px;
-    bottom:26px;
-
-    display:flex;
-
-    align-items:flex-end;
-    justify-content:space-around;
-
-    direction:ltr;
-}
-
-.building{
-    width:8.5%;
-    min-width:27px;
-
-    height:18px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:7px 7px 2px 2px;
-
-    background:#d7dde5;
-
-    color:transparent;
-
-    opacity:.45;
-
-    transform:scale(.78);
-
-    transition:
-        height .45s,
-        opacity .45s,
-        transform .45s,
-        background .45s;
-
-    box-shadow:inset 0 -5px 0 rgba(0,0,0,.07);
-}
-
-.building.done{
-    opacity:1;
-    transform:scale(1);
-
-    color:#fff;
-
-    font-size:18px;
-}
-
-.building:nth-child(4n+1).done{
-    background:var(--purple);
-}
-
-.building:nth-child(4n+2).done{
-    background:var(--pink);
-}
-
-.building:nth-child(4n+3).done{
-    background:var(--blue2);
-}
-
-.building:nth-child(4n+4).done{
-    background:var(--orange);
-}
-
-
-/* =========================
-   محتوای بازی
-========================= */
-
-.game{
-    padding:16px;
-}
-
-
-/* =========================
-   تایمر
-========================= */
-
+/* timer */
 .timer-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    margin-bottom:6px;
-
-    font-size:13px;
-    font-weight:bold;
+ display:flex;justify-content:space-between;font-size:13px;
+ font-weight:bold;margin-bottom:6px
 }
-
-#timerNumber{
-    font-size:20px;
-
-    color:var(--green);
-}
-
+#timerNumber{font-size:20px;color:var(--green)}
 .timer-track{
-    height:13px;
-
-    padding:2px;
-
-    margin-bottom:15px;
-
-    background:#e9e7f3;
-
-    border-radius:999px;
-
-    overflow:hidden;
+ height:13px;padding:2px;background:#e8e7ef;border-radius:999px;
+ overflow:hidden;margin-bottom:14px
 }
-
 .timer-bar{
-    width:100%;
-    height:100%;
-
-    background:var(--green);
-
-    border-radius:999px;
-
-    transition:
-        width .1s linear,
-        background .2s;
+ width:100%;height:100%;border-radius:999px;background:var(--green);
+ transition:width .1s linear,background .2s
 }
 
-
-/* =========================
-   سفارش مشتری
-========================= */
-
-.project-label{
-    display:inline-block;
-
-    margin-bottom:8px;
-
-    padding:5px 11px;
-
-    border-radius:999px;
-
-    background:linear-gradient(90deg,#ede9fe,#fce7f3);
-
-    color:var(--purple2);
-
-    font-size:12px;
-    font-weight:bold;
+/* problem */
+.level-label{
+ display:inline-block;background:#eee9ff;color:#6835bd;
+ padding:5px 11px;border-radius:999px;font-size:12px;font-weight:bold
 }
-
-.client-card{
-    display:grid;
-    grid-template-columns:auto 1fr;
-    gap:12px;
-
-    align-items:center;
-
-    padding:14px;
-
-    margin-bottom:13px;
-
-    background:#fff9e8;
-
-    border:2px solid #f2d16d;
-
-    border-radius:17px;
-
-    box-shadow:0 5px 12px rgba(251,191,36,.08);
-}
-
-.client{
-    font-size:40px;
-}
-
 .problem{
-    font-size:clamp(15px,4vw,18px);
-    font-weight:bold;
-    line-height:1.9;
+ margin:9px 0 7px;padding:13px 15px;background:#fff8dd;
+ border:2px solid #f3d36d;border-radius:15px;text-align:center;
+ font-size:clamp(15px,4vw,19px);font-weight:bold;line-height:1.9
 }
+.help{text-align:center;color:var(--muted);font-size:12px;margin:7px 0 12px}
 
-.task{
-    display:block;
-
-    margin-top:4px;
-
-    color:#7c5b00;
-
-    font-size:12px;
-    font-weight:normal;
+/* pictures */
+.pictures{
+ display:grid;grid-template-columns:repeat(3,1fr);gap:10px
 }
-
-
-/* =========================
-   میز طراحی
-========================= */
-
-.workshop{
-    display:grid;
-    grid-template-columns:minmax(250px,1.35fr) minmax(220px,.85fr);
-    gap:14px;
-
-    align-items:stretch;
+.picture{
+ position:relative;min-height:185px;padding:8px;
+ border:3px solid #dbe5eb;border-radius:17px;background:#fff;
+ cursor:pointer;touch-action:manipulation;
+ transition:transform .16s,border .16s,box-shadow .16s
 }
-
-
-/* =========================
-   بوم
-========================= */
-
-.canvas-card{
-    min-height:350px;
-
-    display:flex;
-    flex-direction:column;
-
-    padding:13px;
-
-    background:
-        linear-gradient(#fff,#fff) padding-box,
-        linear-gradient(135deg,var(--blue),var(--purple),var(--pink)) border-box;
-
-    border:3px solid transparent;
-
-    border-radius:20px;
-
-    box-shadow:0 7px 18px rgba(70,70,140,.10);
+.picture:hover:not(:disabled){
+ transform:translateY(-4px);border-color:var(--purple);
+ box-shadow:0 8px 17px #8b5cf622
 }
-
-.canvas-title{
-    text-align:center;
-
-    color:#55626c;
-
-    font-size:12px;
-    font-weight:bold;
-
-    margin-bottom:8px;
+.picture:disabled{cursor:default}
+.picture.correct{
+ border-color:var(--green);background:#edfff2;
+ box-shadow:0 0 0 3px #22c55e22
 }
-
-.drawing-area{
-    position:relative;
-
-    flex:1;
-
-    min-height:270px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:24px 25px 36px 42px;
-
-    overflow:hidden;
-
-    border:1px solid #c9dce5;
-
-    border-radius:14px;
-
-    background-color:#fdfefe;
-
-    background-image:
-        linear-gradient(#e5eff3 1px,transparent 1px),
-        linear-gradient(90deg,#e5eff3 1px,transparent 1px);
-
-    background-size:22px 22px;
+.picture.wrong{
+ border-color:var(--red);background:#fff0f3;
+ animation:shake .3s
 }
-
-
-/* مدل مستطیل */
-
-.model-wrap{
-    position:relative;
-
-    width:78%;
-    height:70%;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
+.pic-number{
+ position:absolute;top:7px;right:7px;z-index:5;
+ width:27px;height:27px;display:flex;align-items:center;justify-content:center;
+ border-radius:50%;background:#8b5cf6;color:#fff;font-weight:bold;font-size:12px
 }
-
-.outer-rect{
-    position:absolute;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border:4px solid var(--purple);
-
-    border-radius:8px;
-
-    background:rgba(139,92,246,.10);
-
-    transition:
-        width .25s,
-        height .25s;
+.scene{
+ height:145px;display:flex;align-items:center;justify-content:center;
+ overflow:hidden;border-radius:12px;
+ background:
+ linear-gradient(#e0f7ff 0 70%,#d7f0ac 70%);
 }
+.scene svg{width:100%;height:100%}
 
-.inner-rect{
-    position:absolute;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border:4px solid var(--blue2);
-
-    border-radius:6px;
-
-    background:rgba(56,189,248,.15);
-
-    transition:
-        width .25s,
-        height .25s;
-}
-
-.inner-rect::after{
-    content:"🏡";
-
-    font-size:clamp(25px,6vw,42px);
-}
-
-.dim-label{
-    position:absolute;
-
-    z-index:7;
-
-    padding:2px 6px;
-
-    background:#fff;
-
-    border:1px solid #cad5dc;
-
-    border-radius:7px;
-
-    font-size:11px;
-    font-weight:bold;
-
-    color:#42515a;
-
-    box-shadow:0 2px 5px rgba(0,0,0,.06);
-}
-
-.dim-width{
-    bottom:-29px;
-    left:50%;
-
-    transform:translateX(-50%);
-}
-
-.dim-height{
-    left:-37px;
-    top:50%;
-
-    transform:translateY(-50%) rotate(-90deg);
-}
-
-.margin-note{
-    position:absolute;
-
-    top:7px;
-    right:7px;
-
-    max-width:120px;
-
-    padding:4px 7px;
-
-    border-radius:8px;
-
-    background:#fff7cf;
-
-    color:#7d6000;
-
-    font-size:10px;
-    font-weight:bold;
-}
-
-
-/* =========================
-   ابزارها
-========================= */
-
-.tools{
-    padding:13px;
-
-    background:linear-gradient(145deg,#f8f5ff,#effbff);
-
-    border:2px solid #ded7f0;
-
-    border-radius:20px;
-
-    box-shadow:0 7px 18px rgba(70,70,140,.07);
-}
-
-.tools h3{
-    margin:0 0 4px;
-
-    color:var(--purple2);
-
-    text-align:center;
-
-    font-size:16px;
-}
-
-.tool-help{
-    margin:0 0 12px;
-
-    color:var(--muted);
-
-    text-align:center;
-
-    font-size:11px;
-    line-height:1.7;
-}
-
-.control{
-    margin-bottom:13px;
-
-    padding:9px;
-
-    background:#fff;
-
-    border:1px solid #dde5e9;
-    border-radius:13px;
-}
-
-.control-label{
-    display:flex;
-    justify-content:space-between;
-
-    gap:8px;
-
-    margin-bottom:7px;
-
-    font-size:12px;
-    font-weight:bold;
-}
-
-.control-value{
-    color:var(--purple2);
-
-    font-size:15px;
-}
-
-.stepper{
-    display:grid;
-
-    grid-template-columns:44px 1fr 44px;
-
-    gap:6px;
-
-    direction:ltr;
-}
-
-.step-btn{
-    height:42px;
-
-    border:0;
-    border-radius:11px;
-
-    background:linear-gradient(145deg,var(--blue),var(--blue2));
-
-    color:#fff;
-
-    font-size:22px;
-    font-weight:bold;
-
-    cursor:pointer;
-
-    box-shadow:0 4px 9px rgba(2,132,199,.17);
-}
-
-.step-btn.minus{
-    background:linear-gradient(145deg,var(--pink),#db528d);
-}
-
-.number-display{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:#f8fafc;
-
-    border:2px solid #dde6eb;
-
-    border-radius:11px;
-
-    color:#3b4b59;
-
-    font-weight:bold;
-}
-
-.mode-box{
-    padding:9px;
-
-    margin-bottom:12px;
-
-    background:#fff;
-
-    border:1px solid #dde5e9;
-
-    border-radius:13px;
-}
-
-.mode-box strong{
-    display:block;
-
-    font-size:12px;
-
-    margin-bottom:7px;
-}
-
-.mode-buttons{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:6px;
-}
-
-.mode-btn{
-    min-height:42px;
-
-    padding:7px 5px;
-
-    border:2px solid #dce5ea;
-    border-radius:11px;
-
-    background:#fff;
-
-    color:#52616a;
-
-    font-size:11px;
-    font-weight:bold;
-
-    cursor:pointer;
-}
-
-.mode-btn.active{
-    border-color:var(--purple);
-
-    background:#eee8ff;
-
-    color:var(--purple2);
-}
-
-.submit{
-    width:100%;
-
-    min-height:50px;
-
-    border:0;
-    border-radius:14px;
-
-    background:linear-gradient(
-        90deg,
-        var(--green),
-        #16a34a
-    );
-
-    color:#fff;
-
-    font-size:15px;
-    font-weight:bold;
-
-    cursor:pointer;
-
-    box-shadow:0 6px 14px rgba(34,197,94,.20);
-}
-
-.submit:disabled,
-.step-btn:disabled,
-.mode-btn:disabled{
-    opacity:.55;
-
-    cursor:default;
-}
-
-
-/* =========================
-   پاسخ
-========================= */
-
+/* feedback */
 .feedback{
-    display:none;
-
-    margin-top:14px;
-
-    padding:14px;
-
-    border-radius:15px;
-
-    line-height:1.9;
+ display:none;margin-top:14px;padding:13px;border-radius:14px;line-height:1.8
 }
+.feedback.show{display:block;animation:pop .25s}
+.feedback.success{background:#e8faed;border:2px solid #a6dfb7}
+.feedback.error{background:#fff0f3;border:2px solid #f3bbc5}
+.feedback.timeout{background:#fff7d9;border:2px solid #e9cb69}
+.feedback strong{display:block;font-size:17px;margin-bottom:3px}
+.feedback-text{font-size:13px;color:#4d5c61}
 
-.feedback.show{
-    display:block;
-
-    animation:pop .25s;
+.next{
+ display:none;width:100%;margin-top:12px;padding:14px;border:0;
+ border-radius:14px;background:linear-gradient(90deg,var(--purple),var(--blue2));
+ color:#fff;font-size:16px;font-weight:bold;cursor:pointer
 }
+.next.show{display:block}
 
-.feedback.success{
-    background:#e8faed;
-
-    border:2px solid #a4dfb6;
-}
-
-.feedback.error{
-    background:#fff0f3;
-
-    border:2px solid #f3bbc5;
-}
-
-.feedback.timeout{
-    background:#fff7db;
-
-    border:2px solid #ebcd69;
-}
-
-.feedback strong{
-    display:block;
-
-    margin-bottom:4px;
-
-    font-size:17px;
-}
-
-.feedback-text{
-    color:#4d5c61;
-
-    font-size:13px;
-}
-
-.next-btn{
-    display:none;
-
-    width:100%;
-
-    padding:14px;
-
-    margin-top:13px;
-
-    border:0;
-    border-radius:14px;
-
-    background:linear-gradient(
-        90deg,
-        var(--purple),
-        var(--blue2)
-    );
-
-    color:white;
-
-    font-size:16px;
-    font-weight:bold;
-
-    cursor:pointer;
-
-    box-shadow:0 6px 15px rgba(109,40,217,.22);
-}
-
-.next-btn.show{
-    display:block;
-}
-
-
-/* =========================
-   نتیجه
-========================= */
-
+/* result */
 .result{
-    display:none;
-
-    padding:25px 17px;
-
-    text-align:center;
-
-    background:
-        radial-gradient(circle at 10% 5%,rgba(244,114,182,.18),transparent 25%),
-        radial-gradient(circle at 90% 7%,rgba(56,189,248,.20),transparent 25%);
+ display:none;text-align:center;padding:25px 16px;
+ background:radial-gradient(circle at 10% 5%,#fbcfe844,transparent 25%),
+ radial-gradient(circle at 90% 5%,#7dd3fc44,transparent 25%)
 }
-
-.result.show{
-    display:block;
-}
-
-.trophy{
-    font-size:72px;
-
-    animation:float 2s ease-in-out infinite;
-}
-
-.result h2{
-    margin:5px 0;
-
-    color:var(--purple2);
-
-    font-size:27px;
-}
-
+.result.show{display:block}
+.chest{font-size:77px;animation:float 2s ease-in-out infinite}
+.result h2{color:#6d28d9;font-size:27px;margin:5px}
 .final-score{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
-    width:165px;
-    height:165px;
-
-    margin:18px auto;
-
-    border:8px solid transparent;
-    border-radius:50%;
-
-    background:
-        linear-gradient(#fff,#fff) padding-box,
-        linear-gradient(135deg,var(--pink),var(--yellow),var(--blue),var(--purple)) border-box;
-
-    box-shadow:0 10px 25px rgba(139,92,246,.17);
+ width:160px;height:160px;margin:17px auto;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ border-radius:50%;border:8px solid transparent;
+ background:linear-gradient(#fff,#fff) padding-box,
+ linear-gradient(135deg,var(--pink),var(--yellow),var(--blue),var(--purple)) border-box
 }
-
-.final-score strong{
-    color:var(--purple2);
-
-    font-size:44px;
-}
-
-.final-score span{
-    color:var(--muted);
-
-    font-size:13px;
-}
-
-.motivation{
-    margin-bottom:20px;
-
-    font-size:20px;
-    font-weight:bold;
-}
-
-
-/* =========================
-   لیدربورد
-========================= */
+.final-score strong{font-size:43px;color:#6d28d9}
+.final-score span{font-size:13px;color:var(--muted)}
+.motivation{font-size:20px;font-weight:bold;margin-bottom:19px}
 
 .leaderboard{
-    max-width:540px;
-
-    margin:22px auto;
-    padding:14px;
-
-    text-align:right;
-
-    background:#faf8ff;
-
-    border:2px solid #e4dafa;
-    border-radius:17px;
+ max-width:540px;margin:20px auto;padding:13px;text-align:right;
+ background:#faf8ff;border:2px solid #e4dafa;border-radius:16px
 }
-
-.leaderboard h3{
-    margin:0 0 10px;
-
-    text-align:center;
-
-    color:var(--purple2);
-}
-
+.leaderboard h3{text-align:center;color:#6d28d9;margin:0 0 10px}
 .rank-row{
-    display:flex;
-    justify-content:space-between;
-
-    gap:8px;
-
-    padding:9px 5px;
-
-    border-bottom:1px dashed #ddd6e8;
+ display:flex;justify-content:space-between;gap:8px;
+ padding:9px 5px;border-bottom:1px dashed #ddd6e8
 }
-
-.rank-row:last-child{
-    border:0;
-}
-
-.rank-name{
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-.rank-score{
-    color:var(--purple2);
-    font-weight:bold;
-}
-
-.loading{
-    padding:8px;
-
-    text-align:center;
-
-    color:var(--muted);
-}
+.rank-row:last-child{border:0}
+.rank-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-score{font-weight:bold;color:#6d28d9}
+.loading{text-align:center;color:var(--muted);padding:8px}
 
 .restart{
-    width:100%;
-    max-width:420px;
-
-    padding:14px;
-
-    border:0;
-    border-radius:14px;
-
-    background:linear-gradient(
-        90deg,
-        var(--pink),
-        var(--purple)
-    );
-
-    color:#fff;
-
-    font-size:16px;
-    font-weight:bold;
-
-    cursor:pointer;
+ width:100%;max-width:420px;padding:14px;border:0;border-radius:14px;
+ background:linear-gradient(90deg,var(--pink),var(--purple));
+ color:white;font-weight:bold;font-size:16px;cursor:pointer
 }
-
 .back{
-    display:block;
-
-    margin:18px 0 7px;
-
-    padding:10px;
-
-    text-align:center;
-    text-decoration:none;
-
-    color:var(--purple2);
-
-    font-weight:bold;
+ display:block;text-align:center;margin:17px 0;padding:10px;
+ text-decoration:none;color:#6d28d9;font-weight:bold
 }
-
-
-/* =========================
-   ذرات جشن
-========================= */
 
 .spark{
-    position:fixed;
-
-    z-index:999;
-
-    pointer-events:none;
-
-    font-size:20px;
-
-    animation:sparkFly .8s ease-out forwards;
+ position:fixed;z-index:999;pointer-events:none;font-size:20px;
+ animation:spark .8s forwards
 }
-
-@keyframes sparkFly{
-    from{
-        opacity:1;
-        transform:translate(0,0) scale(.5) rotate(0);
-    }
-
-    to{
-        opacity:0;
-        transform:translate(var(--x),var(--y)) scale(1.5) rotate(180deg);
-    }
+@keyframes spark{
+ from{opacity:1;transform:translate(0,0) scale(.5)}
+ to{opacity:0;transform:translate(var(--x),var(--y)) scale(1.5) rotate(180deg)}
 }
-
-@keyframes pop{
-    from{
-        opacity:.2;
-        transform:scale(.97);
-    }
-
-    to{
-        opacity:1;
-        transform:scale(1);
-    }
+@keyframes shake{
+ 0%,100%{transform:translateX(0)}
+ 25%{transform:translateX(-5px)}
+ 75%{transform:translateX(5px)}
 }
+@keyframes pop{from{opacity:.2;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 
-@keyframes float{
-    0%,100%{
-        transform:translateY(0) rotate(-2deg);
-    }
-
-    50%{
-        transform:translateY(-7px) rotate(2deg);
-    }
+@media(max-width:650px){
+ .app{padding:7px}
+ .status{grid-template-columns:1fr 1fr}
+ .game{padding:11px}
+ .pictures{gap:6px}
+ .picture{min-height:140px;padding:5px}
+ .scene{height:115px}
 }
-
-
-/* =========================
-   موبایل
-========================= */
-
-@media(max-width:720px){
-
-    .status{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .workshop{
-        grid-template-columns:1fr;
-    }
-
-    .canvas-card{
-        min-height:310px;
-    }
-
-    .drawing-area{
-        min-height:230px;
-    }
+@media(max-width:420px){
+ .pictures{grid-template-columns:1fr}
+ .picture{min-height:125px}
+ .scene{height:105px}
 }
-
-@media(max-width:450px){
-
-    .app{
-        padding:7px;
-    }
-
-    .game{
-        padding:11px;
-    }
-
-    .client-card{
-        grid-template-columns:1fr;
-        gap:4px;
-
-        text-align:center;
-    }
-
-    .client{
-        font-size:32px;
-    }
-
-    .drawing-area{
-        padding:20px 20px 35px 37px;
-    }
-}
-
 @media(prefers-reduced-motion:reduce){
-
-    *{
-        animation:none!important;
-        transition:none!important;
-    }
+ *{animation:none!important;transition:none!important}
 }
-
 </style>
 </head>
 
@@ -1216,455 +249,76 @@ button{
 <main class="app">
 
 <header class="hero">
-
-    <div class="badge">
-        🎓 ریاضی هفتم • فصل اول • درس ۲
-    </div>
-
-    <h1>
-        🏗️ کارگاه مهندس ریاضی
-    </h1>
-
-    <p>
-        مسئله را بخوان، شکل مناسب را بساز و شهر ریاضی را کامل کن!
-    </p>
-
+ <div class="badge">🎓 ریاضی هفتم • فصل اول • درس ۲</div>
+ <h1>🕵️ شکارچی تصویر</h1>
+ <p>شکل درست مسئله را شکار کن و تکه‌های نقشه گنج را پیدا کن!</p>
 </header>
-
 
 <section class="panel">
 
 <div id="gameScreen">
 
-    <!-- وضعیت -->
+ <div class="status">
+  <div class="stat"><small>🕵️ شکارچی</small><strong id="playerName">---</strong></div>
+  <div class="stat"><small>🧩 مرحله</small><strong id="questionNumber">۱ از ۱۰</strong></div>
+  <div class="stat"><small>⭐ امتیاز</small><strong id="score">۰</strong></div>
+  <div class="stat"><small>⏱️ زمان</small><strong id="timeStatus">۳۰ ثانیه</strong></div>
+ </div>
 
-    <div class="status">
+ <div class="game">
 
-        <div class="stat">
-            <small>👷 مهندس</small>
-            <strong id="playerName">---</strong>
-        </div>
+  <div class="treasure-progress" id="treasureProgress"></div>
 
-        <div class="stat">
-            <small>🏗️ پروژه</small>
-            <strong id="questionNumber">۱ از ۱۰</strong>
-        </div>
+  <div class="timer-head">
+   <span>⏱️ زمان شکار تصویر</span>
+   <strong id="timerNumber">۳۰</strong>
+  </div>
+  <div class="timer-track"><div class="timer-bar" id="timerBar"></div></div>
 
-        <div class="stat">
-            <small>⭐ امتیاز</small>
-            <strong id="score">۰</strong>
-        </div>
+  <div class="level-label" id="levelLabel">🧩 تکه نقشه ۱</div>
+  <div class="problem" id="problemText"></div>
 
-        <div class="stat">
-            <small>⏱️ زمان</small>
-            <strong id="timeStatus">۳۰ ثانیه</strong>
-        </div>
+  <div class="help">
+   👀 مسئله را در ذهن به یک شکل ساده تبدیل کن؛ سپس روی تصویر درست بزن.
+  </div>
 
-    </div>
+  <div class="pictures" id="pictures"></div>
 
+  <div class="feedback" id="feedback">
+   <strong id="feedbackTitle"></strong>
+   <div class="feedback-text" id="feedbackText"></div>
+  </div>
 
-    <!-- شهر -->
+  <button class="next" id="nextButton" type="button">تکه بعدی نقشه 🧩</button>
 
-    <div class="city">
-
-        <div class="city-sun"></div>
-
-        <div
-            class="city-buildings"
-            id="cityBuildings">
-        </div>
-
-        <div class="city-road"></div>
-
-    </div>
-
-
-    <div class="game">
-
-        <!-- تایمر -->
-
-        <div class="timer-head">
-
-            <span>
-                ⏱️ زمان تحویل پروژه
-            </span>
-
-            <strong id="timerNumber">
-                ۳۰
-            </strong>
-
-        </div>
-
-        <div class="timer-track">
-            <div
-                class="timer-bar"
-                id="timerBar">
-            </div>
-        </div>
-
-
-        <!-- سفارش -->
-
-        <div
-            class="project-label"
-            id="projectLabel">
-
-            📋 سفارش شماره ۱
-
-        </div>
-
-
-        <div class="client-card">
-
-            <div
-                class="client"
-                id="clientEmoji">
-
-                👨‍🌾
-
-            </div>
-
-            <div class="problem">
-
-                <span id="problemText"></span>
-
-                <span
-                    class="task"
-                    id="taskText">
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- کارگاه -->
-
-        <div class="workshop">
-
-            <!-- بوم -->
-
-            <div class="canvas-card">
-
-                <div class="canvas-title">
-                    ✏️ مدل تصویری تو
-                </div>
-
-
-                <div
-                    class="drawing-area"
-                    id="drawingArea">
-
-
-                    <div class="margin-note" id="marginNote">
-                    </div>
-
-
-                    <div class="model-wrap">
-
-                        <div
-                            class="outer-rect"
-                            id="outerRect">
-                        </div>
-
-                        <div
-                            class="inner-rect"
-                            id="innerRect">
-                        </div>
-
-                        <div
-                            class="dim-label dim-width"
-                            id="widthLabel">
-                        </div>
-
-                        <div
-                            class="dim-label dim-height"
-                            id="heightLabel">
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- ابزارها -->
-
-            <div class="tools">
-
-                <h3>
-                    🧰 جعبه ابزار مهندس
-                </h3>
-
-                <p class="tool-help">
-                    از روی متن مسئله ابعاد «شکل موردنیاز» را بساز.
-                </p>
-
-
-                <!-- طول -->
-
-                <div class="control">
-
-                    <div class="control-label">
-
-                        <span>
-                            ↔️ طول مدل
-                        </span>
-
-                        <span
-                            class="control-value"
-                            id="widthValue">
-
-                            ۱
-
-                        </span>
-
-                    </div>
-
-                    <div class="stepper">
-
-                        <button
-                            class="step-btn minus"
-                            data-action="width-minus"
-                            type="button">
-
-                            −
-
-                        </button>
-
-                        <div
-                            class="number-display"
-                            id="widthDisplay">
-
-                            ۱
-
-                        </div>
-
-                        <button
-                            class="step-btn"
-                            data-action="width-plus"
-                            type="button">
-
-                            +
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- عرض -->
-
-                <div class="control">
-
-                    <div class="control-label">
-
-                        <span>
-                            ↕️ عرض مدل
-                        </span>
-
-                        <span
-                            class="control-value"
-                            id="heightValue">
-
-                            ۱
-
-                        </span>
-
-                    </div>
-
-                    <div class="stepper">
-
-                        <button
-                            class="step-btn minus"
-                            data-action="height-minus"
-                            type="button">
-
-                            −
-
-                        </button>
-
-                        <div
-                            class="number-display"
-                            id="heightDisplay">
-
-                            ۱
-
-                        </div>
-
-                        <button
-                            class="step-btn"
-                            data-action="height-plus"
-                            type="button">
-
-                            +
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- نوع مدل -->
-
-                <div class="mode-box">
-
-                    <strong>
-                        🖼️ کدام مستطیل را می‌سازی؟
-                    </strong>
-
-                    <div class="mode-buttons">
-
-                        <button
-                            type="button"
-                            class="mode-btn active"
-                            data-mode="original">
-
-                            شکل اصلی
-
-                        </button>
-
-                        <button
-                            type="button"
-                            class="mode-btn"
-                            data-mode="changed">
-
-                            شکل بعد از حاشیه
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="submit"
-                    type="button"
-                    id="submitButton">
-
-                    🔨 مدل را ساختم!
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- بازخورد -->
-
-        <div
-            class="feedback"
-            id="feedback">
-
-            <strong id="feedbackTitle"></strong>
-
-            <div
-                class="feedback-text"
-                id="feedbackText">
-            </div>
-
-        </div>
-
-
-        <button
-            class="next-btn"
-            id="nextButton"
-            type="button">
-
-            پروژه بعدی 🏗️
-
-        </button>
-
-    </div>
-
+ </div>
 </div>
 
+<div class="result" id="resultScreen">
+ <div class="chest">🗺️💎</div>
+ <h2>نقشه گنج کامل شد!</h2>
+ <p>شکارچی تصویر: <strong id="resultName"></strong></p>
 
-<!-- نتیجه -->
+ <div class="final-score">
+  <strong id="finalScore">۰</strong>
+  <span>از 100 امتیاز</span>
+ </div>
 
-<div
-    class="result"
-    id="resultScreen">
+ <div class="motivation" id="motivation"></div>
 
-    <div class="trophy">
-        🏙️🏆
-    </div>
+ <div class="leaderboard">
+  <h3>🏅 برترین شکارچی‌ها</h3>
+  <div id="leaderboardContent" class="loading">در حال دریافت جدول برترین‌ها...</div>
+ </div>
 
-    <h2>
-        شهر ریاضی ساخته شد!
-    </h2>
-
-    <p>
-        مهندس شهر:
-        <strong id="resultName"></strong>
-    </p>
-
-
-    <div class="final-score">
-
-        <strong id="finalScore">
-            ۰
-        </strong>
-
-        <span>
-            از 100 امتیاز
-        </span>
-
-    </div>
-
-
-    <div
-        class="motivation"
-        id="motivation">
-    </div>
-
-
-    <div class="leaderboard">
-
-        <h3>
-            🏅 برترین مهندس‌ها
-        </h3>
-
-        <div
-            id="leaderboardContent"
-            class="loading">
-
-            در حال دریافت جدول برترین‌ها...
-
-        </div>
-
-    </div>
-
-
-    <button
-        type="button"
-        class="restart"
-        id="restartButton">
-
-        🔄 ساخت یک شهر جدید
-
-    </button>
-
+ <button class="restart" id="restartButton" type="button">🔄 شکار دوباره</button>
 </div>
 
 </section>
 
-
-<a
-    class="back"
-    href="/#game">
-
-    ← بازگشت به بازی‌های ریاضی
-
-</a>
+<a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
 
 </main>
-
 
 <script src="/games/game-sdk.js"></script>
 
@@ -1678,1963 +332,851 @@ const QUESTION_TIME = 30;
 const player = GameSDK.init(GAME_ID);
 
 
-/* =========================================
-   بانک پروژه
-========================================= */
+/* =====================================================
+   تصاویر SVG
+===================================================== */
 
-/*
- type:
+function svgGardenOuter(correctType){
 
- outer:
- شکل جدید بیرون شکل اصلی ساخته می‌شود.
- هر طرف margin واحد بیرون‌تر است.
- پس هر بُعد 2×margin بیشتر می‌شود.
+ const map={correct:"outer",inside:"inside",side:"side"};
+ const type=map[correctType];
 
- inner:
- مسیر/حاشیه داخل شکل ساخته می‌شود.
- پس هر بُعد 2×margin کمتر می‌شود.
+ if(type==="outer"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <rect x="42" y="33" width="116" height="64" rx="3" fill="#8bd36c" stroke="#32904a" stroke-width="3"/>
+   <circle cx="75" cy="60" r="10" fill="#f472b6"/><circle cx="120" cy="70" r="9" fill="#fbbf24"/>
+   <rect x="25" y="17" width="150" height="96" rx="4" fill="none" stroke="#8b5cf6" stroke-width="5" stroke-dasharray="8 5"/>
+  </svg>`;
+ }
 
- original:
- فقط مدل خود مستطیل اصلی لازم است.
+ if(type==="inside"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <rect x="30" y="20" width="140" height="90" rx="3" fill="#8bd36c" stroke="#32904a" stroke-width="3"/>
+   <circle cx="68" cy="52" r="10" fill="#f472b6"/><circle cx="126" cy="77" r="9" fill="#fbbf24"/>
+   <rect x="52" y="40" width="96" height="50" fill="none" stroke="#8b5cf6" stroke-width="5" stroke-dasharray="8 5"/>
+  </svg>`;
+ }
 
- در همه حالات پاسخ قطعی و صحیح است.
-*/
+ return `
+ <svg viewBox="0 0 200 130">
+  <rect x="35" y="28" width="120" height="74" fill="#8bd36c" stroke="#32904a" stroke-width="3"/>
+  <circle cx="70" cy="58" r="10" fill="#f472b6"/>
+  <path d="M155 28 L178 28 L178 102 L155 102" fill="none" stroke="#8b5cf6" stroke-width="5" stroke-dasharray="8 5"/>
+ </svg>`;
+}
 
-const PROJECT_BANK = [
+
+function svgBounce(type){
+
+ if(type==="full"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <line x1="18" y1="112" x2="185" y2="112" stroke="#64748b" stroke-width="4"/>
+   <circle cx="38" cy="22" r="9" fill="#f472b6"/>
+   <path d="M38 31 Q38 72 62 108 Q88 64 110 108 Q133 82 150 108"
+    fill="none" stroke="#8b5cf6" stroke-width="5"/>
+   <path d="M57 102 l5 8 5-8M104 102 l6 8 5-8" fill="none" stroke="#fb923c" stroke-width="3"/>
+  </svg>`;
+ }
+
+ if(type==="onlydown"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <line x1="18" y1="112" x2="185" y2="112" stroke="#64748b" stroke-width="4"/>
+   <circle cx="70" cy="22" r="9" fill="#f472b6"/>
+   <path d="M70 31 L70 108" stroke="#8b5cf6" stroke-width="5"/>
+  </svg>`;
+ }
+
+ return `
+ <svg viewBox="0 0 200 130">
+  <line x1="18" y1="112" x2="185" y2="112" stroke="#64748b" stroke-width="4"/>
+  <circle cx="45" cy="22" r="9" fill="#f472b6"/>
+  <path d="M45 31 Q72 62 95 78 Q122 57 155 30" fill="none" stroke="#8b5cf6" stroke-width="5"/>
+ </svg>`;
+}
+
+
+function svgFrog(type){
+
+ if(type==="zig"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <rect x="155" y="10" width="18" height="110" fill="#a87953"/>
+   <path d="M25 112 L65 75 L48 92 L95 52 L77 68 L145 15"
+    fill="none" stroke="#8b5cf6" stroke-width="5"/>
+   <text x="18" y="110" font-size="24">🐸</text>
+  </svg>`;
+ }
+
+ if(type==="straight"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <rect x="155" y="10" width="18" height="110" fill="#a87953"/>
+   <path d="M32 108 L145 18" stroke="#8b5cf6" stroke-width="5"/>
+   <text x="15" y="116" font-size="25">🐸</text>
+  </svg>`;
+ }
+
+ return `
+ <svg viewBox="0 0 200 130">
+  <rect x="155" y="10" width="18" height="110" fill="#a87953"/>
+  <path d="M25 110 Q55 30 92 55 Q125 78 145 17" fill="none" stroke="#8b5cf6" stroke-width="5"/>
+  <text x="12" y="118" font-size="25">🐸</text>
+ </svg>`;
+}
+
+
+function svgLinePoints(type){
+
+ if(type==="ordered"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <line x1="22" y1="68" x2="178" y2="68" stroke="#64748b" stroke-width="3"/>
+   ${[35,73,123,163].map((x,i)=>`<circle cx="${x}" cy="68" r="7" fill="#38bdf8"/><text x="${x-5}" y="52" font-size="13">${["A","B","C","D"][i]}</text>`).join("")}
+  </svg>`;
+ }
+
+ if(type==="square"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <rect x="50" y="25" width="90" height="75" fill="none" stroke="#64748b" stroke-width="3"/>
+   <circle cx="50" cy="25" r="7" fill="#38bdf8"/><circle cx="140" cy="25" r="7" fill="#38bdf8"/>
+   <circle cx="50" cy="100" r="7" fill="#38bdf8"/><circle cx="140" cy="100" r="7" fill="#38bdf8"/>
+  </svg>`;
+ }
+
+ return `
+ <svg viewBox="0 0 200 130">
+  <circle cx="35" cy="30" r="7" fill="#38bdf8"/><circle cx="85" cy="96" r="7" fill="#38bdf8"/>
+  <circle cx="130" cy="35" r="7" fill="#38bdf8"/><circle cx="165" cy="88" r="7" fill="#38bdf8"/>
+ </svg>`;
+}
+
+
+function svgCube(type){
+
+ if(type==="layers"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <g stroke="#4d7aa1" stroke-width="2">
+    <rect x="47" y="30" width="90" height="75" fill="#bfdbfe"/>
+    ${[1,2].map(i=>`<line x1="${47+i*30}" y1="30" x2="${47+i*30}" y2="105"/>`).join("")}
+    ${[1,2].map(i=>`<line x1="47" y1="${30+i*25}" x2="137" y2="${30+i*25}"/>`).join("")}
+    <rect x="78" y="56" width="28" height="23" fill="#fbbf24"/>
+   </g>
+  </svg>`;
+ }
+
+ if(type==="single"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <rect x="65" y="30" width="70" height="70" fill="#bfdbfe" stroke="#4d7aa1" stroke-width="3"/>
+  </svg>`;
+ }
+
+ return `
+ <svg viewBox="0 0 200 130">
+  <g fill="#bfdbfe" stroke="#4d7aa1" stroke-width="2">
+   <rect x="35" y="65" width="30" height="30"/><rect x="70" y="45" width="30" height="30"/>
+   <rect x="105" y="65" width="30" height="30"/><rect x="140" y="40" width="30" height="30"/>
+  </g>
+ </svg>`;
+}
+
+
+function svgPool(type){
+
+ if(type==="inside"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <rect x="26" y="22" width="148" height="88" rx="4" fill="#f8d184" stroke="#ba8135" stroke-width="3"/>
+   <rect x="49" y="43" width="102" height="46" rx="3" fill="#67d4ee" stroke="#1596bd" stroke-width="3"/>
+  </svg>`;
+ }
+
+ if(type==="outside"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <rect x="48" y="40" width="105" height="50" fill="#67d4ee" stroke="#1596bd" stroke-width="3"/>
+   <rect x="26" y="20" width="149" height="90" fill="none" stroke="#f472b6" stroke-width="6"/>
+  </svg>`;
+ }
+
+ return `
+ <svg viewBox="0 0 200 130">
+  <ellipse cx="100" cy="65" rx="70" ry="38" fill="#67d4ee" stroke="#1596bd" stroke-width="3"/>
+ </svg>`;
+}
+
+
+function svgRope(type){
+
+ if(type==="rectangle"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <rect x="45" y="30" width="110" height="70" fill="#b7e78c" stroke="#4c9b48" stroke-width="3"/>
+   <path d="M35 20 H165 V110 H35 Z" fill="none" stroke="#f472b6" stroke-width="5" stroke-dasharray="7 5"/>
+  </svg>`;
+ }
+
+ if(type==="diagonal"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <rect x="45" y="30" width="110" height="70" fill="#b7e78c" stroke="#4c9b48" stroke-width="3"/>
+   <line x1="45" y1="30" x2="155" y2="100" stroke="#f472b6" stroke-width="5"/>
+  </svg>`;
+ }
+
+ return `
+ <svg viewBox="0 0 200 130">
+  <rect x="45" y="30" width="110" height="70" fill="#b7e78c" stroke="#4c9b48" stroke-width="3"/>
+  <path d="M45 30 H155 V100" fill="none" stroke="#f472b6" stroke-width="5" stroke-dasharray="7 5"/>
+ </svg>`;
+}
+
+
+function svgJump(type){
+
+ if(type==="step"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <line x1="22" y1="108" x2="178" y2="108" stroke="#64748b" stroke-width="3"/>
+   <path d="M28 104 Q55 52 78 84 Q103 33 128 66 Q150 20 173 25"
+    fill="none" stroke="#8b5cf6" stroke-width="5"/>
+   <text x="17" y="106" font-size="22">🐇</text>
+  </svg>`;
+ }
+
+ if(type==="flat"){
+  return `
+  <svg viewBox="0 0 200 130">
+   <line x1="22" y1="108" x2="178" y2="108" stroke="#64748b" stroke-width="3"/>
+   <path d="M30 100 Q80 25 170 100" fill="none" stroke="#8b5cf6" stroke-width="5"/>
+   <text x="18" y="108" font-size="22">🐇</text>
+  </svg>`;
+ }
+
+ return `
+ <svg viewBox="0 0 200 130">
+  <line x1="22" y1="108" x2="178" y2="108" stroke="#64748b" stroke-width="3"/>
+  <path d="M30 103 L168 25" stroke="#8b5cf6" stroke-width="5"/>
+  <text x="18" y="108" font-size="22">🐇</text>
+ </svg>`;
+}
+
+
+/* =====================================================
+   بانک مراحل
+===================================================== */
+
+const BANK=[
 
 {
-    type:"outer",
-    client:"👨‍🌾",
-    length:8,
-    width:5,
-    margin:1,
-    object:"باغچه",
-    action:"می‌خواهیم نرده را یک متر بیرون‌تر از هر چهار طرف باغچه بکشیم.",
-    task:"مستطیلی را بساز که نرده روی مرز آن قرار می‌گیرد."
+ q:"باغچه‌ای مستطیلی داریم و می‌خواهیم نرده را یک متر بیرون‌تر از هر چهار ضلع آن بکشیم. کدام شکل مسئله را درست مدل می‌کند؟",
+ pics:[
+  ()=>svgGardenOuter("outer"),
+  ()=>svgGardenOuter("inside"),
+  ()=>svgGardenOuter("side")
+ ],
+ answer:0,
+ exp:"چون نرده بیرون باغچه و از هر چهار طرف فاصله دارد، باید یک مستطیل بزرگ‌تر دور باغچه رسم کنیم."
 },
 
 {
-    type:"outer",
-    client:"🌳",
-    length:10,
-    width:6,
-    margin:1,
-    object:"پارک",
-    action:"قرار است یک مسیر یک‌متری در بیرون و دور تا دور پارک ساخته شود.",
-    task:"مرز بیرونی مسیر را به شکل یک مستطیل مدل کن."
+ q:"توپی از ارتفاعی رها می‌شود، به زمین می‌خورد و دوباره بالا می‌آید. برای محاسبه کل مسافت حرکت، کدام شکل مفیدتر است؟",
+ pics:[
+  ()=>svgBounce("onlydown"),
+  ()=>svgBounce("full"),
+  ()=>svgBounce("wrong")
+ ],
+ answer:1,
+ exp:"برای مسافت کل باید هم مسیر پایین‌آمدن و هم بالا رفتن‌های توپ در شکل دیده شوند."
 },
 
 {
-    type:"outer",
-    client:"🏠",
-    length:7,
-    width:4,
-    margin:2,
-    object:"زمین بازی",
-    action:"حصاری باید دو متر بیرون‌تر از هر ضلع زمین قرار بگیرد.",
-    task:"ابعاد مستطیل حصار را روی بوم بساز."
+ q:"قورباغه با هر جهش بالا می‌رود و سپس کمی سُر می‌خورد. کدام شکل این وضعیت را بهتر نمایش می‌دهد؟",
+ pics:[
+  ()=>svgFrog("straight"),
+  ()=>svgFrog("curve"),
+  ()=>svgFrog("zig")
+ ],
+ answer:2,
+ exp:"حرکت قورباغه شامل بالا رفتن و پایین آمدن‌های پیاپی است؛ شکل پله‌ای این رابطه را روشن‌تر می‌کند."
 },
 
 {
-    type:"outer",
-    client:"🌷",
-    length:9,
-    width:5,
-    margin:1,
-    object:"باغ گل",
-    action:"یک ردیف سنگ‌فرش به عرض یک متر بیرون باغ و دور تا دور آن ساخته می‌شود.",
-    task:"مرز بیرونی سنگ‌فرش را مدل کن."
+ q:"چهار نقطه A، B، C و D به همین ترتیب روی یک خط قرار دارند. کدام مدل برای نشان دادن مسئله مناسب است؟",
+ pics:[
+  ()=>svgLinePoints("random"),
+  ()=>svgLinePoints("ordered"),
+  ()=>svgLinePoints("square")
+ ],
+ answer:1,
+ exp:"عبارت «روی یک خط و به همین ترتیب» باید با چهار نقطه مرتب روی یک خط نمایش داده شود."
 },
 
 {
-    type:"outer",
-    client:"🏕️",
-    length:6,
-    width:3,
-    margin:2,
-    object:"محوطه چادر",
-    action:"طناب ایمنی باید دو متر دورتر از هر چهار ضلع محوطه بسته شود.",
-    task:"مستطیل طناب ایمنی را بساز."
+ q:"یک مکعب بزرگ از مکعب‌های کوچک ساخته شده و می‌خواهیم مکعب‌های داخلی آن را پیدا کنیم. کدام مدل دید بهتری می‌دهد؟",
+ pics:[
+  ()=>svgCube("random"),
+  ()=>svgCube("layers"),
+  ()=>svgCube("single")
+ ],
+ answer:1,
+ exp:"شبکه لایه‌ای کمک می‌کند پوسته بیرونی و قسمت داخلی مکعب را از هم تشخیص دهیم."
 },
 
 {
-    type:"inner",
-    client:"🏊",
-    length:12,
-    width:8,
-    margin:1,
-    object:"محوطه استخر",
-    action:"یک مسیر یک‌متری در داخل محوطه و چسبیده به هر چهار ضلع ساخته می‌شود.",
-    task:"مستطیل باقی‌مانده در وسط مسیر را بساز."
+ q:"یک مسیر یک‌متری داخل محوطه مستطیلی استخر و دور تا دور آن ساخته شده است. کدام تصویر مدل مناسب‌تری است؟",
+ pics:[
+  ()=>svgPool("outside"),
+  ()=>svgPool("circle"),
+  ()=>svgPool("inside")
+ ],
+ answer:2,
+ exp:"چون مسیر داخل محوطه است، باید مستطیل کوچک‌تری درون مستطیل اصلی دیده شود."
 },
 
 {
-    type:"inner",
-    client:"⚽",
-    length:14,
-    width:10,
-    margin:2,
-    object:"زمین ورزشی",
-    action:"نواری به عرض دو متر از داخل و دور تا دور زمین برای تماشاگران کنار گذاشته می‌شود.",
-    task:"ابعاد قسمت مستطیلی باقی‌مانده برای بازی را بساز."
+ q:"می‌خواهیم طنابی با فاصله مشخص دور تا دور یک زمین مستطیلی بکشیم. کدام شکل بهتر است؟",
+ pics:[
+  ()=>svgRope("diagonal"),
+  ()=>svgRope("rectangle"),
+  ()=>svgRope("half")
+ ],
+ answer:1,
+ exp:"طناب دور تا دور زمین قرار دارد، پس باید یک مرز بسته و مستطیلی اطراف زمین رسم شود."
 },
 
 {
-    type:"inner",
-    client:"🌲",
-    length:11,
-    width:7,
-    margin:1,
-    object:"باغ",
-    action:"یک مسیر یک‌متری از داخل باغ و در امتداد هر چهار ضلع ساخته می‌شود.",
-    task:"مستطیل داخلی باقی‌مانده را مدل کن."
+ q:"خرگوش چند پرش انجام می‌دهد و در هر پرش به نقطه‌ای جلوتر و بالاتر می‌رسد. برای شمردن پرش‌ها کدام مدل مفیدتر است؟",
+ pics:[
+  ()=>svgJump("flat"),
+  ()=>svgJump("step"),
+  ()=>svgJump("line")
+ ],
+ answer:1,
+ exp:"نمایش جداگانه هر پرش باعث می‌شود تعداد حرکت‌ها و نقاط فرود به‌سادگی شمرده شوند."
 },
 
 {
-    type:"inner",
-    client:"🎪",
-    length:13,
-    width:9,
-    margin:2,
-    object:"محوطه جشن",
-    action:"از داخل محوطه، نواری دو متری در کنار همه ضلع‌ها برای رفت‌وآمد در نظر گرفته شده است.",
-    task:"مستطیل مرکزی باقی‌مانده را بساز."
+ q:"برای بررسی فاصله میان چند نقطه که همگی روی یک مسیر مستقیم‌اند، کدام شکل مناسب‌تر است؟",
+ pics:[
+  ()=>svgLinePoints("ordered"),
+  ()=>svgLinePoints("square"),
+  ()=>svgLinePoints("random")
+ ],
+ answer:0,
+ exp:"وقتی نقاط روی مسیر مستقیم‌اند، قرار دادن آنها روی یک خط ساده‌ترین مدل مسئله است."
 },
 
 {
-    type:"inner",
-    client:"🏫",
-    length:10,
-    width:8,
-    margin:1,
-    object:"حیاط مدرسه",
-    action:"یک نوار یک‌متری از داخل حیاط و دور تا دور آن برای باغچه کنار گذاشته می‌شود.",
-    task:"ابعاد بخش مرکزی حیاط را مدل کن."
+ q:"یک نوار از داخل و دور تا دور زمین مستطیلی کنار گذاشته شده است. برای دیدن قسمت باقی‌مانده کدام مدل مناسب است؟",
+ pics:[
+  ()=>svgGardenOuter("inside"),
+  ()=>svgGardenOuter("outer"),
+  ()=>svgGardenOuter("side")
+ ],
+ answer:0,
+ exp:"نوار داخلی باعث می‌شود قسمت باقی‌مانده یک مستطیل کوچک‌تر در مرکز شکل باشد."
 },
 
 {
-    type:"original",
-    client:"🏡",
-    length:9,
-    width:6,
-    margin:0,
-    object:"زمین خانه",
-    action:"می‌خواهیم قبل از هر محاسبه یک شکل ساده از زمین داشته باشیم.",
-    task:"خود مستطیل زمین را با ابعاد داده‌شده بساز."
+ q:"حصاری باید در بیرون یک زمین و دور همه ضلع‌های آن قرار گیرد. کدام شکل احتمال اشتباه در محاسبه را کمتر می‌کند؟",
+ pics:[
+  ()=>svgRope("half"),
+  ()=>svgRope("rectangle"),
+  ()=>svgRope("diagonal")
+ ],
+ answer:1,
+ exp:"مدل بسته دور مستطیل نشان می‌دهد حصار باید هر چهار ضلع را پوشش دهد."
 },
 
 {
-    type:"original",
-    client:"🧑‍🌾",
-    length:12,
-    width:5,
-    margin:0,
-    object:"مزرعه",
-    action:"برای شروع حل مسئله باید اندازه‌های مزرعه را روی یک شکل ساده نشان دهیم.",
-    task:"مدل مستطیلی خود مزرعه را بساز."
-},
-
-{
-    type:"outer",
-    client:"🐑",
-    length:5,
-    width:3,
-    margin:1,
-    object:"آغل",
-    action:"حصاری یک متر بیرون‌تر از هر طرف آغل نصب می‌شود.",
-    task:"مدل مرز حصار را بساز."
-},
-
-{
-    type:"inner",
-    client:"🌻",
-    length:12,
-    width:10,
-    margin:2,
-    object:"باغ آفتابگردان",
-    action:"یک مسیر دو متری در داخل باغ و دور تا دور آن قرار می‌گیرد.",
-    task:"ابعاد قسمت مرکزی باغ را بساز."
-},
-
-{
-    type:"outer",
-    client:"🚗",
-    length:9,
-    width:4,
-    margin:1,
-    object:"پارکینگ",
-    action:"خط ایمنی یک متر بیرون‌تر از تمام ضلع‌های پارکینگ رسم می‌شود.",
-    task:"مرز مستطیلی خط ایمنی را مدل کن."
-},
-
-{
-    type:"inner",
-    client:"🛝",
-    length:15,
-    width:9,
-    margin:1,
-    object:"زمین بازی کودکان",
-    action:"یک مسیر یک‌متری در داخل و دور تا دور زمین ساخته می‌شود.",
-    task:"قسمت مرکزی زمین را مدل کن."
+ q:"می‌خواهیم حرکت چندباره یک جسم بین زمین و ارتفاع‌های مختلف را بررسی کنیم. کدام مدل اطلاعات بیشتری به ما می‌دهد؟",
+ pics:[
+  ()=>svgBounce("full"),
+  ()=>svgBounce("onlydown"),
+  ()=>svgBounce("wrong")
+ ],
+ answer:0,
+ exp:"شکل رفت‌وبرگشت، تمام بخش‌های مسیر را نشان می‌دهد و برای محاسبه مسافت مناسب‌تر است."
 }
 
 ];
 
 
-/* =========================================
+/* =====================================================
    وضعیت
-========================================= */
+===================================================== */
 
-let projects=[];
-
+let questions=[];
 let currentIndex=0;
-
 let score=0;
-
 let answerChecked=false;
-
 let questionStartTime=0;
-
 let timerInterval=null;
-
 let gameFinished=false;
-
 let finishSubmitted=false;
 
 
-/* مدل ساخته‌شده بازیکن */
+/* DOM */
 
-let modelLength=1;
+const $=id=>document.getElementById(id);
 
-let modelWidth=1;
-
-let selectedMode="original";
-
-
-/* =========================================
-   DOM
-========================================= */
-
-const playerNameEl=
-    document.getElementById("playerName");
-
-const questionNumberEl=
-    document.getElementById("questionNumber");
-
-const scoreEl=
-    document.getElementById("score");
-
-const timeStatusEl=
-    document.getElementById("timeStatus");
-
-const timerNumberEl=
-    document.getElementById("timerNumber");
-
-const timerBarEl=
-    document.getElementById("timerBar");
-
-const cityBuildingsEl=
-    document.getElementById("cityBuildings");
-
-const projectLabelEl=
-    document.getElementById("projectLabel");
-
-const clientEmojiEl=
-    document.getElementById("clientEmoji");
-
-const problemTextEl=
-    document.getElementById("problemText");
-
-const taskTextEl=
-    document.getElementById("taskText");
-
-const outerRectEl=
-    document.getElementById("outerRect");
-
-const innerRectEl=
-    document.getElementById("innerRect");
-
-const widthLabelEl=
-    document.getElementById("widthLabel");
-
-const heightLabelEl=
-    document.getElementById("heightLabel");
-
-const marginNoteEl=
-    document.getElementById("marginNote");
-
-const widthValueEl=
-    document.getElementById("widthValue");
-
-const heightValueEl=
-    document.getElementById("heightValue");
-
-const widthDisplayEl=
-    document.getElementById("widthDisplay");
-
-const heightDisplayEl=
-    document.getElementById("heightDisplay");
-
-const stepButtons=[
-    ...document.querySelectorAll(
-        ".step-btn"
-    )
-];
-
-const modeButtons=[
-    ...document.querySelectorAll(
-        ".mode-btn"
-    )
-];
-
-const submitButton=
-    document.getElementById("submitButton");
-
-const feedbackEl=
-    document.getElementById("feedback");
-
-const feedbackTitleEl=
-    document.getElementById("feedbackTitle");
-
-const feedbackTextEl=
-    document.getElementById("feedbackText");
-
-const nextButton=
-    document.getElementById("nextButton");
-
-const gameScreen=
-    document.getElementById("gameScreen");
-
-const resultScreen=
-    document.getElementById("resultScreen");
-
-const resultNameEl=
-    document.getElementById("resultName");
-
-const finalScoreEl=
-    document.getElementById("finalScore");
-
-const motivationEl=
-    document.getElementById("motivation");
-
-const leaderboardContent=
-    document.getElementById(
-        "leaderboardContent"
-    );
-
-const restartButton=
-    document.getElementById(
-        "restartButton"
-    );
+const playerNameEl=$("playerName");
+const questionNumberEl=$("questionNumber");
+const scoreEl=$("score");
+const timeStatusEl=$("timeStatus");
+const timerNumberEl=$("timerNumber");
+const timerBarEl=$("timerBar");
+const treasureProgressEl=$("treasureProgress");
+const levelLabelEl=$("levelLabel");
+const problemTextEl=$("problemText");
+const picturesEl=$("pictures");
+const feedbackEl=$("feedback");
+const feedbackTitleEl=$("feedbackTitle");
+const feedbackTextEl=$("feedbackText");
+const nextButton=$("nextButton");
+const gameScreen=$("gameScreen");
+const resultScreen=$("resultScreen");
+const resultNameEl=$("resultName");
+const finalScoreEl=$("finalScore");
+const motivationEl=$("motivation");
+const leaderboardContent=$("leaderboardContent");
+const restartButton=$("restartButton");
 
 
-/* =========================================
-   ابزارها
-========================================= */
+/* ابزار */
 
-function faNumber(value){
+function faNumber(v){
+ return String(v).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
 
-    return String(value)
-        .replace(
-            /\d/g,
-            d=>"۰۱۲۳۴۵۶۷۸۹"[d]
-        );
+function shuffle(a){
+ const x=[...a];
+ for(let i=x.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [x[i],x[j]]=[x[j],x[i]];
+ }
+ return x;
+}
+
+function pointsForTime(s){
+ if(s<=5)return 10;
+ if(s<=10)return 8;
+ if(s<=15)return 6;
+ if(s<=20)return 4;
+ if(s<=30)return 2;
+ return 0;
 }
 
 
-function shuffle(array){
+/* آماده‌سازی سؤال با جابه‌جایی تصاویر */
 
-    const copy=[...array];
+function prepareQuestions(){
 
-    for(
-        let i=copy.length-1;
-        i>0;
-        i--
-    ){
+ questions=shuffle(BANK).slice(0,TOTAL_QUESTIONS).map(q=>{
 
-        const j=
-            Math.floor(
-                Math.random()*(i+1)
-            );
+  const items=q.pics.map((make,i)=>({
+   make,
+   correct:i===q.answer
+  }));
 
-        [copy[i],copy[j]]=
-        [copy[j],copy[i]];
-    }
+  const mixed=shuffle(items);
 
-    return copy;
+  return{
+   ...q,
+   mixed,
+   correctIndex:mixed.findIndex(x=>x.correct)
+  };
+ });
 }
 
 
-function pointsForTime(seconds){
+/* نقشه گنج */
 
-    if(seconds<=5) return 10;
+function buildTreasureProgress(){
+ treasureProgressEl.innerHTML="";
+ for(let i=0;i<TOTAL_QUESTIONS;i++){
+  const p=document.createElement("div");
+  p.className="piece";
+  p.textContent="🧩";
+  treasureProgressEl.appendChild(p);
+ }
+}
 
-    if(seconds<=10) return 8;
-
-    if(seconds<=15) return 6;
-
-    if(seconds<=20) return 4;
-
-    if(seconds<=30) return 2;
-
-    return 0;
+function updateTreasure(){
+ [...treasureProgressEl.children].forEach((p,i)=>{
+  p.classList.toggle("found",i<currentIndex);
+ });
 }
 
 
-/* =========================================
-   جواب قطعی پروژه
-========================================= */
-
-function getCorrectModel(project){
-
-    if(project.type==="outer"){
-
-        return{
-
-            length:
-                project.length+
-                2*project.margin,
-
-            width:
-                project.width+
-                2*project.margin,
-
-            mode:"changed"
-
-        };
-    }
-
-
-    if(project.type==="inner"){
-
-        return{
-
-            length:
-                project.length-
-                2*project.margin,
-
-            width:
-                project.width-
-                2*project.margin,
-
-            mode:"changed"
-
-        };
-    }
-
-
-    return{
-
-        length:project.length,
-
-        width:project.width,
-
-        mode:"original"
-
-    };
-}
-
-
-/* =========================================
-   کنترل اعتبار بانک
-========================================= */
-
-function validProject(project){
-
-    const answer=
-        getCorrectModel(project);
-
-
-    return(
-        Number.isInteger(answer.length) &&
-        Number.isInteger(answer.width) &&
-        answer.length>0 &&
-        answer.width>0 &&
-        answer.length<=20 &&
-        answer.width<=20
-    );
-}
-
-
-function prepareProjects(){
-
-    const valid=
-        PROJECT_BANK.filter(
-            validProject
-        );
-
-
-    projects=
-        shuffle(valid)
-        .slice(
-            0,
-            TOTAL_QUESTIONS
-        );
-}
-
-
-/* =========================================
-   شهر
-========================================= */
-
-function buildCity(){
-
-    cityBuildingsEl.innerHTML="";
-
-
-    const emojis=[
-        "🏠",
-        "🏢",
-        "🏫",
-        "🏪",
-        "🏡",
-        "🏨",
-        "🏛️",
-        "🏭",
-        "🏰",
-        "🌆"
-    ];
-
-
-    for(
-        let i=0;
-        i<TOTAL_QUESTIONS;
-        i++
-    ){
-
-        const building=
-            document.createElement(
-                "div"
-            );
-
-
-        building.className=
-            "building";
-
-
-        building.textContent=
-            emojis[i];
-
-
-        building.style.height=
-            (
-                18+
-                (i%4)*5
-            )+"px";
-
-
-        cityBuildingsEl
-            .appendChild(
-                building
-            );
-    }
-}
-
-
-function updateCity(){
-
-    [
-        ...cityBuildingsEl.children
-    ].forEach(
-        (building,index)=>{
-
-            const done=
-                index<currentIndex ||
-                gameFinished;
-
-
-            building.classList.toggle(
-                "done",
-                done
-            );
-
-
-            if(done){
-
-                building.style.height=
-                    (
-                        48+
-                        (index%4)*12
-                    )+"px";
-            }
-
-        }
-    );
-}
-
-
-/* =========================================
-   مدل تصویری
-========================================= */
-
-function fitDimensions(
-    length,
-    width,
-    maxW=88,
-    maxH=78
-){
-
-    const maxDimension=
-        Math.max(
-            length,
-            width
-        );
-
-
-    return{
-
-        w:
-            Math.max(
-                28,
-                length/
-                maxDimension*
-                maxW
-            ),
-
-        h:
-            Math.max(
-                25,
-                width/
-                maxDimension*
-                maxH
-            )
-
-    };
-}
-
-
-function renderModel(){
-
-    const current=
-        projects[currentIndex];
-
-
-    if(!current){
-        return;
-    }
-
-
-    widthValueEl.textContent=
-        faNumber(modelLength);
-
-    heightValueEl.textContent=
-        faNumber(modelWidth);
-
-    widthDisplayEl.textContent=
-        faNumber(modelLength);
-
-    heightDisplayEl.textContent=
-        faNumber(modelWidth);
-
-
-    widthLabelEl.textContent=
-        "طول: "+
-        faNumber(modelLength);
-
-    heightLabelEl.textContent=
-        "عرض: "+
-        faNumber(modelWidth);
-
-
-    const size=
-        fitDimensions(
-            modelLength,
-            modelWidth
-        );
-
-
-    /*
-      مدل ساخته‌شده توسط دانش‌آموز
-      با outerRect نشان داده می‌شود.
-    */
-
-    outerRectEl.style.width=
-        size.w+"%";
-
-    outerRectEl.style.height=
-        size.h+"%";
-
-
-    /*
-      اگر حالت changed باشد، شکل اصلی
-      را داخل/بیرون مدل به صورت راهنما نشان می‌دهیم.
-    */
-
-    if(
-        selectedMode==="changed"
-    ){
-
-        innerRectEl.style.display=
-            "flex";
-
-
-        const originalSize=
-            fitDimensions(
-                current.length,
-                current.width
-            );
-
-
-        if(current.type==="outer"){
-
-            /*
-              شکل اصلی باید از شکل ساخته‌شده
-              کوچک‌تر دیده شود.
-            */
-
-            const ratioL=
-                current.length/
-                modelLength;
-
-
-            const ratioW=
-                current.width/
-                modelWidth;
-
-
-            innerRectEl.style.width=
-                Math.max(
-                    15,
-                    size.w*
-                    ratioL
-                )+"%";
-
-
-            innerRectEl.style.height=
-                Math.max(
-                    15,
-                    size.h*
-                    ratioW
-                )+"%";
-        }
-
-        else if(
-            current.type==="inner"
-        ){
-
-            /*
-              مدل بازیکن قسمت داخلی است.
-              برای نمایش بصری، مستطیل اصلی
-              با کادر بنفش نشان داده می‌شود
-              و قسمت داخلی آبی است.
-            */
-
-            const main=
-                fitDimensions(
-                    current.length,
-                    current.width
-                );
-
-
-            outerRectEl.style.width=
-                main.w+"%";
-
-            outerRectEl.style.height=
-                main.h+"%";
-
-
-            innerRectEl.style.width=
-                Math.min(
-                    main.w,
-                    size.w
-                )+"%";
-
-
-            innerRectEl.style.height=
-                Math.min(
-                    main.h,
-                    size.h
-                )+"%";
-        }
-
-        else{
-
-            innerRectEl.style.width=
-                originalSize.w+"%";
-
-            innerRectEl.style.height=
-                originalSize.h+"%";
-        }
-
-    }
-
-    else{
-
-        innerRectEl.style.display=
-            "none";
-    }
-
-
-    modeButtons.forEach(
-        button=>{
-
-            button.classList.toggle(
-                "active",
-                button.dataset.mode===
-                selectedMode
-            );
-
-        }
-    );
-}
-
-
-/* =========================================
-   متن پروژه
-========================================= */
-
-function projectDescription(project){
-
-    return(
-        project.object+
-        " مستطیلی به طول "+
-        faNumber(project.length)+
-        " متر و عرض "+
-        faNumber(project.width)+
-        " متر است. "+
-        project.action
-    );
-}
-
-
-function marginText(project){
-
-    if(project.type==="outer"){
-
-        return(
-            "حاشیه "+
-            faNumber(project.margin)+
-            " متری بیرون شکل"
-        );
-    }
-
-
-    if(project.type==="inner"){
-
-        return(
-            "حاشیه "+
-            faNumber(project.margin)+
-            " متری داخل شکل"
-        );
-    }
-
-
-    return "مدل خود شکل اصلی";
-}
-
-
-/* =========================================
-   ابزارها
-========================================= */
-
-function clampModel(){
-
-    modelLength=
-        Math.max(
-            1,
-            Math.min(
-                20,
-                modelLength
-            )
-        );
-
-
-    modelWidth=
-        Math.max(
-            1,
-            Math.min(
-                20,
-                modelWidth
-            )
-        );
-}
-
-
-stepButtons.forEach(
-    button=>{
-
-        button.addEventListener(
-            "click",
-            ()=>{
-
-                if(answerChecked){
-                    return;
-                }
-
-
-                const action=
-                    button.dataset.action;
-
-
-                if(
-                    action==="width-plus"
-                ){
-                    modelLength++;
-                }
-
-                else if(
-                    action==="width-minus"
-                ){
-                    modelLength--;
-                }
-
-                else if(
-                    action==="height-plus"
-                ){
-                    modelWidth++;
-                }
-
-                else if(
-                    action==="height-minus"
-                ){
-                    modelWidth--;
-                }
-
-
-                clampModel();
-
-                renderModel();
-            }
-        );
-
-    }
-);
-
-
-modeButtons.forEach(
-    button=>{
-
-        button.addEventListener(
-            "click",
-            ()=>{
-
-                if(answerChecked){
-                    return;
-                }
-
-
-                selectedMode=
-                    button.dataset.mode;
-
-
-                renderModel();
-            }
-        );
-
-    }
-);
-
-
-/* =========================================
-   تایمر
-========================================= */
+/* تایمر */
 
 function stopTimer(){
-
-    if(timerInterval){
-
-        clearInterval(
-            timerInterval
-        );
-
-        timerInterval=null;
-    }
+ if(timerInterval){
+  clearInterval(timerInterval);
+  timerInterval=null;
+ }
 }
-
 
 function startTimer(){
-
-    stopTimer();
-
-
-    questionStartTime=
-        Date.now();
-
-
-    timerNumberEl.textContent=
-        faNumber(
-            QUESTION_TIME
-        );
-
-
-    timeStatusEl.textContent=
-        faNumber(
-            QUESTION_TIME
-        )+
-        " ثانیه";
-
-
-    timerBarEl.style.width=
-        "100%";
-
-
-    timerBarEl.style.background=
-        "var(--green)";
-
-
-    timerNumberEl.style.color=
-        "var(--green)";
-
-
-    timerInterval=
-        setInterval(
-            updateTimer,
-            100
-        );
+ stopTimer();
+ questionStartTime=Date.now();
+ timerNumberEl.textContent=faNumber(QUESTION_TIME);
+ timeStatusEl.textContent=faNumber(QUESTION_TIME)+" ثانیه";
+ timerBarEl.style.width="100%";
+ timerBarEl.style.background="var(--green)";
+ timerNumberEl.style.color="var(--green)";
+ timerInterval=setInterval(updateTimer,100);
 }
-
 
 function updateTimer(){
 
-    if(
-        answerChecked ||
-        gameFinished
-    ){
+ if(answerChecked||gameFinished){
+  stopTimer();return;
+ }
 
-        stopTimer();
+ const elapsed=(Date.now()-questionStartTime)/1000;
+ const remaining=Math.max(0,QUESTION_TIME-elapsed);
+ const s=Math.ceil(remaining);
 
-        return;
-    }
+ timerNumberEl.textContent=faNumber(s);
+ timeStatusEl.textContent=faNumber(s)+" ثانیه";
+ timerBarEl.style.width=(remaining/QUESTION_TIME*100)+"%";
 
+ if(remaining>15){
+  timerBarEl.style.background="var(--green)";
+  timerNumberEl.style.color="var(--green)";
+ }else if(remaining>7){
+  timerBarEl.style.background="var(--yellow)";
+  timerNumberEl.style.color="#ad7700";
+ }else{
+  timerBarEl.style.background="var(--red)";
+  timerNumberEl.style.color="var(--red)";
+ }
 
-    const elapsed=
-        (
-            Date.now()-
-            questionStartTime
-        )/1000;
-
-
-    const remaining=
-        Math.max(
-            0,
-            QUESTION_TIME-elapsed
-        );
-
-
-    const seconds=
-        Math.ceil(
-            remaining
-        );
-
-
-    timerNumberEl.textContent=
-        faNumber(seconds);
-
-
-    timeStatusEl.textContent=
-        faNumber(seconds)+
-        " ثانیه";
-
-
-    timerBarEl.style.width=
-        (
-            remaining/
-            QUESTION_TIME*
-            100
-        )+"%";
-
-
-    if(remaining>15){
-
-        timerBarEl.style.background=
-            "var(--green)";
-
-        timerNumberEl.style.color=
-            "var(--green)";
-    }
-
-    else if(remaining>7){
-
-        timerBarEl.style.background=
-            "var(--yellow)";
-
-        timerNumberEl.style.color=
-            "#b77900";
-    }
-
-    else{
-
-        timerBarEl.style.background=
-            "var(--red)";
-
-        timerNumberEl.style.color=
-            "var(--red)";
-    }
-
-
-    if(remaining<=0){
-
-        handleTimeout();
-    }
+ if(remaining<=0) timeout();
 }
 
 
-/* =========================================
-   قفل ابزار
-========================================= */
+/* نمایش مرحله */
 
-function setControlsDisabled(value){
+function showQuestion(){
 
-    stepButtons.forEach(
-        button=>{
-            button.disabled=value;
-        }
-    );
+ stopTimer();
+ answerChecked=false;
+ updateTreasure();
 
+ const q=questions[currentIndex];
 
-    modeButtons.forEach(
-        button=>{
-            button.disabled=value;
-        }
-    );
+ questionNumberEl.textContent=
+  faNumber(currentIndex+1)+" از "+faNumber(TOTAL_QUESTIONS);
 
+ scoreEl.textContent=faNumber(score);
 
-    submitButton.disabled=value;
+ levelLabelEl.textContent="🧩 تکه نقشه "+faNumber(currentIndex+1);
+ problemTextEl.textContent=q.q;
+
+ feedbackEl.className="feedback";
+ feedbackTitleEl.textContent="";
+ feedbackTextEl.textContent="";
+ nextButton.classList.remove("show");
+
+ nextButton.textContent=
+  currentIndex===TOTAL_QUESTIONS-1
+  ?"باز کردن صندوق گنج 💎"
+  :"تکه بعدی نقشه 🧩";
+
+ picturesEl.innerHTML="";
+
+ q.mixed.forEach((item,index)=>{
+
+  const btn=document.createElement("button");
+  btn.type="button";
+  btn.className="picture";
+
+  const number=document.createElement("span");
+  number.className="pic-number";
+  number.textContent=faNumber(index+1);
+
+  const scene=document.createElement("div");
+  scene.className="scene";
+  scene.innerHTML=item.make();
+
+  btn.appendChild(number);
+  btn.appendChild(scene);
+
+  btn.addEventListener("click",()=>checkAnswer(index,btn));
+
+  picturesEl.appendChild(btn);
+ });
+
+ startTimer();
 }
 
 
-/* =========================================
-   نمایش پروژه
-========================================= */
+/* جواب */
 
-function showProject(){
+function lockPictures(){
+ [...picturesEl.querySelectorAll(".picture")].forEach(x=>x.disabled=true);
+}
 
-    stopTimer();
+function showCorrect(){
+ const buttons=[...picturesEl.querySelectorAll(".picture")];
+ const i=questions[currentIndex].correctIndex;
+ if(buttons[i])buttons[i].classList.add("correct");
+}
 
-    answerChecked=false;
+function checkAnswer(index,btn){
 
-    setControlsDisabled(false);
+ if(answerChecked||gameFinished)return;
 
+ const elapsed=(Date.now()-questionStartTime)/1000;
 
-    const project=
-        projects[currentIndex];
+ if(elapsed>=QUESTION_TIME){
+  timeout();return;
+ }
 
+ answerChecked=true;
+ stopTimer();
+ lockPictures();
 
-    questionNumberEl.textContent=
-        faNumber(currentIndex+1)+
-        " از "+
-        faNumber(TOTAL_QUESTIONS);
+ const q=questions[currentIndex];
 
+ if(index===q.correctIndex){
 
-    scoreEl.textContent=
-        faNumber(score);
+  const earned=pointsForTime(elapsed);
+  score=Math.min(100,score+earned);
 
+  btn.classList.add("correct");
 
-    projectLabelEl.textContent=
-        "📋 سفارش شماره "+
-        faNumber(currentIndex+1);
+  feedbackEl.className="feedback success show";
+  feedbackTitleEl.textContent="✅ تصویر درست شکار شد! +"+faNumber(earned)+" امتیاز";
+  feedbackTextEl.textContent=q.exp;
 
+  celebrate(btn);
 
-    clientEmojiEl.textContent=
-        project.client;
+ }else{
 
+  btn.classList.add("wrong");
+  showCorrect();
 
-    problemTextEl.textContent=
-        projectDescription(
-            project
-        );
+  feedbackEl.className="feedback error show";
+  feedbackTitleEl.textContent="❌ این شکل مسئله را درست نشان نمی‌دهد.";
+  feedbackTextEl.textContent="تصویر درست با رنگ سبز مشخص شد. "+q.exp;
+ }
 
-
-    taskTextEl.textContent=
-        project.task;
-
-
-    marginNoteEl.textContent=
-        marginText(project);
-
-
-    /*
-      در آغاز عمداً مدل را روی ابعاد
-      ساده و غیرجواب قرار می‌دهیم.
-      نزدیک بودن مقدار اولیه به جواب
-      فقط سرعت کار را منطقی می‌کند.
-    */
-
-    modelLength=
-        Math.max(
-            1,
-            project.length-2
-        );
-
-
-    modelWidth=
-        Math.max(
-            1,
-            project.width-2
-        );
-
-
-    selectedMode="original";
-
-
-    feedbackEl.className=
-        "feedback";
-
-
-    feedbackTitleEl.textContent="";
-
-    feedbackTextEl.textContent="";
-
-
-    nextButton
-        .classList
-        .remove("show");
-
-
-    nextButton.textContent=
-        currentIndex===
-        TOTAL_QUESTIONS-1
-        ? "مشاهده شهر نهایی 🏆"
-        : "پروژه بعدی 🏗️";
-
-
-    updateCity();
-
-    renderModel();
-
-    startTimer();
+ scoreEl.textContent=faNumber(score);
+ nextButton.classList.add("show");
 }
 
 
-/* =========================================
-   توضیح پاسخ
-========================================= */
+/* پایان زمان */
 
-function explanation(project){
+function timeout(){
 
-    const answer=
-        getCorrectModel(project);
+ if(answerChecked||gameFinished)return;
 
+ answerChecked=true;
+ stopTimer();
+ lockPictures();
+ showCorrect();
 
-    if(project.type==="outer"){
+ timerNumberEl.textContent="۰";
+ timeStatusEl.textContent="۰ ثانیه";
+ timerBarEl.style.width="0%";
+ timerBarEl.style.background="var(--red)";
 
-        return(
-            "حاشیه در بیرون شکل است؛ پس به هر بُعد از دو طرف "+
-            faNumber(project.margin)+
-            " متر اضافه می‌شود. طول: "+
-            faNumber(project.length)+
-            " + "+
-            faNumber(2*project.margin)+
-            " = "+
-            faNumber(answer.length)+
-            " و عرض: "+
-            faNumber(project.width)+
-            " + "+
-            faNumber(2*project.margin)+
-            " = "+
-            faNumber(answer.width)+
-            ". رسم دو مستطیل کمک می‌کند فراموش نکنیم حاشیه در هر بُعد از دو طرف وجود دارد."
-        );
-    }
+ const q=questions[currentIndex];
 
+ feedbackEl.className="feedback timeout show";
+ feedbackTitleEl.textContent="⏰ زمان تمام شد! ۰ امتیاز";
+ feedbackTextEl.textContent="تصویر صحیح با رنگ سبز مشخص شد. "+q.exp;
 
-    if(project.type==="inner"){
-
-        return(
-            "حاشیه داخل شکل است؛ بنابراین از هر بُعد در مجموع "+
-            faNumber(2*project.margin)+
-            " متر کم می‌شود. طول داخلی: "+
-            faNumber(project.length)+
-            " − "+
-            faNumber(2*project.margin)+
-            " = "+
-            faNumber(answer.length)+
-            " و عرض داخلی: "+
-            faNumber(project.width)+
-            " − "+
-            faNumber(2*project.margin)+
-            " = "+
-            faNumber(answer.width)+
-            "."
-        );
-    }
-
-
-    return(
-        "در این مسئله کافی بود اطلاعات متن را به یک مستطیل با طول "+
-        faNumber(answer.length)+
-        " و عرض "+
-        faNumber(answer.width)+
-        " تبدیل کنیم. این همان استفاده از راهبرد رسم شکل برای روشن‌کردن اطلاعات مسئله است."
-    );
+ nextButton.classList.add("show");
 }
 
 
-/* =========================================
-   بررسی مدل
-========================================= */
+/* جشن */
 
-submitButton.addEventListener(
-    "click",
-    checkModel
-);
+function celebrate(el){
 
+ const r=el.getBoundingClientRect();
+ const icons=["✨","⭐","🧩","🎉"];
 
-function checkModel(){
+ for(let i=0;i<10;i++){
 
-    if(
-        answerChecked ||
-        gameFinished
-    ){
-        return;
-    }
+  const s=document.createElement("span");
+  s.className="spark";
+  s.textContent=icons[Math.floor(Math.random()*icons.length)];
 
+  s.style.left=(r.left+r.width/2)+"px";
+  s.style.top=(r.top+r.height/2)+"px";
+  s.style.setProperty("--x",(Math.random()*170-85)+"px");
+  s.style.setProperty("--y",(-30-Math.random()*120)+"px");
 
-    const elapsed=
-        (
-            Date.now()-
-            questionStartTime
-        )/1000;
-
-
-    if(elapsed>=QUESTION_TIME){
-
-        handleTimeout();
-
-        return;
-    }
-
-
-    answerChecked=true;
-
-    stopTimer();
-
-    setControlsDisabled(true);
-
-
-    const project=
-        projects[currentIndex];
-
-
-    const correct=
-        getCorrectModel(project);
-
-
-    const isCorrect=
-        modelLength===
-            correct.length &&
-        modelWidth===
-            correct.width &&
-        selectedMode===
-            correct.mode;
-
-
-    if(isCorrect){
-
-        const earned=
-            pointsForTime(
-                elapsed
-            );
-
-
-        score+=earned;
-
-
-        if(score>100){
-            score=100;
-        }
-
-
-        feedbackEl.className=
-            "feedback success show";
-
-
-        feedbackTitleEl.textContent=
-            "✅ نقشه تأیید شد! +"+
-            faNumber(earned)+
-            " امتیاز 🎉";
-
-
-        feedbackTextEl.textContent=
-            explanation(
-                project
-            );
-
-
-        celebrate(
-            submitButton
-        );
-    }
-
-    else{
-
-        /*
-          پاسخ صحیح را روی بوم نمایش می‌دهیم.
-        */
-
-        modelLength=
-            correct.length;
-
-        modelWidth=
-            correct.width;
-
-        selectedMode=
-            correct.mode;
-
-
-        renderModel();
-
-
-        feedbackEl.className=
-            "feedback error show";
-
-
-        feedbackTitleEl.textContent=
-            "❌ این مدل با متن مسئله هماهنگ نبود.";
-
-
-        feedbackTextEl.textContent=
-            "مدل صحیح روی بوم نمایش داده شد. "+
-            explanation(
-                project
-            );
-    }
-
-
-    scoreEl.textContent=
-        faNumber(score);
-
-
-    nextButton
-        .classList
-        .add("show");
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),850);
+ }
 }
 
 
-/* =========================================
-   اتمام زمان
-========================================= */
+/* مرحله بعد */
 
-function handleTimeout(){
+nextButton.addEventListener("click",()=>{
 
-    if(
-        answerChecked ||
-        gameFinished
-    ){
-        return;
-    }
+ if(!answerChecked)return;
 
+ if(currentIndex<TOTAL_QUESTIONS-1){
+  currentIndex++;
+  showQuestion();
+  window.scrollTo({top:0,behavior:"smooth"});
+ }else{
+  finishGame();
+ }
+});
 
-    answerChecked=true;
 
-    stopTimer();
-
-    setControlsDisabled(true);
-
-
-    timerNumberEl.textContent="۰";
-
-    timeStatusEl.textContent=
-        "۰ ثانیه";
-
-    timerBarEl.style.width="0%";
-
-    timerBarEl.style.background=
-        "var(--red)";
-
-
-    const project=
-        projects[currentIndex];
-
-
-    const correct=
-        getCorrectModel(project);
-
-
-    modelLength=
-        correct.length;
-
-    modelWidth=
-        correct.width;
-
-    selectedMode=
-        correct.mode;
-
-
-    renderModel();
-
-
-    feedbackEl.className=
-        "feedback timeout show";
-
-
-    feedbackTitleEl.textContent=
-        "⏰ زمان تحویل تمام شد! ۰ امتیاز";
-
-
-    feedbackTextEl.textContent=
-        "مدل صحیح روی بوم نمایش داده شد. "+
-        explanation(
-            project
-        );
-
-
-    nextButton
-        .classList
-        .add("show");
-}
-
-
-/* =========================================
-   جشن
-========================================= */
-
-function celebrate(element){
-
-    const rect=
-        element.getBoundingClientRect();
-
-
-    const symbols=[
-        "⭐",
-        "✨",
-        "🏗️",
-        "🎉"
-    ];
-
-
-    for(let i=0;i<10;i++){
-
-        const spark=
-            document.createElement(
-                "span"
-            );
-
-
-        spark.className="spark";
-
-
-        spark.textContent=
-            symbols[
-                Math.floor(
-                    Math.random()*
-                    symbols.length
-                )
-            ];
-
-
-        spark.style.left=
-            (
-                rect.left+
-                rect.width/2
-            )+"px";
-
-
-        spark.style.top=
-            (
-                rect.top+
-                rect.height/2
-            )+"px";
-
-
-        spark.style.setProperty(
-            "--x",
-            (
-                Math.random()*170-
-                85
-            )+"px"
-        );
-
-
-        spark.style.setProperty(
-            "--y",
-            (
-                -30-
-                Math.random()*120
-            )+"px"
-        );
-
-
-        document.body
-            .appendChild(
-                spark
-            );
-
-
-        setTimeout(
-            ()=>spark.remove(),
-            850
-        );
-    }
-}
-
-
-/* =========================================
-   پروژه بعد
-========================================= */
-
-nextButton.addEventListener(
-    "click",
-    ()=>{
-
-        if(!answerChecked){
-            return;
-        }
-
-
-        if(
-            currentIndex<
-            TOTAL_QUESTIONS-1
-        ){
-
-            currentIndex++;
-
-            showProject();
-
-
-            window.scrollTo({
-                top:0,
-                behavior:"smooth"
-            });
-        }
-
-        else{
-
-            finishGame();
-        }
-
-    }
-);
-
-
-/* =========================================
-   پایان
-========================================= */
+/* پایان بازی */
 
 async function finishGame(){
 
-    if(gameFinished){
-        return;
-    }
+ if(gameFinished)return;
 
+ gameFinished=true;
+ stopTimer();
 
-    gameFinished=true;
+ [...treasureProgressEl.children].forEach(x=>x.classList.add("found"));
 
-    stopTimer();
+ gameScreen.style.display="none";
+ resultScreen.classList.add("show");
 
+ const name=player&&player.playerName?player.playerName:"بازیکن";
 
-    updateCity();
+ resultNameEl.textContent=name;
+ finalScoreEl.textContent=faNumber(score);
 
+ if(score>=90){
+  motivationEl.textContent="عالی بود! 🌟 چشم مهندسی فوق‌العاده‌ای داری!";
+ }else if(score>=70){
+  motivationEl.textContent="خیلی خوب بود 👏 شکل مناسب را خوب تشخیص می‌دهی!";
+ }else if(score>=50){
+  motivationEl.textContent="خوب بود 💪 کمی بیشتر شکل بکش تا حرفه‌ای‌تر شوی!";
+ }else{
+  motivationEl.textContent="یک شکار دیگر برو 🌱 این بار قبل از انتخاب، مسئله را در ذهنت نقاشی کن!";
+ }
 
-    gameScreen.style.display=
-        "none";
+ leaderboardContent.innerHTML='<div class="loading">در حال ثبت نتیجه و دریافت جدول برترین‌ها...</div>';
 
+ try{
+  if(!finishSubmitted){
+   finishSubmitted=true;
+   await GameSDK.finishGame(score);
+  }
+ }catch(e){
+  console.error("finishGame error:",e);
+ }
 
-    resultScreen
-        .classList
-        .add("show");
-
-
-    const name=
-        player &&
-        player.playerName
-        ? player.playerName
-        : "بازیکن";
-
-
-    resultNameEl.textContent=
-        name;
-
-
-    finalScoreEl.textContent=
-        faNumber(score);
-
-
-    if(score>=90){
-
-        motivationEl.textContent=
-            "عالی بود! 🌟 تو مهندس ارشد شهر ریاضی شدی!";
-    }
-
-    else if(score>=70){
-
-        motivationEl.textContent=
-            "خیلی خوب بود 👏 نقشه‌هایت دقیق و حرفه‌ای بود!";
-    }
-
-    else if(score>=50){
-
-        motivationEl.textContent=
-            "خوب بود 💪 با چند پروژه دیگر مهندس حرفه‌ای می‌شی!";
-    }
-
-    else{
-
-        motivationEl.textContent=
-            "کارگاه هنوز بازه 🌱 دوباره بساز و این بار به دو طرف شکل دقت کن!";
-    }
-
-
-    leaderboardContent.innerHTML=
-        '<div class="loading">'+
-        'در حال ثبت نتیجه و دریافت جدول برترین‌ها...'+
-        '</div>';
-
-
-    try{
-
-        if(!finishSubmitted){
-
-            finishSubmitted=true;
-
-
-            await GameSDK
-                .finishGame(score);
-        }
-
-    }
-
-    catch(error){
-
-        console.error(
-            "finishGame error:",
-            error
-        );
-    }
-
-
-    await loadLeaderboard();
+ await loadLeaderboard();
 }
 
 
-/* =========================================
-   لیدربورد
-========================================= */
+/* leaderboard */
 
 async function loadLeaderboard(){
 
-    try{
+ try{
 
-        const scores=
-            await GameSDK
-                .getLeaderboard(10);
+  const scores=await GameSDK.getLeaderboard(10);
+  leaderboardContent.innerHTML="";
 
+  if(!Array.isArray(scores)||!scores.length){
+   leaderboardContent.innerHTML='<div class="loading">هنوز رکوردی ثبت نشده است.</div>';
+   return;
+  }
 
-        leaderboardContent.innerHTML="";
+  scores.forEach((item,i)=>{
 
+   const row=document.createElement("div");
+   row.className="rank-row";
 
-        if(
-            !Array.isArray(scores) ||
-            scores.length===0
-        ){
+   const rank=i===0?"🥇":i===1?"🥈":i===2?"🥉":faNumber(i+1)+".";
 
-            leaderboardContent.innerHTML=
-                '<div class="loading">'+
-                'هنوز رکوردی ثبت نشده است.'+
-                '</div>';
+   const name=item.playerName??item.player_name??item.name??"بازیکن";
+   const value=item.score??0;
 
-            return;
-        }
+   const n=document.createElement("span");
+   n.className="rank-name";
+   n.textContent=rank+" "+name;
 
+   const sc=document.createElement("span");
+   sc.className="rank-score";
+   sc.textContent=faNumber(value)+" امتیاز";
 
-        scores.forEach(
-            (item,index)=>{
+   row.appendChild(n);
+   row.appendChild(sc);
+   leaderboardContent.appendChild(row);
+  });
 
-                const row=
-                    document.createElement(
-                        "div"
-                    );
-
-
-                row.className=
-                    "rank-row";
-
-
-                let rank;
-
-
-                if(index===0){
-
-                    rank="🥇";
-                }
-
-                else if(index===1){
-
-                    rank="🥈";
-                }
-
-                else if(index===2){
-
-                    rank="🥉";
-                }
-
-                else{
-
-                    rank=
-                        faNumber(index+1)+
-                        ".";
-                }
-
-
-                const name=
-                    item.playerName ??
-                    item.player_name ??
-                    item.name ??
-                    "بازیکن";
-
-
-                const value=
-                    item.score ?? 0;
-
-
-                const nameEl=
-                    document.createElement(
-                        "span"
-                    );
-
-
-                nameEl.className=
-                    "rank-name";
-
-
-                nameEl.textContent=
-                    rank+" "+name;
-
-
-                const valueEl=
-                    document.createElement(
-                        "span"
-                    );
-
-
-                valueEl.className=
-                    "rank-score";
-
-
-                valueEl.textContent=
-                    faNumber(value)+
-                    " امتیاز";
-
-
-                row.appendChild(
-                    nameEl
-                );
-
-
-                row.appendChild(
-                    valueEl
-                );
-
-
-                leaderboardContent
-                    .appendChild(
-                        row
-                    );
-            }
-        );
-
-    }
-
-    catch(error){
-
-        console.error(
-            "leaderboard error:",
-            error
-        );
-
-
-        leaderboardContent.innerHTML=
-            '<div class="loading">'+
-            'دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.'+
-            '</div>';
-    }
+ }catch(e){
+  console.error("leaderboard error:",e);
+  leaderboardContent.innerHTML='<div class="loading">دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.</div>';
+ }
 }
 
 
-/* =========================================
-   بازی دوباره
-========================================= */
+/* بازی دوباره */
 
-restartButton.addEventListener(
-    "click",
-    ()=>{
+restartButton.addEventListener("click",()=>{
 
-        stopTimer();
+ stopTimer();
+ GameSDK.reset();
 
+ score=0;
+ currentIndex=0;
+ answerChecked=false;
+ questionStartTime=0;
+ gameFinished=false;
+ finishSubmitted=false;
 
-        GameSDK.reset();
+ resultScreen.classList.remove("show");
+ gameScreen.style.display="block";
+ leaderboardContent.innerHTML="";
 
+ prepareQuestions();
+ buildTreasureProgress();
+ showQuestion();
 
-        score=0;
-
-        currentIndex=0;
-
-        answerChecked=false;
-
-        questionStartTime=0;
-
-        gameFinished=false;
-
-        finishSubmitted=false;
-
-
-        resultScreen
-            .classList
-            .remove("show");
+ window.scrollTo({top:0,behavior:"smooth"});
+});
 
 
-        gameScreen.style.display=
-            "block";
-
-
-        leaderboardContent.innerHTML="";
-
-
-        prepareProjects();
-
-        buildCity();
-
-        showProject();
-
-
-        window.scrollTo({
-            top:0,
-            behavior:"smooth"
-        });
-
-    }
-);
-
-
-/* =========================================
-   شروع
-========================================= */
+/* شروع */
 
 function startGame(){
 
-    const name=
-        player &&
-        player.playerName
-        ? player.playerName
-        : "بازیکن";
+ const name=player&&player.playerName?player.playerName:"بازیکن";
+ playerNameEl.textContent=name;
 
+ score=0;
+ currentIndex=0;
+ answerChecked=false;
+ gameFinished=false;
+ finishSubmitted=false;
 
-    playerNameEl.textContent=
-        name;
-
-
-    score=0;
-
-    currentIndex=0;
-
-    answerChecked=false;
-
-    gameFinished=false;
-
-    finishSubmitted=false;
-
-
-    prepareProjects();
-
-    buildCity();
-
-    showProject();
+ prepareQuestions();
+ buildTreasureProgress();
+ showQuestion();
 }
-
 
 startGame();
 
 </script>
-
 </body>
 </html>
