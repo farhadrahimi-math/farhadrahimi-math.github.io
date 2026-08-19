@@ -28,10 +28,7 @@ body{
 
 button,a{font-family:inherit}
 button{touch-action:manipulation}
-
 .app{width:min(100%,950px);margin:auto;padding:10px}
-
-/* HEADER */
 
 .hero{text-align:center;padding:7px 4px 13px}
 
@@ -49,14 +46,10 @@ button{touch-action:manipulation}
 
 .hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.8}
 
-/* PANEL */
-
 .panel{
  background:#fffffff7;border-radius:25px;overflow:hidden;
  box-shadow:0 16px 42px #6d28d91c
 }
-
-/* STATUS */
 
 .status{
  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px;
@@ -82,11 +75,8 @@ button{touch-action:manipulation}
 
 .content{padding:14px}
 
-/* PROGRESS */
-
 .progress{
- display:grid;grid-template-columns:repeat(10,1fr);
- gap:5px;margin-bottom:13px
+ display:grid;grid-template-columns:repeat(10,1fr);gap:5px;margin-bottom:13px
 }
 
 .progress-item{
@@ -98,8 +88,6 @@ button{touch-action:manipulation}
 .progress-item.current{
  background:#fde68a;border-color:#f59e0b;box-shadow:0 0 8px #fbbf2466
 }
-
-/* TIMER */
 
 .timer-head{
  display:flex;justify-content:space-between;align-items:center;
@@ -118,8 +106,6 @@ button{touch-action:manipulation}
  transition:width .1s linear,background .2s
 }
 
-/* QUESTION */
-
 .labels{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:7px}
 
 .mission-label,.family-label{
@@ -135,14 +121,14 @@ button{touch-action:manipulation}
  font-size:clamp(15px,4vw,19px);font-weight:bold;line-height:1.9
 }
 
-/* BRIDGE WORLD */
+/* BRIDGE */
 
 .bridge-world{
  position:relative;height:174px;overflow:hidden;border-radius:18px;
  background:
-  radial-gradient(circle at 13% 18%,#fff 0 18px,transparent 19px),
-  radial-gradient(circle at 18% 18%,#fff 0 24px,transparent 25px),
-  linear-gradient(#bcecff 0 54%,#60c9ee 54% 100%);
+ radial-gradient(circle at 13% 18%,#fff 0 18px,transparent 19px),
+ radial-gradient(circle at 18% 18%,#fff 0 24px,transparent 25px),
+ linear-gradient(#bcecff 0 54%,#60c9ee 54% 100%);
  border:3px solid #c6e4ec
 }
 
@@ -175,8 +161,7 @@ button{touch-action:manipulation}
 
 .bridge-piece.built{
  background:linear-gradient(#c98b50,#a96835);
- border:3px solid #7c4b27;color:#fff;
- box-shadow:0 3px 4px #0002
+ border:3px solid #7c4b27;color:#fff;box-shadow:0 3px 4px #0002
 }
 
 .walker{
@@ -188,7 +173,7 @@ button{touch-action:manipulation}
  position:absolute;right:6%;top:60px;font-size:33px
 }
 
-/* MODE */
+/* GAME MODE */
 
 .mode-box{
  margin-top:10px;padding:11px;border:2px solid #ddd8ee;
@@ -204,8 +189,6 @@ button{touch-action:manipulation}
  line-height:1.7;margin:4px 0 9px
 }
 
-/* ORDERING */
-
 .order-area{display:block}
 
 .card-pool{
@@ -219,7 +202,9 @@ button{touch-action:manipulation}
  transition:.15s
 }
 
-.step-card:hover:not(:disabled){transform:translateY(-2px);border-color:var(--purple)}
+.step-card:hover:not(:disabled){
+ transform:translateY(-2px);border-color:var(--purple)
+}
 
 .step-card.selected{
  background:#ede9fe;border-color:var(--purple);opacity:.55
@@ -249,13 +234,11 @@ button{touch-action:manipulation}
  color:#fff;font-size:14px;font-weight:bold;cursor:pointer
 }
 
-/* SOLVING */
-
 .solve-area{display:none}
 
 .subproblem-head{
- display:flex;justify-content:space-between;align-items:center;gap:7px;
- margin-bottom:7px
+ display:flex;justify-content:space-between;align-items:center;
+ gap:7px;margin-bottom:7px
 }
 
 .subproblem-number{
@@ -279,10 +262,9 @@ button{touch-action:manipulation}
  color:#18753a;font-size:10px;text-align:center
 }
 
-/* OPERATION */
-
-.operation-title{
- text-align:center;margin:9px 0 6px;color:#64748b;font-size:10px;font-weight:bold
+.operation-title,.answer-title{
+ text-align:center;margin:9px 0 6px;color:#64748b;
+ font-size:10px;font-weight:bold
 }
 
 .operations{
@@ -295,13 +277,8 @@ button{touch-action:manipulation}
 }
 
 .op-btn.selected{
- color:#fff;border-color:#6d28d9;background:linear-gradient(145deg,#8b5cf6,#6d28d9)
-}
-
-/* NUMBER OPTIONS */
-
-.answer-title{
- text-align:center;margin:9px 0 6px;color:#64748b;font-size:10px;font-weight:bold
+ color:#fff;border-color:#6d28d9;
+ background:linear-gradient(145deg,#8b5cf6,#6d28d9)
 }
 
 .answer-options{
@@ -323,9 +300,9 @@ button{touch-action:manipulation}
  color:#674500;font-size:14px;font-weight:bold;cursor:pointer
 }
 
-.submit-step:disabled,.check-order:disabled{opacity:.5;cursor:default}
-
-/* MINI FEEDBACK */
+.submit-step:disabled,.check-order:disabled{
+ opacity:.5;cursor:default
+}
 
 .mini-feedback{
  display:none;margin-top:8px;padding:8px;border-radius:10px;
@@ -336,7 +313,7 @@ button{touch-action:manipulation}
 .mini-feedback.good{background:#e8faed;color:#18753a}
 .mini-feedback.bad{background:#fff0f3;color:#b52f49}
 
-/* FINAL FEEDBACK */
+/* FEEDBACK */
 
 .feedback{
  display:none;margin-top:12px;padding:12px;border-radius:14px;line-height:1.8
@@ -373,27 +350,39 @@ button{touch-action:manipulation}
 }
 
 .result.show{display:block}
-.result-icon{font-size:72px;animation:float 2s ease-in-out infinite}
-.result h2{color:var(--purple2);font-size:27px;margin:5px}
+
+.result-icon{
+ font-size:72px;animation:float 2s ease-in-out infinite
+}
+
+.result h2{
+ color:var(--purple2);font-size:27px;margin:5px
+}
 
 .final-score{
  width:160px;height:160px;margin:17px auto;
  display:flex;flex-direction:column;align-items:center;justify-content:center;
  border-radius:50%;border:8px solid transparent;
- background:linear-gradient(#fff,#fff) padding-box,
+ background:
+ linear-gradient(#fff,#fff) padding-box,
  linear-gradient(135deg,var(--pink),var(--yellow),var(--blue),var(--purple)) border-box
 }
 
 .final-score strong{font-size:43px;color:var(--purple2)}
 .final-score span{font-size:13px;color:var(--muted)}
-.motivation{font-size:20px;font-weight:bold;margin-bottom:19px}
+
+.motivation{
+ font-size:20px;font-weight:bold;margin-bottom:19px
+}
 
 .leaderboard{
  max-width:540px;margin:20px auto;padding:13px;text-align:right;
  background:#faf8ff;border:2px solid #e4dafa;border-radius:16px
 }
 
-.leaderboard h3{text-align:center;color:var(--purple2);margin:0 0 10px}
+.leaderboard h3{
+ text-align:center;color:var(--purple2);margin:0 0 10px
+}
 
 .rank-row{
  display:flex;justify-content:space-between;gap:8px;
@@ -480,7 +469,7 @@ button{touch-action:manipulation}
   <div class="stat"><small>👷 پل‌ساز</small><strong id="playerName">---</strong></div>
   <div class="stat"><small>🌉 مأموریت</small><strong id="questionNumber">۱ از ۱۰</strong></div>
   <div class="stat"><small>⭐ امتیاز</small><strong id="score">۰</strong></div>
-  <div class="stat"><small>⏱️ زمان</small><strong id="timeStatus">۶۰ ثانیه</strong></div>
+  <div class="stat"><small>⏱️ زمان</small><strong id="timeStatus">۱۸۰ ثانیه</strong></div>
  </div>
 
  <div class="content">
@@ -489,7 +478,7 @@ button{touch-action:manipulation}
 
   <div class="timer-head">
    <span>⏱️ زمان ساخت پل</span>
-   <strong id="timerNumber">۶۰</strong>
+   <strong id="timerNumber">۱۸۰</strong>
   </div>
 
   <div class="timer-track">
@@ -525,15 +514,12 @@ button{touch-action:manipulation}
    </div>
 
    <div class="order-area" id="orderArea">
-
     <div class="card-pool" id="cardPool"></div>
-
     <div class="order-slots" id="orderSlots"></div>
 
     <button class="check-order" id="checkOrderButton" type="button">
      🔍 بررسی نقشه پل
     </button>
-
    </div>
 
    <div class="solve-area" id="solveArea">
@@ -585,6 +571,7 @@ button{touch-action:manipulation}
   </button>
 
  </div>
+
 </div>
 
 
@@ -635,7 +622,11 @@ button{touch-action:manipulation}
 const GAME_ID = 14;
 
 const TOTAL_QUESTIONS = 10;
-const QUESTION_TIME = 60;
+
+/*
+  هر مأموریت سه دقیقه زمان دارد.
+*/
+const QUESTION_TIME = 180;
 
 const player = GameSDK.init(GAME_ID);
 
@@ -644,7 +635,7 @@ const player = GameSDK.init(GAME_ID);
    HISTORY
 ===================================================== */
 
-const HISTORY_KEY="math_subproblem_bridge_recent_v1";
+const HISTORY_KEY="math_subproblem_bridge_recent_v2";
 const MAX_HISTORY=45;
 
 
@@ -678,29 +669,38 @@ function shuffle(array){
  return a;
 }
 
+
+/*
+  امتیازدهی متناسب با 180 ثانیه
+*/
 function pointsForTime(seconds){
 
- if(seconds<=15)return 10;
- if(seconds<=25)return 8;
- if(seconds<=35)return 6;
- if(seconds<=45)return 4;
- if(seconds<=60)return 2;
+ if(seconds<=45)return 10;
+ if(seconds<=75)return 8;
+ if(seconds<=105)return 6;
+ if(seconds<=140)return 4;
+ if(seconds<=180)return 2;
 
  return 0;
 }
 
+
 function loadHistory(){
 
  try{
+
   const data=JSON.parse(
    localStorage.getItem(HISTORY_KEY)||"[]"
   );
 
   return Array.isArray(data)?data:[];
+
  }catch{
+
   return [];
  }
 }
+
 
 function saveHistory(signatures){
 
@@ -721,9 +721,14 @@ function saveHistory(signatures){
   );
 
  }catch(error){
-  console.warn("History unavailable:",error);
+
+  console.warn(
+   "History unavailable:",
+   error
+  );
  }
 }
+
 
 function makeOptions(correct){
 
@@ -735,51 +740,58 @@ function makeOptions(correct){
   Math.max(2,Math.round(correct*.2))
  ];
 
+
  while(candidates.size<4){
 
   const offset=pick(offsets);
-  const sign=Math.random()<.5?-1:1;
+
+  const sign=
+   Math.random()<.5
+   ?-1
+   :1;
+
 
   const candidate=
-   correct+sign*offset;
+   correct+
+   sign*offset;
+
 
   if(candidate>=0){
+
    candidates.add(candidate);
   }
  }
 
- return shuffle([...candidates]);
+
+ return shuffle(
+  [...candidates]
+ );
 }
 
 
 /* =====================================================
    QUESTION FACTORY
-
-   steps:
-   id
-   title       = کارت نقشه
-   question    = زیرمسئله هنگام حل
-   op          = عمل صحیح
-   answer      = جواب
-   dependsText = یادآوری وابستگی
 ===================================================== */
 
 function makeQuestion(config){
 
  return{
   ...config,
+
   cards:shuffle(
-   config.steps.map(step=>({
-    id:step.id,
-    title:step.title
-   }))
+   config.steps.map(
+    step=>({
+     id:step.id,
+     title:step.title
+    })
+   )
   )
  };
 }
 
 
 /* =====================================================
-   1) پس‌انداز و قیمت
+   1) SAVING
 ===================================================== */
 
 function genSaving(){
@@ -791,31 +803,57 @@ function genSaving(){
  const saved=weekly*weeks;
  const price=saved*fraction;
 
+ const fractionText=
+  fraction===2
+  ?"دوم"
+  :fraction===3
+   ?"سوم"
+   :"چهارم";
+
+
  return makeQuestion({
 
   family:"پس‌انداز",
 
-  signature:`save-${weekly}-${weeks}-${fraction}`,
+  signature:
+   `save-${weekly}-${weeks}-${fraction}`,
 
   q:
-   `نیلوفر هر هفته ${faNumber(weekly)} هزار تومان پس‌انداز می‌کند. پس‌انداز ${faNumber(weeks)} هفته او یک‌${fraction===2?"دوم":fraction===3?"سوم":"چهارم"} قیمت یک وسیله است. قیمت وسیله چقدر است؟`,
+   `نیلوفر هر هفته ${faNumber(weekly)} هزار تومان پس‌انداز می‌کند. پس‌انداز ${faNumber(weeks)} هفته او یک‌${fractionText} قیمت یک وسیله است. قیمت وسیله چقدر است؟`,
 
   steps:[
    {
     id:"saved",
-    title:"ابتدا پس‌انداز کل را پیدا کن",
-    question:`${faNumber(weeks)} هفته، هر هفته ${faNumber(weekly)} هزار تومان؛ پس‌انداز کل چقدر است؟`,
+
+    title:
+     "ابتدا پس‌انداز کل را پیدا کن",
+
+    question:
+     `${faNumber(weeks)} هفته، هر هفته ${faNumber(weekly)} هزار تومان؛ پس‌انداز کل چقدر است؟`,
+
     op:"*",
+
     answer:saved,
-    dependsText:"داده‌های این مرحله مستقیماً از صورت مسئله آمده‌اند."
+
+    dependsText:
+     "داده‌های این مرحله مستقیماً از صورت مسئله آمده‌اند."
    },
+
    {
     id:"price",
-    title:"با پس‌انداز کل، قیمت وسیله را پیدا کن",
-    question:`پس‌انداز ${faNumber(saved)} هزار تومان، یک‌${fraction===2?"دوم":fraction===3?"سوم":"چهارم"} قیمت وسیله است. قیمت کامل چقدر است؟`,
+
+    title:
+     "با پس‌انداز کل، قیمت وسیله را پیدا کن",
+
+    question:
+     `پس‌انداز ${faNumber(saved)} هزار تومان، یک‌${fractionText} قیمت وسیله است. قیمت کامل چقدر است؟`,
+
     op:"*",
+
     answer:price,
-    dependsText:`جواب مرحله قبل (${faNumber(saved)}) داده این زیرمسئله شد.`
+
+    dependsText:
+     `جواب مرحله قبل (${faNumber(saved)}) داده این زیرمسئله شد.`
    }
   ],
 
@@ -828,7 +866,7 @@ function genSaving(){
 
 
 /* =====================================================
-   2) خرید و فروش - سود هر واحد سپس سود کل
+   2) PROFIT
 ===================================================== */
 
 function genProfit(){
@@ -836,14 +874,20 @@ function genProfit(){
  const count=randomInt(20,50);
  const buy=randomInt(8,20)*2;
  const profitEach=randomInt(2,8);
- const sell=buy+profitEach;
- const totalProfit=profitEach*count;
+
+ const sell=
+  buy+profitEach;
+
+ const totalProfit=
+  profitEach*count;
+
 
  return makeQuestion({
 
   family:"خرید و فروش",
 
-  signature:`profit-${count}-${buy}-${sell}`,
+  signature:
+   `profit-${count}-${buy}-${sell}`,
 
   q:
    `فروشنده ${faNumber(count)} خودکار را دانه‌ای ${faNumber(buy)} هزار تومان خرید و دانه‌ای ${faNumber(sell)} هزار تومان فروخت. سود کل چقدر است؟`,
@@ -876,7 +920,7 @@ function genProfit(){
 
 
 /* =====================================================
-   3) بسته‌های مداد خراب
+   3) DAMAGED ITEMS
 ===================================================== */
 
 function genDamaged(){
@@ -885,14 +929,19 @@ function genDamaged(){
  const perPack=pick([5,6,8]);
  const damaged=randomInt(5,15);
 
- const total=packs*perPack;
- const healthy=total-damaged;
+ const total=
+  packs*perPack;
+
+ const healthy=
+  total-damaged;
+
 
  return makeQuestion({
 
   family:"بسته‌بندی",
 
-  signature:`damage-${packs}-${perPack}-${damaged}`,
+  signature:
+   `damage-${packs}-${perPack}-${damaged}`,
 
   q:
    `یک فروشگاه ${faNumber(packs)} بسته مداد ${faNumber(perPack)}تایی دارد. ${faNumber(damaged)} مداد خراب شده است. چند مداد سالم باقی مانده؟`,
@@ -925,7 +974,7 @@ function genDamaged(){
 
 
 /* =====================================================
-   4) کف‌پوش
+   4) FLOOR
 ===================================================== */
 
 function genFloor(){
@@ -937,11 +986,13 @@ function genFloor(){
  const area=L*W;
  const totalCost=area*cost;
 
+
  return makeQuestion({
 
   family:"کف‌پوش",
 
-  signature:`floor-${L}-${W}-${cost}`,
+  signature:
+   `floor-${L}-${W}-${cost}`,
 
   q:
    `سالنی ${faNumber(L)}×${faNumber(W)} متر است. برای هر مترمربع یک کف‌پوش ${faNumber(cost)} هزار تومانی لازم است. هزینه کل چقدر است؟`,
@@ -974,7 +1025,7 @@ function genFloor(){
 
 
 /* =====================================================
-   5) پس‌انداز و باقی‌مانده
+   5) SAVE AND SPEND
 ===================================================== */
 
 function genSavingSpend(){
@@ -983,19 +1034,25 @@ function genSavingSpend(){
  const weeks=randomInt(4,7);
  const spent=randomInt(10,30);
 
- const saved=weekly*weeks;
+ const saved=
+  weekly*weeks;
+
 
  if(spent>=saved){
   return genSavingSpend();
  }
 
- const remaining=saved-spent;
+
+ const remaining=
+  saved-spent;
+
 
  return makeQuestion({
 
   family:"پس‌انداز و خرج",
 
-  signature:`saveSpend-${weekly}-${weeks}-${spent}`,
+  signature:
+   `saveSpend-${weekly}-${weeks}-${spent}`,
 
   q:
    `امیر ${faNumber(weeks)} هفته، هر هفته ${faNumber(weekly)} هزار تومان پس‌انداز کرد و سپس ${faNumber(spent)} هزار تومان خرج کرد. چقدر برایش باقی ماند؟`,
@@ -1028,7 +1085,7 @@ function genSavingSpend(){
 
 
 /* =====================================================
-   6) بسته‌ها، خراب، درآمد
+   6) SALES AFTER DAMAGE
 ===================================================== */
 
 function genSalesAfterDamage(){
@@ -1038,15 +1095,22 @@ function genSalesAfterDamage(){
  const damaged=randomInt(3,9);
  const sell=pick([5,6,7,8]);
 
- const total=packs*perPack;
- const healthy=total-damaged;
- const revenue=healthy*sell;
+ const total=
+  packs*perPack;
+
+ const healthy=
+  total-damaged;
+
+ const revenue=
+  healthy*sell;
+
 
  return makeQuestion({
 
   family:"فروش چندمرحله‌ای",
 
-  signature:`sale-${packs}-${perPack}-${damaged}-${sell}`,
+  signature:
+   `sale-${packs}-${perPack}-${damaged}-${sell}`,
 
   q:
    `فروشگاه ${faNumber(packs)} بسته ${faNumber(perPack)}تایی مداد دارد. ${faNumber(damaged)} مداد خراب می‌شود و بقیه دانه‌ای ${faNumber(sell)} هزار تومان فروخته می‌شوند. درآمد فروش چقدر است؟`,
@@ -1087,7 +1151,7 @@ function genSalesAfterDamage(){
 
 
 /* =====================================================
-   7) بلیت گروه
+   7) GROUP TICKETS
 ===================================================== */
 
 function genTickets(){
@@ -1096,14 +1160,19 @@ function genTickets(){
  const perGroup=randomInt(4,8);
  const ticket=pick([15,20,25,30]);
 
- const people=groups*perGroup;
- const cost=people*ticket;
+ const people=
+  groups*perGroup;
+
+ const cost=
+  people*ticket;
+
 
  return makeQuestion({
 
   family:"بلیت گروهی",
 
-  signature:`ticket-${groups}-${perGroup}-${ticket}`,
+  signature:
+   `ticket-${groups}-${perGroup}-${ticket}`,
 
   q:
    `${faNumber(groups)} گروه ${faNumber(perGroup)} نفره به اردو می‌روند. بلیت هر نفر ${faNumber(ticket)} هزار تومان است. هزینه کل بلیت‌ها چقدر است؟`,
@@ -1136,7 +1205,7 @@ function genTickets(){
 
 
 /* =====================================================
-   8) اتاق و کاشی
+   8) TILES
 ===================================================== */
 
 function genTiles(){
@@ -1147,17 +1216,22 @@ function genTiles(){
 
  const area=L*W;
 
+
  if(area%boxes!==0){
   return genTiles();
  }
 
- const perBox=area/boxes;
+
+ const perBox=
+  area/boxes;
+
 
  return makeQuestion({
 
   family:"کاشی‌کاری",
 
-  signature:`tile-${L}-${W}-${boxes}`,
+  signature:
+   `tile-${L}-${W}-${boxes}`,
 
   q:
    `کف اتاقی ${faNumber(L)}×${faNumber(W)} متر است. تمام کف با ${faNumber(boxes)} بسته مساوی کاشی پوشانده می‌شود. هر بسته چند مترمربع را پوشش می‌دهد؟`,
@@ -1190,7 +1264,7 @@ function genTiles(){
 
 
 /* =====================================================
-   9) درآمد و سود
+   9) FULL PROFIT
 ===================================================== */
 
 function genFullProfit(){
@@ -1199,15 +1273,22 @@ function genFullProfit(){
  const buy=pick([10,12,15,20]);
  const sell=buy+pick([3,4,5,6]);
 
- const cost=count*buy;
- const revenue=count*sell;
- const profit=revenue-cost;
+ const cost=
+  count*buy;
+
+ const revenue=
+  count*sell;
+
+ const profit=
+  revenue-cost;
+
 
  return makeQuestion({
 
   family:"سود فروشگاه",
 
-  signature:`fullProfit-${count}-${buy}-${sell}`,
+  signature:
+   `fullProfit-${count}-${buy}-${sell}`,
 
   q:
    `فروشنده ${faNumber(count)} کالا را دانه‌ای ${faNumber(buy)} هزار تومان خرید و همه را دانه‌ای ${faNumber(sell)} هزار تومان فروخت. سود کل را پیدا کن.`,
@@ -1248,7 +1329,7 @@ function genFullProfit(){
 
 
 /* =====================================================
-   10) مسافت سفر
+   10) TRIP
 ===================================================== */
 
 function genTrip(){
@@ -1257,14 +1338,19 @@ function genTrip(){
  const hours=randomInt(2,4);
  const extra=randomInt(20,80);
 
- const first=speed*hours;
- const total=first+extra;
+ const first=
+  speed*hours;
+
+ const total=
+  first+extra;
+
 
  return makeQuestion({
 
   family:"مسافت سفر",
 
-  signature:`trip-${speed}-${hours}-${extra}`,
+  signature:
+   `trip-${speed}-${hours}-${extra}`,
 
   q:
    `خودرویی ${faNumber(hours)} ساعت با سرعت ${faNumber(speed)} کیلومتر بر ساعت حرکت کرد و سپس ${faNumber(extra)} کیلومتر دیگر پیمود. مسافت کل چقدر شد؟`,
@@ -1297,7 +1383,7 @@ function genTrip(){
 
 
 /* =====================================================
-   11) تولید و تقسیم
+   11) PACKING
 ===================================================== */
 
 function genPacking(){
@@ -1306,19 +1392,25 @@ function genPacking(){
  const each=randomInt(8,15);
  const boxes=pick([2,3,4,6]);
 
- const total=machines*each;
+ const total=
+  machines*each;
+
 
  if(total%boxes!==0){
   return genPacking();
  }
 
- const perBox=total/boxes;
+
+ const perBox=
+  total/boxes;
+
 
  return makeQuestion({
 
   family:"تولید و بسته‌بندی",
 
-  signature:`packing-${machines}-${each}-${boxes}`,
+  signature:
+   `packing-${machines}-${each}-${boxes}`,
 
   q:
    `${faNumber(machines)} دستگاه، هرکدام ${faNumber(each)} قطعه تولید کردند. قطعه‌ها در ${faNumber(boxes)} جعبه مساوی قرار گرفتند. در هر جعبه چند قطعه است؟`,
@@ -1351,7 +1443,7 @@ function genPacking(){
 
 
 /* =====================================================
-   12) کتاب‌خوانی
+   12) READING
 ===================================================== */
 
 function genReading(){
@@ -1360,14 +1452,19 @@ function genReading(){
  const days=randomInt(3,6);
  const remaining=randomInt(15,45);
 
- const read=daily*days;
- const total=read+remaining;
+ const read=
+  daily*days;
+
+ const total=
+  read+remaining;
+
 
  return makeQuestion({
 
   family:"کتاب‌خوانی",
 
-  signature:`read-${daily}-${days}-${remaining}`,
+  signature:
+   `read-${daily}-${days}-${remaining}`,
 
   q:
    `دانش‌آموزی ${faNumber(days)} روز، هر روز ${faNumber(daily)} صفحه کتاب خوانده و هنوز ${faNumber(remaining)} صفحه باقی مانده است. کتاب چند صفحه دارد؟`,
@@ -1425,46 +1522,79 @@ const GENERATORS=[
 
 let questions=[];
 
+
 function generateRound(){
 
- const recent=new Set(loadHistory());
+ const recent=
+  new Set(
+   loadHistory()
+  );
+
 
  const selected=
-  shuffle(GENERATORS)
-  .slice(0,TOTAL_QUESTIONS);
+  shuffle(
+   GENERATORS
+  ).slice(
+   0,
+   TOTAL_QUESTIONS
+  );
+
 
  const generated=[];
 
 
- for(const generator of selected){
+ for(
+  const generator
+  of selected
+ ){
 
   let candidate=null;
 
 
-  for(let attempt=0;attempt<30;attempt++){
+  for(
+   let attempt=0;
+   attempt<30;
+   attempt++
+  ){
 
-   const q=generator();
+   const q=
+    generator();
+
 
    candidate=q;
 
 
-   if(!recent.has(q.signature)){
+   if(
+    !recent.has(
+     q.signature
+    )
+   ){
     break;
    }
   }
 
 
-  generated.push(candidate);
+  generated.push(
+   candidate
+  );
 
-  recent.add(candidate.signature);
+
+  recent.add(
+   candidate.signature
+  );
  }
 
 
- questions=shuffle(generated);
+ questions=
+  shuffle(
+   generated
+  );
 
 
  saveHistory(
-  generated.map(q=>q.signature)
+  generated.map(
+   q=>q.signature
+  )
  );
 }
 
@@ -1484,39 +1614,15 @@ let timerInterval=null;
 let gameFinished=false;
 let finishSubmitted=false;
 
-
-/*
- phase:
- order
- solve
- finished
-*/
 let phase="order";
 
-
-/*
- ترتیب انتخاب‌شده کارت‌ها
-*/
 let selectedOrder=[];
 
-
-/*
- مرحله فعلی حل
-*/
 let solveIndex=0;
 
-
-/*
- انتخاب عمل و جواب
-*/
 let selectedOperation=null;
 let selectedAnswer=null;
 
-
-/*
- خطا در هر بخش باعث می‌شود مأموریت دیگر
- امتیاز نگیرد، اما دانش‌آموز ادامه می‌دهد.
-*/
 let missionPerfect=true;
 
 
@@ -1592,30 +1698,40 @@ function buildProgress(){
 
  for(let i=0;i<TOTAL_QUESTIONS;i++){
 
-  const item=document.createElement("div");
+  const item=
+   document.createElement("div");
 
-  item.className="progress-item";
 
-  progressEl.appendChild(item);
+  item.className=
+   "progress-item";
+
+
+  progressEl.appendChild(
+   item
+  );
  }
 }
 
 
 function updateProgress(){
 
- [...progressEl.children]
-  .forEach((item,index)=>{
+ [
+  ...progressEl.children
+ ].forEach(
+  (item,index)=>{
 
    item.classList.toggle(
     "done",
     index<currentIndex
    );
 
+
    item.classList.toggle(
     "current",
     index===currentIndex
    );
-  });
+  }
+ );
 }
 
 
@@ -1627,7 +1743,10 @@ function stopTimer(){
 
  if(timerInterval){
 
-  clearInterval(timerInterval);
+  clearInterval(
+   timerInterval
+  );
+
 
   timerInterval=null;
  }
@@ -1638,75 +1757,142 @@ function startTimer(){
 
  stopTimer();
 
- questionStartTime=Date.now();
+
+ questionStartTime=
+  Date.now();
+
 
  timerNumberEl.textContent=
-  faNumber(QUESTION_TIME);
+  faNumber(
+   QUESTION_TIME
+  );
+
 
  timeStatusEl.textContent=
-  faNumber(QUESTION_TIME)+" ثانیه";
+  faNumber(
+   QUESTION_TIME
+  )+
+  " ثانیه";
 
- timerBarEl.style.width="100%";
- timerBarEl.style.background="var(--green)";
- timerNumberEl.style.color="var(--green)";
+
+ timerBarEl.style.width=
+  "100%";
+
+
+ timerBarEl.style.background=
+  "var(--green)";
+
+
+ timerNumberEl.style.color=
+  "var(--green)";
+
 
  timerInterval=
-  setInterval(updateTimer,100);
+  setInterval(
+   updateTimer,
+   100
+  );
 }
 
 
 function updateTimer(){
 
- if(answerChecked||gameFinished){
+ if(
+  answerChecked ||
+  gameFinished
+ ){
 
   stopTimer();
+
   return;
  }
 
 
  const elapsed=
-  (Date.now()-questionStartTime)/1000;
+  (
+   Date.now()-
+   questionStartTime
+  )/1000;
 
 
  const remaining=
   Math.max(
    0,
-   QUESTION_TIME-elapsed
+   QUESTION_TIME-
+   elapsed
   );
 
 
  const seconds=
-  Math.ceil(remaining);
+  Math.ceil(
+   remaining
+  );
 
 
  timerNumberEl.textContent=
-  faNumber(seconds);
+  faNumber(
+   seconds
+  );
+
 
  timeStatusEl.textContent=
-  faNumber(seconds)+" ثانیه";
+  faNumber(
+   seconds
+  )+
+  " ثانیه";
+
 
  timerBarEl.style.width=
-  (remaining/QUESTION_TIME*100)+"%";
+  (
+   remaining/
+   QUESTION_TIME*
+   100
+  )+"%";
 
 
- if(remaining>30){
+ /*
+   180 تا 90 ثانیه = سبز
+   90 تا 45 ثانیه = زرد
+   45 ثانیه پایانی = قرمز
+ */
 
-  timerBarEl.style.background="var(--green)";
-  timerNumberEl.style.color="var(--green)";
+ if(remaining>90){
 
- }else if(remaining>15){
+  timerBarEl.style.background=
+   "var(--green)";
 
-  timerBarEl.style.background="var(--yellow)";
-  timerNumberEl.style.color="#ad7700";
 
- }else{
+  timerNumberEl.style.color=
+   "var(--green)";
+ }
 
-  timerBarEl.style.background="var(--red)";
-  timerNumberEl.style.color="var(--red)";
+ else if(
+  remaining>45
+ ){
+
+  timerBarEl.style.background=
+   "var(--yellow)";
+
+
+  timerNumberEl.style.color=
+   "#ad7700";
+ }
+
+ else{
+
+  timerBarEl.style.background=
+   "var(--red)";
+
+
+  timerNumberEl.style.color=
+   "var(--red)";
  }
 
 
- if(remaining<=0){
+ if(
+  remaining<=0
+ ){
+
   handleTimeout();
  }
 }
@@ -1720,6 +1906,7 @@ function showQuestion(){
 
  stopTimer();
 
+
  answerChecked=false;
 
  phase="order";
@@ -1729,21 +1916,29 @@ function showQuestion(){
  solveIndex=0;
 
  selectedOperation=null;
+
  selectedAnswer=null;
 
  missionPerfect=true;
 
 
- const q=questions[currentIndex];
+ const q=
+  questions[
+   currentIndex
+  ];
 
 
  updateProgress();
 
 
  questionNumberEl.textContent=
-  faNumber(currentIndex+1)+
+  faNumber(
+   currentIndex+1
+  )+
   " از "+
-  faNumber(TOTAL_QUESTIONS);
+  faNumber(
+   TOTAL_QUESTIONS
+  );
 
 
  scoreEl.textContent=
@@ -1752,30 +1947,44 @@ function showQuestion(){
 
  missionLabelEl.textContent=
   "🌉 پل "+
-  faNumber(currentIndex+1);
+  faNumber(
+   currentIndex+1
+  );
 
 
  familyLabelEl.textContent=
-  "🎯 "+q.family;
+  "🎯 "+
+  q.family;
 
 
- problemTextEl.textContent=q.q;
+ problemTextEl.textContent=
+  q.q;
 
 
- feedbackEl.className="feedback";
+ feedbackEl.className=
+  "feedback";
+
+
  feedbackTitleEl.textContent="";
+
  feedbackTextEl.textContent="";
+
  solutionEl.textContent="";
 
 
  miniFeedback.className=
   "mini-feedback";
 
+
  miniFeedback.textContent="";
 
 
- orderArea.style.display="block";
- solveArea.style.display="none";
+ orderArea.style.display=
+  "block";
+
+
+ solveArea.style.display=
+  "none";
 
 
  modeTitle.textContent=
@@ -1786,18 +1995,27 @@ function showQuestion(){
   "زیرمسئله‌ها را به ترتیب وابستگی منطقی انتخاب کن. روی کارت انتخاب‌شده در پایین بزن تا حذف شود.";
 
 
- nextButton.classList.remove("show");
+ nextButton.classList.remove(
+  "show"
+ );
 
 
  nextButton.textContent=
-  currentIndex===TOTAL_QUESTIONS-1
+  currentIndex===
+  TOTAL_QUESTIONS-1
+
   ?"مشاهده نتیجه 🏆"
+
   :"پل بعدی 🏗️";
 
 
- buildBridge(q.steps.length);
+ buildBridge(
+  q.steps.length
+ );
+
 
  renderOrderArea();
+
 
  startTimer();
 }
@@ -1812,18 +2030,31 @@ function buildBridge(count){
  bridgeTrack.innerHTML="";
 
 
- for(let i=0;i<count;i++){
+ for(
+  let i=0;
+  i<count;
+  i++
+ ){
 
   const piece=
-   document.createElement("div");
+   document.createElement(
+    "div"
+   );
+
 
   piece.className=
    "bridge-piece";
 
-  piece.textContent=
-   faNumber(i+1);
 
-  bridgeTrack.appendChild(piece);
+  piece.textContent=
+   faNumber(
+    i+1
+   );
+
+
+  bridgeTrack.appendChild(
+   piece
+  );
  }
 
 
@@ -1857,80 +2088,125 @@ function updateBridge(built){
 
 
  const ratio=
-  built/total;
+  built/
+  total;
 
 
  walker.style.left=
-  (7+ratio*78)+"%";
+  (
+   7+
+   ratio*78
+  )+"%";
 }
 
 
 /* =====================================================
-   ORDER AREA
+   ORDER
 ===================================================== */
 
 function renderOrderArea(){
 
- const q=questions[currentIndex];
+ const q=
+  questions[
+   currentIndex
+  ];
 
 
  cardPool.innerHTML="";
+
  orderSlots.innerHTML="";
 
 
- q.cards.forEach(card=>{
+ q.cards.forEach(
+  card=>{
 
-  const button=
-   document.createElement("button");
-
-  button.type="button";
-
-  button.className="step-card";
-
-
-  if(
-   selectedOrder.includes(card.id)
-  ){
-
-   button.classList.add("selected");
-   button.disabled=true;
-  }
-
-
-  button.textContent=
-   "🧩 "+card.title;
-
-
-  button.addEventListener(
-   "click",
-   ()=>selectOrderCard(card.id)
-  );
-
-
-  cardPool.appendChild(button);
- });
-
-
- for(let i=0;i<q.steps.length;i++){
-
-  const slot=
-   document.createElement("div");
-
-  slot.className="order-slot";
-
-
-  if(selectedOrder[i]){
-
-   const step=
-    q.steps.find(
-     s=>s.id===selectedOrder[i]
+   const button=
+    document.createElement(
+     "button"
     );
 
 
-   slot.classList.add("filled");
+   button.type=
+    "button";
+
+
+   button.className=
+    "step-card";
+
+
+   if(
+    selectedOrder.includes(
+     card.id
+    )
+   ){
+
+    button.classList.add(
+     "selected"
+    );
+
+
+    button.disabled=
+     true;
+   }
+
+
+   button.textContent=
+    "🧩 "+
+    card.title;
+
+
+   button.addEventListener(
+    "click",
+    ()=>selectOrderCard(
+     card.id
+    )
+   );
+
+
+   cardPool.appendChild(
+    button
+   );
+  }
+ );
+
+
+ for(
+  let i=0;
+  i<q.steps.length;
+  i++
+ ){
+
+  const slot=
+   document.createElement(
+    "div"
+   );
+
+
+  slot.className=
+   "order-slot";
+
+
+  if(
+   selectedOrder[i]
+  ){
+
+   const step=
+    q.steps.find(
+     s=>
+      s.id===
+      selectedOrder[i]
+    );
+
+
+   slot.classList.add(
+    "filled"
+   );
+
 
    slot.textContent=
-    faNumber(i+1)+
+    faNumber(
+     i+1
+    )+
     ". "+
     step.title;
 
@@ -1943,12 +2219,16 @@ function renderOrderArea(){
   }else{
 
    slot.textContent=
-    faNumber(i+1)+
+    faNumber(
+     i+1
+    )+
     ". ؟";
   }
 
 
-  orderSlots.appendChild(slot);
+  orderSlots.appendChild(
+   slot
+  );
  }
 
 
@@ -1992,7 +2272,10 @@ function removeOrderAt(index){
  }
 
 
- selectedOrder.splice(index,1);
+ selectedOrder.splice(
+  index,
+  1
+ );
 
 
  renderOrderArea();
@@ -2019,17 +2302,23 @@ function checkOrder(){
  }
 
 
- const q=questions[currentIndex];
+ const q=
+  questions[
+   currentIndex
+  ];
 
 
  const expected=
-  q.steps.map(step=>step.id);
+  q.steps.map(
+   step=>step.id
+  );
 
 
  const correct=
   expected.every(
    (id,index)=>
-    selectedOrder[index]===id
+    selectedOrder[index]===
+    id
   );
 
 
@@ -2043,10 +2332,12 @@ function checkOrder(){
 
 
   miniFeedback.textContent=
-   "❌ این ترتیب وابستگی زیرمسئله‌ها را درست نشان نمی‌دهد. نقشه صحیح نمایش داده شد؛ حالا پل را مرحله‌به‌مرحله بساز.";
+   "❌ ترتیب درست نبود. نقشه صحیح نمایش داده شد؛ حالا زیرمسئله‌ها را مرحله‌به‌مرحله حل کن.";
 
 
-  selectedOrder=[...expected];
+  selectedOrder=[
+   ...expected
+  ];
 
 
   renderOrderArea();
@@ -2056,6 +2347,7 @@ function checkOrder(){
    startSolvePhase,
    900
   );
+
 
   return;
  }
@@ -2090,8 +2382,12 @@ function startSolvePhase(){
  phase="solve";
 
 
- orderArea.style.display="none";
- solveArea.style.display="block";
+ orderArea.style.display=
+  "none";
+
+
+ solveArea.style.display=
+  "block";
 
 
  modeTitle.textContent=
@@ -2108,24 +2404,38 @@ function startSolvePhase(){
 
 function showSolveStep(){
 
- const q=questions[currentIndex];
+ const q=
+  questions[
+   currentIndex
+  ];
 
- const step=q.steps[solveIndex];
+
+ const step=
+  q.steps[
+   solveIndex
+  ];
 
 
  selectedOperation=null;
+
  selectedAnswer=null;
 
 
  subproblemNumber.textContent=
   "🧱 قطعه "+
-  faNumber(solveIndex+1);
+  faNumber(
+   solveIndex+1
+  );
 
 
  subproblemProgress.textContent=
-  faNumber(solveIndex+1)+
+  faNumber(
+   solveIndex+1
+  )+
   " از "+
-  faNumber(q.steps.length);
+  faNumber(
+   q.steps.length
+  );
 
 
  subproblemText.textContent=
@@ -2137,18 +2447,31 @@ function showSolveStep(){
   step.dependsText;
 
 
- [...operations.querySelectorAll(".op-btn")]
-  .forEach(button=>{
+ [
+  ...operations
+   .querySelectorAll(
+    ".op-btn"
+   )
+ ].forEach(
+  button=>{
 
-   button.classList.remove("selected");
+   button.classList.remove(
+    "selected"
+   );
+
+
    button.disabled=false;
-  });
+  }
+ );
 
 
- buildAnswerOptions(step);
+ buildAnswerOptions(
+  step
+ );
 
 
- submitStepButton.disabled=false;
+ submitStepButton.disabled=
+  false;
 
 
  miniFeedback.className=
@@ -2163,8 +2486,13 @@ function showSolveStep(){
    OPERATIONS
 ===================================================== */
 
-[...operations.querySelectorAll(".op-btn")]
- .forEach(button=>{
+[
+ ...operations
+  .querySelectorAll(
+   ".op-btn"
+  )
+].forEach(
+ button=>{
 
   button.addEventListener(
    "click",
@@ -2182,17 +2510,24 @@ function showSolveStep(){
      button.dataset.op;
 
 
-    [...operations.querySelectorAll(".op-btn")]
-     .forEach(item=>{
+    [
+     ...operations
+      .querySelectorAll(
+       ".op-btn"
+      )
+    ].forEach(
+     item=>{
 
       item.classList.toggle(
        "selected",
        item===button
       );
-     });
+     }
+    );
    }
   );
- });
+ }
+);
 
 
 /* =====================================================
@@ -2205,51 +2540,72 @@ function buildAnswerOptions(step){
 
 
  const options=
-  makeOptions(step.answer);
-
-
- options.forEach(value=>{
-
-  const button=
-   document.createElement("button");
-
-  button.type="button";
-
-  button.className="answer-btn";
-
-  button.textContent=
-   faNumber(value);
-
-
-  button.addEventListener(
-   "click",
-   ()=>{
-
-    if(
-     answerChecked ||
-     phase!=="solve"
-    ){
-     return;
-    }
-
-
-    selectedAnswer=value;
-
-
-    [...answerOptions.children]
-     .forEach(item=>{
-
-      item.classList.toggle(
-       "selected",
-       item===button
-      );
-     });
-   }
+  makeOptions(
+   step.answer
   );
 
 
-  answerOptions.appendChild(button);
- });
+ options.forEach(
+  value=>{
+
+   const button=
+    document.createElement(
+     "button"
+    );
+
+
+   button.type=
+    "button";
+
+
+   button.className=
+    "answer-btn";
+
+
+   button.dataset.value=
+    value;
+
+
+   button.textContent=
+    faNumber(value);
+
+
+   button.addEventListener(
+    "click",
+    ()=>{
+
+     if(
+      answerChecked ||
+      phase!=="solve"
+     ){
+      return;
+     }
+
+
+     selectedAnswer=
+      value;
+
+
+     [
+      ...answerOptions.children
+     ].forEach(
+      item=>{
+
+       item.classList.toggle(
+        "selected",
+        item===button
+       );
+      }
+     );
+    }
+   );
+
+
+   answerOptions.appendChild(
+    button
+   );
+  }
+ );
 }
 
 
@@ -2290,14 +2646,24 @@ function submitSolveStep(){
  }
 
 
- const q=questions[currentIndex];
+ const q=
+  questions[
+   currentIndex
+  ];
 
- const step=q.steps[solveIndex];
+
+ const step=
+  q.steps[
+   solveIndex
+  ];
 
 
  const correct=
-  selectedOperation===step.op &&
-  selectedAnswer===step.answer;
+  selectedOperation===
+  step.op
+  &&
+  selectedAnswer===
+  step.answer;
 
 
  if(!correct){
@@ -2318,17 +2684,22 @@ function submitSolveStep(){
 
 
   miniFeedback.textContent=
-   "❌ این قطعه درست ساخته نشد. پاسخ صحیح: عمل "+
+   "❌ پاسخ صحیح این قطعه: عمل "+
    opLabel+
    " و حاصل "+
-   faNumber(step.answer)+
-   ". حالا از این نتیجه برای ادامه مسیر استفاده کن.";
+   faNumber(
+    step.answer
+   )+
+   ". حالا این نتیجه را برای ادامه مسیر نگه دار.";
 
 
-  revealStepCorrect(step);
+  revealStepCorrect(
+   step
+  );
 
 
-  submitStepButton.disabled=true;
+  submitStepButton.disabled=
+   true;
 
 
   setTimeout(
@@ -2347,18 +2718,32 @@ function submitSolveStep(){
 
  miniFeedback.textContent=
   "✅ قطعه درست ساخته شد! حاصل این زیرمسئله: "+
-  faNumber(step.answer);
+  faNumber(
+   step.answer
+  );
 
 
- submitStepButton.disabled=true;
+ submitStepButton.disabled=
+  true;
 
 
- [...operations.querySelectorAll(".op-btn")]
-  .forEach(button=>button.disabled=true);
+ [
+  ...operations
+   .querySelectorAll(
+    ".op-btn"
+   )
+ ].forEach(
+  button=>
+   button.disabled=true
+ );
 
 
- [...answerOptions.children]
-  .forEach(button=>button.disabled=true);
+ [
+  ...answerOptions.children
+ ].forEach(
+  button=>
+   button.disabled=true
+ );
 
 
  setTimeout(
@@ -2370,40 +2755,59 @@ function submitSolveStep(){
 
 function revealStepCorrect(step){
 
- [...operations.querySelectorAll(".op-btn")]
-  .forEach(button=>{
+ [
+  ...operations
+   .querySelectorAll(
+    ".op-btn"
+   )
+ ].forEach(
+  button=>{
 
    button.disabled=true;
 
 
    if(
-    button.dataset.op===step.op
+    button.dataset.op===
+    step.op
    ){
 
-    button.classList.add("selected");
+    button.classList.add(
+     "selected"
+    );
    }
-  });
+  }
+ );
 
 
- [...answerOptions.children]
-  .forEach(button=>{
+ [
+  ...answerOptions.children
+ ].forEach(
+  button=>{
 
    button.disabled=true;
 
 
    if(
-    Number(button.textContent.replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)))===
+    Number(
+     button.dataset.value
+    )===
     step.answer
    ){
-    button.style.borderColor="var(--green)";
-    button.style.background="#e8faed";
+
+    button.style.borderColor=
+     "var(--green)";
+
+
+    button.style.background=
+     "#e8faed";
    }
-  });
+  }
+ );
 }
 
 
 /* =====================================================
-   NEXT SUBPROBLEM
+   ADVANCE
 ===================================================== */
 
 function advanceSolveStep(){
@@ -2421,7 +2825,10 @@ function advanceSolveStep(){
  );
 
 
- const q=questions[currentIndex];
+ const q=
+  questions[
+   currentIndex
+  ];
 
 
  if(
@@ -2453,17 +2860,21 @@ function finishMission(){
 
  phase="finished";
 
- stopTimer();
-
-
- const q=questions[currentIndex];
-
 
  const elapsed=
   (
    Date.now()-
    questionStartTime
   )/1000;
+
+
+ stopTimer();
+
+
+ const q=
+  questions[
+   currentIndex
+  ];
 
 
  updateBridge(
@@ -2474,7 +2885,9 @@ function finishMission(){
  if(missionPerfect){
 
   const earned=
-   pointsForTime(elapsed);
+   pointsForTime(
+    elapsed
+   );
 
 
   score=
@@ -2490,12 +2903,14 @@ function finishMission(){
 
   feedbackTitleEl.textContent=
    "✅ پل کامل شد! +"+
-   faNumber(earned)+
+   faNumber(
+    earned
+   )+
    " امتیاز";
 
 
   feedbackTextEl.textContent=
-   "مسئله را به زیرمسئله‌های مناسب شکستی، ترتیب وابستگی را تشخیص دادی و هر مرحله را به جواب مرحله بعد وصل کردی.";
+   "مسئله را به زیرمسئله‌های مناسب شکستی، ترتیب وابستگی را تشخیص دادی و جواب هر مرحله را به مرحله بعد رساندی.";
 
 
   celebrate();
@@ -2511,7 +2926,7 @@ function finishMission(){
 
 
   feedbackTextEl.textContent=
-   "در یکی از بخش‌های نقشه یا محاسبه نیاز به کمک داشتی. نکته مهم این است که زیرمسئله‌ها را طوری مرتب کنیم که جواب هر مرحله، مسیر مرحله بعد را باز کند.";
+   "در یکی از بخش‌های نقشه یا محاسبه نیاز به راهنما داشتی. زیرمسئله‌ها را طوری مرتب کن که جواب هر مرحله، مسیر مرحله بعد را باز کند.";
  }
 
 
@@ -2524,7 +2939,9 @@ function finishMission(){
   faNumber(score);
 
 
- nextButton.classList.add("show");
+ nextButton.classList.add(
+  "show"
+ );
 }
 
 
@@ -2546,16 +2963,30 @@ function handleTimeout(){
 
  phase="finished";
 
+
  stopTimer();
 
 
- timerNumberEl.textContent="۰";
- timeStatusEl.textContent="۰ ثانیه";
- timerBarEl.style.width="0%";
- timerBarEl.style.background="var(--red)";
+ timerNumberEl.textContent=
+  "۰";
 
 
- const q=questions[currentIndex];
+ timeStatusEl.textContent=
+  "۰ ثانیه";
+
+
+ timerBarEl.style.width=
+  "0%";
+
+
+ timerBarEl.style.background=
+  "var(--red)";
+
+
+ const q=
+  questions[
+   currentIndex
+  ];
 
 
  updateBridge(
@@ -2563,8 +2994,12 @@ function handleTimeout(){
  );
 
 
- orderArea.style.display="none";
- solveArea.style.display="none";
+ orderArea.style.display=
+  "none";
+
+
+ solveArea.style.display=
+  "none";
 
 
  feedbackEl.className=
@@ -2576,68 +3011,111 @@ function handleTimeout(){
 
 
  feedbackTextEl.textContent=
-  "پل به‌صورت راهنما تکمیل شد. در راهبرد زیرمسئله، ابتدا سؤال‌های کوچک‌تر را به ترتیب وابستگی حل می‌کنیم.";
+  "در راهبرد زیرمسئله، مسئله اصلی را به سؤال‌های کوچک‌تر و وابسته تقسیم می‌کنیم و آنها را به ترتیب حل می‌کنیم.";
 
 
  solutionEl.textContent=
   "✅ مسیر صحیح: "+
   q.steps.map(
    (step,index)=>
-    faNumber(index+1)+
+    faNumber(
+     index+1
+    )+
     ") "+
     step.title+
     " ← "+
-    faNumber(step.answer)
+    faNumber(
+     step.answer
+    )
   ).join(" | ")+
   " | "+
   q.solution;
 
 
- nextButton.classList.add("show");
+ nextButton.classList.add(
+  "show"
+ );
 }
 
 
 /* =====================================================
-   CELEBRATE
+   CELEBRATION
 ===================================================== */
 
 function celebrate(){
 
  const rect=
-  bridgeWorld.getBoundingClientRect();
+  bridgeWorld
+   .getBoundingClientRect();
 
 
  const icons=[
-  "🧱","🌉","⭐","✨","🚩","🎉"
+  "🧱",
+  "🌉",
+  "⭐",
+  "✨",
+  "🚩",
+  "🎉"
  ];
 
 
- for(let i=0;i<11;i++){
+ for(
+  let i=0;
+  i<11;
+  i++
+ ){
 
   const spark=
-   document.createElement("span");
+   document.createElement(
+    "span"
+   );
 
-  spark.className="spark";
 
-  spark.textContent=pick(icons);
+  spark.className=
+   "spark";
+
+
+  spark.textContent=
+   pick(icons);
+
 
   spark.style.left=
-   (rect.left+rect.width*.75)+"px";
+   (
+    rect.left+
+    rect.width*.75
+   )+"px";
+
 
   spark.style.top=
-   (rect.top+rect.height*.45)+"px";
+   (
+    rect.top+
+    rect.height*.45
+   )+"px";
+
 
   spark.style.setProperty(
    "--x",
-   (Math.random()*180-90)+"px"
+   (
+    Math.random()*180-
+    90
+   )+"px"
   );
+
 
   spark.style.setProperty(
    "--y",
-   (-30-Math.random()*120)+"px"
+   (
+    -30-
+    Math.random()*120
+   )+"px"
   );
 
-  document.body.appendChild(spark);
+
+  document.body
+   .appendChild(
+    spark
+   );
+
 
   setTimeout(
    ()=>spark.remove(),
@@ -2655,7 +3133,11 @@ nextButton.addEventListener(
  "click",
  ()=>{
 
-  if(!answerChecked)return;
+  if(
+   !answerChecked
+  ){
+   return;
+  }
 
 
   if(
@@ -2664,6 +3146,7 @@ nextButton.addEventListener(
   ){
 
    currentIndex++;
+
 
    showQuestion();
 
@@ -2687,34 +3170,55 @@ nextButton.addEventListener(
 
 async function finishGame(){
 
- if(gameFinished)return;
+ if(gameFinished){
+  return;
+ }
 
 
  gameFinished=true;
 
+
  stopTimer();
 
 
- [...progressEl.children]
-  .forEach(item=>{
+ [
+  ...progressEl.children
+ ].forEach(
+  item=>{
 
-   item.classList.remove("current");
-   item.classList.add("done");
-  });
+   item.classList.remove(
+    "current"
+   );
 
 
- gameScreen.style.display="none";
+   item.classList.add(
+    "done"
+   );
+  }
+ );
 
- resultScreen.classList.add("show");
+
+ gameScreen.style.display=
+  "none";
+
+
+ resultScreen
+  .classList
+  .add("show");
 
 
  const name=
-  player&&player.playerName
+  player&&
+  player.playerName
+
   ?player.playerName
+
   :"بازیکن";
 
 
- resultNameEl.textContent=name;
+ resultNameEl.textContent=
+  name;
+
 
  finalScoreEl.textContent=
   faNumber(score);
@@ -2743,7 +3247,9 @@ async function finishGame(){
 
 
  leaderboardContent.innerHTML=
-  '<div class="loading">در حال ثبت نتیجه و دریافت جدول برترین‌ها...</div>';
+  '<div class="loading">'+
+  'در حال ثبت نتیجه و دریافت جدول برترین‌ها...'+
+  '</div>';
 
 
  try{
@@ -2752,8 +3258,10 @@ async function finishGame(){
 
    finishSubmitted=true;
 
+
    const result=
-    await GameSDK.finishGame(score);
+    await GameSDK
+     .finishGame(score);
   }
 
  }catch(error){
@@ -2778,10 +3286,12 @@ async function loadLeaderboard(){
  try{
 
   const scores=
-   await GameSDK.getLeaderboard(10);
+   await GameSDK
+    .getLeaderboard(10);
 
 
-  leaderboardContent.innerHTML="";
+  leaderboardContent.innerHTML=
+   "";
 
 
   if(
@@ -2790,7 +3300,10 @@ async function loadLeaderboard(){
   ){
 
    leaderboardContent.innerHTML=
-    '<div class="loading">هنوز رکوردی ثبت نشده است.</div>';
+    '<div class="loading">'+
+    'هنوز رکوردی ثبت نشده است.'+
+    '</div>';
+
 
    return;
   }
@@ -2800,19 +3313,38 @@ async function loadLeaderboard(){
    (item,index)=>{
 
     const row=
-     document.createElement("div");
+     document.createElement(
+      "div"
+     );
 
 
-    row.className="rank-row";
+    row.className=
+     "rank-row";
 
 
     let rank;
 
 
-    if(index===0)rank="🥇";
-    else if(index===1)rank="🥈";
-    else if(index===2)rank="🥉";
-    else rank=faNumber(index+1)+".";
+    if(index===0){
+
+     rank="🥇";
+
+    }else if(index===1){
+
+     rank="🥈";
+
+    }else if(index===2){
+
+     rank="🥉";
+
+    }else{
+
+     rank=
+      faNumber(
+       index+1
+      )+
+      ".";
+    }
 
 
     const name=
@@ -2823,11 +3355,14 @@ async function loadLeaderboard(){
 
 
     const value=
-     item.score ?? 0;
+     item.score ??
+     0;
 
 
     const nameEl=
-     document.createElement("span");
+     document.createElement(
+      "span"
+     );
 
 
     nameEl.className=
@@ -2835,11 +3370,15 @@ async function loadLeaderboard(){
 
 
     nameEl.textContent=
-     rank+" "+name;
+     rank+
+     " "+
+     name;
 
 
     const valueEl=
-     document.createElement("span");
+     document.createElement(
+      "span"
+     );
 
 
     valueEl.className=
@@ -2847,14 +3386,24 @@ async function loadLeaderboard(){
 
 
     valueEl.textContent=
-     faNumber(value)+" امتیاز";
+     faNumber(value)+
+     " امتیاز";
 
 
-    row.appendChild(nameEl);
-    row.appendChild(valueEl);
+    row.appendChild(
+     nameEl
+    );
 
 
-    leaderboardContent.appendChild(row);
+    row.appendChild(
+     valueEl
+    );
+
+
+    leaderboardContent
+     .appendChild(
+      row
+     );
    }
   );
 
@@ -2867,7 +3416,9 @@ async function loadLeaderboard(){
 
 
   leaderboardContent.innerHTML=
-   '<div class="loading">دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.</div>';
+   '<div class="loading">'+
+   'دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.'+
+   '</div>';
  }
 }
 
@@ -2882,38 +3433,53 @@ restartButton.addEventListener(
 
   stopTimer();
 
+
   GameSDK.reset();
 
 
   score=0;
+
   currentIndex=0;
 
   answerChecked=false;
+
   questionStartTime=0;
 
   gameFinished=false;
+
   finishSubmitted=false;
 
   phase="order";
+
   selectedOrder=[];
+
   solveIndex=0;
 
   selectedOperation=null;
+
   selectedAnswer=null;
 
   missionPerfect=true;
 
 
-  resultScreen.classList.remove("show");
+  resultScreen
+   .classList
+   .remove("show");
 
-  gameScreen.style.display="block";
 
-  leaderboardContent.innerHTML="";
+  gameScreen.style.display=
+   "block";
+
+
+  leaderboardContent.innerHTML=
+   "";
 
 
   generateRound();
 
+
   buildProgress();
+
 
   showQuestion();
 
@@ -2933,25 +3499,34 @@ restartButton.addEventListener(
 function startGame(){
 
  const name=
-  player&&player.playerName
+  player&&
+  player.playerName
+
   ?player.playerName
+
   :"بازیکن";
 
 
- playerNameEl.textContent=name;
+ playerNameEl.textContent=
+  name;
 
 
  score=0;
+
  currentIndex=0;
 
  answerChecked=false;
+
  gameFinished=false;
+
  finishSubmitted=false;
 
 
  generateRound();
 
+
  buildProgress();
+
 
  showQuestion();
 }
