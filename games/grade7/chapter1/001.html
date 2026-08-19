@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ماموریت حل مسئله | ریاضی هفتم</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+:root{
+    --primary:#087f8c;
+    --primary2:#20a4b5;
+    --green:#2e9d55;
+    --yellow:#f0b429;
+    --red:#e04f5f;
+    --purple:#7450a1;
+    --text:#263238;
+    --muted:#6d7c80;
+    --bg:#eaf7f8;
+    --card:#ffffff;
+    --border:#d5e4e7;
+}
+
+html{
+    color-scheme:light only;
+    -webkit-text-size-adjust:100%;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top right,#d5f4f6 0,transparent 35%),
+        linear-gradient(160deg,#f6fcfc,#e8f6f8);
+    color:var(--text);
+    font-family:Tahoma,Arial,sans-serif;
+    direction:rtl;
+}
+
+button,
+a{
+    font-family:inherit;
+}
+
+.app{
+    width:min(100%,900px);
+    margin:auto;
+    padding:16px;
+}
+
+.hero{
+    text-align:center;
+    margin:8px 0 18px;
+}
+
+.hero-badge{
+    display:inline-block;
+    background:#dff5f7;
+    color:var(--primary);
+    border:1px solid #b7e1e5;
+    border-radius:999px;
+    padding:6px 14px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.hero h1{
+    margin:10px 0 4px;
+    color:var(--primary);
+    font-size:clamp(25px,6vw,38px);
+}
+
+.hero p{
+    margin:0;
+    color:var(--muted);
+    font-size:14px;
+}
+
+.panel{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:22px;
+    box-shadow:0 12px 35px rgba(24,85,94,.10);
+    overflow:hidden;
+}
+
+.status{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+    padding:12px;
+    background:#f6fbfc;
+    border-bottom:1px solid var(--border);
+}
+
+.stat{
+    min-width:0;
+    padding:8px 5px;
+    text-align:center;
+    border-radius:12px;
+    background:#fff;
+}
+
+.stat-label{
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:2px;
+}
+
+.stat-value{
+    display:block;
+    font-weight:bold;
+    color:var(--primary);
+    font-size:14px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.game-area{
+    padding:18px;
+}
+
+.timer-wrap{
+    margin-bottom:18px;
+}
+
+.timer-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:6px;
+    font-size:13px;
+}
+
+.timer-number{
+    font-size:20px;
+    font-weight:bold;
+    color:var(--green);
+    min-width:52px;
+    text-align:left;
+}
+
+.timer-track{
+    width:100%;
+    height:12px;
+    background:#e5ecee;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.timer-bar{
+    height:100%;
+    width:100%;
+    background:var(--green);
+    border-radius:inherit;
+    transition:width .12s linear,background .25s;
+}
+
+.mission{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    color:var(--purple);
+    background:#f4eefb;
+    border-radius:999px;
+    padding:5px 11px;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.question{
+    font-size:clamp(17px,4.5vw,22px);
+    font-weight:bold;
+    line-height:1.9;
+    margin:0 0 18px;
+}
+
+.options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.option{
+    width:100%;
+    min-height:62px;
+    border:2px solid #d9e5e7;
+    border-radius:15px;
+    background:#fff;
+    color:var(--text);
+    font-size:15px;
+    font-weight:bold;
+    padding:12px 10px;
+    cursor:pointer;
+    transition:transform .15s,border-color .15s,background .15s;
+    touch-action:manipulation;
+}
+
+.option:hover:not(:disabled){
+    transform:translateY(-2px);
+    border-color:var(--primary2);
+    background:#f2fcfd;
+}
+
+.option:disabled{
+    cursor:default;
+}
+
+.option.correct{
+    background:#e7f7ec;
+    border-color:var(--green);
+    color:#187137;
+}
+
+.option.wrong{
+    background:#ffeaed;
+    border-color:var(--red);
+    color:#a62635;
+}
+
+.feedback{
+    display:none;
+    margin-top:18px;
+    padding:14px;
+    border-radius:15px;
+    line-height:1.9;
+}
+
+.feedback.show{
+    display:block;
+    animation:pop .25s ease;
+}
+
+.feedback.success{
+    background:#e9f8ee;
+    border:1px solid #addcbc;
+}
+
+.feedback.error{
+    background:#fff0f1;
+    border:1px solid #f0bcc2;
+}
+
+.feedback.timeout{
+    background:#fff7df;
+    border:1px solid #ead596;
+}
+
+.feedback-title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+.explanation{
+    color:#48595d;
+    font-size:14px;
+}
+
+.next-btn,
+.main-btn{
+    display:none;
+    width:100%;
+    border:0;
+    border-radius:14px;
+    padding:14px;
+    margin-top:14px;
+    background:var(--primary);
+    color:#fff;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 5px 14px rgba(8,127,140,.22);
+}
+
+.next-btn.show,
+.main-btn.show{
+    display:block;
+}
+
+.next-btn:hover,
+.main-btn:hover{
+    background:#066d78;
+}
+
+.result{
+    display:none;
+    padding:24px 18px;
+    text-align:center;
+}
+
+.result.show{
+    display:block;
+}
+
+.trophy{
+    font-size:64px;
+    margin:5px;
+}
+
+.result h2{
+    color:var(--primary);
+    margin:6px 0;
+}
+
+.final-score{
+    display:inline-flex;
+    flex-direction:column;
+    justify-content:center;
+    width:155px;
+    height:155px;
+    border-radius:50%;
+    margin:18px auto;
+    background:linear-gradient(145deg,#e0f7f8,#fff);
+    border:7px solid #bde8eb;
+    color:var(--primary);
+}
+
+.final-score strong{
+    font-size:42px;
+    line-height:1.1;
+}
+
+.final-score span{
+    font-size:13px;
+    color:var(--muted);
+}
+
+.motivation{
+    font-size:20px;
+    font-weight:bold;
+    margin:5px 0 20px;
+}
+
+.leaderboard{
+    max-width:540px;
+    margin:25px auto 0;
+    text-align:right;
+    background:#f7fafb;
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:15px;
+}
+
+.leaderboard h3{
+    margin:0 0 12px;
+    text-align:center;
+    color:var(--primary);
+}
+
+.rank-row{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    padding:9px 7px;
+    border-bottom:1px dashed #d7e1e3;
+}
+
+.rank-row:last-child{
+    border-bottom:0;
+}
+
+.rank-name{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.rank-score{
+    font-weight:bold;
+    color:var(--primary);
+}
+
+.loading{
+    text-align:center;
+    color:var(--muted);
+    padding:10px;
+}
+
+.restart{
+    display:block;
+    width:100%;
+    max-width:420px;
+    border:0;
+    border-radius:14px;
+    padding:14px;
+    margin:22px auto 10px;
+    background:var(--purple);
+    color:#fff;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.back{
+    display:block;
+    text-align:center;
+    color:var(--primary);
+    font-weight:bold;
+    text-decoration:none;
+    margin:22px auto 10px;
+    padding:10px;
+}
+
+.mini-guide{
+    margin:0 18px 18px;
+    padding:12px;
+    border-radius:14px;
+    background:#fff7dc;
+    color:#715800;
+    font-size:13px;
+    line-height:1.8;
+}
+
+@keyframes pop{
+    from{transform:scale(.97);opacity:.3}
+    to{transform:scale(1);opacity:1}
+}
+
+@media(max-width:600px){
+    .app{padding:10px}
+    .status{grid-template-columns:1fr 1fr}
+    .options{grid-template-columns:1fr}
+    .game-area{padding:14px}
+    .option{min-height:58px}
+}
+
+@media(prefers-reduced-motion:reduce){
+    *{
+        animation:none!important;
+        transition:none!important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+    <header class="hero">
+        <div class="hero-badge">ریاضی هفتم • فصل اول • درس ۱</div>
+        <h1>🧭 مأموریت حل مسئله</h1>
+        <p>چهار مرحله حل مسئله را بشناس و برای هر مأموریت تصمیم درست بگیر!</p>
+    </header>
+
+    <section class="panel">
+
+        <div id="gameScreen">
+
+            <div class="status">
+                <div class="stat">
+                    <span class="stat-label">بازیکن</span>
+                    <span class="stat-value" id="playerName">---</span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-label">مرحله</span>
+                    <span class="stat-value" id="questionNumber">۱ از ۱۰</span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-label">امتیاز</span>
+                    <span class="stat-value" id="score">۰</span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-label">زمان</span>
+                    <span class="stat-value" id="timeStatus">۳۰ ثانیه</span>
+                </div>
+            </div>
+
+            <div class="game-area">
+
+                <div class="timer-wrap">
+                    <div class="timer-row">
+                        <span>⏱️ زمان مأموریت</span>
+                        <span class="timer-number" id="timerNumber">۳۰</span>
+                    </div>
+
+                    <div class="timer-track">
+                        <div class="timer-bar" id="timerBar"></div>
+                    </div>
+                </div>
+
+                <div class="mission" id="missionType">
+                    🎯 تشخیص مرحله
+                </div>
+
+                <p class="question" id="questionText"></p>
+
+                <div class="options" id="options"></div>
+
+                <div class="feedback" id="feedback">
+                    <div class="feedback-title" id="feedbackTitle"></div>
+                    <div class="explanation" id="feedbackText"></div>
+                </div>
+
+                <button class="next-btn" id="nextButton" type="button">
+                    سؤال بعدی
+                </button>
+
+            </div>
+
+            <div class="mini-guide">
+                💡 یادآوری:
+                فهمیدن مسئله ← انتخاب راهبرد ← حل مسئله ← بازگشت به عقب
+            </div>
+
+        </div>
+
+
+        <div class="result" id="resultScreen">
+
+            <div class="trophy">🏆</div>
+
+            <h2>ماموریت به پایان رسید!</h2>
+
+            <p>
+                <strong id="resultName"></strong>
+            </p>
+
+            <div class="final-score">
+                <strong id="finalScore">۰</strong>
+                <span>از 100 امتیاز</span>
+            </div>
+
+            <div class="motivation" id="motivation"></div>
+
+            <div class="leaderboard">
+                <h3>🏅 برترین‌های این بازی</h3>
+                <div id="leaderboardContent" class="loading">
+                    در حال دریافت جدول برترین‌ها...
+                </div>
+            </div>
+
+            <button class="restart" id="restartButton" type="button">
+                🔄 بازی دوباره
+            </button>
+
+        </div>
+
+    </section>
+
+    <a class="back" href="/#game">
+        ← بازگشت به بازی‌های ریاضی
+    </a>
+
+</main>
+
+
+<script src="/games/game-sdk.js"></script>
+
+<script>
+
+const GAME_ID = 8;
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 30;
+
+const player = GameSDK.init(GAME_ID);
+
+
+/* ========================================
+   بانک سؤال
+======================================== */
+
+const QUESTION_BANK = [
+
+    {
+        type:"🎯 تشخیص مرحله",
+        q:"اولین کاری که پس از خواندن یک مسئله باید انجام دهیم چیست؟",
+        options:[
+            "فهمیدن داده‌ها و خواسته مسئله",
+            "شروع سریع محاسبات",
+            "نوشتن جواب نهایی",
+            "بازگشت به عقب"
+        ],
+        answer:0,
+        explanation:"مرحله اول «فهمیدن مسئله» است. ابتدا باید بدانیم چه اطلاعاتی داریم و دقیقاً چه چیزی خواسته شده است."
+    },
+
+    {
+        type:"🎯 تشخیص مرحله",
+        q:"علی مسئله را خوب خوانده و داده‌ها و خواسته را مشخص کرده است. حالا باید چه کاری انجام دهد؟",
+        options:[
+            "جواب را حدس بزند و تمام کند",
+            "راهبرد مناسب انتخاب کند",
+            "پاسخ را پاک کند",
+            "صورت مسئله را تغییر دهد"
+        ],
+        answer:1,
+        explanation:"پس از فهمیدن مسئله، مرحله دوم انتخاب یک راهبرد مناسب برای رسیدن به پاسخ است."
+    },
+
+    {
+        type:"🧠 تصمیم ریاضی",
+        q:"مریم راهبرد رسم شکل را انتخاب کرده است. اکنون در کدام مرحله حل مسئله قرار دارد؟",
+        options:[
+            "فهمیدن مسئله",
+            "انتخاب راهبرد",
+            "بازگشت به عقب",
+            "نوشتن پاسخ نهایی"
+        ],
+        answer:1,
+        explanation:"انتخاب «رسم شکل» یعنی مریم در مرحله دوم، یعنی انتخاب راهبرد مناسب، قرار دارد."
+    },
+
+    {
+        type:"🔍 بازگشت به عقب",
+        q:"رضا به جواب ۳۵ متر رسیده است. برای کامل شدن فرایند حل مسئله چه کاری باید انجام دهد؟",
+        options:[
+            "بدون بررسی جواب را تحویل دهد",
+            "فقط عدد ۳۵ را دوباره بنویسد",
+            "بررسی کند جواب با خواسته و شرایط مسئله سازگار است",
+            "یک مسئله جدید بسازد"
+        ],
+        answer:2,
+        explanation:"در مرحله چهارم باید پاسخ را بررسی کنیم و ببینیم آیا منطقی و مطابق خواسته مسئله است."
+    },
+
+    {
+        type:"⚠️ پیدا کردن اشتباه",
+        q:"دانش‌آموزی بدون مشخص کردن خواسته مسئله، فوراً چند عدد را با هم جمع کرده است. کدام مرحله را نادیده گرفته؟",
+        options:[
+            "فهمیدن مسئله",
+            "حل مسئله",
+            "بازگشت به عقب",
+            "نوشتن عنوان"
+        ],
+        answer:0,
+        explanation:"قبل از هر محاسبه باید داده‌ها، شرط‌ها و خواسته مسئله را بفهمیم."
+    },
+
+    {
+        type:"🧩 ترتیب مراحل",
+        q:"کدام ترتیب برای حل یک مسئله درست است؟",
+        options:[
+            "حل ← فهم ← بررسی ← انتخاب راهبرد",
+            "فهم ← انتخاب راهبرد ← حل ← بازگشت به عقب",
+            "انتخاب راهبرد ← حل ← فهم ← بررسی",
+            "بررسی ← فهم ← حل ← انتخاب راهبرد"
+        ],
+        answer:1,
+        explanation:"ترتیب استاندارد چهار مرحله این است: فهم مسئله، انتخاب راهبرد، حل مسئله و بازگشت به عقب."
+    },
+
+    {
+        type:"🎯 تشخیص راهبرد",
+        q:"برای مسئله‌ای که باید تمام حالت‌های ممکن را بدون جا انداختن پیدا کنیم، کدام راهبرد مناسب‌تر است؟",
+        options:[
+            "الگوسازی یا تفکر نظام‌دار",
+            "حدس کاملاً تصادفی",
+            "پاک کردن داده‌ها",
+            "فقط ماشین‌حساب"
+        ],
+        answer:0,
+        explanation:"وقتی باید همه حالت‌ها را پیدا کنیم، الگوسازی کمک می‌کند آنها را منظم و بدون تکرار بنویسیم."
+    },
+
+    {
+        type:"🎯 تشخیص راهبرد",
+        q:"در مسئله‌ای رابطه مکانی بین چند نقطه اهمیت زیادی دارد. کدام راهبرد می‌تواند مناسب باشد؟",
+        options:[
+            "رسم شکل",
+            "حذف صورت مسئله",
+            "نوشتن جواب قبل از حل",
+            "حفظ کردن پاسخ"
+        ],
+        answer:0,
+        explanation:"رسم شکل معمولاً برای دیدن رابطه‌های مکانی و هندسی بسیار مفید است."
+    },
+
+    {
+        type:"🎯 تشخیص راهبرد",
+        q:"یک مسئله چند مرحله دارد و جواب هر مرحله برای مرحله بعد لازم است. کدام راهبرد مناسب‌تر است؟",
+        options:[
+            "زیرمسئله",
+            "فقط الگویابی",
+            "حذف همه داده‌ها",
+            "حدس بدون بررسی"
+        ],
+        answer:0,
+        explanation:"در راهبرد زیرمسئله، مسئله اصلی را به چند سؤال کوچک‌تر و وابسته تقسیم می‌کنیم."
+    },
+
+    {
+        type:"🎯 تشخیص راهبرد",
+        q:"اگر مسئله اصلی خیلی بزرگ باشد و بتوانیم ابتدا نمونه کوچک‌تری از آن را حل کنیم، از چه راهبردی استفاده کرده‌ایم؟",
+        options:[
+            "حل مسئله ساده‌تر",
+            "رسم نقاشی",
+            "حذف جواب",
+            "بازگشت بدون حل"
+        ],
+        answer:0,
+        explanation:"حل یک نمونه کوچک‌تر و تعمیم نتیجه به مسئله اصلی، راهبرد «حل مسئله ساده‌تر» است."
+    },
+
+    {
+        type:"🎯 تشخیص راهبرد",
+        q:"در دنباله ۳، ۷، ۱۱، ۱۵، ... برای پیدا کردن جمله‌های بعدی چه راهبردی طبیعی‌تر است؟",
+        options:[
+            "الگویابی",
+            "زیرمسئله",
+            "رسم نقشه",
+            "حذف حالت‌ها"
+        ],
+        answer:0,
+        explanation:"در دنباله‌ها معمولاً به دنبال نظم و رابطه بین جمله‌ها می‌گردیم؛ این همان الگویابی است."
+    },
+
+    {
+        type:"🎯 تشخیص راهبرد",
+        q:"عدد مجهولی داریم که سه برابر آن به اضافه ۲ برابر ۲۰ شده است. کدام نمایش برای حل مناسب‌تر است؟",
+        options:[
+            "روش نمادین با یک □ یا مجهول",
+            "فقط رسم منظره",
+            "حذف عدد ۲۰",
+            "مرتب کردن حروف الفبا"
+        ],
+        answer:0,
+        explanation:"وقتی رابطه‌ای بین مقدار مجهول و داده‌ها داریم، نمایش نمادین می‌تواند مسئله را روشن کند."
+    },
+
+    {
+        type:"🧠 انتخاب هوشمند",
+        q:"آیا هر مسئله فقط یک راهبرد درست برای حل دارد؟",
+        options:[
+            "بله، همیشه دقیقاً یک راهبرد دارد",
+            "خیر، ممکن است با چند راهبرد حل شود",
+            "فقط مسئله‌های هندسی چند راهبرد دارند",
+            "هیچ مسئله‌ای راهبرد ندارد"
+        ],
+        answer:1,
+        explanation:"یک مسئله ممکن است با چند راهبرد متفاوت حل شود. مهم این است که راهبرد انتخاب‌شده درست و کارآمد باشد."
+    },
+
+    {
+        type:"🔍 بازگشت به عقب",
+        q:"در مسئله‌ای تعداد دانش‌آموزان کلاس را ۲٫۵ نفر به دست آورده‌ایم. بهترین واکنش چیست؟",
+        options:[
+            "جواب را همان‌طور قبول کنیم",
+            "پاسخ را در مرحله بازگشت به عقب بررسی کنیم",
+            "عدد را بدون دلیل گرد کنیم",
+            "صورت سؤال را حذف کنیم"
+        ],
+        answer:1,
+        explanation:"۲٫۵ دانش‌آموز منطقی نیست. بازگشت به عقب کمک می‌کند خطای راهبرد یا محاسبه را پیدا کنیم."
+    },
+
+    {
+        type:"📌 فهم مسئله",
+        q:"در مرحله «فهمیدن مسئله» کدام کار مناسب است؟",
+        options:[
+            "مشخص کردن داده‌ها و خواسته",
+            "نوشتن پاسخ بدون محاسبه",
+            "نادیده گرفتن شرط‌ها",
+            "انتخاب تصادفی جواب"
+        ],
+        answer:0,
+        explanation:"یکی از مهم‌ترین کارهای مرحله فهم مسئله، جدا کردن داده‌ها، خواسته و شرط‌های مسئله است."
+    },
+
+    {
+        type:"📌 فهم مسئله",
+        q:"بازنویسی یک مسئله با کلمات خودمان بیشتر به کدام مرحله کمک می‌کند؟",
+        options:[
+            "فهمیدن مسئله",
+            "ثبت امتیاز",
+            "پایان بازی",
+            "حذف پاسخ"
+        ],
+        answer:0,
+        explanation:"بیان مسئله با زبان خودمان کمک می‌کند مطمئن شویم صورت و خواسته مسئله را درست فهمیده‌ایم."
+    },
+
+    {
+        type:"🧠 تصمیم ریاضی",
+        q:"یک راهبرد را انتخاب کرده‌ایم ولی در هنگام حل متوجه می‌شویم به نتیجه نمی‌رسد. چه کنیم؟",
+        options:[
+            "همان راهبرد را تا همیشه ادامه دهیم",
+            "به مرحله انتخاب راهبرد برگردیم و راه دیگری امتحان کنیم",
+            "جواب دلخواه بنویسیم",
+            "یکی از داده‌ها را حذف کنیم"
+        ],
+        answer:1,
+        explanation:"اگر راهبرد مناسب نبود، می‌توانیم به مرحله دوم برگردیم و راهبرد دیگری انتخاب کنیم."
+    },
+
+    {
+        type:"🔍 کنترل پاسخ",
+        q:"کدام مورد نمونه‌ای از «بازگشت به عقب» است؟",
+        options:[
+            "مشخص کردن داده‌ها",
+            "انتخاب رسم شکل",
+            "حل محاسبات",
+            "جایگذاری جواب در شرایط مسئله و بررسی آن"
+        ],
+        answer:3,
+        explanation:"در بازگشت به عقب، جواب و مراحل حل را بررسی می‌کنیم و مطمئن می‌شویم پاسخ با مسئله سازگار است."
+    },
+
+    {
+        type:"🎯 تشخیص راهبرد",
+        q:"برای مسئله‌ای که باید چند پاسخ احتمالی را امتحان کنیم و هر بار حدس بعدی را بهتر کنیم، چه راهبردی مناسب است؟",
+        options:[
+            "حدس و آزمایش",
+            "فقط رسم شکل",
+            "الگوسازی بدون بررسی",
+            "حذف خواسته"
+        ],
+        answer:0,
+        explanation:"در حدس و آزمایش، هر حدس بررسی می‌شود و نتیجه آن برای انتخاب حدس بهتر بعدی به کار می‌رود."
+    },
+
+    {
+        type:"⚠️ دام آموزشی",
+        q:"کدام جمله درباره حل مسئله درست‌تر است؟",
+        options:[
+            "رسیدن به یک عدد همیشه پایان حل مسئله است",
+            "پس از رسیدن به پاسخ باید منطقی بودن آن را بررسی کرد",
+            "انتخاب راهبرد قبل از فهم سؤال انجام می‌شود",
+            "همه اطلاعات صورت سؤال همیشه لازم‌اند"
+        ],
+        answer:1,
+        explanation:"پیدا کردن پاسخ عددی پایان کار نیست؛ باید بررسی کنیم پاسخ همان خواسته مسئله و منطقی است."
+    },
+
+    {
+        type:"🧩 ترتیب مراحل",
+        q:"دانش‌آموز ابتدا داده‌ها را مشخص کرد، سپس رسم شکل را انتخاب کرد و شکل را رسم نمود. قدم بعدی چیست؟",
+        options:[
+            "بررسی پاسخ و مراحل حل",
+            "شروع دوباره بدون دلیل",
+            "حذف داده‌ها",
+            "انتخاب نام برای مسئله"
+        ],
+        answer:0,
+        explanation:"پس از اجرای راهبرد و رسیدن به پاسخ، مرحله بعد بازگشت به عقب و بررسی نتیجه است."
+    },
+
+    {
+        type:"🎯 تشخیص راهبرد",
+        q:"برای یافتن نظم بین شکل‌های ۱، ۲، ۳ و پیش‌بینی شکل دهم، کدام راهبرد مناسب است؟",
+        options:[
+            "الگویابی",
+            "زیرمسئله",
+            "حذف حالت نامطلوب",
+            "حدس تصادفی"
+        ],
+        answer:0,
+        explanation:"وقتی میان شکل‌ها رابطه و نظم وجود دارد، راهبرد الگویابی انتخاب طبیعی است."
+    },
+
+    {
+        type:"🎯 تشخیص راهبرد",
+        q:"ابتدا همه حالت‌های ممکن را نوشته‌ایم و سپس با شرط‌های سؤال بعضی را کنار می‌گذاریم. از چه راهبردی استفاده می‌کنیم؟",
+        options:[
+            "حذف حالت‌های نامطلوب",
+            "رسم شکل",
+            "حل مسئله ساده‌تر",
+            "روش نمادین"
+        ],
+        answer:0,
+        explanation:"این دقیقاً راهبرد حذف حالت‌های نامطلوب است: تولید حالت‌ها و سپس غربال آنها با شرط‌های مسئله."
+    },
+
+    {
+        type:"🧠 نگاه حرفه‌ای",
+        q:"مهم‌ترین فایده شناخت راهبردهای مختلف چیست؟",
+        options:[
+            "کمک به انتخاب راه مناسب برای مسئله‌های متفاوت",
+            "حفظ کردن پاسخ همه سؤال‌ها",
+            "بی‌نیاز شدن از فهم مسئله",
+            "حذف مرحله بررسی جواب"
+        ],
+        answer:0,
+        explanation:"شناخت راهبردهای مختلف یک جعبه‌ابزار ذهنی می‌سازد تا برای هر مسئله راه مناسب‌تری انتخاب کنیم."
+    }
+
+];
+
+
+/* ========================================
+   وضعیت بازی
+======================================== */
+
+let questions = [];
+let currentIndex = 0;
+let score = 0;
+
+let answerChecked = false;
+
+let questionStartTime = 0;
+let timerInterval = null;
+
+let gameFinished = false;
+let finishSubmitted = false;
+
+
+/* ========================================
+   عناصر
+======================================== */
+
+const playerNameEl = document.getElementById("playerName");
+const questionNumberEl = document.getElementById("questionNumber");
+const scoreEl = document.getElementById("score");
+const timeStatusEl = document.getElementById("timeStatus");
+
+const timerNumberEl = document.getElementById("timerNumber");
+const timerBarEl = document.getElementById("timerBar");
+
+const missionTypeEl = document.getElementById("missionType");
+const questionTextEl = document.getElementById("questionText");
+const optionsEl = document.getElementById("options");
+
+const feedbackEl = document.getElementById("feedback");
+const feedbackTitleEl = document.getElementById("feedbackTitle");
+const feedbackTextEl = document.getElementById("feedbackText");
+
+const nextButton = document.getElementById("nextButton");
+
+const gameScreen = document.getElementById("gameScreen");
+const resultScreen = document.getElementById("resultScreen");
+
+const resultNameEl = document.getElementById("resultName");
+const finalScoreEl = document.getElementById("finalScore");
+const motivationEl = document.getElementById("motivation");
+
+const leaderboardContent = document.getElementById("leaderboardContent");
+const restartButton = document.getElementById("restartButton");
+
+
+/* ========================================
+   ابزارها
+======================================== */
+
+function faNumber(value){
+    return String(value).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+function shuffle(array){
+    const copy = [...array];
+
+    for(let i=copy.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [copy[i],copy[j]] = [copy[j],copy[i]];
+    }
+
+    return copy;
+}
+
+function prepareQuestions(){
+
+    questions = shuffle(QUESTION_BANK)
+        .slice(0,TOTAL_QUESTIONS)
+        .map(item=>{
+
+            const indexedOptions = item.options.map((text,index)=>({
+                text,
+                isCorrect:index===item.answer
+            }));
+
+            const shuffledOptions = shuffle(indexedOptions);
+
+            return {
+                ...item,
+                shuffledOptions,
+                correctIndex:shuffledOptions.findIndex(x=>x.isCorrect)
+            };
+        });
+}
+
+function pointsForTime(elapsedSeconds){
+
+    if(elapsedSeconds<=5) return 10;
+    if(elapsedSeconds<=10) return 8;
+    if(elapsedSeconds<=15) return 6;
+    if(elapsedSeconds<=20) return 4;
+    if(elapsedSeconds<=30) return 2;
+
+    return 0;
+}
+
+
+/* ========================================
+   تایمر
+======================================== */
+
+function stopTimer(){
+
+    if(timerInterval){
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+}
+
+function updateTimer(){
+
+    if(answerChecked || gameFinished){
+        stopTimer();
+        return;
+    }
+
+    const elapsed = (Date.now()-questionStartTime)/1000;
+    const remaining = Math.max(0,QUESTION_TIME-elapsed);
+
+    const displaySeconds = Math.ceil(remaining);
+    const percent = (remaining/QUESTION_TIME)*100;
+
+    timerNumberEl.textContent = faNumber(displaySeconds);
+    timeStatusEl.textContent = faNumber(displaySeconds)+" ثانیه";
+
+    timerBarEl.style.width = percent+"%";
+
+    if(remaining>15){
+        timerBarEl.style.background = "var(--green)";
+        timerNumberEl.style.color = "var(--green)";
+    }
+    else if(remaining>7){
+        timerBarEl.style.background = "var(--yellow)";
+        timerNumberEl.style.color = "#b68100";
+    }
+    else{
+        timerBarEl.style.background = "var(--red)";
+        timerNumberEl.style.color = "var(--red)";
+    }
+
+    if(remaining<=0){
+        handleTimeout();
+    }
+}
+
+function startTimer(){
+
+    stopTimer();
+
+    questionStartTime = Date.now();
+
+    timerNumberEl.textContent = faNumber(QUESTION_TIME);
+    timeStatusEl.textContent = faNumber(QUESTION_TIME)+" ثانیه";
+    timerBarEl.style.width = "100%";
+    timerBarEl.style.background = "var(--green)";
+    timerNumberEl.style.color = "var(--green)";
+
+    timerInterval = setInterval(updateTimer,100);
+}
+
+
+/* ========================================
+   نمایش سؤال
+======================================== */
+
+function showQuestion(){
+
+    stopTimer();
+
+    answerChecked = false;
+
+    const item = questions[currentIndex];
+
+    questionNumberEl.textContent =
+        faNumber(currentIndex+1)+" از "+faNumber(TOTAL_QUESTIONS);
+
+    scoreEl.textContent = faNumber(score);
+
+    missionTypeEl.textContent = item.type;
+    questionTextEl.textContent = item.q;
+
+    feedbackEl.className = "feedback";
+    feedbackTitleEl.textContent = "";
+    feedbackTextEl.textContent = "";
+
+    nextButton.classList.remove("show");
+
+    optionsEl.innerHTML = "";
+
+    item.shuffledOptions.forEach((option,index)=>{
+
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className = "option";
+        button.textContent = option.text;
+
+        button.addEventListener("click",()=>{
+            checkAnswer(index,button);
+        });
+
+        optionsEl.appendChild(button);
+    });
+
+    nextButton.textContent =
+        currentIndex===TOTAL_QUESTIONS-1
+        ? "مشاهده نتیجه"
+        : "سؤال بعدی";
+
+    startTimer();
+}
+
+
+/* ========================================
+   پاسخ
+======================================== */
+
+function disableOptions(){
+
+    [...optionsEl.querySelectorAll(".option")]
+        .forEach(button=>{
+            button.disabled=true;
+        });
+}
+
+function highlightCorrect(){
+
+    const buttons = [...optionsEl.querySelectorAll(".option")];
+
+    if(buttons[questions[currentIndex].correctIndex]){
+        buttons[questions[currentIndex].correctIndex]
+            .classList.add("correct");
+    }
+}
+
+function checkAnswer(selectedIndex,selectedButton){
+
+    if(answerChecked || gameFinished){
+        return;
+    }
+
+    const elapsedSeconds =
+        (Date.now()-questionStartTime)/1000;
+
+    if(elapsedSeconds>=QUESTION_TIME){
+        handleTimeout();
+        return;
+    }
+
+    answerChecked = true;
+    stopTimer();
+    disableOptions();
+
+    const item = questions[currentIndex];
+
+    const isCorrect =
+        selectedIndex===item.correctIndex;
+
+    let earned = 0;
+
+    if(isCorrect){
+
+        earned = pointsForTime(elapsedSeconds);
+
+        score += earned;
+
+        if(score>100){
+            score=100;
+        }
+
+        selectedButton.classList.add("correct");
+
+        feedbackEl.className =
+            "feedback success show";
+
+        feedbackTitleEl.textContent =
+            "✅ آفرین! +"+faNumber(earned)+" امتیاز";
+
+        feedbackTextEl.textContent =
+            item.explanation;
+    }
+    else{
+
+        selectedButton.classList.add("wrong");
+        highlightCorrect();
+
+        feedbackEl.className =
+            "feedback error show";
+
+        feedbackTitleEl.textContent =
+            "❌ این پاسخ درست نیست.";
+
+        const correctText =
+            item.shuffledOptions[item.correctIndex].text;
+
+        feedbackTextEl.textContent =
+            "پاسخ درست: «"+
+            correctText+
+            "» — "+
+            item.explanation;
+    }
+
+    scoreEl.textContent = faNumber(score);
+
+    nextButton.classList.add("show");
+}
+
+
+/* ========================================
+   اتمام زمان
+======================================== */
+
+function handleTimeout(){
+
+    if(answerChecked || gameFinished){
+        return;
+    }
+
+    answerChecked = true;
+
+    stopTimer();
+    disableOptions();
+    highlightCorrect();
+
+    timerNumberEl.textContent = "۰";
+    timeStatusEl.textContent = "۰ ثانیه";
+    timerBarEl.style.width = "0%";
+    timerBarEl.style.background = "var(--red)";
+
+    const item = questions[currentIndex];
+
+    const correctText =
+        item.shuffledOptions[item.correctIndex].text;
+
+    feedbackEl.className =
+        "feedback timeout show";
+
+    feedbackTitleEl.textContent =
+        "⏰ زمان تمام شد! ۰ امتیاز";
+
+    feedbackTextEl.textContent =
+        "پاسخ درست: «"+
+        correctText+
+        "» — "+
+        item.explanation;
+
+    nextButton.classList.add("show");
+}
+
+
+/* ========================================
+   سؤال بعد
+======================================== */
+
+nextButton.addEventListener("click",()=>{
+
+    if(!answerChecked){
+        return;
+    }
+
+    if(currentIndex<TOTAL_QUESTIONS-1){
+
+        currentIndex++;
+
+        showQuestion();
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+    }
+    else{
+        finishGame();
+    }
+});
+
+
+/* ========================================
+   پایان بازی
+======================================== */
+
+async function finishGame(){
+
+    if(gameFinished){
+        return;
+    }
+
+    gameFinished = true;
+
+    stopTimer();
+
+    gameScreen.style.display = "none";
+    resultScreen.classList.add("show");
+
+    const displayName =
+        player && player.playerName
+        ? player.playerName
+        : "بازیکن";
+
+    resultNameEl.textContent = displayName;
+    finalScoreEl.textContent = faNumber(score);
+
+    if(score>=90){
+        motivationEl.textContent =
+            "عالی بود! 🌟";
+    }
+    else if(score>=70){
+        motivationEl.textContent =
+            "خیلی خوب بود 👏";
+    }
+    else if(score>=50){
+        motivationEl.textContent =
+            "خوب بود، ادامه بده 💪";
+    }
+    else{
+        motivationEl.textContent =
+            "دوباره تلاش کن، بهتر می‌شی 🌱";
+    }
+
+    leaderboardContent.innerHTML =
+        '<div class="loading">در حال ثبت نتیجه و دریافت جدول برترین‌ها...</div>';
+
+    try{
+
+        if(!finishSubmitted){
+
+            finishSubmitted = true;
+
+            await GameSDK.finishGame(score);
+        }
+
+    }
+    catch(error){
+
+        console.error("finishGame error:",error);
+    }
+
+    await loadLeaderboard();
+}
+
+
+/* ========================================
+   جدول برترین‌ها
+======================================== */
+
+async function loadLeaderboard(){
+
+    try{
+
+        const scores =
+            await GameSDK.getLeaderboard(10);
+
+        leaderboardContent.innerHTML = "";
+
+        if(!Array.isArray(scores) || scores.length===0){
+
+            leaderboardContent.innerHTML =
+                '<div class="loading">هنوز امتیازی برای نمایش وجود ندارد.</div>';
+
+            return;
+        }
+
+        scores.forEach((item,index)=>{
+
+            const row =
+                document.createElement("div");
+
+            row.className = "rank-row";
+
+            let rank;
+
+            if(index===0) rank="🥇";
+            else if(index===1) rank="🥈";
+            else if(index===2) rank="🥉";
+            else rank=faNumber(index+1)+".";
+
+            const name =
+                item.playerName ??
+                item.player_name ??
+                item.name ??
+                "بازیکن";
+
+            const value =
+                item.score ?? 0;
+
+            const rankName =
+                document.createElement("span");
+
+            rankName.className = "rank-name";
+            rankName.textContent =
+                rank+" "+name;
+
+            const rankScore =
+                document.createElement("span");
+
+            rankScore.className = "rank-score";
+            rankScore.textContent =
+                faNumber(value)+" امتیاز";
+
+            row.appendChild(rankName);
+            row.appendChild(rankScore);
+
+            leaderboardContent.appendChild(row);
+        });
+
+    }
+    catch(error){
+
+        console.error("leaderboard error:",error);
+
+        leaderboardContent.innerHTML =
+            '<div class="loading">دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.</div>';
+    }
+}
+
+
+/* ========================================
+   بازی دوباره
+======================================== */
+
+restartButton.addEventListener("click",()=>{
+
+    stopTimer();
+
+    GameSDK.reset();
+
+    score = 0;
+    currentIndex = 0;
+    answerChecked = false;
+    questionStartTime = 0;
+
+    gameFinished = false;
+    finishSubmitted = false;
+
+    feedbackEl.className = "feedback";
+    feedbackTitleEl.textContent = "";
+    feedbackTextEl.textContent = "";
+
+    nextButton.classList.remove("show");
+
+    resultScreen.classList.remove("show");
+    gameScreen.style.display = "block";
+
+    prepareQuestions();
+    showQuestion();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+});
+
+
+/* ========================================
+   شروع
+======================================== */
+
+function startGame(){
+
+    const displayName =
+        player && player.playerName
+        ? player.playerName
+        : "بازیکن";
+
+    playerNameEl.textContent = displayName;
+
+    score = 0;
+    currentIndex = 0;
+    answerChecked = false;
+    gameFinished = false;
+    finishSubmitted = false;
+
+    prepareQuestions();
+    showQuestion();
+}
+
+startGame();
+
+</script>
+
+</body>
+</html>
