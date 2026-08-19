@@ -3,104 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>پارکینگ معمایی | راهبرد حدس و آزمایش</title>
+<title>مأموریت حدس و آزمایش | ریاضی هفتم</title>
 
 <style>
 *{box-sizing:border-box}
 
 :root{
- --purple:#8b5cf6;--purple2:#6d28d9;
- --blue:#38bdf8;--blue2:#0284c7;
- --pink:#f472b6;--yellow:#fbbf24;
- --orange:#fb923c;--green:#22c55e;--green2:#15803d;
- --red:#fb7185;--red2:#e11d48;
- --text:#293449;--muted:#64748b
+ --purple:#8b5cf6;--purple2:#6d28d9;--blue:#38bdf8;--blue2:#0284c7;
+ --pink:#f472b6;--yellow:#fbbf24;--orange:#fb923c;--green:#22c55e;
+ --red:#fb7185;--text:#293449;--muted:#64748b
 }
 
 html{color-scheme:light only;-webkit-text-size-adjust:100%}
 
 body{
- margin:0;min-height:100vh;direction:rtl;
- font-family:Tahoma,Arial,sans-serif;color:var(--text);
- overflow-x:hidden;
+ margin:0;min-height:100vh;direction:rtl;font-family:Tahoma,Arial,sans-serif;
+ color:var(--text);overflow-x:hidden;
  background:
-  radial-gradient(circle at 8% 5%,#fbcfe855,transparent 24%),
-  radial-gradient(circle at 92% 7%,#7dd3fc66,transparent 25%),
-  radial-gradient(circle at 85% 92%,#fde68a55,transparent 24%),
-  linear-gradient(150deg,#fff7fd,#effcff 53%,#fff9df)
+ radial-gradient(circle at 8% 5%,#fbcfe855,transparent 24%),
+ radial-gradient(circle at 92% 7%,#7dd3fc66,transparent 25%),
+ radial-gradient(circle at 80% 93%,#fde68a55,transparent 25%),
+ linear-gradient(150deg,#fff7fd,#effcff 53%,#fff9df)
 }
 
 button,a{font-family:inherit}
 button{touch-action:manipulation}
 
-.app{
- width:min(100%,930px);
- margin:auto;
- padding:10px
-}
+.app{width:min(100%,940px);margin:auto;padding:10px}
 
-/* =========================
-   HEADER
-========================= */
+/* HEADER */
 
-.hero{
- text-align:center;
- padding:7px 4px 13px
-}
+.hero{text-align:center;padding:7px 4px 13px}
 
 .badge{
- display:inline-block;
- padding:6px 14px;
- border-radius:999px;
+ display:inline-block;padding:6px 14px;border-radius:999px;
  background:linear-gradient(90deg,#fef3c7,#fce7f3);
- border:1px solid #f1cc5d;
- color:#825900;
- font-size:12px;
- font-weight:bold
+ border:1px solid #f1cc5d;color:#825900;font-size:12px;font-weight:bold
 }
 
 .hero h1{
- margin:9px 0 4px;
- font-size:clamp(29px,7vw,43px);
+ margin:9px 0 4px;font-size:clamp(28px,7vw,42px);
  background:linear-gradient(90deg,var(--purple),var(--blue2),var(--pink));
- color:transparent;
- background-clip:text;
- -webkit-background-clip:text
+ color:transparent;background-clip:text;-webkit-background-clip:text
 }
 
-.hero p{
- margin:0;
- color:var(--muted);
- font-size:13px;
- line-height:1.8
-}
+.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.8}
 
-/* =========================
-   PANEL + STATUS
-========================= */
+/* PANEL / STATUS */
 
 .panel{
- background:#fffffff7;
- border-radius:25px;
- overflow:hidden;
+ background:#fffffff7;border-radius:25px;overflow:hidden;
  box-shadow:0 16px 42px #6d28d91c
 }
 
 .status{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:8px;
- padding:10px;
+ display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px;
  background:linear-gradient(90deg,#f5f3ff,#ecfeff,#fff7ed,#fdf2f8)
 }
 
 .stat{
- min-width:0;
- background:#fff;
- text-align:center;
- padding:8px 4px;
- border-radius:13px;
- box-shadow:0 2px 7px #0000000a
+ min-width:0;background:#fff;text-align:center;padding:8px 4px;
+ border-radius:13px;box-shadow:0 2px 7px #0000000a
 }
 
 .stat:nth-child(1){border-bottom:4px solid var(--purple)}
@@ -108,680 +71,371 @@ button{touch-action:manipulation}
 .stat:nth-child(3){border-bottom:4px solid var(--yellow)}
 .stat:nth-child(4){border-bottom:4px solid var(--pink)}
 
-.stat small{
- display:block;
- color:var(--muted);
- font-size:10px
-}
+.stat small{display:block;color:var(--muted);font-size:10px}
 
 .stat strong{
- display:block;
- margin-top:2px;
- color:#544274;
- font-size:14px;
- white-space:nowrap;
- overflow:hidden;
- text-overflow:ellipsis
+ display:block;margin-top:2px;color:#544274;font-size:14px;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
-
-/* =========================
-   CONTENT
-========================= */
 
 .content{padding:14px}
 
 /* PROGRESS */
 
 .progress{
- display:grid;
- grid-template-columns:repeat(10,1fr);
- gap:5px;
- margin-bottom:13px
+ display:grid;grid-template-columns:repeat(10,1fr);
+ gap:5px;margin-bottom:13px
 }
 
-.p-space{
- height:21px;
- border-radius:6px;
- background:#e5e7eb;
+.progress-item{
+ height:21px;border-radius:999px;background:#e5e7eb;
  border:2px solid #d1d5db
 }
 
-.p-space.done{
- background:#bbf7d0;
- border-color:#22c55e
-}
+.progress-item.done{background:#bbf7d0;border-color:#22c55e}
 
-.p-space.current{
- background:#fde68a;
- border-color:#f59e0b;
- box-shadow:0 0 8px #fbbf2466
+.progress-item.current{
+ background:#fde68a;border-color:#f59e0b;box-shadow:0 0 8px #fbbf2466
 }
 
 /* TIMER */
 
 .timer-head{
- display:flex;
- justify-content:space-between;
- align-items:center;
- font-size:13px;
- font-weight:bold;
- margin-bottom:6px
+ display:flex;justify-content:space-between;align-items:center;
+ font-size:13px;font-weight:bold;margin-bottom:6px
 }
 
-#timerNumber{
- font-size:20px;
- color:var(--green)
-}
+#timerNumber{font-size:20px;color:var(--green)}
 
 .timer-track{
- height:13px;
- padding:2px;
- background:#e7e9f2;
- border-radius:999px;
- overflow:hidden;
- margin-bottom:13px
+ height:13px;padding:2px;background:#e7e9f2;border-radius:999px;
+ overflow:hidden;margin-bottom:13px
 }
 
 .timer-bar{
- width:100%;
- height:100%;
- border-radius:999px;
- background:var(--green);
+ width:100%;height:100%;border-radius:999px;background:var(--green);
  transition:width .1s linear,background .2s
 }
 
 /* QUESTION */
 
-.labels{
- display:flex;
- flex-wrap:wrap;
- gap:6px;
- margin-bottom:7px
-}
+.labels{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:7px}
 
 .mission-label,.family-label{
- padding:5px 11px;
- border-radius:999px;
- font-size:11px;
- font-weight:bold
+ padding:5px 11px;border-radius:999px;font-size:11px;font-weight:bold
 }
 
-.mission-label{
- background:#eee9ff;
- color:#6835bd
-}
-
-.family-label{
- background:#e0f7ff;
- color:#087aa8
-}
+.mission-label{background:#eee9ff;color:#6835bd}
+.family-label{background:#e0f7ff;color:#087aa8}
 
 .problem{
- margin:8px 0;
- padding:13px 15px;
- background:#fff8dd;
- border:2px solid #f3d36d;
- border-radius:16px;
- text-align:center;
- font-size:clamp(15px,4vw,19px);
- font-weight:bold;
- line-height:1.9
+ margin:8px 0;padding:13px 15px;background:#fff8dd;
+ border:2px solid #f3d36d;border-radius:16px;text-align:center;
+ font-size:clamp(15px,4vw,19px);font-weight:bold;line-height:1.9
 }
 
-/* =========================
-   TARGET DASHBOARD
-========================= */
+/* TARGET */
 
-.target-panel{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:7px;
- margin:10px 0
+.target-strip{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:7px;margin:9px 0
 }
 
-.target-item{
- text-align:center;
- padding:8px 4px;
- border-radius:13px;
- background:#f8fafc;
- border:2px solid #e2e8f0
+.target-box{
+ padding:8px 4px;text-align:center;background:#fff;
+ border:2px solid #e2e8f0;border-radius:13px
 }
 
-.target-item small{
- display:block;
- font-size:10px;
- color:var(--muted)
+.target-box small{display:block;font-size:10px;color:var(--muted)}
+
+.target-box strong{
+ display:block;margin-top:3px;font-size:17px;color:#6d28d9
 }
 
-.target-item strong{
- display:block;
- margin-top:3px;
- font-size:17px
+/* WORLD */
+
+.world{
+ position:relative;min-height:180px;padding:12px;
+ border-radius:19px;overflow:hidden;border:3px solid #d7e3e6;
+ transition:background .3s
 }
 
-.target-item:nth-child(1) strong{color:#6d28d9}
-.target-item:nth-child(2) strong{color:#0284c7}
-.target-item:nth-child(3) strong{color:#e87918}
-
-/* =========================
-   PARKING
-========================= */
-
-.parking-wrap{
- padding:10px;
- background:#e9f4f7;
- border:2px solid #c5d8dd;
- border-radius:19px
+.world.parking{
+ background:linear-gradient(#c9f0ff 0 35%,#53616b 35%)
 }
 
-.parking-header{
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:8px;
- margin-bottom:8px
+.world.farm{
+ background:linear-gradient(#bcecff 0 47%,#a7dc72 47%)
 }
 
-.parking-title{
- font-size:13px;
- font-weight:bold;
- color:#425b64
+.world.classroom{
+ background:linear-gradient(#e0f2fe,#fef3c7)
 }
 
-.parking-status{
- padding:4px 9px;
- border-radius:999px;
- background:#fff;
- color:#64748b;
- font-size:10px;
- font-weight:bold
+.world.shop{
+ background:linear-gradient(#fce7f3,#fff7ed)
 }
 
-.parking{
- min-height:195px;
- display:grid;
- grid-template-columns:repeat(6,1fr);
- gap:6px;
- padding:8px;
- background:
-  linear-gradient(#65727b,#4b5861);
- border:5px solid #37444d;
- border-radius:15px;
- box-shadow:inset 0 0 20px #0002
+.world.number{
+ background:linear-gradient(145deg,#ede9fe,#e0f2fe)
 }
 
-.parking-space{
- position:relative;
- min-height:52px;
- display:flex;
- align-items:center;
- justify-content:center;
- border:2px solid #ffffff8c;
- border-top:0;
- color:#fff;
- font-size:25px;
- border-radius:0 0 5px 5px;
- background:#ffffff08;
- overflow:hidden
+.world.age{
+ background:linear-gradient(145deg,#ffe4e6,#e0f2fe)
 }
 
-.parking-space:after{
- content:attr(data-number);
- position:absolute;
- bottom:1px;
- right:3px;
- color:#ffffff66;
- font-size:8px;
- font-weight:bold
+.world.boxes{
+ background:linear-gradient(145deg,#fef3c7,#ffedd5)
 }
 
-.vehicle{
- display:inline-block;
- filter:drop-shadow(0 3px 2px #0005);
- animation:vehicleIn .18s
+.world.coins{
+ background:linear-gradient(145deg,#fff7d6,#fef3c7)
 }
 
-/* =========================
-   MIX CONTROLLER
-========================= */
+.world-title{
+ position:relative;z-index:3;text-align:center;
+ font-size:12px;font-weight:bold;color:#425466;margin-bottom:10px
+}
 
-.mix-panel{
- margin-top:10px;
- padding:11px;
+.scene{
+ position:relative;z-index:2;min-height:125px;
+ display:flex;flex-wrap:wrap;align-content:center;
+ justify-content:center;align-items:center;gap:8px
+}
+
+.scene-item{
+ min-width:42px;min-height:42px;display:flex;
+ align-items:center;justify-content:center;
+ padding:5px;border-radius:10px;
+ background:#ffffffbd;box-shadow:0 3px 7px #0001;
+ font-size:27px;animation:itemIn .2s
+}
+
+.scene-item.textual{
+ font-size:12px;font-weight:bold;color:#4b5563;padding:8px
+}
+
+.expression-scene{
+ width:100%;display:flex;align-items:center;justify-content:center;
+ flex-wrap:wrap;gap:8px;direction:ltr
+}
+
+.expression-part{
+ min-width:68px;padding:12px 8px;background:#fff;
+ border:3px solid #c4b5fd;border-radius:14px;
+ color:#6d28d9;font-size:19px;font-weight:bold;text-align:center
+}
+
+.operator{
+ font-size:22px;font-weight:bold;color:#64748b
+}
+
+/* ATTEMPTS */
+
+.attempt-row{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:8px;margin-top:9px;padding:7px 10px;background:#f8fafc;
+ border:2px solid #e2e8f0;border-radius:13px
+}
+
+.attempt-row span:first-child{
+ font-size:11px;font-weight:bold;color:#536273
+}
+
+.lives{direction:ltr;display:flex;gap:3px;font-size:21px}
+.life.used{filter:grayscale(1);opacity:.23}
+
+/* CONTROLLER */
+
+.controller{
+ margin-top:10px;padding:11px;
  background:linear-gradient(145deg,#f8f7ff,#eefbff);
- border:2px solid #ddd8ee;
- border-radius:17px
+ border:2px solid #ddd8ee;border-radius:18px
 }
 
-.mix-title{
- text-align:center;
- color:#554276;
- font-size:13px;
- font-weight:bold
+.controller-title{
+ text-align:center;font-size:13px;font-weight:bold;color:#554276
 }
 
-.mix-help{
- text-align:center;
- color:var(--muted);
- font-size:11px;
- line-height:1.7;
- margin:4px 0 10px
+.controller-help{
+ text-align:center;color:var(--muted);font-size:11px;
+ line-height:1.7;margin:4px 0 9px
 }
 
-.mix-cards{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px
+.guess-label{
+ display:block;text-align:center;color:#536273;
+ font-size:11px;font-weight:bold;margin-bottom:6px
 }
 
-.mix-card{
- background:#fff;
- border:2px solid #d7dfea;
- border-radius:14px;
- padding:9px;
- text-align:center
+.guess-control{
+ direction:ltr;display:grid;
+ grid-template-columns:48px 48px minmax(90px,125px) 48px 48px;
+ gap:5px;align-items:center;justify-content:center
 }
 
-.vehicle-icon{
- font-size:30px
+.change{
+ height:45px;border:0;border-radius:11px;
+ background:#ede9fe;color:#6d28d9;font-size:15px;
+ font-weight:bold;cursor:pointer
 }
 
-.vehicle-name{
- display:block;
- margin:2px 0 5px;
- color:#52616c;
- font-size:11px;
- font-weight:bold
-}
-
-.counter{
- direction:ltr;
- display:flex;
- align-items:center;
- justify-content:center;
- gap:7px
-}
-
-.counter-button{
- width:40px;
- height:40px;
- border:0;
- border-radius:11px;
+.change.primary{
  background:linear-gradient(145deg,var(--purple),var(--blue2));
- color:#fff;
- font-size:20px;
- font-weight:bold;
- cursor:pointer
+ color:#fff;font-size:20px
 }
 
-.counter-button:disabled{
- opacity:.4;
- cursor:default
+.change:disabled{opacity:.4;cursor:default}
+
+.guess-value{
+ height:54px;display:flex;align-items:center;justify-content:center;
+ border:3px solid var(--purple);background:#fff;border-radius:13px;
+ color:var(--purple2);font-size:24px;font-weight:bold
 }
 
-.counter-value{
- min-width:50px;
- padding:8px 5px;
- background:#f5f3ff;
- border:2px solid #c4b5fd;
- border-radius:10px;
- color:#6d28d9;
- font-size:19px;
- font-weight:bold
+.bounds{
+ display:flex;justify-content:space-between;
+ max-width:410px;margin:6px auto 0;color:#64748b;font-size:9px
 }
 
-.live-result{
- margin-top:9px;
- padding:9px;
- background:#fff;
- border-radius:12px;
- text-align:center;
- color:#536273;
- font-size:12px;
- font-weight:bold
-}
-
-.live-result strong{
- color:#6d28d9;
- font-size:17px
-}
-
-.test-button{
- width:100%;
- margin-top:10px;
- padding:14px;
- border:0;
- border-radius:14px;
+.test{
+ width:100%;margin-top:9px;padding:14px;border:0;border-radius:14px;
  background:linear-gradient(90deg,var(--orange),var(--yellow));
- color:#694700;
- font-size:16px;
- font-weight:bold;
- cursor:pointer;
+ color:#674500;font-size:16px;font-weight:bold;cursor:pointer;
  box-shadow:0 5px 12px #f59e0b25
 }
 
-.test-button:disabled{
- opacity:.5;
- cursor:default
+.test:disabled{opacity:.5;cursor:default}
+
+/* GUIDANCE */
+
+.guidance{
+ display:none;margin-top:10px;padding:10px;border-radius:13px;
+ text-align:center;font-size:12px;line-height:1.8;font-weight:bold
 }
 
-/* =========================
-   ATTEMPTS
-========================= */
+.guidance.show{display:block;animation:pop .2s}
+.guidance.low{background:#e6f8ff;border:2px solid #7dd3fc;color:#03698e}
+.guidance.high{background:#fff3df;border:2px solid #fdba74;color:#9a4c08}
+.guidance.hit{background:#e8faed;border:2px solid #86d79d;color:#18753a}
 
-.attempt-header{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:8px;
- margin-top:11px;
- padding:7px 9px;
- background:#f8fafc;
- border:2px solid #e2e8f0;
- border-bottom:0;
- border-radius:14px 14px 0 0;
- font-size:11px;
- font-weight:bold
-}
-
-.attempt-lives{
- direction:ltr;
- display:flex;
- gap:3px;
- font-size:20px
-}
-
-.attempt-life.used{
- filter:grayscale(1);
- opacity:.22
-}
+/* HISTORY */
 
 .history{
- border:2px solid #e2e8f0;
- border-radius:0 0 14px 14px;
- background:#fff;
- padding:7px;
- min-height:48px;
- display:flex;
- flex-wrap:wrap;
- gap:6px
+ margin-top:9px;border:2px solid #e2e8f0;
+ border-radius:14px;background:#fff;overflow:hidden
+}
+
+.history-head{
+ display:flex;justify-content:space-between;gap:8px;
+ padding:7px 9px;background:#f8fafc;font-size:10px;font-weight:bold
+}
+
+.history-items{
+ min-height:43px;padding:6px;display:flex;flex-wrap:wrap;gap:5px
 }
 
 .empty{
- width:100%;
- text-align:center;
- color:#94a3b8;
- font-size:10px;
- padding:7px
+ width:100%;text-align:center;padding:7px;
+ color:#94a3b8;font-size:10px
 }
 
 .attempt{
- padding:6px 8px;
- border-radius:9px;
- font-size:10px;
- font-weight:bold;
- line-height:1.6
+ padding:6px 8px;border-radius:9px;font-size:10px;font-weight:bold
 }
 
-.attempt.low{
- background:#e0f2fe;
- color:#03698e;
- border:1px solid #7dd3fc
-}
+.attempt.low{background:#e0f2fe;color:#03698e}
+.attempt.high{background:#ffedd5;color:#9a4c08}
+.attempt.hit{background:#dcfce7;color:#18753a}
 
-.attempt.high{
- background:#ffedd5;
- color:#9a4c08;
- border:1px solid #fdba74
-}
-
-.attempt.hit{
- background:#dcfce7;
- color:#18753a;
- border:1px solid #86efac
-}
-
-/* =========================
-   GUIDANCE
-========================= */
-
-.guidance{
- display:none;
- margin-top:10px;
- padding:10px;
- border-radius:13px;
- text-align:center;
- font-size:12px;
- line-height:1.8;
- font-weight:bold
-}
-
-.guidance.show{
- display:block;
- animation:pop .2s
-}
-
-.guidance.low{
- background:#e6f8ff;
- border:2px solid #7dd3fc;
- color:#03698e
-}
-
-.guidance.high{
- background:#fff3df;
- border:2px solid #fdba74;
- color:#9a4c08
-}
-
-.guidance.hit{
- background:#e8faed;
- border:2px solid #86d79d;
- color:#18753a
-}
-
-/* =========================
-   FEEDBACK
-========================= */
+/* FEEDBACK */
 
 .feedback{
- display:none;
- margin-top:12px;
- padding:12px;
- border-radius:14px;
- line-height:1.8
+ display:none;margin-top:12px;padding:12px;border-radius:14px;line-height:1.8
 }
 
-.feedback.show{
- display:block;
- animation:pop .25s
-}
+.feedback.show{display:block;animation:pop .25s}
+.feedback.success{background:#e8faed;border:2px solid #a6dfb7}
+.feedback.error{background:#fff0f3;border:2px solid #f3bbc5}
+.feedback.timeout{background:#fff7d9;border:2px solid #e9cb69}
 
-.feedback.success{
- background:#e8faed;
- border:2px solid #a6dfb7
-}
-
-.feedback.error{
- background:#fff0f3;
- border:2px solid #f3bbc5
-}
-
-.feedback.timeout{
- background:#fff7d9;
- border:2px solid #e9cb69
-}
-
-.feedback strong{
- display:block;
- font-size:16px;
- margin-bottom:3px
-}
-
-.feedback-text{
- font-size:12px;
- color:#4d5c61
-}
+.feedback strong{display:block;font-size:16px;margin-bottom:3px}
+.feedback-text{font-size:12px;color:#4d5c61}
 
 .solution{
- margin-top:7px;
- padding:8px 9px;
- background:#ffffffaa;
- border-radius:9px;
- font-size:11px;
- line-height:1.8
+ margin-top:7px;padding:8px 9px;background:#ffffffaa;
+ border-radius:9px;font-size:11px;line-height:1.8
 }
 
 .next{
- display:none;
- width:100%;
- margin-top:11px;
- padding:14px;
- border:0;
- border-radius:14px;
- background:linear-gradient(90deg,var(--pink),var(--purple));
- color:#fff;
- font-size:16px;
- font-weight:bold;
- cursor:pointer
+ display:none;width:100%;margin-top:11px;padding:14px;border:0;
+ border-radius:14px;background:linear-gradient(90deg,var(--pink),var(--purple));
+ color:#fff;font-size:16px;font-weight:bold;cursor:pointer
 }
 
 .next.show{display:block}
 
-/* =========================
-   RESULT
-========================= */
+/* RESULT */
 
 .result{
- display:none;
- text-align:center;
- padding:25px 16px;
+ display:none;text-align:center;padding:25px 16px;
  background:
-  radial-gradient(circle at 10% 5%,#fbcfe844,transparent 25%),
-  radial-gradient(circle at 90% 5%,#7dd3fc44,transparent 25%)
+ radial-gradient(circle at 10% 5%,#fbcfe844,transparent 25%),
+ radial-gradient(circle at 90% 5%,#7dd3fc44,transparent 25%)
 }
 
 .result.show{display:block}
-
-.result-icon{
- font-size:72px;
- animation:float 2s ease-in-out infinite
-}
-
-.result h2{
- color:var(--purple2);
- font-size:27px;
- margin:5px
-}
+.result-icon{font-size:72px;animation:float 2s ease-in-out infinite}
+.result h2{color:var(--purple2);font-size:27px;margin:5px}
 
 .final-score{
- width:160px;
- height:160px;
- margin:17px auto;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- border-radius:50%;
- border:8px solid transparent;
- background:
-  linear-gradient(#fff,#fff) padding-box,
-  linear-gradient(135deg,var(--pink),var(--yellow),var(--blue),var(--purple)) border-box
+ width:160px;height:160px;margin:17px auto;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ border-radius:50%;border:8px solid transparent;
+ background:linear-gradient(#fff,#fff) padding-box,
+ linear-gradient(135deg,var(--pink),var(--yellow),var(--blue),var(--purple)) border-box
 }
 
-.final-score strong{
- font-size:43px;
- color:var(--purple2)
-}
-
-.final-score span{
- font-size:13px;
- color:var(--muted)
-}
-
-.motivation{
- font-size:20px;
- font-weight:bold;
- margin-bottom:19px
-}
+.final-score strong{font-size:43px;color:var(--purple2)}
+.final-score span{font-size:13px;color:var(--muted)}
+.motivation{font-size:20px;font-weight:bold;margin-bottom:19px}
 
 .leaderboard{
- max-width:540px;
- margin:20px auto;
- padding:13px;
- text-align:right;
- background:#faf8ff;
- border:2px solid #e4dafa;
- border-radius:16px
+ max-width:540px;margin:20px auto;padding:13px;text-align:right;
+ background:#faf8ff;border:2px solid #e4dafa;border-radius:16px
 }
 
-.leaderboard h3{
- text-align:center;
- color:var(--purple2);
- margin:0 0 10px
-}
+.leaderboard h3{text-align:center;color:var(--purple2);margin:0 0 10px}
 
 .rank-row{
- display:flex;
- justify-content:space-between;
- gap:8px;
- padding:9px 5px;
- border-bottom:1px dashed #ddd6e8
+ display:flex;justify-content:space-between;gap:8px;
+ padding:9px 5px;border-bottom:1px dashed #ddd6e8
 }
 
 .rank-row:last-child{border:0}
-
-.rank-name{
- overflow:hidden;
- text-overflow:ellipsis;
- white-space:nowrap
-}
-
-.rank-score{
- font-weight:bold;
- color:var(--purple2)
-}
-
-.loading{
- text-align:center;
- color:var(--muted);
- padding:8px
-}
+.rank-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-score{font-weight:bold;color:var(--purple2)}
+.loading{text-align:center;color:var(--muted);padding:8px}
 
 .restart{
- width:100%;
- max-width:420px;
- padding:14px;
- border:0;
- border-radius:14px;
+ width:100%;max-width:420px;padding:14px;border:0;border-radius:14px;
  background:linear-gradient(90deg,var(--pink),var(--purple));
- color:#fff;
- font-weight:bold;
- font-size:16px;
- cursor:pointer
+ color:#fff;font-weight:bold;font-size:16px;cursor:pointer
 }
 
 .back{
- display:block;
- text-align:center;
- margin:17px 0;
- padding:10px;
- text-decoration:none;
- color:var(--purple2);
- font-weight:bold
+ display:block;text-align:center;margin:17px 0;padding:10px;
+ text-decoration:none;color:var(--purple2);font-weight:bold
 }
 
-/* EFFECTS */
+/* FX */
 
 .spark{
- position:fixed;
- z-index:999;
- pointer-events:none;
- font-size:20px;
- animation:spark .8s forwards
+ position:fixed;z-index:999;pointer-events:none;
+ font-size:20px;animation:spark .8s forwards
 }
 
-@keyframes vehicleIn{
- from{opacity:.2;transform:scale(.7)}
+@keyframes itemIn{
+ from{opacity:.2;transform:scale(.75)}
  to{opacity:1;transform:scale(1)}
 }
 
@@ -800,46 +454,24 @@ button{touch-action:manipulation}
  50%{transform:translateY(-7px)}
 }
 
-/* MOBILE */
-
 @media(max-width:650px){
-
  .app{padding:6px}
-
- .status{
-  grid-template-columns:1fr 1fr
- }
-
+ .status{grid-template-columns:1fr 1fr}
  .content{padding:10px}
-
- .parking{
-  grid-template-columns:repeat(5,1fr);
-  min-height:170px
- }
-
- .parking-space{
-  min-height:46px;
-  font-size:22px
- }
+ .scene{min-height:115px}
+ .scene-item{font-size:23px;min-width:38px;min-height:38px}
 }
 
-@media(max-width:410px){
-
- .parking{
-  grid-template-columns:repeat(4,1fr)
+@media(max-width:400px){
+ .target-strip{gap:4px}
+ .target-box strong{font-size:15px}
+ .guess-control{
+  grid-template-columns:41px 41px minmax(75px,100px) 41px 41px;
+  gap:3px
  }
-
- .mix-card{padding:7px 4px}
-
- .counter-button{
-  width:36px;
-  height:36px
- }
-
- .counter-value{
-  min-width:43px;
-  font-size:17px
- }
+ .change{height:42px;font-size:13px}
+ .change.primary{font-size:18px}
+ .guess-value{height:49px;font-size:21px}
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -853,56 +485,28 @@ button{touch-action:manipulation}
 <main class="app">
 
 <header class="hero">
-
- <div class="badge">
-  🎓 ریاضی هفتم • فصل اول • درس ۶
- </div>
-
- <h1>🅿️ پارکینگ معمایی</h1>
-
- <p>
-  ترکیب پارکینگ را تغییر بده، آزمایش کن و با هر نتیجه یک قدم به جواب نزدیک‌تر شو!
- </p>
-
+ <div class="badge">🎓 ریاضی هفتم • فصل اول • درس ۶</div>
+ <h1>🎮 مأموریت حدس و آزمایش</h1>
+ <p>هر مأموریت یک معمای تازه؛ حدس بزن، نتیجه را ببین و حدس بعدی را بهتر کن!</p>
 </header>
-
 
 <section class="panel">
 
 <div id="gameScreen">
 
  <div class="status">
-
-  <div class="stat">
-   <small>🧑‍✈️ مدیر پارکینگ</small>
-   <strong id="playerName">---</strong>
-  </div>
-
-  <div class="stat">
-   <small>🅿️ مأموریت</small>
-   <strong id="questionNumber">۱ از ۱۰</strong>
-  </div>
-
-  <div class="stat">
-   <small>⭐ امتیاز</small>
-   <strong id="score">۰</strong>
-  </div>
-
-  <div class="stat">
-   <small>⏱️ زمان</small>
-   <strong id="timeStatus">۶۰ ثانیه</strong>
-  </div>
-
+  <div class="stat"><small>🕹️ بازیکن</small><strong id="playerName">---</strong></div>
+  <div class="stat"><small>🎮 مأموریت</small><strong id="questionNumber">۱ از ۱۰</strong></div>
+  <div class="stat"><small>⭐ امتیاز</small><strong id="score">۰</strong></div>
+  <div class="stat"><small>⏱️ زمان</small><strong id="timeStatus">۶۰ ثانیه</strong></div>
  </div>
-
 
  <div class="content">
 
   <div class="progress" id="progress"></div>
 
-
   <div class="timer-head">
-   <span>⏱️ زمان حل معما</span>
+   <span>⏱️ زمان مأموریت</span>
    <strong id="timerNumber">۶۰</strong>
   </div>
 
@@ -910,277 +514,129 @@ button{touch-action:manipulation}
    <div class="timer-bar" id="timerBar"></div>
   </div>
 
-
   <div class="labels">
    <span class="mission-label" id="missionLabel"></span>
    <span class="family-label" id="familyLabel"></span>
   </div>
 
-
   <div class="problem" id="problemText"></div>
 
-
-  <div class="target-panel">
-
-   <div class="target-item">
-    <small>🚘 کل وسایل</small>
-    <strong id="totalVehicles">۰</strong>
+  <div class="target-strip">
+   <div class="target-box">
+    <small id="targetLabel">🎯 هدف</small>
+    <strong id="targetValue">۰</strong>
    </div>
-
-   <div class="target-item">
-    <small>🎯 چرخ هدف</small>
-    <strong id="targetWheels">۰</strong>
+   <div class="target-box">
+    <small>🧪 نتیجه حدس فعلی</small>
+    <strong id="currentResult">۰</strong>
    </div>
-
-   <div class="target-item">
-    <small>⚙️ چرخ ترکیب فعلی</small>
-    <strong id="currentWheels">۰</strong>
+   <div class="target-box">
+    <small>📏 وضعیت</small>
+    <strong id="relationStatus">---</strong>
    </div>
-
   </div>
 
-
-  <div class="parking-wrap">
-
-   <div class="parking-header">
-
-    <span class="parking-title">
-     🅿️ نمای زنده پارکینگ
-    </span>
-
-    <span class="parking-status" id="parkingStatus">
-     آماده بررسی
-    </span>
-
-   </div>
-
-
-   <div class="parking" id="parking"></div>
-
+  <div class="world" id="world">
+   <div class="world-title" id="worldTitle"></div>
+   <div class="scene" id="scene"></div>
   </div>
 
+  <div class="attempt-row">
+   <span>🧪 فرصت‌های آزمایش</span>
+   <div class="lives" id="lives"></div>
+  </div>
 
-  <div class="mix-panel">
+  <div class="controller">
 
-   <div class="mix-title">
-    🎛️ ترکیب پارکینگ را حدس بزن
+   <div class="controller-title">🎛️ حدست را تنظیم کن</div>
+
+   <div class="controller-help">
+    بعد از هر آزمایش، از نتیجه «کم / زیاد» برای اصلاح حدس استفاده کن.
    </div>
 
-   <div class="mix-help">
-    تعداد کل وسایل همیشه ثابت می‌ماند. با تغییر یکی، تعداد دیگری خودکار تغییر می‌کند.
-   </div>
+   <span class="guess-label" id="guessLabel"></span>
 
+   <div class="guess-control">
 
-   <div class="mix-cards">
+    <button class="change" id="minusFive" type="button">−۵</button>
 
-    <div class="mix-card">
+    <button class="change primary" id="minusOne" type="button">−</button>
 
-     <div class="vehicle-icon">
-      🚲
-     </div>
+    <div class="guess-value" id="guessValue">۰</div>
 
-     <span class="vehicle-name">
-      دوچرخه • ۲ چرخ
-     </span>
+    <button class="change primary" id="plusOne" type="button">+</button>
 
-     <div class="counter">
-
-      <button
-       class="counter-button"
-       id="bikeMinus"
-       type="button">
-       −
-      </button>
-
-      <div
-       class="counter-value"
-       id="bikeCount">
-       ۰
-      </div>
-
-      <button
-       class="counter-button"
-       id="bikePlus"
-       type="button">
-       +
-      </button>
-
-     </div>
-
-    </div>
-
-
-    <div class="mix-card">
-
-     <div class="vehicle-icon">
-      🛺
-     </div>
-
-     <span class="vehicle-name">
-      سه‌چرخه • ۳ چرخ
-     </span>
-
-     <div class="counter">
-
-      <button
-       class="counter-button"
-       id="trikeMinus"
-       type="button">
-       −
-      </button>
-
-      <div
-       class="counter-value"
-       id="trikeCount">
-       ۰
-      </div>
-
-      <button
-       class="counter-button"
-       id="trikePlus"
-       type="button">
-       +
-      </button>
-
-     </div>
-
-    </div>
+    <button class="change" id="plusFive" type="button">+۵</button>
 
    </div>
 
-
-   <div class="live-result">
-    حدس فعلی:
-    <strong id="liveExpression"></strong>
+   <div class="bounds">
+    <span id="minLabel"></span>
+    <span id="maxLabel"></span>
    </div>
 
-
-   <button
-    class="test-button"
-    id="testButton"
-    type="button">
-
-    🧪 آزمایش این ترکیب
-
+   <button class="test" id="testButton" type="button">
+    🧪 آزمایش این حدس
    </button>
 
   </div>
 
-
   <div class="guidance" id="guidance"></div>
 
-
-  <div class="attempt-header">
-
-   <span>
-    📋 آزمایش‌های انجام‌شده
-   </span>
-
-   <div
-    class="attempt-lives"
-    id="attemptLives">
+  <div class="history">
+   <div class="history-head">
+    <span>📋 حدس‌های آزمایش‌شده</span>
+    <span id="historyCount">۰ آزمایش</span>
    </div>
-
+   <div class="history-items" id="historyItems"></div>
   </div>
-
-
-  <div class="history" id="history"></div>
-
 
   <div class="feedback" id="feedback">
-
    <strong id="feedbackTitle"></strong>
-
-   <div
-    class="feedback-text"
-    id="feedbackText">
-   </div>
-
-   <div
-    class="solution"
-    id="solution">
-   </div>
-
+   <div class="feedback-text" id="feedbackText"></div>
+   <div class="solution" id="solution"></div>
   </div>
 
-
-  <button
-   class="next"
-   id="nextButton"
-   type="button">
-
-   پارکینگ بعدی 🅿️
-
+  <button class="next" id="nextButton" type="button">
+   مأموریت بعدی 🎮
   </button>
 
  </div>
-
 </div>
 
 
 <div class="result" id="resultScreen">
 
- <div class="result-icon">
-  🅿️🏆
- </div>
+ <div class="result-icon">🎮🏆</div>
 
- <h2>
-  همه پارکینگ‌ها حل شدند!
- </h2>
+ <h2>همه مأموریت‌ها کامل شدند!</h2>
 
  <p>
-  مدیر پارکینگ:
+  بازیکن:
   <strong id="resultName"></strong>
  </p>
 
-
  <div class="final-score">
-
   <strong id="finalScore">۰</strong>
-
-  <span>
-   از 100 امتیاز
-  </span>
-
+  <span>از 100 امتیاز</span>
  </div>
 
-
- <div
-  class="motivation"
-  id="motivation">
- </div>
-
+ <div class="motivation" id="motivation"></div>
 
  <div class="leaderboard">
-
-  <h3>
-   🏅 برترین حل‌کننده‌ها
-  </h3>
-
-  <div
-   id="leaderboardContent"
-   class="loading">
-
+  <h3>🏅 برترین مأمورهای حدس و آزمایش</h3>
+  <div id="leaderboardContent" class="loading">
    در حال دریافت جدول برترین‌ها...
-
   </div>
-
  </div>
 
-
- <button
-  class="restart"
-  id="restartButton"
-  type="button">
-
+ <button class="restart" id="restartButton" type="button">
   🔄 بازی دوباره
-
  </button>
 
 </div>
 
 </section>
-
 
 <a class="back" href="/#game">
  ← بازگشت به بازی‌های ریاضی
@@ -1197,108 +653,69 @@ const GAME_ID = 13;
 
 const TOTAL_QUESTIONS = 10;
 const QUESTION_TIME = 60;
-
 const MAX_ATTEMPTS = 5;
 
 const player = GameSDK.init(GAME_ID);
 
 
 /* =====================================================
-   HISTORY OF GENERATED QUESTIONS
+   HISTORY
 ===================================================== */
 
-const HISTORY_KEY=
- "math_mystery_parking_recent_v1";
-
-const MAX_HISTORY=40;
+const HISTORY_KEY="math_guess_missions_recent_v1";
+const MAX_HISTORY=45;
 
 
 /* =====================================================
-   UTILITIES
+   TOOLS
 ===================================================== */
 
 function faNumber(value){
-
- return String(value)
-  .replace(
-   /\d/g,
-   d=>"۰۱۲۳۴۵۶۷۸۹"[d]
-  );
+ return String(value).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 }
-
-
-function randomInt(min,max){
-
- return Math.floor(
-  Math.random()*
-  (max-min+1)
- )+min;
-}
-
 
 function pick(array){
-
- return array[
-  Math.floor(
-   Math.random()*array.length
-  )
- ];
+ return array[Math.floor(Math.random()*array.length)];
 }
 
+function randomInt(min,max){
+ return Math.floor(Math.random()*(max-min+1))+min;
+}
 
 function shuffle(array){
 
  const copy=[...array];
 
- for(
-  let i=copy.length-1;
-  i>0;
-  i--
- ){
+ for(let i=copy.length-1;i>0;i--){
 
-  const j=
-   Math.floor(
-    Math.random()*(i+1)
-   );
+  const j=Math.floor(Math.random()*(i+1));
 
-  [copy[i],copy[j]]=
-  [copy[j],copy[i]];
+  [copy[i],copy[j]]=[copy[j],copy[i]];
  }
 
  return copy;
 }
 
-
 function pointsForTime(seconds){
 
  if(seconds<=15)return 10;
-
  if(seconds<=25)return 8;
-
  if(seconds<=35)return 6;
-
  if(seconds<=45)return 4;
-
  if(seconds<=60)return 2;
 
  return 0;
 }
 
-
 function loadHistory(){
 
  try{
 
-  const data=
-   JSON.parse(
-    localStorage.getItem(
-     HISTORY_KEY
-    )||"[]"
-   );
+  const data=JSON.parse(
+   localStorage.getItem(HISTORY_KEY)||"[]"
+  );
 
-  return Array.isArray(data)
-   ?data
-   :[];
+  return Array.isArray(data)?data:[];
 
  }catch{
 
@@ -1306,24 +723,18 @@ function loadHistory(){
  }
 }
 
-
 function saveHistory(signatures){
 
  try{
 
-  const combined=[
+  const merged=[
    ...signatures,
    ...loadHistory()
   ];
 
-
   const unique=[
-   ...new Set(combined)
-  ].slice(
-   0,
-   MAX_HISTORY
-  );
-
+   ...new Set(merged)
+  ].slice(0,MAX_HISTORY);
 
   localStorage.setItem(
    HISTORY_KEY,
@@ -1332,337 +743,990 @@ function saveHistory(signatures){
 
  }catch(error){
 
-  console.warn(
-   "Question history unavailable:",
-   error
-  );
+  console.warn("History unavailable:",error);
  }
 }
 
 
 /* =====================================================
-   PARKING QUESTION GENERATOR
-
-   ساختار اصلی عمداً ثابت است:
-   کل وسیله = دوچرخه + سه‌چرخه
-
-   کل چرخ =
-   2 × دوچرخه
-   +
-   3 × سه‌چرخه
-
-   پارامترها هر بار تغییر می‌کنند.
+   HELPER FOR PAIR SCENES
 ===================================================== */
 
-function generateParkingQuestion(
- minTotal,
- maxTotal,
- minTrike,
- maxTrike,
- label
+function pairItems(
+ countA,
+ iconA,
+ countB,
+ iconB
 ){
 
- const total=
-  randomInt(
-   minTotal,
-   maxTotal
-  );
+ const items=[];
+
+ for(let i=0;i<countA;i++){
+  items.push(iconA);
+ }
+
+ for(let i=0;i<countB;i++){
+  items.push(iconB);
+ }
+
+ return shuffle(items);
+}
 
 
- const actualMaxTrike=
-  Math.min(
-   maxTrike,
-   total-2
-  );
+/* =====================================================
+   1) PARKING
+===================================================== */
 
+function genParking(){
 
- const trikes=
-  randomInt(
-   minTrike,
-   actualMaxTrike
-  );
+ const total=randomInt(12,18);
 
+ const answer=randomInt(
+  3,
+  Math.min(9,total-3)
+ );
 
- const bikes=
-  total-trikes;
+ const bikes=total-answer;
 
-
- const wheels=
+ const target=
   bikes*2+
-  trikes*3;
-
+  answer*3;
 
  return{
 
-  family:label,
+  family:"🅿️ پارکینگ",
 
   signature:
-   `parking-${total}-${trikes}-${label}`,
-
-  total,
-
-  bikes,
-
-  trikes,
-
-  wheels,
+   `parking-${total}-${answer}`,
 
   q:
-   `در پارکینگ ${faNumber(total)} وسیله شامل دوچرخه و سه‌چرخه وجود دارد. مجموع چرخ‌ها ${faNumber(wheels)} است. با راهبرد حدس و آزمایش، ترکیب درست پارکینگ را پیدا کن.`,
+   `در پارکینگ ${faNumber(total)} وسیله شامل دوچرخه و سه‌چرخه وجود دارد. مجموع چرخ‌ها ${faNumber(target)} است. تعداد سه‌چرخه‌ها را پیدا کن.`,
+
+  guessLabel:"تعداد سه‌چرخه‌ها",
+
+  targetLabel:"⚙️ چرخ هدف",
+
+  target,
+
+  min:0,
+  max:total,
+  step:1,
+
+  answer,
+
+  worldClass:"parking",
+
+  worldTitle:"🅿️ پارکینگ زنده",
+
+  evaluate:guess=>{
+
+   const bikeCount=
+    total-guess;
+
+   return{
+    result:
+     bikeCount*2+
+     guess*3,
+
+    scene:{
+     type:"pair",
+     a:bikeCount,
+     iconA:"🚲",
+     b:guess,
+     iconB:"🛺"
+    }
+   };
+  },
 
   explanation:
-   "تعداد کل وسایل ثابت است. اگر یک دوچرخه را به سه‌چرخه تبدیل کنیم، تعداد کل تغییر نمی‌کند اما تعداد چرخ‌ها یک واحد بیشتر می‌شود."
+   "با ثابت‌بودن تعداد وسایل، هر بار که یک دوچرخه به سه‌چرخه تبدیل می‌شود، یک چرخ به مجموع اضافه می‌شود.",
+
+  solution:
+   `${faNumber(answer)} سه‌چرخه و ${faNumber(bikes)} دوچرخه`
  };
 }
 
 
 /* =====================================================
-   12 FAMILY GENERATORS
-   سطح‌ها و اندازه پارکینگ متفاوت‌اند
+   2) FARM
 ===================================================== */
 
-function genA(){
+function genFarm(){
 
- return generateParkingQuestion(
-  8,11,2,6,
-  "پارکینگ کوچک"
+ const total=randomInt(11,17);
+
+ const answer=randomInt(
+  3,
+  Math.min(8,total-3)
  );
+
+ const chickens=total-answer;
+
+ const target=
+  chickens*2+
+  answer*4;
+
+ return{
+
+  family:"🌾 مزرعه",
+
+  signature:
+   `farm-${total}-${answer}`,
+
+  q:
+   `در مزرعه ${faNumber(total)} حیوان شامل مرغ و گوسفند داریم و مجموع پاها ${faNumber(target)} است. تعداد گوسفندها را پیدا کن.`,
+
+  guessLabel:"تعداد گوسفندها",
+
+  targetLabel:"🐾 پای هدف",
+
+  target,
+
+  min:0,
+  max:total,
+  step:1,
+
+  answer,
+
+  worldClass:"farm",
+
+  worldTitle:"🌾 مزرعه زنده",
+
+  evaluate:guess=>{
+
+   const chickensGuess=
+    total-guess;
+
+   return{
+    result:
+     chickensGuess*2+
+     guess*4,
+
+    scene:{
+     type:"pair",
+     a:chickensGuess,
+     iconA:"🐔",
+     b:guess,
+     iconB:"🐑"
+    }
+   };
+  },
+
+  explanation:
+   "هر بار که یک مرغ را با یک گوسفند جایگزین می‌کنیم، تعداد حیوان‌ها ثابت می‌ماند اما دو پا به مجموع اضافه می‌شود.",
+
+  solution:
+   `${faNumber(answer)} گوسفند و ${faNumber(chickens)} مرغ`
+ };
 }
 
 
-function genB(){
+/* =====================================================
+   3) QUIZ
+===================================================== */
 
- return generateParkingQuestion(
-  10,13,3,7,
-  "پارکینگ مدرسه"
+function genQuiz(){
+
+ const total=pick([15,18,20]);
+
+ const points=pick([2,3]);
+
+ const answer=randomInt(
+  5,
+  total-3
  );
+
+ const target=
+  answer*points;
+
+ return{
+
+  family:"📝 آزمون",
+
+  signature:
+   `quiz-${total}-${points}-${answer}`,
+
+  q:
+   `یک آزمون ${faNumber(total)} سؤال دارد. هر پاسخ درست ${faNumber(points)} امتیاز و پاسخ غلط صفر امتیاز دارد. دانش‌آموز ${faNumber(target)} امتیاز گرفته است. چند پاسخ درست داشته؟`,
+
+  guessLabel:"تعداد پاسخ‌های درست",
+
+  targetLabel:"⭐ امتیاز هدف",
+
+  target,
+
+  min:0,
+  max:total,
+  step:1,
+
+  answer,
+
+  worldClass:"classroom",
+
+  worldTitle:"📝 برگه آزمون",
+
+  evaluate:guess=>{
+
+   const wrong=
+    total-guess;
+
+   return{
+    result:
+     guess*points,
+
+    scene:{
+     type:"quiz",
+     correct:guess,
+     wrong
+    }
+   };
+  },
+
+  explanation:
+   "هرچه تعداد پاسخ‌های درست بیشتر شود، امتیاز حاصل نیز بیشتر می‌شود. نتیجه هر آزمایش جهت حدس بعدی را مشخص می‌کند.",
+
+  solution:
+   `${faNumber(answer)} پاسخ درست × ${faNumber(points)} = ${faNumber(target)} امتیاز`
+ };
 }
 
 
-function genC(){
+/* =====================================================
+   4) COINS
+===================================================== */
 
- return generateParkingQuestion(
-  12,15,3,8,
-  "پارکینگ پارک"
+function genCoins(){
+
+ const total=randomInt(9,14);
+
+ const small=pick([1,2,5]);
+
+ const large=small*2;
+
+ const answer=randomInt(
+  2,
+  total-2
  );
+
+ const smallCount=
+  total-answer;
+
+ const target=
+  answer*large+
+  smallCount*small;
+
+ return{
+
+  family:"🪙 سکه‌ها",
+
+  signature:
+   `coins-${total}-${small}-${answer}`,
+
+  q:
+   `${faNumber(total)} سکه از دو نوع ${faNumber(small)} و ${faNumber(large)} واحدی داریم و ارزش کل آنها ${faNumber(target)} واحد است. تعداد سکه‌های ${faNumber(large)} واحدی را پیدا کن.`,
+
+  guessLabel:
+   `تعداد سکه‌های ${faNumber(large)} واحدی`,
+
+  targetLabel:"💰 ارزش هدف",
+
+  target,
+
+  min:0,
+  max:total,
+  step:1,
+
+  answer,
+
+  worldClass:"coins",
+
+  worldTitle:"🪙 میز سکه‌ها",
+
+  evaluate:guess=>{
+
+   const lowCount=
+    total-guess;
+
+   return{
+    result:
+     guess*large+
+     lowCount*small,
+
+    scene:{
+     type:"coins",
+     lowCount,
+     lowValue:small,
+     highCount:guess,
+     highValue:large
+    }
+   };
+  },
+
+  explanation:
+   "تعداد کل سکه‌ها ثابت است. با بیشترشدن تعداد سکه‌های پرارزش، ارزش کل بیشتر می‌شود.",
+
+  solution:
+   `${faNumber(answer)} سکه ${faNumber(large)} واحدی و ${faNumber(smallCount)} سکه ${faNumber(small)} واحدی`
+ };
 }
 
 
-function genD(){
+/* =====================================================
+   5) AGE
+===================================================== */
 
- return generateParkingQuestion(
-  14,17,4,9,
-  "پارکینگ ورزشی"
- );
+function genAge(){
+
+ const younger=randomInt(8,16);
+
+ const difference=pick([2,4,6,8]);
+
+ const older=
+  younger+difference;
+
+ const target=
+  younger+older;
+
+ return{
+
+  family:"👧 سن",
+
+  signature:
+   `age-${younger}-${difference}`,
+
+  q:
+   `مجموع سن دو نفر ${faNumber(target)} سال است و نفر بزرگ‌تر ${faNumber(difference)} سال از نفر کوچک‌تر بزرگ‌تر است. سن نفر کوچک‌تر را پیدا کن.`,
+
+  guessLabel:"سن نفر کوچک‌تر",
+
+  targetLabel:"🎂 مجموع سن هدف",
+
+  target,
+
+  min:1,
+  max:Math.floor(target/2),
+  step:1,
+
+  answer:younger,
+
+  worldClass:"age",
+
+  worldTitle:"🎂 مقایسه سن‌ها",
+
+  evaluate:guess=>{
+
+   const olderGuess=
+    guess+difference;
+
+   return{
+    result:
+     guess+olderGuess,
+
+    scene:{
+     type:"age",
+     younger:guess,
+     older:olderGuess
+    }
+   };
+  },
+
+  explanation:
+   "برای هر حدس سن کوچک‌تر، اختلاف داده‌شده را اضافه می‌کنیم و سپس مجموع دو سن را با هدف می‌سنجیم.",
+
+  solution:
+   `${faNumber(younger)} سال و ${faNumber(older)} سال`
+ };
 }
 
 
-function genE(){
+/* =====================================================
+   6) HIDDEN NUMBER ADD
+===================================================== */
 
- return generateParkingQuestion(
-  16,19,4,10,
-  "پارکینگ فروشگاه"
- );
+function genHiddenAdd(){
+
+ const a=randomInt(3,6);
+ const b=randomInt(2,9);
+ const answer=randomInt(4,13);
+
+ const target=
+  a*answer+b;
+
+ return{
+
+  family:"🔢 عدد مخفی",
+
+  signature:
+   `hiddenAdd-${a}-${b}-${answer}`,
+
+  q:
+   `عددی را ${faNumber(a)} برابر کرده و ${faNumber(b)} واحد به آن افزوده‌ایم؛ حاصل ${faNumber(target)} شده است. عدد را پیدا کن.`,
+
+  guessLabel:"عدد مخفی",
+
+  targetLabel:"🎯 حاصل هدف",
+
+  target,
+
+  min:0,
+  max:18,
+  step:1,
+
+  answer,
+
+  worldClass:"number",
+
+  worldTitle:"🔢 ماشین عدد مخفی",
+
+  evaluate:guess=>{
+
+   const multiplied=
+    a*guess;
+
+   return{
+    result:
+     multiplied+b,
+
+    scene:{
+     type:"expression",
+     values:[
+      faNumber(guess),
+      "× "+faNumber(a),
+      "= "+faNumber(multiplied),
+      "+ "+faNumber(b)
+     ]
+    }
+   };
+  },
+
+  explanation:
+   "اگر حاصل کمتر از هدف باشد، حدس عدد باید بیشتر شود؛ اگر حاصل بیشتر باشد، باید حدس را کاهش دهیم.",
+
+  solution:
+   `${faNumber(a)} × ${faNumber(answer)} + ${faNumber(b)} = ${faNumber(target)}`
+ };
 }
 
 
-function genF(){
+/* =====================================================
+   7) HIDDEN NUMBER SUBTRACT
+===================================================== */
 
- return generateParkingQuestion(
-  18,21,5,11,
-  "پارکینگ بزرگ"
- );
+function genHiddenSubtract(){
+
+ const a=randomInt(3,6);
+ const b=randomInt(2,8);
+ const answer=randomInt(4,13);
+
+ const target=
+  a*answer-b;
+
+ if(target<=0){
+  return genHiddenSubtract();
+ }
+
+ return{
+
+  family:"⚙️ ماشین عدد",
+
+  signature:
+   `hiddenSub-${a}-${b}-${answer}`,
+
+  q:
+   `عددی را ${faNumber(a)} برابر کرده و ${faNumber(b)} واحد از آن کم کرده‌ایم؛ حاصل ${faNumber(target)} شده است. عدد را پیدا کن.`,
+
+  guessLabel:"عدد مخفی",
+
+  targetLabel:"🎯 حاصل هدف",
+
+  target,
+
+  min:0,
+  max:18,
+  step:1,
+
+  answer,
+
+  worldClass:"number",
+
+  worldTitle:"⚙️ ماشین عملیات",
+
+  evaluate:guess=>{
+
+   const multiplied=
+    a*guess;
+
+   return{
+    result:
+     multiplied-b,
+
+    scene:{
+     type:"expression",
+     values:[
+      faNumber(guess),
+      "× "+faNumber(a),
+      "= "+faNumber(multiplied),
+      "− "+faNumber(b)
+     ]
+    }
+   };
+  },
+
+  explanation:
+   "نتیجه هر آزمایش را با هدف مقایسه می‌کنیم تا بفهمیم حدس بعدی باید بزرگ‌تر یا کوچک‌تر باشد.",
+
+  solution:
+   `${faNumber(a)} × ${faNumber(answer)} − ${faNumber(b)} = ${faNumber(target)}`
+ };
 }
 
 
-function genG(){
+/* =====================================================
+   8) BOXES
+===================================================== */
 
- return generateParkingQuestion(
-  9,14,2,8,
-  "پارکینگ ایستگاه"
- );
+function genBoxes(){
+
+ const boxes=randomInt(3,6);
+ const answer=randomInt(3,9);
+ const loose=randomInt(1,6);
+
+ const target=
+  boxes*answer+
+  loose;
+
+ return{
+
+  family:"📦 جعبه‌ها",
+
+  signature:
+   `boxes-${boxes}-${answer}-${loose}`,
+
+  q:
+   `${faNumber(boxes)} جعبه هم‌اندازه داریم و ${faNumber(loose)} مهره هم بیرون جعبه‌هاست. در مجموع ${faNumber(target)} مهره داریم. در هر جعبه چند مهره است؟`,
+
+  guessLabel:"مهره در هر جعبه",
+
+  targetLabel:"🔵 مهره هدف",
+
+  target,
+
+  min:1,
+  max:12,
+  step:1,
+
+  answer,
+
+  worldClass:"boxes",
+
+  worldTitle:"📦 انبار جعبه‌ها",
+
+  evaluate:guess=>{
+
+   const boxed=
+    boxes*guess;
+
+   return{
+    result:
+     boxed+loose,
+
+    scene:{
+     type:"boxes",
+     boxes,
+     each:guess,
+     loose
+    }
+   };
+  },
+
+  explanation:
+   "هر حدس را در تعداد جعبه‌ها ضرب می‌کنیم و مهره‌های آزاد را هم اضافه می‌کنیم.",
+
+  solution:
+   `${faNumber(boxes)} × ${faNumber(answer)} + ${faNumber(loose)} = ${faNumber(target)}`
+ };
 }
 
 
-function genH(){
+/* =====================================================
+   9) SEATS
+===================================================== */
 
- return generateParkingQuestion(
-  11,16,3,9,
-  "پارکینگ نمایشگاه"
+function genSeats(){
+
+ const total=randomInt(10,16);
+
+ const answer=randomInt(
+  2,
+  total-2
  );
+
+ const singles=
+  total-answer;
+
+ const target=
+  answer*2+
+  singles;
+
+ return{
+
+  family:"🪑 سالن",
+
+  signature:
+   `seats-${total}-${answer}`,
+
+  q:
+   `${faNumber(total)} وسیله نشستن شامل صندلی یک‌نفره و نیمکت دونفره داریم که روی‌هم ${faNumber(target)} نفر ظرفیت دارند. تعداد نیمکت‌های دونفره را پیدا کن.`,
+
+  guessLabel:"تعداد نیمکت‌های دونفره",
+
+  targetLabel:"👥 ظرفیت هدف",
+
+  target,
+
+  min:0,
+  max:total,
+  step:1,
+
+  answer,
+
+  worldClass:"classroom",
+
+  worldTitle:"🪑 چیدمان سالن",
+
+  evaluate:guess=>{
+
+   const singleGuess=
+    total-guess;
+
+   return{
+    result:
+     guess*2+
+     singleGuess,
+
+    scene:{
+     type:"seats",
+     benches:guess,
+     chairs:singleGuess
+    }
+   };
+  },
+
+  explanation:
+   "تعداد وسایل ثابت است. جایگزینی یک صندلی با نیمکت دونفره، ظرفیت کل را یک نفر بیشتر می‌کند.",
+
+  solution:
+   `${faNumber(answer)} نیمکت و ${faNumber(singles)} صندلی`
+ };
 }
 
 
-function genI(){
+/* =====================================================
+   10) SHOP
+===================================================== */
 
- return generateParkingQuestion(
-  13,18,4,10,
-  "پارکینگ شهربازی"
- );
+function genShop(){
+
+ const count=randomInt(3,5);
+
+ const answer=
+  randomInt(3,10)*5;
+
+ const extra=
+  pick([5,10,15]);
+
+ const target=
+  count*answer+
+  extra;
+
+ return{
+
+  family:"🛒 فروشگاه",
+
+  signature:
+   `shop-${count}-${answer}-${extra}`,
+
+  q:
+   `${faNumber(count)} دفتر هم‌قیمت و یک پاک‌کن ${faNumber(extra)} هزار تومانی، روی‌هم ${faNumber(target)} هزار تومان شده‌اند. قیمت هر دفتر را پیدا کن.`,
+
+  guessLabel:"قیمت هر دفتر (هزار تومان)",
+
+  targetLabel:"💰 مبلغ هدف",
+
+  target,
+
+  min:5,
+  max:55,
+  step:5,
+
+  answer,
+
+  worldClass:"shop",
+
+  worldTitle:"🛒 صندوق فروشگاه",
+
+  evaluate:guess=>{
+
+   const books=
+    count*guess;
+
+   return{
+    result:
+     books+extra,
+
+    scene:{
+     type:"shop",
+     count,
+     price:guess,
+     extra
+    }
+   };
+  },
+
+  explanation:
+   "قیمت حدسی هر دفتر را در تعداد دفترها ضرب می‌کنیم، سپس قیمت پاک‌کن را اضافه و با مبلغ هدف مقایسه می‌کنیم.",
+
+  solution:
+   `${faNumber(count)} × ${faNumber(answer)} + ${faNumber(extra)} = ${faNumber(target)} هزار تومان`
+ };
 }
 
 
-function genJ(){
+/* =====================================================
+   11) BAGS
+===================================================== */
 
- return generateParkingQuestion(
-  15,20,4,11,
-  "پارکینگ مجتمع"
- );
+function genBags(){
+
+ const bags=randomInt(3,6);
+ const answer=randomInt(4,10);
+ const removed=randomInt(1,6);
+
+ const target=
+  bags*answer-
+  removed;
+
+ if(target<=0){
+  return genBags();
+ }
+
+ return{
+
+  family:"🎒 پاکت مهره",
+
+  signature:
+   `bags-${bags}-${answer}-${removed}`,
+
+  q:
+   `${faNumber(bags)} پاکت هم‌اندازه مهره داریم. اگر ${faNumber(removed)} مهره از کل برداریم، ${faNumber(target)} مهره باقی می‌ماند. هر پاکت ابتدا چند مهره داشته؟`,
+
+  guessLabel:"مهره در هر پاکت",
+
+  targetLabel:"🔵 باقی‌مانده هدف",
+
+  target,
+
+  min:1,
+  max:13,
+  step:1,
+
+  answer,
+
+  worldClass:"boxes",
+
+  worldTitle:"🎒 پاکت‌های مهره",
+
+  evaluate:guess=>{
+
+   const initial=
+    bags*guess;
+
+   return{
+    result:
+     initial-removed,
+
+    scene:{
+     type:"bags",
+     bags,
+     each:guess,
+     removed
+    }
+   };
+  },
+
+  explanation:
+   "برای هر حدس، تعداد اولیه مهره‌ها را می‌سازیم و سپس مهره‌های برداشته‌شده را کم می‌کنیم.",
+
+  solution:
+   `${faNumber(bags)} × ${faNumber(answer)} − ${faNumber(removed)} = ${faNumber(target)}`
+ };
 }
 
 
-function genK(){
+/* =====================================================
+   12) TICKETS
+===================================================== */
 
- return generateParkingQuestion(
-  17,22,5,12,
-  "پارکینگ مرکزی"
- );
+function genTickets(){
+
+ const total=randomInt(10,16);
+
+ const normal=pick([2,3]);
+
+ const special=
+  normal+pick([2,3]);
+
+ const answer=
+  randomInt(2,total-2);
+
+ const normalCount=
+  total-answer;
+
+ const target=
+  answer*special+
+  normalCount*normal;
+
+ return{
+
+  family:"🎟️ بلیت‌ها",
+
+  signature:
+   `tickets-${total}-${normal}-${special}-${answer}`,
+
+  q:
+   `${faNumber(total)} بلیت معمولی و ویژه فروخته شده است. ارزش بلیت معمولی ${faNumber(normal)} و ویژه ${faNumber(special)} امتیاز است. مجموع ارزش ${faNumber(target)} است. چند بلیت ویژه فروخته شده؟`,
+
+  guessLabel:"تعداد بلیت‌های ویژه",
+
+  targetLabel:"⭐ ارزش هدف",
+
+  target,
+
+  min:0,
+  max:total,
+  step:1,
+
+  answer,
+
+  worldClass:"shop",
+
+  worldTitle:"🎟️ گیشه بلیت",
+
+  evaluate:guess=>{
+
+   const normalGuess=
+    total-guess;
+
+   return{
+    result:
+     guess*special+
+     normalGuess*normal,
+
+    scene:{
+     type:"tickets",
+     special:guess,
+     normal:normalGuess
+    }
+   };
+  },
+
+  explanation:
+   "با ثابت‌بودن تعداد کل بلیت‌ها، افزایش تعداد بلیت ویژه باعث بیشترشدن ارزش کل می‌شود.",
+
+  solution:
+   `${faNumber(answer)} بلیت ویژه و ${faNumber(normalCount)} بلیت معمولی`
+ };
 }
 
 
-function genL(){
-
- return generateParkingQuestion(
-  10,18,2,10,
-  "پارکینگ ویژه"
- );
-}
-
+/* =====================================================
+   GENERATORS
+===================================================== */
 
 const GENERATORS=[
- genA,
- genB,
- genC,
- genD,
- genE,
- genF,
- genG,
- genH,
- genI,
- genJ,
- genK,
- genL
+ genParking,
+ genFarm,
+ genQuiz,
+ genCoins,
+ genAge,
+ genHiddenAdd,
+ genHiddenSubtract,
+ genBoxes,
+ genSeats,
+ genShop,
+ genBags,
+ genTickets
 ];
 
 
 /* =====================================================
-   GENERATE ROUND
+   ROUND
 ===================================================== */
 
 let questions=[];
 
-
 function generateRound(){
 
  const recent=
-  new Set(
-   loadHistory()
-  );
-
+  new Set(loadHistory());
 
  const chosen=
   shuffle(GENERATORS)
-  .slice(
-   0,
-   TOTAL_QUESTIONS
-  );
-
+  .slice(0,TOTAL_QUESTIONS);
 
  const generated=[];
 
 
- for(
-  const generator
-  of chosen
- ){
+ for(const generator of chosen){
 
   let candidate=null;
 
 
-  for(
-   let attempt=0;
-   attempt<30;
-   attempt++
-  ){
+  for(let attempt=0;attempt<30;attempt++){
 
-   const question=
-    generator();
+   const q=generator();
+
+   candidate=q;
 
 
-   candidate=
-    question;
-
-
-   if(
-    !recent.has(
-     question.signature
-    )
-   ){
-
+   if(!recent.has(q.signature)){
     break;
    }
   }
 
 
-  generated.push(
-   candidate
-  );
+  generated.push(candidate);
 
-
-  recent.add(
-   candidate.signature
-  );
+  recent.add(candidate.signature);
  }
 
 
- /*
-  ترتیب سختی کاملاً خطی نمی‌ماند
-  تا هر بار بازی قابل پیش‌بینی نباشد.
- */
-
- questions=
-  shuffle(generated);
+ questions=shuffle(generated);
 
 
  saveHistory(
-  generated.map(
-   question=>
-    question.signature
-  )
+  generated.map(q=>q.signature)
  );
 }
 
 
 /* =====================================================
-   GAME STATE
+   STATE
 ===================================================== */
 
 let currentIndex=0;
-
 let score=0;
 
 let answerChecked=false;
 
 let questionStartTime=0;
-
 let timerInterval=null;
 
 let gameFinished=false;
-
 let finishSubmitted=false;
 
+let currentGuess=0;
 
-/*
- تعداد فعلی سه‌چرخه‌ها
- دوچرخه‌ها همیشه:
- total - currentTrikes
-*/
-let currentTrikes=0;
-
-
-/*
- آزمایش‌های ثبت‌شده
-*/
 let attempts=[];
 
 
@@ -1670,136 +1734,67 @@ let attempts=[];
    DOM
 ===================================================== */
 
-const $=
- id=>
- document.getElementById(id);
+const $=id=>document.getElementById(id);
 
+const playerNameEl=$("playerName");
+const questionNumberEl=$("questionNumber");
+const scoreEl=$("score");
+const timeStatusEl=$("timeStatus");
 
-const playerNameEl=
- $("playerName");
+const timerNumberEl=$("timerNumber");
+const timerBarEl=$("timerBar");
 
-const questionNumberEl=
- $("questionNumber");
+const progressEl=$("progress");
 
-const scoreEl=
- $("score");
+const missionLabelEl=$("missionLabel");
+const familyLabelEl=$("familyLabel");
+const problemTextEl=$("problemText");
 
-const timeStatusEl=
- $("timeStatus");
+const targetLabelEl=$("targetLabel");
+const targetValueEl=$("targetValue");
+const currentResultEl=$("currentResult");
+const relationStatusEl=$("relationStatus");
 
+const worldEl=$("world");
+const worldTitleEl=$("worldTitle");
+const sceneEl=$("scene");
 
-const timerNumberEl=
- $("timerNumber");
+const livesEl=$("lives");
 
-const timerBarEl=
- $("timerBar");
+const guessLabelEl=$("guessLabel");
+const guessValueEl=$("guessValue");
 
+const minusFive=$("minusFive");
+const minusOne=$("minusOne");
+const plusOne=$("plusOne");
+const plusFive=$("plusFive");
 
-const progressEl=
- $("progress");
+const minLabelEl=$("minLabel");
+const maxLabelEl=$("maxLabel");
 
+const testButton=$("testButton");
 
-const missionLabelEl=
- $("missionLabel");
+const guidanceEl=$("guidance");
 
-const familyLabelEl=
- $("familyLabel");
+const historyCountEl=$("historyCount");
+const historyItemsEl=$("historyItems");
 
-const problemTextEl=
- $("problemText");
+const feedbackEl=$("feedback");
+const feedbackTitleEl=$("feedbackTitle");
+const feedbackTextEl=$("feedbackText");
+const solutionEl=$("solution");
 
+const nextButton=$("nextButton");
 
-const totalVehiclesEl=
- $("totalVehicles");
+const gameScreen=$("gameScreen");
+const resultScreen=$("resultScreen");
 
-const targetWheelsEl=
- $("targetWheels");
+const resultNameEl=$("resultName");
+const finalScoreEl=$("finalScore");
+const motivationEl=$("motivation");
 
-const currentWheelsEl=
- $("currentWheels");
-
-
-const parkingStatusEl=
- $("parkingStatus");
-
-const parkingEl=
- $("parking");
-
-
-const bikeCountEl=
- $("bikeCount");
-
-const trikeCountEl=
- $("trikeCount");
-
-const bikeMinus=
- $("bikeMinus");
-
-const bikePlus=
- $("bikePlus");
-
-const trikeMinus=
- $("trikeMinus");
-
-const trikePlus=
- $("trikePlus");
-
-
-const liveExpressionEl=
- $("liveExpression");
-
-const testButton=
- $("testButton");
-
-
-const guidanceEl=
- $("guidance");
-
-const attemptLivesEl=
- $("attemptLives");
-
-const historyEl=
- $("history");
-
-
-const feedbackEl=
- $("feedback");
-
-const feedbackTitleEl=
- $("feedbackTitle");
-
-const feedbackTextEl=
- $("feedbackText");
-
-const solutionEl=
- $("solution");
-
-
-const nextButton=
- $("nextButton");
-
-
-const gameScreen=
- $("gameScreen");
-
-const resultScreen=
- $("resultScreen");
-
-const resultNameEl=
- $("resultName");
-
-const finalScoreEl=
- $("finalScore");
-
-const motivationEl=
- $("motivation");
-
-
-const leaderboardContent=
- $("leaderboardContent");
-
-const restartButton=
- $("restartButton");
+const leaderboardContent=$("leaderboardContent");
+const restartButton=$("restartButton");
 
 
 /* =====================================================
@@ -1811,48 +1806,34 @@ function buildProgress(){
  progressEl.innerHTML="";
 
 
- for(
-  let i=0;
-  i<TOTAL_QUESTIONS;
-  i++
- ){
+ for(let i=0;i<TOTAL_QUESTIONS;i++){
 
   const item=
-   document.createElement(
-    "div"
-   );
-
+   document.createElement("div");
 
   item.className=
-   "p-space";
+   "progress-item";
 
-
-  progressEl.appendChild(
-   item
-  );
+  progressEl.appendChild(item);
  }
 }
 
 
 function updateProgress(){
 
- [
-  ...progressEl.children
- ].forEach(
-  (item,index)=>{
+ [...progressEl.children]
+  .forEach((item,index)=>{
 
    item.classList.toggle(
     "done",
     index<currentIndex
    );
 
-
    item.classList.toggle(
     "current",
     index===currentIndex
    );
-  }
- );
+  });
 }
 
 
@@ -1864,10 +1845,7 @@ function stopTimer(){
 
  if(timerInterval){
 
-  clearInterval(
-   timerInterval
-  );
-
+  clearInterval(timerInterval);
 
   timerInterval=null;
  }
@@ -1878,132 +1856,75 @@ function startTimer(){
 
  stopTimer();
 
-
- questionStartTime=
-  Date.now();
-
+ questionStartTime=Date.now();
 
  timerNumberEl.textContent=
-  faNumber(
-   QUESTION_TIME
-  );
-
+  faNumber(QUESTION_TIME);
 
  timeStatusEl.textContent=
-  faNumber(
-   QUESTION_TIME
-  )+
-  " ثانیه";
+  faNumber(QUESTION_TIME)+" ثانیه";
 
-
- timerBarEl.style.width=
-  "100%";
-
-
- timerBarEl.style.background=
-  "var(--green)";
-
-
- timerNumberEl.style.color=
-  "var(--green)";
-
+ timerBarEl.style.width="100%";
+ timerBarEl.style.background="var(--green)";
+ timerNumberEl.style.color="var(--green)";
 
  timerInterval=
-  setInterval(
-   updateTimer,
-   100
-  );
+  setInterval(updateTimer,100);
 }
 
 
 function updateTimer(){
 
- if(
-  answerChecked ||
-  gameFinished
- ){
+ if(answerChecked||gameFinished){
 
   stopTimer();
-
   return;
  }
 
 
  const elapsed=
-  (
-   Date.now()-
-   questionStartTime
-  )/1000;
+  (Date.now()-questionStartTime)/1000;
 
 
  const remaining=
   Math.max(
    0,
-   QUESTION_TIME-
-   elapsed
+   QUESTION_TIME-elapsed
   );
 
 
  const seconds=
-  Math.ceil(
-   remaining
-  );
+  Math.ceil(remaining);
 
 
  timerNumberEl.textContent=
-  faNumber(
-   seconds
-  );
-
+  faNumber(seconds);
 
  timeStatusEl.textContent=
-  faNumber(
-   seconds
-  )+
-  " ثانیه";
-
+  faNumber(seconds)+" ثانیه";
 
  timerBarEl.style.width=
-  (
-   remaining/
-   QUESTION_TIME*
-   100
-  )+"%";
+  (remaining/QUESTION_TIME*100)+"%";
 
 
  if(remaining>30){
 
-  timerBarEl.style.background=
-   "var(--green)";
+  timerBarEl.style.background="var(--green)";
+  timerNumberEl.style.color="var(--green)";
 
+ }else if(remaining>15){
 
-  timerNumberEl.style.color=
-   "var(--green)";
- }
+  timerBarEl.style.background="var(--yellow)";
+  timerNumberEl.style.color="#ad7700";
 
- else if(remaining>15){
+ }else{
 
-  timerBarEl.style.background=
-   "var(--yellow)";
-
-
-  timerNumberEl.style.color=
-   "#ad7700";
- }
-
- else{
-
-  timerBarEl.style.background=
-   "var(--red)";
-
-
-  timerNumberEl.style.color=
-   "var(--red)";
+  timerBarEl.style.background="var(--red)";
+  timerNumberEl.style.color="var(--red)";
  }
 
 
  if(remaining<=0){
-
   handleTimeout();
  }
 }
@@ -2017,55 +1938,42 @@ function showQuestion(){
 
  stopTimer();
 
-
  answerChecked=false;
 
  attempts=[];
 
 
  const q=
-  questions[
-   currentIndex
-  ];
+  questions[currentIndex];
+
+
+ const step=q.step||1;
+
+
+ let initial=
+  Math.round(
+   ((q.min+q.max)/2)/step
+  )*step;
 
 
  /*
-  حدس اول در اطراف نصف پارکینگ قرار می‌گیرد.
-  اگر تصادفاً همان پاسخ باشد، یک واحد جابه‌جا می‌شود.
+  شروع مرحله پاسخ را آماده تحویل نمی‌دهد.
  */
 
- currentTrikes=
-  Math.floor(
-   q.total/2
-  );
+ if(initial===q.answer){
 
+  initial+=step;
 
- if(
-  currentTrikes===
-  q.trikes
- ){
-
-  if(
-   currentTrikes<
-   q.total
-  ){
-
-   currentTrikes++;
-
-  }else{
-
-   currentTrikes--;
+  if(initial>q.max){
+   initial-=2*step;
   }
  }
 
 
- currentTrikes=
+ currentGuess=
   Math.max(
-   0,
-   Math.min(
-    q.total,
-    currentTrikes
-   )
+   q.min,
+   Math.min(q.max,initial)
   );
 
 
@@ -2073,13 +1981,9 @@ function showQuestion(){
 
 
  questionNumberEl.textContent=
-  faNumber(
-   currentIndex+1
-  )+
+  faNumber(currentIndex+1)+
   " از "+
-  faNumber(
-   TOTAL_QUESTIONS
-  );
+  faNumber(TOTAL_QUESTIONS);
 
 
  scoreEl.textContent=
@@ -2087,14 +1991,11 @@ function showQuestion(){
 
 
  missionLabelEl.textContent=
-  "🅿️ مأموریت "+
-  faNumber(
-   currentIndex+1
-  );
+  "🎮 مأموریت "+
+  faNumber(currentIndex+1);
 
 
  familyLabelEl.textContent=
-  "🎯 "+
   q.family;
 
 
@@ -2102,252 +2003,81 @@ function showQuestion(){
   q.q;
 
 
- totalVehiclesEl.textContent=
-  faNumber(
-   q.total
-  );
+ targetLabelEl.textContent=
+  q.targetLabel;
 
 
- targetWheelsEl.textContent=
-  faNumber(
-   q.wheels
-  );
+ targetValueEl.textContent=
+  faNumber(q.target);
 
 
- guidanceEl.className=
-  "guidance";
+ guessLabelEl.textContent=
+  q.guessLabel;
 
 
+ minLabelEl.textContent=
+  "کمینه: "+faNumber(q.min);
+
+
+ maxLabelEl.textContent=
+  "بیشینه: "+faNumber(q.max);
+
+
+ worldEl.className=
+  "world "+
+  q.worldClass;
+
+
+ worldTitleEl.textContent=
+  q.worldTitle;
+
+
+ guidanceEl.className="guidance";
  guidanceEl.textContent="";
 
 
- feedbackEl.className=
-  "feedback";
-
-
+ feedbackEl.className="feedback";
  feedbackTitleEl.textContent="";
-
  feedbackTextEl.textContent="";
-
  solutionEl.textContent="";
 
 
- setControlsDisabled(
-  false
- );
+ setControlsDisabled(false);
 
 
- nextButton.classList.remove(
-  "show"
- );
+ nextButton.classList.remove("show");
 
 
  nextButton.textContent=
-  currentIndex===
-  TOTAL_QUESTIONS-1
-
+  currentIndex===TOTAL_QUESTIONS-1
   ?"مشاهده نتیجه 🏆"
+  :"مأموریت بعدی 🎮";
 
-  :"پارکینگ بعدی 🅿️";
 
+ updateGuessAndScene();
 
- renderParking();
+ renderLives();
 
- renderAttempts();
-
- renderAttemptLives();
+ renderHistory();
 
  startTimer();
 }
 
 
 /* =====================================================
-   CURRENT MIX
+   GUESS CONTROL
 ===================================================== */
 
-function currentBikes(){
+function getStep(){
 
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- return(
-  q.total-
-  currentTrikes
- );
+ return questions[currentIndex]
+  .step||1;
 }
 
 
-function currentWheelCount(){
-
- return(
-  currentBikes()*2+
-  currentTrikes*3
- );
-}
-
-
-/* =====================================================
-   RENDER PARKING
-===================================================== */
-
-function renderParking(){
-
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- const bikes=
-  currentBikes();
-
-
- const wheels=
-  currentWheelCount();
-
-
- bikeCountEl.textContent=
-  faNumber(
-   bikes
-  );
-
-
- trikeCountEl.textContent=
-  faNumber(
-   currentTrikes
-  );
-
-
- currentWheelsEl.textContent=
-  faNumber(
-   wheels
-  );
-
-
- liveExpressionEl.textContent=
-  faNumber(bikes)+
-  " دوچرخه + "+
-  faNumber(currentTrikes)+
-  " سه‌چرخه = "+
-  faNumber(wheels)+
-  " چرخ";
-
-
- parkingEl.innerHTML="";
-
-
- /*
-  ابتدا دوچرخه و سه‌چرخه‌ها ساخته
-  و برای حس طبیعی‌تر Shuffle می‌شوند.
- */
-
- const vehicles=[
-  ...Array(bikes)
-   .fill("🚲"),
-
-  ...Array(currentTrikes)
-   .fill("🛺")
- ];
-
-
- const mixed=
-  shuffle(
-   vehicles
-  );
-
-
- mixed.forEach(
-  (vehicle,index)=>{
-
-   const space=
-    document.createElement(
-     "div"
-    );
-
-
-   space.className=
-    "parking-space";
-
-
-   space.dataset.number=
-    faNumber(
-     index+1
-    );
-
-
-   const icon=
-    document.createElement(
-     "span"
-    );
-
-
-   icon.className=
-    "vehicle";
-
-
-   icon.textContent=
-    vehicle;
-
-
-   space.appendChild(
-    icon
-   );
-
-
-   parkingEl.appendChild(
-    space
-   );
-  }
- );
-
-
- if(wheels===q.wheels){
-
-  parkingStatusEl.textContent=
-   "🎯 برابر هدف";
-
-  parkingStatusEl.style.color=
-   "#15803d";
-
- }
-
- else if(
-  wheels<q.wheels
- ){
-
-  parkingStatusEl.textContent=
-   "🔵 کمتر از هدف";
-
-  parkingStatusEl.style.color=
-   "#0284c7";
-
- }
-
- else{
-
-  parkingStatusEl.textContent=
-   "🟠 بیشتر از هدف";
-
-  parkingStatusEl.style.color=
-   "#c45c08";
- }
-}
-
-
-/* =====================================================
-   CHANGE MIX
-
-   + سه‌چرخه:
-   یک دوچرخه تبدیل به سه‌چرخه می‌شود.
-
-   - سه‌چرخه:
-   یک سه‌چرخه تبدیل به دوچرخه می‌شود.
-===================================================== */
-
-function changeTrikes(amount){
+function changeGuess(
+ multiplier
+){
 
  if(
   answerChecked ||
@@ -2358,69 +2088,493 @@ function changeTrikes(amount){
 
 
  const q=
-  questions[
-   currentIndex
-  ];
+  questions[currentIndex];
 
 
- currentTrikes+=
-  amount;
+ currentGuess+=
+  multiplier*
+  getStep();
 
 
- currentTrikes=
+ currentGuess=
   Math.max(
-   0,
+   q.min,
    Math.min(
-    q.total,
-    currentTrikes
+    q.max,
+    currentGuess
    )
   );
 
 
- renderParking();
+ updateGuessAndScene();
 }
 
 
-/*
- کنترل دوچرخه از جهت عکس کار می‌کند
- چون تعداد کل ثابت است.
-*/
-
-bikeMinus.addEventListener(
+minusFive.addEventListener(
  "click",
- ()=>changeTrikes(1)
+ ()=>changeGuess(-5)
 );
 
-
-bikePlus.addEventListener(
+minusOne.addEventListener(
  "click",
- ()=>changeTrikes(-1)
+ ()=>changeGuess(-1)
 );
 
-
-trikeMinus.addEventListener(
+plusOne.addEventListener(
  "click",
- ()=>changeTrikes(-1)
+ ()=>changeGuess(1)
 );
 
-
-trikePlus.addEventListener(
+plusFive.addEventListener(
  "click",
- ()=>changeTrikes(1)
+ ()=>changeGuess(5)
 );
 
 
 /* =====================================================
-   TEST MIX
+   LIVE SCENE
+===================================================== */
+
+function updateGuessAndScene(){
+
+ const q=
+  questions[currentIndex];
+
+
+ guessValueEl.textContent=
+  faNumber(currentGuess);
+
+
+ const evaluation=
+  q.evaluate(currentGuess);
+
+
+ currentResultEl.textContent=
+  faNumber(
+   evaluation.result
+  );
+
+
+ if(
+  evaluation.result===
+  q.target
+ ){
+
+  relationStatusEl.textContent=
+   "🎯 برابر";
+
+  relationStatusEl.style.color=
+   "#15803d";
+
+ }else if(
+  evaluation.result<
+  q.target
+ ){
+
+  relationStatusEl.textContent=
+   "🔵 کمتر";
+
+  relationStatusEl.style.color=
+   "#0284c7";
+
+ }else{
+
+  relationStatusEl.textContent=
+   "🟠 بیشتر";
+
+  relationStatusEl.style.color=
+   "#c45c08";
+ }
+
+
+ renderScene(
+  evaluation.scene
+ );
+}
+
+
+/* =====================================================
+   SCENE RENDERERS
+===================================================== */
+
+function renderScene(data){
+
+ sceneEl.innerHTML="";
+
+
+ if(data.type==="pair"){
+
+  const items=
+   pairItems(
+    data.a,
+    data.iconA,
+    data.b,
+    data.iconB
+   );
+
+
+  items.forEach(icon=>{
+
+   addSceneItem(
+    icon,
+    false
+   );
+  });
+
+  return;
+ }
+
+
+ if(data.type==="quiz"){
+
+  for(
+   let i=0;
+   i<data.correct;
+   i++
+  ){
+
+   addSceneItem(
+    "✅",
+    false
+   );
+  }
+
+
+  for(
+   let i=0;
+   i<data.wrong;
+   i++
+  ){
+
+   addSceneItem(
+    "❌",
+    false
+   );
+  }
+
+  return;
+ }
+
+
+ if(data.type==="coins"){
+
+  for(
+   let i=0;
+   i<data.lowCount;
+   i++
+  ){
+
+   addSceneItem(
+    "🪙 "+faNumber(data.lowValue),
+    true
+   );
+  }
+
+
+  for(
+   let i=0;
+   i<data.highCount;
+   i++
+  ){
+
+   addSceneItem(
+    "🪙 "+faNumber(data.highValue),
+    true
+   );
+  }
+
+  return;
+ }
+
+
+ if(data.type==="age"){
+
+  addSceneItem(
+   "👧 "+faNumber(data.younger)+" سال",
+   true
+  );
+
+
+  addSceneItem(
+   "👩 "+faNumber(data.older)+" سال",
+   true
+  );
+
+  return;
+ }
+
+
+ if(data.type==="expression"){
+
+  const wrap=
+   document.createElement(
+    "div"
+   );
+
+
+  wrap.className=
+   "expression-scene";
+
+
+  data.values.forEach(
+   value=>{
+
+    const part=
+     document.createElement(
+      "div"
+     );
+
+
+    part.className=
+     "expression-part";
+
+
+    part.textContent=
+     value;
+
+
+    wrap.appendChild(
+     part
+    );
+   }
+  );
+
+
+  sceneEl.appendChild(
+   wrap
+  );
+
+  return;
+ }
+
+
+ if(data.type==="boxes"){
+
+  for(
+   let i=0;
+   i<data.boxes;
+   i++
+  ){
+
+   addSceneItem(
+    "📦 "+faNumber(data.each),
+    true
+   );
+  }
+
+
+  for(
+   let i=0;
+   i<data.loose;
+   i++
+  ){
+
+   addSceneItem(
+    "🔵",
+    false
+   );
+  }
+
+  return;
+ }
+
+
+ if(data.type==="bags"){
+
+  for(
+   let i=0;
+   i<data.bags;
+   i++
+  ){
+
+   addSceneItem(
+    "🎒 "+faNumber(data.each),
+    true
+   );
+  }
+
+
+  addSceneItem(
+   "− "+faNumber(data.removed)+" 🔵",
+   true
+  );
+
+  return;
+ }
+
+
+ if(data.type==="seats"){
+
+  for(
+   let i=0;
+   i<data.benches;
+   i++
+  ){
+
+   addSceneItem(
+    "🪑🪑",
+    false
+   );
+  }
+
+
+  for(
+   let i=0;
+   i<data.chairs;
+   i++
+  ){
+
+   addSceneItem(
+    "🪑",
+    false
+   );
+  }
+
+  return;
+ }
+
+
+ if(data.type==="shop"){
+
+  for(
+   let i=0;
+   i<data.count;
+   i++
+  ){
+
+   addSceneItem(
+    "📘 "+faNumber(data.price),
+    true
+   );
+  }
+
+
+  addSceneItem(
+   "🧽 "+faNumber(data.extra),
+   true
+  );
+
+  return;
+ }
+
+
+ if(data.type==="tickets"){
+
+  for(
+   let i=0;
+   i<data.normal;
+   i++
+  ){
+
+   addSceneItem(
+    "🎟️ معمولی",
+    true
+   );
+  }
+
+
+  for(
+   let i=0;
+   i<data.special;
+   i++
+  ){
+
+   addSceneItem(
+    "🌟🎟️ ویژه",
+    true
+   );
+  }
+ }
+}
+
+
+function addSceneItem(
+ content,
+ textual
+){
+
+ const item=
+  document.createElement(
+   "div"
+  );
+
+
+ item.className=
+  "scene-item"+
+  (
+   textual
+   ?" textual"
+   :""
+  );
+
+
+ item.textContent=
+  content;
+
+
+ sceneEl.appendChild(
+  item
+ );
+}
+
+
+/* =====================================================
+   LIVES
+===================================================== */
+
+function renderLives(){
+
+ livesEl.innerHTML="";
+
+
+ for(
+  let i=0;
+  i<MAX_ATTEMPTS;
+  i++
+ ){
+
+  const life=
+   document.createElement(
+    "span"
+   );
+
+
+  life.className=
+   "life";
+
+
+  if(
+   i<attempts.length
+  ){
+
+   life.classList.add(
+    "used"
+   );
+  }
+
+
+  life.textContent=
+   "🧪";
+
+
+  livesEl.appendChild(
+   life
+  );
+ }
+}
+
+
+/* =====================================================
+   TEST
 ===================================================== */
 
 testButton.addEventListener(
  "click",
- testCombination
+ testGuess
 );
 
 
-function testCombination(){
+function testGuess(){
 
  if(
   answerChecked ||
@@ -2443,7 +2597,6 @@ function testCombination(){
  ){
 
   handleTimeout();
-
   return;
  }
 
@@ -2457,15 +2610,11 @@ function testCombination(){
  }
 
 
- /*
-  تکرار همان ترکیب، آزمایش مصرف نمی‌کند.
- */
-
  const duplicate=
   attempts.some(
-   attempt=>
-    attempt.trikes===
-    currentTrikes
+   item=>
+    item.guess===
+    currentGuess
   );
 
 
@@ -2476,7 +2625,7 @@ function testCombination(){
 
 
   guidanceEl.textContent=
-   "🔁 این ترکیب را قبلاً آزمایش کرده‌ای. نتیجه قبلی را ببین و ترکیب تازه‌ای امتحان کن.";
+   "🔁 این حدس را قبلاً آزمایش کرده‌ای. از نتیجه قبلی استفاده کن و حدس تازه‌ای بساز.";
 
 
   return;
@@ -2484,51 +2633,41 @@ function testCombination(){
 
 
  const q=
-  questions[
-   currentIndex
-  ];
+  questions[currentIndex];
 
 
- const bikes=
-  currentBikes();
-
-
- const wheels=
-  currentWheelCount();
+ const evaluation=
+  q.evaluate(
+   currentGuess
+  );
 
 
  let type;
 
 
- if(wheels===q.wheels){
+ if(
+  evaluation.result===
+  q.target
+ ){
 
   type="hit";
 
- }
-
- else if(
-  wheels<q.wheels
+ }else if(
+  evaluation.result<
+  q.target
  ){
 
   type="low";
 
- }
-
- else{
+ }else{
 
   type="high";
  }
 
 
  const attempt={
-
-  bikes,
-
-  trikes:
-   currentTrikes,
-
-  wheels,
-
+  guess:currentGuess,
+  result:evaluation.result,
   type
  };
 
@@ -2538,14 +2677,14 @@ function testCombination(){
  );
 
 
- renderAttempts();
+ renderLives();
 
- renderAttemptLives();
+ renderHistory();
 
 
  if(type==="hit"){
 
-  finishCorrect(
+  finishSuccess(
    elapsed
   );
 
@@ -2560,12 +2699,11 @@ function testCombination(){
 
 
   guidanceEl.textContent=
-   "🔵 "+
-   faNumber(wheels)+
-   " چرخ داری، اما هدف "+
-   faNumber(q.wheels)+
-   " است. چرخ کم داری؛ تعداد سه‌چرخه‌ها را بیشتر کن.";
-
+   "🔵 نتیجه این حدس "+
+   faNumber(evaluation.result)+
+   " است و از هدف "+
+   faNumber(q.target)+
+   " کمتر است؛ حدس بعدی را بیشتر کن.";
 
  }else{
 
@@ -2574,11 +2712,11 @@ function testCombination(){
 
 
   guidanceEl.textContent=
-   "🟠 "+
-   faNumber(wheels)+
-   " چرخ داری، اما هدف "+
-   faNumber(q.wheels)+
-   " است. چرخ زیاد داری؛ تعداد سه‌چرخه‌ها را کمتر کن.";
+   "🟠 نتیجه این حدس "+
+   faNumber(evaluation.result)+
+   " است و از هدف "+
+   faNumber(q.target)+
+   " بیشتر است؛ حدس بعدی را کمتر کن.";
  }
 
 
@@ -2588,41 +2726,113 @@ function testCombination(){
  ){
 
   finishNoAttempts();
-
   return;
  }
 
 
- /*
-  فقط یک قدم منطقی در همان جهتی که
-  نتیجه آزمایش نشان داده پیشنهاد بصری می‌دهیم.
-  جواب خودکار قرار داده نمی‌شود.
- */
+ suggestNextGuess();
+}
 
- if(type==="low"){
 
-  parkingStatusEl.textContent=
-   "💡 سه‌چرخه بیشتر";
+/* =====================================================
+   TARGETED NEXT GUESS
+===================================================== */
 
- }else{
+function suggestNextGuess(){
 
-  parkingStatusEl.textContent=
-   "💡 سه‌چرخه کمتر";
+ const q=
+  questions[currentIndex];
+
+
+ const lower=
+  attempts
+   .filter(
+    x=>x.type==="low"
+   )
+   .map(
+    x=>x.guess
+   );
+
+
+ const higher=
+  attempts
+   .filter(
+    x=>x.type==="high"
+   )
+   .map(
+    x=>x.guess
+   );
+
+
+ let low=
+  lower.length
+  ?Math.max(...lower)
+  :q.min-getStep();
+
+
+ let high=
+  higher.length
+  ?Math.min(...higher)
+  :q.max+getStep();
+
+
+ let suggestion=
+  (low+high)/2;
+
+
+ const step=
+  getStep();
+
+
+ suggestion=
+  Math.round(
+   suggestion/step
+  )*step;
+
+
+ suggestion=
+  Math.max(
+   q.min,
+   Math.min(
+    q.max,
+    suggestion
+   )
+  );
+
+
+ if(
+  !attempts.some(
+   x=>x.guess===suggestion
+  )
+ ){
+
+  currentGuess=
+   suggestion;
+
+
+  updateGuessAndScene();
  }
 }
 
 
 /* =====================================================
-   RENDER ATTEMPTS
+   HISTORY
 ===================================================== */
 
-function renderAttempts(){
+function renderHistory(){
 
- historyEl.innerHTML="";
+ historyItemsEl.innerHTML="";
+
+
+ historyCountEl.textContent=
+  faNumber(
+   attempts.length
+  )+
+  " آزمایش";
 
 
  if(
-  attempts.length===0
+  !attempts.length
  ){
 
   const empty=
@@ -2636,10 +2846,10 @@ function renderAttempts(){
 
 
   empty.textContent=
-   "هنوز ترکیبی آزمایش نشده است.";
+   "هنوز حدسی آزمایش نشده است.";
 
 
-  historyEl.appendChild(
+  historyItemsEl.appendChild(
    empty
   );
 
@@ -2662,40 +2872,25 @@ function renderAttempts(){
     attempt.type;
 
 
-   let end;
-
-
-   if(
+   const sign=
     attempt.type==="hit"
-   ){
-
-    end="🎯";
-
-   }else if(
-    attempt.type==="low"
-   ){
-
-    end="⬆️ کم";
-
-   }else{
-
-    end="⬇️ زیاد";
-   }
+    ?"🎯"
+    :attempt.type==="low"
+     ?"⬆️"
+     :"⬇️";
 
 
    item.textContent=
     faNumber(index+1)+
-    ") 🚲"+
-    faNumber(attempt.bikes)+
-    " + 🛺"+
-    faNumber(attempt.trikes)+
+    ") حدس "+
+    faNumber(attempt.guess)+
     " → "+
-    faNumber(attempt.wheels)+
-    " چرخ "+
-    end;
+    faNumber(attempt.result)+
+    " "+
+    sign;
 
 
-   historyEl.appendChild(
+   historyItemsEl.appendChild(
     item
    );
   }
@@ -2704,56 +2899,10 @@ function renderAttempts(){
 
 
 /* =====================================================
-   ATTEMPT LIVES
-===================================================== */
-
-function renderAttemptLives(){
-
- attemptLivesEl.innerHTML="";
-
-
- for(
-  let i=0;
-  i<MAX_ATTEMPTS;
-  i++
- ){
-
-  const item=
-   document.createElement(
-    "span"
-   );
-
-
-  item.className=
-   "attempt-life";
-
-
-  if(
-   i<attempts.length
-  ){
-
-   item.classList.add(
-    "used"
-   );
-  }
-
-
-  item.textContent=
-   "🧪";
-
-
-  attemptLivesEl.appendChild(
-   item
-  );
- }
-}
-
-
-/* =====================================================
    SUCCESS
 ===================================================== */
 
-function finishCorrect(
+function finishSuccess(
  elapsed
 ){
 
@@ -2764,19 +2913,13 @@ function finishCorrect(
 
  answerChecked=true;
 
-
  stopTimer();
 
-
- setControlsDisabled(
-  true
- );
+ setControlsDisabled(true);
 
 
  const q=
-  questions[
-   currentIndex
-  ];
+  questions[currentIndex];
 
 
  const earned=
@@ -2792,22 +2935,12 @@ function finishCorrect(
   );
 
 
- parkingStatusEl.textContent=
-  "✅ ترکیب درست";
-
-
- parkingStatusEl.style.color=
-  "#15803d";
-
-
  guidanceEl.className=
   "guidance hit show";
 
 
  guidanceEl.textContent=
-  "🎯 دقیقاً به "+
-  faNumber(q.wheels)+
-  " چرخ رسیدی! ترکیب پارکینگ درست است.";
+  "🎯 نتیجه حدست دقیقاً با هدف برابر شد! مأموریت انجام شد.";
 
 
  feedbackEl.className=
@@ -2823,22 +2956,17 @@ function finishCorrect(
  feedbackTextEl.textContent=
   (
    attempts.length<=2
-
-   ?"با حدس‌های هدفمند خیلی سریع ترکیب درست را پیدا کردی. "
-
-   :"با استفاده از نتیجه آزمایش‌های قبلی، حدس‌هایت را اصلاح کردی. "
+   ?"خیلی سریع از یک حدس منطقی به جواب رسیدی. "
+   :"نتیجه آزمایش‌ها را بررسی کردی و حدس‌هایت را اصلاح کردی. "
   )+
   q.explanation;
 
 
  solutionEl.textContent=
   "✅ پاسخ: "+
-  faNumber(q.bikes)+
-  " دوچرخه و "+
-  faNumber(q.trikes)+
-  " سه‌چرخه → "+
-  faNumber(q.wheels)+
-  " چرخ";
+  faNumber(q.answer)+
+  " | "+
+  q.solution;
 
 
  scoreEl.textContent=
@@ -2867,19 +2995,13 @@ function finishNoAttempts(){
 
  answerChecked=true;
 
-
  stopTimer();
 
-
- setControlsDisabled(
-  true
- );
+ setControlsDisabled(true);
 
 
  const q=
-  questions[
-   currentIndex
-  ];
+  questions[currentIndex];
 
 
  feedbackEl.className=
@@ -2887,32 +3009,26 @@ function finishNoAttempts(){
 
 
  feedbackTitleEl.textContent=
-  "❌ آزمایش‌ها تمام شدند! ۰ امتیاز";
+  "❌ فرصت‌های آزمایش تمام شد! ۰ امتیاز";
 
 
  feedbackTextEl.textContent=
-  "در حدس و آزمایش، نتیجه هر ترکیب باید جهت تغییر ترکیب بعدی را مشخص کند. "+
+  "در حدس و آزمایش، هر نتیجه باید روی انتخاب حدس بعدی اثر بگذارد. "+
   q.explanation;
 
 
  solutionEl.textContent=
-  "✅ ترکیب درست: "+
-  faNumber(q.bikes)+
-  " دوچرخه و "+
-  faNumber(q.trikes)+
-  " سه‌چرخه";
+  "✅ پاسخ درست: "+
+  faNumber(q.answer)+
+  " | "+
+  q.solution;
 
 
- /*
-  پاسخ صحیح در پارکینگ نمایش داده می‌شود
-  تا دانش‌آموز آن را بصری ببیند.
- */
-
- currentTrikes=
-  q.trikes;
+ currentGuess=
+  q.answer;
 
 
- renderParking();
+ updateGuessAndScene();
 
 
  nextButton.classList.add(
@@ -2926,23 +3042,15 @@ function finishNoAttempts(){
 ===================================================== */
 
 function setControlsDisabled(
- value
+ disabled
 ){
 
- bikeMinus.disabled=
-  value;
+ minusFive.disabled=disabled;
+ minusOne.disabled=disabled;
+ plusOne.disabled=disabled;
+ plusFive.disabled=disabled;
 
- bikePlus.disabled=
-  value;
-
- trikeMinus.disabled=
-  value;
-
- trikePlus.disabled=
-  value;
-
- testButton.disabled=
-  value;
+ testButton.disabled=disabled;
 }
 
 
@@ -2962,35 +3070,24 @@ function handleTimeout(){
 
  answerChecked=true;
 
-
  stopTimer();
 
-
- setControlsDisabled(
-  true
- );
+ setControlsDisabled(true);
 
 
- timerNumberEl.textContent=
-  "۰";
-
+ timerNumberEl.textContent="۰";
 
  timeStatusEl.textContent=
   "۰ ثانیه";
 
-
- timerBarEl.style.width=
-  "0%";
-
+ timerBarEl.style.width="0%";
 
  timerBarEl.style.background=
   "var(--red)";
 
 
  const q=
-  questions[
-   currentIndex
-  ];
+  questions[currentIndex];
 
 
  feedbackEl.className=
@@ -3002,23 +3099,21 @@ function handleTimeout(){
 
 
  feedbackTextEl.textContent=
-  "زمان حل پارکینگ تمام شد. "+
   q.explanation;
 
 
  solutionEl.textContent=
-  "✅ ترکیب درست: "+
-  faNumber(q.bikes)+
-  " دوچرخه و "+
-  faNumber(q.trikes)+
-  " سه‌چرخه";
+  "✅ پاسخ درست: "+
+  faNumber(q.answer)+
+  " | "+
+  q.solution;
 
 
- currentTrikes=
-  q.trikes;
+ currentGuess=
+  q.answer;
 
 
- renderParking();
+ updateGuessAndScene();
 
 
  nextButton.classList.add(
@@ -3028,23 +3123,17 @@ function handleTimeout(){
 
 
 /* =====================================================
-   CELEBRATION
+   CELEBRATE
 ===================================================== */
 
 function celebrate(){
 
  const rect=
-  parkingEl
-   .getBoundingClientRect();
+  worldEl.getBoundingClientRect();
 
 
  const icons=[
-  "🚲",
-  "🛺",
-  "⭐",
-  "✨",
-  "🎯",
-  "🎉"
+  "🎮","⭐","✨","🎯","🧪","🎉"
  ];
 
 
@@ -3100,10 +3189,9 @@ function celebrate(){
   );
 
 
-  document.body
-   .appendChild(
-    spark
-   );
+  document.body.appendChild(
+   spark
+  );
 
 
   setTimeout(
@@ -3122,9 +3210,7 @@ nextButton.addEventListener(
  "click",
  ()=>{
 
-  if(
-   !answerChecked
-  ){
+  if(!answerChecked){
    return;
   }
 
@@ -3135,7 +3221,6 @@ nextButton.addEventListener(
   ){
 
    currentIndex++;
-
 
    showQuestion();
 
@@ -3166,42 +3251,36 @@ async function finishGame(){
 
  gameFinished=true;
 
-
  stopTimer();
 
 
- [
-  ...progressEl.children
- ].forEach(
-  item=>{
+ [...progressEl.children]
+  .forEach(
+   item=>{
 
-   item.classList.remove(
-    "current"
-   );
+    item.classList.remove(
+     "current"
+    );
 
-
-   item.classList.add(
-    "done"
-   );
-  }
- );
+    item.classList.add(
+     "done"
+    );
+   }
+  );
 
 
  gameScreen.style.display=
   "none";
 
 
- resultScreen
-  .classList
-  .add("show");
+ resultScreen.classList.add(
+  "show"
+ );
 
 
  const name=
-  player&&
-  player.playerName
-
+  player&&player.playerName
   ?player.playerName
-
   :"بازیکن";
 
 
@@ -3210,55 +3289,43 @@ async function finishGame(){
 
 
  finalScoreEl.textContent=
-  faNumber(
-   score
-  );
+  faNumber(score);
 
 
  if(score>=90){
 
   motivationEl.textContent=
-   "عالی بود! 🌟 استاد پارکینگ و حدس‌های هدفمند شدی!";
- }
+   "عالی بود! 🌟 حدس‌هایت حساب‌شده و هدفمند بودند!";
 
- else if(score>=70){
-
-  motivationEl.textContent=
-   "خیلی خوب بود 👏 از نتیجه هر آزمایش خوب استفاده کردی!";
- }
-
- else if(score>=50){
+ }else if(score>=70){
 
   motivationEl.textContent=
-   "خوب بود 💪 بعد از هر آزمایش ترکیب را هدفمند تغییر بده!";
- }
+   "خیلی خوب بود 👏 از نتیجه آزمایش‌ها خوب استفاده کردی!";
 
- else{
+ }else if(score>=50){
 
   motivationEl.textContent=
-   "دوباره پارک کن 🌱 چرخ کم بود؟ سه‌چرخه را بیشتر کن؛ زیاد بود؟ کمتر!";
+   "خوب بود 💪 بعد از هر آزمایش، حدس بعدی را دقیق‌تر انتخاب کن!";
+
+ }else{
+
+  motivationEl.textContent=
+   "دوباره مأموریت‌ها را انجام بده 🌱 حدس، آزمایش، بررسی و اصلاح!";
  }
 
 
  leaderboardContent.innerHTML=
-  '<div class="loading">'+
-  'در حال ثبت نتیجه و دریافت جدول برترین‌ها...'+
-  '</div>';
+  '<div class="loading">در حال ثبت نتیجه و دریافت جدول برترین‌ها...</div>';
 
 
  try{
 
-  if(
-   !finishSubmitted
-  ){
+  if(!finishSubmitted){
 
-   finishSubmitted=
-    true;
-
+   finishSubmitted=true;
 
    const result=
-    await GameSDK
-     .finishGame(score);
+    await GameSDK.finishGame(score);
   }
 
  }catch(error){
@@ -3283,12 +3350,10 @@ async function loadLeaderboard(){
  try{
 
   const scores=
-   await GameSDK
-    .getLeaderboard(10);
+   await GameSDK.getLeaderboard(10);
 
 
-  leaderboardContent.innerHTML=
-   "";
+  leaderboardContent.innerHTML="";
 
 
   if(
@@ -3297,10 +3362,7 @@ async function loadLeaderboard(){
   ){
 
    leaderboardContent.innerHTML=
-    '<div class="loading">'+
-    'هنوز رکوردی ثبت نشده است.'+
-    '</div>';
-
+    '<div class="loading">هنوز رکوردی ثبت نشده است.</div>';
 
    return;
   }
@@ -3322,26 +3384,10 @@ async function loadLeaderboard(){
     let rank;
 
 
-    if(index===0){
-
-     rank="🥇";
-
-    }else if(index===1){
-
-     rank="🥈";
-
-    }else if(index===2){
-
-     rank="🥉";
-
-    }else{
-
-     rank=
-      faNumber(
-       index+1
-      )+
-      ".";
-    }
+    if(index===0)rank="🥇";
+    else if(index===1)rank="🥈";
+    else if(index===2)rank="🥉";
+    else rank=faNumber(index+1)+".";
 
 
     const name=
@@ -3352,8 +3398,7 @@ async function loadLeaderboard(){
 
 
     const value=
-     item.score ??
-     0;
+     item.score ?? 0;
 
 
     const nameEl=
@@ -3367,9 +3412,7 @@ async function loadLeaderboard(){
 
 
     nameEl.textContent=
-     rank+
-     " "+
-     name;
+     rank+" "+name;
 
 
     const valueEl=
@@ -3387,18 +3430,13 @@ async function loadLeaderboard(){
      " امتیاز";
 
 
-    row.appendChild(
-     nameEl
+    row.appendChild(nameEl);
+    row.appendChild(valueEl);
+
+
+    leaderboardContent.appendChild(
+     row
     );
-
-
-    row.appendChild(
-     valueEl
-    );
-
-
-    leaderboardContent
-     .appendChild(row);
    }
   );
 
@@ -3411,9 +3449,7 @@ async function loadLeaderboard(){
 
 
   leaderboardContent.innerHTML=
-   '<div class="loading">'+
-   'دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.'+
-   '</div>';
+   '<div class="loading">دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.</div>';
  }
 }
 
@@ -3428,45 +3464,37 @@ restartButton.addEventListener(
 
   stopTimer();
 
-
   GameSDK.reset();
 
 
   score=0;
-
   currentIndex=0;
 
   answerChecked=false;
-
   questionStartTime=0;
 
   gameFinished=false;
-
   finishSubmitted=false;
 
-  currentTrikes=0;
-
+  currentGuess=0;
   attempts=[];
 
 
-  resultScreen
-   .classList
-   .remove("show");
+  resultScreen.classList.remove(
+   "show"
+  );
 
 
   gameScreen.style.display=
    "block";
 
 
-  leaderboardContent.innerHTML=
-   "";
+  leaderboardContent.innerHTML="";
 
 
   generateRound();
 
-
   buildProgress();
-
 
   showQuestion();
 
@@ -3486,11 +3514,8 @@ restartButton.addEventListener(
 function startGame(){
 
  const name=
-  player&&
-  player.playerName
-
+  player&&player.playerName
   ?player.playerName
-
   :"بازیکن";
 
 
@@ -3499,25 +3524,19 @@ function startGame(){
 
 
  score=0;
-
  currentIndex=0;
 
  answerChecked=false;
-
  gameFinished=false;
-
  finishSubmitted=false;
 
- currentTrikes=0;
-
+ currentGuess=0;
  attempts=[];
 
 
  generateRound();
 
-
  buildProgress();
-
 
  showQuestion();
 }
