@@ -1,0 +1,2913 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>نقشه‌کش گنج | راهبرد رسم شکل</title>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+    --blue:#38bdf8;
+    --blue-dark:#0284c7;
+    --purple:#8b5cf6;
+    --purple-dark:#6d28d9;
+    --pink:#f472b6;
+    --yellow:#fbbf24;
+    --orange:#fb923c;
+    --green:#22c55e;
+    --red:#fb7185;
+    --text:#273449;
+    --muted:#64748b;
+    --card:#fff;
+}
+
+html{
+    color-scheme:light only;
+    -webkit-text-size-adjust:100%;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    direction:rtl;
+    font-family:Tahoma,Arial,sans-serif;
+    color:var(--text);
+    overflow-x:hidden;
+
+    background:
+        radial-gradient(circle at 8% 5%,rgba(244,114,182,.20),transparent 22%),
+        radial-gradient(circle at 92% 8%,rgba(56,189,248,.25),transparent 25%),
+        radial-gradient(circle at 75% 85%,rgba(251,191,36,.17),transparent 24%),
+        linear-gradient(155deg,#fff7fd,#effcff 48%,#fffbeb);
+}
+
+button,a{
+    font-family:inherit;
+}
+
+.app{
+    width:min(100%,930px);
+    margin:auto;
+    padding:12px;
+}
+
+
+/* =========================
+   هدر
+========================= */
+
+.hero{
+    text-align:center;
+    padding:7px 4px 15px;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 14px;
+    border-radius:999px;
+
+    background:linear-gradient(90deg,#fef3c7,#fce7f3);
+    border:1px solid #f6d36a;
+
+    color:#865b00;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.hero h1{
+    margin:10px 0 4px;
+    font-size:clamp(27px,7vw,42px);
+
+    background:linear-gradient(
+        90deg,
+        var(--purple),
+        var(--blue-dark),
+        var(--pink)
+    );
+
+    color:transparent;
+    -webkit-background-clip:text;
+    background-clip:text;
+}
+
+.hero p{
+    margin:0;
+    color:var(--muted);
+    font-size:13px;
+}
+
+
+/* =========================
+   پنل اصلی
+========================= */
+
+.panel{
+    background:rgba(255,255,255,.97);
+    border:2px solid rgba(255,255,255,.9);
+    border-radius:25px;
+    overflow:hidden;
+
+    box-shadow:
+        0 18px 45px rgba(109,40,217,.12),
+        0 5px 14px rgba(2,132,199,.08);
+}
+
+
+/* =========================
+   اطلاعات
+========================= */
+
+.status{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+    padding:10px;
+
+    background:linear-gradient(
+        90deg,
+        #f5f3ff,
+        #effcff,
+        #fff7ed,
+        #fdf2f8
+    );
+
+    border-bottom:1px solid #e8e1f3;
+}
+
+.stat{
+    min-width:0;
+    padding:8px 4px;
+
+    text-align:center;
+
+    background:#fff;
+    border-radius:13px;
+
+    box-shadow:0 3px 8px rgba(50,50,100,.05);
+}
+
+.stat:nth-child(1){border-bottom:4px solid var(--purple)}
+.stat:nth-child(2){border-bottom:4px solid var(--blue)}
+.stat:nth-child(3){border-bottom:4px solid var(--yellow)}
+.stat:nth-child(4){border-bottom:4px solid var(--pink)}
+
+.stat small{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+}
+
+.stat strong{
+    display:block;
+    margin-top:2px;
+
+    color:#504075;
+    font-size:14px;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+
+/* =========================
+   بالای نقشه
+========================= */
+
+.game{
+    padding:16px;
+}
+
+.progress-map{
+    display:flex;
+    align-items:center;
+    gap:4px;
+
+    direction:ltr;
+
+    margin-bottom:15px;
+}
+
+.progress-node{
+    flex:1;
+    height:8px;
+
+    background:#e5e7eb;
+    border-radius:99px;
+
+    transition:.25s;
+}
+
+.progress-node.done{
+    background:linear-gradient(
+        90deg,
+        var(--yellow),
+        var(--orange)
+    );
+
+    box-shadow:0 0 7px rgba(251,191,36,.3);
+}
+
+
+/* =========================
+   تایمر
+========================= */
+
+.timer-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:6px;
+
+    font-size:13px;
+    font-weight:bold;
+}
+
+#timerNumber{
+    font-size:20px;
+    color:var(--green);
+}
+
+.timer-track{
+    height:13px;
+    padding:2px;
+    margin-bottom:15px;
+
+    background:#e9e7f3;
+
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.timer-bar{
+    width:100%;
+    height:100%;
+
+    background:var(--green);
+
+    border-radius:999px;
+
+    transition:
+        width .1s linear,
+        background .2s;
+}
+
+
+/* =========================
+   ماموریت
+========================= */
+
+.mission-title{
+    display:inline-block;
+
+    padding:5px 11px;
+    margin-bottom:8px;
+
+    border-radius:999px;
+
+    background:linear-gradient(90deg,#ede9fe,#fce7f3);
+
+    color:var(--purple-dark);
+
+    font-size:12px;
+    font-weight:bold;
+}
+
+.mission-card{
+    padding:14px 15px;
+    margin-bottom:12px;
+
+    text-align:center;
+
+    background:#fff9e8;
+    border:2px solid #f4d46e;
+    border-radius:16px;
+
+    font-size:clamp(15px,4vw,19px);
+    font-weight:bold;
+    line-height:1.9;
+
+    box-shadow:0 5px 12px rgba(251,191,36,.08);
+}
+
+.hint{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    margin:8px 0 12px;
+}
+
+
+/* =========================
+   نقشه
+========================= */
+
+.map-shell{
+    position:relative;
+
+    width:min(100%,560px);
+
+    margin:0 auto;
+
+    padding:12px;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(135deg,#dff7ff,#f3edff);
+
+    border:3px solid #b8dcf2;
+
+    box-shadow:
+        inset 0 0 25px rgba(56,189,248,.10),
+        0 8px 20px rgba(60,80,140,.10);
+}
+
+.map{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    grid-template-rows:repeat(7,1fr);
+
+    width:100%;
+    aspect-ratio:1;
+
+    direction:ltr;
+
+    border:3px solid #8198ad;
+    border-radius:12px;
+
+    overflow:hidden;
+
+    background:#fff;
+}
+
+.cell{
+    position:relative;
+
+    min-width:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+
+    border:0;
+    border-right:1px solid #c4d7df;
+    border-bottom:1px solid #c4d7df;
+
+    background:#fdfefe;
+
+    cursor:pointer;
+
+    touch-action:manipulation;
+
+    transition:
+        background .15s,
+        transform .15s,
+        box-shadow .15s;
+}
+
+.cell:nth-child(7n){
+    border-right:0;
+}
+
+.cell:hover:not(:disabled){
+    z-index:2;
+
+    background:#e6f8ff;
+
+    box-shadow:inset 0 0 0 2px var(--blue);
+
+    transform:scale(.96);
+}
+
+.cell:disabled{
+    cursor:default;
+}
+
+.cell.path{
+    background:#dff4ff;
+}
+
+.cell.path::after{
+    content:"•";
+
+    position:absolute;
+
+    color:#279ed1;
+    font-size:21px;
+    line-height:1;
+}
+
+.cell.start{
+    background:#e9ddff;
+}
+
+.cell.start::before{
+    content:"🚩";
+
+    position:absolute;
+    z-index:4;
+
+    font-size:clamp(17px,5vw,27px);
+}
+
+.cell.correct{
+    background:#dcfce7!important;
+
+    box-shadow:
+        inset 0 0 0 3px var(--green);
+}
+
+.cell.correct::before{
+    content:"💎";
+
+    position:absolute;
+    z-index:6;
+
+    font-size:clamp(18px,5vw,29px);
+
+    animation:treasurePop .45s ease;
+}
+
+.cell.wrong{
+    background:#ffe4e9!important;
+
+    box-shadow:
+        inset 0 0 0 3px var(--red);
+
+    animation:shake .28s;
+}
+
+.cell.wrong::before{
+    content:"💥";
+
+    position:absolute;
+    z-index:6;
+
+    font-size:clamp(16px,4vw,25px);
+}
+
+
+/* شخصیت */
+
+.explorer{
+    position:absolute;
+    z-index:10;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    width:calc((100% - 24px) / 7);
+    aspect-ratio:1;
+
+    left:12px;
+    top:12px;
+
+    pointer-events:none;
+
+    font-size:clamp(22px,6vw,34px);
+
+    transition:
+        left .35s ease,
+        top .35s ease;
+
+    filter:drop-shadow(0 3px 2px rgba(0,0,0,.15));
+}
+
+
+/* =========================
+   راهنمای جهت
+========================= */
+
+.legend{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:7px;
+
+    margin-top:10px;
+}
+
+.legend span{
+    padding:5px 8px;
+
+    background:#fff;
+    border:1px solid #d6e4e8;
+    border-radius:10px;
+
+    color:#56676c;
+    font-size:11px;
+}
+
+
+/* =========================
+   بازخورد
+========================= */
+
+.feedback{
+    display:none;
+
+    margin-top:15px;
+    padding:14px;
+
+    border-radius:15px;
+
+    line-height:1.9;
+}
+
+.feedback.show{
+    display:block;
+    animation:pop .25s ease;
+}
+
+.feedback.success{
+    background:#e8faed;
+    border:2px solid #a4dfb6;
+}
+
+.feedback.error{
+    background:#fff0f3;
+    border:2px solid #f3bbc5;
+}
+
+.feedback.timeout{
+    background:#fff7db;
+    border:2px solid #ebcd69;
+}
+
+.feedback strong{
+    display:block;
+
+    margin-bottom:3px;
+
+    font-size:17px;
+}
+
+.feedback-text{
+    color:#4d5c61;
+    font-size:13px;
+}
+
+
+/* =========================
+   دکمه بعدی
+========================= */
+
+.next-btn{
+    display:none;
+
+    width:100%;
+
+    padding:14px;
+    margin-top:13px;
+
+    border:0;
+    border-radius:14px;
+
+    background:linear-gradient(
+        90deg,
+        var(--purple),
+        var(--blue-dark)
+    );
+
+    color:#fff;
+
+    font-size:16px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:0 6px 15px rgba(109,40,217,.22);
+}
+
+.next-btn.show{
+    display:block;
+}
+
+
+/* =========================
+   نتیجه
+========================= */
+
+.result{
+    display:none;
+
+    padding:25px 17px;
+
+    text-align:center;
+
+    background:
+        radial-gradient(circle at 10% 5%,rgba(244,114,182,.18),transparent 25%),
+        radial-gradient(circle at 90% 7%,rgba(56,189,248,.20),transparent 25%);
+}
+
+.result.show{
+    display:block;
+}
+
+.trophy{
+    font-size:72px;
+    animation:float 2s ease-in-out infinite;
+}
+
+.result h2{
+    margin:5px 0;
+
+    color:var(--purple-dark);
+    font-size:27px;
+}
+
+.final-score{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    width:165px;
+    height:165px;
+
+    margin:18px auto;
+
+    border:8px solid transparent;
+    border-radius:50%;
+
+    background:
+        linear-gradient(#fff,#fff) padding-box,
+        linear-gradient(135deg,var(--pink),var(--yellow),var(--blue),var(--purple)) border-box;
+
+    box-shadow:0 10px 25px rgba(139,92,246,.17);
+}
+
+.final-score strong{
+    color:var(--purple-dark);
+    font-size:44px;
+}
+
+.final-score span{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.motivation{
+    margin-bottom:20px;
+
+    font-size:20px;
+    font-weight:bold;
+}
+
+
+/* =========================
+   لیدربورد
+========================= */
+
+.leaderboard{
+    max-width:540px;
+
+    margin:22px auto;
+    padding:14px;
+
+    text-align:right;
+
+    background:#faf8ff;
+
+    border:2px solid #e4dafa;
+    border-radius:17px;
+}
+
+.leaderboard h3{
+    margin:0 0 10px;
+
+    text-align:center;
+
+    color:var(--purple-dark);
+}
+
+.rank-row{
+    display:flex;
+    justify-content:space-between;
+
+    gap:8px;
+
+    padding:9px 5px;
+
+    border-bottom:1px dashed #ddd6e8;
+}
+
+.rank-row:last-child{
+    border:0;
+}
+
+.rank-name{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.rank-score{
+    color:var(--purple-dark);
+    font-weight:bold;
+}
+
+.loading{
+    padding:8px;
+
+    text-align:center;
+
+    color:var(--muted);
+}
+
+.restart{
+    width:100%;
+    max-width:420px;
+
+    padding:14px;
+
+    border:0;
+    border-radius:14px;
+
+    background:linear-gradient(
+        90deg,
+        var(--pink),
+        var(--purple)
+    );
+
+    color:#fff;
+
+    font-size:16px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.back{
+    display:block;
+
+    margin:18px 0 7px;
+    padding:10px;
+
+    text-align:center;
+    text-decoration:none;
+
+    color:var(--purple-dark);
+
+    font-weight:bold;
+}
+
+
+/* =========================
+   جشن
+========================= */
+
+.spark{
+    position:fixed;
+    z-index:999;
+
+    pointer-events:none;
+
+    font-size:20px;
+
+    animation:sparkFly .8s ease-out forwards;
+}
+
+@keyframes sparkFly{
+    from{
+        opacity:1;
+        transform:translate(0,0) scale(.5) rotate(0);
+    }
+
+    to{
+        opacity:0;
+        transform:translate(var(--x),var(--y)) scale(1.5) rotate(180deg);
+    }
+}
+
+@keyframes treasurePop{
+    0%{transform:scale(.2) rotate(-30deg)}
+    70%{transform:scale(1.3) rotate(10deg)}
+    100%{transform:scale(1)}
+}
+
+@keyframes shake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-4px)}
+    75%{transform:translateX(4px)}
+}
+
+@keyframes pop{
+    from{opacity:.2;transform:scale(.97)}
+    to{opacity:1;transform:scale(1)}
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0) rotate(-2deg)}
+    50%{transform:translateY(-7px) rotate(2deg)}
+}
+
+
+/* =========================
+   موبایل
+========================= */
+
+@media(max-width:600px){
+
+    .app{
+        padding:8px;
+    }
+
+    .status{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .game{
+        padding:12px;
+    }
+
+    .map-shell{
+        padding:8px;
+    }
+
+    .explorer{
+        width:calc((100% - 16px) / 7);
+        left:8px;
+        top:8px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    *{
+        animation:none!important;
+        transition:none!important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+<header class="hero">
+
+    <div class="badge">
+        🎓 ریاضی هفتم • فصل اول • درس ۲
+    </div>
+
+    <h1>🗺️ نقشه‌کش گنج</h1>
+
+    <p>
+        مسئله را به یک مسیر تبدیل کن و خانه گنج را روی نقشه پیدا کن!
+    </p>
+
+</header>
+
+
+<section class="panel">
+
+<div id="gameScreen">
+
+    <!-- اطلاعات بازی -->
+
+    <div class="status">
+
+        <div class="stat">
+            <small>🧭 نقشه‌کش</small>
+            <strong id="playerName">---</strong>
+        </div>
+
+        <div class="stat">
+            <small>🗺️ نقشه</small>
+            <strong id="questionNumber">۱ از ۱۰</strong>
+        </div>
+
+        <div class="stat">
+            <small>⭐ امتیاز</small>
+            <strong id="score">۰</strong>
+        </div>
+
+        <div class="stat">
+            <small>⏱️ زمان</small>
+            <strong id="timeStatus">۳۰ ثانیه</strong>
+        </div>
+
+    </div>
+
+
+    <div class="game">
+
+        <!-- پیشرفت -->
+
+        <div
+            class="progress-map"
+            id="progressMap">
+        </div>
+
+
+        <!-- تایمر -->
+
+        <div class="timer-head">
+
+            <span>
+                ⏱️ زمان پیدا کردن گنج
+            </span>
+
+            <strong id="timerNumber">
+                ۳۰
+            </strong>
+
+        </div>
+
+        <div class="timer-track">
+            <div
+                class="timer-bar"
+                id="timerBar">
+            </div>
+        </div>
+
+
+        <!-- متن ماموریت -->
+
+        <div
+            class="mission-title"
+            id="missionTitle">
+
+            🧭 مأموریت نقشه
+        </div>
+
+
+        <div
+            class="mission-card"
+            id="missionText">
+        </div>
+
+
+        <div class="hint">
+            🚩 پرچم، نقطه شروع است.
+            حرکت‌ها را روی شبکه تصور کن و خانه مقصد را لمس کن.
+        </div>
+
+
+        <!-- نقشه -->
+
+        <div class="map-shell">
+
+            <div
+                class="map"
+                id="map">
+            </div>
+
+            <div
+                class="explorer"
+                id="explorer">
+
+                🧙‍♂️
+
+            </div>
+
+        </div>
+
+
+        <div class="legend">
+
+            <span>⬆️ بالا</span>
+            <span>⬇️ پایین</span>
+            <span>⬅️ چپ</span>
+            <span>➡️ راست</span>
+
+        </div>
+
+
+        <!-- بازخورد -->
+
+        <div
+            class="feedback"
+            id="feedback">
+
+            <strong id="feedbackTitle"></strong>
+
+            <div
+                class="feedback-text"
+                id="feedbackText">
+            </div>
+
+        </div>
+
+
+        <button
+            class="next-btn"
+            id="nextButton"
+            type="button">
+
+            نقشه بعدی 🗺️
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- نتیجه -->
+
+<div
+    class="result"
+    id="resultScreen">
+
+    <div class="trophy">
+        🏆💎
+    </div>
+
+    <h2>
+        گنج بزرگ پیدا شد!
+    </h2>
+
+    <p>
+        نقشه‌کش حرفه‌ای:
+        <strong id="resultName"></strong>
+    </p>
+
+
+    <div class="final-score">
+
+        <strong id="finalScore">
+            ۰
+        </strong>
+
+        <span>
+            از 100 امتیاز
+        </span>
+
+    </div>
+
+
+    <div
+        class="motivation"
+        id="motivation">
+    </div>
+
+
+    <div class="leaderboard">
+
+        <h3>
+            🏅 برترین نقشه‌کش‌ها
+        </h3>
+
+        <div
+            id="leaderboardContent"
+            class="loading">
+
+            در حال دریافت جدول برترین‌ها...
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="restart"
+        id="restartButton"
+        type="button">
+
+        🔄 جست‌وجوی دوباره گنج
+
+    </button>
+
+</div>
+
+</section>
+
+
+<a
+    class="back"
+    href="/#game">
+
+    ← بازگشت به بازی‌های ریاضی
+
+</a>
+
+</main>
+
+
+<script src="/games/game-sdk.js"></script>
+
+<script>
+
+const GAME_ID = 9;
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 30;
+
+const player = GameSDK.init(GAME_ID);
+
+
+/* =========================================
+   جهت‌ها
+========================================= */
+
+const DIRS = {
+
+    up:{
+        dr:-1,
+        dc:0,
+        fa:"بالا"
+    },
+
+    down:{
+        dr:1,
+        dc:0,
+        fa:"پایین"
+    },
+
+    left:{
+        dr:0,
+        dc:-1,
+        fa:"چپ"
+    },
+
+    right:{
+        dr:0,
+        dc:1,
+        fa:"راست"
+    }
+
+};
+
+
+/* =========================================
+   بانک الگوهای حرکت
+========================================= */
+
+/*
+  هر مأموریت از یک نقطه شروع معتبر ساخته می‌شود.
+  مقصد و مسیر توسط JavaScript محاسبه می‌شوند.
+*/
+
+const ROUTE_TEMPLATES = [
+
+    [
+        ["right",2],
+        ["up",1]
+    ],
+
+    [
+        ["left",2],
+        ["down",2]
+    ],
+
+    [
+        ["up",2],
+        ["right",3]
+    ],
+
+    [
+        ["down",3],
+        ["left",1]
+    ],
+
+    [
+        ["right",3],
+        ["down",2],
+        ["left",1]
+    ],
+
+    [
+        ["left",3],
+        ["up",2],
+        ["right",1]
+    ],
+
+    [
+        ["up",3],
+        ["right",2],
+        ["down",1]
+    ],
+
+    [
+        ["down",2],
+        ["right",2],
+        ["up",1]
+    ],
+
+    [
+        ["right",1],
+        ["up",2],
+        ["right",2]
+    ],
+
+    [
+        ["left",1],
+        ["down",3],
+        ["right",2]
+    ],
+
+    [
+        ["up",1],
+        ["left",3],
+        ["down",2]
+    ],
+
+    [
+        ["down",1],
+        ["right",3],
+        ["down",1]
+    ],
+
+    [
+        ["right",2],
+        ["down",1],
+        ["right",1],
+        ["up",2]
+    ],
+
+    [
+        ["left",2],
+        ["up",1],
+        ["left",1],
+        ["down",2]
+    ],
+
+    [
+        ["up",2],
+        ["left",2],
+        ["down",1],
+        ["right",1]
+    ],
+
+    [
+        ["down",2],
+        ["right",1],
+        ["up",2],
+        ["right",2]
+    ],
+
+    [
+        ["right",3],
+        ["up",2],
+        ["left",2]
+    ],
+
+    [
+        ["left",2],
+        ["down",3],
+        ["right",1]
+    ]
+
+];
+
+
+/* =========================================
+   وضعیت
+========================================= */
+
+let missions=[];
+
+let currentIndex=0;
+let score=0;
+
+let answerChecked=false;
+
+let questionStartTime=0;
+let timerInterval=null;
+
+let gameFinished=false;
+let finishSubmitted=false;
+
+
+/* =========================================
+   DOM
+========================================= */
+
+const playerNameEl=
+    document.getElementById("playerName");
+
+const questionNumberEl=
+    document.getElementById("questionNumber");
+
+const scoreEl=
+    document.getElementById("score");
+
+const timeStatusEl=
+    document.getElementById("timeStatus");
+
+const timerNumberEl=
+    document.getElementById("timerNumber");
+
+const timerBarEl=
+    document.getElementById("timerBar");
+
+const progressMapEl=
+    document.getElementById("progressMap");
+
+const missionTitleEl=
+    document.getElementById("missionTitle");
+
+const missionTextEl=
+    document.getElementById("missionText");
+
+const mapEl=
+    document.getElementById("map");
+
+const explorerEl=
+    document.getElementById("explorer");
+
+const feedbackEl=
+    document.getElementById("feedback");
+
+const feedbackTitleEl=
+    document.getElementById("feedbackTitle");
+
+const feedbackTextEl=
+    document.getElementById("feedbackText");
+
+const nextButton=
+    document.getElementById("nextButton");
+
+const gameScreen=
+    document.getElementById("gameScreen");
+
+const resultScreen=
+    document.getElementById("resultScreen");
+
+const resultNameEl=
+    document.getElementById("resultName");
+
+const finalScoreEl=
+    document.getElementById("finalScore");
+
+const motivationEl=
+    document.getElementById("motivation");
+
+const leaderboardContent=
+    document.getElementById("leaderboardContent");
+
+const restartButton=
+    document.getElementById("restartButton");
+
+
+/* =========================================
+   ابزار عمومی
+========================================= */
+
+function faNumber(value){
+
+    return String(value)
+        .replace(
+            /\d/g,
+            d=>"۰۱۲۳۴۵۶۷۸۹"[d]
+        );
+}
+
+
+function shuffle(array){
+
+    const copy=[...array];
+
+    for(
+        let i=copy.length-1;
+        i>0;
+        i--
+    ){
+
+        const j=
+            Math.floor(
+                Math.random()*(i+1)
+            );
+
+        [copy[i],copy[j]]=
+        [copy[j],copy[i]];
+    }
+
+    return copy;
+}
+
+
+function randomInt(min,max){
+
+    return Math.floor(
+        Math.random()*
+        (max-min+1)
+    )+min;
+}
+
+
+function pointsForTime(seconds){
+
+    if(seconds<=5) return 10;
+
+    if(seconds<=10) return 8;
+
+    if(seconds<=15) return 6;
+
+    if(seconds<=20) return 4;
+
+    if(seconds<=30) return 2;
+
+    return 0;
+}
+
+
+/* =========================================
+   محاسبات مسیر
+========================================= */
+
+function routeBounds(route){
+
+    let r=0;
+    let c=0;
+
+    let minR=0;
+    let maxR=0;
+    let minC=0;
+    let maxC=0;
+
+
+    route.forEach(
+        ([dir,count])=>{
+
+            const d=DIRS[dir];
+
+            for(
+                let i=0;
+                i<count;
+                i++
+            ){
+
+                r+=d.dr;
+                c+=d.dc;
+
+                minR=Math.min(minR,r);
+                maxR=Math.max(maxR,r);
+
+                minC=Math.min(minC,c);
+                maxC=Math.max(maxC,c);
+            }
+
+        }
+    );
+
+
+    return{
+        minR,
+        maxR,
+        minC,
+        maxC
+    };
+}
+
+
+function validStartForRoute(route){
+
+    const b=
+        routeBounds(route);
+
+
+    const minStartRow=
+        -b.minR;
+
+    const maxStartRow=
+        6-b.maxR;
+
+
+    const minStartCol=
+        -b.minC;
+
+    const maxStartCol=
+        6-b.maxC;
+
+
+    if(
+        minStartRow>maxStartRow ||
+        minStartCol>maxStartCol
+    ){
+
+        return null;
+    }
+
+
+    return{
+
+        row:randomInt(
+            minStartRow,
+            maxStartRow
+        ),
+
+        col:randomInt(
+            minStartCol,
+            maxStartCol
+        )
+
+    };
+}
+
+
+function buildPath(start,route){
+
+    let row=start.row;
+    let col=start.col;
+
+    const path=[
+        {row,col}
+    ];
+
+
+    route.forEach(
+        ([dir,count])=>{
+
+            const d=
+                DIRS[dir];
+
+
+            for(
+                let i=0;
+                i<count;
+                i++
+            ){
+
+                row+=d.dr;
+                col+=d.dc;
+
+
+                path.push({
+                    row,
+                    col
+                });
+            }
+
+        }
+    );
+
+
+    return{
+        path,
+        end:{
+            row,
+            col
+        }
+    };
+}
+
+
+function routeText(route){
+
+    const parts=
+        route.map(
+            ([dir,count])=>
+                faNumber(count)+
+                " خانه به "+
+                DIRS[dir].fa
+        );
+
+
+    if(parts.length===1){
+
+        return parts[0];
+    }
+
+
+    if(parts.length===2){
+
+        return parts[0]+
+            " و سپس "+
+            parts[1];
+    }
+
+
+    const last=
+        parts.pop();
+
+
+    return parts.join("، ")+
+        " و در پایان "+
+        last;
+}
+
+
+/* =========================================
+   تولید مأموریت‌ها
+========================================= */
+
+function createMission(route,index){
+
+    const start=
+        validStartForRoute(route);
+
+
+    const calculated=
+        buildPath(start,route);
+
+
+    const intros=[
+        "گنج‌یاب از خانه پرچم حرکت می‌کند.",
+        "کاوشگر نقشه سفرش را از پرچم آغاز می‌کند.",
+        "ربات جست‌وجوگر از محل پرچم راه می‌افتد.",
+        "ماجراجو از نقطه پرچم حرکت خود را شروع می‌کند."
+    ];
+
+
+    const intro=
+        intros[
+            index %
+            intros.length
+        ];
+
+
+    return{
+
+        route,
+
+        start,
+
+        path:calculated.path,
+
+        end:calculated.end,
+
+        text:
+            intro+
+            " ابتدا "+
+            routeText(route)+
+            ". روی خانه‌ای که در پایان به آن می‌رسد بزن."
+
+    };
+}
+
+
+function prepareMissions(){
+
+    const templates=
+        shuffle(
+            ROUTE_TEMPLATES
+        ).slice(
+            0,
+            TOTAL_QUESTIONS
+        );
+
+
+    missions=
+        templates.map(
+            (route,index)=>
+                createMission(
+                    route,
+                    index
+                )
+        );
+}
+
+
+/* =========================================
+   ساخت نقشه
+========================================= */
+
+function cellIndex(row,col){
+
+    return row*7+col;
+}
+
+
+function getCell(row,col){
+
+    return mapEl.children[
+        cellIndex(row,col)
+    ];
+}
+
+
+function buildMap(){
+
+    mapEl.innerHTML="";
+
+
+    for(let row=0;row<7;row++){
+
+        for(let col=0;col<7;col++){
+
+            const cell=
+                document.createElement(
+                    "button"
+                );
+
+
+            cell.type="button";
+
+            cell.className="cell";
+
+            cell.dataset.row=row;
+
+            cell.dataset.col=col;
+
+
+            cell.setAttribute(
+                "aria-label",
+                "خانه "+
+                faNumber(row+1)+
+                "، "+
+                faNumber(col+1)
+            );
+
+
+            cell.addEventListener(
+                "click",
+                ()=>{
+
+                    chooseCell(
+                        row,
+                        col,
+                        cell
+                    );
+
+                }
+            );
+
+
+            mapEl.appendChild(cell);
+        }
+    }
+}
+
+
+/* =========================================
+   حرکت کاراکتر
+========================================= */
+
+function moveExplorer(row,col,instant=false){
+
+    const shell=
+        mapEl.parentElement;
+
+    const shellPadding=
+        parseFloat(
+            getComputedStyle(shell)
+            .paddingLeft
+        ) || 0;
+
+
+    const size=
+        mapEl.clientWidth/7;
+
+
+    if(instant){
+
+        explorerEl.style.transition=
+            "none";
+    }
+
+    else{
+
+        explorerEl.style.transition=
+            "left .35s ease, top .35s ease";
+    }
+
+
+    explorerEl.style.left=
+        (shellPadding+col*size)+"px";
+
+
+    explorerEl.style.top=
+        (shellPadding+row*size)+"px";
+
+
+    if(instant){
+
+        requestAnimationFrame(
+            ()=>{
+
+                explorerEl.style.transition=
+                    "left .35s ease, top .35s ease";
+            }
+        );
+    }
+}
+
+
+async function animateRoute(path){
+
+    for(
+        let i=1;
+        i<path.length;
+        i++
+    ){
+
+        const point=
+            path[i];
+
+
+        const cell=
+            getCell(
+                point.row,
+                point.col
+            );
+
+
+        if(cell){
+
+            cell.classList.add(
+                "path"
+            );
+        }
+
+
+        moveExplorer(
+            point.row,
+            point.col
+        );
+
+
+        await delay(180);
+    }
+}
+
+
+function delay(ms){
+
+    return new Promise(
+        resolve=>
+            setTimeout(resolve,ms)
+    );
+}
+
+
+/* =========================================
+   پیشرفت
+========================================= */
+
+function buildProgress(){
+
+    progressMapEl.innerHTML="";
+
+
+    for(
+        let i=0;
+        i<TOTAL_QUESTIONS;
+        i++
+    ){
+
+        const node=
+            document.createElement(
+                "div"
+            );
+
+
+        node.className=
+            "progress-node";
+
+
+        progressMapEl.appendChild(
+            node
+        );
+    }
+}
+
+
+function updateProgress(){
+
+    [
+        ...progressMapEl.children
+    ].forEach(
+        (node,index)=>{
+
+            node.classList.toggle(
+                "done",
+                index<currentIndex
+            );
+
+        }
+    );
+}
+
+
+/* =========================================
+   جشن
+========================================= */
+
+function celebrateAtCell(cell){
+
+    const rect=
+        cell.getBoundingClientRect();
+
+
+    const symbols=[
+        "✨","⭐","💎","🎉"
+    ];
+
+
+    for(let i=0;i<10;i++){
+
+        const spark=
+            document.createElement(
+                "span"
+            );
+
+
+        spark.className="spark";
+
+
+        spark.textContent=
+            symbols[
+                Math.floor(
+                    Math.random()*
+                    symbols.length
+                )
+            ];
+
+
+        spark.style.left=
+            (
+                rect.left+
+                rect.width/2
+            )+"px";
+
+
+        spark.style.top=
+            (
+                rect.top+
+                rect.height/2
+            )+"px";
+
+
+        spark.style.setProperty(
+            "--x",
+            (
+                Math.random()*160-80
+            )+"px"
+        );
+
+
+        spark.style.setProperty(
+            "--y",
+            (
+                -30-
+                Math.random()*120
+            )+"px"
+        );
+
+
+        document.body
+            .appendChild(spark);
+
+
+        setTimeout(
+            ()=>spark.remove(),
+            850
+        );
+    }
+}
+
+
+/* =========================================
+   تایمر
+========================================= */
+
+function stopTimer(){
+
+    if(timerInterval){
+
+        clearInterval(
+            timerInterval
+        );
+
+        timerInterval=null;
+    }
+}
+
+
+function startTimer(){
+
+    stopTimer();
+
+
+    questionStartTime=
+        Date.now();
+
+
+    timerNumberEl.textContent=
+        faNumber(
+            QUESTION_TIME
+        );
+
+
+    timeStatusEl.textContent=
+        faNumber(
+            QUESTION_TIME
+        )+
+        " ثانیه";
+
+
+    timerBarEl.style.width=
+        "100%";
+
+
+    timerBarEl.style.background=
+        "var(--green)";
+
+
+    timerNumberEl.style.color=
+        "var(--green)";
+
+
+    timerInterval=
+        setInterval(
+            updateTimer,
+            100
+        );
+}
+
+
+function updateTimer(){
+
+    if(
+        answerChecked ||
+        gameFinished
+    ){
+
+        stopTimer();
+        return;
+    }
+
+
+    const elapsed=
+        (
+            Date.now()-
+            questionStartTime
+        )/1000;
+
+
+    const remaining=
+        Math.max(
+            0,
+            QUESTION_TIME-elapsed
+        );
+
+
+    const seconds=
+        Math.ceil(
+            remaining
+        );
+
+
+    timerNumberEl.textContent=
+        faNumber(seconds);
+
+
+    timeStatusEl.textContent=
+        faNumber(seconds)+
+        " ثانیه";
+
+
+    timerBarEl.style.width=
+        (
+            remaining/
+            QUESTION_TIME*
+            100
+        )+"%";
+
+
+    if(remaining>15){
+
+        timerBarEl.style.background=
+            "var(--green)";
+
+        timerNumberEl.style.color=
+            "var(--green)";
+    }
+
+    else if(remaining>7){
+
+        timerBarEl.style.background=
+            "var(--yellow)";
+
+        timerNumberEl.style.color=
+            "#b77900";
+    }
+
+    else{
+
+        timerBarEl.style.background=
+            "var(--red)";
+
+        timerNumberEl.style.color=
+            "var(--red)";
+    }
+
+
+    if(remaining<=0){
+
+        handleTimeout();
+    }
+}
+
+
+/* =========================================
+   مرحله
+========================================= */
+
+function clearCells(){
+
+    [
+        ...mapEl.children
+    ].forEach(cell=>{
+
+        cell.disabled=false;
+
+        cell.classList.remove(
+            "start",
+            "path",
+            "correct",
+            "wrong"
+        );
+
+    });
+}
+
+
+function lockCells(){
+
+    [
+        ...mapEl.children
+    ].forEach(cell=>{
+
+        cell.disabled=true;
+
+    });
+}
+
+
+function showMission(){
+
+    stopTimer();
+
+    answerChecked=false;
+
+
+    clearCells();
+
+    updateProgress();
+
+
+    const mission=
+        missions[currentIndex];
+
+
+    questionNumberEl.textContent=
+        faNumber(currentIndex+1)+
+        " از "+
+        faNumber(TOTAL_QUESTIONS);
+
+
+    scoreEl.textContent=
+        faNumber(score);
+
+
+    missionTitleEl.textContent=
+        "🧭 نقشه شماره "+
+        faNumber(currentIndex+1);
+
+
+    missionTextEl.textContent=
+        mission.text;
+
+
+    feedbackEl.className=
+        "feedback";
+
+    feedbackTitleEl.textContent="";
+
+    feedbackTextEl.textContent="";
+
+
+    nextButton
+        .classList
+        .remove("show");
+
+
+    nextButton.textContent=
+        currentIndex===
+        TOTAL_QUESTIONS-1
+        ? "مشاهده گنج بزرگ 🏆"
+        : "نقشه بعدی 🗺️";
+
+
+    const startCell=
+        getCell(
+            mission.start.row,
+            mission.start.col
+        );
+
+
+    startCell.classList.add(
+        "start"
+    );
+
+
+    requestAnimationFrame(
+        ()=>{
+
+            moveExplorer(
+                mission.start.row,
+                mission.start.col,
+                true
+            );
+
+        }
+    );
+
+
+    startTimer();
+}
+
+
+/* =========================================
+   ثبت پاسخ
+========================================= */
+
+async function chooseCell(
+    row,
+    col,
+    selectedCell
+){
+
+    if(
+        answerChecked ||
+        gameFinished
+    ){
+        return;
+    }
+
+
+    const elapsed=
+        (
+            Date.now()-
+            questionStartTime
+        )/1000;
+
+
+    if(
+        elapsed>=QUESTION_TIME
+    ){
+
+        handleTimeout();
+        return;
+    }
+
+
+    answerChecked=true;
+
+    stopTimer();
+
+    lockCells();
+
+
+    const mission=
+        missions[currentIndex];
+
+
+    const correct=
+        row===mission.end.row &&
+        col===mission.end.col;
+
+
+    const correctCell=
+        getCell(
+            mission.end.row,
+            mission.end.col
+        );
+
+
+    if(correct){
+
+        const earned=
+            pointsForTime(
+                elapsed
+            );
+
+
+        score+=earned;
+
+        if(score>100){
+            score=100;
+        }
+
+
+        await animateRoute(
+            mission.path
+        );
+
+
+        correctCell.classList.add(
+            "correct"
+        );
+
+
+        celebrateAtCell(
+            correctCell
+        );
+
+
+        feedbackEl.className=
+            "feedback success show";
+
+
+        feedbackTitleEl.textContent=
+            "💎 گنج پیدا شد! +"+
+            faNumber(earned)+
+            " امتیاز";
+
+
+        feedbackTextEl.textContent=
+            buildExplanation(
+                mission
+            );
+    }
+
+    else{
+
+        selectedCell.classList.add(
+            "wrong"
+        );
+
+
+        await animateRoute(
+            mission.path
+        );
+
+
+        correctCell.classList.add(
+            "correct"
+        );
+
+
+        feedbackEl.className=
+            "feedback error show";
+
+
+        feedbackTitleEl.textContent=
+            "💥 این خانه مقصد نبود!";
+
+
+        feedbackTextEl.textContent=
+            "مسیر درست روی نقشه نمایش داده شد. "+
+            buildExplanation(
+                mission
+            );
+    }
+
+
+    scoreEl.textContent=
+        faNumber(score);
+
+
+    nextButton
+        .classList
+        .add("show");
+}
+
+
+function buildExplanation(mission){
+
+    const startRow=
+        faNumber(
+            mission.start.row+1
+        );
+
+    const startCol=
+        faNumber(
+            mission.start.col+1
+        );
+
+    const endRow=
+        faNumber(
+            mission.end.row+1
+        );
+
+    const endCol=
+        faNumber(
+            mission.end.col+1
+        );
+
+
+    return(
+        "با رسم حرکت‌ها از خانه ("+
+        startRow+
+        "، "+
+        startCol+
+        ") به خانه ("+
+        endRow+
+        "، "+
+        endCol+
+        ") می‌رسیم. رسم مسیر کمک می‌کند جهت‌ها و حرکت‌ها را بدون اشتباه دنبال کنیم."
+    );
+}
+
+
+/* =========================================
+   اتمام زمان
+========================================= */
+
+async function handleTimeout(){
+
+    if(
+        answerChecked ||
+        gameFinished
+    ){
+        return;
+    }
+
+
+    answerChecked=true;
+
+    stopTimer();
+
+    lockCells();
+
+
+    timerNumberEl.textContent=
+        "۰";
+
+    timeStatusEl.textContent=
+        "۰ ثانیه";
+
+    timerBarEl.style.width=
+        "0%";
+
+    timerBarEl.style.background=
+        "var(--red)";
+
+
+    const mission=
+        missions[currentIndex];
+
+
+    await animateRoute(
+        mission.path
+    );
+
+
+    const correctCell=
+        getCell(
+            mission.end.row,
+            mission.end.col
+        );
+
+
+    correctCell.classList.add(
+        "correct"
+    );
+
+
+    feedbackEl.className=
+        "feedback timeout show";
+
+
+    feedbackTitleEl.textContent=
+        "⏰ زمان تمام شد! ۰ امتیاز";
+
+
+    feedbackTextEl.textContent=
+        "مسیر صحیح روی نقشه نمایش داده شد. "+
+        buildExplanation(
+            mission
+        );
+
+
+    nextButton
+        .classList
+        .add("show");
+}
+
+
+/* =========================================
+   بعدی
+========================================= */
+
+nextButton.addEventListener(
+    "click",
+    ()=>{
+
+        if(!answerChecked){
+            return;
+        }
+
+
+        if(
+            currentIndex<
+            TOTAL_QUESTIONS-1
+        ){
+
+            currentIndex++;
+
+            showMission();
+
+
+            window.scrollTo({
+                top:0,
+                behavior:"smooth"
+            });
+
+        }
+
+        else{
+
+            finishGame();
+        }
+
+    }
+);
+
+
+/* =========================================
+   پایان
+========================================= */
+
+async function finishGame(){
+
+    if(gameFinished){
+        return;
+    }
+
+
+    gameFinished=true;
+
+    stopTimer();
+
+
+    [
+        ...progressMapEl.children
+    ].forEach(
+        node=>
+            node.classList.add(
+                "done"
+            )
+    );
+
+
+    gameScreen.style.display=
+        "none";
+
+
+    resultScreen
+        .classList
+        .add("show");
+
+
+    const name=
+        player &&
+        player.playerName
+        ? player.playerName
+        : "بازیکن";
+
+
+    resultNameEl.textContent=
+        name;
+
+
+    finalScoreEl.textContent=
+        faNumber(score);
+
+
+    if(score>=90){
+
+        motivationEl.textContent=
+            "عالی بود! 🌟 هیچ گنجی از چشم تو پنهان نمی‌مونه!";
+    }
+
+    else if(score>=70){
+
+        motivationEl.textContent=
+            "خیلی خوب بود 👏 نقشه‌کش ماهری شدی!";
+    }
+
+    else if(score>=50){
+
+        motivationEl.textContent=
+            "خوب بود 💪 مسیرها رو بیشتر تمرین کن!";
+    }
+
+    else{
+
+        motivationEl.textContent=
+            "دوباره نقشه را باز کن 🌱 این بار گنج‌های بیشتری پیدا می‌کنی!";
+    }
+
+
+    leaderboardContent.innerHTML=
+        '<div class="loading">'+
+        'در حال ثبت نتیجه و دریافت جدول برترین‌ها...'+
+        '</div>';
+
+
+    try{
+
+        if(!finishSubmitted){
+
+            finishSubmitted=true;
+
+            await GameSDK
+                .finishGame(score);
+        }
+
+    }
+
+    catch(error){
+
+        console.error(
+            "finishGame error:",
+            error
+        );
+    }
+
+
+    await loadLeaderboard();
+}
+
+
+/* =========================================
+   لیدربورد
+========================================= */
+
+async function loadLeaderboard(){
+
+    try{
+
+        const scores=
+            await GameSDK
+                .getLeaderboard(10);
+
+
+        leaderboardContent.innerHTML="";
+
+
+        if(
+            !Array.isArray(scores) ||
+            scores.length===0
+        ){
+
+            leaderboardContent.innerHTML=
+                '<div class="loading">'+
+                'هنوز رکوردی ثبت نشده است.'+
+                '</div>';
+
+            return;
+        }
+
+
+        scores.forEach(
+            (item,index)=>{
+
+                const row=
+                    document.createElement(
+                        "div"
+                    );
+
+
+                row.className=
+                    "rank-row";
+
+
+                let rank;
+
+
+                if(index===0){
+                    rank="🥇";
+                }
+
+                else if(index===1){
+                    rank="🥈";
+                }
+
+                else if(index===2){
+                    rank="🥉";
+                }
+
+                else{
+                    rank=
+                        faNumber(index+1)+
+                        ".";
+                }
+
+
+                const name=
+                    item.playerName ??
+                    item.player_name ??
+                    item.name ??
+                    "بازیکن";
+
+
+                const value=
+                    item.score ?? 0;
+
+
+                const nameEl=
+                    document.createElement(
+                        "span"
+                    );
+
+
+                nameEl.className=
+                    "rank-name";
+
+
+                nameEl.textContent=
+                    rank+" "+name;
+
+
+                const scoreItemEl=
+                    document.createElement(
+                        "span"
+                    );
+
+
+                scoreItemEl.className=
+                    "rank-score";
+
+
+                scoreItemEl.textContent=
+                    faNumber(value)+
+                    " امتیاز";
+
+
+                row.appendChild(
+                    nameEl
+                );
+
+
+                row.appendChild(
+                    scoreItemEl
+                );
+
+
+                leaderboardContent
+                    .appendChild(row);
+            }
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "leaderboard error:",
+            error
+        );
+
+
+        leaderboardContent.innerHTML=
+            '<div class="loading">'+
+            'دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.'+
+            '</div>';
+    }
+}
+
+
+/* =========================================
+   بازی دوباره
+========================================= */
+
+restartButton.addEventListener(
+    "click",
+    ()=>{
+
+        stopTimer();
+
+
+        GameSDK.reset();
+
+
+        score=0;
+
+        currentIndex=0;
+
+        answerChecked=false;
+
+        questionStartTime=0;
+
+        gameFinished=false;
+
+        finishSubmitted=false;
+
+
+        resultScreen
+            .classList
+            .remove("show");
+
+
+        gameScreen.style.display=
+            "block";
+
+
+        leaderboardContent.innerHTML="";
+
+
+        prepareMissions();
+
+        buildProgress();
+
+        showMission();
+
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }
+);
+
+
+/* =========================================
+   تغییر اندازه
+========================================= */
+
+/*
+  وقتی جهت گوشی یا اندازه صفحه عوض شود،
+  شخصیت روی خانه فعلی خودش باقی می‌ماند.
+*/
+
+window.addEventListener(
+    "resize",
+    ()=>{
+
+        if(
+            gameFinished ||
+            !missions.length
+        ){
+            return;
+        }
+
+
+        const mission=
+            missions[currentIndex];
+
+
+        if(!mission){
+            return;
+        }
+
+
+        const target=
+            answerChecked
+            ? mission.end
+            : mission.start;
+
+
+        moveExplorer(
+            target.row,
+            target.col,
+            true
+        );
+
+    }
+);
+
+
+/* =========================================
+   شروع
+========================================= */
+
+function startGame(){
+
+    const name=
+        player &&
+        player.playerName
+        ? player.playerName
+        : "بازیکن";
+
+
+    playerNameEl.textContent=
+        name;
+
+
+    score=0;
+
+    currentIndex=0;
+
+    answerChecked=false;
+
+    gameFinished=false;
+
+    finishSubmitted=false;
+
+
+    buildMap();
+
+    buildProgress();
+
+    prepareMissions();
+
+
+    requestAnimationFrame(
+        ()=>showMission()
+    );
+}
+
+
+startGame();
+
+</script>
+
+</body>
+</html>
