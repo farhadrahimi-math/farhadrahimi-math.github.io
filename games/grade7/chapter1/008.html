@@ -1912,4 +1912,2237 @@ function genPairs(){
 
 /* =====================================================
    GENERATORS
-===================================================== 
+===================================================== */
+
+const GENERATORS=[
+ genHandshake,
+ genPoints,
+ genLeague,
+ genNetwork,
+ genMatches,
+ genFence,
+ genTables,
+ genTriangleDots,
+ genStairs,
+ genOdd,
+ genNatural,
+ genPairs
+];
+
+
+/* =====================================================
+   ROUND
+===================================================== */
+
+let questions=[];
+
+
+function generateRound(){
+
+ const recent=
+  new Set(
+   loadHistory()
+  );
+
+
+ const selected=
+  shuffle(
+   GENERATORS
+  ).slice(
+   0,
+   TOTAL_QUESTIONS
+  );
+
+
+ const generated=[];
+
+
+ for(
+  const generator
+  of selected
+ ){
+
+  let candidate=null;
+
+
+  for(
+   let attempt=0;
+   attempt<30;
+   attempt++
+  ){
+
+   const q=
+    generator();
+
+
+   candidate=q;
+
+
+   if(
+    !recent.has(
+     q.signature
+    )
+   ){
+
+    break;
+   }
+  }
+
+
+  generated.push(
+   candidate
+  );
+
+
+  recent.add(
+   candidate.signature
+  );
+ }
+
+
+ questions=
+  shuffle(
+   generated
+  );
+
+
+ saveHistory(
+  generated.map(
+   q=>q.signature
+  )
+ );
+}
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let currentIndex=0;
+
+let score=0;
+
+let answerChecked=false;
+
+let questionStartTime=0;
+
+let timerInterval=null;
+
+let gameFinished=false;
+
+let finishSubmitted=false;
+
+
+let currentSize=1;
+
+let growCount=0;
+
+let history=[];
+
+let selectedAnswer=null;
+
+
+/* =====================================================
+   DOM
+===================================================== */
+
+const $=
+ id=>
+ document.getElementById(id);
+
+
+const playerNameEl=
+ $("playerName");
+
+const questionNumberEl=
+ $("questionNumber");
+
+const scoreEl=
+ $("score");
+
+const timeStatusEl=
+ $("timeStatus");
+
+
+const progressEl=
+ $("progress");
+
+
+const timerNumberEl=
+ $("timerNumber");
+
+const timerBarEl=
+ $("timerBar");
+
+
+const missionLabelEl=
+ $("missionLabel");
+
+const familyLabelEl=
+ $("familyLabel");
+
+const problemTextEl=
+ $("problemText");
+
+const targetTextEl=
+ $("targetText");
+
+
+const sizeBadge=
+ $("sizeBadge");
+
+const resultBadge=
+ $("resultBadge");
+
+const visualEl=
+ $("visual");
+
+const changeBox=
+ $("changeBox");
+
+const growButton=
+ $("growButton");
+
+const smallHistory=
+ $("smallHistory");
+
+
+const challenge=
+ $("challenge");
+
+const clueEl=
+ $("clue");
+
+const answerOptions=
+ $("answerOptions");
+
+const submitAnswer=
+ $("submitAnswer");
+
+
+const feedbackEl=
+ $("feedback");
+
+const feedbackTitleEl=
+ $("feedbackTitle");
+
+const feedbackTextEl=
+ $("feedbackText");
+
+const solutionEl=
+ $("solution");
+
+
+const nextButton=
+ $("nextButton");
+
+
+const gameScreen=
+ $("gameScreen");
+
+const resultScreen=
+ $("resultScreen");
+
+const resultNameEl=
+ $("resultName");
+
+const finalScoreEl=
+ $("finalScore");
+
+const motivationEl=
+ $("motivation");
+
+const leaderboardContent=
+ $("leaderboardContent");
+
+const restartButton=
+ $("restartButton");
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function buildProgress(){
+
+ progressEl.innerHTML="";
+
+
+ for(
+  let i=0;
+  i<TOTAL_QUESTIONS;
+  i++
+ ){
+
+  const item=
+   document.createElement(
+    "div"
+   );
+
+
+  item.className=
+   "progress-item";
+
+
+  progressEl.appendChild(
+   item
+  );
+ }
+}
+
+
+function updateProgress(){
+
+ [
+  ...progressEl.children
+ ].forEach(
+  (item,index)=>{
+
+   item.classList.toggle(
+    "done",
+    index<currentIndex
+   );
+
+
+   item.classList.toggle(
+    "current",
+    index===currentIndex
+   );
+  }
+ );
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+function stopTimer(){
+
+ if(timerInterval){
+
+  clearInterval(
+   timerInterval
+  );
+
+
+  timerInterval=null;
+ }
+}
+
+
+function startTimer(){
+
+ stopTimer();
+
+
+ questionStartTime=
+  Date.now();
+
+
+ timerNumberEl.textContent=
+  faNumber(
+   QUESTION_TIME
+  );
+
+
+ timeStatusEl.textContent=
+  faNumber(
+   QUESTION_TIME
+  )+
+  " ثانیه";
+
+
+ timerBarEl.style.width=
+  "100%";
+
+
+ timerBarEl.style.background=
+  "var(--green)";
+
+
+ timerNumberEl.style.color=
+  "var(--green)";
+
+
+ timerInterval=
+  setInterval(
+   updateTimer,
+   100
+  );
+}
+
+
+function updateTimer(){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+
+  stopTimer();
+
+  return;
+ }
+
+
+ const elapsed=
+  (
+   Date.now()-
+   questionStartTime
+  )/1000;
+
+
+ const remaining=
+  Math.max(
+   0,
+   QUESTION_TIME-
+   elapsed
+  );
+
+
+ const seconds=
+  Math.ceil(
+   remaining
+  );
+
+
+ timerNumberEl.textContent=
+  faNumber(
+   seconds
+  );
+
+
+ timeStatusEl.textContent=
+  faNumber(
+   seconds
+  )+
+  " ثانیه";
+
+
+ timerBarEl.style.width=
+  (
+   remaining/
+   QUESTION_TIME*
+   100
+  )+"%";
+
+
+ if(remaining>30){
+
+  timerBarEl.style.background=
+   "var(--green)";
+
+
+  timerNumberEl.style.color=
+   "var(--green)";
+ }
+
+ else if(
+  remaining>15
+ ){
+
+  timerBarEl.style.background=
+   "var(--yellow)";
+
+
+  timerNumberEl.style.color=
+   "#ad7700";
+ }
+
+ else{
+
+  timerBarEl.style.background=
+   "var(--red)";
+
+
+  timerNumberEl.style.color=
+   "var(--red)";
+ }
+
+
+ if(
+  remaining<=0
+ ){
+
+  handleTimeout();
+ }
+}
+
+
+/* =====================================================
+   SHOW QUESTION
+===================================================== */
+
+function showQuestion(){
+
+ stopTimer();
+
+
+ answerChecked=false;
+
+ growCount=0;
+
+ history=[];
+
+ selectedAnswer=null;
+
+
+ const q=
+  questions[
+   currentIndex
+  ];
+
+
+ currentSize=
+  q.start;
+
+
+ /*
+  نمونه اولیه هم بخشی از مشاهده است.
+ */
+
+ history.push({
+  size:currentSize,
+  result:q.compute(
+   currentSize
+  )
+ });
+
+
+ updateProgress();
+
+
+ questionNumberEl.textContent=
+  faNumber(
+   currentIndex+1
+  )+
+  " از "+
+  faNumber(
+   TOTAL_QUESTIONS
+  );
+
+
+ scoreEl.textContent=
+  faNumber(score);
+
+
+ missionLabelEl.textContent=
+  "🌱 مأموریت "+
+  faNumber(
+   currentIndex+1
+  );
+
+
+ familyLabelEl.textContent=
+  "🎯 "+
+  q.family;
+
+
+ problemTextEl.textContent=
+  q.q;
+
+
+ targetTextEl.textContent=
+  q.targetText;
+
+
+ changeBox.className=
+  "change-box";
+
+
+ changeBox.textContent=
+  "این کوچک‌ترین نمونه است.";
+
+
+ growButton.disabled=
+  false;
+
+
+ challenge.classList.remove(
+  "show"
+ );
+
+
+ feedbackEl.className=
+  "feedback";
+
+
+ feedbackTitleEl.textContent="";
+
+ feedbackTextEl.textContent="";
+
+ solutionEl.textContent="";
+
+
+ nextButton.classList.remove(
+  "show"
+ );
+
+
+ nextButton.textContent=
+  currentIndex===
+  TOTAL_QUESTIONS-1
+
+  ?"مشاهده نتیجه 🏆"
+
+  :"مأموریت بعدی 🌱";
+
+
+ renderCurrent();
+
+ renderHistory();
+
+
+ startTimer();
+}
+
+
+/* =====================================================
+   GROW
+===================================================== */
+
+growButton.addEventListener(
+ "click",
+ grow
+);
+
+
+function grow(){
+
+ if(
+  answerChecked ||
+  growButton.disabled
+ ){
+  return;
+ }
+
+
+ const q=
+  questions[
+   currentIndex
+  ];
+
+
+ const oldSize=
+  currentSize;
+
+
+ currentSize++;
+
+
+ growCount++;
+
+
+ const result=
+  q.compute(
+   currentSize
+  );
+
+
+ history.push({
+  size:currentSize,
+  result
+ });
+
+
+ changeBox.className=
+  "change-box highlight";
+
+
+ changeBox.textContent=
+  "💡 "+
+  q.changeText(
+   oldSize,
+   currentSize
+  );
+
+
+ renderCurrent(
+  true
+ );
+
+
+ renderHistory();
+
+
+ if(
+  growCount>=
+  q.growTimes
+ ){
+
+  growButton.disabled=
+   true;
+
+
+  setTimeout(
+   showChallenge,
+   400
+  );
+ }
+}
+
+
+/* =====================================================
+   CURRENT VISUAL
+===================================================== */
+
+function renderCurrent(isNew=false){
+
+ const q=
+  questions[
+   currentIndex
+  ];
+
+
+ const result=
+  q.compute(
+   currentSize
+  );
+
+
+ sizeBadge.textContent=
+  faNumber(currentSize)+
+  " "+
+  q.sizeLabel;
+
+
+ resultBadge.textContent=
+  "نتیجه: "+
+  faNumber(result);
+
+
+ renderVisual(
+  q,
+  currentSize,
+  result,
+  isNew
+ );
+}
+
+
+/* =====================================================
+   VISUAL ROUTER
+===================================================== */
+
+function renderVisual(
+ q,
+ n,
+ result,
+ isNew
+){
+
+ visualEl.innerHTML="";
+
+
+ if(
+  q.visualType===
+  "connections"
+ ){
+
+  renderConnections(
+   n,
+   q.icon,
+   isNew
+  );
+
+  return;
+ }
+
+
+ if(
+  q.visualType===
+  "matches"
+ ){
+
+  renderMatches(
+   n,
+   result,
+   isNew
+  );
+
+  return;
+ }
+
+
+ if(
+  q.visualType===
+  "fence"
+ ){
+
+  renderFence(
+   n,
+   result,
+   isNew
+  );
+
+  return;
+ }
+
+
+ if(
+  q.visualType===
+  "tables"
+ ){
+
+  renderTables(
+   n,
+   result,
+   isNew
+  );
+
+  return;
+ }
+
+
+ if(
+  q.visualType===
+  "dots"
+ ){
+
+  renderDots(
+   n,
+   result,
+   isNew
+  );
+
+  return;
+ }
+
+
+ if(
+  q.visualType===
+  "stairs"
+ ){
+
+  renderStairs(
+   n,
+   result,
+   isNew
+  );
+
+  return;
+ }
+
+
+ if(
+  q.visualType===
+  "odd"
+ ){
+
+  renderOdd(
+   n,
+   result,
+   isNew
+  );
+
+  return;
+ }
+
+
+ if(
+  q.visualType===
+  "natural"
+ ){
+
+  renderNatural(
+   n,
+   result,
+   isNew
+  );
+ }
+}
+
+
+/* =====================================================
+   CONNECTIONS
+===================================================== */
+
+function renderConnections(
+ n,
+ icon,
+ highlightNew
+){
+
+ const width=340;
+ const height=165;
+
+ const cx=170;
+ const cy=82;
+ const radius=60;
+
+ const points=[];
+
+
+ for(let i=0;i<n;i++){
+
+  const angle=
+   -Math.PI/2+
+   i*2*Math.PI/n;
+
+
+  points.push({
+   x:
+    cx+
+    radius*
+    Math.cos(angle),
+
+   y:
+    cy+
+    radius*
+    Math.sin(angle)
+  });
+ }
+
+
+ let lines="";
+
+
+ for(let i=0;i<n;i++){
+
+  for(let j=i+1;j<n;j++){
+
+   const newLine=
+    highlightNew &&
+    (
+     i===n-1 ||
+     j===n-1
+    );
+
+
+   lines+=
+    `<line
+     x1="${points[i].x}"
+     y1="${points[i].y}"
+     x2="${points[j].x}"
+     y2="${points[j].y}"
+     stroke="${newLine?"#f59e0b":"#8b5cf6"}"
+     stroke-width="${newLine?"3":"2"}"
+     opacity="${newLine?"1":".5"}"
+    />`;
+  }
+ }
+
+
+ let nodes="";
+
+
+ points.forEach(
+  (point,index)=>{
+
+   const isNew=
+    highlightNew &&
+    index===n-1;
+
+
+   if(icon==="●"){
+
+    nodes+=
+     `<circle
+      cx="${point.x}"
+      cy="${point.y}"
+      r="${isNew?9:7}"
+      fill="${isNew?"#fbbf24":"#38bdf8"}"
+      stroke="#fff"
+      stroke-width="2"
+     />`;
+
+   }else{
+
+    nodes+=
+     `<text
+      x="${point.x}"
+      y="${point.y+7}"
+      text-anchor="middle"
+      font-size="${isNew?27:23}"
+     >${icon}</text>`;
+   }
+  }
+ );
+
+
+ visualEl.innerHTML=
+  `
+  <svg
+   class="svg-stage"
+   viewBox="0 0 ${width} ${height}"
+  >
+   ${lines}
+   ${nodes}
+  </svg>
+  `;
+}
+
+
+/* =====================================================
+   MATCHES
+===================================================== */
+
+function renderMatches(
+ n,
+ result,
+ highlightNew
+){
+
+ const width=
+  30+
+  n*42;
+
+
+ let squares="";
+
+
+ for(let i=0;i<n;i++){
+
+  const fresh=
+   highlightNew &&
+   i===n-1;
+
+
+  squares+=
+   `<rect
+    x="${12+i*40}"
+    y="45"
+    width="40"
+    height="40"
+    fill="${fresh?"#fde68a":"#f5f3ff"}"
+    stroke="${fresh?"#f59e0b":"#8b5cf6"}"
+    stroke-width="4"
+   />`;
+ }
+
+
+ visualEl.innerHTML=
+  `
+  <div class="simple">
+
+   <svg
+    viewBox="0 0 ${width} 120"
+    style="width:100%;height:120px"
+   >
+    ${squares}
+   </svg>
+
+   <div class="math">
+    ${faNumber(n)} مربع → ${faNumber(result)} چوب
+   </div>
+
+  </div>
+  `;
+}
+
+
+/* =====================================================
+   FENCE
+===================================================== */
+
+function renderFence(
+ n,
+ result,
+ highlightNew
+){
+
+ let html=
+  `<span class="visual-item">🪵</span>`;
+
+
+ for(let i=0;i<n;i++){
+
+  const fresh=
+   highlightNew &&
+   i===n-1;
+
+
+  html+=
+   `<span
+     style="
+      font-size:31px;
+      color:${fresh?"#f59e0b":"#a96835"}
+     "
+    >━</span>
+
+    <span class="visual-item ${fresh?"new":""}">
+     🪵
+    </span>`;
+ }
+
+
+ visualEl.innerHTML=
+  `
+  <div class="simple">
+
+   <div class="visual-row">
+    ${html}
+   </div>
+
+   <div class="math">
+    ${faNumber(result)} پایه
+   </div>
+
+  </div>
+  `;
+}
+
+
+/* =====================================================
+   TABLES
+===================================================== */
+
+function renderTables(
+ n,
+ result,
+ highlightNew
+){
+
+ const top=
+  Array.from(
+   {length:n},
+   (_,i)=>
+    `<span class="visual-item ${highlightNew&&i===n-1?"new":""}">
+     🪑
+    </span>`
+  ).join("");
+
+
+ const middle=
+  Array.from(
+   {length:n},
+   (_,i)=>
+    `<span class="visual-item ${highlightNew&&i===n-1?"new":""}">
+     🟫
+    </span>`
+  ).join("");
+
+
+ visualEl.innerHTML=
+  `
+  <div class="simple">
+
+   <div class="visual-row">
+    ${top}
+   </div>
+
+   <div class="visual-row">
+    <span class="visual-item">🪑</span>
+    ${middle}
+    <span class="visual-item">🪑</span>
+   </div>
+
+   <div class="visual-row">
+    ${top}
+   </div>
+
+   <div class="math">
+    ${faNumber(result)} صندلی
+   </div>
+
+  </div>
+  `;
+}
+
+
+/* =====================================================
+   DOTS
+===================================================== */
+
+function renderDots(
+ n,
+ result,
+ highlightNew
+){
+
+ let rows="";
+
+
+ for(let row=1;row<=n;row++){
+
+  const fresh=
+   highlightNew &&
+   row===n;
+
+
+  rows+=
+   `<div class="visual-row">
+    ${Array(row)
+     .fill(
+      `<span
+       style="
+        font-size:21px;
+        color:${fresh?"#f59e0b":"#8b5cf6"}
+       "
+      >●</span>`
+     )
+     .join("")}
+   </div>`;
+ }
+
+
+ visualEl.innerHTML=
+  `
+  <div class="simple">
+
+   <div>${rows}</div>
+
+   <div class="math">
+    ${faNumber(result)} نقطه
+   </div>
+
+  </div>
+  `;
+}
+
+
+/* =====================================================
+   STAIRS
+===================================================== */
+
+function renderStairs(
+ n,
+ result,
+ highlightNew
+){
+
+ let rows="";
+
+
+ for(let row=n;row>=1;row--){
+
+  const fresh=
+   highlightNew &&
+   row===n;
+
+
+  rows+=
+   `<div class="visual-row">
+    ${Array(row)
+     .fill(
+      `<span class="visual-item ${fresh?"new":""}">
+       🧱
+      </span>`
+     )
+     .join("")}
+   </div>`;
+ }
+
+
+ visualEl.innerHTML=
+  `
+  <div class="simple">
+
+   <div>${rows}</div>
+
+   <div class="math">
+    ${faNumber(result)} مکعب
+   </div>
+
+  </div>
+  `;
+}
+
+
+/* =====================================================
+   ODD
+===================================================== */
+
+function renderOdd(
+ n,
+ result,
+ highlightNew
+){
+
+ const odds=
+  Array.from(
+   {length:n},
+   (_,i)=>2*i+1
+  );
+
+
+ visualEl.innerHTML=
+  `
+  <div class="simple">
+
+   <div class="visual-row">
+
+    ${odds.map(
+     (value,index)=>
+      `<span class="visual-item ${highlightNew&&index===n-1?"new":""}">
+       ${faNumber(value)}
+      </span>`
+    ).join("")}
+
+   </div>
+
+   <div class="math">
+    ${odds.map(faNumber).join(" + ")}
+    =
+    ${faNumber(result)}
+   </div>
+
+  </div>
+  `;
+}
+
+
+/* =====================================================
+   NATURAL
+===================================================== */
+
+function renderNatural(
+ n,
+ result,
+ highlightNew
+){
+
+ const nums=
+  Array.from(
+   {length:n},
+   (_,i)=>i+1
+  );
+
+
+ visualEl.innerHTML=
+  `
+  <div class="simple">
+
+   <div class="visual-row">
+
+    ${nums.map(
+     (value,index)=>
+      `<span class="visual-item ${highlightNew&&index===n-1?"new":""}">
+       ${faNumber(value)}
+      </span>`
+    ).join("")}
+
+   </div>
+
+   <div class="math">
+    ${nums.map(faNumber).join(" + ")}
+    =
+    ${faNumber(result)}
+   </div>
+
+  </div>
+  `;
+}
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
+
+function renderHistory(){
+
+ const q=
+  questions[
+   currentIndex
+  ];
+
+
+ smallHistory.innerHTML="";
+
+
+ for(let i=0;i<3;i++){
+
+  const item=
+   document.createElement(
+    "div"
+   );
+
+
+  item.className=
+   "history-item";
+
+
+  if(history[i]){
+
+   item.classList.add(
+    "done"
+   );
+
+
+   item.innerHTML=
+    `${faNumber(history[i].size)} ${q.sizeLabel}
+     <strong>${faNumber(history[i].result)}</strong>`;
+
+  }else{
+
+   item.innerHTML=
+    `مرحله ${faNumber(i+1)}
+     <strong>؟</strong>`;
+  }
+
+
+  smallHistory.appendChild(
+   item
+  );
+ }
+}
+
+
+/* =====================================================
+   CHALLENGE
+===================================================== */
+
+function showChallenge(){
+
+ const q=
+  questions[
+   currentIndex
+  ];
+
+
+ clueEl.textContent=
+  "💡 "+
+  q.clue;
+
+
+ answerOptions.innerHTML="";
+
+
+ selectedAnswer=null;
+
+
+ const options=
+  makeAnswers(
+   q.answer
+  );
+
+
+ options.forEach(
+  value=>{
+
+   const button=
+    document.createElement(
+     "button"
+    );
+
+
+   button.type=
+    "button";
+
+
+   button.className=
+    "answer-btn";
+
+
+   button.dataset.value=
+    value;
+
+
+   button.textContent=
+    faNumber(value);
+
+
+   button.addEventListener(
+    "click",
+    ()=>{
+
+     if(answerChecked){
+      return;
+     }
+
+
+     selectedAnswer=
+      value;
+
+
+     [
+      ...answerOptions.children
+     ].forEach(
+      item=>{
+
+       item.classList.toggle(
+        "selected",
+        item===button
+       );
+      }
+     );
+    }
+   );
+
+
+   answerOptions.appendChild(
+    button
+   );
+  }
+ );
+
+
+ challenge.classList.add(
+  "show"
+ );
+}
+
+
+/* =====================================================
+   SUBMIT ANSWER
+===================================================== */
+
+submitAnswer.addEventListener(
+ "click",
+ ()=>{
+
+  if(
+   answerChecked ||
+   selectedAnswer===null
+  ){
+   return;
+  }
+
+
+  const elapsed=
+   (
+    Date.now()-
+    questionStartTime
+   )/1000;
+
+
+  if(
+   elapsed>=
+   QUESTION_TIME
+  ){
+
+   handleTimeout();
+
+   return;
+  }
+
+
+  answerChecked=
+   true;
+
+
+  stopTimer();
+
+
+  growButton.disabled=
+   true;
+
+
+  submitAnswer.disabled=
+   true;
+
+
+  [
+   ...answerOptions.children
+  ].forEach(
+   button=>
+    button.disabled=true
+  );
+
+
+  const q=
+   questions[
+    currentIndex
+   ];
+
+
+  if(
+   selectedAnswer===
+   q.answer
+  ){
+
+   const earned=
+    pointsForTime(
+     elapsed
+    );
+
+
+   score=
+    Math.min(
+     100,
+     score+earned
+    );
+
+
+   feedbackEl.className=
+    "feedback success show";
+
+
+   feedbackTitleEl.textContent=
+    "✅ آفرین! +"+
+    faNumber(earned)+
+    " امتیاز";
+
+
+   feedbackTextEl.textContent=
+    "از یک نمونه کوچک شروع کردی، دیدی با بزرگ‌ترشدن مسئله چه چیزی اضافه می‌شود و همان فکر را به مسئله اصلی منتقل کردی.";
+
+
+   solutionEl.textContent=
+    "✅ پاسخ: "+
+    faNumber(q.answer)+
+    " | "+
+    q.solution;
+
+
+   celebrate();
+
+  }else{
+
+   feedbackEl.className=
+    "feedback error show";
+
+
+   feedbackTitleEl.textContent=
+    "❌ پاسخ درست نیست. ۰ امتیاز";
+
+
+   feedbackTextEl.textContent=
+    "به تغییرهایی که هنگام بزرگ‌کردن نمونه دیدی برگرد. همان تغییر باید در ادامه مسئله هم حفظ شود.";
+
+
+   solutionEl.textContent=
+    "✅ پاسخ درست: "+
+    faNumber(q.answer)+
+    " | "+
+    q.solution;
+
+
+   revealCorrect(
+    q.answer
+   );
+  }
+
+
+  scoreEl.textContent=
+   faNumber(score);
+
+
+  nextButton.classList.add(
+   "show"
+  );
+ }
+);
+
+
+/* =====================================================
+   REVEAL
+===================================================== */
+
+function revealCorrect(correct){
+
+ [
+  ...answerOptions.children
+ ].forEach(
+  button=>{
+
+   if(
+    Number(
+     button.dataset.value
+    )===
+    correct
+   ){
+
+    button.style.borderColor=
+     "var(--green)";
+
+
+    button.style.background=
+     "#e8faed";
+   }
+  }
+ );
+}
+
+
+/* =====================================================
+   TIMEOUT
+===================================================== */
+
+function handleTimeout(){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+
+ answerChecked=true;
+
+
+ stopTimer();
+
+
+ timerNumberEl.textContent=
+  "۰";
+
+
+ timeStatusEl.textContent=
+  "۰ ثانیه";
+
+
+ timerBarEl.style.width=
+  "0%";
+
+
+ timerBarEl.style.background=
+  "var(--red)";
+
+
+ growButton.disabled=
+  true;
+
+
+ submitAnswer.disabled=
+  true;
+
+
+ [
+  ...answerOptions.children
+ ].forEach(
+  button=>
+   button.disabled=true
+ );
+
+
+ const q=
+  questions[
+   currentIndex
+  ];
+
+
+ feedbackEl.className=
+  "feedback timeout show";
+
+
+ feedbackTitleEl.textContent=
+  "⏰ زمان تمام شد! ۰ امتیاز";
+
+
+ feedbackTextEl.textContent=
+  "در راهبرد حل مسئله ساده‌تر، از نمونه کوچک شروع می‌کنیم و تغییر ایجادشده را به مسئله بزرگ منتقل می‌کنیم.";
+
+
+ solutionEl.textContent=
+  "✅ پاسخ درست: "+
+  faNumber(q.answer)+
+  " | "+
+  q.solution;
+
+
+ if(
+  answerOptions.children.length
+ ){
+
+  revealCorrect(
+   q.answer
+  );
+ }
+
+
+ nextButton.classList.add(
+  "show"
+ );
+}
+
+
+/* =====================================================
+   CELEBRATION
+===================================================== */
+
+function celebrate(){
+
+ const rect=
+  challenge
+   .getBoundingClientRect();
+
+
+ const icons=[
+  "🌱",
+  "🌿",
+  "⭐",
+  "✨",
+  "💡",
+  "🎉"
+ ];
+
+
+ for(
+  let i=0;
+  i<11;
+  i++
+ ){
+
+  const spark=
+   document.createElement(
+    "span"
+   );
+
+
+  spark.className=
+   "spark";
+
+
+  spark.textContent=
+   pick(icons);
+
+
+  spark.style.left=
+   (
+    rect.left+
+    rect.width/2
+   )+"px";
+
+
+  spark.style.top=
+   (
+    rect.top+
+    60
+   )+"px";
+
+
+  spark.style.setProperty(
+   "--x",
+   (
+    Math.random()*180-
+    90
+   )+"px"
+  );
+
+
+  spark.style.setProperty(
+   "--y",
+   (
+    -30-
+    Math.random()*120
+   )+"px"
+  );
+
+
+  document.body
+   .appendChild(
+    spark
+   );
+
+
+  setTimeout(
+   ()=>spark.remove(),
+   850
+  );
+ }
+}
+
+
+/* =====================================================
+   NEXT
+===================================================== */
+
+nextButton.addEventListener(
+ "click",
+ ()=>{
+
+  if(
+   !answerChecked
+  ){
+   return;
+  }
+
+
+  if(
+   currentIndex<
+   TOTAL_QUESTIONS-1
+  ){
+
+   currentIndex++;
+
+
+   submitAnswer.disabled=
+    false;
+
+
+   showQuestion();
+
+
+   window.scrollTo({
+    top:0,
+    behavior:"smooth"
+   });
+
+  }else{
+
+   finishGame();
+  }
+ }
+);
+
+
+/* =====================================================
+   FINISH GAME
+===================================================== */
+
+async function finishGame(){
+
+ if(gameFinished){
+  return;
+ }
+
+
+ gameFinished=true;
+
+
+ stopTimer();
+
+
+ [
+  ...progressEl.children
+ ].forEach(
+  item=>{
+
+   item.classList.remove(
+    "current"
+   );
+
+
+   item.classList.add(
+    "done"
+   );
+  }
+ );
+
+
+ gameScreen.style.display=
+  "none";
+
+
+ resultScreen
+  .classList
+  .add("show");
+
+
+ const name=
+  player&&
+  player.playerName
+
+  ?player.playerName
+
+  :"بازیکن";
+
+
+ resultNameEl.textContent=
+  name;
+
+
+ finalScoreEl.textContent=
+  faNumber(score);
+
+
+ if(score>=90){
+
+  motivationEl.textContent=
+   "عالی بود! 🌟 از یک مسئله کوچک، جواب مسئله بزرگ را می‌سازی!";
+
+ }else if(score>=70){
+
+  motivationEl.textContent=
+   "خیلی خوب بود 👏 تغییر بین نمونه‌های کوچک را خوب می‌بینی!";
+
+ }else if(score>=50){
+
+  motivationEl.textContent=
+   "خوب بود 💪 وقتی مسئله بزرگ شد، اول نمونه کوچک‌ترش را بساز!";
+
+ }else{
+
+  motivationEl.textContent=
+   "دوباره بزرگش کن 🌱 اول کوچک، بعد کمی بزرگ‌تر، بعد مسئله اصلی!";
+ }
+
+
+ leaderboardContent.innerHTML=
+  '<div class="loading">'+
+  'در حال ثبت نتیجه و دریافت جدول برترین‌ها...'+
+  '</div>';
+
+
+ try{
+
+  if(
+   !finishSubmitted
+  ){
+
+   finishSubmitted=
+    true;
+
+
+   const result=
+    await GameSDK
+     .finishGame(score);
+  }
+
+ }catch(error){
+
+  console.error(
+   "finishGame error:",
+   error
+  );
+ }
+
+
+ await loadLeaderboard();
+}
+
+
+/* =====================================================
+   LEADERBOARD
+===================================================== */
+
+async function loadLeaderboard(){
+
+ try{
+
+  const scores=
+   await GameSDK
+    .getLeaderboard(10);
+
+
+  leaderboardContent.innerHTML=
+   "";
+
+
+  if(
+   !Array.isArray(scores) ||
+   scores.length===0
+  ){
+
+   leaderboardContent.innerHTML=
+    '<div class="loading">'+
+    'هنوز رکوردی ثبت نشده است.'+
+    '</div>';
+
+
+   return;
+  }
+
+
+  scores.forEach(
+   (item,index)=>{
+
+    const row=
+     document.createElement(
+      "div"
+     );
+
+
+    row.className=
+     "rank-row";
+
+
+    let rank;
+
+
+    if(index===0){
+
+     rank="🥇";
+
+    }else if(index===1){
+
+     rank="🥈";
+
+    }else if(index===2){
+
+     rank="🥉";
+
+    }else{
+
+     rank=
+      faNumber(
+       index+1
+      )+
+      ".";
+    }
+
+
+    const name=
+     item.playerName ??
+     item.player_name ??
+     item.name ??
+     "بازیکن";
+
+
+    const value=
+     item.score ??
+     0;
+
+
+    const nameEl=
+     document.createElement(
+      "span"
+     );
+
+
+    nameEl.className=
+     "rank-name";
+
+
+    nameEl.textContent=
+     rank+
+     " "+
+     name;
+
+
+    const valueEl=
+     document.createElement(
+      "span"
+     );
+
+
+    valueEl.className=
+     "rank-score";
+
+
+    valueEl.textContent=
+     faNumber(value)+
+     " امتیاز";
+
+
+    row.appendChild(
+     nameEl
+    );
+
+
+    row.appendChild(
+     valueEl
+    );
+
+
+    leaderboardContent
+     .appendChild(
+      row
+     );
+   }
+  );
+
+ }catch(error){
+
+  console.error(
+   "leaderboard error:",
+   error
+  );
+
+
+  leaderboardContent.innerHTML=
+   '<div class="loading">'+
+   'دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.'+
+   '</div>';
+ }
+}
+
+
+/* =====================================================
+   RESTART
+===================================================== */
+
+restartButton.addEventListener(
+ "click",
+ ()=>{
+
+  stopTimer();
+
+
+  GameSDK.reset();
+
+
+  score=0;
+
+  currentIndex=0;
+
+  answerChecked=false;
+
+  questionStartTime=0;
+
+  gameFinished=false;
+
+  finishSubmitted=false;
+
+  currentSize=1;
+
+  growCount=0;
+
+  history=[];
+
+  selectedAnswer=null;
+
+
+  submitAnswer.disabled=
+   false;
+
+
+  resultScreen
+   .classList
+   .remove("show");
+
+
+  gameScreen.style.display=
+   "block";
+
+
+  leaderboardContent.innerHTML=
+   "";
+
+
+  generateRound();
+
+
+  buildProgress();
+
+
+  showQuestion();
+
+
+  window.scrollTo({
+   top:0,
+   behavior:"smooth"
+  });
+ }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+function startGame(){
+
+ const name=
+  player&&
+  player.playerName
+
+  ?player.playerName
+
+  :"بازیکن";
+
+
+ playerNameEl.textContent=
+  name;
+
+
+ score=0;
+
+ currentIndex=0;
+
+ answerChecked=false;
+
+ gameFinished=false;
+
+ finishSubmitted=false;
+
+
+ generateRound();
+
+
+ buildProgress();
+
+
+ showQuestion();
+}
+
+
+startGame();
+
+</script>
+
+</body>
+</html>
