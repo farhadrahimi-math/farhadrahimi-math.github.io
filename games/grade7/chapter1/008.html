@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>شبیه‌ساز کوچک | حل مسئله ساده‌تر</title>
+<title>بزرگش کن! | راهبرد حل مسئله ساده‌تر</title>
 
 <style>
 *{box-sizing:border-box}
@@ -28,6 +28,7 @@ body{
  background:
  radial-gradient(circle at 8% 5%,#fbcfe855,transparent 24%),
  radial-gradient(circle at 92% 7%,#7dd3fc66,transparent 25%),
+ radial-gradient(circle at 82% 94%,#fde68a55,transparent 25%),
  linear-gradient(150deg,#fff7fd,#effcff 53%,#fff9df)
 }
 
@@ -60,8 +61,8 @@ button{touch-action:manipulation}
 
 .hero h1{
  margin:9px 0 4px;
- font-size:clamp(28px,7vw,42px);
- background:linear-gradient(90deg,var(--purple),var(--blue2),var(--pink));
+ font-size:clamp(30px,7vw,44px);
+ background:linear-gradient(90deg,var(--green),var(--blue2),var(--purple));
  color:transparent;
  background-clip:text;
  -webkit-background-clip:text
@@ -70,7 +71,8 @@ button{touch-action:manipulation}
 .hero p{
  margin:0;
  color:var(--muted);
- font-size:13px
+ font-size:13px;
+ line-height:1.8
 }
 
 /* PANEL */
@@ -116,9 +118,9 @@ button{touch-action:manipulation}
  margin-top:2px;
  color:#544274;
  font-size:14px;
- white-space:nowrap;
  overflow:hidden;
- text-overflow:ellipsis
+ text-overflow:ellipsis;
+ white-space:nowrap
 }
 
 .content{padding:13px}
@@ -186,8 +188,8 @@ button{touch-action:manipulation}
 
 .labels{
  display:flex;
- gap:5px;
  flex-wrap:wrap;
+ gap:5px;
  margin-bottom:6px
 }
 
@@ -209,7 +211,7 @@ button{touch-action:manipulation}
 }
 
 .problem{
- margin:7px 0 11px;
+ margin:7px 0 9px;
  padding:12px 14px;
  background:#fff8dd;
  border:2px solid #f3d36d;
@@ -220,123 +222,114 @@ button{touch-action:manipulation}
  line-height:1.85
 }
 
-/* STEP HEADER */
+/* TARGET */
 
-.step-header{
- margin-bottom:10px;
- text-align:center
-}
-
-.step-pill{
- display:inline-block;
- padding:6px 14px;
- border-radius:999px;
- background:#ede9fe;
- color:#6d28d9;
- font-size:12px;
- font-weight:bold
-}
-
-.step-title{
- margin:7px 0 2px;
- color:#3f4c5b;
- font-size:18px;
- font-weight:bold
-}
-
-.step-help{
- color:var(--muted);
- font-size:11px;
- line-height:1.7
-}
-
-/* SCREENS */
-
-.game-step{
- display:none;
- animation:fadeIn .25s
-}
-
-.game-step.active{
- display:block
-}
-
-/* =========================
-   STEP 1
-========================= */
-
-.sample-buttons{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:7px;
- margin-bottom:9px
-}
-
-.sample-btn{
- min-height:52px;
- border:2px solid #c9bcef;
- border-radius:13px;
- background:#fff;
- color:#5b4385;
- font-size:13px;
- font-weight:bold;
- cursor:pointer
-}
-
-.sample-btn.active{
- color:#fff;
- border-color:#6d28d9;
- background:linear-gradient(145deg,#8b5cf6,#6d28d9)
-}
-
-.sample-btn.done:not(.active){
- background:#e8faed;
- border-color:#86d79d;
- color:#18753a
-}
-
-/* SIMULATOR */
-
-.simulator{
- position:relative;
- min-height:220px;
- padding:8px;
- background:linear-gradient(145deg,#f8fbff,#faf5ff);
- border:2px solid #dce3ed;
- border-radius:17px;
- overflow:hidden
-}
-
-.sim-caption{
- text-align:center;
- color:#64748b;
- font-size:10px;
- font-weight:bold;
- margin-bottom:3px
-}
-
-.visual{
- min-height:165px;
+.target{
  display:flex;
  align-items:center;
  justify-content:center;
+ gap:8px;
+ margin-bottom:9px;
+ padding:8px;
+ background:#f5f3ff;
+ border:2px solid #ddd6fe;
+ border-radius:13px;
+ color:#60439a;
+ font-size:11px;
+ font-weight:bold
+}
+
+.target strong{
+ font-size:16px;
+ color:#6d28d9
+}
+
+/* GAME BOX */
+
+.grow-box{
+ padding:10px;
+ border:2px solid #d7e3e6;
+ border-radius:19px;
+ background:linear-gradient(145deg,#f8fbff,#f4fff7)
+}
+
+.grow-title{
+ text-align:center;
+ color:#3f5c50;
+ font-size:14px;
+ font-weight:bold
+}
+
+.grow-help{
+ text-align:center;
+ margin:4px 0 9px;
+ color:#64748b;
+ font-size:10px;
+ line-height:1.7
+}
+
+/* STAGE */
+
+.stage{
+ min-height:230px;
+ padding:8px;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ background:#fff;
+ border:2px solid #dce5ea;
+ border-radius:16px;
  overflow:hidden
 }
 
-.svg{
- display:block;
+.stage-head{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:7px;
+ margin-bottom:4px
+}
+
+.size-badge,.result-badge{
+ padding:5px 10px;
+ border-radius:999px;
+ font-size:10px;
+ font-weight:bold
+}
+
+.size-badge{
+ background:#e0f2fe;
+ color:#036b91
+}
+
+.result-badge{
+ background:#ede9fe;
+ color:#6d28d9
+}
+
+.visual{
  width:100%;
- height:165px
+ min-height:170px;
+ display:flex;
+ align-items:center;
+ justify-content:center
+}
+
+.svg-stage{
+ width:100%;
+ height:170px;
+ display:block
 }
 
 .simple{
  width:100%;
- min-height:155px;
+ min-height:165px;
  display:flex;
  flex-direction:column;
- justify-content:center;
  align-items:center;
- gap:9px
+ justify-content:center;
+ gap:8px
 }
 
 .visual-row{
@@ -352,215 +345,166 @@ button{touch-action:manipulation}
  min-width:37px;
  min-height:37px;
  padding:5px;
- border:2px solid #dbe4ea;
- border-radius:9px;
- background:#fff;
  display:flex;
- align-items:center;
- justify-content:center;
- font-size:20px;
- font-weight:bold
-}
-
-.visual-math{
- direction:ltr;
- max-width:100%;
- padding:9px 13px;
- background:#f5f3ff;
- border-radius:11px;
- color:#6d28d9;
- font-size:clamp(15px,4vw,21px);
- font-weight:bold;
- text-align:center;
- overflow-wrap:anywhere
-}
-
-.sample-result{
- text-align:center;
- padding:8px;
- background:#fff8dd;
- border:2px solid #f3d36d;
- border-radius:11px;
- color:#765b08;
- font-size:12px;
- font-weight:bold
-}
-
-/* COLLECTED */
-
-.collected{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:6px;
- margin-top:9px
-}
-
-.collected-item{
- min-height:51px;
- padding:6px;
- display:flex;
- flex-direction:column;
  align-items:center;
  justify-content:center;
  background:#f8fafc;
- border:2px dashed #cbd5e1;
- border-radius:11px;
- color:#94a3b8;
- font-size:10px
+ border:2px solid #dbe4ea;
+ border-radius:9px;
+ font-size:20px;
+ font-weight:bold
 }
 
-.collected-item.found{
- background:#e8faed;
- border-style:solid;
- border-color:#86d79d;
- color:#18753a
+.visual-item.new{
+ background:#fef3c7;
+ border-color:#fbbf24;
+ animation:newItem .45s
 }
 
-.collected-item strong{
- font-size:15px;
- margin-top:2px
-}
-
-.continue-btn{
- display:none;
- width:100%;
- margin-top:9px;
- padding:13px;
- border:0;
- border-radius:13px;
- background:linear-gradient(90deg,var(--purple),var(--blue2));
- color:#fff;
- font-size:14px;
- font-weight:bold;
- cursor:pointer
-}
-
-.continue-btn.show{
- display:block
-}
-
-/* =========================
-   STEP 2
-========================= */
-
-.pattern-strip{
+.math{
  direction:ltr;
+ padding:9px 13px;
+ border-radius:11px;
+ background:#f5f3ff;
+ color:#6d28d9;
+ font-size:clamp(15px,4.5vw,21px);
+ font-weight:bold;
+ text-align:center
+}
+
+/* CHANGE */
+
+.change-box{
+ min-height:44px;
+ margin-top:8px;
  display:flex;
  align-items:center;
  justify-content:center;
- flex-wrap:wrap;
- gap:6px;
- margin:10px 0 14px
-}
-
-.pattern-box{
- min-width:65px;
- padding:9px 7px;
- background:#fff;
- border:2px solid #c4b5fd;
- border-radius:12px;
- color:#5e3c98;
- text-align:center;
- font-weight:bold
-}
-
-.pattern-arrow{
- color:#94a3b8;
- font-size:17px;
- font-weight:bold
-}
-
-.discovery-question{
- padding:11px;
- background:#f0f9ff;
- border:2px solid #bae6fd;
- border-radius:13px;
- text-align:center;
- color:#075985;
- font-size:13px;
+ padding:7px;
+ border-radius:11px;
+ background:#f8fafc;
+ color:#64748b;
+ font-size:11px;
  font-weight:bold;
- line-height:1.8
+ text-align:center;
+ line-height:1.6
 }
 
-.pattern-options{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:7px;
- margin-top:9px
+.change-box.highlight{
+ background:#fff8dd;
+ border:2px solid #f3d36d;
+ color:#805f05;
+ animation:pop .25s
 }
 
-.pattern-btn{
- min-height:53px;
- padding:8px;
- border:2px solid #d7dfea;
- border-radius:12px;
- background:#fff;
- color:#4f5e67;
- font-size:12px;
+/* GROW BUTTON */
+
+.grow-button{
+ width:100%;
+ margin-top:9px;
+ padding:14px;
+ border:0;
+ border-radius:14px;
+ background:linear-gradient(90deg,#16a34a,#22c55e);
+ color:#fff;
+ font-size:16px;
  font-weight:bold;
- cursor:pointer
+ cursor:pointer;
+ box-shadow:0 5px 12px #22c55e25
 }
 
-.pattern-btn.selected{
- background:#e0f2fe;
- border-color:#38bdf8;
- color:#036b91
-}
-
-.pattern-btn:disabled{
+.grow-button:disabled{
+ opacity:.5;
  cursor:default
 }
 
-.check-pattern{
- width:100%;
- margin-top:9px;
- padding:13px;
- border:0;
- border-radius:13px;
- background:linear-gradient(90deg,#06b6d4,#0284c7);
- color:#fff;
- font-size:14px;
- font-weight:bold;
- cursor:pointer
+/* LITTLE HISTORY */
+
+.small-history{
+ display:flex;
+ justify-content:center;
+ gap:6px;
+ margin-top:9px
 }
 
-/* =========================
-   STEP 3
-========================= */
-
-.main-target{
- padding:13px;
+.history-item{
+ flex:1;
+ max-width:135px;
+ padding:7px 4px;
  text-align:center;
- background:linear-gradient(90deg,#f3e8ff,#e0f2fe);
- border:2px solid #c4b5fd;
- border-radius:15px
+ border:2px dashed #cbd5e1;
+ border-radius:10px;
+ color:#94a3b8;
+ background:#fff;
+ font-size:9px
 }
 
-.main-target small{
+.history-item.done{
+ border-style:solid;
+ border-color:#86d79d;
+ background:#e8faed;
+ color:#18753a
+}
+
+.history-item strong{
  display:block;
+ margin-top:2px;
+ font-size:14px
+}
+
+/* FINAL CHALLENGE */
+
+.challenge{
+ display:none;
+ margin-top:11px;
+ padding:11px;
+ border:2px solid #d5caef;
+ border-radius:17px;
+ background:#faf8ff;
+ animation:fadeIn .25s
+}
+
+.challenge.show{
+ display:block
+}
+
+.challenge-title{
+ text-align:center;
+ color:#60439a;
+ font-size:15px;
+ font-weight:bold
+}
+
+.challenge-help{
+ margin:4px 0 9px;
+ text-align:center;
  color:#64748b;
  font-size:10px;
- margin-bottom:4px
+ line-height:1.7
 }
 
-.main-target strong{
- display:block;
- color:#6d28d9;
- font-size:20px;
+.clue{
+ padding:8px;
+ text-align:center;
+ background:#fff;
+ border-radius:11px;
+ color:#4b5563;
+ font-size:11px;
+ font-weight:bold;
  line-height:1.7
 }
 
 .answer-options{
  display:grid;
  grid-template-columns:repeat(2,1fr);
- gap:8px;
- margin-top:11px
+ gap:7px;
+ margin-top:9px
 }
 
 .answer-btn{
- min-height:57px;
+ min-height:54px;
  border:3px solid #d8dfea;
- border-radius:13px;
+ border-radius:12px;
  background:#fff;
  color:#45545d;
  font-size:17px;
@@ -569,42 +513,25 @@ button{touch-action:manipulation}
 }
 
 .answer-btn.selected{
- background:#fef3c7;
  border-color:#f59e0b;
+ background:#fef3c7;
  color:#805900
 }
 
-.submit-main{
+.submit-answer{
  width:100%;
- margin-top:10px;
- padding:14px;
+ margin-top:9px;
+ padding:13px;
  border:0;
- border-radius:14px;
+ border-radius:13px;
  background:linear-gradient(90deg,var(--purple),var(--blue2));
  color:#fff;
- font-size:16px;
+ font-size:15px;
  font-weight:bold;
  cursor:pointer
 }
 
-/* MINI FEEDBACK */
-
-.mini-feedback{
- display:none;
- margin-top:9px;
- padding:9px;
- border-radius:11px;
- text-align:center;
- font-size:11px;
- font-weight:bold;
- line-height:1.7
-}
-
-.mini-feedback.show{display:block}
-.mini-feedback.good{background:#e8faed;color:#18753a}
-.mini-feedback.bad{background:#fff0f3;color:#b52f49}
-
-/* FINAL FEEDBACK */
+/* FEEDBACK */
 
 .feedback{
  display:none;
@@ -648,8 +575,8 @@ button{touch-action:manipulation}
 .solution{
  margin-top:7px;
  padding:8px;
- background:#ffffffaa;
  border-radius:9px;
+ background:#ffffffaa;
  font-size:11px;
  line-height:1.8
 }
@@ -802,8 +729,14 @@ button{touch-action:manipulation}
 }
 
 @keyframes fadeIn{
- from{opacity:.2;transform:translateY(4px)}
+ from{opacity:.2;transform:translateY(5px)}
  to{opacity:1;transform:none}
+}
+
+@keyframes newItem{
+ 0%{transform:scale(.2);opacity:.2}
+ 70%{transform:scale(1.15)}
+ 100%{transform:scale(1);opacity:1}
 }
 
 @keyframes pop{
@@ -831,29 +764,32 @@ button{touch-action:manipulation}
 
  .content{padding:10px}
 
- .simulator{padding:8px}
+ .stage{
+  min-height:215px
+ }
 
- .sim-stage{min-height:205px}
+ .visual{
+  min-height:155px
+ }
 
- .pattern-options{
-  grid-template-columns:1fr
+ .svg-stage{
+  height:155px
  }
 }
 
 @media(max-width:380px){
 
- .sample-buttons{gap:4px}
-
- .sample-btn{
-  min-height:47px;
-  font-size:11px
- }
-
  .answer-options{gap:5px}
 
  .answer-btn{
-  min-height:51px;
+  min-height:49px;
   font-size:15px
+ }
+
+ .visual-item{
+  min-width:33px;
+  min-height:33px;
+  font-size:18px
  }
 }
 
@@ -874,11 +810,11 @@ button{touch-action:manipulation}
  </div>
 
  <h1>
-  🔬 شبیه‌ساز کوچک
+  🌱 بزرگش کن!
  </h1>
 
  <p>
-  کوچک کن ← کشف کن ← مسئله اصلی را حل کن
+  از یک نمونه کوچک شروع کن، بزرگش کن و جواب مسئله اصلی را پیدا کن.
  </p>
 
 </header>
@@ -891,12 +827,12 @@ button{touch-action:manipulation}
  <div class="status">
 
   <div class="stat">
-   <small>🔬 پژوهشگر</small>
+   <small>🌱 پرورش‌دهنده</small>
    <strong id="playerName">---</strong>
   </div>
 
   <div class="stat">
-   <small>🧩 مأموریت</small>
+   <small>🎯 مأموریت</small>
    <strong id="questionNumber">۱ از ۱۰</strong>
   </div>
 
@@ -907,7 +843,7 @@ button{touch-action:manipulation}
 
   <div class="stat">
    <small>⏱️ زمان</small>
-   <strong id="timeStatus">۱۲۰ ثانیه</strong>
+   <strong id="timeStatus">۶۰ ثانیه</strong>
   </div>
 
  </div>
@@ -922,15 +858,8 @@ button{touch-action:manipulation}
 
 
   <div class="timer-head">
-
-   <span>
-    ⏱️ زمان مأموریت
-   </span>
-
-   <strong id="timerNumber">
-    ۱۲۰
-   </strong>
-
+   <span>⏱️ زمان مأموریت</span>
+   <strong id="timerNumber">۶۰</strong>
   </div>
 
 
@@ -963,40 +892,42 @@ button{touch-action:manipulation}
   </div>
 
 
-  <!-- STEP 1 -->
+  <div class="target">
 
-  <section
-   class="game-step active"
-   id="step1">
+   <span>
+    🎯 مسئله اصلی:
+   </span>
 
-   <div class="step-header">
+   <strong id="targetText"></strong>
 
-    <span class="step-pill">
-     ۱ از ۳ • 🔎 کوچک کن
-    </span>
+  </div>
 
-    <div class="step-title">
-     اول نمونه‌های کوچک را ببین
-    </div>
 
-    <div class="step-help">
-     سه نمونه را یکی‌یکی لمس کن و ببین در هرکدام چه اتفاقی می‌افتد.
-    </div>
+  <div class="grow-box">
 
+   <div class="grow-title">
+    🔍 اول یک نمونه کوچک را بررسی کن
+   </div>
+
+   <div class="grow-help">
+    دو بار «بزرگش کن» را بزن و فقط به چیزی که در هر مرحله اضافه می‌شود دقت کن.
    </div>
 
 
-   <div
-    class="sample-buttons"
-    id="sampleButtons">
-   </div>
+   <div class="stage">
 
+    <div class="stage-head">
 
-   <div class="simulator">
+     <span
+      class="size-badge"
+      id="sizeBadge">
+     </span>
 
-    <div
-     class="sim-caption"
-     id="simCaption">
+     <span
+      class="result-badge"
+      id="resultBadge">
+     </span>
+
     </div>
 
 
@@ -1005,123 +936,52 @@ button{touch-action:manipulation}
      id="visual">
     </div>
 
-
-    <div
-     class="sample-result"
-     id="sampleResult">
-    </div>
-
    </div>
 
 
    <div
-    class="collected"
-    id="collected">
+    class="change-box"
+    id="changeBox">
+
+    این کوچک‌ترین نمونه است.
+
    </div>
 
 
    <button
-    class="continue-btn"
-    id="toStep2"
+    class="grow-button"
+    id="growButton"
     type="button">
 
-    الگو را کشف کن 💡
-
-   </button>
-
-  </section>
-
-
-  <!-- STEP 2 -->
-
-  <section
-   class="game-step"
-   id="step2">
-
-   <div class="step-header">
-
-    <span class="step-pill">
-     ۲ از ۳ • 💡 کشف کن
-    </span>
-
-    <div class="step-title">
-     بین نمونه‌ها چه تغییری می‌بینی؟
-    </div>
-
-    <div class="step-help">
-     نتیجه سه مسئله کوچک را کنار هم ببین و رابطه را پیدا کن.
-    </div>
-
-   </div>
-
-
-   <div
-    class="pattern-strip"
-    id="patternStrip">
-   </div>
-
-
-   <div
-    class="discovery-question"
-    id="discoveryQuestion">
-   </div>
-
-
-   <div
-    class="pattern-options"
-    id="patternOptions">
-   </div>
-
-
-   <button
-    class="check-pattern"
-    id="checkPattern"
-    type="button">
-
-    بررسی کشف من 🔍
+    ➕ یک مرحله بزرگ‌ترش کن
 
    </button>
 
 
    <div
-    class="mini-feedback"
-    id="patternFeedback">
+    class="small-history"
+    id="smallHistory">
    </div>
 
-  </section>
+  </div>
 
 
-  <!-- STEP 3 -->
+  <div
+   class="challenge"
+   id="challenge">
 
-  <section
-   class="game-step"
-   id="step3">
+   <div class="challenge-title">
+    🚀 حالا بزرگش کن!
+   </div>
 
-   <div class="step-header">
-
-    <span class="step-pill">
-     ۳ از ۳ • 🚀 بزرگش کن
-    </span>
-
-    <div class="step-title">
-     حالا برگرد سراغ مسئله اصلی
-    </div>
-
-    <div class="step-help">
-     از چیزی که در نمونه‌های کوچک کشف کردی استفاده کن.
-    </div>
-
+   <div class="challenge-help">
+    دیگر لازم نیست همه حالت‌های میانی را بسازی. از چیزی که دیدی استفاده کن.
    </div>
 
 
-   <div class="main-target">
-
-    <small>
-     مسئله اصلی
-    </small>
-
-    <strong id="mainTargetText"></strong>
-
+   <div
+    class="clue"
+    id="clue">
    </div>
 
 
@@ -1132,24 +992,22 @@ button{touch-action:manipulation}
 
 
    <button
-    class="submit-main"
-    id="submitMain"
+    class="submit-answer"
+    id="submitAnswer"
     type="button">
 
-    ✅ ثبت پاسخ مسئله اصلی
+    ✅ ثبت جواب
 
    </button>
 
-  </section>
+  </div>
 
 
   <div
    class="feedback"
    id="feedback">
 
-   <strong
-    id="feedbackTitle">
-   </strong>
+   <strong id="feedbackTitle"></strong>
 
    <div
     class="feedback-text"
@@ -1169,7 +1027,7 @@ button{touch-action:manipulation}
    id="nextButton"
    type="button">
 
-   مأموریت بعدی 🔬
+   مأموریت بعدی 🌱
 
   </button>
 
@@ -1183,15 +1041,15 @@ button{touch-action:manipulation}
  id="resultScreen">
 
  <div class="result-icon">
-  🔬🏆
+  🌱🏆
  </div>
 
  <h2>
-  شبیه‌سازی‌ها کامل شدند!
+  همه مأموریت‌ها رشد کردند!
  </h2>
 
  <p>
-  پژوهشگر:
+  بازیکن:
   <strong id="resultName"></strong>
  </p>
 
@@ -1218,7 +1076,7 @@ button{touch-action:manipulation}
  <div class="leaderboard">
 
   <h3>
-   🏅 برترین پژوهشگرها
+   🏅 برترین حل‌کننده‌ها
   </h3>
 
   <div
@@ -1264,7 +1122,7 @@ button{touch-action:manipulation}
 const GAME_ID = 15;
 
 const TOTAL_QUESTIONS = 10;
-const QUESTION_TIME = 120;
+const QUESTION_TIME = 60;
 
 const player = GameSDK.init(GAME_ID);
 
@@ -1274,7 +1132,7 @@ const player = GameSDK.init(GAME_ID);
 ===================================================== */
 
 const HISTORY_KEY=
- "math_simple_simulator_v2";
+ "math_grow_simpler_recent_v1";
 
 const MAX_HISTORY=45;
 
@@ -1315,11 +1173,11 @@ function randomInt(min,max){
 
 function shuffle(array){
 
- const copy=[...array];
+ const a=[...array];
 
 
  for(
-  let i=copy.length-1;
+  let i=a.length-1;
   i>0;
   i--
  ){
@@ -1331,26 +1189,26 @@ function shuffle(array){
    );
 
 
-  [copy[i],copy[j]]=
-  [copy[j],copy[i]];
+  [a[i],a[j]]=
+  [a[j],a[i]];
  }
 
 
- return copy;
+ return a;
 }
 
 
 function pointsForTime(seconds){
 
- if(seconds<=30)return 10;
+ if(seconds<=15)return 10;
 
- if(seconds<=50)return 8;
+ if(seconds<=25)return 8;
 
- if(seconds<=75)return 6;
+ if(seconds<=35)return 6;
 
- if(seconds<=95)return 4;
+ if(seconds<=45)return 4;
 
- if(seconds<=120)return 2;
+ if(seconds<=60)return 2;
 
  return 0;
 }
@@ -1383,14 +1241,14 @@ function saveHistory(signatures){
 
  try{
 
-  const combined=[
+  const merged=[
    ...signatures,
    ...loadHistory()
   ];
 
 
   const unique=[
-   ...new Set(combined)
+   ...new Set(merged)
   ].slice(
    0,
    MAX_HISTORY
@@ -1414,7 +1272,7 @@ function saveHistory(signatures){
 
 function makeAnswers(correct){
 
- const set=
+ const values=
   new Set([correct]);
 
 
@@ -1430,7 +1288,7 @@ function makeAnswers(correct){
 
 
  while(
-  set.size<4
+  values.size<4
  ){
 
   const value=
@@ -1441,33 +1299,22 @@ function makeAnswers(correct){
 
   if(value>=0){
 
-   set.add(value);
+   values.add(value);
   }
  }
 
 
  return shuffle(
-  [...set]
+  [...values]
  );
 }
 
 
 /* =====================================================
-   QUESTION MODEL
-
-   samples = سه نمونه ساده‌تر
-
-   patternChoices:
-   گزینه‌های کوتاه مرحله کشف
-
+   PAIR / CONNECTION MAKER
 ===================================================== */
 
-
-/* =====================================================
-   CONNECTION QUESTION MAKER
-===================================================== */
-
-function makeConnectionQuestion(
+function makeConnections(
  family,
  icon,
  targetN,
@@ -1485,15 +1332,21 @@ function makeConnectionQuestion(
   family,
 
   signature:
-   `${family}-${targetN}`,
+   family+"-"+targetN,
 
   q:
    story(targetN),
 
-  samples:[2,3,4],
+  targetText:
+   faNumber(targetN)+
+   " عضو",
 
-  sampleLabel:
-   "نفر/عضو",
+  start:2,
+
+  growTimes:2,
+
+  sizeLabel:
+   "عضو",
 
   compute:n=>
    n*(n-1)/2,
@@ -1503,35 +1356,22 @@ function makeConnectionQuestion(
 
   icon,
 
-  discovery:
-   "با اضافه‌شدن عضو جدید، تعداد ارتباط‌های تازه چگونه تغییر می‌کند؟",
+  changeText:(from,to)=>
+   "عضو جدید با "+
+   faNumber(to-1)+
+   " عضو قبلی ارتباط تازه ساخت.",
 
-  patternChoices:[
-   {
-    text:"۱ ، سپس ۲ ، سپس ۳ تا بیشتر",
-    correct:true
-   },
-   {
-    text:"همیشه فقط ۱ تا بیشتر",
-    correct:false
-   },
-   {
-    text:"هر بار دو برابر",
-    correct:false
-   },
-   {
-    text:"هیچ تغییری نمی‌کند",
-    correct:false
-   }
-  ],
-
-  targetText:
-   `${faNumber(targetN)} عضو → چند ارتباط؟`,
+  clue:
+   "هر عضو جدید با همه اعضای قبلی ارتباط می‌گیرد.",
 
   answer,
 
   solution:
-   `${faNumber(targetN)}×${faNumber(targetN-1)}÷۲ = ${faNumber(answer)}`
+   faNumber(targetN)+
+   "×"+
+   faNumber(targetN-1)+
+   "÷۲ = "+
+   faNumber(answer)
  };
 }
 
@@ -1540,18 +1380,18 @@ function makeConnectionQuestion(
    1) HANDSHAKES
 ===================================================== */
 
-function genHandshakes(){
+function genHandshake(){
 
  const n=
   randomInt(7,11);
 
 
- return makeConnectionQuestion(
+ return makeConnections(
   "دست‌دادن",
   "👤",
   n,
   value=>
-   `در یک مهمانی ${faNumber(value)} نفر حضور دارند. اگر هر دو نفر دقیقاً یک‌بار با هم دست بدهند، چند دست‌دادن انجام می‌شود؟`
+   `در یک مهمانی ${faNumber(value)} نفر هستند. اگر هر دو نفر دقیقاً یک‌بار با هم دست بدهند، چند دست‌دادن انجام می‌شود؟`
  );
 }
 
@@ -1566,12 +1406,12 @@ function genPoints(){
   randomInt(7,12);
 
 
- return makeConnectionQuestion(
+ return makeConnections(
   "وصل‌کردن نقاط",
   "●",
   n,
   value=>
-   `${faNumber(value)} نقطه داریم. اگر هر دو نقطه را با یک پاره‌خط به هم وصل کنیم، چند پاره‌خط ساخته می‌شود؟`
+   `${faNumber(value)} نقطه داریم. اگر هر دو نقطه را به هم وصل کنیم، چند پاره‌خط ساخته می‌شود؟`
  );
 }
 
@@ -1586,12 +1426,12 @@ function genLeague(){
   randomInt(7,10);
 
 
- return makeConnectionQuestion(
-  "لیگ",
+ return makeConnections(
+  "مسابقات لیگ",
   "⚽",
   n,
   value=>
-   `در یک لیگ ${faNumber(value)} تیم حضور دارند و هر دو تیم یک‌بار با هم بازی می‌کنند. چند بازی انجام می‌شود؟`
+   `در یک لیگ ${faNumber(value)} تیم داریم و هر دو تیم یک‌بار با هم بازی می‌کنند. چند بازی برگزار می‌شود؟`
  );
 }
 
@@ -1606,8 +1446,8 @@ function genNetwork(){
   randomInt(7,10);
 
 
- return makeConnectionQuestion(
-  "شبکه رایانه",
+ return makeConnections(
+  "شبکه",
   "💻",
   n,
   value=>
@@ -1617,79 +1457,7 @@ function genNetwork(){
 
 
 /* =====================================================
-   5) ODD SUM
-===================================================== */
-
-function genOddSum(){
-
- const terms=
-  randomInt(7,10);
-
-
- const last=
-  2*terms-1;
-
-
- const answer=
-  terms*terms;
-
-
- return{
-
-  family:"جمع اعداد فرد",
-
-  signature:
-   `odd-${terms}`,
-
-  q:
-   `مجموع عددهای فرد از ۱ تا ${faNumber(last)} را پیدا کن.`,
-
-  samples:[1,2,3],
-
-  sampleLabel:
-   "عدد فرد اول",
-
-  compute:n=>
-   n*n,
-
-  visualType:
-   "odd",
-
-  discovery:
-   "جواب نمونه‌های کوچک ۱، ۴ و ۹ شد. این عددها چه رابطه‌ای با تعداد جمله‌ها دارند؟",
-
-  patternChoices:[
-   {
-    text:"۱² ، ۲² ، ۳²",
-    correct:true
-   },
-   {
-    text:"همیشه +۲",
-    correct:false
-   },
-   {
-    text:"همیشه ×۲",
-    correct:false
-   },
-   {
-    text:"تعداد جمله‌ها + ۱",
-    correct:false
-   }
-  ],
-
-  targetText:
-   `${faNumber(terms)} عدد فرد اول → مجموع؟`,
-
-  answer,
-
-  solution:
-   `${faNumber(terms)}² = ${faNumber(answer)}`
- };
-}
-
-
-/* =====================================================
-   6) MATCHSTICKS
+   5) MATCHSTICKS
 ===================================================== */
 
 function genMatches(){
@@ -1704,17 +1472,25 @@ function genMatches(){
 
  return{
 
-  family:"چوب کبریت",
+  family:
+   "چوب کبریت",
 
   signature:
-   `matches-${n}`,
+   "match-"+n,
 
   q:
-   `مربع‌ها کنار هم ساخته می‌شوند. شکل ${faNumber(n)} شامل ${faNumber(n)} مربع کنارهم است. چند چوب کبریت لازم دارد؟`,
+   `${faNumber(n)} مربع کنارهم ساخته‌ایم. هر مربع جدید یک ضلع را با قبلی مشترک دارد. چند چوب کبریت لازم است؟`,
 
-  samples:[1,2,3],
+  targetText:
+   faNumber(n)+
+   " مربع",
 
-  sampleLabel:"مربع",
+  start:1,
+
+  growTimes:2,
+
+  sizeLabel:
+   "مربع",
 
   compute:value=>
    3*value+1,
@@ -1722,185 +1498,31 @@ function genMatches(){
   visualType:
    "matches",
 
-  discovery:
-   "با اضافه‌شدن هر مربع جدید چند چوب تازه اضافه شد؟",
+  changeText:()=>
+   "مربع جدید فقط ۳ چوب تازه لازم داشت.",
 
-  patternChoices:[
-   {
-    text:"۳ چوب",
-    correct:true
-   },
-   {
-    text:"۱ چوب",
-    correct:false
-   },
-   {
-    text:"۲ چوب",
-    correct:false
-   },
-   {
-    text:"۴ چوب",
-    correct:false
-   }
-  ],
-
-  targetText:
-   `${faNumber(n)} مربع کنارهم → چند چوب؟`,
+  clue:
+   "شروع: ۴ چوب؛ هر مربع جدید: +۳ چوب",
 
   answer,
 
   solution:
-   `۴ + (${faNumber(n)}−۱)×۳ = ${faNumber(answer)}`
+   "۴ + ("+
+   faNumber(n)+
+   "−۱)×۳ = "+
+   faNumber(answer)
  };
 }
 
 
 /* =====================================================
-   7) TRIANGLE DOTS
-===================================================== */
-
-function genTriangleDots(){
-
- const n=
-  randomInt(7,10);
-
-
- const answer=
-  n*(n+1)/2;
-
-
- return{
-
-  family:"نقطه‌های مثلثی",
-
-  signature:
-   `dots-${n}`,
-
-  q:
-   `شکل ۱ یک نقطه، شکل ۲ سه نقطه و شکل ۳ شش نقطه دارد. شکل ${faNumber(n)} چند نقطه دارد؟`,
-
-  samples:[1,2,3],
-
-  sampleLabel:"شکل",
-
-  compute:value=>
-   value*
-   (value+1)/
-   2,
-
-  visualType:
-   "dots",
-
-  discovery:
-   "از شکل ۱ به ۲ و از شکل ۲ به ۳، چند نقطه تازه اضافه شد؟",
-
-  patternChoices:[
-   {
-    text:"اول ۲، بعد ۳؛ سپس ۴، ۵، ...",
-    correct:true
-   },
-   {
-    text:"همیشه ۲ تا",
-    correct:false
-   },
-   {
-    text:"هر بار دو برابر",
-    correct:false
-   },
-   {
-    text:"همیشه ۱ تا",
-    correct:false
-   }
-  ],
-
-  targetText:
-   `شکل ${faNumber(n)} → چند نقطه؟`,
-
-  answer,
-
-  solution:
-   `${faNumber(n)}×${faNumber(n+1)}÷۲ = ${faNumber(answer)}`
- };
-}
-
-
-/* =====================================================
-   8) STAIRS
-===================================================== */
-
-function genStairs(){
-
- const n=
-  randomInt(7,10);
-
-
- const answer=
-  n*(n+1)/2;
-
-
- return{
-
-  family:"پلکان مکعبی",
-
-  signature:
-   `stairs-${n}`,
-
-  q:
-   `برای پلکان، پله اول ۱ مکعب، پله دوم ۲ مکعب و ... دارد. ساخت پلکان ${faNumber(n)} پله‌ای چند مکعب لازم دارد؟`,
-
-  samples:[1,2,3],
-
-  sampleLabel:"پله",
-
-  compute:value=>
-   value*
-   (value+1)/
-   2,
-
-  visualType:
-   "stairs",
-
-  discovery:
-   "با ساخت هر پله جدید، چند مکعب تازه به پلکان اضافه می‌شود؟",
-
-  patternChoices:[
-   {
-    text:"شماره همان پله",
-    correct:true
-   },
-   {
-    text:"همیشه ۱ مکعب",
-    correct:false
-   },
-   {
-    text:"همیشه ۲ مکعب",
-    correct:false
-   },
-   {
-    text:"دو برابر پله قبلی",
-    correct:false
-   }
-  ],
-
-  targetText:
-   `${faNumber(n)} پله → چند مکعب؟`,
-
-  answer,
-
-  solution:
-   `۱+۲+...+${faNumber(n)} = ${faNumber(answer)}`
- };
-}
-
-
-/* =====================================================
-   9) FENCE
+   6) FENCE
 ===================================================== */
 
 function genFence(){
 
  const n=
-  randomInt(8,14);
+  randomInt(8,15);
 
 
  const answer=
@@ -1912,15 +1534,21 @@ function genFence(){
   family:"حصار",
 
   signature:
-   `fence-${n}`,
+   "fence-"+n,
 
   q:
-   `یک حصار خطی از ${faNumber(n)} تکه نرده کنارهم ساخته می‌شود و تکه‌های مجاور پایه مشترک دارند. چند پایه لازم است؟`,
+   `${faNumber(n)} تکه نرده در یک خط کنارهم قرار می‌گیرند و تکه‌های کناری پایه مشترک دارند. چند پایه لازم است؟`,
 
-  samples:[1,2,3],
+  targetText:
+   faNumber(n)+
+   " تکه نرده",
 
-  sampleLabel:
-   "تکه نرده",
+  start:1,
+
+  growTimes:2,
+
+  sizeLabel:
+   "تکه",
 
   compute:value=>
    value+1,
@@ -1928,41 +1556,24 @@ function genFence(){
   visualType:
    "fence",
 
-  discovery:
-   "هر بار یک تکه نرده جدید اضافه شد، چند پایه تازه لازم بود؟",
+  changeText:()=>
+   "تکه جدید فقط ۱ پایه تازه لازم داشت.",
 
-  patternChoices:[
-   {
-    text:"۱ پایه",
-    correct:true
-   },
-   {
-    text:"۲ پایه",
-    correct:false
-   },
-   {
-    text:"۳ پایه",
-    correct:false
-   },
-   {
-    text:"هیچ پایه‌ای",
-    correct:false
-   }
-  ],
-
-  targetText:
-   `${faNumber(n)} تکه نرده → چند پایه؟`,
+  clue:
+   "شروع: ۲ پایه؛ هر تکه جدید: +۱ پایه",
 
   answer,
 
   solution:
-   `${faNumber(n)} + ۱ = ${faNumber(answer)}`
+   faNumber(n)+
+   " + ۱ = "+
+   faNumber(answer)
  };
 }
 
 
 /* =====================================================
-   10) TABLES
+   7) TABLES
 ===================================================== */
 
 function genTables(){
@@ -1977,17 +1588,24 @@ function genTables(){
 
  return{
 
-  family:"میزهای کنارهم",
+  family:
+   "میز و صندلی",
 
   signature:
-   `tables-${n}`,
+   "table-"+n,
 
   q:
-   `${faNumber(n)} میز مربعی در یک ردیف کنارهم هستند. در دو طرف هر میز صندلی داریم و در دو سر ردیف نیز یک صندلی قرار می‌گیرد. چند صندلی لازم است؟`,
+   `${faNumber(n)} میز مربعی در یک ردیف کنارهم هستند. در دو طرف هر میز صندلی داریم و در دو سر ردیف نیز یک صندلی است. چند صندلی لازم است؟`,
 
-  samples:[1,2,3],
+  targetText:
+   faNumber(n)+
+   " میز",
 
-  sampleLabel:"میز",
+  start:1,
+
+  growTimes:2,
+
+  sizeLabel:"میز",
 
   compute:value=>
    2*value+2,
@@ -1995,66 +1613,253 @@ function genTables(){
   visualType:
    "tables",
 
-  discovery:
-   "با اضافه‌شدن یک میز جدید، چند صندلی تازه اضافه می‌شود؟",
+  changeText:()=>
+   "با میز جدید، ۲ صندلی تازه اضافه شد.",
 
-  patternChoices:[
-   {
-    text:"۲ صندلی",
-    correct:true
-   },
-   {
-    text:"۱ صندلی",
-    correct:false
-   },
-   {
-    text:"۳ صندلی",
-    correct:false
-   },
-   {
-    text:"۴ صندلی",
-    correct:false
-   }
-  ],
-
-  targetText:
-   `${faNumber(n)} میز → چند صندلی؟`,
+  clue:
+   "شروع: ۴ صندلی؛ هر میز جدید: +۲ صندلی",
 
   answer,
 
   solution:
-   `${faNumber(n)}×۲ + ۲ = ${faNumber(answer)}`
+   faNumber(n)+
+   "×۲ + ۲ = "+
+   faNumber(answer)
  };
 }
 
 
 /* =====================================================
-   11) SUM NATURAL
+   8) TRIANGLE DOTS
 ===================================================== */
 
-function genNaturalSum(){
+function genTriangleDots(){
+
+ const n=
+  randomInt(7,10);
+
+
+ const answer=
+  n*
+  (n+1)/
+  2;
+
+
+ return{
+
+  family:
+   "نقطه‌های مثلثی",
+
+  signature:
+   "dots-"+n,
+
+  q:
+   `شکل ۱ یک نقطه، شکل ۲ سه نقطه و شکل ۳ شش نقطه دارد. شکل ${faNumber(n)} چند نقطه دارد؟`,
+
+  targetText:
+   "شکل "+
+   faNumber(n),
+
+  start:1,
+
+  growTimes:2,
+
+  sizeLabel:"شکل",
+
+  compute:value=>
+   value*
+   (value+1)/
+   2,
+
+  visualType:
+   "dots",
+
+  changeText:(from,to)=>
+   "برای ساخت شکل "+
+   faNumber(to)+
+   "، "+
+   faNumber(to)+
+   " نقطه تازه اضافه شد.",
+
+  clue:
+   "هر شکل جدید، به اندازه شماره خودش نقطه تازه اضافه می‌کند.",
+
+  answer,
+
+  solution:
+   faNumber(n)+
+   "×"+
+   faNumber(n+1)+
+   "÷۲ = "+
+   faNumber(answer)
+ };
+}
+
+
+/* =====================================================
+   9) STAIRS
+===================================================== */
+
+function genStairs(){
+
+ const n=
+  randomInt(7,10);
+
+
+ const answer=
+  n*
+  (n+1)/
+  2;
+
+
+ return{
+
+  family:
+   "پلکان مکعبی",
+
+  signature:
+   "stair-"+n,
+
+  q:
+   `یک پلکان ${faNumber(n)} پله‌ای می‌سازیم؛ پله اول ۱ مکعب، پله دوم ۲ مکعب و ... دارد. چند مکعب لازم است؟`,
+
+  targetText:
+   faNumber(n)+
+   " پله",
+
+  start:1,
+
+  growTimes:2,
+
+  sizeLabel:"پله",
+
+  compute:value=>
+   value*
+   (value+1)/
+   2,
+
+  visualType:
+   "stairs",
+
+  changeText:(from,to)=>
+   "پله جدید "+
+   faNumber(to)+
+   " مکعب تازه لازم داشت.",
+
+  clue:
+   "پله ۱: +۱ ، پله ۲: +۲ ، پله ۳: +۳ ، ...",
+
+  answer,
+
+  solution:
+   "۱+۲+...+"+
+   faNumber(n)+
+   " = "+
+   faNumber(answer)
+ };
+}
+
+
+/* =====================================================
+   10) ODD NUMBERS
+===================================================== */
+
+function genOdd(){
+
+ const n=
+  randomInt(7,10);
+
+
+ const last=
+  2*n-1;
+
+
+ const answer=
+  n*n;
+
+
+ return{
+
+  family:
+   "جمع اعداد فرد",
+
+  signature:
+   "odd-"+n,
+
+  q:
+   `مجموع عددهای فرد از ۱ تا ${faNumber(last)} را پیدا کن.`,
+
+  targetText:
+   faNumber(n)+
+   " عدد فرد اول",
+
+  start:1,
+
+  growTimes:2,
+
+  sizeLabel:
+   "عدد فرد",
+
+  compute:value=>
+   value*value,
+
+  visualType:
+   "odd",
+
+  changeText:(from,to)=>
+   "عدد فرد "+
+   faNumber(2*to-1)+
+   " اضافه شد.",
+
+  clue:
+   "۱=۱² ، ۱+۳=۲² ، ۱+۳+۵=۳² ، ...",
+
+  answer,
+
+  solution:
+   faNumber(n)+
+   "² = "+
+   faNumber(answer)
+ };
+}
+
+
+/* =====================================================
+   11) NATURAL SUM
+===================================================== */
+
+function genNatural(){
 
  const n=
   randomInt(8,12);
 
 
  const answer=
-  n*(n+1)/2;
+  n*
+  (n+1)/
+  2;
 
 
  return{
 
-  family:"جمع پله‌ای",
+  family:
+   "جمع پله‌ای",
 
   signature:
-   `sum-${n}`,
+   "natural-"+n,
 
   q:
    `حاصل ۱+۲+۳+...+${faNumber(n)} را پیدا کن.`,
 
-  samples:[1,2,3],
+  targetText:
+   "تا عدد "+
+   faNumber(n),
 
-  sampleLabel:
+  start:1,
+
+  growTimes:2,
+
+  sizeLabel:
    "آخرین عدد",
 
   compute:value=>
@@ -2065,35 +1870,22 @@ function genNaturalSum(){
   visualType:
    "natural",
 
-  discovery:
-   "برای رفتن از یک نمونه به نمونه بعد، چه عددی به مجموع قبلی اضافه می‌شود؟",
+  changeText:(from,to)=>
+   "این بار عدد "+
+   faNumber(to)+
+   " به مجموع اضافه شد.",
 
-  patternChoices:[
-   {
-    text:"عدد جدید: ۲، سپس ۳، سپس ۴، ...",
-    correct:true
-   },
-   {
-    text:"همیشه ۱",
-    correct:false
-   },
-   {
-    text:"همیشه ۲",
-    correct:false
-   },
-   {
-    text:"همیشه دو برابر",
-    correct:false
-   }
-  ],
-
-  targetText:
-   `۱+۲+...+${faNumber(n)} = ؟`,
+  clue:
+   "هر مرحله، عدد بعدی را به مجموع قبلی اضافه می‌کند.",
 
   answer,
 
   solution:
-   `${faNumber(n)}×${faNumber(n+1)}÷۲ = ${faNumber(answer)}`
+   faNumber(n)+
+   "×"+
+   faNumber(n+1)+
+   "÷۲ = "+
+   faNumber(answer)
  };
 }
 
@@ -2108,2407 +1900,16 @@ function genPairs(){
   randomInt(7,11);
 
 
- return makeConnectionQuestion(
+ return makeConnections(
   "گفت‌وگوی دونفره",
   "🧑",
   n,
   value=>
-   `${faNumber(value)} دانش‌آموز داریم. اگر هر دو نفر دقیقاً یک گفت‌وگوی دونفره داشته باشند، چند گفت‌وگو انجام می‌شود؟`
+   `${faNumber(value)} دانش‌آموز داریم. اگر هر دو نفر یک‌بار گفت‌وگوی دونفره داشته باشند، چند گفت‌وگو انجام می‌شود؟`
  );
 }
 
 
 /* =====================================================
    GENERATORS
-===================================================== */
-
-const GENERATORS=[
- genHandshakes,
- genPoints,
- genLeague,
- genNetwork,
- genOddSum,
- genMatches,
- genTriangleDots,
- genStairs,
- genFence,
- genTables,
- genNaturalSum,
- genPairs
-];
-
-
-/* =====================================================
-   ROUND
-===================================================== */
-
-let questions=[];
-
-
-function generateRound(){
-
- const recent=
-  new Set(
-   loadHistory()
-  );
-
-
- const chosen=
-  shuffle(
-   GENERATORS
-  ).slice(
-   0,
-   TOTAL_QUESTIONS
-  );
-
-
- const generated=[];
-
-
- for(
-  const generator
-  of chosen
- ){
-
-  let candidate=null;
-
-
-  for(
-   let attempt=0;
-   attempt<30;
-   attempt++
-  ){
-
-   const q=
-    generator();
-
-
-   candidate=q;
-
-
-   if(
-    !recent.has(
-     q.signature
-    )
-   ){
-
-    break;
-   }
-  }
-
-
-  /*
-   گزینه‌های مرحله کشف نیز هر بار
-   ترتیب تازه دارند.
-  */
-
-  candidate.patternChoices=
-   shuffle(
-    candidate.patternChoices
-   );
-
-
-  generated.push(
-   candidate
-  );
-
-
-  recent.add(
-   candidate.signature
-  );
- }
-
-
- questions=
-  shuffle(
-   generated
-  );
-
-
- saveHistory(
-  generated.map(
-   q=>q.signature
-  )
- );
-}
-
-
-/* =====================================================
-   STATE
-===================================================== */
-
-let currentIndex=0;
-
-let score=0;
-
-let answerChecked=false;
-
-let questionStartTime=0;
-
-let timerInterval=null;
-
-let gameFinished=false;
-
-let finishSubmitted=false;
-
-
-let currentStep=1;
-
-
-let activeSampleIndex=0;
-
-
-let seenSamples=
- new Set();
-
-
-let selectedPattern=null;
-
-let patternWasWrong=false;
-
-
-let selectedAnswer=null;
-
-
-/* =====================================================
-   DOM
-===================================================== */
-
-const $=
- id=>
- document.getElementById(id);
-
-
-const playerNameEl=
- $("playerName");
-
-const questionNumberEl=
- $("questionNumber");
-
-const scoreEl=
- $("score");
-
-const timeStatusEl=
- $("timeStatus");
-
-
-const progressEl=
- $("progress");
-
-
-const timerNumberEl=
- $("timerNumber");
-
-const timerBarEl=
- $("timerBar");
-
-
-const missionLabelEl=
- $("missionLabel");
-
-const familyLabelEl=
- $("familyLabel");
-
-const problemTextEl=
- $("problemText");
-
-
-const step1=
- $("step1");
-
-const step2=
- $("step2");
-
-const step3=
- $("step3");
-
-
-const sampleButtonsEl=
- $("sampleButtons");
-
-const simCaption=
- $("simCaption");
-
-const visualEl=
- $("visual");
-
-const sampleResult=
- $("sampleResult");
-
-const collectedEl=
- $("collected");
-
-const toStep2=
- $("toStep2");
-
-
-const patternStrip=
- $("patternStrip");
-
-const discoveryQuestion=
- $("discoveryQuestion");
-
-const patternOptions=
- $("patternOptions");
-
-const checkPattern=
- $("checkPattern");
-
-const patternFeedback=
- $("patternFeedback");
-
-
-const mainTargetText=
- $("mainTargetText");
-
-const answerOptions=
- $("answerOptions");
-
-const submitMain=
- $("submitMain");
-
-
-const feedbackEl=
- $("feedback");
-
-const feedbackTitleEl=
- $("feedbackTitle");
-
-const feedbackTextEl=
- $("feedbackText");
-
-const solutionEl=
- $("solution");
-
-
-const nextButton=
- $("nextButton");
-
-
-const resultScreen=
- $("resultScreen");
-
-const gameScreen=
- $("gameScreen");
-
-const resultNameEl=
- $("resultName");
-
-const finalScoreEl=
- $("finalScore");
-
-const motivationEl=
- $("motivation");
-
-const leaderboardContent=
- $("leaderboardContent");
-
-const restartButton=
- $("restartButton");
-
-
-/* =====================================================
-   PROGRESS
-===================================================== */
-
-function buildProgress(){
-
- progressEl.innerHTML="";
-
-
- for(
-  let i=0;
-  i<TOTAL_QUESTIONS;
-  i++
- ){
-
-  const item=
-   document.createElement(
-    "div"
-   );
-
-
-  item.className=
-   "progress-item";
-
-
-  progressEl.appendChild(
-   item
-  );
- }
-}
-
-
-function updateProgress(){
-
- [
-  ...progressEl.children
- ].forEach(
-  (item,index)=>{
-
-   item.classList.toggle(
-    "done",
-    index<currentIndex
-   );
-
-
-   item.classList.toggle(
-    "current",
-    index===currentIndex
-   );
-  }
- );
-}
-
-
-/* =====================================================
-   TIMER
-===================================================== */
-
-function stopTimer(){
-
- if(timerInterval){
-
-  clearInterval(
-   timerInterval
-  );
-
-
-  timerInterval=null;
- }
-}
-
-
-function startTimer(){
-
- stopTimer();
-
-
- questionStartTime=
-  Date.now();
-
-
- timerNumberEl.textContent=
-  faNumber(
-   QUESTION_TIME
-  );
-
-
- timeStatusEl.textContent=
-  faNumber(
-   QUESTION_TIME
-  )+
-  " ثانیه";
-
-
- timerBarEl.style.width=
-  "100%";
-
-
- timerBarEl.style.background=
-  "var(--green)";
-
-
- timerNumberEl.style.color=
-  "var(--green)";
-
-
- timerInterval=
-  setInterval(
-   updateTimer,
-   100
-  );
-}
-
-
-function updateTimer(){
-
- if(
-  answerChecked ||
-  gameFinished
- ){
-
-  stopTimer();
-
-  return;
- }
-
-
- const elapsed=
-  (
-   Date.now()-
-   questionStartTime
-  )/1000;
-
-
- const remaining=
-  Math.max(
-   0,
-   QUESTION_TIME-
-   elapsed
-  );
-
-
- const seconds=
-  Math.ceil(
-   remaining
-  );
-
-
- timerNumberEl.textContent=
-  faNumber(
-   seconds
-  );
-
-
- timeStatusEl.textContent=
-  faNumber(
-   seconds
-  )+
-  " ثانیه";
-
-
- timerBarEl.style.width=
-  (
-   remaining/
-   QUESTION_TIME*
-   100
-  )+"%";
-
-
- if(remaining>60){
-
-  timerBarEl.style.background=
-   "var(--green)";
-
-
-  timerNumberEl.style.color=
-   "var(--green)";
- }
-
- else if(
-  remaining>30
- ){
-
-  timerBarEl.style.background=
-   "var(--yellow)";
-
-
-  timerNumberEl.style.color=
-   "#ad7700";
- }
-
- else{
-
-  timerBarEl.style.background=
-   "var(--red)";
-
-
-  timerNumberEl.style.color=
-   "var(--red)";
- }
-
-
- if(
-  remaining<=0
- ){
-
-  handleTimeout();
- }
-}
-
-
-/* =====================================================
-   SHOW QUESTION
-===================================================== */
-
-function showQuestion(){
-
- stopTimer();
-
-
- answerChecked=false;
-
- currentStep=1;
-
- activeSampleIndex=0;
-
- seenSamples=
-  new Set();
-
- selectedPattern=null;
-
- patternWasWrong=false;
-
- selectedAnswer=null;
-
-
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- updateProgress();
-
-
- questionNumberEl.textContent=
-  faNumber(
-   currentIndex+1
-  )+
-  " از "+
-  faNumber(
-   TOTAL_QUESTIONS
-  );
-
-
- scoreEl.textContent=
-  faNumber(score);
-
-
- missionLabelEl.textContent=
-  "🔬 مأموریت "+
-  faNumber(
-   currentIndex+1
-  );
-
-
- familyLabelEl.textContent=
-  "🎯 "+
-  q.family;
-
-
- problemTextEl.textContent=
-  q.q;
-
-
- feedbackEl.className=
-  "feedback";
-
-
- feedbackTitleEl.textContent="";
-
- feedbackTextEl.textContent="";
-
- solutionEl.textContent="";
-
-
- nextButton.classList.remove(
-  "show"
- );
-
-
- nextButton.textContent=
-  currentIndex===
-  TOTAL_QUESTIONS-1
-
-  ?"مشاهده نتیجه 🏆"
-
-  :"مأموریت بعدی 🔬";
-
-
- showOnlyStep(1);
-
- renderStep1();
-
-
- startTimer();
-}
-
-
-/* =====================================================
-   STEP SWITCH
-===================================================== */
-
-function showOnlyStep(step){
-
- currentStep=step;
-
-
- step1.classList.toggle(
-  "active",
-  step===1
- );
-
-
- step2.classList.toggle(
-  "active",
-  step===2
- );
-
-
- step3.classList.toggle(
-  "active",
-  step===3
- );
-}
-
-
-/* =====================================================
-   STEP 1
-===================================================== */
-
-function renderStep1(){
-
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- sampleButtonsEl.innerHTML="";
-
-
- q.samples.forEach(
-  (sample,index)=>{
-
-   const button=
-    document.createElement(
-     "button"
-    );
-
-
-   button.type="button";
-
-
-   button.className=
-    "sample-btn";
-
-
-   if(
-    index===
-    activeSampleIndex
-   ){
-
-    button.classList.add(
-     "active"
-    );
-   }
-
-
-   if(
-    seenSamples.has(index)
-   ){
-
-    button.classList.add(
-     "done"
-    );
-   }
-
-
-   button.textContent=
-    faNumber(sample)+
-    " "+
-    q.sampleLabel;
-
-
-   button.addEventListener(
-    "click",
-    ()=>openSample(index)
-   );
-
-
-   sampleButtonsEl.appendChild(
-    button
-   );
-  }
- );
-
-
- /*
-  نمونه فعلی را نشان می‌دهیم،
-  اما تا لمس دکمه آن را «دیده‌شده»
-  حساب نمی‌کنیم.
- */
-
- renderSampleVisual(
-  q,
-  q.samples[
-   activeSampleIndex
-  ]
- );
-
-
- renderCollected();
-}
-
-
-function openSample(index){
-
- if(answerChecked){
-  return;
- }
-
-
- activeSampleIndex=
-  index;
-
-
- seenSamples.add(
-  index
- );
-
-
- renderStep1();
-
-
- if(
-  seenSamples.size===
-  3
- ){
-
-  toStep2.classList.add(
-   "show"
-  );
- }
-}
-
-
-/* =====================================================
-   SAMPLE VISUAL
-===================================================== */
-
-function renderSampleVisual(q,n){
-
- const result=
-  q.compute(n);
-
-
- simCaption.textContent=
-  "نمونه ساده‌تر: "+
-  faNumber(n)+
-  " "+
-  q.sampleLabel;
-
-
- sampleResult.textContent=
-  "نتیجه: "+
-  faNumber(result);
-
-
- visualEl.innerHTML="";
-
-
- if(
-  q.visualType===
-  "connections"
- ){
-
-  renderConnections(
-   n,
-   q.icon
-  );
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "odd"
- ){
-
-  const odds=
-   Array.from(
-    {length:n},
-    (_,i)=>2*i+1
-   );
-
-
-  visualEl.innerHTML=
-   `
-   <div class="simple">
-
-    <div class="visual-row">
-
-     ${odds.map(
-      x=>
-       `<span class="visual-item">${faNumber(x)}</span>`
-     ).join("")}
-
-    </div>
-
-    <div class="visual-math">
-     ${odds.map(faNumber).join(" + ")} = ${faNumber(result)}
-    </div>
-
-   </div>
-   `;
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "matches"
- ){
-
-  renderSquares(n,result);
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "dots"
- ){
-
-  let rows="";
-
-
-  for(
-   let r=1;
-   r<=n;
-   r++
-  ){
-
-   rows+=
-    `<div class="visual-row">
-     ${Array(r)
-      .fill(
-       '<span style="font-size:21px;color:#8b5cf6">●</span>'
-      )
-      .join("")}
-    </div>`;
-  }
-
-
-  visualEl.innerHTML=
-   `
-   <div class="simple">
-
-    <div>${rows}</div>
-
-    <div class="visual-math">
-     ${faNumber(result)} نقطه
-    </div>
-
-   </div>
-   `;
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "stairs"
- ){
-
-  let rows="";
-
-
-  for(
-   let r=n;
-   r>=1;
-   r--
-  ){
-
-   rows+=
-    `<div class="visual-row">
-     ${Array(r)
-      .fill(
-       '<span class="visual-item">🧱</span>'
-      )
-      .join("")}
-    </div>`;
-  }
-
-
-  visualEl.innerHTML=
-   `
-   <div class="simple">
-
-    <div>${rows}</div>
-
-    <div class="visual-math">
-     ${faNumber(result)} مکعب
-    </div>
-
-   </div>
-   `;
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "fence"
- ){
-
-  let fence=
-   `<span style="font-size:31px">🪵</span>`;
-
-
-  for(let i=0;i<n;i++){
-
-   fence+=
-    `<span style="font-size:31px;color:#a96835">━</span>
-     <span style="font-size:31px">🪵</span>`;
-  }
-
-
-  visualEl.innerHTML=
-   `
-   <div class="simple">
-
-    <div class="visual-row">
-     ${fence}
-    </div>
-
-    <div class="visual-math">
-     ${faNumber(n)} تکه → ${faNumber(result)} پایه
-    </div>
-
-   </div>
-   `;
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "tables"
- ){
-
-  visualEl.innerHTML=
-   `
-   <div class="simple">
-
-    <div class="visual-row">
-     ${Array(n)
-      .fill(
-       '<span class="visual-item">🪑</span>'
-      )
-      .join("")}
-    </div>
-
-    <div class="visual-row">
-
-     <span class="visual-item">🪑</span>
-
-     ${Array(n)
-      .fill(
-       '<span class="visual-item">🟫</span>'
-      )
-      .join("")}
-
-     <span class="visual-item">🪑</span>
-
-    </div>
-
-    <div class="visual-row">
-     ${Array(n)
-      .fill(
-       '<span class="visual-item">🪑</span>'
-      )
-      .join("")}
-    </div>
-
-    <div class="visual-math">
-     ${faNumber(result)} صندلی
-    </div>
-
-   </div>
-   `;
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "natural"
- ){
-
-  const nums=
-   Array.from(
-    {length:n},
-    (_,i)=>i+1
-   );
-
-
-  visualEl.innerHTML=
-   `
-   <div class="simple">
-
-    <div class="visual-row">
-
-     ${nums.map(
-      x=>
-       `<span class="visual-item">${faNumber(x)}</span>`
-     ).join("")}
-
-    </div>
-
-    <div class="visual-math">
-     ${nums.map(faNumber).join(" + ")} = ${faNumber(result)}
-    </div>
-
-   </div>
-   `;
- }
-}
-
-
-/* =====================================================
-   CONNECTION SVG
-===================================================== */
-
-function renderConnections(n,icon){
-
- const width=340;
- const height=165;
-
- const cx=170;
- const cy=83;
- const radius=59;
-
- const points=[];
-
-
- for(let i=0;i<n;i++){
-
-  const angle=
-   -Math.PI/2+
-   i*2*Math.PI/n;
-
-
-  points.push({
-   x:
-    cx+
-    radius*
-    Math.cos(angle),
-
-   y:
-    cy+
-    radius*
-    Math.sin(angle)
-  });
- }
-
-
- let lines="";
-
-
- for(let i=0;i<n;i++){
-
-  for(let j=i+1;j<n;j++){
-
-   lines+=
-    `<line
-     x1="${points[i].x}"
-     y1="${points[i].y}"
-     x2="${points[j].x}"
-     y2="${points[j].y}"
-     stroke="#8b5cf6"
-     stroke-width="2"
-     opacity=".55"
-    />`;
-  }
- }
-
-
- let nodes="";
-
-
- points.forEach(point=>{
-
-  if(icon==="●"){
-
-   nodes+=
-    `<circle
-     cx="${point.x}"
-     cy="${point.y}"
-     r="7"
-     fill="#38bdf8"
-     stroke="#fff"
-     stroke-width="2"
-    />`;
-
-  }else{
-
-   nodes+=
-    `<text
-     x="${point.x}"
-     y="${point.y+7}"
-     text-anchor="middle"
-     font-size="23"
-    >${icon}</text>`;
-  }
- });
-
-
- visualEl.innerHTML=
-  `
-  <svg
-   class="svg"
-   viewBox="0 0 ${width} ${height}"
-  >
-   ${lines}
-   ${nodes}
-  </svg>
-  `;
-}
-
-
-/* =====================================================
-   MATCHSTICK VISUAL
-===================================================== */
-
-function renderSquares(n,result){
-
- const width=
-  35+
-  n*42;
-
-
- let squares="";
-
-
- for(let i=0;i<n;i++){
-
-  squares+=
-   `<rect
-    x="${15+i*40}"
-    y="45"
-    width="40"
-    height="40"
-    fill="#fef3c7"
-    stroke="#8b5cf6"
-    stroke-width="4"
-   />`;
- }
-
-
- visualEl.innerHTML=
-  `
-  <div class="simple">
-
-   <svg
-    viewBox="0 0 ${width} 120"
-    style="width:100%;height:120px"
-   >
-    ${squares}
-   </svg>
-
-   <div class="visual-math">
-    ${faNumber(result)} چوب
-   </div>
-
-  </div>
-  `;
-}
-
-
-/* =====================================================
-   COLLECTED RESULTS
-===================================================== */
-
-function renderCollected(){
-
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- collectedEl.innerHTML="";
-
-
- q.samples.forEach(
-  (sample,index)=>{
-
-   const item=
-    document.createElement(
-     "div"
-    );
-
-
-   item.className=
-    "collected-item";
-
-
-   if(
-    seenSamples.has(index)
-   ){
-
-    item.classList.add(
-     "found"
-    );
-
-
-    item.innerHTML=
-     `${faNumber(sample)} ${q.sampleLabel}
-      <strong>${faNumber(q.compute(sample))}</strong>`;
-
-   }else{
-
-    item.innerHTML=
-     `نمونه ${faNumber(index+1)}
-      <strong>؟</strong>`;
-   }
-
-
-   collectedEl.appendChild(
-    item
-   );
-  }
- );
-}
-
-
-/* =====================================================
-   STEP 1 -> STEP 2
-===================================================== */
-
-toStep2.addEventListener(
- "click",
- ()=>{
-
-  if(
-   seenSamples.size<3 ||
-   answerChecked
-  ){
-   return;
-  }
-
-
-  showOnlyStep(2);
-
-
-  renderStep2();
- }
-);
-
-
-/* =====================================================
-   STEP 2
-===================================================== */
-
-function renderStep2(){
-
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- selectedPattern=null;
-
-
- patternFeedback.className=
-  "mini-feedback";
-
-
- patternFeedback.textContent="";
-
-
- patternStrip.innerHTML="";
-
-
- q.samples.forEach(
-  (sample,index)=>{
-
-   const box=
-    document.createElement(
-     "div"
-    );
-
-
-   box.className=
-    "pattern-box";
-
-
-   box.innerHTML=
-    `${faNumber(sample)}
-     <br>
-     ↓
-     <br>
-     ${faNumber(q.compute(sample))}`;
-
-
-   patternStrip.appendChild(
-    box
-   );
-
-
-   if(
-    index<
-    q.samples.length-1
-   ){
-
-    const arrow=
-     document.createElement(
-      "span"
-     );
-
-
-    arrow.className=
-     "pattern-arrow";
-
-
-    arrow.textContent=
-     "→";
-
-
-    patternStrip.appendChild(
-     arrow
-    );
-   }
-  }
- );
-
-
- discoveryQuestion.textContent=
-  q.discovery;
-
-
- patternOptions.innerHTML="";
-
-
- q.patternChoices.forEach(
-  (choice,index)=>{
-
-   const button=
-    document.createElement(
-     "button"
-    );
-
-
-   button.type="button";
-
-
-   button.className=
-    "pattern-btn";
-
-
-   button.textContent=
-    choice.text;
-
-
-   button.addEventListener(
-    "click",
-    ()=>{
-
-     if(answerChecked){
-      return;
-     }
-
-
-     selectedPattern=
-      index;
-
-
-     [
-      ...patternOptions.children
-     ].forEach(
-      (item,i)=>{
-
-       item.classList.toggle(
-        "selected",
-        i===index
-       );
-      }
-     );
-    }
-   );
-
-
-   patternOptions.appendChild(
-    button
-   );
-  }
- );
-}
-
-
-/* =====================================================
-   CHECK PATTERN
-===================================================== */
-
-checkPattern.addEventListener(
- "click",
- ()=>{
-
-  if(answerChecked){
-   return;
-  }
-
-
-  if(
-   selectedPattern===null
-  ){
-
-   patternFeedback.className=
-    "mini-feedback bad show";
-
-
-   patternFeedback.textContent=
-    "اول یکی از رابطه‌ها را انتخاب کن.";
-
-
-   return;
-  }
-
-
-  const q=
-   questions[
-    currentIndex
-   ];
-
-
-  const correct=
-   q.patternChoices[
-    selectedPattern
-   ].correct;
-
-
-  if(!correct){
-
-   patternWasWrong=true;
-
-
-   patternFeedback.className=
-    "mini-feedback bad show";
-
-
-   patternFeedback.textContent=
-    "❌ این رابطه با هر سه نمونه جور نیست. دوباره عددهای بالا را مقایسه کن.";
-
-
-   return;
-  }
-
-
-  patternFeedback.className=
-   "mini-feedback good show";
-
-
-  patternFeedback.textContent=
-   "✅ درست کشف کردی! حالا از همین سرنخ برای مسئله اصلی استفاده کن.";
-
-
-  [
-   ...patternOptions.children
-  ].forEach(
-   button=>
-    button.disabled=true
-  );
-
-
-  checkPattern.disabled=
-   true;
-
-
-  setTimeout(
-   ()=>{
-
-    showOnlyStep(3);
-
-    renderStep3();
-
-   },
-   650
-  );
- }
-);
-
-
-/* =====================================================
-   STEP 3
-===================================================== */
-
-function renderStep3(){
-
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- selectedAnswer=null;
-
-
- mainTargetText.textContent=
-  q.targetText;
-
-
- answerOptions.innerHTML="";
-
-
- const options=
-  makeAnswers(
-   q.answer
-  );
-
-
- options.forEach(value=>{
-
-  const button=
-   document.createElement(
-    "button"
-   );
-
-
-  button.type="button";
-
-
-  button.className=
-   "answer-btn";
-
-
-  button.dataset.value=
-   value;
-
-
-  button.textContent=
-   faNumber(value);
-
-
-  button.addEventListener(
-   "click",
-   ()=>{
-
-    if(answerChecked){
-     return;
-    }
-
-
-    selectedAnswer=
-     value;
-
-
-    [
-     ...answerOptions.children
-    ].forEach(
-     item=>{
-
-      item.classList.toggle(
-       "selected",
-       item===button
-      );
-     }
-    );
-   }
-  );
-
-
-  answerOptions.appendChild(
-   button
-  );
- });
-}
-
-
-/* =====================================================
-   SUBMIT MAIN
-===================================================== */
-
-submitMain.addEventListener(
- "click",
- submitMainAnswer
-);
-
-
-function submitMainAnswer(){
-
- if(answerChecked){
-  return;
- }
-
-
- if(
-  selectedAnswer===null
- ){
-
-  return;
- }
-
-
- const elapsed=
-  (
-   Date.now()-
-   questionStartTime
-  )/1000;
-
-
- if(
-  elapsed>=
-  QUESTION_TIME
- ){
-
-  handleTimeout();
-
-  return;
- }
-
-
- answerChecked=true;
-
-
- stopTimer();
-
-
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- const correct=
-  selectedAnswer===
-  q.answer;
-
-
- if(correct){
-
-  const earned=
-   pointsForTime(
-    elapsed
-   );
-
-
-  score=
-   Math.min(
-    100,
-    score+earned
-   );
-
-
-  feedbackEl.className=
-   "feedback success show";
-
-
-  feedbackTitleEl.textContent=
-   "✅ آفرین! +"+
-   faNumber(earned)+
-   " امتیاز";
-
-
-  feedbackTextEl.textContent=
-   "نمونه‌های کوچک‌تر را بررسی کردی، رابطه را پیدا کردی و بعد همان فکر را به مسئله اصلی منتقل کردی.";
-
-
-  solutionEl.textContent=
-   "✅ پاسخ: "+
-   faNumber(q.answer)+
-   " | "+
-   q.solution;
-
-
-  celebrate();
-
- }else{
-
-  feedbackEl.className=
-   "feedback error show";
-
-
-  feedbackTitleEl.textContent=
-   "❌ پاسخ مسئله اصلی درست نیست. ۰ امتیاز";
-
-
-  feedbackTextEl.textContent=
-   "دوباره به نتیجه نمونه‌های کوچک فکر کن. ایده راهبرد این است که رابطه‌ای که در حالت ساده دیدیم، به حالت بزرگ منتقل شود.";
-
-
-  solutionEl.textContent=
-   "✅ پاسخ درست: "+
-   faNumber(q.answer)+
-   " | "+
-   q.solution;
-
-
-  revealCorrectAnswer(
-   q.answer
-  );
- }
-
-
- lockFinal();
-
-
- scoreEl.textContent=
-  faNumber(score);
-
-
- nextButton.classList.add(
-  "show"
- );
-}
-
-
-/* =====================================================
-   LOCK / REVEAL
-===================================================== */
-
-function lockFinal(){
-
- [
-  ...answerOptions.children
- ].forEach(
-  button=>
-   button.disabled=true
- );
-
-
- submitMain.disabled=
-  true;
-}
-
-
-function revealCorrectAnswer(correct){
-
- [
-  ...answerOptions.children
- ].forEach(
-  button=>{
-
-   if(
-    Number(
-     button.dataset.value
-    )===
-    correct
-   ){
-
-    button.style.borderColor=
-     "var(--green)";
-
-
-    button.style.background=
-     "#e8faed";
-   }
-  }
- );
-}
-
-
-/* =====================================================
-   TIMEOUT
-===================================================== */
-
-function handleTimeout(){
-
- if(
-  answerChecked ||
-  gameFinished
- ){
-  return;
- }
-
-
- answerChecked=true;
-
-
- stopTimer();
-
-
- timerNumberEl.textContent=
-  "۰";
-
-
- timeStatusEl.textContent=
-  "۰ ثانیه";
-
-
- timerBarEl.style.width=
-  "0%";
-
-
- timerBarEl.style.background=
-  "var(--red)";
-
-
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- feedbackEl.className=
-  "feedback timeout show";
-
-
- feedbackTitleEl.textContent=
-  "⏰ زمان تمام شد! ۰ امتیاز";
-
-
- feedbackTextEl.textContent=
-  "برای حل مسئله دشوار، ابتدا چند نمونه کوچک‌تر را حل کن، رابطه را ببین و سپس به مسئله اصلی برگرد.";
-
-
- solutionEl.textContent=
-  "✅ پاسخ درست: "+
-  faNumber(q.answer)+
-  " | "+
-  q.solution;
-
-
- [
-  ...sampleButtonsEl.children
- ].forEach(
-  button=>
-   button.disabled=true
- );
-
-
- [
-  ...patternOptions.children
- ].forEach(
-  button=>
-   button.disabled=true
- );
-
-
- [
-  ...answerOptions.children
- ].forEach(
-  button=>
-   button.disabled=true
- );
-
-
- toStep2.disabled=true;
-
- checkPattern.disabled=true;
-
- submitMain.disabled=true;
-
-
- nextButton.classList.add(
-  "show"
- );
-}
-
-
-/* =====================================================
-   CELEBRATION
-===================================================== */
-
-function celebrate(){
-
- const rect=
-  step3
-   .getBoundingClientRect();
-
-
- const icons=[
-  "🔬",
-  "🔍",
-  "💡",
-  "⭐",
-  "✨",
-  "🎉"
- ];
-
-
- for(
-  let i=0;
-  i<11;
-  i++
- ){
-
-  const spark=
-   document.createElement(
-    "span"
-   );
-
-
-  spark.className=
-   "spark";
-
-
-  spark.textContent=
-   pick(icons);
-
-
-  spark.style.left=
-   (
-    rect.left+
-    rect.width/2
-   )+"px";
-
-
-  spark.style.top=
-   (
-    rect.top+
-    80
-   )+"px";
-
-
-  spark.style.setProperty(
-   "--x",
-   (
-    Math.random()*180-
-    90
-   )+"px"
-  );
-
-
-  spark.style.setProperty(
-   "--y",
-   (
-    -30-
-    Math.random()*120
-   )+"px"
-  );
-
-
-  document.body
-   .appendChild(
-    spark
-   );
-
-
-  setTimeout(
-   ()=>spark.remove(),
-   850
-  );
- }
-}
-
-
-/* =====================================================
-   NEXT
-===================================================== */
-
-nextButton.addEventListener(
- "click",
- ()=>{
-
-  if(
-   !answerChecked
-  ){
-   return;
-  }
-
-
-  if(
-   currentIndex<
-   TOTAL_QUESTIONS-1
-  ){
-
-   currentIndex++;
-
-
-   checkPattern.disabled=
-    false;
-
-
-   toStep2.disabled=
-    false;
-
-
-   submitMain.disabled=
-    false;
-
-
-   showQuestion();
-
-
-   window.scrollTo({
-    top:0,
-    behavior:"smooth"
-   });
-
-  }else{
-
-   finishGame();
-  }
- }
-);
-
-
-/* =====================================================
-   FINISH GAME
-===================================================== */
-
-async function finishGame(){
-
- if(gameFinished){
-  return;
- }
-
-
- gameFinished=true;
-
-
- stopTimer();
-
-
- [
-  ...progressEl.children
- ].forEach(
-  item=>{
-
-   item.classList.remove(
-    "current"
-   );
-
-
-   item.classList.add(
-    "done"
-   );
-  }
- );
-
-
- gameScreen.style.display=
-  "none";
-
-
- resultScreen.classList.add(
-  "show"
- );
-
-
- const name=
-  player&&
-  player.playerName
-
-  ?player.playerName
-
-  :"بازیکن";
-
-
- resultNameEl.textContent=
-  name;
-
-
- finalScoreEl.textContent=
-  faNumber(score);
-
-
- if(score>=90){
-
-  motivationEl.textContent=
-   "عالی بود! 🌟 مسئله‌های بزرگ را با نمونه‌های کوچک رام می‌کنی!";
-
- }else if(score>=70){
-
-  motivationEl.textContent=
-   "خیلی خوب بود 👏 از حالت ساده به جواب مسئله اصلی می‌رسی!";
-
- }else if(score>=50){
-
-  motivationEl.textContent=
-   "خوب بود 💪 اول چند نمونه کوچک را بررسی کن و بعد تعمیم بده!";
-
- }else{
-
-  motivationEl.textContent=
-   "دوباره شبیه‌سازی کن 🌱 کوچک کن، کشف کن، بعد بزرگش کن!";
- }
-
-
- leaderboardContent.innerHTML=
-  '<div class="loading">'+
-  'در حال ثبت نتیجه و دریافت جدول برترین‌ها...'+
-  '</div>';
-
-
- try{
-
-  if(
-   !finishSubmitted
-  ){
-
-   finishSubmitted=
-    true;
-
-
-   const result=
-    await GameSDK
-     .finishGame(score);
-  }
-
- }catch(error){
-
-  console.error(
-   "finishGame error:",
-   error
-  );
- }
-
-
- await loadLeaderboard();
-}
-
-
-/* =====================================================
-   LEADERBOARD
-===================================================== */
-
-async function loadLeaderboard(){
-
- try{
-
-  const scores=
-   await GameSDK
-    .getLeaderboard(10);
-
-
-  leaderboardContent.innerHTML=
-   "";
-
-
-  if(
-   !Array.isArray(scores) ||
-   scores.length===0
-  ){
-
-   leaderboardContent.innerHTML=
-    '<div class="loading">'+
-    'هنوز رکوردی ثبت نشده است.'+
-    '</div>';
-
-
-   return;
-  }
-
-
-  scores.forEach(
-   (item,index)=>{
-
-    const row=
-     document.createElement(
-      "div"
-     );
-
-
-    row.className=
-     "rank-row";
-
-
-    let rank;
-
-
-    if(index===0){
-
-     rank="🥇";
-
-    }else if(index===1){
-
-     rank="🥈";
-
-    }else if(index===2){
-
-     rank="🥉";
-
-    }else{
-
-     rank=
-      faNumber(
-       index+1
-      )+
-      ".";
-    }
-
-
-    const name=
-     item.playerName ??
-     item.player_name ??
-     item.name ??
-     "بازیکن";
-
-
-    const value=
-     item.score ??
-     0;
-
-
-    const nameEl=
-     document.createElement(
-      "span"
-     );
-
-
-    nameEl.className=
-     "rank-name";
-
-
-    nameEl.textContent=
-     rank+
-     " "+
-     name;
-
-
-    const valueEl=
-     document.createElement(
-      "span"
-     );
-
-
-    valueEl.className=
-     "rank-score";
-
-
-    valueEl.textContent=
-     faNumber(value)+
-     " امتیاز";
-
-
-    row.appendChild(
-     nameEl
-    );
-
-
-    row.appendChild(
-     valueEl
-    );
-
-
-    leaderboardContent
-     .appendChild(row);
-   }
-  );
-
- }catch(error){
-
-  console.error(
-   "leaderboard error:",
-   error
-  );
-
-
-  leaderboardContent.innerHTML=
-   '<div class="loading">'+
-   'دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.'+
-   '</div>';
- }
-}
-
-
-/* =====================================================
-   RESTART
-===================================================== */
-
-restartButton.addEventListener(
- "click",
- ()=>{
-
-  stopTimer();
-
-
-  GameSDK.reset();
-
-
-  score=0;
-
-  currentIndex=0;
-
-  answerChecked=false;
-
-  questionStartTime=0;
-
-  gameFinished=false;
-
-  finishSubmitted=false;
-
-  currentStep=1;
-
-  activeSampleIndex=0;
-
-  seenSamples=
-   new Set();
-
-  selectedPattern=null;
-
-  patternWasWrong=false;
-
-  selectedAnswer=null;
-
-
-  checkPattern.disabled=
-   false;
-
-
-  toStep2.disabled=
-   false;
-
-
-  submitMain.disabled=
-   false;
-
-
-  resultScreen
-   .classList
-   .remove("show");
-
-
-  gameScreen.style.display=
-   "block";
-
-
-  leaderboardContent.innerHTML=
-   "";
-
-
-  generateRound();
-
-
-  buildProgress();
-
-
-  showQuestion();
-
-
-  window.scrollTo({
-   top:0,
-   behavior:"smooth"
-  });
- }
-);
-
-
-/* =====================================================
-   START
-===================================================== */
-
-function startGame(){
-
- const name=
-  player&&
-  player.playerName
-
-  ?player.playerName
-
-  :"بازیکن";
-
-
- playerNameEl.textContent=
-  name;
-
-
- score=0;
-
- currentIndex=0;
-
- answerChecked=false;
-
- gameFinished=false;
-
- finishSubmitted=false;
-
-
- generateRound();
-
-
- buildProgress();
-
-
- showQuestion();
-}
-
-
-startGame();
-
-</script>
-
-</body>
-</html>
+===================================================== 
