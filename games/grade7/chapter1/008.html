@@ -2,4147 +2,1334 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>بزرگش کن! | راهبرد حل مسئله ساده‌تر</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>آزمایشگاه کوچک‌ساز | ریاضی هفتم</title>
 <style>
-*{box-sizing:border-box}
-
 :root{
- --purple:#8b5cf6;--purple2:#6d28d9;
- --blue:#38bdf8;--blue2:#0284c7;
- --pink:#f472b6;--yellow:#fbbf24;
- --orange:#fb923c;--green:#22c55e;
- --red:#fb7185;--text:#293449;--muted:#64748b
+  --purple:#7557d9;
+  --blue:#3488e8;
+  --pink:#ed6ba6;
+  --yellow:#f4c542;
+  --green:#36b878;
+  --red:#e75454;
+  --ink:#26364a;
+  --muted:#6c7a8d;
+  --card:#fff;
+  --bg1:#f1efff;
+  --bg2:#eaf8ff;
+  --line:#dfe6ef;
 }
-
-html{
- color-scheme:light only;
- -webkit-text-size-adjust:100%
-}
-
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
 body{
- margin:0;min-height:100vh;direction:rtl;
- font-family:Tahoma,Arial,sans-serif;
- color:var(--text);overflow-x:hidden;
- background:
- radial-gradient(circle at 8% 5%,#fbcfe855,transparent 24%),
- radial-gradient(circle at 92% 7%,#7dd3fc66,transparent 25%),
- radial-gradient(circle at 82% 94%,#fde68a55,transparent 25%),
- linear-gradient(150deg,#fff7fd,#effcff 53%,#fff9df)
+  margin:0;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 10% 10%,#ffddeb 0,transparent 25%),
+    radial-gradient(circle at 90% 20%,#dce9ff 0,transparent 28%),
+    linear-gradient(145deg,var(--bg1),var(--bg2));
+  font-family:Tahoma,Arial,sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
 }
-
-button,a{font-family:inherit}
+button,input{font:inherit}
 button{touch-action:manipulation}
-
 .app{
- width:min(100%,900px);
- margin:auto;
- padding:10px
+  width:min(100% - 24px,900px);
+  margin:0 auto;
+  padding:18px 0 28px;
 }
-
-/* HEADER */
-
 .hero{
- text-align:center;
- padding:7px 4px 13px
+  text-align:center;
+  margin-bottom:14px;
 }
-
+.badges{
+  display:flex;
+  justify-content:center;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-bottom:9px;
+}
 .badge{
- display:inline-block;
- padding:6px 14px;
- border-radius:999px;
- background:linear-gradient(90deg,#fef3c7,#fce7f3);
- border:1px solid #f1cc5d;
- color:#825900;
- font-size:12px;
- font-weight:bold
+  background:#fff;
+  color:#6250b6;
+  border:1px solid #ddd8ff;
+  border-radius:999px;
+  padding:5px 10px;
+  font-size:12px;
+  font-weight:bold;
 }
-
-.hero h1{
- margin:9px 0 4px;
- font-size:clamp(30px,7vw,44px);
- background:linear-gradient(90deg,var(--green),var(--blue2),var(--purple));
- color:transparent;
- background-clip:text;
- -webkit-background-clip:text
+h1{
+  font-size:clamp(25px,6vw,38px);
+  margin:5px 0;
+  color:#563dbb;
 }
-
-.hero p{
- margin:0;
- color:var(--muted);
- font-size:13px;
- line-height:1.8
+.subtitle{
+  color:var(--muted);
+  font-size:14px;
+  margin:4px auto;
+  max-width:650px;
 }
-
-/* PANEL */
-
-.panel{
- background:#fffffff7;
- border-radius:24px;
- overflow:hidden;
- box-shadow:0 16px 42px #6d28d91c
-}
-
-/* STATUS */
-
 .status{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:7px;
- padding:9px;
- background:linear-gradient(90deg,#f5f3ff,#ecfeff,#fff7ed,#fdf2f8)
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin:15px 0 10px;
 }
-
-.stat{
- min-width:0;
- background:#fff;
- text-align:center;
- padding:7px 3px;
- border-radius:12px
+.status-item{
+  background:rgba(255,255,255,.9);
+  border:1px solid #e1e6ef;
+  border-radius:15px;
+  padding:9px 6px;
+  text-align:center;
+  box-shadow:0 5px 16px rgba(64,78,110,.06);
+  min-width:0;
 }
-
-.stat:nth-child(1){border-bottom:4px solid var(--purple)}
-.stat:nth-child(2){border-bottom:4px solid var(--blue)}
-.stat:nth-child(3){border-bottom:4px solid var(--yellow)}
-.stat:nth-child(4){border-bottom:4px solid var(--pink)}
-
-.stat small{
- display:block;
- color:var(--muted);
- font-size:10px
+.status-label{font-size:11px;color:var(--muted);display:block}
+.status-value{
+  display:block;
+  font-weight:bold;
+  margin-top:3px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
-
-.stat strong{
- display:block;
- margin-top:2px;
- color:#544274;
- font-size:14px;
- overflow:hidden;
- text-overflow:ellipsis;
- white-space:nowrap
+.timer-wrap{
+  background:#fff;
+  border-radius:14px;
+  padding:8px 10px 10px;
+  box-shadow:0 5px 16px rgba(64,78,110,.06);
+  margin-bottom:12px;
 }
-
-.content{padding:13px}
-
-/* PROGRESS */
-
-.progress{
- display:grid;
- grid-template-columns:repeat(10,1fr);
- gap:5px;
- margin-bottom:12px
+.timer-line{
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:6px;
 }
-
-.progress-item{
- height:19px;
- background:#e5e7eb;
- border:2px solid #d1d5db;
- border-radius:999px
-}
-
-.progress-item.done{
- background:#bbf7d0;
- border-color:#22c55e
-}
-
-.progress-item.current{
- background:#fde68a;
- border-color:#f59e0b
-}
-
-/* TIMER */
-
-.timer-head{
- display:flex;
- justify-content:space-between;
- align-items:center;
- font-size:12px;
- font-weight:bold;
- margin-bottom:5px
-}
-
-#timerNumber{
- font-size:19px;
- color:var(--green)
-}
-
 .timer-track{
- height:12px;
- padding:2px;
- background:#e7e9f2;
- border-radius:999px;
- overflow:hidden;
- margin-bottom:12px
+  height:10px;
+  background:#edf0f4;
+  border-radius:99px;
+  overflow:hidden;
 }
-
 .timer-bar{
- width:100%;
- height:100%;
- background:var(--green);
- border-radius:999px;
- transition:width .1s linear,background .2s
+  height:100%;
+  width:100%;
+  background:var(--green);
+  border-radius:inherit;
+  transition:width .15s linear,background .2s;
 }
-
-/* QUESTION */
-
-.labels{
- display:flex;
- flex-wrap:wrap;
- gap:5px;
- margin-bottom:6px
+.card{
+  background:rgba(255,255,255,.97);
+  border:1px solid #e1e5ee;
+  border-radius:24px;
+  padding:17px;
+  box-shadow:0 15px 40px rgba(66,73,105,.12);
 }
-
-.mission-label,.family-label{
- padding:4px 9px;
- border-radius:999px;
- font-size:10px;
- font-weight:bold
+.lab-head{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:12px;
 }
-
-.mission-label{
- background:#eee9ff;
- color:#6835bd
+.lab-icon{
+  flex:0 0 54px;
+  width:54px;height:54px;
+  display:grid;place-items:center;
+  font-size:30px;
+  border-radius:17px;
+  background:linear-gradient(145deg,#e9e4ff,#dff4ff);
 }
-
-.family-label{
- background:#e0f7ff;
- color:#087aa8
+.lab-head h2{font-size:19px;margin:0 0 4px;color:#4f43a9}
+.lab-head p{font-size:12px;color:var(--muted);margin:0}
+.mission{
+  background:#f6f8ff;
+  border:1px solid #e1e5ff;
+  border-right:5px solid var(--purple);
+  border-radius:15px;
+  padding:13px;
+  line-height:1.9;
+  font-size:15px;
+  font-weight:bold;
 }
-
-.problem{
- margin:7px 0 9px;
- padding:12px 14px;
- background:#fff8dd;
- border:2px solid #f3d36d;
- border-radius:15px;
- text-align:center;
- font-size:clamp(15px,4vw,19px);
- font-weight:bold;
- line-height:1.85
-}
-
-/* TARGET */
-
 .target{
- display:flex;
- align-items:center;
- justify-content:center;
- gap:8px;
- margin-bottom:9px;
- padding:8px;
- background:#f5f3ff;
- border:2px solid #ddd6fe;
- border-radius:13px;
- color:#60439a;
- font-size:11px;
- font-weight:bold
+  margin-top:8px;
+  color:#624ac0;
 }
-
-.target strong{
- font-size:16px;
- color:#6d28d9
+.instruction{
+  text-align:center;
+  margin:15px 0 8px;
+  color:#526174;
+  font-size:13px;
 }
-
-/* GAME BOX */
-
-.grow-box{
- padding:10px;
- border:2px solid #d7e3e6;
- border-radius:19px;
- background:linear-gradient(145deg,#f8fbff,#f4fff7)
+.sample-buttons{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:3px 1px 8px;
+  scrollbar-width:thin;
 }
-
-.grow-title{
- text-align:center;
- color:#3f5c50;
- font-size:14px;
- font-weight:bold
+.sample-btn{
+  flex:1 0 64px;
+  min-height:48px;
+  border:2px solid #d9e1ed;
+  border-radius:14px;
+  background:#fff;
+  color:#44556b;
+  font-weight:bold;
+  cursor:pointer;
 }
-
-.grow-help{
- text-align:center;
- margin:4px 0 9px;
- color:#64748b;
- font-size:10px;
- line-height:1.7
+.sample-btn:hover:not(:disabled){border-color:#9d8bec;background:#faf9ff}
+.sample-btn.used{
+  background:#ede9ff;
+  border-color:#8d76e0;
+  color:#5941b1;
 }
-
-/* STAGE */
-
-.stage{
- min-height:230px;
- padding:8px;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- background:#fff;
- border:2px solid #dce5ea;
- border-radius:16px;
- overflow:hidden
+.sample-btn:disabled{cursor:default}
+.experiment{
+  min-height:136px;
+  border:2px dashed #cfd8e5;
+  border-radius:17px;
+  background:#fbfdff;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  margin-bottom:11px;
 }
-
-.stage-head{
- display:flex;
- align-items:center;
- justify-content:center;
- gap:7px;
- margin-bottom:4px
-}
-
-.size-badge,.result-badge{
- padding:5px 10px;
- border-radius:999px;
- font-size:10px;
- font-weight:bold
-}
-
-.size-badge{
- background:#e0f2fe;
- color:#036b91
-}
-
-.result-badge{
- background:#ede9fe;
- color:#6d28d9
-}
-
 .visual{
- width:100%;
- min-height:170px;
- display:flex;
- align-items:center;
- justify-content:center
+  width:100%;
+  min-height:62px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:7px;
 }
-
-.svg-stage{
- width:100%;
- height:170px;
- display:block
+.dot{
+  width:22px;height:22px;
+  border-radius:50%;
+  display:inline-grid;
+  place-items:center;
+  background:linear-gradient(145deg,#8e72eb,#527fe1);
+  color:white;
+  font-size:10px;
+  box-shadow:0 3px 7px #c6c0e7;
 }
-
-.simple{
- width:100%;
- min-height:165px;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- gap:8px
+.block{
+  width:26px;height:26px;
+  border:2px solid #5b8de5;
+  background:#e9f2ff;
+  border-radius:5px;
 }
-
-.visual-row{
- direction:ltr;
- display:flex;
- align-items:center;
- justify-content:center;
- flex-wrap:wrap;
- gap:5px
+.person{
+  width:30px;height:30px;
+  display:inline-grid;
+  place-items:center;
+  background:#ffedf5;
+  border-radius:50%;
+  font-size:19px;
 }
-
-.visual-item{
- min-width:37px;
- min-height:37px;
- padding:5px;
- display:flex;
- align-items:center;
- justify-content:center;
- background:#f8fafc;
- border:2px solid #dbe4ea;
- border-radius:9px;
- font-size:20px;
- font-weight:bold
+.stick{
+  width:11px;height:30px;
+  background:#f2bb3c;
+  border-radius:8px;
+  transform:rotate(20deg);
 }
-
-.visual-item.new{
- background:#fef3c7;
- border-color:#fbbf24;
- animation:newItem .45s
+.exp-result{
+  color:#36475b;
+  font-size:13px;
+  line-height:1.7;
 }
-
-.math{
- direction:ltr;
- padding:9px 13px;
- border-radius:11px;
- background:#f5f3ff;
- color:#6d28d9;
- font-size:clamp(15px,4.5vw,21px);
- font-weight:bold;
- text-align:center
+.exp-result strong{color:#5d45bd;font-size:17px}
+.table-title{
+  font-size:12px;
+  color:var(--muted);
+  margin:7px 0;
 }
-
-/* CHANGE */
-
-.change-box{
- min-height:44px;
- margin-top:8px;
- display:flex;
- align-items:center;
- justify-content:center;
- padding:7px;
- border-radius:11px;
- background:#f8fafc;
- color:#64748b;
- font-size:11px;
- font-weight:bold;
- text-align:center;
- line-height:1.6
+.observations{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:6px;
+  min-height:57px;
 }
-
-.change-box.highlight{
- background:#fff8dd;
- border:2px solid #f3d36d;
- color:#805f05;
- animation:pop .25s
+.obs{
+  background:#f6f8fb;
+  border:1px solid #dfe5ed;
+  border-radius:11px;
+  text-align:center;
+  padding:6px 3px;
+  font-size:11px;
+  color:#66758a;
 }
-
-/* GROW BUTTON */
-
-.grow-button{
- width:100%;
- margin-top:9px;
- padding:14px;
- border:0;
- border-radius:14px;
- background:linear-gradient(90deg,#16a34a,#22c55e);
- color:#fff;
- font-size:16px;
- font-weight:bold;
- cursor:pointer;
- box-shadow:0 5px 12px #22c55e25
+.obs b{display:block;color:#34465b;font-size:15px;margin-top:2px}
+.obs.empty{display:grid;place-items:center;color:#b0bac6}
+.answer-zone{
+  margin-top:14px;
+  padding-top:13px;
+  border-top:1px solid #e4e8ef;
 }
-
-.grow-button:disabled{
- opacity:.5;
- cursor:default
+.unlock{
+  font-size:12px;
+  color:#806d40;
+  background:#fff8df;
+  border-radius:10px;
+  padding:7px 9px;
+  margin-bottom:9px;
+  text-align:center;
 }
-
-/* LITTLE HISTORY */
-
-.small-history{
- display:flex;
- justify-content:center;
- gap:6px;
- margin-top:9px
+.answer-row{
+  display:flex;
+  gap:8px;
 }
-
-.history-item{
- flex:1;
- max-width:135px;
- padding:7px 4px;
- text-align:center;
- border:2px dashed #cbd5e1;
- border-radius:10px;
- color:#94a3b8;
- background:#fff;
- font-size:9px
+.answer-input{
+  min-width:0;
+  flex:1;
+  height:50px;
+  border:2px solid #d6deea;
+  border-radius:14px;
+  padding:0 14px;
+  background:#fff;
+  color:#27384d;
+  text-align:center;
+  outline:none;
 }
-
-.history-item.done{
- border-style:solid;
- border-color:#86d79d;
- background:#e8faed;
- color:#18753a
+.answer-input:focus{border-color:#8068df;box-shadow:0 0 0 3px #eeeaff}
+.primary{
+  min-height:50px;
+  border:0;
+  border-radius:14px;
+  padding:10px 18px;
+  color:#fff;
+  font-weight:bold;
+  background:linear-gradient(135deg,#7357d7,#4184e6);
+  box-shadow:0 6px 15px rgba(87,85,195,.22);
+  cursor:pointer;
 }
-
-.history-item strong{
- display:block;
- margin-top:2px;
- font-size:14px
+.primary:disabled{
+  background:#c3cad5;
+  box-shadow:none;
+  cursor:not-allowed;
 }
-
-/* FINAL CHALLENGE */
-
-.challenge{
- display:none;
- margin-top:11px;
- padding:11px;
- border:2px solid #d5caef;
- border-radius:17px;
- background:#faf8ff;
- animation:fadeIn .25s
-}
-
-.challenge.show{
- display:block
-}
-
-.challenge-title{
- text-align:center;
- color:#60439a;
- font-size:15px;
- font-weight:bold
-}
-
-.challenge-help{
- margin:4px 0 9px;
- text-align:center;
- color:#64748b;
- font-size:10px;
- line-height:1.7
-}
-
-.clue{
- padding:8px;
- text-align:center;
- background:#fff;
- border-radius:11px;
- color:#4b5563;
- font-size:11px;
- font-weight:bold;
- line-height:1.7
-}
-
-.answer-options{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:7px;
- margin-top:9px
-}
-
-.answer-btn{
- min-height:54px;
- border:3px solid #d8dfea;
- border-radius:12px;
- background:#fff;
- color:#45545d;
- font-size:17px;
- font-weight:bold;
- cursor:pointer
-}
-
-.answer-btn.selected{
- border-color:#f59e0b;
- background:#fef3c7;
- color:#805900
-}
-
-.submit-answer{
- width:100%;
- margin-top:9px;
- padding:13px;
- border:0;
- border-radius:13px;
- background:linear-gradient(90deg,var(--purple),var(--blue2));
- color:#fff;
- font-size:15px;
- font-weight:bold;
- cursor:pointer
-}
-
-/* FEEDBACK */
-
 .feedback{
- display:none;
- margin-top:12px;
- padding:12px;
- border-radius:14px;
- line-height:1.8
+  display:none;
+  margin-top:13px;
+  padding:12px;
+  border-radius:15px;
+  line-height:1.8;
+  font-size:14px;
 }
-
-.feedback.show{
- display:block;
- animation:pop .25s
-}
-
-.feedback.success{
- background:#e8faed;
- border:2px solid #a6dfb7
-}
-
-.feedback.error{
- background:#fff0f3;
- border:2px solid #f3bbc5
-}
-
-.feedback.timeout{
- background:#fff7d9;
- border:2px solid #e9cb69
-}
-
-.feedback strong{
- display:block;
- font-size:16px;
- margin-bottom:3px
-}
-
-.feedback-text{
- font-size:12px;
- color:#4d5c61
-}
-
-.solution{
- margin-top:7px;
- padding:8px;
- border-radius:9px;
- background:#ffffffaa;
- font-size:11px;
- line-height:1.8
-}
-
-.next{
- display:none;
- width:100%;
- margin-top:11px;
- padding:14px;
- border:0;
- border-radius:14px;
- background:linear-gradient(90deg,var(--pink),var(--purple));
- color:#fff;
- font-size:16px;
- font-weight:bold;
- cursor:pointer
-}
-
-.next.show{display:block}
-
-/* RESULT */
-
-.result{
- display:none;
- text-align:center;
- padding:25px 16px;
- background:
- radial-gradient(circle at 10% 5%,#fbcfe844,transparent 25%),
- radial-gradient(circle at 90% 5%,#7dd3fc44,transparent 25%)
-}
-
+.feedback.good{display:block;background:#eaf9f1;border:1px solid #b7e7cd;color:#246945}
+.feedback.bad{display:block;background:#fff0f0;border:1px solid #f0c2c2;color:#984242}
+.feedback.time{display:block;background:#fff7e0;border:1px solid #edd797;color:#80631c}
+.next-row{text-align:center;margin-top:11px}
+#nextBtn{display:none;width:100%}
+.result{display:none;text-align:center}
 .result.show{display:block}
-
-.result-icon{
- font-size:72px;
- animation:float 2s ease-in-out infinite
-}
-
-.result h2{
- color:var(--purple2);
- font-size:27px;
- margin:5px
-}
-
+.game-area.hidden,.hero.hidden,.status-wrap.hidden{display:none}
+.trophy{font-size:60px;margin:5px}
 .final-score{
- width:160px;
- height:160px;
- margin:17px auto;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- border-radius:50%;
- border:8px solid transparent;
- background:
- linear-gradient(#fff,#fff) padding-box,
- linear-gradient(135deg,var(--pink),var(--yellow),var(--blue),var(--purple)) border-box
+  font-size:42px;
+  color:#5b43be;
+  font-weight:bold;
+  margin:8px;
 }
-
-.final-score strong{
- font-size:43px;
- color:var(--purple2)
-}
-
-.final-score span{
- font-size:13px;
- color:var(--muted)
-}
-
-.motivation{
- font-size:20px;
- font-weight:bold;
- margin-bottom:19px
-}
-
+.final-score small{font-size:15px;color:var(--muted);font-weight:normal}
+.result-message{font-size:18px;font-weight:bold;margin-bottom:15px}
 .leaderboard{
- max-width:540px;
- margin:20px auto;
- padding:13px;
- text-align:right;
- background:#faf8ff;
- border:2px solid #e4dafa;
- border-radius:16px
+  max-width:570px;
+  margin:16px auto;
+  text-align:right;
 }
-
-.leaderboard h3{
- text-align:center;
- color:var(--purple2);
- margin:0 0 10px
+.leaderboard h3{text-align:center;color:#4b5690}
+.rank{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  background:#f7f8fc;
+  border-radius:12px;
+  margin:6px 0;
 }
-
-.rank-row{
- display:flex;
- justify-content:space-between;
- gap:8px;
- padding:9px 5px;
- border-bottom:1px dashed #ddd6e8
-}
-
-.rank-row:last-child{border:0}
-
 .rank-name{
- overflow:hidden;
- text-overflow:ellipsis;
- white-space:nowrap
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
 }
-
-.rank-score{
- font-weight:bold;
- color:var(--purple2)
-}
-
-.loading{
- text-align:center;
- color:var(--muted);
- padding:8px
-}
-
-.restart{
- width:100%;
- max-width:420px;
- padding:14px;
- border:0;
- border-radius:14px;
- background:linear-gradient(90deg,var(--pink),var(--purple));
- color:#fff;
- font-weight:bold;
- font-size:16px;
- cursor:pointer
-}
-
+.rank-score{font-weight:bold;color:#674fc7;white-space:nowrap}
+.restart{width:min(100%,360px);margin-top:5px}
 .back{
- display:block;
- text-align:center;
- margin:17px 0;
- padding:10px;
- text-decoration:none;
- color:var(--purple2);
- font-weight:bold
+  display:block;
+  width:max-content;
+  max-width:100%;
+  margin:20px auto 0;
+  color:#6255a7;
+  text-decoration:none;
+  font-size:14px;
 }
-
-/* FX */
-
-.spark{
- position:fixed;
- z-index:999;
- pointer-events:none;
- font-size:20px;
- animation:spark .8s forwards
+.loading{color:var(--muted);text-align:center;padding:12px}
+@media(max-width:600px){
+  .app{width:min(100% - 16px,900px);padding-top:10px}
+  .status{grid-template-columns:repeat(2,1fr)}
+  .card{border-radius:19px;padding:13px}
+  .mission{font-size:14px}
+  .answer-row{flex-direction:column}
+  .answer-row .primary{width:100%}
+  .observations{grid-template-columns:repeat(3,1fr)}
 }
-
-@keyframes fadeIn{
- from{opacity:.2;transform:translateY(5px)}
- to{opacity:1;transform:none}
-}
-
-@keyframes newItem{
- 0%{transform:scale(.2);opacity:.2}
- 70%{transform:scale(1.15)}
- 100%{transform:scale(1);opacity:1}
-}
-
-@keyframes pop{
- from{opacity:.2;transform:scale(.97)}
- to{opacity:1;transform:scale(1)}
-}
-
-@keyframes spark{
- from{opacity:1;transform:translate(0,0) scale(.5)}
- to{opacity:0;transform:translate(var(--x),var(--y)) scale(1.5) rotate(180deg)}
-}
-
-@keyframes float{
- 0%,100%{transform:translateY(0)}
- 50%{transform:translateY(-7px)}
-}
-
-@media(max-width:650px){
-
- .app{padding:6px}
-
- .status{
-  grid-template-columns:1fr 1fr
- }
-
- .content{padding:10px}
-
- .stage{
-  min-height:215px
- }
-
- .visual{
-  min-height:155px
- }
-
- .svg-stage{
-  height:155px
- }
-}
-
-@media(max-width:380px){
-
- .answer-options{gap:5px}
-
- .answer-btn{
-  min-height:49px;
-  font-size:15px
- }
-
- .visual-item{
-  min-width:33px;
-  min-height:33px;
-  font-size:18px
- }
-}
-
 @media(prefers-reduced-motion:reduce){
- *{animation:none!important;transition:none!important}
+  *,*::before,*::after{
+    scroll-behavior:auto!important;
+    transition:none!important;
+    animation:none!important;
+  }
 }
 </style>
 </head>
-
 <body>
 
 <main class="app">
+  <section class="hero" id="hero">
+    <div class="badges">
+      <span class="badge">پایه هفتم</span>
+      <span class="badge">فصل اول</span>
+      <span class="badge">درس ۸</span>
+    </div>
+    <h1>🔬 آزمایشگاه کوچک‌ساز</h1>
+    <p class="subtitle">اول مسئله را کوچک کن، نمونه‌ها را آزمایش کن، رابطه را ببین و بعد درباره مسئله اصلی تصمیم بگیر.</p>
+  </section>
 
-<header class="hero">
+  <div class="status-wrap" id="statusWrap">
+    <section class="status">
+      <div class="status-item">
+        <span class="status-label">بازیکن</span>
+        <span class="status-value" id="playerName">---</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">مأموریت</span>
+        <span class="status-value" id="stage">۱ از ۱۰</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">امتیاز</span>
+        <span class="status-value" id="score">۰</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">زمان باقی‌مانده</span>
+        <span class="status-value" id="timeText">۶۰ ثانیه</span>
+      </div>
+    </section>
 
- <div class="badge">
-  🎓 ریاضی هفتم • فصل اول • درس ۸
- </div>
-
- <h1>
-  🌱 بزرگش کن!
- </h1>
-
- <p>
-  از یک نمونه کوچک شروع کن، بزرگش کن و جواب مسئله اصلی را پیدا کن.
- </p>
-
-</header>
-
-
-<section class="panel">
-
-<div id="gameScreen">
-
- <div class="status">
-
-  <div class="stat">
-   <small>🌱 پرورش‌دهنده</small>
-   <strong id="playerName">---</strong>
+    <section class="timer-wrap" aria-label="زمان باقی‌مانده">
+      <div class="timer-line">
+        <span>زمان آزمایش</span>
+        <span id="timerMini">۶۰ / ۶۰</span>
+      </div>
+      <div class="timer-track">
+        <div class="timer-bar" id="timerBar"></div>
+      </div>
+    </section>
   </div>
 
-  <div class="stat">
-   <small>🎯 مأموریت</small>
-   <strong id="questionNumber">۱ از ۱۰</strong>
-  </div>
-
-  <div class="stat">
-   <small>⭐ امتیاز</small>
-   <strong id="score">۰</strong>
-  </div>
-
-  <div class="stat">
-   <small>⏱️ زمان</small>
-   <strong id="timeStatus">۶۰ ثانیه</strong>
-  </div>
-
- </div>
-
-
- <div class="content">
-
-  <div
-   class="progress"
-   id="progress">
-  </div>
-
-
-  <div class="timer-head">
-   <span>⏱️ زمان مأموریت</span>
-   <strong id="timerNumber">۶۰</strong>
-  </div>
-
-
-  <div class="timer-track">
-   <div
-    class="timer-bar"
-    id="timerBar">
-   </div>
-  </div>
-
-
-  <div class="labels">
-
-   <span
-    class="mission-label"
-    id="missionLabel">
-   </span>
-
-   <span
-    class="family-label"
-    id="familyLabel">
-   </span>
-
-  </div>
-
-
-  <div
-   class="problem"
-   id="problemText">
-  </div>
-
-
-  <div class="target">
-
-   <span>
-    🎯 مسئله اصلی:
-   </span>
-
-   <strong id="targetText"></strong>
-
-  </div>
-
-
-  <div class="grow-box">
-
-   <div class="grow-title">
-    🔍 اول یک نمونه کوچک را بررسی کن
-   </div>
-
-   <div class="grow-help">
-    دو بار «بزرگش کن» را بزن و فقط به چیزی که در هر مرحله اضافه می‌شود دقت کن.
-   </div>
-
-
-   <div class="stage">
-
-    <div class="stage-head">
-
-     <span
-      class="size-badge"
-      id="sizeBadge">
-     </span>
-
-     <span
-      class="result-badge"
-      id="resultBadge">
-     </span>
-
+  <section class="card game-area" id="gameArea">
+    <div class="lab-head">
+      <div class="lab-icon" id="missionIcon">🧪</div>
+      <div>
+        <h2 id="missionTitle">مأموریت آزمایشگاه</h2>
+        <p>حداقل سه نمونه کوچک را آزمایش کن.</p>
+      </div>
     </div>
 
-
-    <div
-     class="visual"
-     id="visual">
+    <div class="mission">
+      <div id="missionText"></div>
+      <div class="target" id="targetText"></div>
     </div>
 
-   </div>
-
-
-   <div
-    class="change-box"
-    id="changeBox">
-
-    این کوچک‌ترین نمونه است.
-
-   </div>
-
-
-   <button
-    class="grow-button"
-    id="growButton"
-    type="button">
-
-    ➕ یک مرحله بزرگ‌ترش کن
-
-   </button>
-
-
-   <div
-    class="small-history"
-    id="smallHistory">
-   </div>
-
-  </div>
-
-
-  <div
-   class="challenge"
-   id="challenge">
-
-   <div class="challenge-title">
-    🚀 حالا بزرگش کن!
-   </div>
-
-   <div class="challenge-help">
-    دیگر لازم نیست همه حالت‌های میانی را بسازی. از چیزی که دیدی استفاده کن.
-   </div>
-
-
-   <div
-    class="clue"
-    id="clue">
-   </div>
-
-
-   <div
-    class="answer-options"
-    id="answerOptions">
-   </div>
-
-
-   <button
-    class="submit-answer"
-    id="submitAnswer"
-    type="button">
-
-    ✅ ثبت جواب
-
-   </button>
-
-  </div>
-
-
-  <div
-   class="feedback"
-   id="feedback">
-
-   <strong id="feedbackTitle"></strong>
-
-   <div
-    class="feedback-text"
-    id="feedbackText">
-   </div>
-
-   <div
-    class="solution"
-    id="solution">
-   </div>
-
-  </div>
-
-
-  <button
-   class="next"
-   id="nextButton"
-   type="button">
-
-   مأموریت بعدی 🌱
-
-  </button>
-
- </div>
-
-</div>
-
-
-<div
- class="result"
- id="resultScreen">
-
- <div class="result-icon">
-  🌱🏆
- </div>
-
- <h2>
-  همه مأموریت‌ها رشد کردند!
- </h2>
-
- <p>
-  بازیکن:
-  <strong id="resultName"></strong>
- </p>
-
-
- <div class="final-score">
-
-  <strong id="finalScore">
-   ۰
-  </strong>
-
-  <span>
-   از 100 امتیاز
-  </span>
-
- </div>
-
-
- <div
-  class="motivation"
-  id="motivation">
- </div>
-
-
- <div class="leaderboard">
-
-  <h3>
-   🏅 برترین حل‌کننده‌ها
-  </h3>
-
-  <div
-   id="leaderboardContent"
-   class="loading">
-
-   در حال دریافت جدول برترین‌ها...
-
-  </div>
-
- </div>
-
-
- <button
-  class="restart"
-  id="restartButton"
-  type="button">
-
-  🔄 بازی دوباره
-
- </button>
-
-</div>
-
-</section>
-
-
-<a
- class="back"
- href="/#game">
-
- ← بازگشت به بازی‌های ریاضی
-
-</a>
-
+    <div class="instruction">یک حالت کوچک‌تر را برای آزمایش انتخاب کن:</div>
+    <div class="sample-buttons" id="sampleButtons"></div>
+
+    <div class="experiment" id="experiment">
+      <div class="visual" id="visual">
+        <span style="font-size:34px">🔎</span>
+      </div>
+      <div class="exp-result" id="experimentText">
+        هنوز آزمایشی انجام نشده است.
+      </div>
+    </div>
+
+    <div class="table-title">دفترچه نتایج آزمایش</div>
+    <div class="observations" id="observations"></div>
+
+    <div class="answer-zone">
+      <div class="unlock" id="unlockMessage">
+        برای بازشدن پاسخ نهایی، سه نمونه کوچک را آزمایش کن.
+      </div>
+      <div class="answer-row">
+        <input
+          class="answer-input"
+          id="answerInput"
+          type="text"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="پاسخ مسئله اصلی"
+          disabled
+          aria-label="پاسخ مسئله اصلی"
+        >
+        <button class="primary" id="submitBtn" disabled>ثبت پیش‌بینی</button>
+      </div>
+
+      <div class="feedback" id="feedback" aria-live="polite"></div>
+      <div class="next-row">
+        <button class="primary" id="nextBtn">مأموریت بعدی ←</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card result" id="resultScreen">
+    <div class="trophy">🏆</div>
+    <h2>گزارش آزمایشگاه</h2>
+    <div id="resultName"></div>
+    <div class="final-score">
+      <span id="finalScore">۰</span>
+      <small>از ۱۰۰ امتیاز</small>
+    </div>
+    <div class="result-message" id="resultMessage"></div>
+
+    <div class="leaderboard">
+      <h3>🏅 برترین آزمایشگرها</h3>
+      <div id="leaderboardList" class="loading">در حال دریافت برترین‌ها...</div>
+    </div>
+
+    <button class="primary restart" id="restartBtn">🔄 بازی دوباره</button>
+  </section>
+
+  <a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
 </main>
-
 
 <script src="/games/game-sdk.js"></script>
 
 <script>
-
 const GAME_ID = 15;
-
-const TOTAL_QUESTIONS = 10;
-const QUESTION_TIME = 60;
 
 const player = GameSDK.init(GAME_ID);
 
-
-/* =====================================================
-   HISTORY
-===================================================== */
-
-const HISTORY_KEY=
- "math_grow_simpler_recent_v1";
-
-const MAX_HISTORY=45;
-
-
-/* =====================================================
-   TOOLS
-===================================================== */
-
-function faNumber(value){
-
- return String(value)
-  .replace(
-   /\d/g,
-   d=>"۰۱۲۳۴۵۶۷۸۹"[d]
-  );
-}
-
-
-function pick(array){
-
- return array[
-  Math.floor(
-   Math.random()*
-   array.length
-  )
- ];
-}
-
-
-function randomInt(min,max){
-
- return Math.floor(
-  Math.random()*
-  (max-min+1)
- )+min;
-}
-
-
-function shuffle(array){
-
- const a=[...array];
-
-
- for(
-  let i=a.length-1;
-  i>0;
-  i--
- ){
-
-  const j=
-   Math.floor(
-    Math.random()*
-    (i+1)
-   );
-
-
-  [a[i],a[j]]=
-  [a[j],a[i]];
- }
-
-
- return a;
-}
-
-
-function pointsForTime(seconds){
-
- if(seconds<=15)return 10;
-
- if(seconds<=25)return 8;
-
- if(seconds<=35)return 6;
-
- if(seconds<=45)return 4;
-
- if(seconds<=60)return 2;
-
- return 0;
-}
-
-
-function loadHistory(){
-
- try{
-
-  const data=
-   JSON.parse(
-    localStorage.getItem(
-     HISTORY_KEY
-    )||"[]"
-   );
-
-
-  return Array.isArray(data)
-   ?data
-   :[];
-
- }catch{
-
-  return [];
- }
-}
-
-
-function saveHistory(signatures){
-
- try{
-
-  const merged=[
-   ...signatures,
-   ...loadHistory()
-  ];
-
-
-  const unique=[
-   ...new Set(merged)
-  ].slice(
-   0,
-   MAX_HISTORY
-  );
-
-
-  localStorage.setItem(
-   HISTORY_KEY,
-   JSON.stringify(unique)
-  );
-
- }catch(error){
-
-  console.warn(
-   "History unavailable:",
-   error
-  );
- }
-}
-
-
-function makeAnswers(correct){
-
- const values=
-  new Set([correct]);
-
-
- const offsets=[
-  1,2,3,5,7,10,
-  Math.max(
-   1,
-   Math.round(
-    correct*.15
-   )
-  )
- ];
-
-
- while(
-  values.size<4
- ){
-
-  const value=
-   correct+
-   pick([-1,1])*
-   pick(offsets);
-
-
-  if(value>=0){
-
-   values.add(value);
-  }
- }
-
-
- return shuffle(
-  [...values]
- );
-}
-
-
-/* =====================================================
-   PAIR / CONNECTION MAKER
-===================================================== */
-
-function makeConnections(
- family,
- icon,
- targetN,
- story
-){
-
- const answer=
-  targetN*
-  (targetN-1)/
-  2;
-
-
- return{
-
-  family,
-
-  signature:
-   family+"-"+targetN,
-
-  q:
-   story(targetN),
-
-  targetText:
-   faNumber(targetN)+
-   " عضو",
-
-  start:2,
-
-  growTimes:2,
-
-  sizeLabel:
-   "عضو",
-
-  compute:n=>
-   n*(n-1)/2,
-
-  visualType:
-   "connections",
-
-  icon,
-
-  changeText:(from,to)=>
-   "عضو جدید با "+
-   faNumber(to-1)+
-   " عضو قبلی ارتباط تازه ساخت.",
-
-  clue:
-   "هر عضو جدید با همه اعضای قبلی ارتباط می‌گیرد.",
-
-  answer,
-
-  solution:
-   faNumber(targetN)+
-   "×"+
-   faNumber(targetN-1)+
-   "÷۲ = "+
-   faNumber(answer)
- };
-}
-
-
-/* =====================================================
-   1) HANDSHAKES
-===================================================== */
-
-function genHandshake(){
-
- const n=
-  randomInt(7,11);
-
-
- return makeConnections(
-  "دست‌دادن",
-  "👤",
-  n,
-  value=>
-   `در یک مهمانی ${faNumber(value)} نفر هستند. اگر هر دو نفر دقیقاً یک‌بار با هم دست بدهند، چند دست‌دادن انجام می‌شود؟`
- );
-}
-
-
-/* =====================================================
-   2) POINTS
-===================================================== */
-
-function genPoints(){
-
- const n=
-  randomInt(7,12);
-
-
- return makeConnections(
-  "وصل‌کردن نقاط",
-  "●",
-  n,
-  value=>
-   `${faNumber(value)} نقطه داریم. اگر هر دو نقطه را به هم وصل کنیم، چند پاره‌خط ساخته می‌شود؟`
- );
-}
-
-
-/* =====================================================
-   3) LEAGUE
-===================================================== */
-
-function genLeague(){
-
- const n=
-  randomInt(7,10);
-
-
- return makeConnections(
-  "مسابقات لیگ",
-  "⚽",
-  n,
-  value=>
-   `در یک لیگ ${faNumber(value)} تیم داریم و هر دو تیم یک‌بار با هم بازی می‌کنند. چند بازی برگزار می‌شود؟`
- );
-}
-
-
-/* =====================================================
-   4) NETWORK
-===================================================== */
-
-function genNetwork(){
-
- const n=
-  randomInt(7,10);
-
-
- return makeConnections(
-  "شبکه",
-  "💻",
-  n,
-  value=>
-   `${faNumber(value)} رایانه داریم. اگر هر دو رایانه یک اتصال مستقیم داشته باشند، چند اتصال لازم است؟`
- );
-}
-
-
-/* =====================================================
-   5) MATCHSTICKS
-===================================================== */
-
-function genMatches(){
-
- const n=
-  randomInt(8,15);
-
-
- const answer=
-  3*n+1;
-
-
- return{
-
-  family:
-   "چوب کبریت",
-
-  signature:
-   "match-"+n,
-
-  q:
-   `${faNumber(n)} مربع کنارهم ساخته‌ایم. هر مربع جدید یک ضلع را با قبلی مشترک دارد. چند چوب کبریت لازم است؟`,
-
-  targetText:
-   faNumber(n)+
-   " مربع",
-
-  start:1,
-
-  growTimes:2,
-
-  sizeLabel:
-   "مربع",
-
-  compute:value=>
-   3*value+1,
-
-  visualType:
-   "matches",
-
-  changeText:()=>
-   "مربع جدید فقط ۳ چوب تازه لازم داشت.",
-
-  clue:
-   "شروع: ۴ چوب؛ هر مربع جدید: +۳ چوب",
-
-  answer,
-
-  solution:
-   "۴ + ("+
-   faNumber(n)+
-   "−۱)×۳ = "+
-   faNumber(answer)
- };
-}
-
-
-/* =====================================================
-   6) FENCE
-===================================================== */
-
-function genFence(){
-
- const n=
-  randomInt(8,15);
-
-
- const answer=
-  n+1;
-
-
- return{
-
-  family:"حصار",
-
-  signature:
-   "fence-"+n,
-
-  q:
-   `${faNumber(n)} تکه نرده در یک خط کنارهم قرار می‌گیرند و تکه‌های کناری پایه مشترک دارند. چند پایه لازم است؟`,
-
-  targetText:
-   faNumber(n)+
-   " تکه نرده",
-
-  start:1,
-
-  growTimes:2,
-
-  sizeLabel:
-   "تکه",
-
-  compute:value=>
-   value+1,
-
-  visualType:
-   "fence",
-
-  changeText:()=>
-   "تکه جدید فقط ۱ پایه تازه لازم داشت.",
-
-  clue:
-   "شروع: ۲ پایه؛ هر تکه جدید: +۱ پایه",
-
-  answer,
-
-  solution:
-   faNumber(n)+
-   " + ۱ = "+
-   faNumber(answer)
- };
-}
-
-
-/* =====================================================
-   7) TABLES
-===================================================== */
-
-function genTables(){
-
- const n=
-  randomInt(8,13);
-
-
- const answer=
-  2*n+2;
-
-
- return{
-
-  family:
-   "میز و صندلی",
-
-  signature:
-   "table-"+n,
-
-  q:
-   `${faNumber(n)} میز مربعی در یک ردیف کنارهم هستند. در دو طرف هر میز صندلی داریم و در دو سر ردیف نیز یک صندلی است. چند صندلی لازم است؟`,
-
-  targetText:
-   faNumber(n)+
-   " میز",
-
-  start:1,
-
-  growTimes:2,
-
-  sizeLabel:"میز",
-
-  compute:value=>
-   2*value+2,
-
-  visualType:
-   "tables",
-
-  changeText:()=>
-   "با میز جدید، ۲ صندلی تازه اضافه شد.",
-
-  clue:
-   "شروع: ۴ صندلی؛ هر میز جدید: +۲ صندلی",
-
-  answer,
-
-  solution:
-   faNumber(n)+
-   "×۲ + ۲ = "+
-   faNumber(answer)
- };
-}
-
-
-/* =====================================================
-   8) TRIANGLE DOTS
-===================================================== */
-
-function genTriangleDots(){
-
- const n=
-  randomInt(7,10);
-
-
- const answer=
-  n*
-  (n+1)/
-  2;
-
-
- return{
-
-  family:
-   "نقطه‌های مثلثی",
-
-  signature:
-   "dots-"+n,
-
-  q:
-   `شکل ۱ یک نقطه، شکل ۲ سه نقطه و شکل ۳ شش نقطه دارد. شکل ${faNumber(n)} چند نقطه دارد؟`,
-
-  targetText:
-   "شکل "+
-   faNumber(n),
-
-  start:1,
-
-  growTimes:2,
-
-  sizeLabel:"شکل",
-
-  compute:value=>
-   value*
-   (value+1)/
-   2,
-
-  visualType:
-   "dots",
-
-  changeText:(from,to)=>
-   "برای ساخت شکل "+
-   faNumber(to)+
-   "، "+
-   faNumber(to)+
-   " نقطه تازه اضافه شد.",
-
-  clue:
-   "هر شکل جدید، به اندازه شماره خودش نقطه تازه اضافه می‌کند.",
-
-  answer,
-
-  solution:
-   faNumber(n)+
-   "×"+
-   faNumber(n+1)+
-   "÷۲ = "+
-   faNumber(answer)
- };
-}
-
-
-/* =====================================================
-   9) STAIRS
-===================================================== */
-
-function genStairs(){
-
- const n=
-  randomInt(7,10);
-
-
- const answer=
-  n*
-  (n+1)/
-  2;
-
-
- return{
-
-  family:
-   "پلکان مکعبی",
-
-  signature:
-   "stair-"+n,
-
-  q:
-   `یک پلکان ${faNumber(n)} پله‌ای می‌سازیم؛ پله اول ۱ مکعب، پله دوم ۲ مکعب و ... دارد. چند مکعب لازم است؟`,
-
-  targetText:
-   faNumber(n)+
-   " پله",
-
-  start:1,
-
-  growTimes:2,
-
-  sizeLabel:"پله",
-
-  compute:value=>
-   value*
-   (value+1)/
-   2,
-
-  visualType:
-   "stairs",
-
-  changeText:(from,to)=>
-   "پله جدید "+
-   faNumber(to)+
-   " مکعب تازه لازم داشت.",
-
-  clue:
-   "پله ۱: +۱ ، پله ۲: +۲ ، پله ۳: +۳ ، ...",
-
-  answer,
-
-  solution:
-   "۱+۲+...+"+
-   faNumber(n)+
-   " = "+
-   faNumber(answer)
- };
-}
-
-
-/* =====================================================
-   10) ODD NUMBERS
-===================================================== */
-
-function genOdd(){
-
- const n=
-  randomInt(7,10);
-
-
- const last=
-  2*n-1;
-
-
- const answer=
-  n*n;
-
-
- return{
-
-  family:
-   "جمع اعداد فرد",
-
-  signature:
-   "odd-"+n,
-
-  q:
-   `مجموع عددهای فرد از ۱ تا ${faNumber(last)} را پیدا کن.`,
-
-  targetText:
-   faNumber(n)+
-   " عدد فرد اول",
-
-  start:1,
-
-  growTimes:2,
-
-  sizeLabel:
-   "عدد فرد",
-
-  compute:value=>
-   value*value,
-
-  visualType:
-   "odd",
-
-  changeText:(from,to)=>
-   "عدد فرد "+
-   faNumber(2*to-1)+
-   " اضافه شد.",
-
-  clue:
-   "۱=۱² ، ۱+۳=۲² ، ۱+۳+۵=۳² ، ...",
-
-  answer,
-
-  solution:
-   faNumber(n)+
-   "² = "+
-   faNumber(answer)
- };
-}
-
-
-/* =====================================================
-   11) NATURAL SUM
-===================================================== */
-
-function genNatural(){
-
- const n=
-  randomInt(8,12);
-
-
- const answer=
-  n*
-  (n+1)/
-  2;
-
-
- return{
-
-  family:
-   "جمع پله‌ای",
-
-  signature:
-   "natural-"+n,
-
-  q:
-   `حاصل ۱+۲+۳+...+${faNumber(n)} را پیدا کن.`,
-
-  targetText:
-   "تا عدد "+
-   faNumber(n),
-
-  start:1,
-
-  growTimes:2,
-
-  sizeLabel:
-   "آخرین عدد",
-
-  compute:value=>
-   value*
-   (value+1)/
-   2,
-
-  visualType:
-   "natural",
-
-  changeText:(from,to)=>
-   "این بار عدد "+
-   faNumber(to)+
-   " به مجموع اضافه شد.",
-
-  clue:
-   "هر مرحله، عدد بعدی را به مجموع قبلی اضافه می‌کند.",
-
-  answer,
-
-  solution:
-   faNumber(n)+
-   "×"+
-   faNumber(n+1)+
-   "÷۲ = "+
-   faNumber(answer)
- };
-}
-
-
-/* =====================================================
-   12) PAIRS
-===================================================== */
-
-function genPairs(){
-
- const n=
-  randomInt(7,11);
-
-
- return makeConnections(
-  "گفت‌وگوی دونفره",
-  "🧑",
-  n,
-  value=>
-   `${faNumber(value)} دانش‌آموز داریم. اگر هر دو نفر یک‌بار گفت‌وگوی دونفره داشته باشند، چند گفت‌وگو انجام می‌شود؟`
- );
-}
-
-
-/* =====================================================
-   GENERATORS
-===================================================== */
-
-const GENERATORS=[
- genHandshake,
- genPoints,
- genLeague,
- genNetwork,
- genMatches,
- genFence,
- genTables,
- genTriangleDots,
- genStairs,
- genOdd,
- genNatural,
- genPairs
-];
-
-
-/* =====================================================
-   ROUND
-===================================================== */
-
-let questions=[];
-
-
-function generateRound(){
-
- const recent=
-  new Set(
-   loadHistory()
-  );
-
-
- const selected=
-  shuffle(
-   GENERATORS
-  ).slice(
-   0,
-   TOTAL_QUESTIONS
-  );
-
-
- const generated=[];
-
-
- for(
-  const generator
-  of selected
- ){
-
-  let candidate=null;
-
-
-  for(
-   let attempt=0;
-   attempt<30;
-   attempt++
-  ){
-
-   const q=
-    generator();
-
-
-   candidate=q;
-
-
-   if(
-    !recent.has(
-     q.signature
-    )
-   ){
-
-    break;
-   }
+(() => {
+  "use strict";
+
+  const TOTAL_QUESTIONS = 10;
+  const QUESTION_TIME = 60;
+  const MIN_EXPERIMENTS = 3;
+  const RECENT_KEY = "math_small_lab_recent_v1";
+  const MAX_RECENT = 40;
+
+  let questions = [];
+  let currentIndex = 0;
+  let score = 0;
+  let questionStartedAt = 0;
+  let timerId = null;
+  let answerChecked = false;
+  let gameFinished = false;
+  let finishSubmitted = false;
+  let usedSamples = new Map();
+
+  const $ = id => document.getElementById(id);
+
+  const els = {
+    hero: $("hero"),
+    statusWrap: $("statusWrap"),
+    playerName: $("playerName"),
+    stage: $("stage"),
+    score: $("score"),
+    timeText: $("timeText"),
+    timerMini: $("timerMini"),
+    timerBar: $("timerBar"),
+    gameArea: $("gameArea"),
+    missionIcon: $("missionIcon"),
+    missionTitle: $("missionTitle"),
+    missionText: $("missionText"),
+    targetText: $("targetText"),
+    sampleButtons: $("sampleButtons"),
+    visual: $("visual"),
+    experimentText: $("experimentText"),
+    observations: $("observations"),
+    unlockMessage: $("unlockMessage"),
+    answerInput: $("answerInput"),
+    submitBtn: $("submitBtn"),
+    feedback: $("feedback"),
+    nextBtn: $("nextBtn"),
+    resultScreen: $("resultScreen"),
+    resultName: $("resultName"),
+    finalScore: $("finalScore"),
+    resultMessage: $("resultMessage"),
+    leaderboardList: $("leaderboardList"),
+    restartBtn: $("restartBtn")
+  };
+
+  function faNumber(value) {
+    return String(value).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
   }
 
-
-  generated.push(
-   candidate
-  );
-
-
-  recent.add(
-   candidate.signature
-  );
- }
-
-
- questions=
-  shuffle(
-   generated
-  );
-
-
- saveHistory(
-  generated.map(
-   q=>q.signature
-  )
- );
-}
-
-
-/* =====================================================
-   STATE
-===================================================== */
-
-let currentIndex=0;
-
-let score=0;
-
-let answerChecked=false;
-
-let questionStartTime=0;
-
-let timerInterval=null;
-
-let gameFinished=false;
-
-let finishSubmitted=false;
-
-
-let currentSize=1;
-
-let growCount=0;
-
-let history=[];
-
-let selectedAnswer=null;
-
-
-/* =====================================================
-   DOM
-===================================================== */
-
-const $=
- id=>
- document.getElementById(id);
-
-
-const playerNameEl=
- $("playerName");
-
-const questionNumberEl=
- $("questionNumber");
-
-const scoreEl=
- $("score");
-
-const timeStatusEl=
- $("timeStatus");
-
-
-const progressEl=
- $("progress");
-
-
-const timerNumberEl=
- $("timerNumber");
-
-const timerBarEl=
- $("timerBar");
-
-
-const missionLabelEl=
- $("missionLabel");
-
-const familyLabelEl=
- $("familyLabel");
-
-const problemTextEl=
- $("problemText");
-
-const targetTextEl=
- $("targetText");
-
-
-const sizeBadge=
- $("sizeBadge");
-
-const resultBadge=
- $("resultBadge");
-
-const visualEl=
- $("visual");
-
-const changeBox=
- $("changeBox");
-
-const growButton=
- $("growButton");
-
-const smallHistory=
- $("smallHistory");
-
-
-const challenge=
- $("challenge");
-
-const clueEl=
- $("clue");
-
-const answerOptions=
- $("answerOptions");
-
-const submitAnswer=
- $("submitAnswer");
-
-
-const feedbackEl=
- $("feedback");
-
-const feedbackTitleEl=
- $("feedbackTitle");
-
-const feedbackTextEl=
- $("feedbackText");
-
-const solutionEl=
- $("solution");
-
-
-const nextButton=
- $("nextButton");
-
-
-const gameScreen=
- $("gameScreen");
-
-const resultScreen=
- $("resultScreen");
-
-const resultNameEl=
- $("resultName");
-
-const finalScoreEl=
- $("finalScore");
-
-const motivationEl=
- $("motivation");
-
-const leaderboardContent=
- $("leaderboardContent");
-
-const restartButton=
- $("restartButton");
-
-
-/* =====================================================
-   PROGRESS
-===================================================== */
-
-function buildProgress(){
-
- progressEl.innerHTML="";
-
-
- for(
-  let i=0;
-  i<TOTAL_QUESTIONS;
-  i++
- ){
-
-  const item=
-   document.createElement(
-    "div"
-   );
-
-
-  item.className=
-   "progress-item";
-
-
-  progressEl.appendChild(
-   item
-  );
- }
-}
-
-
-function updateProgress(){
-
- [
-  ...progressEl.children
- ].forEach(
-  (item,index)=>{
-
-   item.classList.toggle(
-    "done",
-    index<currentIndex
-   );
-
-
-   item.classList.toggle(
-    "current",
-    index===currentIndex
-   );
-  }
- );
-}
-
-
-/* =====================================================
-   TIMER
-===================================================== */
-
-function stopTimer(){
-
- if(timerInterval){
-
-  clearInterval(
-   timerInterval
-  );
-
-
-  timerInterval=null;
- }
-}
-
-
-function startTimer(){
-
- stopTimer();
-
-
- questionStartTime=
-  Date.now();
-
-
- timerNumberEl.textContent=
-  faNumber(
-   QUESTION_TIME
-  );
-
-
- timeStatusEl.textContent=
-  faNumber(
-   QUESTION_TIME
-  )+
-  " ثانیه";
-
-
- timerBarEl.style.width=
-  "100%";
-
-
- timerBarEl.style.background=
-  "var(--green)";
-
-
- timerNumberEl.style.color=
-  "var(--green)";
-
-
- timerInterval=
-  setInterval(
-   updateTimer,
-   100
-  );
-}
-
-
-function updateTimer(){
-
- if(
-  answerChecked ||
-  gameFinished
- ){
-
-  stopTimer();
-
-  return;
- }
-
-
- const elapsed=
-  (
-   Date.now()-
-   questionStartTime
-  )/1000;
-
-
- const remaining=
-  Math.max(
-   0,
-   QUESTION_TIME-
-   elapsed
-  );
-
-
- const seconds=
-  Math.ceil(
-   remaining
-  );
-
-
- timerNumberEl.textContent=
-  faNumber(
-   seconds
-  );
-
-
- timeStatusEl.textContent=
-  faNumber(
-   seconds
-  )+
-  " ثانیه";
-
-
- timerBarEl.style.width=
-  (
-   remaining/
-   QUESTION_TIME*
-   100
-  )+"%";
-
-
- if(remaining>30){
-
-  timerBarEl.style.background=
-   "var(--green)";
-
-
-  timerNumberEl.style.color=
-   "var(--green)";
- }
-
- else if(
-  remaining>15
- ){
-
-  timerBarEl.style.background=
-   "var(--yellow)";
-
-
-  timerNumberEl.style.color=
-   "#ad7700";
- }
-
- else{
-
-  timerBarEl.style.background=
-   "var(--red)";
-
-
-  timerNumberEl.style.color=
-   "var(--red)";
- }
-
-
- if(
-  remaining<=0
- ){
-
-  handleTimeout();
- }
-}
-
-
-/* =====================================================
-   SHOW QUESTION
-===================================================== */
-
-function showQuestion(){
-
- stopTimer();
-
-
- answerChecked=false;
-
- growCount=0;
-
- history=[];
-
- selectedAnswer=null;
-
-
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- currentSize=
-  q.start;
-
-
- /*
-  نمونه اولیه هم بخشی از مشاهده است.
- */
-
- history.push({
-  size:currentSize,
-  result:q.compute(
-   currentSize
-  )
- });
-
-
- updateProgress();
-
-
- questionNumberEl.textContent=
-  faNumber(
-   currentIndex+1
-  )+
-  " از "+
-  faNumber(
-   TOTAL_QUESTIONS
-  );
-
-
- scoreEl.textContent=
-  faNumber(score);
-
-
- missionLabelEl.textContent=
-  "🌱 مأموریت "+
-  faNumber(
-   currentIndex+1
-  );
-
-
- familyLabelEl.textContent=
-  "🎯 "+
-  q.family;
-
-
- problemTextEl.textContent=
-  q.q;
-
-
- targetTextEl.textContent=
-  q.targetText;
-
-
- changeBox.className=
-  "change-box";
-
-
- changeBox.textContent=
-  "این کوچک‌ترین نمونه است.";
-
-
- growButton.disabled=
-  false;
-
-
- challenge.classList.remove(
-  "show"
- );
-
-
- feedbackEl.className=
-  "feedback";
-
-
- feedbackTitleEl.textContent="";
-
- feedbackTextEl.textContent="";
-
- solutionEl.textContent="";
-
-
- nextButton.classList.remove(
-  "show"
- );
-
-
- nextButton.textContent=
-  currentIndex===
-  TOTAL_QUESTIONS-1
-
-  ?"مشاهده نتیجه 🏆"
-
-  :"مأموریت بعدی 🌱";
-
-
- renderCurrent();
-
- renderHistory();
-
-
- startTimer();
-}
-
-
-/* =====================================================
-   GROW
-===================================================== */
-
-growButton.addEventListener(
- "click",
- grow
-);
-
-
-function grow(){
-
- if(
-  answerChecked ||
-  growButton.disabled
- ){
-  return;
- }
-
-
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- const oldSize=
-  currentSize;
-
-
- currentSize++;
-
-
- growCount++;
-
-
- const result=
-  q.compute(
-   currentSize
-  );
-
-
- history.push({
-  size:currentSize,
-  result
- });
-
-
- changeBox.className=
-  "change-box highlight";
-
-
- changeBox.textContent=
-  "💡 "+
-  q.changeText(
-   oldSize,
-   currentSize
-  );
-
-
- renderCurrent(
-  true
- );
-
-
- renderHistory();
-
-
- if(
-  growCount>=
-  q.growTimes
- ){
-
-  growButton.disabled=
-   true;
-
-
-  setTimeout(
-   showChallenge,
-   400
-  );
- }
-}
-
-
-/* =====================================================
-   CURRENT VISUAL
-===================================================== */
-
-function renderCurrent(isNew=false){
-
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- const result=
-  q.compute(
-   currentSize
-  );
-
-
- sizeBadge.textContent=
-  faNumber(currentSize)+
-  " "+
-  q.sizeLabel;
-
-
- resultBadge.textContent=
-  "نتیجه: "+
-  faNumber(result);
-
-
- renderVisual(
-  q,
-  currentSize,
-  result,
-  isNew
- );
-}
-
-
-/* =====================================================
-   VISUAL ROUTER
-===================================================== */
-
-function renderVisual(
- q,
- n,
- result,
- isNew
-){
-
- visualEl.innerHTML="";
-
-
- if(
-  q.visualType===
-  "connections"
- ){
-
-  renderConnections(
-   n,
-   q.icon,
-   isNew
-  );
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "matches"
- ){
-
-  renderMatches(
-   n,
-   result,
-   isNew
-  );
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "fence"
- ){
-
-  renderFence(
-   n,
-   result,
-   isNew
-  );
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "tables"
- ){
-
-  renderTables(
-   n,
-   result,
-   isNew
-  );
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "dots"
- ){
-
-  renderDots(
-   n,
-   result,
-   isNew
-  );
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "stairs"
- ){
-
-  renderStairs(
-   n,
-   result,
-   isNew
-  );
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "odd"
- ){
-
-  renderOdd(
-   n,
-   result,
-   isNew
-  );
-
-  return;
- }
-
-
- if(
-  q.visualType===
-  "natural"
- ){
-
-  renderNatural(
-   n,
-   result,
-   isNew
-  );
- }
-}
-
-
-/* =====================================================
-   CONNECTIONS
-===================================================== */
-
-function renderConnections(
- n,
- icon,
- highlightNew
-){
-
- const width=340;
- const height=165;
-
- const cx=170;
- const cy=82;
- const radius=60;
-
- const points=[];
-
-
- for(let i=0;i<n;i++){
-
-  const angle=
-   -Math.PI/2+
-   i*2*Math.PI/n;
-
-
-  points.push({
-   x:
-    cx+
-    radius*
-    Math.cos(angle),
-
-   y:
-    cy+
-    radius*
-    Math.sin(angle)
-  });
- }
-
-
- let lines="";
-
-
- for(let i=0;i<n;i++){
-
-  for(let j=i+1;j<n;j++){
-
-   const newLine=
-    highlightNew &&
-    (
-     i===n-1 ||
-     j===n-1
-    );
-
-
-   lines+=
-    `<line
-     x1="${points[i].x}"
-     y1="${points[i].y}"
-     x2="${points[j].x}"
-     y2="${points[j].y}"
-     stroke="${newLine?"#f59e0b":"#8b5cf6"}"
-     stroke-width="${newLine?"3":"2"}"
-     opacity="${newLine?"1":".5"}"
-    />`;
-  }
- }
-
-
- let nodes="";
-
-
- points.forEach(
-  (point,index)=>{
-
-   const isNew=
-    highlightNew &&
-    index===n-1;
-
-
-   if(icon==="●"){
-
-    nodes+=
-     `<circle
-      cx="${point.x}"
-      cy="${point.y}"
-      r="${isNew?9:7}"
-      fill="${isNew?"#fbbf24":"#38bdf8"}"
-      stroke="#fff"
-      stroke-width="2"
-     />`;
-
-   }else{
-
-    nodes+=
-     `<text
-      x="${point.x}"
-      y="${point.y+7}"
-      text-anchor="middle"
-      font-size="${isNew?27:23}"
-     >${icon}</text>`;
-   }
-  }
- );
-
-
- visualEl.innerHTML=
-  `
-  <svg
-   class="svg-stage"
-   viewBox="0 0 ${width} ${height}"
-  >
-   ${lines}
-   ${nodes}
-  </svg>
-  `;
-}
-
-
-/* =====================================================
-   MATCHES
-===================================================== */
-
-function renderMatches(
- n,
- result,
- highlightNew
-){
-
- const width=
-  30+
-  n*42;
-
-
- let squares="";
-
-
- for(let i=0;i<n;i++){
-
-  const fresh=
-   highlightNew &&
-   i===n-1;
-
-
-  squares+=
-   `<rect
-    x="${12+i*40}"
-    y="45"
-    width="40"
-    height="40"
-    fill="${fresh?"#fde68a":"#f5f3ff"}"
-    stroke="${fresh?"#f59e0b":"#8b5cf6"}"
-    stroke-width="4"
-   />`;
- }
-
-
- visualEl.innerHTML=
-  `
-  <div class="simple">
-
-   <svg
-    viewBox="0 0 ${width} 120"
-    style="width:100%;height:120px"
-   >
-    ${squares}
-   </svg>
-
-   <div class="math">
-    ${faNumber(n)} مربع → ${faNumber(result)} چوب
-   </div>
-
-  </div>
-  `;
-}
-
-
-/* =====================================================
-   FENCE
-===================================================== */
-
-function renderFence(
- n,
- result,
- highlightNew
-){
-
- let html=
-  `<span class="visual-item">🪵</span>`;
-
-
- for(let i=0;i<n;i++){
-
-  const fresh=
-   highlightNew &&
-   i===n-1;
-
-
-  html+=
-   `<span
-     style="
-      font-size:31px;
-      color:${fresh?"#f59e0b":"#a96835"}
-     "
-    >━</span>
-
-    <span class="visual-item ${fresh?"new":""}">
-     🪵
-    </span>`;
- }
-
-
- visualEl.innerHTML=
-  `
-  <div class="simple">
-
-   <div class="visual-row">
-    ${html}
-   </div>
-
-   <div class="math">
-    ${faNumber(result)} پایه
-   </div>
-
-  </div>
-  `;
-}
-
-
-/* =====================================================
-   TABLES
-===================================================== */
-
-function renderTables(
- n,
- result,
- highlightNew
-){
-
- const top=
-  Array.from(
-   {length:n},
-   (_,i)=>
-    `<span class="visual-item ${highlightNew&&i===n-1?"new":""}">
-     🪑
-    </span>`
-  ).join("");
-
-
- const middle=
-  Array.from(
-   {length:n},
-   (_,i)=>
-    `<span class="visual-item ${highlightNew&&i===n-1?"new":""}">
-     🟫
-    </span>`
-  ).join("");
-
-
- visualEl.innerHTML=
-  `
-  <div class="simple">
-
-   <div class="visual-row">
-    ${top}
-   </div>
-
-   <div class="visual-row">
-    <span class="visual-item">🪑</span>
-    ${middle}
-    <span class="visual-item">🪑</span>
-   </div>
-
-   <div class="visual-row">
-    ${top}
-   </div>
-
-   <div class="math">
-    ${faNumber(result)} صندلی
-   </div>
-
-  </div>
-  `;
-}
-
-
-/* =====================================================
-   DOTS
-===================================================== */
-
-function renderDots(
- n,
- result,
- highlightNew
-){
-
- let rows="";
-
-
- for(let row=1;row<=n;row++){
-
-  const fresh=
-   highlightNew &&
-   row===n;
-
-
-  rows+=
-   `<div class="visual-row">
-    ${Array(row)
-     .fill(
-      `<span
-       style="
-        font-size:21px;
-        color:${fresh?"#f59e0b":"#8b5cf6"}
-       "
-      >●</span>`
-     )
-     .join("")}
-   </div>`;
- }
-
-
- visualEl.innerHTML=
-  `
-  <div class="simple">
-
-   <div>${rows}</div>
-
-   <div class="math">
-    ${faNumber(result)} نقطه
-   </div>
-
-  </div>
-  `;
-}
-
-
-/* =====================================================
-   STAIRS
-===================================================== */
-
-function renderStairs(
- n,
- result,
- highlightNew
-){
-
- let rows="";
-
-
- for(let row=n;row>=1;row--){
-
-  const fresh=
-   highlightNew &&
-   row===n;
-
-
-  rows+=
-   `<div class="visual-row">
-    ${Array(row)
-     .fill(
-      `<span class="visual-item ${fresh?"new":""}">
-       🧱
-      </span>`
-     )
-     .join("")}
-   </div>`;
- }
-
-
- visualEl.innerHTML=
-  `
-  <div class="simple">
-
-   <div>${rows}</div>
-
-   <div class="math">
-    ${faNumber(result)} مکعب
-   </div>
-
-  </div>
-  `;
-}
-
-
-/* =====================================================
-   ODD
-===================================================== */
-
-function renderOdd(
- n,
- result,
- highlightNew
-){
-
- const odds=
-  Array.from(
-   {length:n},
-   (_,i)=>2*i+1
-  );
-
-
- visualEl.innerHTML=
-  `
-  <div class="simple">
-
-   <div class="visual-row">
-
-    ${odds.map(
-     (value,index)=>
-      `<span class="visual-item ${highlightNew&&index===n-1?"new":""}">
-       ${faNumber(value)}
-      </span>`
-    ).join("")}
-
-   </div>
-
-   <div class="math">
-    ${odds.map(faNumber).join(" + ")}
-    =
-    ${faNumber(result)}
-   </div>
-
-  </div>
-  `;
-}
-
-
-/* =====================================================
-   NATURAL
-===================================================== */
-
-function renderNatural(
- n,
- result,
- highlightNew
-){
-
- const nums=
-  Array.from(
-   {length:n},
-   (_,i)=>i+1
-  );
-
-
- visualEl.innerHTML=
-  `
-  <div class="simple">
-
-   <div class="visual-row">
-
-    ${nums.map(
-     (value,index)=>
-      `<span class="visual-item ${highlightNew&&index===n-1?"new":""}">
-       ${faNumber(value)}
-      </span>`
-    ).join("")}
-
-   </div>
-
-   <div class="math">
-    ${nums.map(faNumber).join(" + ")}
-    =
-    ${faNumber(result)}
-   </div>
-
-  </div>
-  `;
-}
-
-
-/* =====================================================
-   HISTORY
-===================================================== */
-
-function renderHistory(){
-
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- smallHistory.innerHTML="";
-
-
- for(let i=0;i<3;i++){
-
-  const item=
-   document.createElement(
-    "div"
-   );
-
-
-  item.className=
-   "history-item";
-
-
-  if(history[i]){
-
-   item.classList.add(
-    "done"
-   );
-
-
-   item.innerHTML=
-    `${faNumber(history[i].size)} ${q.sizeLabel}
-     <strong>${faNumber(history[i].result)}</strong>`;
-
-  }else{
-
-   item.innerHTML=
-    `مرحله ${faNumber(i+1)}
-     <strong>؟</strong>`;
+  function toEnglishDigits(value) {
+    return String(value)
+      .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+      .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
   }
 
+  function parseAnswer(value) {
+    const cleaned = toEnglishDigits(value)
+      .replace(/[,\s٬،]/g, "")
+      .trim();
 
-  smallHistory.appendChild(
-   item
-  );
- }
-}
+    if (!/^-?\d+$/.test(cleaned)) return null;
+    const n = Number(cleaned);
+    return Number.isSafeInteger(n) ? n : null;
+  }
 
+  function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
-/* =====================================================
-   CHALLENGE
-===================================================== */
+  function shuffle(array) {
+    const a = [...array];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
 
-function showChallenge(){
+  function sampleRange(maxN) {
+    const arr = [];
+    for (let n = 1; n < maxN; n++) arr.push(n);
+    return arr.slice(0, Math.min(5, arr.length));
+  }
 
- const q=
-  questions[
-   currentIndex
+  function readRecent() {
+    try {
+      const data = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]");
+      return Array.isArray(data) ? data : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveRecent(signatures) {
+    try {
+      const old = readRecent();
+      const combined = [...signatures, ...old.filter(x => !signatures.includes(x))]
+        .slice(0, MAX_RECENT);
+      localStorage.setItem(RECENT_KEY, JSON.stringify(combined));
+    } catch {}
+  }
+
+  function makeQuestion(config) {
+    const answer = config.calc(config.target);
+    return {
+      ...config,
+      answer,
+      samples: config.samples || sampleRange(config.target),
+      signature: [
+        config.type,
+        config.target,
+        config.a ?? "",
+        config.b ?? "",
+        config.d ?? ""
+      ].join("-")
+    };
+  }
+
+  const generators = [
+    () => {
+      const target = randomInt(7, 11);
+      return makeQuestion({
+        type:"handshake",
+        icon:"🤝",
+        title:"نشست دوستانه",
+        target,
+        calc:n => n * (n - 1) / 2,
+        label:"نفر",
+        unit:"دست‌دادن",
+        prompt:`در یک نشست ${faNumber(target)} نفر حضور دارند. اگر هر دو نفر دقیقاً یک‌بار با هم دست بدهند، چند دست‌دادن انجام می‌شود؟`,
+        targetPrompt:`حالت اصلی: ${faNumber(target)} نفر`,
+        explanation:n => `وقتی نفر جدید وارد می‌شود، با همه ${faNumber(n - 1)} نفر قبلی دست می‌دهد. پس از نمونه‌های کوچک می‌بینیم هر بار تعداد ارتباط‌های تازه یکی بیشتر می‌شود.`
+      });
+    },
+
+    () => {
+      const target = randomInt(7, 11);
+      return makeQuestion({
+        type:"points",
+        icon:"🔵",
+        title:"اتصال نقطه‌ها",
+        target,
+        calc:n => n * (n - 1) / 2,
+        label:"نقطه",
+        unit:"پاره‌خط",
+        prompt:`روی صفحه ${faNumber(target)} نقطه داریم. اگر هر دو نقطه را با یک پاره‌خط به هم وصل کنیم، در مجموع چند پاره‌خط ساخته می‌شود؟`,
+        targetPrompt:`حالت اصلی: ${faNumber(target)} نقطه`,
+        explanation:n => `با اضافه‌شدن نقطه جدید، ${faNumber(n - 1)} اتصال تازه با نقطه‌های قبلی ساخته می‌شود. نمونه‌های کوچک کمک می‌کنند رشد تعداد پاره‌خط‌ها را ببینی.`
+      });
+    },
+
+    () => {
+      const target = randomInt(7, 10);
+      return makeQuestion({
+        type:"odd-sum",
+        icon:"🔢",
+        title:"ردیف عددهای فرد",
+        target,
+        calc:n => n * n,
+        label:"عدد فرد اول",
+        unit:"مجموع",
+        prompt:`مجموع ${faNumber(target)} عدد فرد اول را پیدا کن؛ یعنی از ۱ شروع کن و ${faNumber(target)} عدد فرد پیاپی را در نظر بگیر.`,
+        targetPrompt:`حالت اصلی: مجموع ${faNumber(target)} عدد فرد اول`,
+        explanation:n => `نمونه‌های کوچک نشان می‌دهند مجموع ۱ عدد فرد اول ۱، مجموع ۲ عدد ۴، مجموع ۳ عدد ۹ و به همین ترتیب مربع تعداد جمله‌ها می‌شود.`
+      });
+    },
+
+    () => {
+      const target = randomInt(9, 15);
+      return makeQuestion({
+        type:"match-square",
+        icon:"🟨",
+        title:"زنجیره مربع‌ها",
+        target,
+        calc:n => 3 * n + 1,
+        label:"مربع",
+        unit:"چوب",
+        prompt:`مربع‌ها کنار یکدیگر ساخته می‌شوند. مربع اول ۴ چوب لازم دارد و هر مربع تازه یک ضلع را با قبلی مشترک می‌کند. برای ${faNumber(target)} مربع چند چوب لازم است؟`,
+        targetPrompt:`حالت اصلی: ${faNumber(target)} مربع کنار هم`,
+        explanation:n => `نمونه اول ۴ چوب دارد و هر مربع تازه فقط ۳ چوب جدید لازم دارد؛ بنابراین نتیجه‌ها هر بار ۳ واحد بیشتر می‌شوند.`
+      });
+    },
+
+    () => {
+      const target = randomInt(8, 14);
+      return makeQuestion({
+        type:"row-perimeter",
+        icon:"🧱",
+        title:"دیوار مربعی",
+        target,
+        calc:n => 2 * n + 2,
+        label:"مربع واحد",
+        unit:"ضلع بیرونی",
+        prompt:`تعدادی مربع واحد را در یک ردیف و بدون فاصله کنار هم می‌چینیم. برای ${faNumber(target)} مربع، محیط شکل چند ضلعِ واحد است؟`,
+        targetPrompt:`حالت اصلی: ردیفی از ${faNumber(target)} مربع`,
+        explanation:n => `برای ۱ مربع محیط ۴ است. با افزودن هر مربع، یک ضلع قبلی داخلی می‌شود و سه ضلع تازه می‌آید؛ در نتیجه محیط فقط ۲ واحد زیاد می‌شود.`
+      });
+    },
+
+    () => {
+      const target = randomInt(7, 11);
+      return makeQuestion({
+        type:"stairs",
+        icon:"🪜",
+        title:"پلکان مکعبی",
+        target,
+        calc:n => n * (n + 1) / 2,
+        label:"پله",
+        unit:"مکعب",
+        prompt:`پلکانی می‌سازیم که پله اول ۱ مکعب، پله دوم ۲ مکعب و به همین ترتیب پله ${faNumber(target)}، ${faNumber(target)} مکعب دارد. کل پلکان چند مکعب دارد؟`,
+        targetPrompt:`حالت اصلی: پلکان ${faNumber(target)} پله‌ای`,
+        explanation:n => `هر مرحله به تعداد شماره همان پله مکعب تازه می‌گیرد: ۱، سپس ۲، سپس ۳ و ... . جدول نمونه‌های کوچک جمع‌های پیاپی را آشکار می‌کند.`
+      });
+    },
+
+    () => {
+      const target = randomInt(7, 11);
+      return makeQuestion({
+        type:"tri-dots",
+        icon:"🔺",
+        title:"نقطه‌های مثلثی",
+        target,
+        calc:n => n * (n + 1) / 2,
+        label:"ردیف",
+        unit:"نقطه",
+        prompt:`یک شکل مثلثی داریم: ردیف اول ۱ نقطه، ردیف دوم ۲ نقطه، ردیف سوم ۳ نقطه و همین‌طور ادامه دارد. شکل ${faNumber(target)} ردیفی چند نقطه دارد؟`,
+        targetPrompt:`حالت اصلی: ${faNumber(target)} ردیف`,
+        explanation:n => `با رفتن از یک شکل کوچک به شکل بعد، یک ردیف تازه اضافه می‌شود که شماره همان ردیف نقطه دارد.`
+      });
+    },
+
+    () => {
+      const d = randomInt(2, 5);
+      const first = randomInt(3, 7);
+      const target = randomInt(9, 14);
+      return makeQuestion({
+        type:"growing-tower",
+        icon:"🏗️",
+        title:"برج در حال رشد",
+        target,
+        a:first,
+        d,
+        calc:n => first + (n - 1) * d,
+        label:"مرحله",
+        unit:"قطعه",
+        prompt:`برج در مرحله اول ${faNumber(first)} قطعه دارد و در هر مرحله دقیقاً ${faNumber(d)} قطعه به آن اضافه می‌شود. برج در مرحله ${faNumber(target)} چند قطعه دارد؟`,
+        targetPrompt:`حالت اصلی: مرحله ${faNumber(target)}`,
+        explanation:n => `آزمایش مرحله‌های کوچک نشان می‌دهد نتیجه در هر مرحله دقیقاً ${faNumber(d)} قطعه بیشتر می‌شود. همین رشد را می‌توان تا مرحله اصلی ادامه داد.`
+      });
+    },
+
+    () => {
+      const d = randomInt(2, 4);
+      const target = randomInt(8, 13);
+      return makeQuestion({
+        type:"tiles-path",
+        icon:"🟪",
+        title:"مسیر کاشی‌ها",
+        target,
+        d,
+        calc:n => 2 + d * n,
+        label:"بخش مسیر",
+        unit:"کاشی",
+        prompt:`یک مسیر مرحله‌ای می‌سازیم. برای ۱ بخش، ${faNumber(2 + d)} کاشی لازم است و هر بخش جدید ${faNumber(d)} کاشی دیگر اضافه می‌کند. برای ${faNumber(target)} بخش چند کاشی لازم است؟`,
+        targetPrompt:`حالت اصلی: مسیر ${faNumber(target)} بخشی`,
+        explanation:n => `نمونه‌ها با فاصله ثابت ${faNumber(d)} رشد می‌کنند. با حل حالت‌های کوچک‌تر می‌توان این افزایش ثابت را تا حالت اصلی دنبال کرد.`
+      });
+    },
+
+    () => {
+      const target = randomInt(7, 10);
+      return makeQuestion({
+        type:"even-sum",
+        icon:"➕",
+        title:"جمع عددهای زوج",
+        target,
+        calc:n => n * (n + 1),
+        label:"عدد زوج اول",
+        unit:"مجموع",
+        prompt:`مجموع ${faNumber(target)} عدد زوج اول را پیدا کن؛ یعنی ۲ + ۴ + ۶ + ... تا ${faNumber(target)} جمله.`,
+        targetPrompt:`حالت اصلی: مجموع ${faNumber(target)} عدد زوج اول`,
+        explanation:n => `با نمونه‌های کوچک می‌بینی: ۲، سپس ۶، سپس ۱۲، سپس ۲۰ و ... . مقدار افزوده‌شده در هر مرحله همان عدد زوج بعدی است.`
+      });
+    },
+
+    () => {
+      const target = randomInt(8, 12);
+      return makeQuestion({
+        type:"round-table-links",
+        icon:"🏅",
+        title:"بازی‌های لیگ",
+        target,
+        calc:n => n * (n - 1) / 2,
+        label:"تیم",
+        unit:"بازی",
+        prompt:`در لیگی با ${faNumber(target)} تیم، هر دو تیم فقط یک‌بار با هم بازی می‌کنند. کل مسابقه‌ها چند بازی است؟`,
+        targetPrompt:`حالت اصلی: لیگ ${faNumber(target)} تیمی`,
+        explanation:n => `لیگ کوچک ۲ تیمی را ببین، سپس ۳، ۴ و ... . هر تیم تازه باید با تمام تیم‌های قبلی یک بازی انجام دهد.`
+      });
+    },
+
+    () => {
+      const start = randomInt(2, 5);
+      const target = randomInt(8, 13);
+      return makeQuestion({
+        type:"border-lights",
+        icon:"💡",
+        title:"چراغ‌های مرحله‌ای",
+        target,
+        a:start,
+        calc:n => start + 2 * (n - 1),
+        label:"مرحله",
+        unit:"چراغ",
+        prompt:`در یک تزیین مرحله‌ای، شکل اول ${faNumber(start)} چراغ دارد و با بزرگ‌ترشدن شکل، در هر مرحله ۲ چراغ تازه اضافه می‌شود. شکل ${faNumber(target)} چند چراغ دارد؟`,
+        targetPrompt:`حالت اصلی: شکل ${faNumber(target)}`,
+        explanation:n => `حالت‌های کوچک نشان می‌دهند تعداد چراغ‌ها هر بار دقیقاً ۲ تا بیشتر می‌شود؛ بنابراین می‌توان رشد را تا شکل اصلی منتقل کرد.`
+      });
+    }
   ];
 
+  function generateRound() {
+    const recent = new Set(readRecent());
+    const order = shuffle(generators);
+    const produced = [];
 
- clueEl.textContent=
-  "💡 "+
-  q.clue;
+    for (const generator of order) {
+      let candidate = null;
 
-
- answerOptions.innerHTML="";
-
-
- selectedAnswer=null;
-
-
- const options=
-  makeAnswers(
-   q.answer
-  );
-
-
- options.forEach(
-  value=>{
-
-   const button=
-    document.createElement(
-     "button"
-    );
-
-
-   button.type=
-    "button";
-
-
-   button.className=
-    "answer-btn";
-
-
-   button.dataset.value=
-    value;
-
-
-   button.textContent=
-    faNumber(value);
-
-
-   button.addEventListener(
-    "click",
-    ()=>{
-
-     if(answerChecked){
-      return;
-     }
-
-
-     selectedAnswer=
-      value;
-
-
-     [
-      ...answerOptions.children
-     ].forEach(
-      item=>{
-
-       item.classList.toggle(
-        "selected",
-        item===button
-       );
+      for (let tries = 0; tries < 16; tries++) {
+        const q = generator();
+        if (!recent.has(q.signature) &&
+            !produced.some(x => x.signature === q.signature)) {
+          candidate = q;
+          break;
+        }
+        if (!candidate) candidate = q;
       }
-     );
-    }
-   );
 
-
-   answerOptions.appendChild(
-    button
-   );
-  }
- );
-
-
- challenge.classList.add(
-  "show"
- );
-}
-
-
-/* =====================================================
-   SUBMIT ANSWER
-===================================================== */
-
-submitAnswer.addEventListener(
- "click",
- ()=>{
-
-  if(
-   answerChecked ||
-   selectedAnswer===null
-  ){
-   return;
-  }
-
-
-  const elapsed=
-   (
-    Date.now()-
-    questionStartTime
-   )/1000;
-
-
-  if(
-   elapsed>=
-   QUESTION_TIME
-  ){
-
-   handleTimeout();
-
-   return;
-  }
-
-
-  answerChecked=
-   true;
-
-
-  stopTimer();
-
-
-  growButton.disabled=
-   true;
-
-
-  submitAnswer.disabled=
-   true;
-
-
-  [
-   ...answerOptions.children
-  ].forEach(
-   button=>
-    button.disabled=true
-  );
-
-
-  const q=
-   questions[
-    currentIndex
-   ];
-
-
-  if(
-   selectedAnswer===
-   q.answer
-  ){
-
-   const earned=
-    pointsForTime(
-     elapsed
-    );
-
-
-   score=
-    Math.min(
-     100,
-     score+earned
-    );
-
-
-   feedbackEl.className=
-    "feedback success show";
-
-
-   feedbackTitleEl.textContent=
-    "✅ آفرین! +"+
-    faNumber(earned)+
-    " امتیاز";
-
-
-   feedbackTextEl.textContent=
-    "از یک نمونه کوچک شروع کردی، دیدی با بزرگ‌ترشدن مسئله چه چیزی اضافه می‌شود و همان فکر را به مسئله اصلی منتقل کردی.";
-
-
-   solutionEl.textContent=
-    "✅ پاسخ: "+
-    faNumber(q.answer)+
-    " | "+
-    q.solution;
-
-
-   celebrate();
-
-  }else{
-
-   feedbackEl.className=
-    "feedback error show";
-
-
-   feedbackTitleEl.textContent=
-    "❌ پاسخ درست نیست. ۰ امتیاز";
-
-
-   feedbackTextEl.textContent=
-    "به تغییرهایی که هنگام بزرگ‌کردن نمونه دیدی برگرد. همان تغییر باید در ادامه مسئله هم حفظ شود.";
-
-
-   solutionEl.textContent=
-    "✅ پاسخ درست: "+
-    faNumber(q.answer)+
-    " | "+
-    q.solution;
-
-
-   revealCorrect(
-    q.answer
-   );
-  }
-
-
-  scoreEl.textContent=
-   faNumber(score);
-
-
-  nextButton.classList.add(
-   "show"
-  );
- }
-);
-
-
-/* =====================================================
-   REVEAL
-===================================================== */
-
-function revealCorrect(correct){
-
- [
-  ...answerOptions.children
- ].forEach(
-  button=>{
-
-   if(
-    Number(
-     button.dataset.value
-    )===
-    correct
-   ){
-
-    button.style.borderColor=
-     "var(--green)";
-
-
-    button.style.background=
-     "#e8faed";
-   }
-  }
- );
-}
-
-
-/* =====================================================
-   TIMEOUT
-===================================================== */
-
-function handleTimeout(){
-
- if(
-  answerChecked ||
-  gameFinished
- ){
-  return;
- }
-
-
- answerChecked=true;
-
-
- stopTimer();
-
-
- timerNumberEl.textContent=
-  "۰";
-
-
- timeStatusEl.textContent=
-  "۰ ثانیه";
-
-
- timerBarEl.style.width=
-  "0%";
-
-
- timerBarEl.style.background=
-  "var(--red)";
-
-
- growButton.disabled=
-  true;
-
-
- submitAnswer.disabled=
-  true;
-
-
- [
-  ...answerOptions.children
- ].forEach(
-  button=>
-   button.disabled=true
- );
-
-
- const q=
-  questions[
-   currentIndex
-  ];
-
-
- feedbackEl.className=
-  "feedback timeout show";
-
-
- feedbackTitleEl.textContent=
-  "⏰ زمان تمام شد! ۰ امتیاز";
-
-
- feedbackTextEl.textContent=
-  "در راهبرد حل مسئله ساده‌تر، از نمونه کوچک شروع می‌کنیم و تغییر ایجادشده را به مسئله بزرگ منتقل می‌کنیم.";
-
-
- solutionEl.textContent=
-  "✅ پاسخ درست: "+
-  faNumber(q.answer)+
-  " | "+
-  q.solution;
-
-
- if(
-  answerOptions.children.length
- ){
-
-  revealCorrect(
-   q.answer
-  );
- }
-
-
- nextButton.classList.add(
-  "show"
- );
-}
-
-
-/* =====================================================
-   CELEBRATION
-===================================================== */
-
-function celebrate(){
-
- const rect=
-  challenge
-   .getBoundingClientRect();
-
-
- const icons=[
-  "🌱",
-  "🌿",
-  "⭐",
-  "✨",
-  "💡",
-  "🎉"
- ];
-
-
- for(
-  let i=0;
-  i<11;
-  i++
- ){
-
-  const spark=
-   document.createElement(
-    "span"
-   );
-
-
-  spark.className=
-   "spark";
-
-
-  spark.textContent=
-   pick(icons);
-
-
-  spark.style.left=
-   (
-    rect.left+
-    rect.width/2
-   )+"px";
-
-
-  spark.style.top=
-   (
-    rect.top+
-    60
-   )+"px";
-
-
-  spark.style.setProperty(
-   "--x",
-   (
-    Math.random()*180-
-    90
-   )+"px"
-  );
-
-
-  spark.style.setProperty(
-   "--y",
-   (
-    -30-
-    Math.random()*120
-   )+"px"
-  );
-
-
-  document.body
-   .appendChild(
-    spark
-   );
-
-
-  setTimeout(
-   ()=>spark.remove(),
-   850
-  );
- }
-}
-
-
-/* =====================================================
-   NEXT
-===================================================== */
-
-nextButton.addEventListener(
- "click",
- ()=>{
-
-  if(
-   !answerChecked
-  ){
-   return;
-  }
-
-
-  if(
-   currentIndex<
-   TOTAL_QUESTIONS-1
-  ){
-
-   currentIndex++;
-
-
-   submitAnswer.disabled=
-    false;
-
-
-   showQuestion();
-
-
-   window.scrollTo({
-    top:0,
-    behavior:"smooth"
-   });
-
-  }else{
-
-   finishGame();
-  }
- }
-);
-
-
-/* =====================================================
-   FINISH GAME
-===================================================== */
-
-async function finishGame(){
-
- if(gameFinished){
-  return;
- }
-
-
- gameFinished=true;
-
-
- stopTimer();
-
-
- [
-  ...progressEl.children
- ].forEach(
-  item=>{
-
-   item.classList.remove(
-    "current"
-   );
-
-
-   item.classList.add(
-    "done"
-   );
-  }
- );
-
-
- gameScreen.style.display=
-  "none";
-
-
- resultScreen
-  .classList
-  .add("show");
-
-
- const name=
-  player&&
-  player.playerName
-
-  ?player.playerName
-
-  :"بازیکن";
-
-
- resultNameEl.textContent=
-  name;
-
-
- finalScoreEl.textContent=
-  faNumber(score);
-
-
- if(score>=90){
-
-  motivationEl.textContent=
-   "عالی بود! 🌟 از یک مسئله کوچک، جواب مسئله بزرگ را می‌سازی!";
-
- }else if(score>=70){
-
-  motivationEl.textContent=
-   "خیلی خوب بود 👏 تغییر بین نمونه‌های کوچک را خوب می‌بینی!";
-
- }else if(score>=50){
-
-  motivationEl.textContent=
-   "خوب بود 💪 وقتی مسئله بزرگ شد، اول نمونه کوچک‌ترش را بساز!";
-
- }else{
-
-  motivationEl.textContent=
-   "دوباره بزرگش کن 🌱 اول کوچک، بعد کمی بزرگ‌تر، بعد مسئله اصلی!";
- }
-
-
- leaderboardContent.innerHTML=
-  '<div class="loading">'+
-  'در حال ثبت نتیجه و دریافت جدول برترین‌ها...'+
-  '</div>';
-
-
- try{
-
-  if(
-   !finishSubmitted
-  ){
-
-   finishSubmitted=
-    true;
-
-
-   const result=
-    await GameSDK
-     .finishGame(score);
-  }
-
- }catch(error){
-
-  console.error(
-   "finishGame error:",
-   error
-  );
- }
-
-
- await loadLeaderboard();
-}
-
-
-/* =====================================================
-   LEADERBOARD
-===================================================== */
-
-async function loadLeaderboard(){
-
- try{
-
-  const scores=
-   await GameSDK
-    .getLeaderboard(10);
-
-
-  leaderboardContent.innerHTML=
-   "";
-
-
-  if(
-   !Array.isArray(scores) ||
-   scores.length===0
-  ){
-
-   leaderboardContent.innerHTML=
-    '<div class="loading">'+
-    'هنوز رکوردی ثبت نشده است.'+
-    '</div>';
-
-
-   return;
-  }
-
-
-  scores.forEach(
-   (item,index)=>{
-
-    const row=
-     document.createElement(
-      "div"
-     );
-
-
-    row.className=
-     "rank-row";
-
-
-    let rank;
-
-
-    if(index===0){
-
-     rank="🥇";
-
-    }else if(index===1){
-
-     rank="🥈";
-
-    }else if(index===2){
-
-     rank="🥉";
-
-    }else{
-
-     rank=
-      faNumber(
-       index+1
-      )+
-      ".";
+      if (candidate) produced.push(candidate);
+      if (produced.length === TOTAL_QUESTIONS) break;
     }
 
+    questions = produced.slice(0, TOTAL_QUESTIONS);
+    saveRecent(questions.map(q => q.signature));
+  }
 
-    const name=
-     item.playerName ??
-     item.player_name ??
-     item.name ??
-     "بازیکن";
+  function scoreForElapsed(seconds) {
+    if (seconds <= 15) return 10;
+    if (seconds <= 25) return 8;
+    if (seconds <= 35) return 6;
+    if (seconds <= 45) return 4;
+    if (seconds < 60) return 2;
+    return 0;
+  }
 
+  function renderVisual(q, n) {
+    els.visual.innerHTML = "";
 
-    const value=
-     item.score ??
-     0;
+    const count = Math.min(n, 12);
 
+    if (["handshake","round-table-links"].includes(q.type)) {
+      for (let i = 0; i < count; i++) {
+        const x = document.createElement("span");
+        x.className = "person";
+        x.textContent = "🙂";
+        els.visual.appendChild(x);
+      }
+      return;
+    }
 
-    const nameEl=
-     document.createElement(
-      "span"
-     );
+    if (["points","tri-dots"].includes(q.type)) {
+      const total = q.type === "tri-dots"
+        ? Math.min(q.calc(n), 28)
+        : count;
 
+      for (let i = 0; i < total; i++) {
+        const x = document.createElement("span");
+        x.className = "dot";
+        els.visual.appendChild(x);
+      }
+      return;
+    }
 
-    nameEl.className=
-     "rank-name";
+    if (["match-square","row-perimeter","stairs"].includes(q.type)) {
+      const total = q.type === "stairs"
+        ? Math.min(q.calc(n), 24)
+        : count;
 
+      for (let i = 0; i < total; i++) {
+        const x = document.createElement("span");
+        x.className = "block";
+        els.visual.appendChild(x);
+      }
+      return;
+    }
 
-    nameEl.textContent=
-     rank+
-     " "+
-     name;
+    if (["odd-sum","even-sum"].includes(q.type)) {
+      const maxShown = Math.min(n, 8);
+      for (let i = 1; i <= maxShown; i++) {
+        const x = document.createElement("span");
+        x.className = "dot";
+        const val = q.type === "odd-sum" ? (2 * i - 1) : (2 * i);
+        x.textContent = faNumber(val);
+        els.visual.appendChild(x);
+      }
+      return;
+    }
 
+    const total = Math.min(q.calc(n), 18);
+    for (let i = 0; i < total; i++) {
+      const x = document.createElement("span");
+      x.className = q.type === "border-lights" ? "dot" : "block";
+      els.visual.appendChild(x);
+    }
+  }
 
-    const valueEl=
-     document.createElement(
-      "span"
-     );
+  function renderObservations(q) {
+    els.observations.innerHTML = "";
 
+    q.samples.forEach(n => {
+      const box = document.createElement("div");
+      if (usedSamples.has(n)) {
+        box.className = "obs";
+        box.innerHTML =
+          `${faNumber(n)} ${q.label}<b>${faNumber(usedSamples.get(n))}</b>`;
+      } else {
+        box.className = "obs empty";
+        box.textContent = "؟";
+      }
+      els.observations.appendChild(box);
+    });
+  }
 
-    valueEl.className=
-     "rank-score";
+  function experiment(n, button) {
+    if (answerChecked || gameFinished) return;
+    if (remainingMs() <= 0) {
+      handleTimeout();
+      return;
+    }
 
+    const q = questions[currentIndex];
+    const result = q.calc(n);
 
-    valueEl.textContent=
-     faNumber(value)+
-     " امتیاز";
+    usedSamples.set(n, result);
+    button.classList.add("used");
 
+    renderVisual(q, n);
+    els.experimentText.innerHTML =
+      `آزمایش با <strong>${faNumber(n)} ${q.label}</strong><br>` +
+      `نتیجه: <strong>${faNumber(result)} ${q.unit}</strong>`;
 
-    row.appendChild(
-     nameEl
+    renderObservations(q);
+    updateUnlock();
+  }
+
+  function updateUnlock() {
+    const count = usedSamples.size;
+
+    if (count >= MIN_EXPERIMENTS && !answerChecked) {
+      els.answerInput.disabled = false;
+      els.submitBtn.disabled = false;
+      els.unlockMessage.textContent =
+        "نمونه‌های کافی داری. رابطه نتایج را بررسی کن و حالت اصلی را پیش‌بینی کن.";
+    } else if (!answerChecked) {
+      const left = MIN_EXPERIMENTS - count;
+      els.unlockMessage.textContent =
+        `هنوز ${faNumber(left)} آزمایش دیگر لازم است.`;
+    }
+  }
+
+  function renderQuestion() {
+    stopTimer();
+
+    const q = questions[currentIndex];
+    answerChecked = false;
+    usedSamples = new Map();
+
+    els.stage.textContent =
+      `${faNumber(currentIndex + 1)} از ${faNumber(TOTAL_QUESTIONS)}`;
+    els.score.textContent = faNumber(score);
+    els.missionIcon.textContent = q.icon;
+    els.missionTitle.textContent = q.title;
+    els.missionText.textContent = q.prompt;
+    els.targetText.textContent = q.targetPrompt;
+
+    els.answerInput.value = "";
+    els.answerInput.disabled = true;
+    els.submitBtn.disabled = true;
+    els.feedback.className = "feedback";
+    els.feedback.innerHTML = "";
+    els.nextBtn.style.display = "none";
+    els.nextBtn.textContent =
+      currentIndex === TOTAL_QUESTIONS - 1
+        ? "دیدن نتیجه نهایی"
+        : "مأموریت بعدی ←";
+
+    els.unlockMessage.textContent =
+      "برای بازشدن پاسخ نهایی، سه نمونه کوچک را آزمایش کن.";
+
+    els.visual.innerHTML = '<span style="font-size:34px">🔎</span>';
+    els.experimentText.textContent = "هنوز آزمایشی انجام نشده است.";
+
+    els.sampleButtons.innerHTML = "";
+
+    q.samples.forEach(n => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "sample-btn";
+      btn.textContent = `${faNumber(n)} ${q.label}`;
+      btn.addEventListener("click", () => experiment(n, btn));
+      els.sampleButtons.appendChild(btn);
+    });
+
+    renderObservations(q);
+    startTimer();
+  }
+
+  function remainingMs() {
+    if (!questionStartedAt) return QUESTION_TIME * 1000;
+    return Math.max(
+      0,
+      QUESTION_TIME * 1000 - (Date.now() - questionStartedAt)
     );
+  }
 
+  function updateTimerView() {
+    const ms = remainingMs();
+    const seconds = Math.max(0, Math.ceil(ms / 1000));
+    const ratio = ms / (QUESTION_TIME * 1000);
 
-    row.appendChild(
-     valueEl
-    );
+    els.timeText.textContent = `${faNumber(seconds)} ثانیه`;
+    els.timerMini.textContent =
+      `${faNumber(seconds)} / ${faNumber(QUESTION_TIME)}`;
+    els.timerBar.style.width = `${Math.max(0, ratio * 100)}%`;
 
+    if (ratio > .5) {
+      els.timerBar.style.background = "var(--green)";
+    } else if (ratio > .2) {
+      els.timerBar.style.background = "var(--yellow)";
+    } else {
+      els.timerBar.style.background = "var(--red)";
+    }
 
-    leaderboardContent
-     .appendChild(
-      row
-     );
-   }
-  );
+    if (ms <= 0 && !answerChecked && !gameFinished) {
+      handleTimeout();
+    }
+  }
 
- }catch(error){
+  function startTimer() {
+    questionStartedAt = Date.now();
+    updateTimerView();
 
-  console.error(
-   "leaderboard error:",
-   error
-  );
+    timerId = setInterval(() => {
+      updateTimerView();
+    }, 150);
+  }
 
+  function stopTimer() {
+    if (timerId !== null) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+  }
 
-  leaderboardContent.innerHTML=
-   '<div class="loading">'+
-   'دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.'+
-   '</div>';
- }
-}
+  function lockQuestion() {
+    Array.from(els.sampleButtons.children).forEach(btn => {
+      btn.disabled = true;
+    });
+    els.answerInput.disabled = true;
+    els.submitBtn.disabled = true;
+  }
 
+  function submitAnswer() {
+    if (answerChecked || gameFinished) return;
 
-/* =====================================================
-   RESTART
-===================================================== */
+    const ms = remainingMs();
+    if (ms <= 0) {
+      handleTimeout();
+      return;
+    }
 
-restartButton.addEventListener(
- "click",
- ()=>{
+    if (usedSamples.size < MIN_EXPERIMENTS) return;
 
-  stopTimer();
+    const userAnswer = parseAnswer(els.answerInput.value);
+    if (userAnswer === null) {
+      els.unlockMessage.textContent = "پاسخ را به‌صورت یک عدد وارد کن.";
+      return;
+    }
 
+    answerChecked = true;
+    stopTimer();
+    lockQuestion();
 
-  GameSDK.reset();
+    const q = questions[currentIndex];
+    const correct = userAnswer === q.answer;
 
+    if (correct) {
+      const elapsed = Math.min(
+        QUESTION_TIME,
+        (Date.now() - questionStartedAt) / 1000
+      );
+      const gained = scoreForElapsed(elapsed);
+      score = Math.min(100, score + gained);
+      els.score.textContent = faNumber(score);
 
-  score=0;
+      els.feedback.className = "feedback good";
+      els.feedback.innerHTML =
+        `✅ <strong>آفرین! +${faNumber(gained)} امتیاز</strong><br>` +
+        `پاسخ ${faNumber(q.answer)} است. ${q.explanation(q.target)}`;
+    } else {
+      els.feedback.className = "feedback bad";
+      els.feedback.innerHTML =
+        `❌ پاسخ درست <strong>${faNumber(q.answer)}</strong> است.<br>` +
+        `${diagnoseError(q, userAnswer)} ${q.explanation(q.target)}`;
+    }
 
-  currentIndex=0;
+    els.nextBtn.style.display = "inline-block";
+  }
 
-  answerChecked=false;
+  function diagnoseError(q, userAnswer) {
+    const sampleValues = [...usedSamples.values()];
 
-  questionStartTime=0;
+    if (sampleValues.includes(userAnswer)) {
+      return "به‌نظر می‌رسد نتیجه یکی از نمونه‌های کوچک را به‌جای حالت اصلی وارد کردی.";
+    }
 
-  gameFinished=false;
+    const lastSmall = q.calc(Math.max(...usedSamples.keys()));
+    if (userAnswer === lastSmall) {
+      return "آخرین نمونه کوچک فقط برای کشف رابطه بود؛ باید همان رابطه را تا حالت اصلی ادامه بدهی.";
+    }
 
-  finishSubmitted=false;
+    return "جدول نمونه‌های کوچک را دوباره از بالا به پایین بررسی کن و ببین نتیجه در هر مرحله چگونه تغییر می‌کند.";
+  }
 
-  currentSize=1;
+  function handleTimeout() {
+    if (answerChecked || gameFinished) return;
 
-  growCount=0;
+    answerChecked = true;
+    stopTimer();
+    lockQuestion();
 
-  history=[];
+    const q = questions[currentIndex];
 
-  selectedAnswer=null;
+    els.timeText.textContent = "۰ ثانیه";
+    els.timerMini.textContent = `۰ / ${faNumber(QUESTION_TIME)}`;
+    els.timerBar.style.width = "0%";
+    els.timerBar.style.background = "var(--red)";
 
+    els.feedback.className = "feedback time";
+    els.feedback.innerHTML =
+      `⏰ <strong>زمان تمام شد.</strong><br>` +
+      `پاسخ درست <strong>${faNumber(q.answer)}</strong> است. ` +
+      q.explanation(q.target);
 
-  submitAnswer.disabled=
-   false;
+    els.nextBtn.style.display = "inline-block";
+  }
 
+  function nextQuestion() {
+    if (!answerChecked || gameFinished) return;
 
-  resultScreen
-   .classList
-   .remove("show");
+    if (currentIndex >= TOTAL_QUESTIONS - 1) {
+      finishGame();
+      return;
+    }
 
+    currentIndex++;
+    renderQuestion();
+  }
 
-  gameScreen.style.display=
-   "block";
+  async function finishGame() {
+    if (gameFinished) return;
 
+    gameFinished = true;
+    stopTimer();
+    score = Math.min(100, score);
 
-  leaderboardContent.innerHTML=
-   "";
+    els.gameArea.classList.add("hidden");
+    els.hero.classList.add("hidden");
+    els.statusWrap.classList.add("hidden");
+    els.resultScreen.classList.add("show");
 
+    els.resultName.textContent =
+      `${player.playerName || "بازیکن"}، مأموریت‌های آزمایشگاه تمام شد.`;
+    els.finalScore.textContent = faNumber(score);
+
+    if (score >= 90) {
+      els.resultMessage.textContent = "عالی بود! 🌟 استاد کوچک‌سازی مسئله شدی.";
+    } else if (score >= 70) {
+      els.resultMessage.textContent = "خیلی خوب بود 👏 نمونه‌های کوچک را خوب به کار گرفتی.";
+    } else if (score >= 50) {
+      els.resultMessage.textContent = "خوب بود، ادامه بده 💪 بیشتر از نمونه‌ها برای کشف رابطه استفاده کن.";
+    } else {
+      els.resultMessage.textContent = "دوباره تلاش کن 🌱 این بار تغییر بین نمونه‌های کوچک را دقیق‌تر دنبال کن.";
+    }
+
+    if (!finishSubmitted) {
+      finishSubmitted = true;
+      try {
+        const result = await GameSDK.finishGame(score);
+        void result;
+      } catch (error) {
+        console.error("finishGame failed:", error);
+      }
+    }
+
+    await loadLeaderboard();
+  }
+
+  async function loadLeaderboard() {
+    els.leaderboardList.className = "loading";
+    els.leaderboardList.textContent = "در حال دریافت برترین‌ها...";
+
+    try {
+      const scores = await GameSDK.getLeaderboard(10);
+      const list = Array.isArray(scores) ? scores : [];
+
+      els.leaderboardList.className = "";
+
+      if (!list.length) {
+        els.leaderboardList.innerHTML =
+          '<div class="loading">هنوز رکوردی برای نمایش وجود ندارد.</div>';
+        return;
+      }
+
+      els.leaderboardList.innerHTML = "";
+
+      list.slice(0, 10).forEach((item, index) => {
+        const row = document.createElement("div");
+        row.className = "rank";
+
+        const rank = document.createElement("span");
+        if (index === 0) rank.textContent = "🥇";
+        else if (index === 1) rank.textContent = "🥈";
+        else if (index === 2) rank.textContent = "🥉";
+        else rank.textContent = `${faNumber(index + 1)}.`;
+
+        const name = document.createElement("span");
+        name.className = "rank-name";
+        name.textContent =
+          item.playerName ??
+          item.name ??
+          item.username ??
+          "بازیکن";
+
+        const value = document.createElement("span");
+        value.className = "rank-score";
+        value.textContent =
+          `${faNumber(item.score ?? 0)} امتیاز`;
+
+        row.append(rank, name, value);
+        els.leaderboardList.appendChild(row);
+      });
+    } catch (error) {
+      console.error("leaderboard failed:", error);
+      els.leaderboardList.className = "loading";
+      els.leaderboardList.textContent = "دریافت جدول برترین‌ها ممکن نشد.";
+    }
+  }
+
+  function restartGame() {
+    stopTimer();
+
+    GameSDK.reset();
+
+    score = 0;
+    currentIndex = 0;
+    answerChecked = false;
+    gameFinished = false;
+    finishSubmitted = false;
+    usedSamples = new Map();
+    questionStartedAt = 0;
+
+    els.score.textContent = "۰";
+    els.resultScreen.classList.remove("show");
+    els.gameArea.classList.remove("hidden");
+    els.hero.classList.remove("hidden");
+    els.statusWrap.classList.remove("hidden");
+    els.feedback.className = "feedback";
+    els.feedback.innerHTML = "";
+
+    generateRound();
+    renderQuestion();
+  }
+
+  els.submitBtn.addEventListener("click", submitAnswer);
+
+  els.answerInput.addEventListener("keydown", event => {
+    if (event.key === "Enter" && !els.submitBtn.disabled) {
+      submitAnswer();
+    }
+  });
+
+  els.nextBtn.addEventListener("click", nextQuestion);
+  els.restartBtn.addEventListener("click", restartGame);
+
+  els.playerName.textContent = player.playerName || "بازیکن";
 
   generateRound();
 
+  if (questions.length !== TOTAL_QUESTIONS) {
+    throw new Error("Question generation failed: exactly 10 questions are required.");
+  }
 
-  buildProgress();
-
-
-  showQuestion();
-
-
-  window.scrollTo({
-   top:0,
-   behavior:"smooth"
-  });
- }
-);
-
-
-/* =====================================================
-   START
-===================================================== */
-
-function startGame(){
-
- const name=
-  player&&
-  player.playerName
-
-  ?player.playerName
-
-  :"بازیکن";
-
-
- playerNameEl.textContent=
-  name;
-
-
- score=0;
-
- currentIndex=0;
-
- answerChecked=false;
-
- gameFinished=false;
-
- finishSubmitted=false;
-
-
- generateRound();
-
-
- buildProgress();
-
-
- showQuestion();
-}
-
-
-startGame();
-
+  renderQuestion();
+})();
 </script>
-
 </body>
 </html>
