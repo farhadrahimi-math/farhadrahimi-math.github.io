@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ربات غول‌پیکر | ریاضی هفتم</title>
+<title>غول و مینی‌غول | ریاضی هفتم</title>
 
 <style>
 :root{
-  --purple:#7457d9;
-  --blue:#3d8be6;
-  --pink:#ef6fa9;
-  --yellow:#f5c84b;
-  --green:#35b878;
-  --red:#e6535d;
-  --ink:#28364b;
+  --purple:#7357d8;
+  --blue:#438de6;
+  --pink:#ef70a8;
+  --yellow:#f6c94e;
+  --green:#37b878;
+  --red:#e55760;
+  --ink:#2d3850;
   --muted:#718096;
-  --white:#fff;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -26,409 +25,457 @@ body{
   font-family:Tahoma,Arial,sans-serif;
   color:var(--ink);
   background:
-    radial-gradient(circle at 10% 10%,#f8dff1 0,transparent 25%),
-    radial-gradient(circle at 90% 5%,#dceeff 0,transparent 30%),
-    linear-gradient(160deg,#f5f0ff,#eef9ff);
+    radial-gradient(circle at 10% 5%,#ffe0ef 0,transparent 25%),
+    radial-gradient(circle at 90% 10%,#dcecff 0,transparent 28%),
+    linear-gradient(155deg,#f5efff,#edfbff);
 }
 button{font:inherit;touch-action:manipulation}
 .app{
-  width:min(100% - 18px,760px);
+  width:min(100% - 16px,720px);
   margin:auto;
-  padding:14px 0 28px;
+  padding:12px 0 28px;
 }
-.hero{text-align:center;margin-bottom:12px}
-.badges{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.hero{text-align:center}
+.badges{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  flex-wrap:wrap;
+}
 .badge{
   background:#fff;
-  border:1px solid #ded8ff;
+  border:1px solid #dfd9ff;
   border-radius:999px;
-  padding:5px 10px;
+  padding:4px 9px;
   font-size:11px;
-  color:#6250b3;
+  color:#6753b7;
   font-weight:bold;
 }
 h1{
-  margin:7px 0 3px;
-  font-size:clamp(25px,7vw,38px);
-  color:#5842b7;
+  margin:7px 0 2px;
+  color:#5840b5;
+  font-size:clamp(25px,7vw,37px);
 }
-.subtitle{margin:0;color:var(--muted);font-size:13px}
-
+.subtitle{
+  margin:0 0 11px;
+  color:var(--muted);
+  font-size:13px;
+}
 .status{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:7px;
-  margin:12px 0 8px;
+  gap:6px;
+  margin:9px 0 7px;
 }
 .stat{
-  background:rgba(255,255,255,.94);
-  border:1px solid #e2e7ef;
-  border-radius:13px;
-  padding:8px 4px;
-  text-align:center;
   min-width:0;
+  text-align:center;
+  background:#fff;
+  border:1px solid #e2e7ef;
+  border-radius:12px;
+  padding:7px 4px;
 }
-.stat small{display:block;color:var(--muted);font-size:10px}
+.stat small{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+}
 .stat b{
   display:block;
-  margin-top:3px;
-  font-size:13px;
+  margin-top:2px;
+  font-size:12px;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
-.timer-card{
+.timer{
   background:#fff;
-  padding:8px 10px;
-  border-radius:13px;
-  margin-bottom:9px;
+  border-radius:12px;
+  padding:7px 9px;
+  margin-bottom:8px;
 }
-.timer-text{
+.timer-row{
   display:flex;
   justify-content:space-between;
-  color:#6d798b;
-  font-size:11px;
+  font-size:10px;
+  color:var(--muted);
   margin-bottom:5px;
 }
-.timer-track{
-  height:9px;background:#edf0f4;border-radius:20px;overflow:hidden
-}
-.timer-bar{
-  height:100%;width:100%;background:var(--green);
+.track{
+  height:8px;
+  background:#edf0f4;
   border-radius:20px;
+  overflow:hidden;
 }
-.game-card{
-  background:rgba(255,255,255,.98);
-  border:1px solid #e0e5ee;
-  border-radius:23px;
-  padding:15px;
-  box-shadow:0 15px 35px rgba(63,73,105,.12);
+.bar{
+  width:100%;
+  height:100%;
+  border-radius:20px;
+  background:var(--green);
+}
+.card{
+  background:#fff;
+  border:1px solid #e1e6ee;
+  box-shadow:0 14px 35px rgba(65,74,105,.12);
+  border-radius:22px;
+  padding:14px;
 }
 .mission{
   text-align:center;
-  background:#f7f5ff;
-  border:1px solid #e5dfff;
-  border-radius:15px;
-  padding:11px;
+  margin-bottom:9px;
 }
-.mission-label{
-  color:#7964c9;
-  font-size:11px;
+.mission small{
+  color:#7461c1;
   font-weight:bold;
 }
 .mission h2{
-  margin:4px 0;
   font-size:17px;
-  color:#493d91;
+  margin:4px 0 2px;
 }
 .mission p{
-  margin:3px;
-  font-size:13px;
-  line-height:1.7;
-}
-.target{
-  color:#614ab8;
-  font-weight:bold;
+  margin:0;
+  color:#68778b;
+  font-size:12px;
 }
 
-/* Robot workshop */
-.workshop{
-  margin-top:13px;
-  border-radius:18px;
-  border:2px solid #dce5ef;
-  background:
-    linear-gradient(#edf4fa 1px,transparent 1px),
-    linear-gradient(90deg,#edf4fa 1px,transparent 1px),
-    #fbfdff;
-  background-size:24px 24px;
-  min-height:250px;
-  padding:12px;
+/* Playground */
+.playground{
+  min-height:276px;
   position:relative;
   overflow:hidden;
+  border-radius:18px;
+  padding:10px;
+  background:
+    radial-gradient(circle at 15% 15%,rgba(255,255,255,.65),transparent 20%),
+    linear-gradient(#e7f7ff 0 68%,#d9f1cb 68% 100%);
+  border:2px solid #d6e9f1;
 }
-.workshop-title{
-  text-align:center;
-  font-size:12px;
-  color:#77869b;
-  font-weight:bold;
+.cloud{
+  position:absolute;
+  font-size:35px;
+  opacity:.75;
 }
-.robot-area{
-  height:155px;
+.cloud.a{top:7px;right:12px}
+.cloud.b{top:36px;left:12px;font-size:27px}
+
+.monster-wrap{
+  height:183px;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:flex-end;
+  padding-bottom:6px;
 }
-.robot{
+.monster{
   position:relative;
-  width:122px;
-  height:140px;
+  width:130px;
+  height:135px;
   transform-origin:center bottom;
-}
-.head{
-  position:absolute;
-  top:8px;left:34px;
-  width:55px;height:44px;
-  border-radius:13px 13px 9px 9px;
-  background:linear-gradient(145deg,#7e68e2,#5b75d9);
-  border:3px solid #4e57aa;
-}
-.antenna{
-  position:absolute;
-  width:4px;height:16px;
-  background:#4f5ba9;
-  top:-14px;left:25px;
-}
-.antenna:after{
-  content:"";
-  position:absolute;
-  width:10px;height:10px;
-  border-radius:50%;
-  top:-7px;left:-3px;
-  background:#f06ba6;
-}
-.eye{
-  position:absolute;
-  top:13px;
-  width:10px;height:10px;
-  border-radius:50%;
-  background:#dffbff;
-  box-shadow:0 0 6px #9cf7ff;
-}
-.eye.a{left:10px}.eye.b{right:10px}
-.mouth{
-  position:absolute;bottom:8px;left:17px;
-  width:21px;height:4px;border-radius:4px;background:#cbd9ff;
 }
 .body{
   position:absolute;
-  width:68px;height:61px;
-  top:55px;left:27px;
-  border-radius:12px;
-  background:linear-gradient(145deg,#55a8ed,#387aca);
-  border:3px solid #366cba;
+  left:15px;
+  bottom:5px;
+  width:100px;
+  height:103px;
+  border-radius:48% 48% 40% 40%;
+  background:linear-gradient(145deg,#8267df,#6548c5);
+  border:4px solid #5940ad;
 }
-.core{
+.horn{
   position:absolute;
-  top:16px;left:22px;
-  width:19px;height:19px;border-radius:50%;
-  background:#ffd752;
-  box-shadow:0 0 10px #ffe894;
+  top:-18px;
+  width:0;height:0;
+  border-left:12px solid transparent;
+  border-right:12px solid transparent;
+  border-bottom:27px solid #f4ca52;
 }
-.arm{
+.horn.a{left:8px;transform:rotate(-20deg)}
+.horn.b{right:8px;transform:rotate(20deg)}
+.eye{
   position:absolute;
-  width:19px;height:53px;
-  top:59px;
-  border-radius:10px;
-  background:#ef77aa;
-  border:3px solid #c95589;
+  top:26px;
+  width:22px;height:26px;
+  border-radius:50%;
+  background:white;
 }
-.arm.a{left:5px;transform:rotate(7deg)}
-.arm.b{right:5px;transform:rotate(-7deg)}
-.leg{
+.eye.a{left:20px}.eye.b{right:20px}
+.eye:after{
+  content:"";
   position:absolute;
-  width:22px;height:30px;
-  top:110px;
-  border-radius:5px 5px 9px 9px;
-  background:#5f74d8;
-  border:3px solid #4c5ab0;
+  width:9px;height:11px;
+  border-radius:50%;
+  background:#283348;
+  left:7px;top:8px;
 }
-.leg.a{left:32px}.leg.b{right:32px}
+.mouth{
+  position:absolute;
+  left:31px;
+  top:65px;
+  width:38px;height:19px;
+  border-radius:4px 4px 25px 25px;
+  background:#3c285f;
+}
+.tooth{
+  position:absolute;
+  top:0;
+  width:0;height:0;
+  border-left:5px solid transparent;
+  border-right:5px solid transparent;
+  border-top:9px solid white;
+}
+.tooth.a{left:6px}.tooth.b{right:6px}
+.foot{
+  position:absolute;
+  bottom:0;
+  width:33px;height:17px;
+  border-radius:50%;
+  background:#5139a5;
+}
+.foot.a{left:19px}.foot.b{right:19px}
+.cheek{
+  position:absolute;
+  top:53px;
+  width:13px;height:8px;
+  border-radius:50%;
+  background:#eb6fa9;
+  opacity:.8;
+}
+.cheek.a{left:7px}.cheek.b{right:7px}
 
-.parts{
-  position:absolute;
-  right:-15px;
-  top:37px;
-  width:32px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:3px;
-}
-.part{
-  width:8px;height:8px;
-  background:#ffd050;
-  border-radius:2px;
-  box-shadow:0 1px 2px #c99c31;
-}
-.robot-number{
+.monster-label{
   position:absolute;
   left:50%;
-  bottom:-19px;
   transform:translateX(-50%);
-  background:#fff;
-  border:1px solid #d8e0e9;
-  border-radius:999px;
-  padding:3px 10px;
-  font-size:11px;
+  top:0;
+  z-index:3;
   white-space:nowrap;
-  color:#59687b;
-}
-.story{
-  text-align:center;
-  min-height:45px;
-  font-size:13px;
-  line-height:1.7;
-  color:#526174;
-  padding-top:5px;
-}
-.story strong{color:#5943b5;font-size:16px}
-
-.action{
-  width:100%;
-  min-height:51px;
-  border:none;
-  border-radius:15px;
-  color:#fff;
+  color:#5948a1;
+  background:#fff;
+  border:1px solid #ded9ef;
+  border-radius:999px;
+  padding:4px 10px;
+  font-size:11px;
   font-weight:bold;
+}
+
+.bubble{
+  position:absolute;
+  top:34px;
+  right:8px;
+  max-width:125px;
+  background:#fff;
+  border-radius:16px 16px 3px 16px;
+  padding:7px 9px;
+  text-align:center;
+  font-size:11px;
+  color:#58667a;
+  box-shadow:0 4px 12px rgba(70,87,110,.12);
+}
+.food-line{
+  min-height:48px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:3px;
+  padding:4px;
+}
+.food{font-size:22px}
+.result-text{
+  text-align:center;
+  min-height:34px;
+  font-size:12px;
+  color:#536276;
+  line-height:1.7;
+}
+.result-text strong{
+  color:#5d46b9;
+  font-size:16px;
+}
+
+.big-btn{
+  width:100%;
+  min-height:52px;
+  border:0;
+  border-radius:15px;
+  margin-top:9px;
   cursor:pointer;
-  margin-top:10px;
-  background:linear-gradient(135deg,#7556da,#438ce7);
-  box-shadow:0 7px 16px rgba(75,88,194,.23);
+  color:white;
+  font-weight:bold;
+  background:linear-gradient(135deg,#7657d8,#438ce6);
+  box-shadow:0 7px 16px rgba(78,85,191,.22);
 }
-.action.yellow{
-  background:linear-gradient(135deg,#edb932,#ef8b36);
-}
-.action:disabled{
-  background:#c4cbd5;
+.big-btn:disabled{
+  background:#c5cbd4;
   box-shadow:none;
   cursor:default;
 }
-.progress-dots{
-  display:flex;
-  justify-content:center;
-  gap:7px;
-  margin:13px 0 3px;
-}
-.pdot{
-  width:11px;height:11px;
-  border-radius:50%;
-  background:#d8dee8;
-}
-.pdot.done{background:#42b87c}
-.pdot.active{background:#7055d3;box-shadow:0 0 0 4px #ede9ff}
 
-.answer-zone{display:none;margin-top:13px}
-.answer-zone.show{display:block}
-.answer-title{
+.steps{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  margin:11px 0 1px;
+}
+.step{
+  width:10px;height:10px;
+  border-radius:50%;
+  background:#d6dde7;
+}
+.step.done{background:#3ab87b}
+.step.now{
+  background:#7054d2;
+  box-shadow:0 0 0 4px #eeeaff;
+}
+
+/* choices */
+.final-zone{display:none;margin-top:11px}
+.final-zone.show{display:block}
+.question{
   text-align:center;
   font-weight:bold;
-  color:#4a3f91;
-  margin-bottom:9px;
+  color:#4f4198;
+  line-height:1.7;
+  margin-bottom:8px;
 }
-.choices{
+.trays{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:8px;
+  gap:7px;
 }
-.choice{
-  min-height:65px;
-  border:2px solid #dce2ec;
+.tray{
+  min-width:0;
+  min-height:90px;
+  background:#fffaf0;
+  border:2px solid #eadcaf;
   border-radius:15px;
-  background:#fff;
-  color:#37475a;
-  font-size:20px;
-  font-weight:bold;
   cursor:pointer;
+  padding:7px 3px;
 }
-.choice:hover:not(:disabled){
-  border-color:#806bdd;
-  background:#f9f7ff;
+.tray:hover:not(:disabled){
+  border-color:#e2ad37;
+  background:#fff7dd;
 }
-.choice.selected{
-  border-color:#7558d4;
-  background:#eeeaff;
-  color:#5840b3;
+.tray .mini-foods{
+  height:43px;
+  overflow:hidden;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-content:center;
+  gap:0;
 }
-.choice.correct{
-  border-color:#39b779;
+.tray .mini-foods span{font-size:15px}
+.tray b{
+  display:block;
+  color:#775c20;
+  margin-top:3px;
+}
+.tray.correct{
+  border-color:var(--green);
   background:#eaf9f1;
-  color:#23704a;
 }
-.choice.wrong{
-  border-color:#e65e65;
+.tray.wrong{
+  border-color:var(--red);
   background:#fff0f0;
-  color:#a14248;
 }
-.choice:disabled{cursor:default}
+.tray:disabled{cursor:default}
 
 .feedback{
   display:none;
-  border-radius:14px;
-  padding:11px;
-  margin-top:11px;
-  line-height:1.75;
-  font-size:13px;
+  margin-top:10px;
+  padding:10px;
+  border-radius:13px;
+  line-height:1.7;
+  font-size:12px;
 }
 .feedback.good{
-  display:block;background:#eaf9f1;border:1px solid #b8e5cc;color:#226845
+  display:block;
+  background:#eaf9f1;
+  border:1px solid #b9e6cc;
+  color:#246846;
 }
 .feedback.bad{
-  display:block;background:#fff0f0;border:1px solid #efc0c3;color:#914147
+  display:block;
+  background:#fff0f0;
+  border:1px solid #f0c2c4;
+  color:#914147;
 }
 .feedback.time{
-  display:block;background:#fff7df;border:1px solid #ecd793;color:#7e611e
+  display:block;
+  background:#fff7df;
+  border:1px solid #ecd795;
+  color:#7a601e;
 }
-.next{display:none}
+#nextBtn{display:none}
 
-.result{
-  display:none;
-  text-align:center;
-}
-.result.show{display:block}
+/* Result */
 .hidden{display:none!important}
-.trophy{font-size:60px}
+.result{display:none;text-align:center}
+.result.show{display:block}
+.trophy{font-size:58px}
 .final-score{
-  color:#6048bd;
-  font-weight:bold;
   font-size:42px;
+  color:#5d45bb;
+  font-weight:bold;
+  margin:6px;
 }
 .final-score small{
-  color:var(--muted);
   font-size:14px;
+  color:var(--muted);
   font-weight:normal;
 }
-.result-message{
+.message{
   font-weight:bold;
-  margin:10px 0 17px;
+  margin:9px 0 16px;
 }
 .board{
-  max-width:520px;
+  max-width:500px;
   margin:15px auto;
   text-align:right;
 }
 .board h3{text-align:center}
 .rank{
   display:flex;
-  gap:9px;
   justify-content:space-between;
+  gap:8px;
   background:#f6f8fc;
   border-radius:11px;
-  padding:9px 11px;
   margin:6px 0;
+  padding:9px 10px;
 }
 .rank-name{
   flex:1;
   overflow:hidden;
-  white-space:nowrap;
   text-overflow:ellipsis;
+  white-space:nowrap;
 }
-.rank-score{font-weight:bold;color:#654fc1}
-.loading{text-align:center;color:var(--muted);padding:12px}
-.restart{max-width:350px}
+.rank-score{
+  color:#644ec0;
+  font-weight:bold;
+  white-space:nowrap;
+}
+.loading{
+  padding:12px;
+  text-align:center;
+  color:var(--muted);
+}
+.restart{max-width:340px}
 .back{
   display:block;
   width:max-content;
   max-width:100%;
   margin:18px auto 0;
-  color:#6253a7;
+  color:#6152a5;
   font-size:13px;
   text-decoration:none;
 }
 @media(max-width:520px){
   .status{grid-template-columns:repeat(2,1fr)}
-  .game-card{padding:11px;border-radius:18px}
-  .workshop{min-height:245px}
-  .choices{gap:6px}
-  .choice{font-size:18px;padding:5px}
+  .card{padding:10px;border-radius:18px}
+  .bubble{max-width:100px}
+  .tray{min-height:85px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*:before,*:after{
@@ -443,119 +490,138 @@ h1{
 <body>
 <main class="app">
 
-  <header class="hero" id="hero">
-    <div class="badges">
-      <span class="badge">پایه هفتم</span>
-      <span class="badge">فصل اول</span>
-      <span class="badge">درس ۸</span>
+<header class="hero" id="hero">
+  <div class="badges">
+    <span class="badge">پایه هفتم</span>
+    <span class="badge">فصل اول</span>
+    <span class="badge">درس ۸</span>
+  </div>
+  <h1>👾 غول و مینی‌غول</h1>
+  <p class="subtitle">اول کوچولوها را امتحان کن، بعد غذای غول بزرگ را پیدا کن!</p>
+</header>
+
+<div id="statusWrap">
+  <section class="status">
+    <div class="stat">
+      <small>بازیکن</small>
+      <b id="playerName">---</b>
     </div>
-    <h1>🤖 ربات غول‌پیکر</h1>
-    <p class="subtitle">اول مدل کوچک را بساز، بعد ربات غول‌پیکر را روشن کن!</p>
-  </header>
+    <div class="stat">
+      <small>مرحله</small>
+      <b id="stage">۱ از ۱۰</b>
+    </div>
+    <div class="stat">
+      <small>امتیاز</small>
+      <b id="score">۰</b>
+    </div>
+    <div class="stat">
+      <small>زمان</small>
+      <b id="time">۳۰ ثانیه</b>
+    </div>
+  </section>
 
-  <div id="statusWrap">
-    <section class="status">
-      <div class="stat">
-        <small>بازیکن</small>
-        <b id="playerName">---</b>
-      </div>
-      <div class="stat">
-        <small>مرحله</small>
-        <b id="stage">۱ از ۱۰</b>
-      </div>
-      <div class="stat">
-        <small>امتیاز</small>
-        <b id="score">۰</b>
-      </div>
-      <div class="stat">
-        <small>زمان</small>
-        <b id="time">۶۰ ثانیه</b>
-      </div>
-    </section>
+  <section class="timer">
+    <div class="timer-row">
+      <span>⏱️ زمان</span>
+      <span id="timerMini">۳۰ / ۳۰</span>
+    </div>
+    <div class="track">
+      <div class="bar" id="timerBar"></div>
+    </div>
+  </section>
+</div>
 
-    <section class="timer-card">
-      <div class="timer-text">
-        <span>انرژی کارگاه</span>
-        <span id="timerMini">۶۰ / ۶۰</span>
-      </div>
-      <div class="timer-track">
-        <div class="timer-bar" id="timerBar"></div>
-      </div>
-    </section>
+<section class="card" id="game">
+
+  <div class="mission">
+    <small>🍎 مأموریت غذا</small>
+    <h2 id="missionTitle">غول گرسنه!</h2>
+    <p id="missionText"></p>
   </div>
 
-  <section class="game-card" id="game">
+  <div class="steps">
+    <span class="step now" id="step1"></span>
+    <span class="step" id="step2"></span>
+    <span class="step" id="step3"></span>
+  </div>
 
-    <div class="mission">
-      <div class="mission-label">🎯 ربات نهایی</div>
-      <h2 id="missionTitle"></h2>
-      <p id="missionText"></p>
-      <p class="target" id="targetText"></p>
+  <div class="playground">
+    <span class="cloud a">☁️</span>
+    <span class="cloud b">☁️</span>
+
+    <div class="monster-label" id="monsterLabel">مینی‌غول ۱</div>
+
+    <div class="bubble" id="bubble">
+      اول منو امتحان کن!
     </div>
 
-    <div class="progress-dots">
-      <span class="pdot active" id="dot1"></span>
-      <span class="pdot" id="dot2"></span>
-      <span class="pdot" id="dot3"></span>
-    </div>
-
-    <div class="workshop">
-      <div class="workshop-title" id="workshopTitle">مدل کوچک شماره ۱</div>
-
-      <div class="robot-area">
-        <div class="robot" id="robot">
-          <div class="head">
-            <div class="antenna"></div>
-            <div class="eye a"></div>
-            <div class="eye b"></div>
-            <div class="mouth"></div>
-          </div>
-          <div class="body"><div class="core"></div></div>
-          <div class="arm a"></div>
-          <div class="arm b"></div>
-          <div class="leg a"></div>
-          <div class="leg b"></div>
-          <div class="parts" id="parts"></div>
-          <div class="robot-number" id="robotLabel"></div>
+    <div class="monster-wrap">
+      <div class="monster" id="monster">
+        <div class="body">
+          <span class="horn a"></span>
+          <span class="horn b"></span>
+          <span class="eye a"></span>
+          <span class="eye b"></span>
+          <span class="cheek a"></span>
+          <span class="cheek b"></span>
+          <span class="mouth">
+            <span class="tooth a"></span>
+            <span class="tooth b"></span>
+          </span>
         </div>
+        <span class="foot a"></span>
+        <span class="foot b"></span>
       </div>
-
-      <div class="story" id="story"></div>
     </div>
 
-    <button class="action yellow" id="buildBtn">🔧 مدل کوچک را بساز</button>
-
-    <div class="answer-zone" id="answerZone">
-      <div class="answer-title">🤖 ربات بزرگ چند قطعه انرژی می‌خواهد؟</div>
-      <div class="choices" id="choices"></div>
+    <div class="food-line" id="foodLine"></div>
+    <div class="result-text" id="resultText">
+      مینی‌غول منتظر غذاست.
     </div>
+  </div>
 
-    <div class="feedback" id="feedback" aria-live="polite"></div>
+  <button class="big-btn" id="feedBtn">🍎 به مینی‌غول غذا بده</button>
 
-    <button class="action next" id="nextBtn">مرحله بعد ←</button>
-  </section>
+  <div class="final-zone" id="finalZone">
+    <div class="question" id="questionText"></div>
+    <div class="trays" id="trays"></div>
+  </div>
 
-  <section class="game-card result" id="result">
-    <div class="trophy">🏆🤖</div>
-    <h2>ربات غول‌پیکر روشن شد!</h2>
-    <div id="resultName"></div>
+  <div class="feedback" id="feedback" aria-live="polite"></div>
 
-    <div class="final-score">
-      <span id="finalScore">۰</span>
-      <small>از ۱۰۰ امتیاز</small>
+  <button class="big-btn" id="nextBtn">غول بعدی ←</button>
+
+</section>
+
+<section class="card result" id="result">
+  <div class="trophy">🏆👾</div>
+  <h2>همه غول‌ها سیر شدند!</h2>
+
+  <div id="resultName"></div>
+
+  <div class="final-score">
+    <span id="finalScore">۰</span>
+    <small>از ۱۰۰ امتیاز</small>
+  </div>
+
+  <div class="message" id="resultMessage"></div>
+
+  <div class="board">
+    <h3>🏅 برترین غول‌بان‌ها</h3>
+    <div id="leaderboard" class="loading">
+      در حال دریافت رکوردها...
     </div>
+  </div>
 
-    <div class="result-message" id="resultMessage"></div>
+  <button class="big-btn restart" id="restartBtn">
+    🔄 دوباره بازی کن
+  </button>
+</section>
 
-    <div class="board">
-      <h3>🏅 برترین ربات‌سازها</h3>
-      <div id="leaderboard" class="loading">در حال دریافت رکوردها...</div>
-    </div>
+<a class="back" href="/#game">
+  ← بازگشت به بازی‌های ریاضی
+</a>
 
-    <button class="action restart" id="restartBtn">🔄 ساخت ربات جدید</button>
-  </section>
-
-  <a href="/#game" class="back">← بازگشت به بازی‌های ریاضی</a>
 </main>
 
 <script src="/games/game-sdk.js"></script>
@@ -569,20 +635,22 @@ const player = GameSDK.init(GAME_ID);
 "use strict";
 
 const TOTAL_QUESTIONS = 10;
-const QUESTION_TIME = 60;
+const QUESTION_TIME = 30;
 
-const RECENT_KEY = "giant_robot_math_recent_v1";
+const RECENT_KEY = "mini_monster_math_recent_v2";
 const MAX_RECENT = 40;
 
 let questions = [];
 let currentIndex = 0;
 let score = 0;
+
 let timerId = null;
 let startedAt = 0;
+
+let playStep = 0;
 let answerChecked = false;
 let gameFinished = false;
 let finishSubmitted = false;
-let buildStep = 0;
 
 const $ = id => document.getElementById(id);
 
@@ -595,23 +663,28 @@ const el = {
   time:$("time"),
   timerMini:$("timerMini"),
   timerBar:$("timerBar"),
+
   game:$("game"),
   missionTitle:$("missionTitle"),
   missionText:$("missionText"),
-  targetText:$("targetText"),
-  workshopTitle:$("workshopTitle"),
-  robot:$("robot"),
-  parts:$("parts"),
-  robotLabel:$("robotLabel"),
-  story:$("story"),
-  buildBtn:$("buildBtn"),
-  answerZone:$("answerZone"),
-  choices:$("choices"),
+
+  step1:$("step1"),
+  step2:$("step2"),
+  step3:$("step3"),
+
+  monsterLabel:$("monsterLabel"),
+  bubble:$("bubble"),
+  monster:$("monster"),
+  foodLine:$("foodLine"),
+  resultText:$("resultText"),
+
+  feedBtn:$("feedBtn"),
+  finalZone:$("finalZone"),
+  questionText:$("questionText"),
+  trays:$("trays"),
   feedback:$("feedback"),
   nextBtn:$("nextBtn"),
-  dot1:$("dot1"),
-  dot2:$("dot2"),
-  dot3:$("dot3"),
+
   result:$("result"),
   resultName:$("resultName"),
   finalScore:$("finalScore"),
@@ -620,24 +693,26 @@ const el = {
   restartBtn:$("restartBtn")
 };
 
-function faNumber(v){
-  return String(v).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+function faNumber(value){
+  return String(value).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 }
 
-function rand(min,max){
+function randomInt(min,max){
   return Math.floor(Math.random()*(max-min+1))+min;
 }
 
-function shuffle(arr){
-  const a=[...arr];
+function shuffle(array){
+  const a=[...array];
+
   for(let i=a.length-1;i>0;i--){
     const j=Math.floor(Math.random()*(i+1));
     [a[i],a[j]]=[a[j],a[i]];
   }
+
   return a;
 }
 
-function recent(){
+function getRecent(){
   try{
     const x=JSON.parse(localStorage.getItem(RECENT_KEY)||"[]");
     return Array.isArray(x)?x:[];
@@ -646,275 +721,230 @@ function recent(){
   }
 }
 
-function saveRecent(list){
+function saveRecent(signatures){
   try{
-    const old=recent();
-    const all=[...list,...old.filter(x=>!list.includes(x))].slice(0,MAX_RECENT);
-    localStorage.setItem(RECENT_KEY,JSON.stringify(all));
+    const old=getRecent();
+
+    const combined=[
+      ...signatures,
+      ...old.filter(x=>!signatures.includes(x))
+    ].slice(0,MAX_RECENT);
+
+    localStorage.setItem(
+      RECENT_KEY,
+      JSON.stringify(combined)
+    );
   }catch{}
 }
 
 /*
- هر سؤال عمداً فقط دو مدل ساده دارد.
- دانش‌آموز ابتدا این دو حالت را می‌بیند و سپس حالت اصلی را پاسخ می‌دهد.
+  ساختار بازی عمداً ساده است.
+
+  مینی‌غول ۱ -> مینی‌غول ۲ -> غول اصلی
+
+  مثلاً:
+  غول ۱ : ۳ سیب
+  غول ۲ : ۵ سیب
+  غول اصلی، شماره ۵ : ؟
+
+  دانش‌آموز با دو نمونه کوچک رابطه را می‌بیند
+  و آن را برای حالت بزرگ‌تر ادامه می‌دهد.
 */
-const generators = [
 
-  () => {
-    const start=rand(3,6);
-    const add=rand(2,4);
-    const target=rand(6,9);
-    return makeLinear(
-      "energy",
-      "باتری‌های ربات",
-      start,add,target,
-      "باتری",
-      `مدل ربات در مرحله اول ${faNumber(start)} باتری دارد و هر مدل بزرگ‌تر ${faNumber(add)} باتری بیشتر می‌خواهد.`,
-      `ربات مرحله ${faNumber(target)} را کامل کن.`
-    );
-  },
+function makeQuestion(type,start,add,target,food,flavor){
+  const calc=n=>start+(n-1)*add;
 
-  () => {
-    const start=rand(4,7);
-    const add=2;
-    const target=rand(6,10);
-    return makeLinear(
-      "lights",
-      "چراغ‌های ربات",
-      start,add,target,
-      "چراغ",
-      `مدل اول ${faNumber(start)} چراغ دارد. هر بار که ربات بزرگ‌تر می‌شود، ${faNumber(add)} چراغ تازه به آن اضافه می‌کنیم.`,
-      `ربات مرحله ${faNumber(target)} چند چراغ دارد؟`
-    );
-  },
-
-  () => {
-    const start=rand(2,5);
-    const add=3;
-    const target=rand(6,9);
-    return makeLinear(
-      "armor",
-      "صفحه‌های زره",
-      start,add,target,
-      "صفحه زره",
-      `مدل اول ${faNumber(start)} صفحه زره دارد و هر مدل بعدی ${faNumber(add)} صفحه بیشتر دارد.`,
-      `برای مدل شماره ${faNumber(target)} چند صفحه لازم است؟`
-    );
-  },
-
-  () => {
-    const target=rand(6,9);
-    return makeQuestion({
-      type:"squares",
-      title:"بازوهای مربعی",
-      target,
-      small:[1,2],
-      calc:n=>3*n+1,
-      unit:"قطعه",
-      prompt:"بازوی ربات از مربع‌های کنار هم ساخته می‌شود. یک مربع ۴ قطعه می‌خواهد و هر مربع تازه یک ضلع مشترک دارد.",
-      targetText:`بازوی ${faNumber(target)} مربعی را بساز.`,
-      explanation:"مدل کوچک نشان می‌دهد مربع اول ۴ قطعه می‌خواهد و هر مربع تازه فقط ۳ قطعه جدید اضافه می‌کند."
-    });
-  },
-
-  () => {
-    const target=rand(6,9);
-    return makeQuestion({
-      type:"stairs",
-      title:"پای ربات پله‌ای",
-      target,
-      small:[1,2],
-      calc:n=>n*(n+1)/2,
-      unit:"مکعب",
-      prompt:"پای ربات پله‌ای است: پله اول ۱ مکعب دارد، پله دوم ۲ مکعب و هر پله تازه یک مکعب بیشتر از قبلی دارد.",
-      targetText:`پای ${faNumber(target)} پله‌ای چند مکعب می‌خواهد؟`,
-      explanation:"در مدل‌های کوچک می‌بینی که برای هر پله، به تعداد شماره همان پله مکعب تازه اضافه می‌شود."
-    });
-  },
-
-  () => {
-    const target=rand(6,9);
-    return makeQuestion({
-      type:"connections",
-      title:"سیم‌های ارتباطی",
-      target,
-      small:[2,3],
-      calc:n=>n*(n-1)/2,
-      unit:"سیم",
-      prompt:"در هر مدل، همه حسگرهای ربات باید دوتادوتا با یک سیم به هم وصل شوند.",
-      targetText:`مدل اصلی ${faNumber(target)} حسگر دارد. چند سیم لازم است؟`,
-      explanation:"با اضافه‌شدن هر حسگر، باید آن را به همه حسگرهای قبلی وصل کنیم. مدل‌های کوچک این رشد را نشان می‌دهند."
-    });
-  },
-
-  () => {
-    const start=4;
-    const add=4;
-    const target=rand(6,10);
-    return makeLinear(
-      "wheels",
-      "چرخ‌دنده‌های قدرت",
-      start,add,target,
-      "چرخ‌دنده",
-      "مدل اول ۴ چرخ‌دنده دارد و با هر بار بزرگ‌ترشدن ربات، ۴ چرخ‌دنده تازه نصب می‌شود.",
-      `مدل شماره ${faNumber(target)} چند چرخ‌دنده دارد؟`
-    );
-  },
-
-  () => {
-    const start=3;
-    const add=5;
-    const target=rand(6,9);
-    return makeLinear(
-      "chips",
-      "تراشه‌های هوشمند",
-      start,add,target,
-      "تراشه",
-      "مدل اول ۳ تراشه دارد. هر مدل بزرگ‌تر ۵ تراشه بیشتر از مدل قبلی دارد.",
-      `مدل شماره ${faNumber(target)} را کامل کن.`
-    );
-  },
-
-  () => {
-    const target=rand(6,9);
-    return makeQuestion({
-      type:"odd",
-      title:"هسته‌های انرژی",
-      target,
-      small:[1,2],
-      calc:n=>n*n,
-      unit:"واحد انرژی",
-      prompt:"هسته اول ۱ واحد انرژی می‌دهد. برای بزرگ‌ترکردن ربات، به‌ترتیب ۳، ۵، ۷ و ... واحد انرژی تازه اضافه می‌شود.",
-      targetText:`پس از ${faNumber(target)} مرحله، چند واحد انرژی داریم؟`,
-      explanation:"مدل‌های کوچک از ۱ شروع می‌شوند و هر بار عدد فرد بعدی اضافه می‌شود: ۱، ۳، ۵، ۷ و ..."
-    });
-  },
-
-  () => {
-    const target=rand(6,9);
-    return makeQuestion({
-      type:"panels",
-      title:"پنل‌های مثلثی",
-      target,
-      small:[1,2],
-      calc:n=>n*(n+1)/2,
-      unit:"پنل",
-      prompt:"ردیف اول زره ۱ پنل، ردیف دوم ۲ پنل و هر ردیف بعدی یک پنل بیشتر دارد.",
-      targetText:`زره ${faNumber(target)} ردیفی چند پنل دارد؟`,
-      explanation:"اول نمونه کوچک را می‌سازیم: ۱ پنل، بعد ۱+۲، بعد ۱+۲+۳ و همین روند را ادامه می‌دهیم."
-    });
-  },
-
-  () => {
-    const start=rand(2,4);
-    const add=2;
-    const target=rand(7,10);
-    return makeLinear(
-      "buttons",
-      "دکمه‌های کنترل",
-      start,add,target,
-      "دکمه",
-      `کنترل مدل اول ${faNumber(start)} دکمه دارد و هر مدل جدید ۲ دکمه بیشتر می‌گیرد.`,
-      `کنترل مدل ${faNumber(target)} چند دکمه دارد؟`
-    );
-  },
-
-  () => {
-    const start=5;
-    const add=3;
-    const target=rand(7,10);
-    return makeLinear(
-      "bolts",
-      "پیچ‌های بدنه",
-      start,add,target,
-      "پیچ",
-      "بدنه مدل اول ۵ پیچ دارد و در هر مدل جدید ۳ پیچ دیگر لازم می‌شود.",
-      `بدنه مدل شماره ${faNumber(target)} چند پیچ می‌خواهد؟`
-    );
-  }
-];
-
-function makeLinear(type,title,start,add,target,unit,prompt,targetText){
-  return makeQuestion({
+  return {
     type,
-    title,
-    target,
     start,
     add,
-    small:[1,2],
-    calc:n=>start+(n-1)*add,
-    unit,
-    prompt,
-    targetText,
-    explanation:`مدل کوچک‌تر کمک می‌کند ببینی با هر مرحله، دقیقاً ${faNumber(add)} ${unit} اضافه می‌شود.`
-  });
+    target,
+    food,
+    flavor,
+    calc,
+    answer:calc(target),
+    signature:`${type}-${start}-${add}-${target}`
+  };
 }
 
-function makeQuestion(q){
-  q.answer=q.calc(q.target);
-  q.signature=[
-    q.type,
-    q.target,
-    q.start||"",
-    q.add||""
-  ].join("-");
+const generators = [
 
-  return q;
-}
+  () => makeQuestion(
+    "apple",
+    randomInt(1,3),
+    1,
+    randomInt(4,6),
+    "🍎",
+    "هر غول بزرگ‌تر، یک سیب بیشتر می‌خواهد."
+  ),
+
+  () => makeQuestion(
+    "cookie",
+    randomInt(2,3),
+    2,
+    randomInt(4,6),
+    "🍪",
+    "هر غول بزرگ‌تر، دو کلوچه بیشتر می‌خواهد."
+  ),
+
+  () => makeQuestion(
+    "carrot",
+    randomInt(1,2),
+    2,
+    randomInt(4,6),
+    "🥕",
+    "با هر بار بزرگ‌ترشدن، دو هویج به غذا اضافه می‌شود."
+  ),
+
+  () => makeQuestion(
+    "strawberry",
+    randomInt(2,4),
+    1,
+    randomInt(5,7),
+    "🍓",
+    "هر مینی‌غول یک توت‌فرنگی بیشتر از قبلی می‌خورد."
+  ),
+
+  () => makeQuestion(
+    "cheese",
+    randomInt(1,3),
+    3,
+    randomInt(4,5),
+    "🧀",
+    "هر غول بزرگ‌تر، سه تکه پنیر بیشتر می‌خواهد."
+  ),
+
+  () => makeQuestion(
+    "banana",
+    randomInt(2,3),
+    1,
+    randomInt(5,7),
+    "🍌",
+    "با بزرگ‌ترشدن غول، یک موز به سینی اضافه می‌شود."
+  ),
+
+  () => makeQuestion(
+    "grape",
+    randomInt(1,2),
+    2,
+    randomInt(4,6),
+    "🍇",
+    "هر غول بزرگ‌تر دو خوشه بیشتر می‌خواهد."
+  ),
+
+  () => makeQuestion(
+    "watermelon",
+    1,
+    1,
+    randomInt(4,6),
+    "🍉",
+    "هر غول بزرگ‌تر یک قاچ بیشتر می‌خورد."
+  ),
+
+  () => makeQuestion(
+    "corn",
+    randomInt(1,2),
+    2,
+    randomInt(4,6),
+    "🌽",
+    "برای غول بعدی، دو ذرت تازه اضافه می‌شود."
+  ),
+
+  () => makeQuestion(
+    "cupcake",
+    randomInt(2,3),
+    1,
+    randomInt(5,7),
+    "🧁",
+    "غول بعدی همیشه یک کیک بیشتر می‌خواهد."
+  ),
+
+  () => makeQuestion(
+    "pear",
+    randomInt(1,3),
+    1,
+    randomInt(5,7),
+    "🍐",
+    "با هر مرحله یک گلابی به غذا اضافه می‌شود."
+  ),
+
+  () => makeQuestion(
+    "bread",
+    2,
+    2,
+    randomInt(4,6),
+    "🥐",
+    "هر غول بزرگ‌تر دو نان بیشتر می‌خواهد."
+  )
+];
 
 function generateRound(){
-  const old=new Set(recent());
+  const old=new Set(getRecent());
   const order=shuffle(generators);
-  const made=[];
+  const result=[];
 
   for(const generator of order){
+
     let candidate=null;
 
     for(let tries=0;tries<15;tries++){
+
       const q=generator();
 
       if(!candidate) candidate=q;
 
       if(
         !old.has(q.signature) &&
-        !made.some(x=>x.signature===q.signature)
+        !result.some(x=>x.signature===q.signature)
       ){
         candidate=q;
         break;
       }
     }
 
-    made.push(candidate);
+    result.push(candidate);
 
-    if(made.length===TOTAL_QUESTIONS) break;
+    if(result.length===TOTAL_QUESTIONS){
+      break;
+    }
   }
 
-  questions=made.slice(0,TOTAL_QUESTIONS);
-  saveRecent(questions.map(q=>q.signature));
+  questions=result.slice(0,TOTAL_QUESTIONS);
+
+  saveRecent(
+    questions.map(q=>q.signature)
+  );
 }
 
-function remaining(){
+/* ---------- Timer ---------- */
+
+function remainingMs(){
   return Math.max(
     0,
     QUESTION_TIME*1000-(Date.now()-startedAt)
   );
 }
 
-function scoreForTime(sec){
-  if(sec<=15)return 10;
-  if(sec<=25)return 8;
-  if(sec<=35)return 6;
-  if(sec<=45)return 4;
-  if(sec<60)return 2;
+function scoreForTime(seconds){
+  if(seconds<=5) return 10;
+  if(seconds<=10) return 8;
+  if(seconds<=15) return 6;
+  if(seconds<=20) return 4;
+  if(seconds<30) return 2;
   return 0;
 }
 
 function startTimer(){
   stopTimer();
+
   startedAt=Date.now();
+
   updateTimer();
 
-  timerId=setInterval(updateTimer,150);
+  timerId=setInterval(
+    updateTimer,
+    150
+  );
 }
 
 function stopTimer(){
@@ -925,15 +955,18 @@ function stopTimer(){
 }
 
 function updateTimer(){
-  const ms=remaining();
+  const ms=remainingMs();
   const sec=Math.max(0,Math.ceil(ms/1000));
   const ratio=ms/(QUESTION_TIME*1000);
 
-  el.time.textContent=`${faNumber(sec)} ثانیه`;
+  el.time.textContent=
+    `${faNumber(sec)} ثانیه`;
+
   el.timerMini.textContent=
     `${faNumber(sec)} / ${faNumber(QUESTION_TIME)}`;
 
-  el.timerBar.style.width=`${ratio*100}%`;
+  el.timerBar.style.width=
+    `${Math.max(0,ratio*100)}%`;
 
   if(ratio>.5){
     el.timerBar.style.background="var(--green)";
@@ -943,364 +976,559 @@ function updateTimer(){
     el.timerBar.style.background="var(--red)";
   }
 
-  if(ms<=0 && !answerChecked && !gameFinished){
-    timeout();
+  if(
+    ms<=0 &&
+    !answerChecked &&
+    !gameFinished
+  ){
+    handleTimeout();
   }
 }
 
-function setDots(step){
-  [el.dot1,el.dot2,el.dot3].forEach((d,i)=>{
-    d.className="pdot";
+/* ---------- UI helpers ---------- */
 
-    if(i<step) d.classList.add("done");
-    else if(i===step) d.classList.add("active");
+function setSteps(step){
+
+  const steps=[
+    el.step1,
+    el.step2,
+    el.step3
+  ];
+
+  steps.forEach((dot,index)=>{
+
+    dot.className="step";
+
+    if(index<step){
+      dot.classList.add("done");
+    }else if(index===step){
+      dot.classList.add("now");
+    }
   });
 }
 
-function showRobotParts(number){
-  el.parts.innerHTML="";
+function drawFoods(count,food){
 
-  const count=Math.min(number,20);
+  el.foodLine.innerHTML="";
 
-  for(let i=0;i<count;i++){
-    const p=document.createElement("span");
-    p.className="part";
-    el.parts.appendChild(p);
+  const shown=Math.min(count,18);
+
+  for(let i=0;i<shown;i++){
+
+    const span=document.createElement("span");
+    span.className="food";
+    span.textContent=food;
+
+    el.foodLine.appendChild(span);
   }
 }
 
-function showModel(n,result){
-  const q=questions[currentIndex];
+function drawTrayFoods(container,count,food){
 
-  el.robotLabel.textContent=
-    `مدل ${faNumber(n)} • ${faNumber(result)} ${q.unit}`;
+  container.innerHTML="";
 
-  showRobotParts(result);
+  const shown=Math.min(count,12);
 
-  const scale=Math.min(1.15,.82+n*.04);
-  el.robot.style.transform=`scale(${scale})`;
+  for(let i=0;i<shown;i++){
+
+    const span=document.createElement("span");
+    span.textContent=food;
+
+    container.appendChild(span);
+  }
 }
 
+function showMonster(number,big=false){
+
+  if(big){
+    el.monster.style.transform="scale(1.12)";
+  }else{
+    const scale=.75+number*.06;
+    el.monster.style.transform=
+      `scale(${Math.min(scale,.94)})`;
+  }
+}
+
+/* ---------- Question ---------- */
+
 function renderQuestion(){
+
   stopTimer();
 
+  playStep=0;
   answerChecked=false;
-  buildStep=0;
 
   const q=questions[currentIndex];
 
   el.stage.textContent=
     `${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
 
-  el.score.textContent=faNumber(score);
+  el.score.textContent=
+    faNumber(score);
 
-  el.missionTitle.textContent=q.title;
-  el.missionText.textContent=q.prompt;
-  el.targetText.textContent=q.targetText;
+  el.missionTitle.textContent=
+    `${q.food} غول گرسنه!`;
+
+  el.missionText.textContent=
+    "کوچولوها را امتحان کن تا غذای غول بزرگ را پیدا کنی.";
 
   el.feedback.className="feedback";
   el.feedback.innerHTML="";
 
+  el.finalZone.classList.remove("show");
+
+  el.feedBtn.style.display="block";
+  el.feedBtn.disabled=false;
+  el.feedBtn.textContent=
+    `${q.food} به مینی‌غول ۱ غذا بده`;
+
   el.nextBtn.style.display="none";
-  el.answerZone.classList.remove("show");
-  el.choices.innerHTML="";
 
-  el.buildBtn.disabled=false;
-  el.buildBtn.style.display="block";
-  el.buildBtn.textContent="🔧 مدل کوچک را بساز";
+  el.monsterLabel.textContent=
+    "مینی‌غول ۱";
 
-  setDots(0);
+  el.bubble.textContent=
+    "اول منو امتحان کن!";
 
-  const first=q.small[0];
+  el.resultText.textContent=
+    "چند خوراکی لازم دارد؟";
 
-  el.workshopTitle.textContent="مدل کوچک شماره ۱";
-  el.story.innerHTML=
-    `اول یک مدل خیلی کوچک می‌سازیم.<br>`+
-    `<strong>مدل ${faNumber(first)}</strong>`;
+  el.foodLine.innerHTML="";
 
-  showRobotParts(0);
-  el.robotLabel.textContent="آماده ساخت";
-  el.robot.style.transform="scale(.85)";
+  showMonster(1,false);
+  setSteps(0);
 
   startTimer();
 }
 
-function buildSmallModel(){
-  if(answerChecked || gameFinished)return;
+function feedMonster(){
 
-  if(remaining()<=0){
-    timeout();
+  if(answerChecked || gameFinished){
+    return;
+  }
+
+  if(remainingMs()<=0){
+    handleTimeout();
     return;
   }
 
   const q=questions[currentIndex];
 
-  if(buildStep===0){
-    const n=q.small[0];
-    const value=q.calc(n);
+  if(playStep===0){
 
-    showModel(n,value);
+    const value=q.calc(1);
 
-    el.story.innerHTML=
-      `مدل ${faNumber(n)} ساخته شد! 🎉<br>`+
-      `<strong>${faNumber(value)} ${q.unit}</strong>`;
+    drawFoods(value,q.food);
 
-    el.workshopTitle.textContent="✅ اولین مدل آماده شد";
-    el.buildBtn.textContent="🔧 حالا یک مدل بزرگ‌تر بساز";
-    buildStep=1;
-    setDots(1);
+    el.resultText.innerHTML=
+      `مینی‌غول ۱ با <strong>${faNumber(value)}</strong> تا سیر شد! 😋`;
+
+    el.bubble.textContent=
+      "خوشمزه بود! بعدی رو ببین.";
+
+    el.monsterLabel.textContent=
+      "مینی‌غول ۱";
+
+    el.feedBtn.textContent=
+      `${q.food} مینی‌غول ۲ را امتحان کن`;
+
+    playStep=1;
+
+    setSteps(1);
+
     return;
   }
 
-  if(buildStep===1){
-    const n=q.small[1];
-    const value=q.calc(n);
+  if(playStep===1){
 
-    showModel(n,value);
+    const value=q.calc(2);
 
-    el.story.innerHTML=
-      `این یکی کمی بزرگ‌تر شد.<br>`+
-      `<strong>${faNumber(value)} ${q.unit}</strong>`;
+    drawFoods(value,q.food);
 
-    el.workshopTitle.textContent="✅ مدل دوم آماده شد";
-    el.buildBtn.textContent="🚀 ربات غول‌پیکر را ببین";
-    buildStep=2;
-    setDots(2);
+    el.resultText.innerHTML=
+      `مینی‌غول ۲ با <strong>${faNumber(value)}</strong> تا سیر شد! 😋`;
+
+    el.bubble.textContent=
+      "دیدی بیشتر شد؟ حالا غول بزرگ!";
+
+    el.monsterLabel.textContent=
+      "مینی‌غول ۲";
+
+    showMonster(2,false);
+
+    el.feedBtn.textContent=
+      "👾 برو سراغ غول بزرگ!";
+
+    playStep=2;
+
+    setSteps(2);
+
     return;
   }
 
-  if(buildStep===2){
-    buildStep=3;
-    showFinalChallenge();
+  if(playStep===2){
+
+    playStep=3;
+
+    showFinalMonster();
   }
 }
 
-function makeChoices(q){
+function showFinalMonster(){
+
+  const q=questions[currentIndex];
+
+  showMonster(q.target,true);
+
+  el.monsterLabel.textContent=
+    `غول شماره ${faNumber(q.target)}`;
+
+  el.bubble.textContent=
+    "من چندتا می‌خوام؟ 👀";
+
+  el.foodLine.innerHTML="";
+
+  el.resultText.innerHTML=
+    `به مینی‌غول‌ها نگاه کن و غذای من را پیدا کن!`;
+
+  el.feedBtn.style.display="none";
+
+  el.questionText.textContent=
+    `غول شماره ${faNumber(q.target)} چند ${q.food} می‌خواهد؟`;
+
+  el.finalZone.classList.add("show");
+
+  renderChoices(q);
+}
+
+function buildChoices(q){
+
   const correct=q.answer;
-  let wrong1;
-  let wrong2;
 
-  if(q.add){
-    wrong1=correct-q.add;
-    wrong2=correct+q.add;
-  }else{
-    const gap=Math.max(2,q.target-1);
-    wrong1=correct-gap;
-    wrong2=correct+gap;
-  }
+  const values=new Set([
+    correct,
+    Math.max(1,correct-q.add),
+    correct+q.add
+  ]);
 
-  const values=new Set([correct]);
-
-  if(wrong1>0) values.add(wrong1);
-  values.add(wrong2);
-
-  let delta=1;
+  let d=1;
 
   while(values.size<3){
-    const v=correct+delta;
-    if(v>0) values.add(v);
-    delta++;
+
+    if(correct+d>0){
+      values.add(correct+d);
+    }
+
+    d++;
   }
 
-  return shuffle([...values].slice(0,3));
+  return shuffle(
+    [...values].slice(0,3)
+  );
 }
 
-function showFinalChallenge(){
-  const q=questions[currentIndex];
+function renderChoices(q){
 
-  el.workshopTitle.textContent="🤖 ربات غول‌پیکر";
-  el.robot.style.transform="scale(1.15)";
-  showRobotParts(Math.min(q.answer,20));
+  el.trays.innerHTML="";
 
-  el.robotLabel.textContent=
-    `مدل ${faNumber(q.target)} • ؟ ${q.unit}`;
-
-  el.story.innerHTML=
-    `حالا از چیزی که در مدل‌های کوچک دیدی استفاده کن.<br>`+
-    `<strong>ربات اصلی را کامل کن!</strong>`;
-
-  el.buildBtn.style.display="none";
-  el.answerZone.classList.add("show");
-
-  renderChoices(makeChoices(q));
-}
-
-function renderChoices(values){
-  el.choices.innerHTML="";
+  const values=buildChoices(q);
 
   values.forEach(value=>{
-    const btn=document.createElement("button");
-    btn.type="button";
-    btn.className="choice";
-    btn.textContent=faNumber(value);
-    btn.dataset.value=String(value);
 
-    btn.addEventListener("click",()=>{
-      checkAnswer(value,btn);
-    });
+    const button=document.createElement("button");
 
-    el.choices.appendChild(btn);
+    button.type="button";
+    button.className="tray";
+    button.dataset.value=String(value);
+
+    const foods=document.createElement("div");
+    foods.className="mini-foods";
+
+    drawTrayFoods(
+      foods,
+      value,
+      q.food
+    );
+
+    const number=document.createElement("b");
+    number.textContent=
+      faNumber(value);
+
+    button.append(
+      foods,
+      number
+    );
+
+    button.addEventListener(
+      "click",
+      ()=>checkAnswer(value,button)
+    );
+
+    el.trays.appendChild(button);
   });
 }
 
-function lockChoices(){
-  [...el.choices.children].forEach(btn=>{
+function lockGame(){
+
+  el.feedBtn.disabled=true;
+
+  [...el.trays.children].forEach(btn=>{
     btn.disabled=true;
   });
-  el.buildBtn.disabled=true;
 }
 
 function revealCorrect(){
+
   const q=questions[currentIndex];
 
-  [...el.choices.children].forEach(btn=>{
-    if(Number(btn.dataset.value)===q.answer){
+  [...el.trays.children].forEach(btn=>{
+
+    if(
+      Number(btn.dataset.value)===q.answer
+    ){
       btn.classList.add("correct");
     }
   });
 }
 
-function checkAnswer(value,button){
-  if(answerChecked || gameFinished)return;
+/* ---------- Answer ---------- */
 
-  if(remaining()<=0){
-    timeout();
+function checkAnswer(value,button){
+
+  if(answerChecked || gameFinished){
+    return;
+  }
+
+  if(remainingMs()<=0){
+    handleTimeout();
     return;
   }
 
   answerChecked=true;
+
   stopTimer();
-  lockChoices();
+  lockGame();
 
   const q=questions[currentIndex];
 
   if(value===q.answer){
+
     button.classList.add("correct");
 
     const elapsed=
-      Math.min(QUESTION_TIME,(Date.now()-startedAt)/1000);
+      Math.min(
+        QUESTION_TIME,
+        (Date.now()-startedAt)/1000
+      );
 
-    const gained=scoreForTime(elapsed);
+    const gained=
+      scoreForTime(elapsed);
 
-    score=Math.min(100,score+gained);
-    el.score.textContent=faNumber(score);
+    score=
+      Math.min(100,score+gained);
 
-    el.feedback.className="feedback good";
+    el.score.textContent=
+      faNumber(score);
+
+    el.bubble.textContent=
+      "آخ جون! سیر شدم! 😋";
+
+    drawFoods(
+      q.answer,
+      q.food
+    );
+
+    el.feedback.className=
+      "feedback good";
+
     el.feedback.innerHTML=
-      `✅ <strong>آفرین! ربات روشن شد! +${faNumber(gained)} امتیاز</strong><br>`+
-      `${q.explanation} پاسخ ربات اصلی ${faNumber(q.answer)} ${q.unit} است.`;
+      `✅ <strong>آفرین! +${faNumber(gained)} امتیاز</strong><br>`+
+      `اول غول‌های کوچک را امتحان کردی و بعد همان الگو را برای غول بزرگ ادامه دادی. `+
+      `${q.flavor}`;
 
   }else{
+
     button.classList.add("wrong");
+
     revealCorrect();
 
-    el.feedback.className="feedback bad";
+    el.bubble.textContent=
+      "غذای کوچولوها رو دوباره نگاه کن!";
+
+    el.feedback.className=
+      "feedback bad";
+
     el.feedback.innerHTML=
-      `❌ این ربات روشن نشد. پاسخ درست <strong>${faNumber(q.answer)}</strong> بود.<br>`+
-      `${q.explanation}`;
+      `❌ غول شماره ${faNumber(q.target)}، `+
+      `<strong>${faNumber(q.answer)}</strong> خوراکی می‌خواست.<br>`+
+      `${q.flavor} برای مسئله سخت، نمونه‌های کوچک‌تر کمک می‌کنند.`;
   }
 
-  el.robotLabel.textContent=
-    `${faNumber(q.answer)} ${q.unit}`;
-
-  el.nextBtn.style.display="block";
-
-  el.nextBtn.textContent=
-    currentIndex===TOTAL_QUESTIONS-1
-      ?"🏆 دیدن نتیجه"
-      :"ربات بعدی ←";
+  showNextButton();
 }
 
-function timeout(){
-  if(answerChecked || gameFinished)return;
+function handleTimeout(){
+
+  if(answerChecked || gameFinished){
+    return;
+  }
 
   answerChecked=true;
+
   stopTimer();
 
   const q=questions[currentIndex];
 
   el.time.textContent="۰ ثانیه";
-  el.timerMini.textContent=`۰ / ${faNumber(QUESTION_TIME)}`;
+  el.timerMini.textContent=
+    `۰ / ${faNumber(QUESTION_TIME)}`;
+
   el.timerBar.style.width="0%";
   el.timerBar.style.background="var(--red)";
 
-  el.buildBtn.disabled=true;
-
   /*
-    اگر هنوز مرحله انتخاب باز نشده، آن را باز می‌کنیم
-    تا پاسخ صحیح برای دانش‌آموز قابل مشاهده باشد.
+    اگر هنوز دانش‌آموز به غول اصلی نرسیده،
+    بخش نهایی باز می‌شود تا پاسخ صحیح دیده شود.
   */
-  if(!el.answerZone.classList.contains("show")){
-    el.buildBtn.style.display="none";
-    el.answerZone.classList.add("show");
-    renderChoices(makeChoices(q));
+  if(!el.finalZone.classList.contains("show")){
+
+    showMonster(q.target,true);
+
+    el.monsterLabel.textContent=
+      `غول شماره ${faNumber(q.target)}`;
+
+    el.bubble.textContent=
+      "جوابم اینجاست!";
+
+    el.questionText.textContent=
+      `غول شماره ${faNumber(q.target)} چند ${q.food} می‌خواهد؟`;
+
+    el.finalZone.classList.add("show");
+
+    renderChoices(q);
   }
 
-  lockChoices();
+  lockGame();
   revealCorrect();
 
-  el.workshopTitle.textContent="⏰ پاسخ ربات";
-  showModel(q.target,q.answer);
+  drawFoods(
+    q.answer,
+    q.food
+  );
 
-  el.feedback.className="feedback time";
+  el.feedback.className=
+    "feedback time";
+
   el.feedback.innerHTML=
     `⏰ <strong>زمان تمام شد.</strong><br>`+
-    `ربات اصلی ${faNumber(q.answer)} ${q.unit} لازم داشت. ${q.explanation}`;
+    `پاسخ درست ${faNumber(q.answer)} بود. `+
+    `${q.flavor} اول حالت کوچک را ببین و بعد آن را ادامه بده.`;
 
-  el.nextBtn.style.display="block";
-  el.nextBtn.textContent=
-    currentIndex===TOTAL_QUESTIONS-1
-      ?"🏆 دیدن نتیجه"
-      :"ربات بعدی ←";
+  showNextButton();
 }
 
-function next(){
-  if(!answerChecked || gameFinished)return;
+function showNextButton(){
 
-  if(currentIndex===TOTAL_QUESTIONS-1){
-    finish();
+  el.nextBtn.style.display="block";
+
+  if(
+    currentIndex===
+    TOTAL_QUESTIONS-1
+  ){
+    el.nextBtn.textContent=
+      "🏆 دیدن نتیجه";
+  }else{
+    el.nextBtn.textContent=
+      "غول بعدی ←";
+  }
+}
+
+/* ---------- Next / Finish ---------- */
+
+function nextQuestion(){
+
+  if(!answerChecked || gameFinished){
+    return;
+  }
+
+  if(
+    currentIndex===
+    TOTAL_QUESTIONS-1
+  ){
+    finishGame();
     return;
   }
 
   currentIndex++;
+
   renderQuestion();
 }
 
-async function finish(){
-  if(gameFinished)return;
+async function finishGame(){
+
+  if(gameFinished){
+    return;
+  }
 
   gameFinished=true;
+
   stopTimer();
+
   score=Math.min(100,score);
 
   el.game.classList.add("hidden");
   el.hero.classList.add("hidden");
   el.statusWrap.classList.add("hidden");
+
   el.result.classList.add("show");
 
-  const name=player.playerName || "بازیکن";
+  const name=
+    player.playerName || "بازیکن";
 
-  el.resultName.textContent=`${name}، کارگاه ربات‌سازی تمام شد.`;
-  el.finalScore.textContent=faNumber(score);
+  el.resultName.textContent=
+    `${name}، همه مأموریت‌ها تمام شد.`;
+
+  el.finalScore.textContent=
+    faNumber(score);
 
   if(score>=90){
-    el.resultMessage.textContent="عالی بود! 🌟 مهندس ربات‌های غول‌پیکر شدی!";
+
+    el.resultMessage.textContent=
+      "عالی بود! 🌟 سلطان مینی‌غول‌ها شدی!";
+
   }else if(score>=70){
-    el.resultMessage.textContent="خیلی خوب بود 👏 مدل‌های کوچک حسابی کمکت کردند.";
+
+    el.resultMessage.textContent=
+      "خیلی خوب بود 👏 کوچولوها راه را نشانت دادند!";
+
   }else if(score>=50){
-    el.resultMessage.textContent="خوب بود، ادامه بده 💪 اول کوچک بساز، بعد بزرگ!";
+
+    el.resultMessage.textContent=
+      "خوب بود، ادامه بده 💪 اول کوچک، بعد بزرگ!";
+
   }else{
-    el.resultMessage.textContent="دوباره تلاش کن 🌱 این بار مدل‌های کوچک را دقیق‌تر نگاه کن.";
+
+    el.resultMessage.textContent=
+      "دوباره تلاش کن 🌱 این بار غذای مینی‌غول‌ها را دقیق‌تر نگاه کن.";
   }
 
   if(!finishSubmitted){
+
     finishSubmitted=true;
 
     try{
-      const result=await GameSDK.finishGame(score);
+
+      const result=
+        await GameSDK.finishGame(score);
+
       void result;
+
     }catch(error){
-      console.error("finishGame failed",error);
+
+      console.error(
+        "finishGame failed",
+        error
+      );
     }
   }
 
@@ -1308,100 +1536,177 @@ async function finish(){
 }
 
 async function loadLeaderboard(){
+
   el.leaderboard.className="loading";
-  el.leaderboard.textContent="در حال دریافت رکوردها...";
+  el.leaderboard.textContent=
+    "در حال دریافت رکوردها...";
 
   try{
-    const scores=await GameSDK.getLeaderboard(10);
-    const list=Array.isArray(scores)?scores:[];
 
-    el.leaderboard.className="";
+    const scores=
+      await GameSDK.getLeaderboard(10);
+
+    const list=
+      Array.isArray(scores)
+        ? scores
+        : [];
+
     el.leaderboard.innerHTML="";
+    el.leaderboard.className="";
 
     if(!list.length){
+
       el.leaderboard.className="loading";
-      el.leaderboard.textContent="هنوز رکوردی ثبت نشده است.";
+      el.leaderboard.textContent=
+        "هنوز رکوردی برای نمایش وجود ندارد.";
+
       return;
     }
 
-    list.slice(0,10).forEach((item,index)=>{
-      const row=document.createElement("div");
-      row.className="rank";
+    list.slice(0,10).forEach(
+      (item,index)=>{
 
-      const rank=document.createElement("span");
+        const row=
+          document.createElement("div");
 
-      if(index===0) rank.textContent="🥇";
-      else if(index===1) rank.textContent="🥈";
-      else if(index===2) rank.textContent="🥉";
-      else rank.textContent=`${faNumber(index+1)}.`;
+        row.className="rank";
 
-      const name=document.createElement("span");
-      name.className="rank-name";
-      name.textContent=
-        item.playerName ??
-        item.name ??
-        item.username ??
-        "بازیکن";
+        const rank=
+          document.createElement("span");
 
-      const sc=document.createElement("span");
-      sc.className="rank-score";
-      sc.textContent=`${faNumber(item.score ?? 0)} امتیاز`;
+        if(index===0){
+          rank.textContent="🥇";
+        }else if(index===1){
+          rank.textContent="🥈";
+        }else if(index===2){
+          rank.textContent="🥉";
+        }else{
+          rank.textContent=
+            `${faNumber(index+1)}.`;
+        }
 
-      row.append(rank,name,sc);
-      el.leaderboard.appendChild(row);
-    });
+        const name=
+          document.createElement("span");
+
+        name.className="rank-name";
+
+        name.textContent=
+          item.playerName ??
+          item.name ??
+          item.username ??
+          "بازیکن";
+
+        const points=
+          document.createElement("span");
+
+        points.className="rank-score";
+
+        points.textContent=
+          `${faNumber(item.score ?? 0)} امتیاز`;
+
+        row.append(
+          rank,
+          name,
+          points
+        );
+
+        el.leaderboard.appendChild(row);
+      }
+    );
 
   }catch(error){
-    console.error("Leaderboard error",error);
+
+    console.error(
+      "Leaderboard failed",
+      error
+    );
+
     el.leaderboard.className="loading";
-    el.leaderboard.textContent="دریافت جدول برترین‌ها ممکن نشد.";
+
+    el.leaderboard.textContent=
+      "دریافت جدول برترین‌ها ممکن نشد.";
   }
 }
 
-function restart(){
+/* ---------- Restart ---------- */
+
+function restartGame(){
+
   stopTimer();
 
   GameSDK.reset();
 
-  score=0;
+  questions=[];
   currentIndex=0;
+  score=0;
+
+  timerId=null;
+  startedAt=0;
+
+  playStep=0;
   answerChecked=false;
   gameFinished=false;
   finishSubmitted=false;
-  buildStep=0;
-  startedAt=0;
 
   el.score.textContent="۰";
 
   el.result.classList.remove("show");
+
   el.game.classList.remove("hidden");
   el.hero.classList.remove("hidden");
   el.statusWrap.classList.remove("hidden");
 
   generateRound();
 
-  if(questions.length!==TOTAL_QUESTIONS){
-    throw new Error("Exactly 10 questions are required.");
+  if(
+    questions.length!==
+    TOTAL_QUESTIONS
+  ){
+    throw new Error(
+      "Exactly 10 questions are required."
+    );
   }
 
   renderQuestion();
 }
 
-el.buildBtn.addEventListener("click",buildSmallModel);
-el.nextBtn.addEventListener("click",next);
-el.restartBtn.addEventListener("click",restart);
+/* ---------- Events ---------- */
 
-el.playerName.textContent=player.playerName || "بازیکن";
+el.feedBtn.addEventListener(
+  "click",
+  feedMonster
+);
+
+el.nextBtn.addEventListener(
+  "click",
+  nextQuestion
+);
+
+el.restartBtn.addEventListener(
+  "click",
+  restartGame
+);
+
+/* ---------- Start ---------- */
+
+el.playerName.textContent=
+  player.playerName || "بازیکن";
 
 generateRound();
 
-if(questions.length!==TOTAL_QUESTIONS){
-  throw new Error("Exactly 10 questions are required.");
+if(
+  questions.length!==
+  TOTAL_QUESTIONS
+){
+  throw new Error(
+    "Exactly 10 questions are required."
+  );
 }
 
 renderQuestion();
 
 })();
 </script>
+
 </body>
 </html>
