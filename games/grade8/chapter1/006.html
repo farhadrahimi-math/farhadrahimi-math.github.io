@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>آینه قرینه‌ها | ریاضی هشتم</title>
+
+<style>
+:root{
+ --purple:#7357d8;--blue:#3d8de7;--pink:#ed6da7;
+ --yellow:#f6c84d;--green:#36b978;--red:#e65760;
+ --ink:#29384c;--muted:#718096;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+ margin:0;min-height:100vh;overflow-x:hidden;
+ font-family:Tahoma,Arial,sans-serif;color:var(--ink);
+ background:
+ radial-gradient(circle at 10% 5%,#ffe1ef 0,transparent 25%),
+ radial-gradient(circle at 90% 6%,#dfedff 0,transparent 25%),
+ linear-gradient(155deg,#f5efff,#eefaff);
+}
+button{font:inherit;touch-action:manipulation}
+.app{width:min(100% - 16px,760px);margin:auto;padding:12px 0 28px}
+.hero{text-align:center}
+.badges{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.badge{
+ background:#fff;border:1px solid #ddd8ff;border-radius:99px;
+ padding:4px 9px;color:#6250b3;font-size:11px;font-weight:bold
+}
+h1{margin:7px 0 2px;color:#5941b6;font-size:clamp(25px,7vw,38px)}
+.subtitle{margin:0 0 10px;color:var(--muted);font-size:13px}
+.status{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:9px 0 7px}
+.stat{
+ min-width:0;background:#fff;border:1px solid #e1e6ee;border-radius:12px;
+ padding:7px 4px;text-align:center
+}
+.stat small{display:block;color:var(--muted);font-size:9px}
+.stat b{display:block;margin-top:2px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timer{background:#fff;border-radius:12px;padding:7px 9px;margin-bottom:8px}
+.timer-row{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin-bottom:5px}
+.track{height:8px;background:#edf0f4;border-radius:20px;overflow:hidden}
+.bar{height:100%;width:100%;border-radius:20px;background:var(--green)}
+.card{
+ background:#fff;border:1px solid #e0e5ed;border-radius:22px;
+ padding:12px;box-shadow:0 14px 36px rgba(63,73,105,.12)
+}
+.progress{display:flex;gap:5px;align-items:center;margin-bottom:9px}
+.pstep{height:8px;flex:1;border-radius:20px;background:#e7ebf1}
+.pstep.done{background:var(--green)}
+.pstep.now{background:var(--purple);box-shadow:0 0 0 3px #eeeaff}
+
+.mission{
+ text-align:center;background:#f7f5ff;border:1px solid #e4deff;
+ border-radius:15px;padding:8px;margin-bottom:9px
+}
+.mission small{color:#7664bd;font-weight:bold}
+.mission h2{font-size:17px;color:#4c4095;margin:3px 0}
+.mission p{font-size:12px;color:#68788b;line-height:1.7;margin:0}
+
+/* mirror room */
+.mirror-room{
+ position:relative;overflow:hidden;min-height:355px;
+ border:3px solid #b4cae0;border-radius:18px;padding:11px 8px;
+ background:
+ radial-gradient(circle at center,#fff 0,#edf8ff 48%,#dfecfa 100%);
+}
+.mirror{
+ position:absolute;left:50%;top:7px;bottom:8px;width:5px;
+ transform:translateX(-50%);
+ border-radius:10px;
+ background:linear-gradient(#9eeaff,#fff,#9eeaff);
+ box-shadow:0 0 13px #84dff4;
+ opacity:.8;
+}
+.mirror-label{
+ position:relative;z-index:2;width:max-content;margin:0 auto;
+ border-radius:99px;background:#fff;border:1px solid #bce8ef;
+ color:#397783;padding:4px 10px;font-size:10px;font-weight:bold
+}
+.problem-card{
+ position:relative;z-index:2;max-width:500px;margin:10px auto;
+ background:rgba(255,255,255,.94);border:1px solid #d4e1ed;
+ border-radius:13px;padding:8px;text-align:center
+}
+.problem-card small{color:#738295;font-size:9px}
+.number-display{
+ min-height:44px;display:flex;align-items:center;justify-content:center;
+ color:#5843af;font-size:23px;font-weight:bold;direction:ltr;
+}
+
+/* fractions */
+.frac{
+ display:inline-flex;flex-direction:column;align-items:stretch;
+ justify-content:center;vertical-align:middle;text-align:center;
+ line-height:1.02;min-width:27px;margin:0 3px
+}
+.frac .top{border-bottom:1.6px solid currentColor;padding:0 4px 2px}
+.frac .bottom{padding:2px 4px 0}
+.neg-frac{
+ display:inline-flex;align-items:center;direction:ltr;vertical-align:middle
+}
+.neg-frac:before{content:"−";margin-right:2px}
+
+/* number line */
+.axis-wrap{
+ position:relative;z-index:2;width:100%;overflow-x:auto;
+ padding:25px 0 14px;scrollbar-width:thin;direction:ltr
+}
+.axis{
+ position:relative;min-width:650px;height:112px;
+ display:grid;grid-template-columns:repeat(17,1fr);
+ align-items:end
+}
+.axis:before{
+ content:"";position:absolute;left:2.3%;right:2.3%;bottom:35px;
+ height:5px;border-radius:20px;background:#5ba7c7
+}
+.axis:after{
+ content:"▶";position:absolute;right:0;bottom:23px;
+ color:#5ba7c7;font-size:22px
+}
+.axis-cell{
+ position:relative;height:95px;display:flex;
+ align-items:flex-end;justify-content:center;cursor:pointer
+}
+.tick{
+ position:absolute;bottom:30px;width:2px;height:15px;background:#4d9dbc
+}
+.tick.major{height:22px;width:3px}
+.axis-label{
+ position:absolute;bottom:5px;font-size:9px;color:#617a8b
+}
+.axis-cell.zero .axis-label{color:#b27d12;font-weight:bold}
+.point{
+ position:absolute;bottom:55px;z-index:5;width:28px;height:28px;
+ display:grid;place-items:center;border-radius:50%;
+ color:#fff;background:linear-gradient(145deg,#765bd9,#4c83dc);
+ font-size:11px;font-weight:bold;box-shadow:0 4px 8px rgba(65,70,130,.25)
+}
+.answer-dot{
+ position:absolute;bottom:55px;z-index:4;width:26px;height:26px;
+ display:grid;place-items:center;border-radius:50%;
+ background:#f5c84d;color:#674c0b;font-size:14px;
+ box-shadow:0 0 0 4px rgba(245,200,77,.25)
+}
+.axis-cell.correct-place{background:rgba(55,185,120,.13);border-radius:10px}
+.axis-cell.wrong-place{background:rgba(230,87,96,.13);border-radius:10px}
+
+.guide{
+ position:relative;z-index:2;text-align:center;color:#607789;
+ font-size:11px;line-height:1.7;margin:0 auto 7px
+}
+.choices{
+ position:relative;z-index:2;display:grid;
+ grid-template-columns:repeat(3,1fr);gap:7px;
+ max-width:520px;margin:auto
+}
+.choice{
+ min-height:52px;border:2px solid #cad9e6;border-radius:12px;
+ background:#fff;color:#3c4e63;font-weight:bold;cursor:pointer
+}
+.choice.correct{border-color:var(--green);background:#eaf9f1;color:#246b48}
+.choice.wrong{border-color:var(--red);background:#fff0f0;color:#994149}
+.choice:disabled{cursor:default}
+
+/* feedback */
+.feedback{
+ display:none;margin-top:9px;padding:10px;border-radius:13px;
+ font-size:12px;line-height:1.75
+}
+.feedback.good{display:block;background:#eaf9f1;border:1px solid #b8e6cc;color:#246846}
+.feedback.bad{display:block;background:#fff0f0;border:1px solid #efc1c4;color:#944147}
+.feedback.time{display:block;background:#fff7df;border:1px solid #ecd693;color:#7b601d}
+.next{
+ display:none;width:100%;min-height:50px;margin-top:9px;border:0;
+ border-radius:14px;background:linear-gradient(135deg,#7357d8,#3e8de7);
+ color:#fff;font-weight:bold;cursor:pointer
+}
+
+/* results */
+.hidden{display:none!important}
+.result{display:none;text-align:center}
+.result.show{display:block}
+.trophy{font-size:61px}
+.final-score{font-size:42px;color:#6048bd;font-weight:bold}
+.final-score small{font-size:14px;color:var(--muted);font-weight:normal}
+.result-message{font-weight:bold;margin:9px 0 16px}
+.board{max-width:510px;margin:15px auto;text-align:right}
+.board h3{text-align:center}
+.rank{
+ display:flex;justify-content:space-between;gap:8px;background:#f6f8fc;
+ border-radius:11px;padding:9px 10px;margin:6px 0
+}
+.rank-name{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.rank-score{color:#634dc0;font-weight:bold;white-space:nowrap}
+.loading{text-align:center;color:var(--muted);padding:12px}
+.restart{
+ width:min(100%,350px);min-height:51px;border:0;border-radius:14px;
+ background:linear-gradient(135deg,#7357d8,#3e8de7);
+ color:#fff;font-weight:bold;cursor:pointer
+}
+.back{
+ display:block;width:max-content;max-width:100%;margin:18px auto 0;
+ color:#6152a6;text-decoration:none;font-size:13px
+}
+@media(max-width:520px){
+ .status{grid-template-columns:repeat(2,1fr)}
+ .card{padding:9px;border-radius:18px}
+ .choices{gap:5px}
+ .choice{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{
+  animation:none!important;transition:none!important;scroll-behavior:auto!important
+ }
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+
+<header class="hero" id="hero">
+ <div class="badges">
+  <span class="badge">پایه هشتم</span>
+  <span class="badge">فصل اول</span>
+  <span class="badge">درس ۲</span>
+  <span class="badge">قرینه عددهای گویا</span>
+ </div>
+
+ <h1>🪞 آینه قرینه‌ها ✨</h1>
+ <p class="subtitle">نقطه را در آینه صفر ببین و تصویر قرینه‌اش را پیدا کن!</p>
+</header>
+
+<div id="statusWrap">
+ <section class="status">
+  <div class="stat"><small>بازیکن</small><b id="playerName">---</b></div>
+  <div class="stat"><small>آینه</small><b id="stage">۱ از ۱۰</b></div>
+  <div class="stat"><small>امتیاز</small><b id="score">۰</b></div>
+  <div class="stat"><small>زمان</small><b id="time">۳۰ ثانیه</b></div>
+ </section>
+
+ <section class="timer">
+  <div class="timer-row">
+   <span>✨ انرژی آینه</span>
+   <span id="timerMini">۳۰ / ۳۰</span>
+  </div>
+  <div class="track"><div class="bar" id="timerBar"></div></div>
+ </section>
+</div>
+
+<section class="card" id="game">
+ <div class="progress" id="progress"></div>
+
+ <div class="mission">
+  <small id="missionBadge">آینه ۱</small>
+  <h2 id="missionTitle"></h2>
+  <p id="missionText"></p>
+ </div>
+
+ <div class="mirror-room">
+  <div class="mirror"></div>
+  <div class="mirror-label">✨ آینه صفر ✨</div>
+
+  <div class="problem-card">
+   <small>عدد اصلی</small>
+   <div class="number-display" id="numberDisplay"></div>
+  </div>
+
+  <div class="guide" id="guide"></div>
+
+  <div class="axis-wrap" id="axisWrap">
+   <div class="axis" id="axis"></div>
+  </div>
+
+  <div class="choices" id="choices"></div>
+ </div>
+
+ <div class="feedback" id="feedback" aria-live="polite"></div>
+
+ <button type="button" class="next" id="nextBtn">
+  آینه بعدی 🪞
+ </button>
+</section>
+
+<section class="card result" id="resultScreen">
+ <div class="trophy">🏆🪞</div>
+ <h2>راز آینه را پیدا کردی!</h2>
+
+ <div id="resultName"></div>
+
+ <div class="final-score">
+  <span id="finalScore">۰</span>
+  <small>از ۱۰۰ امتیاز</small>
+ </div>
+
+ <div class="result-message" id="resultMessage"></div>
+
+ <div class="board">
+  <h3>🏅 برترین آینه‌شناس‌ها</h3>
+  <div id="leaderboard" class="loading">در حال دریافت رکوردها...</div>
+ </div>
+
+ <button type="button" class="restart" id="restartBtn">
+  🔄 بازی دوباره
+ </button>
+</section>
+
+<a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
+
+</main>
+
+<script src="/games/game-sdk.js"></script>
+
+<script>
+const GAME_ID = 21;
+
+const player = GameSDK.init(GAME_ID);
+
+(() => {
+"use strict";
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 30;
+
+const RECENT_KEY = "rational_mirror_g8_l2_v1";
+const MAX_RECENT = 50;
+
+let questions=[];
+let currentIndex=0;
+let score=0;
+let startedAt=0;
+let timerId=null;
+let answerChecked=false;
+let gameFinished=false;
+let finishSubmitted=false;
+
+const $=id=>document.getElementById(id);
+
+const el={
+ hero:$("hero"),statusWrap:$("statusWrap"),
+ playerName:$("playerName"),stage:$("stage"),score:$("score"),
+ time:$("time"),timerMini:$("timerMini"),timerBar:$("timerBar"),
+ game:$("game"),progress:$("progress"),
+ missionBadge:$("missionBadge"),missionTitle:$("missionTitle"),
+ missionText:$("missionText"),numberDisplay:$("numberDisplay"),
+ guide:$("guide"),axisWrap:$("axisWrap"),axis:$("axis"),
+ choices:$("choices"),feedback:$("feedback"),nextBtn:$("nextBtn"),
+ resultScreen:$("resultScreen"),resultName:$("resultName"),
+ finalScore:$("finalScore"),resultMessage:$("resultMessage"),
+ leaderboard:$("leaderboard"),restartBtn:$("restartBtn")
+};
+
+/* ---------- Tools ---------- */
+
+function faNumber(v){
+ return String(v)
+  .replace(/-/g,"−")
+  .replace(/\./g,"٫")
+  .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+function rand(min,max){
+ return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function gcd(a,b){
+ a=Math.abs(a);b=Math.abs(b);
+ while(b){const t=b;b=a%b;a=t}
+ return a||1;
+}
+
+function normalize(n,d){
+ if(d<0){n=-n;d=-d}
+ const g=gcd(n,d);
+ return {n:n/g,d:d/g};
+}
+
+function shuffle(a){
+ const x=[...a];
+ for(let i=x.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [x[i],x[j]]=[x[j],x[i]];
+ }
+ return x;
+}
+
+function getRecent(){
+ try{
+  const x=JSON.parse(localStorage.getItem(RECENT_KEY)||"[]");
+  return Array.isArray(x)?x:[];
+ }catch{return []}
+}
+
+function saveRecent(sigs){
+ try{
+  const old=getRecent();
+  const all=[...sigs,...old.filter(x=>!sigs.includes(x))].slice(0,MAX_RECENT);
+  localStorage.setItem(RECENT_KEY,JSON.stringify(all));
+ }catch{}
+}
+
+/* ---------- Number model ---------- */
+
+function integerQuestion(){
+ let n=rand(-6,6);
+ if(n===0)n=4;
+
+ return makeQuestion({
+  family:"integer",
+  n,d:1,
+  title:"آینه گرم‌کن",
+  text:"قرینه عدد صحیح را پیدا کن."
+ });
+}
+
+function halfQuestion(){
+ let numerator=rand(1,7);
+ if(numerator%2===0)numerator++;
+ if(numerator>7)numerator=7;
+ if(Math.random()<.5)numerator*=-1;
+
+ return makeQuestion({
+  family:"halves",
+  n:numerator,d:2,
+  title:"نیمه‌های آینه",
+  text:"تصویر قرینه کسر را پیدا کن."
+ });
+}
+
+function fractionQuestion(denominators=[3,4]){
+ const d=denominators[rand(0,denominators.length-1)];
+ let n=rand(1,d*2-1);
+
+ while(n%d===0)n=rand(1,d*2-1);
+ if(Math.random()<.5)n*=-1;
+
+ return makeQuestion({
+  family:"fraction",
+  n,d,
+  title:"کسر در آینه",
+  text:"علامت عوض می‌شود، فاصله از صفر نه."
+ });
+}
+
+function decimalQuestion(){
+ const values=[0.5,1.5,2.5,0.25,0.75,1.25,1.75];
+ let value=values[rand(0,values.length-1)];
+ if(Math.random()<.5)value*=-1;
+
+ const fraction=valueToQuarter(value);
+
+ return makeQuestion({
+  family:"decimal",
+  n:fraction.n,d:fraction.d,
+  displayType:"decimal",
+  title:"اعشار در آینه",
+  text:"قرینه عدد اعشاری را پیدا کن."
+ });
+}
+
+function mixedQuestion(){
+ const whole=rand(1,2);
+ const d=rand(2,4);
+ let num=rand(1,d-1);
+
+ const n=whole*d+num;
+ const signed=Math.random()<.5?-n:n;
+
+ return makeQuestion({
+  family:"mixed",
+  n:signed,d,
+  displayType:"mixed",
+  title:"عدد مخلوط",
+  text:"عدد مخلوط را در سمت دیگر صفر پیدا کن."
+ });
+}
+
+function zeroQuestion(){
+ return makeQuestion({
+  family:"zero",
+  n:0,d:1,
+  title:"راز صفر",
+  text:"صفر در آینه چه می‌شود؟"
+ });
+}
+
+function makeQuestion(config){
+ const q={
+  displayType:"fraction",
+  ...config
+ };
+
+ q.original=normalize(q.n,q.d);
+ q.answer=normalize(-q.original.n,q.original.d);
+ q.value=q.original.n/q.original.d;
+ q.answerValue=-q.value;
+
+ q.signature=
+  `${q.family}-${q.original.n}-${q.original.d}-${q.displayType}`;
+
+ return q;
+}
+
+function valueToQuarter(value){
+ const n=Math.round(value*4);
+ return normalize(n,4);
+}
+
+const generators=[
+ ()=>integerQuestion(),
+ ()=>integerQuestion(),
+ ()=>halfQuestion(),
+ ()=>fractionQuestion([3]),
+ ()=>fractionQuestion([4]),
+ ()=>fractionQuestion([3,4]),
+ ()=>decimalQuestion(),
+ ()=>decimalQuestion(),
+ ()=>mixedQuestion(),
+ ()=>zeroQuestion(),
+ ()=>fractionQuestion([2,3,4]),
+ ()=>mixedQuestion()
+];
+
+function generateRound(){
+ const recent=new Set(getRecent());
+ const order=[
+  generators[0],
+  generators[2],
+  generators[3],
+  generators[4],
+  generators[6],
+  generators[5],
+  generators[7],
+  generators[8],
+  generators[10],
+  generators[9]
+ ];
+
+ const made=[];
+
+ for(const gen of order){
+  let q=null;
+
+  for(let i=0;i<18;i++){
+   const x=gen();
+   q=q||x;
+
+   if(
+    !recent.has(x.signature) &&
+    !made.some(m=>m.signature===x.signature)
+   ){
+    q=x;
+    break;
+   }
+  }
+
+  made.push(q);
+ }
+
+ questions=made.slice(0,TOTAL_QUESTIONS);
+ saveRecent(questions.map(q=>q.signature));
+}
+
+/* ---------- Display math ---------- */
+
+function fracHTML(n,d){
+ const negative=n<0;
+ const abs=Math.abs(n);
+
+ const f=
+  `<span class="frac"><span class="top">${faNumber(abs)}</span>`+
+  `<span class="bottom">${faNumber(d)}</span></span>`;
+
+ return negative
+  ?`<span class="neg-frac">${f}</span>`
+  :f;
+}
+
+function mixedHTML(n,d){
+ const negative=n<0;
+ const abs=Math.abs(n);
+ const whole=Math.floor(abs/d);
+ const rem=abs%d;
+
+ if(rem===0){
+  return faNumber(n);
+ }
+
+ const fraction=
+  `<span class="frac"><span class="top">${faNumber(rem)}</span>`+
+  `<span class="bottom">${faNumber(d)}</span></span>`;
+
+ const content=
+  `${faNumber(whole)} ${fraction}`;
+
+ return negative
+  ?`<span style="direction:ltr;display:inline-flex;align-items:center">− ${content}</span>`
+  :content;
+}
+
+function decimalText(n,d){
+ const value=n/d;
+ let s=String(value);
+
+ return faNumber(s);
+}
+
+function numberHTML(q,answer=false){
+ const x=answer?q.answer:q.original;
+
+ if(q.displayType==="decimal"){
+  return decimalText(x.n,x.d);
+ }
+
+ if(q.displayType==="mixed"){
+  return mixedHTML(x.n,x.d);
+ }
+
+ if(x.d===1){
+  return faNumber(x.n);
+ }
+
+ return fracHTML(x.n,x.d);
+}
+
+/* ---------- Axis ---------- */
+
+/*
+ محور بر حسب ربع واحد ساخته می‌شود:
+ -4 تا +4، یعنی 33 نقطه.
+ برای موبایل داخل container قابل اسکرول است.
+*/
+
+const AXIS_MIN=-4;
+const AXIS_MAX=4;
+const STEP=.25;
+
+function renderAxis(q){
+ el.axis.innerHTML="";
+
+ const count=Math.round((AXIS_MAX-AXIS_MIN)/STEP)+1;
+ el.axis.style.gridTemplateColumns=`repeat(${count},1fr)`;
+
+ for(let i=0;i<count;i++){
+  const value=AXIS_MIN+i*STEP;
+
+  const cell=document.createElement("div");
+  cell.className="axis-cell";
+  cell.dataset.value=String(Math.round(value*100)/100);
+
+  if(Math.abs(value)<.001)cell.classList.add("zero");
+
+  const tick=document.createElement("span");
+  tick.className="tick";
+
+  if(Number.isInteger(value)){
+   tick.classList.add("major");
+  }
+
+  cell.appendChild(tick);
+
+  if(Number.isInteger(value)){
+   const label=document.createElement("span");
+   label.className="axis-label";
+   label.textContent=faNumber(value);
+   cell.appendChild(label);
+  }
+
+  if(Math.abs(value-q.value)<.001){
+   const point=document.createElement("span");
+   point.className="point";
+   point.textContent="●";
+   cell.appendChild(point);
+  }
+
+  cell.addEventListener("click",()=>{
+   axisCellClicked(q,value,cell);
+  });
+
+  el.axis.appendChild(cell);
+ }
+
+ focusAxis(q.value);
+}
+
+function focusAxis(value){
+ requestAnimationFrame(()=>{
+  const index=Math.round((value-AXIS_MIN)/STEP);
+  const cell=el.axis.children[index];
+  if(!cell)return;
+
+  el.axisWrap.scrollLeft=
+   Math.max(
+    0,
+    cell.offsetLeft-
+    el.axisWrap.clientWidth/2+
+    cell.clientWidth/2
+   );
+ });
+}
+
+function axisCellClicked(q,value,cell){
+ if(answerChecked||gameFinished)return;
+
+ /*
+ در بعضی مأموریت‌ها پاسخ با لمس مستقیم محور است.
+ فقط اگر جواب دقیقاً روی شبکه ربع واحد باشد.
+ */
+ if(!q.axisDirect)return;
+
+ if(remainingMs()<=0){
+  handleTimeout();
+  return;
+ }
+
+ const correct=
+  Math.abs(value-q.answerValue)<.001;
+
+ if(correct){
+  cell.classList.add("correct-place");
+  const dot=document.createElement("span");
+  dot.className="answer-dot";
+  dot.textContent="✨";
+  cell.appendChild(dot);
+
+  finishAnswer(
+   true,
+   null,
+   explanation(q)
+  );
+
+ }else{
+  cell.classList.add("wrong-place");
+ }
+}
+
+/* ---------- Choices ---------- */
+
+function rationalKey(x){
+ return `${x.n}/${x.d}`;
+}
+
+function buildChoices(q){
+ const correct=q.answer;
+
+ const candidates=[
+  q.original,
+  normalize(correct.n+correct.d,correct.d),
+  normalize(correct.n-correct.d,correct.d),
+  normalize(-correct.n+1,correct.d)
+ ];
+
+ const map=new Map();
+ map.set(rationalKey(correct),correct);
+
+ for(const c of candidates){
+  if(map.size>=3)break;
+  map.set(rationalKey(c),c);
+ }
+
+ let delta=1;
+
+ while(map.size<3){
+  const c=normalize(correct.n+delta,correct.d);
+  map.set(rationalKey(c),c);
+  delta++;
+ }
+
+ return shuffle([...map.values()].slice(0,3));
+}
+
+function renderChoices(q){
+ el.choices.innerHTML="";
+
+ const choices=buildChoices(q);
+
+ choices.forEach(x=>{
+  const btn=document.createElement("button");
+  btn.type="button";
+  btn.className="choice";
+  btn.dataset.key=rationalKey(x);
+
+  const temp={
+   ...q,
+   answer:x
+  };
+
+  btn.innerHTML=numberHTML(temp,true);
+
+  btn.addEventListener("click",()=>{
+   if(answerChecked||gameFinished)return;
+
+   const correct=
+    rationalKey(x)===
+    rationalKey(q.answer);
+
+   finishAnswer(
+    correct,
+    btn,
+    explanation(q)
+   );
+  });
+
+  el.choices.appendChild(btn);
+ });
+}
+
+/* ---------- Timer ---------- */
+
+function remainingMs(){
+ return Math.max(
+  0,
+  QUESTION_TIME*1000-
+  (Date.now()-startedAt)
+ );
+}
+
+function scoreForTime(s){
+ if(s<=5)return 10;
+ if(s<=10)return 8;
+ if(s<=15)return 6;
+ if(s<=20)return 4;
+ if(s<30)return 2;
+ return 0;
+}
+
+function stopTimer(){
+ if(timerId!==null){
+  clearInterval(timerId);
+  timerId=null;
+ }
+}
+
+function startTimer(){
+ stopTimer();
+ startedAt=Date.now();
+ updateTimer();
+ timerId=setInterval(updateTimer,150);
+}
+
+function updateTimer(){
+ const ms=remainingMs();
+ const sec=Math.max(0,Math.ceil(ms/1000));
+ const ratio=ms/(QUESTION_TIME*1000);
+
+ el.time.textContent=`${faNumber(sec)} ثانیه`;
+ el.timerMini.textContent=`${faNumber(sec)} / ${faNumber(QUESTION_TIME)}`;
+ el.timerBar.style.width=`${Math.max(0,ratio*100)}%`;
+
+ el.timerBar.style.background=
+  ratio>.5?"var(--green)":
+  ratio>.2?"var(--yellow)":
+  "var(--red)";
+
+ if(ms<=0&&!answerChecked&&!gameFinished){
+  handleTimeout();
+ }
+}
+
+/* ---------- Progress ---------- */
+
+function renderProgress(){
+ el.progress.innerHTML="";
+
+ for(let i=0;i<TOTAL_QUESTIONS;i++){
+  const p=document.createElement("span");
+  p.className="pstep";
+
+  if(i<currentIndex)p.classList.add("done");
+  else if(i===currentIndex)p.classList.add("now");
+
+  el.progress.appendChild(p);
+ }
+}
+
+/* ---------- Render question ---------- */
+
+function renderQuestion(){
+ stopTimer();
+ answerChecked=false;
+
+ const q=questions[currentIndex];
+
+ /*
+ مراحل 6 به بعد، اگر عدد روی شبکه ربع واحد باشد،
+ تعامل مستقیم با محور فعال می‌شود.
+ */
+ const quarter=
+  Math.abs(q.answerValue*4-Math.round(q.answerValue*4))<.001;
+
+ q.axisDirect=
+  currentIndex>=5 &&
+  quarter &&
+  q.answerValue>=AXIS_MIN &&
+  q.answerValue<=AXIS_MAX;
+
+ el.stage.textContent=
+  `${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
+
+ el.score.textContent=faNumber(score);
+ el.missionBadge.textContent=`آینه ${faNumber(currentIndex+1)}`;
+ el.missionTitle.textContent=q.title;
+ el.missionText.textContent=q.text;
+
+ el.numberDisplay.innerHTML=numberHTML(q,false);
+
+ el.feedback.className="feedback";
+ el.feedback.innerHTML="";
+ el.nextBtn.style.display="none";
+
+ renderProgress();
+ renderAxis(q);
+
+ if(q.axisDirect){
+  el.guide.textContent=
+   "این بار خودت نقطه قرینه را روی محور لمس کن.";
+  el.choices.innerHTML="";
+ }else{
+  el.guide.textContent=
+   "قرینه را انتخاب کن؛ آینه صفر فقط علامت را عوض می‌کند.";
+  renderChoices(q);
+ }
+
+ startTimer();
+}
+
+/* ---------- Feedback ---------- */
+
+function explanation(q){
+ if(q.original.n===0){
+  return "صفر در دو سمت متفاوتی قرار نمی‌گیرد؛ قرینه صفر خود صفر است.";
+ }
+
+ return `قرینه در همان فاصله از صفر و در سمت مخالف قرار دارد. بنابراین قرینه ${stripHTML(numberHTML(q,false))} برابر ${stripHTML(numberHTML(q,true))} است.`;
+}
+
+function stripHTML(html){
+ const div=document.createElement("div");
+ div.innerHTML=html;
+ return div.textContent||div.innerText||"";
+}
+
+function lock(){
+ el.choices.querySelectorAll("button").forEach(b=>b.disabled=true);
+ el.axis.style.pointerEvents="none";
+}
+
+function revealCorrect(q){
+ el.choices.querySelectorAll(".choice").forEach(btn=>{
+  if(btn.dataset.key===rationalKey(q.answer)){
+   btn.classList.add("correct");
+  }
+ });
+
+ const index=Math.round((q.answerValue-AXIS_MIN)/STEP);
+ const cell=el.axis.children[index];
+
+ if(cell){
+  cell.classList.add("correct-place");
+
+  if(!cell.querySelector(".answer-dot")){
+   const dot=document.createElement("span");
+   dot.className="answer-dot";
+   dot.textContent="✨";
+   cell.appendChild(dot);
+  }
+ }
+}
+
+function finishAnswer(correct,btn,message){
+ if(answerChecked||gameFinished)return;
+
+ if(remainingMs()<=0){
+  handleTimeout();
+  return;
+ }
+
+ answerChecked=true;
+ stopTimer();
+ lock();
+
+ const q=questions[currentIndex];
+
+ if(correct){
+  if(btn)btn.classList.add("correct");
+
+  const elapsed=
+   Math.min(
+    QUESTION_TIME,
+    (Date.now()-startedAt)/1000
+   );
+
+  const gained=scoreForTime(elapsed);
+  score=Math.min(100,score+gained);
+  el.score.textContent=faNumber(score);
+
+  revealCorrect(q);
+
+  el.feedback.className="feedback good";
+  el.feedback.innerHTML=
+   `✅ <strong>آفرین! +${faNumber(gained)} امتیاز</strong><br>${message}`;
+
+ }else{
+  if(btn)btn.classList.add("wrong");
+
+  revealCorrect(q);
+
+  el.feedback.className="feedback bad";
+  el.feedback.innerHTML=
+   `❌ <strong>تصویر آینه اینجا نیست.</strong><br>${message}`;
+ }
+
+ showNext();
+}
+
+function handleTimeout(){
+ if(answerChecked||gameFinished)return;
+
+ answerChecked=true;
+ stopTimer();
+ lock();
+
+ const q=questions[currentIndex];
+
+ revealCorrect(q);
+
+ el.time.textContent="۰ ثانیه";
+ el.timerMini.textContent=`۰ / ${faNumber(QUESTION_TIME)}`;
+ el.timerBar.style.width="0%";
+ el.timerBar.style.background="var(--red)";
+
+ el.feedback.className="feedback time";
+ el.feedback.innerHTML=
+  `⏰ <strong>زمان تمام شد.</strong><br>${explanation(q)}`;
+
+ showNext();
+}
+
+function showNext(){
+ el.nextBtn.style.display="block";
+
+ el.nextBtn.textContent=
+  currentIndex===TOTAL_QUESTIONS-1
+   ?"✨ پایان تالار آینه"
+   :"آینه بعدی 🪞";
+}
+
+/* ---------- Finish ---------- */
+
+function nextQuestion(){
+ if(!answerChecked||gameFinished)return;
+
+ if(currentIndex===TOTAL_QUESTIONS-1){
+  finishGame();
+  return;
+ }
+
+ currentIndex++;
+ renderQuestion();
+}
+
+async function finishGame(){
+ if(gameFinished)return;
+
+ gameFinished=true;
+ stopTimer();
+ score=Math.min(100,score);
+
+ el.game.classList.add("hidden");
+ el.hero.classList.add("hidden");
+ el.statusWrap.classList.add("hidden");
+ el.resultScreen.classList.add("show");
+
+ const name=player.playerName||"بازیکن";
+
+ el.resultName.textContent=
+  `${name}، هر ۱۰ آینه را پشت سر گذاشتی.`;
+
+ el.finalScore.textContent=faNumber(score);
+
+ if(score>=90){
+  el.resultMessage.textContent=
+   "عالی بود! 🌟 راز قرینه‌ها را کاملاً کشف کردی!";
+ }else if(score>=70){
+  el.resultMessage.textContent=
+   "خیلی خوب بود 👏 فاصله از صفر را خوب می‌بینی.";
+ }else if(score>=50){
+  el.resultMessage.textContent=
+   "خوب بود، ادامه بده 💪 قرینه یعنی همان فاصله در سمت دیگر صفر.";
+ }else{
+  el.resultMessage.textContent=
+   "دوباره تلاش کن 🌱 علامت عوض می‌شود، اما فاصله از صفر نه.";
+ }
+
+ if(!finishSubmitted){
+  finishSubmitted=true;
+
+  try{
+   const result=
+    await GameSDK.finishGame(score);
+   void result;
+  }catch(error){
+   console.error("finishGame failed:",error);
+  }
+ }
+
+ await loadLeaderboard();
+}
+
+/* ---------- Leaderboard ---------- */
+
+async function loadLeaderboard(){
+ el.leaderboard.className="loading";
+ el.leaderboard.textContent="در حال دریافت رکوردها...";
+
+ try{
+  const scores=await GameSDK.getLeaderboard(10);
+  const list=Array.isArray(scores)?scores:[];
+
+  el.leaderboard.className="";
+  el.leaderboard.innerHTML="";
+
+  if(!list.length){
+   el.leaderboard.className="loading";
+   el.leaderboard.textContent="هنوز رکوردی برای نمایش وجود ندارد.";
+   return;
+  }
+
+  list.slice(0,10).forEach((item,i)=>{
+   const row=document.createElement("div");
+   row.className="rank";
+
+   const rank=document.createElement("span");
+   rank.textContent=
+    i===0?"🥇":
+    i===1?"🥈":
+    i===2?"🥉":
+    `${faNumber(i+1)}.`;
+
+   const name=document.createElement("span");
+   name.className="rank-name";
+   name.textContent=
+    item.playerName ??
+    item.name ??
+    item.username ??
+    "بازیکن";
+
+   const points=document.createElement("span");
+   points.className="rank-score";
+   points.textContent=
+    `${faNumber(item.score??0)} امتیاز`;
+
+   row.append(rank,name,points);
+   el.leaderboard.appendChild(row);
+  });
+
+ }catch(error){
+  console.error("Leaderboard failed:",error);
+  el.leaderboard.className="loading";
+  el.leaderboard.textContent="دریافت جدول برترین‌ها ممکن نشد.";
+ }
+}
+
+/* ---------- Restart ---------- */
+
+function restartGame(){
+ stopTimer();
+
+ GameSDK.reset();
+
+ questions=[];
+ currentIndex=0;
+ score=0;
+ startedAt=0;
+ timerId=null;
+ answerChecked=false;
+ gameFinished=false;
+ finishSubmitted=false;
+
+ el.score.textContent="۰";
+
+ el.resultScreen.classList.remove("show");
+ el.game.classList.remove("hidden");
+ el.hero.classList.remove("hidden");
+ el.statusWrap.classList.remove("hidden");
+
+ generateRound();
+
+ if(questions.length!==TOTAL_QUESTIONS){
+  throw new Error("Exactly 10 questions are required.");
+ }
+
+ renderQuestion();
+}
+
+el.nextBtn.addEventListener("click",nextQuestion);
+el.restartBtn.addEventListener("click",restartGame);
+
+el.playerName.textContent=
+ player.playerName||"بازیکن";
+
+generateRound();
+
+if(questions.length!==TOTAL_QUESTIONS){
+ throw new Error("Exactly 10 questions are required.");
+}
+
+renderQuestion();
+
+})();
+</script>
+</body>
+</html>
