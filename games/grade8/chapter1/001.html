@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>برج اعداد | ریاضی هشتم</title>
+
+<style>
+:root{
+  --purple:#7557d9;
+  --blue:#3d8de6;
+  --pink:#ed6fa8;
+  --yellow:#f5c84d;
+  --green:#36b979;
+  --red:#e65760;
+  --ink:#29384c;
+  --muted:#718096;
+  --card:#fff;
+  --line:#dfe6ef;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  min-height:100vh;
+  overflow-x:hidden;
+  font-family:Tahoma,Arial,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 8% 8%,#ffe0ef 0,transparent 25%),
+    radial-gradient(circle at 92% 8%,#dcecff 0,transparent 28%),
+    linear-gradient(160deg,#f3efff,#edfbff);
+}
+button{font:inherit;touch-action:manipulation}
+.app{
+  width:min(100% - 16px,780px);
+  margin:auto;
+  padding:12px 0 28px;
+}
+.hero{text-align:center}
+.badges{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.badge{
+  background:#fff;
+  border:1px solid #ded8ff;
+  color:#6350b2;
+  border-radius:99px;
+  font-size:11px;
+  font-weight:bold;
+  padding:5px 10px;
+}
+h1{
+  margin:7px 0 3px;
+  color:#5840b5;
+  font-size:clamp(25px,7vw,38px);
+}
+.subtitle{
+  color:var(--muted);
+  margin:0 0 10px;
+  font-size:13px;
+}
+.status{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:6px;
+  margin:9px 0 7px;
+}
+.stat{
+  min-width:0;
+  text-align:center;
+  background:rgba(255,255,255,.95);
+  border:1px solid #e1e6ee;
+  border-radius:13px;
+  padding:7px 4px;
+}
+.stat small{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+}
+.stat b{
+  display:block;
+  margin-top:2px;
+  font-size:12px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.timer{
+  background:#fff;
+  border-radius:13px;
+  padding:8px 10px;
+  margin-bottom:8px;
+}
+.timer-row{
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:10px;
+  margin-bottom:5px;
+}
+.timer-track{
+  height:9px;
+  background:#edf0f4;
+  border-radius:99px;
+  overflow:hidden;
+}
+.timer-bar{
+  height:100%;
+  width:100%;
+  background:var(--green);
+  border-radius:99px;
+}
+.card{
+  background:#fff;
+  border:1px solid #e0e5ed;
+  border-radius:22px;
+  padding:14px;
+  box-shadow:0 14px 36px rgba(63,73,105,.12);
+}
+.mission-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#f7f5ff;
+  border:1px solid #e5dfff;
+  border-radius:15px;
+  padding:10px;
+}
+.mission-icon{
+  width:48px;height:48px;
+  flex:0 0 48px;
+  display:grid;place-items:center;
+  border-radius:14px;
+  background:#eeeaff;
+  font-size:27px;
+}
+.mission-head h2{
+  font-size:17px;
+  color:#4d4098;
+  margin:0 0 3px;
+}
+.mission-head p{
+  color:#68778a;
+  margin:0;
+  font-size:12px;
+  line-height:1.7;
+}
+.level-type{
+  display:inline-block;
+  margin-top:4px;
+  font-size:10px;
+  color:#7564b8;
+}
+.play{
+  margin-top:11px;
+  min-height:275px;
+  border:2px solid #dce5ef;
+  border-radius:18px;
+  background:#fbfdff;
+  padding:12px;
+  overflow:hidden;
+}
+
+/* elevator */
+.elevator-game{
+  display:grid;
+  grid-template-columns:80px 1fr;
+  gap:12px;
+  direction:ltr;
+  min-height:245px;
+}
+.tower{
+  border-radius:14px;
+  background:#e9eff7;
+  padding:5px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.floor{
+  height:27px;
+  border-bottom:1px solid #c5d0dd;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  color:#647387;
+  position:relative;
+}
+.floor.current{
+  color:#fff;
+  background:var(--purple);
+  border-radius:7px;
+  font-weight:bold;
+}
+.floor.target:after{
+  content:"🎯";
+  position:absolute;
+  right:-27px;
+  font-size:17px;
+}
+.elevator-panel{
+  direction:rtl;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  min-width:0;
+}
+.big-floor{
+  font-size:42px;
+  color:#5c47b6;
+  font-weight:bold;
+  margin:3px;
+}
+.target-text{
+  color:#59697d;
+  font-size:12px;
+  text-align:center;
+  line-height:1.7;
+}
+.controls{
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:7px;
+  margin-top:10px;
+}
+.control{
+  min-height:48px;
+  border:2px solid #dbe2ec;
+  background:#fff;
+  border-radius:13px;
+  color:#405269;
+  font-weight:bold;
+  cursor:pointer;
+}
+.control:hover:not(:disabled){
+  border-color:#8974dd;
+  background:#faf8ff;
+}
+.control.selected{
+  border-color:#7458d6;
+  background:#eeeaff;
+  color:#5840b3;
+}
+.control.correct{
+  border-color:var(--green);
+  background:#eaf9f1;
+}
+.control.wrong{
+  border-color:var(--red);
+  background:#fff0f0;
+}
+
+/* generic choices */
+.prompt{
+  text-align:center;
+  font-size:15px;
+  line-height:1.9;
+  color:#405166;
+  margin:7px 0 12px;
+}
+.expression{
+  direction:ltr;
+  unicode-bidi:isolate;
+  text-align:center;
+  font-family:Tahoma,Arial,sans-serif;
+  font-size:clamp(20px,5vw,28px);
+  font-weight:bold;
+  color:#4e4391;
+  line-height:2;
+  padding:11px 5px;
+  background:#f7f8fc;
+  border-radius:14px;
+  margin:8px 0 12px;
+}
+.choices{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+}
+.choice{
+  min-height:58px;
+  border:2px solid #dce3ec;
+  border-radius:14px;
+  background:#fff;
+  color:#3b4d62;
+  font-weight:bold;
+  cursor:pointer;
+}
+.choice:hover:not(:disabled){
+  border-color:#806bdc;
+  background:#faf8ff;
+}
+.choice.correct{
+  border-color:var(--green);
+  background:#eaf9f1;
+  color:#246b48;
+}
+.choice.wrong{
+  border-color:var(--red);
+  background:#fff0f0;
+  color:#984047;
+}
+.choice:disabled,.control:disabled{cursor:default}
+
+/* sign switch */
+.sign-board{
+  display:flex;
+  direction:ltr;
+  justify-content:center;
+  align-items:center;
+  gap:7px;
+  flex-wrap:wrap;
+  margin:20px 0;
+}
+.number-chip{
+  padding:10px 12px;
+  border-radius:12px;
+  background:#edf3fa;
+  color:#344b67;
+  font-size:20px;
+  font-weight:bold;
+}
+.sign-btn{
+  width:48px;height:48px;
+  border:2px solid #dacff5;
+  background:#f6f2ff;
+  border-radius:13px;
+  color:#6149bb;
+  font-size:22px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* pairs */
+.pair-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin-top:10px;
+}
+.pair-card{
+  min-height:52px;
+  border:2px solid #dce3ed;
+  background:#fff;
+  border-radius:13px;
+  font-weight:bold;
+  font-size:17px;
+  cursor:pointer;
+}
+.pair-card.active{
+  border-color:#7b62dc;
+  background:#eeeaff;
+}
+.pair-card.matched{
+  border-color:var(--green);
+  background:#eaf9f1;
+  color:#247049;
+  opacity:.65;
+}
+
+/* order operations */
+.order-list{
+  display:grid;
+  gap:7px;
+  max-width:430px;
+  margin:10px auto;
+}
+.order-btn{
+  min-height:47px;
+  border:2px solid #dce3ec;
+  border-radius:12px;
+  background:#fff;
+  cursor:pointer;
+}
+.order-btn.chosen{
+  border-color:#765bd5;
+  background:#eeeaff;
+}
+
+/* zero hunt */
+.factor-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  direction:ltr;
+  margin-top:12px;
+}
+.factor{
+  min-height:54px;
+  border:2px solid #dce3ed;
+  border-radius:13px;
+  background:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+.factor.zero{
+  border-color:var(--green);
+  background:#eaf9f1;
+}
+
+/* feedback */
+.feedback{
+  display:none;
+  margin-top:10px;
+  border-radius:13px;
+  padding:10px;
+  line-height:1.75;
+  font-size:12px;
+}
+.feedback.good{
+  display:block;
+  background:#eaf9f1;
+  border:1px solid #b8e5cc;
+  color:#246846;
+}
+.feedback.bad{
+  display:block;
+  background:#fff0f0;
+  border:1px solid #efc1c3;
+  color:#934047;
+}
+.feedback.time{
+  display:block;
+  background:#fff7df;
+  border:1px solid #ecd692;
+  color:#7b601d;
+}
+.next{
+  width:100%;
+  min-height:50px;
+  margin-top:9px;
+  border:0;
+  border-radius:14px;
+  background:linear-gradient(135deg,#7658d8,#438ce5);
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  display:none;
+}
+
+/* results */
+.hidden{display:none!important}
+.result{
+  display:none;
+  text-align:center;
+}
+.result.show{display:block}
+.trophy{font-size:60px}
+.final-score{
+  color:#6048bd;
+  font-weight:bold;
+  font-size:42px;
+}
+.final-score small{
+  font-size:14px;
+  color:var(--muted);
+  font-weight:normal;
+}
+.result-message{
+  margin:9px 0 17px;
+  font-weight:bold;
+}
+.board{
+  max-width:520px;
+  margin:15px auto;
+  text-align:right;
+}
+.board h3{text-align:center}
+.rank{
+  display:flex;
+  gap:8px;
+  justify-content:space-between;
+  background:#f6f8fc;
+  border-radius:11px;
+  padding:9px 10px;
+  margin:6px 0;
+}
+.rank-name{
+  flex:1;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.rank-score{
+  color:#634dc0;
+  font-weight:bold;
+  white-space:nowrap;
+}
+.loading{
+  text-align:center;
+  color:var(--muted);
+  padding:12px;
+}
+.restart{
+  width:min(100%,350px);
+  min-height:51px;
+  border:0;
+  border-radius:14px;
+  background:linear-gradient(135deg,#7658d8,#438ce5);
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+.back{
+  display:block;
+  width:max-content;
+  max-width:100%;
+  margin:18px auto 0;
+  color:#6152a6;
+  text-decoration:none;
+  font-size:13px;
+}
+@media(max-width:550px){
+  .status{grid-template-columns:repeat(2,1fr)}
+  .card{padding:10px;border-radius:18px}
+  .choices{grid-template-columns:repeat(2,1fr)}
+  .choices .choice:last-child:nth-child(odd){grid-column:1/-1}
+  .elevator-game{grid-template-columns:68px 1fr}
+  .pair-grid,.factor-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{
+    animation:none!important;
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+
+<header class="hero" id="hero">
+  <div class="badges">
+    <span class="badge">پایه هشتم</span>
+    <span class="badge">فصل اول</span>
+    <span class="badge">درس ۱</span>
+  </div>
+  <h1>🏢 برج اعداد</h1>
+  <p class="subtitle">۱۰ طبقه، ۱۰ مأموریت؛ برج را تا پشت‌بام فتح کن!</p>
+</header>
+
+<div id="statusWrap">
+  <section class="status">
+    <div class="stat">
+      <small>بازیکن</small>
+      <b id="playerName">---</b>
+    </div>
+    <div class="stat">
+      <small>طبقه</small>
+      <b id="stage">۱ از ۱۰</b>
+    </div>
+    <div class="stat">
+      <small>امتیاز</small>
+      <b id="score">۰</b>
+    </div>
+    <div class="stat">
+      <small>زمان</small>
+      <b id="time">۳۰ ثانیه</b>
+    </div>
+  </section>
+
+  <section class="timer">
+    <div class="timer-row">
+      <span>⚡ انرژی برج</span>
+      <span id="timerMini">۳۰ / ۳۰</span>
+    </div>
+    <div class="timer-track">
+      <div class="timer-bar" id="timerBar"></div>
+    </div>
+  </section>
+</div>
+
+<section class="card" id="game">
+  <div class="mission-head">
+    <div class="mission-icon" id="missionIcon">🛗</div>
+    <div>
+      <h2 id="missionTitle">آسانسور برج</h2>
+      <p id="missionDesc"></p>
+      <span class="level-type" id="levelType"></span>
+    </div>
+  </div>
+
+  <div class="play" id="playArea"></div>
+
+  <div class="feedback" id="feedback" aria-live="polite"></div>
+
+  <button type="button" class="next" id="nextBtn">
+    طبقه بعدی ←
+  </button>
+</section>
+
+<section class="card result" id="resultScreen">
+  <div class="trophy">🏆🏢</div>
+  <h2>برج فتح شد!</h2>
+  <div id="resultName"></div>
+
+  <div class="final-score">
+    <span id="finalScore">۰</span>
+    <small>از ۱۰۰ امتیاز</small>
+  </div>
+
+  <div class="result-message" id="resultMessage"></div>
+
+  <div class="board">
+    <h3>🏅 برترین فاتحان برج</h3>
+    <div id="leaderboard" class="loading">
+      در حال دریافت رکوردها...
+    </div>
+  </div>
+
+  <button type="button" class="restart" id="restartBtn">
+    🔄 بازی دوباره
+  </button>
+</section>
+
+<a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
+
+</main>
+
+<script src="/games/game-sdk.js"></script>
+
+<script>
+const GAME_ID = 16;
+
+const player = GameSDK.init(GAME_ID);
+
+(() => {
+"use strict";
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 30;
+const RECENT_KEY = "number_tower_grade8_l1_v1";
+const MAX_RECENT = 50;
+
+let questions = [];
+let currentIndex = 0;
+let score = 0;
+
+let startedAt = 0;
+let timerId = null;
+
+let answerChecked = false;
+let gameFinished = false;
+let finishSubmitted = false;
+
+let interactionState = {};
+
+const $ = id => document.getElementById(id);
+
+const el = {
+  hero:$("hero"),
+  statusWrap:$("statusWrap"),
+  playerName:$("playerName"),
+  stage:$("stage"),
+  score:$("score"),
+  time:$("time"),
+  timerMini:$("timerMini"),
+  timerBar:$("timerBar"),
+  game:$("game"),
+  missionIcon:$("missionIcon"),
+  missionTitle:$("missionTitle"),
+  missionDesc:$("missionDesc"),
+  levelType:$("levelType"),
+  playArea:$("playArea"),
+  feedback:$("feedback"),
+  nextBtn:$("nextBtn"),
+  resultScreen:$("resultScreen"),
+  resultName:$("resultName"),
+  finalScore:$("finalScore"),
+  resultMessage:$("resultMessage"),
+  leaderboard:$("leaderboard"),
+  restartBtn:$("restartBtn")
+};
+
+/* ---------- Utilities ---------- */
+
+function faNumber(value){
+  return String(value)
+    .replace(/-/g,"−")
+    .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+function rand(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function shuffle(array){
+  const a=[...array];
+
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+
+  return a;
+}
+
+function recentSignatures(){
+  try{
+    const data=JSON.parse(
+      localStorage.getItem(RECENT_KEY)||"[]"
+    );
+
+    return Array.isArray(data)?data:[];
+  }catch{
+    return [];
+  }
+}
+
+function saveRecent(signatures){
+  try{
+    const old=recentSignatures();
+
+    const combined=[
+      ...signatures,
+      ...old.filter(x=>!signatures.includes(x))
+    ].slice(0,MAX_RECENT);
+
+    localStorage.setItem(
+      RECENT_KEY,
+      JSON.stringify(combined)
+    );
+  }catch{}
+}
+
+function uniqueChoices(correct,wrongCandidates,count=3){
+  const set=new Set([correct]);
+
+  for(const value of wrongCandidates){
+    if(value!==correct) set.add(value);
+    if(set.size>=count) break;
+  }
+
+  let d=1;
+
+  while(set.size<count){
+    set.add(correct+d);
+    if(set.size<count) set.add(correct-d);
+    d++;
+  }
+
+  return shuffle([...set].slice(0,count));
+}
+
+/* ---------- Question generators ---------- */
+
+/*
+  هر generator خانواده مفهومی متفاوتی دارد.
+  در هر دور دقیقاً ۱۰ خانواده از این مجموعه انتخاب می‌شوند.
+*/
+
+const generators = [
+
+  /* 1: compare on tower */
+  () => {
+    let a=rand(-8,6);
+    let b=rand(-8,6);
+    while(a===b) b=rand(-8,6);
+
+    const askHigher=Math.random()<.5;
+    const answer=askHigher?Math.max(a,b):Math.min(a,b);
+
+    return {
+      type:"compare",
+      icon:"🛗",
+      title:"آسانسور طبقات",
+      desc:"طبقه درست را روی برج پیدا کن.",
+      level:"🟢 شروع آسان",
+      a,b,answer,
+      askHigher,
+      signature:`compare-${a}-${b}-${askHigher}`
+    };
+  },
+
+  /* 2: opposite */
+  () => {
+    let n=rand(-9,9);
+    if(n===0) n=rand(1,9)*(Math.random()<.5?-1:1);
+
+    return {
+      type:"opposite",
+      icon:"🪞",
+      title:"اتاق آینه",
+      desc:"آینه برج عدد را به قرینه‌اش تبدیل می‌کند.",
+      level:"🟢 قرینه",
+      n,
+      answer:-n,
+      signature:`opp-${n}`
+    };
+  },
+
+  /* 3: one elevator movement */
+  () => {
+    const start=rand(-6,5);
+    let move=rand(-5,5);
+    if(move===0) move=3;
+
+    const answer=start+move;
+
+    return {
+      type:"move",
+      icon:"🛗",
+      title:"حرکت آسانسور",
+      desc:"حرکت را اجرا کن و طبقه مقصد را پیدا کن.",
+      level:"🟢 جمع عددهای صحیح",
+      start,move,answer,
+      signature:`move-${start}-${move}`
+    };
+  },
+
+  /* 4: subtract negative */
+  () => {
+    const start=rand(-7,5);
+    const b=rand(2,6);
+
+    return {
+      type:"subtractNegative",
+      icon:"🔧",
+      title:"فرمان خراب آسانسور",
+      desc:"اثر کم‌کردن یک عدد منفی را تشخیص بده.",
+      level:"🟡 تفریق و قرینه",
+      start,b,
+      answer:start+b,
+      signature:`subneg-${start}-${b}`
+    };
+  },
+
+  /* 5: sign of product */
+  () => {
+    const negatives=rand(1,4);
+    const total=4;
+    const values=[];
+
+    for(let i=0;i<total;i++){
+      const mag=rand(2,6);
+      values.push(i<negatives?-mag:mag);
+    }
+
+    const shuffled=shuffle(values);
+    const answer=negatives%2===0 ? 1 : -1;
+
+    return {
+      type:"productSign",
+      icon:"⚙️",
+      title:"موتور علامت‌ها",
+      desc:"لازم نیست ضرب کنی؛ فقط جهت موتور را پیدا کن.",
+      level:"🟡 علامت ضرب",
+      values:shuffled,
+      negatives,
+      answer,
+      signature:`ps-${shuffled.join("_")}`
+    };
+  },
+
+  /* 6: division sign */
+  () => {
+    const a=rand(2,9)*(Math.random()<.5?-1:1);
+    const b=rand(2,9)*(Math.random()<.5?-1:1);
+    const answer=Math.sign(a)===Math.sign(b)?1:-1;
+
+    return {
+      type:"divisionSign",
+      icon:"🛠️",
+      title:"گیربکس تقسیم",
+      desc:"فقط علامت خروجی گیربکس را مشخص کن.",
+      level:"🟡 علامت تقسیم",
+      a,b,answer,
+      signature:`ds-${a}-${b}`
+    };
+  },
+
+  /* 7: order of operations */
+  () => {
+    const a=rand(2,7);
+    const b=rand(2,5);
+    const c=rand(2,6);
+
+    return {
+      type:"order",
+      icon:"🎛️",
+      title:"پنل ترتیب عملیات",
+      desc:"اولین عملی که باید اجرا شود را لمس کن.",
+      level:"🟡 ترتیب عملیات",
+      expression:`${a} + ${b} × (−${c})`,
+      answer:"multiply",
+      a,b,c,
+      signature:`order-${a}-${b}-${c}`
+    };
+  },
+
+  /* 8: maximize signs */
+  () => {
+    const a=rand(2,7);
+    const b=rand(2,8);
+    const c=rand(2,7);
+
+    return {
+      type:"maximize",
+      icon:"🚀",
+      title:"اتاق بالاترین طبقه",
+      desc:"علامت‌ها را تنظیم کن تا آسانسور تا جای ممکن بالا برود.",
+      level:"🔴 بیشینه",
+      a,b,c,
+      answer:"-+",
+      signature:`max-${a}-${b}-${c}`
+    };
+  },
+
+  /* 9: minimize signs */
+  () => {
+    const a=rand(2,7);
+    const b=rand(2,8);
+    const c=rand(2,7);
+
+    return {
+      type:"minimize",
+      icon:"🕳️",
+      title:"اتاق زیرزمین",
+      desc:"علامت‌ها را تنظیم کن تا مقدار تا جای ممکن کوچک شود.",
+      level:"🔴 کمینه",
+      a,b,c,
+      answer:"+−",
+      signature:`min-${a}-${b}-${c}`
+    };
+  },
+
+  /* 10: opposite pairs */
+  () => {
+    const a=rand(4,15);
+    let b=rand(2,12);
+    while(b===a) b=rand(2,12);
+
+    const extra=rand(2,9);
+
+    const cards=shuffle([
+      a,-a,b,-b,extra,-(extra+1)
+    ]);
+
+    return {
+      type:"pairs",
+      icon:"🎯",
+      title:"شکار جفت‌های قرینه",
+      desc:"دو جفت قرینه را پیدا و حذف کن.",
+      level:"🔴 محاسبه هوشمند",
+      cards,
+      requiredPairs:2,
+      signature:`pairs-${cards.join("_")}`
+    };
+  },
+
+  /* 11: zero factor */
+  () => {
+    const zeroAt=rand(2,7);
+    const end=rand(9,13);
+
+    const factors=[];
+
+    for(let k=1;k<=end;k++){
+      factors.push({
+        text:`(${zeroAt}−${k})`,
+        value:zeroAt-k
+      });
+    }
+
+    return {
+      type:"zeroHunt",
+      icon:"💣",
+      title:"موتور غول‌پیکر",
+      desc:"بدون ضرب‌کردن همه عامل‌ها، موتور را خاموش کن!",
+      level:"🔴 میان‌بُر عامل صفر",
+      factors,
+      zeroAt,
+      answer:zeroAt-1,
+      signature:`zero-${zeroAt}-${end}`
+    };
+  },
+
+  /* 12: smart grouping numerical */
+  () => {
+    const a=rand(15,40);
+    const b=rand(5,20);
+    const c=rand(3,12);
+
+    const values=[-a,b,a,-c,c-b];
+    const answer=0;
+
+    return {
+      type:"smartSum",
+      icon:"🧲",
+      title:"آهنربای عددها",
+      desc:"به‌جای حساب‌کردن یکی‌یکی، جفت‌های مناسب را ببین.",
+      level:"🔴 دسته‌بندی هوشمند",
+      values,
+      answer,
+      signature:`smart-${a}-${b}-${c}`
+    };
+  }
+];
+
+function generateRound(){
+  const recent=new Set(recentSignatures());
+  const order=shuffle(generators);
+  const made=[];
+
+  for(const generator of order){
+    let candidate=null;
+
+    for(let tries=0;tries<15;tries++){
+      const q=generator();
+
+      if(!candidate) candidate=q;
+
+      if(
+        !recent.has(q.signature) &&
+        !made.some(x=>x.signature===q.signature)
+      ){
+        candidate=q;
+        break;
+      }
+    }
+
+    made.push(candidate);
+
+    if(made.length===TOTAL_QUESTIONS) break;
+  }
+
+  /*
+    برای پیشرفت منطقی، سؤال‌ها بر اساس سطح مکانیک مرتب می‌شوند.
+  */
+  const weight={
+    compare:1,
+    opposite:2,
+    move:3,
+    subtractNegative:4,
+    productSign:5,
+    divisionSign:5,
+    order:6,
+    maximize:7,
+    minimize:7,
+    smartSum:8,
+    pairs:8,
+    zeroHunt:9
+  };
+
+  questions=made
+    .sort((a,b)=>(weight[a.type]||5)-(weight[b.type]||5))
+    .slice(0,TOTAL_QUESTIONS);
+
+  saveRecent(
+    questions.map(q=>q.signature)
+  );
+}
+
+/* ---------- Timer ---------- */
+
+function remainingMs(){
+  return Math.max(
+    0,
+    QUESTION_TIME*1000-(Date.now()-startedAt)
+  );
+}
+
+function scoreForTime(seconds){
+  if(seconds<=5) return 10;
+  if(seconds<=10) return 8;
+  if(seconds<=15) return 6;
+  if(seconds<=20) return 4;
+  if(seconds<30) return 2;
+  return 0;
+}
+
+function startTimer(){
+  stopTimer();
+  startedAt=Date.now();
+  updateTimer();
+
+  timerId=setInterval(
+    updateTimer,
+    150
+  );
+}
+
+function stopTimer(){
+  if(timerId!==null){
+    clearInterval(timerId);
+    timerId=null;
+  }
+}
+
+function updateTimer(){
+  const ms=remainingMs();
+  const seconds=Math.max(0,Math.ceil(ms/1000));
+  const ratio=ms/(QUESTION_TIME*1000);
+
+  el.time.textContent=
+    `${faNumber(seconds)} ثانیه`;
+
+  el.timerMini.textContent=
+    `${faNumber(seconds)} / ${faNumber(QUESTION_TIME)}`;
+
+  el.timerBar.style.width=
+    `${Math.max(0,ratio*100)}%`;
+
+  if(ratio>.5){
+    el.timerBar.style.background="var(--green)";
+  }else if(ratio>.2){
+    el.timerBar.style.background="var(--yellow)";
+  }else{
+    el.timerBar.style.background="var(--red)";
+  }
+
+  if(
+    ms<=0 &&
+    !answerChecked &&
+    !gameFinished
+  ){
+    handleTimeout();
+  }
+}
+
+/* ---------- Render ---------- */
+
+function renderQuestion(){
+  stopTimer();
+
+  answerChecked=false;
+  interactionState={};
+
+  const q=questions[currentIndex];
+
+  el.stage.textContent=
+    `${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
+
+  el.score.textContent=faNumber(score);
+
+  el.missionIcon.textContent=q.icon;
+  el.missionTitle.textContent=q.title;
+  el.missionDesc.textContent=q.desc;
+  el.levelType.textContent=q.level;
+
+  el.feedback.className="feedback";
+  el.feedback.innerHTML="";
+
+  el.nextBtn.style.display="none";
+  el.playArea.innerHTML="";
+
+  switch(q.type){
+    case "compare":
+      renderCompare(q);
+      break;
+    case "opposite":
+      renderOpposite(q);
+      break;
+    case "move":
+      renderMove(q);
+      break;
+    case "subtractNegative":
+      renderSubtractNegative(q);
+      break;
+    case "productSign":
+      renderProductSign(q);
+      break;
+    case "divisionSign":
+      renderDivisionSign(q);
+      break;
+    case "order":
+      renderOrder(q);
+      break;
+    case "maximize":
+      renderSigns(q,true);
+      break;
+    case "minimize":
+      renderSigns(q,false);
+      break;
+    case "pairs":
+      renderPairs(q);
+      break;
+    case "zeroHunt":
+      renderZeroHunt(q);
+      break;
+    case "smartSum":
+      renderSmartSum(q);
+      break;
+  }
+
+  startTimer();
+}
+
+function makeTower(current,target=null){
+  const tower=document.createElement("div");
+  tower.className="tower";
+
+  for(let n=7;n>=-7;n--){
+    const floor=document.createElement("div");
+    floor.className="floor";
+
+    if(n===current) floor.classList.add("current");
+    if(n===target) floor.classList.add("target");
+
+    floor.textContent=faNumber(n);
+    tower.appendChild(floor);
+  }
+
+  return tower;
+}
+
+function createElevatorLayout(current,target){
+  const wrap=document.createElement("div");
+  wrap.className="elevator-game";
+
+  const tower=makeTower(current,target);
+  const panel=document.createElement("div");
+  panel.className="elevator-panel";
+
+  wrap.append(tower,panel);
+  el.playArea.appendChild(wrap);
+
+  return panel;
+}
+
+function createChoiceButtons(values,handler,formatter=faNumber){
+  const box=document.createElement("div");
+  box.className="choices";
+
+  values.forEach(value=>{
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="choice";
+    btn.dataset.value=String(value);
+    btn.textContent=formatter(value);
+
+    btn.addEventListener("click",()=>{
+      handler(value,btn);
+    });
+
+    box.appendChild(btn);
+  });
+
+  return box;
+}
+
+function renderCompare(q){
+  const panel=createElevatorLayout(0,null);
+
+  const prompt=document.createElement("div");
+  prompt.className="target-text";
+  prompt.innerHTML=
+    q.askHigher
+      ? `بین طبقه <b>${faNumber(q.a)}</b> و <b>${faNumber(q.b)}</b> کدام بالاتر است؟`
+      : `بین طبقه <b>${faNumber(q.a)}</b> و <b>${faNumber(q.b)}</b> کدام پایین‌تر است؟`;
+
+  const big=document.createElement("div");
+  big.className="big-floor";
+  big.textContent="🛗";
+
+  panel.append(
+    big,
+    prompt,
+    createChoiceButtons(
+      [q.a,q.b],
+      (value,btn)=>finalizeSimple(
+        value===q.answer,
+        btn,
+        `روی محور، عددی که بالاتر/راست‌تر است بزرگ‌تر و عدد پایین‌تر/چپ‌تر کوچک‌تر است. پاسخ ${faNumber(q.answer)} است.`
+      )
+    )
+  );
+}
+
+function renderOpposite(q){
+  const panel=createElevatorLayout(q.n,-q.n);
+
+  const prompt=document.createElement("div");
+  prompt.className="target-text";
+  prompt.innerHTML=
+    `آینه عدد <b>${faNumber(q.n)}</b> را نشان می‌دهد.<br>قرینه‌اش کدام است؟`;
+
+  const choices=uniqueChoices(
+    q.answer,
+    [q.n,q.answer+1,q.answer-1],
+    3
+  );
+
+  panel.append(
+    prompt,
+    createChoiceButtons(
+      choices,
+      (value,btn)=>finalizeSimple(
+        value===q.answer,
+        btn,
+        `قرینه در فاصله مساوی از صفر و در سمت مخالف قرار دارد؛ پس قرینه ${faNumber(q.n)} برابر ${faNumber(q.answer)} است.`
+      )
+    )
+  );
+}
+
+function renderMove(q){
+  const panel=createElevatorLayout(q.start,q.answer);
+
+  const prompt=document.createElement("div");
+  prompt.className="target-text";
+  prompt.innerHTML=
+    `از طبقه <b>${faNumber(q.start)}</b> شروع کن.<br>`+
+    `فرمان حرکت: <b>${q.move>0?"بالا":"پایین"} ${faNumber(Math.abs(q.move))} طبقه</b>`;
+
+  const choices=uniqueChoices(
+    q.answer,
+    [
+      q.start-q.move,
+      q.answer+1,
+      q.answer-1
+    ]
+  );
+
+  panel.append(
+    prompt,
+    createChoiceButtons(
+      choices,
+      (value,btn)=>finalizeSimple(
+        value===q.answer,
+        btn,
+        `حرکت ${faNumber(q.move)} یعنی ${q.move>0?"حرکت به سمت عددهای بزرگ‌تر":"حرکت به سمت عددهای کوچک‌تر"}. مقصد ${faNumber(q.answer)} است.`
+      )
+    )
+  );
+}
+
+function renderSubtractNegative(q){
+  const panel=createElevatorLayout(q.start,q.answer);
+
+  const prompt=document.createElement("div");
+  prompt.className="target-text";
+  prompt.innerHTML=
+    `آسانسور روی <b>${faNumber(q.start)}</b> است.<br>`+
+    `فرمان: ${faNumber(q.start)} − (−${faNumber(q.b)})`;
+
+  const direction=document.createElement("div");
+  direction.className="prompt";
+  direction.textContent="آسانسور باید به کدام سمت برود؟";
+
+  const controls=createChoiceButtons(
+    ["up","down"],
+    (value,btn)=>{
+      const correct=value==="up";
+
+      finalizeSimple(
+        correct,
+        btn,
+        `کم‌کردن عدد منفی یعنی جمع‌کردن عدد مثبت: ${faNumber(q.start)} − (−${faNumber(q.b)}) = ${faNumber(q.start)} + ${faNumber(q.b)} = ${faNumber(q.answer)}.`
+      );
+    },
+    value=>value==="up"?"⬆️ بالا":"⬇️ پایین"
+  );
+
+  panel.append(prompt,direction,controls);
+}
+
+/* ---------- Sign mechanics ---------- */
+
+function renderProductSign(q){
+  const p=document.createElement("div");
+  p.className="prompt";
+  p.textContent="جهت نهایی موتور چیست؟";
+
+  const expression=document.createElement("div");
+  expression.className="expression";
+  expression.textContent=
+    q.values
+      .map(v=>`(${v>0?"+":""}${faNumber(v)})`)
+      .join(" × ");
+
+  const choices=createChoiceButtons(
+    [1,-1],
+    (value,btn)=>finalizeSimple(
+      value===q.answer,
+      btn,
+      q.negatives%2===0
+        ? `تعداد عامل‌های منفی زوج است؛ پس حاصل مثبت است.`
+        : `تعداد عامل‌های منفی فرد است؛ پس حاصل منفی است.`
+    ),
+    v=>v===1?"➕ مثبت":"➖ منفی"
+  );
+
+  el.playArea.append(p,expression,choices);
+}
+
+function renderDivisionSign(q){
+  const p=document.createElement("div");
+  p.className="prompt";
+  p.textContent="بدون تقسیم‌کردن، علامت پاسخ را انتخاب کن.";
+
+  const expression=document.createElement("div");
+  expression.className="expression";
+  expression.textContent=
+    `(${q.a>0?"+":""}${faNumber(q.a)}) ÷ (${q.b>0?"+":""}${faNumber(q.b)})`;
+
+  el.playArea.append(
+    p,
+    expression,
+    createChoiceButtons(
+      [1,-1],
+      (value,btn)=>finalizeSimple(
+        value===q.answer,
+        btn,
+        `در تقسیم، علامت‌های ${Math.sign(q.a)===Math.sign(q.b)?"یکسان، حاصل مثبت":"متفاوت، حاصل منفی"} می‌دهند.`
+      ),
+      v=>v===1?"➕ مثبت":"➖ منفی"
+    )
+  );
+}
+
+function renderOrder(q){
+  const p=document.createElement("div");
+  p.className="prompt";
+  p.textContent="کدام عمل باید اول انجام شود؟";
+
+  const expression=document.createElement("div");
+  expression.className="expression";
+  expression.textContent=
+    `${faNumber(q.a)} + ${faNumber(q.b)} × (−${faNumber(q.c)})`;
+
+  const choices=[
+    ["add","➕ جمع"],
+    ["multiply","✖️ ضرب"],
+    ["negative","➖ فقط منفی‌کردن"]
+  ];
+
+  const box=document.createElement("div");
+  box.className="choices";
+
+  choices.forEach(([value,label])=>{
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="choice";
+    btn.dataset.value=value;
+    btn.textContent=label;
+
+    btn.addEventListener("click",()=>{
+      finalizeSimple(
+        value===q.answer,
+        btn,
+        "بعد از پرانتز، ضرب و تقسیم پیش از جمع و تفریق انجام می‌شوند؛ بنابراین اینجا ابتدا ضرب را انجام می‌دهیم."
+      );
+    });
+
+    box.appendChild(btn);
+  });
+
+  el.playArea.append(p,expression,box);
+}
+
+/* ---------- Max / min ---------- */
+
+function renderSigns(q,isMax){
+  interactionState.signs=["+","+"];
+  interactionState.isMax=isMax;
+
+  const prompt=document.createElement("div");
+  prompt.className="prompt";
+  prompt.textContent=
+    isMax
+      ?"دو کلید را بزن و بیشترین ارتفاع ممکن را بساز."
+      :"دو کلید را بزن و کوچک‌ترین مقدار ممکن را بساز.";
+
+  const board=document.createElement("div");
+  board.className="sign-board";
+
+  const n1=chip(-q.a);
+  const s1=signSwitch(0);
+  const n2=chip(-q.b);
+  const s2=signSwitch(1);
+  const n3=chip(q.c);
+
+  board.append(n1,s1,n2,s2,n3);
+
+  const submit=document.createElement("button");
+  submit.type="button";
+  submit.className="next";
+  submit.style.display="block";
+  submit.textContent="ثبت تنظیمات";
+
+  submit.addEventListener("click",()=>{
+    if(answerChecked) return;
+
+    const code=interactionState.signs.join("");
+
+    const correct=isMax
+      ? code==="-+"
+      : code==="+-";
+
+    /*
+      ساختار:
+      -a □ (-b) □ (+c)
+      Max => -a - (-b) + c
+      Min => -a + (-b) - c
+    */
+
+    finalizeSimple(
+      correct,
+      submit,
+      isMax
+        ? `برای بیشینه، عدد منفی دوم را کم می‌کنیم تا مثبت شود و عدد مثبت آخر را جمع می‌کنیم: −${faNumber(q.a)} − (−${faNumber(q.b)}) + ${faNumber(q.c)}.`
+        : `برای کمینه، عدد منفی دوم را جمع می‌کنیم و عدد مثبت آخر را کم می‌کنیم: −${faNumber(q.a)} + (−${faNumber(q.b)}) − ${faNumber(q.c)}.`
+    );
+  });
+
+  el.playArea.append(prompt,board,submit);
+}
+
+function chip(value){
+  const span=document.createElement("span");
+  span.className="number-chip";
+  span.textContent=`(${value>0?"+":""}${faNumber(value)})`;
+  return span;
+}
+
+function signSwitch(index){
+  const btn=document.createElement("button");
+  btn.type="button";
+  btn.className="sign-btn";
+  btn.textContent="+";
+
+  btn.addEventListener("click",()=>{
+    if(answerChecked) return;
+
+    interactionState.signs[index]=
+      interactionState.signs[index]==="+"?"-":"+";
+
+    btn.textContent=interactionState.signs[index]==="+"?"+":"−";
+  });
+
+  return btn;
+}
+
+/* ---------- Pair hunt ---------- */
+
+function renderPairs(q){
+  interactionState.firstIndex=null;
+  interactionState.matched=new Set();
+  interactionState.pairs=0;
+
+  const prompt=document.createElement("div");
+  prompt.className="prompt";
+  prompt.innerHTML=
+    `دو کارت قرینه را پشت‌سرهم لمس کن.<br>`+
+    `برای بازکردن در، <b>${faNumber(q.requiredPairs)} جفت</b> پیدا کن.`;
+
+  const grid=document.createElement("div");
+  grid.className="pair-grid";
+
+  q.cards.forEach((value,index)=>{
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="pair-card";
+    btn.textContent=faNumber(value);
+
+    btn.addEventListener("click",()=>{
+      handlePairClick(q,index,value,btn,grid);
+    });
+
+    grid.appendChild(btn);
+  });
+
+  el.playArea.append(prompt,grid);
+}
+
+function handlePairClick(q,index,value,btn,grid){
+  if(answerChecked || interactionState.matched.has(index)) return;
+
+  if(remainingMs()<=0){
+    handleTimeout();
+    return;
+  }
+
+  if(interactionState.firstIndex===null){
+    interactionState.firstIndex=index;
+    interactionState.firstValue=value;
+    btn.classList.add("active");
+    return;
+  }
+
+  if(interactionState.firstIndex===index) return;
+
+  const firstIndex=interactionState.firstIndex;
+  const firstValue=interactionState.firstValue;
+  const firstBtn=grid.children[firstIndex];
+
+  if(firstValue+value===0){
+    interactionState.matched.add(firstIndex);
+    interactionState.matched.add(index);
+
+    firstBtn.className="pair-card matched";
+    btn.className="pair-card matched";
+
+    interactionState.pairs++;
+
+    if(interactionState.pairs>=q.requiredPairs){
+      finalizeProcessCorrect(
+        "هر عدد با قرینه‌اش مجموع صفر می‌سازد. پیدا کردن این جفت‌ها، محاسبه عبارت‌های طولانی را سریع‌تر می‌کند."
+      );
+      return;
+    }
+  }else{
+    firstBtn.classList.remove("active");
+  }
+
+  interactionState.firstIndex=null;
+  interactionState.firstValue=null;
+}
+
+/* ---------- Zero hunt ---------- */
+
+function renderZeroHunt(q){
+  const p=document.createElement("div");
+  p.className="prompt";
+  p.textContent=
+    "یکی از این عامل‌ها کل حاصل‌ضرب را صفر می‌کند. همان را پیدا کن.";
+
+  const grid=document.createElement("div");
+  grid.className="factor-grid";
+
+  q.factors.forEach((factor,index)=>{
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="factor";
+    btn.textContent=
+      `(${faNumber(q.zeroAt)}−${faNumber(index+1)})`;
+
+    btn.addEventListener("click",()=>{
+      const correct=factor.value===0;
+
+      if(correct) btn.classList.add("zero");
+
+      finalizeSimple(
+        correct,
+        btn,
+        `عامل (${faNumber(q.zeroAt)}−${faNumber(q.zeroAt)}) برابر صفر است؛ بنابراین بدون محاسبه بقیه عامل‌ها می‌دانیم کل حاصل‌ضرب صفر است.`
+      );
+    });
+
+    grid.appendChild(btn);
+  });
+
+  el.playArea.append(p,grid);
+}
+
+/* ---------- Smart grouping ---------- */
+
+function renderSmartSum(q){
+  const p=document.createElement("div");
+  p.className="prompt";
+  p.textContent=
+    "عبارت را نگاه کن. لازم نیست از چپ به راست حساب کنی؛ نتیجه چیست؟";
+
+  const expression=document.createElement("div");
+  expression.className="expression";
+
+  expression.textContent=q.values
+    .map((v,i)=>{
+      if(i===0) return faNumber(v);
+      return `${v>=0?"+":"−"} ${faNumber(Math.abs(v))}`;
+    })
+    .join(" ");
+
+  const choices=uniqueChoices(
+    q.answer,
+    [q.values[1],q.values[4],q.values[1]+q.values[4]]
+  );
+
+  el.playArea.append(
+    p,
+    expression,
+    createChoiceButtons(
+      choices,
+      (value,btn)=>finalizeSimple(
+        value===q.answer,
+        btn,
+        "ابتدا جفت‌های قرینه و سپس عددهایی را که همدیگر را خنثی می‌کنند کنار هم قرار بده؛ لازم نیست عبارت را همیشه از چپ به راست حساب کنی."
+      )
+    )
+  );
+}
+
+/* ---------- Evaluation ---------- */
+
+function lockInteractive(){
+  const buttons=
+    el.playArea.querySelectorAll("button");
+
+  buttons.forEach(btn=>{
+    btn.disabled=true;
+  });
+}
+
+function revealCorrectForSimple(){
+  /*
+    در timeout برای مکانیک‌هایی که جواب مشخصی
+    در data-value دارند، گزینه صحیح مشخص می‌شود.
+  */
+  const q=questions[currentIndex];
+
+  const buttons=[
+    ...el.playArea.querySelectorAll("[data-value]")
+  ];
+
+  buttons.forEach(btn=>{
+    const raw=btn.dataset.value;
+
+    if(
+      String(q.answer)===raw ||
+      Number(raw)===q.answer
+    ){
+      btn.classList.add("correct");
+    }
+  });
+}
+
+function finalizeSimple(correct,button,explanation){
+  if(answerChecked || gameFinished) return;
+
+  if(remainingMs()<=0){
+    handleTimeout();
+    return;
+  }
+
+  answerChecked=true;
+  stopTimer();
+  lockInteractive();
+
+  if(correct){
+    if(button) button.classList.add("correct");
+
+    const elapsed=Math.min(
+      QUESTION_TIME,
+      (Date.now()-startedAt)/1000
+    );
+
+    const gained=scoreForTime(elapsed);
+
+    score=Math.min(
+      100,
+      score+gained
+    );
+
+    el.score.textContent=faNumber(score);
+
+    el.feedback.className="feedback good";
+    el.feedback.innerHTML=
+      `✅ <strong>آفرین! +${faNumber(gained)} امتیاز</strong><br>${explanation}`;
+
+  }else{
+    if(button) button.classList.add("wrong");
+
+    revealCorrectForSimple();
+
+    el.feedback.className="feedback bad";
+    el.feedback.innerHTML=
+      `❌ <strong>این انتخاب درست نبود.</strong><br>${explanation}`;
+  }
+
+  showNextButton();
+}
+
+function finalizeProcessCorrect(explanation){
+  if(answerChecked || gameFinished) return;
+
+  answerChecked=true;
+  stopTimer();
+  lockInteractive();
+
+  const elapsed=Math.min(
+    QUESTION_TIME,
+    (Date.now()-startedAt)/1000
+  );
+
+  const gained=scoreForTime(elapsed);
+
+  score=Math.min(100,score+gained);
+
+  el.score.textContent=faNumber(score);
+
+  el.feedback.className="feedback good";
+  el.feedback.innerHTML=
+    `✅ <strong>در باز شد! +${faNumber(gained)} امتیاز</strong><br>${explanation}`;
+
+  showNextButton();
+}
+
+function timeoutExplanation(q){
+  switch(q.type){
+    case "compare":
+      return `روی محور، عدد بزرگ‌تر بالاتر و عدد کوچک‌تر پایین‌تر است. پاسخ ${faNumber(q.answer)} بود.`;
+
+    case "opposite":
+      return `قرینه ${faNumber(q.n)} برابر ${faNumber(q.answer)} است.`;
+
+    case "move":
+      return `از ${faNumber(q.start)} با حرکت ${faNumber(q.move)} به ${faNumber(q.answer)} می‌رسیم.`;
+
+    case "subtractNegative":
+      return `کم‌کردن عدد منفی یعنی جمع‌کردن عدد مثبت؛ مقصد ${faNumber(q.answer)} است.`;
+
+    case "productSign":
+      return q.answer===1
+        ?"تعداد عامل‌های منفی زوج بود؛ پس حاصل مثبت است."
+        :"تعداد عامل‌های منفی فرد بود؛ پس حاصل منفی است.";
+
+    case "divisionSign":
+      return q.answer===1
+        ?"دو عدد هم‌علامت‌اند؛ پس حاصل تقسیم مثبت است."
+        :"دو عدد مختلف‌العلامت‌اند؛ پس حاصل تقسیم منفی است.";
+
+    case "order":
+      return "ضرب باید پیش از جمع انجام شود.";
+
+    case "maximize":
+      return `برای بیشینه: −${faNumber(q.a)} − (−${faNumber(q.b)}) + ${faNumber(q.c)}.`;
+
+    case "minimize":
+      return `برای کمینه: −${faNumber(q.a)} + (−${faNumber(q.b)}) − ${faNumber(q.c)}.`;
+
+    case "pairs":
+      return "هر عدد و قرینه‌اش یک جفت با مجموع صفر می‌سازند.";
+
+    case "zeroHunt":
+      return `عامل (${faNumber(q.zeroAt)}−${faNumber(q.zeroAt)}) صفر است؛ بنابراین کل ضرب صفر می‌شود.`;
+
+    case "smartSum":
+      return "با کنار هم گذاشتن جفت‌های قرینه، عبارت بدون محاسبه طولانی ساده می‌شود.";
+
+    default:
+      return "روش صحیح مرحله را بررسی کن.";
+  }
+}
+
+function handleTimeout(){
+  if(answerChecked || gameFinished) return;
+
+  answerChecked=true;
+  stopTimer();
+  lockInteractive();
+  revealCorrectForSimple();
+
+  el.time.textContent="۰ ثانیه";
+  el.timerMini.textContent=
+    `۰ / ${faNumber(QUESTION_TIME)}`;
+
+  el.timerBar.style.width="0%";
+  el.timerBar.style.background="var(--red)";
+
+  const q=questions[currentIndex];
+
+  el.feedback.className="feedback time";
+  el.feedback.innerHTML=
+    `⏰ <strong>زمان تمام شد.</strong><br>${timeoutExplanation(q)}`;
+
+  showNextButton();
+}
+
+function showNextButton(){
+  el.nextBtn.style.display="block";
+
+  el.nextBtn.textContent=
+    currentIndex===TOTAL_QUESTIONS-1
+      ?"🏆 رفتن به پشت‌بام"
+      :"طبقه بعدی ←";
+}
+
+/* ---------- Next / finish ---------- */
+
+function nextQuestion(){
+  if(!answerChecked || gameFinished) return;
+
+  if(currentIndex===TOTAL_QUESTIONS-1){
+    finishGame();
+    return;
+  }
+
+  currentIndex++;
+  renderQuestion();
+}
+
+async function finishGame(){
+  if(gameFinished) return;
+
+  gameFinished=true;
+  stopTimer();
+
+  score=Math.min(100,score);
+
+  el.game.classList.add("hidden");
+  el.hero.classList.add("hidden");
+  el.statusWrap.classList.add("hidden");
+  el.resultScreen.classList.add("show");
+
+  const name=
+    player.playerName || "بازیکن";
+
+  el.resultName.textContent=
+    `${name}، به پشت‌بام برج رسیدی!`;
+
+  el.finalScore.textContent=
+    faNumber(score);
+
+  if(score>=90){
+    el.resultMessage.textContent=
+      "عالی بود! 🌟 استاد برج اعداد شدی!";
+  }else if(score>=70){
+    el.resultMessage.textContent=
+      "خیلی خوب بود 👏 علامت‌ها را خوب کنترل کردی.";
+  }else if(score>=50){
+    el.resultMessage.textContent=
+      "خوب بود، ادامه بده 💪 راه‌های هوشمند را بیشتر تمرین کن.";
+  }else{
+    el.resultMessage.textContent=
+      "دوباره تلاش کن 🌱 این بار قبل از محاسبه به علامت‌ها و میان‌بُرها دقت کن.";
+  }
+
+  if(!finishSubmitted){
+    finishSubmitted=true;
+
+    try{
+      const result=
+        await GameSDK.finishGame(score);
+
+      void result;
+    }catch(error){
+      console.error(
+        "finishGame failed:",
+        error
+      );
+    }
+  }
+
+  await loadLeaderboard();
+}
+
+async function loadLeaderboard(){
+  el.leaderboard.className="loading";
+  el.leaderboard.textContent=
+    "در حال دریافت رکوردها...";
+
+  try{
+    const scores=
+      await GameSDK.getLeaderboard(10);
+
+    const list=
+      Array.isArray(scores)?scores:[];
+
+    el.leaderboard.className="";
+    el.leaderboard.innerHTML="";
+
+    if(!list.length){
+      el.leaderboard.className="loading";
+      el.leaderboard.textContent=
+        "هنوز رکوردی برای نمایش وجود ندارد.";
+      return;
+    }
+
+    list.slice(0,10).forEach((item,index)=>{
+      const row=document.createElement("div");
+      row.className="rank";
+
+      const rank=document.createElement("span");
+
+      if(index===0) rank.textContent="🥇";
+      else if(index===1) rank.textContent="🥈";
+      else if(index===2) rank.textContent="🥉";
+      else rank.textContent=`${faNumber(index+1)}.`;
+
+      const name=document.createElement("span");
+      name.className="rank-name";
+      name.textContent=
+        item.playerName ??
+        item.name ??
+        item.username ??
+        "بازیکن";
+
+      const points=document.createElement("span");
+      points.className="rank-score";
+      points.textContent=
+        `${faNumber(item.score ?? 0)} امتیاز`;
+
+      row.append(rank,name,points);
+      el.leaderboard.appendChild(row);
+    });
+
+  }catch(error){
+    console.error(
+      "Leaderboard failed:",
+      error
+    );
+
+    el.leaderboard.className="loading";
+    el.leaderboard.textContent=
+      "دریافت جدول برترین‌ها ممکن نشد.";
+  }
+}
+
+/* ---------- Restart ---------- */
+
+function restartGame(){
+  stopTimer();
+
+  GameSDK.reset();
+
+  questions=[];
+  currentIndex=0;
+  score=0;
+
+  startedAt=0;
+  timerId=null;
+
+  answerChecked=false;
+  gameFinished=false;
+  finishSubmitted=false;
+  interactionState={};
+
+  el.score.textContent="۰";
+
+  el.resultScreen.classList.remove("show");
+  el.game.classList.remove("hidden");
+  el.hero.classList.remove("hidden");
+  el.statusWrap.classList.remove("hidden");
+
+  generateRound();
+
+  if(questions.length!==TOTAL_QUESTIONS){
+    throw new Error(
+      "Exactly 10 questions are required."
+    );
+  }
+
+  renderQuestion();
+}
+
+/* ---------- Events ---------- */
+
+el.nextBtn.addEventListener(
+  "click",
+  nextQuestion
+);
+
+el.restartBtn.addEventListener(
+  "click",
+  restartGame
+);
+
+/* ---------- Start ---------- */
+
+el.playerName.textContent=
+  player.playerName || "بازیکن";
+
+generateRound();
+
+if(questions.length!==TOTAL_QUESTIONS){
+  throw new Error(
+    "Exactly 10 questions are required."
+  );
+}
+
+renderQuestion();
+
+})();
+</script>
+</body>
+</html>
