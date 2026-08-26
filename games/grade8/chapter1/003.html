@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>کارخانه چرخ‌دنده‌ها | ریاضی هشتم</title>
+<style>
+:root{
+ --purple:#7357d8;--blue:#3e8de7;--pink:#ef70a8;
+ --yellow:#f6c94c;--green:#37b978;--red:#e65860;
+ --ink:#29384c;--muted:#718096;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+ margin:0;min-height:100vh;overflow-x:hidden;
+ font-family:Tahoma,Arial,sans-serif;color:var(--ink);
+ background:
+ radial-gradient(circle at 8% 4%,#e0efff 0,transparent 25%),
+ radial-gradient(circle at 92% 7%,#ffe0ec 0,transparent 25%),
+ linear-gradient(155deg,#f5efff,#eefaff)
+}
+button{font:inherit;touch-action:manipulation}
+.app{width:min(100% - 16px,760px);margin:auto;padding:12px 0 28px}
+.hero{text-align:center}
+.badges{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.badge{
+ background:#fff;border:1px solid #ded8ff;border-radius:99px;
+ padding:4px 9px;color:#6250b2;font-size:11px;font-weight:bold
+}
+h1{margin:7px 0 2px;color:#5941b5;font-size:clamp(25px,7vw,38px)}
+.subtitle{margin:0 0 10px;color:var(--muted);font-size:13px}
+.status{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:9px 0 7px}
+.stat{
+ min-width:0;background:#fff;border:1px solid #e1e6ee;
+ border-radius:12px;padding:7px 4px;text-align:center
+}
+.stat small{display:block;color:var(--muted);font-size:9px}
+.stat b{display:block;font-size:12px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timer{background:#fff;border-radius:12px;padding:7px 9px;margin-bottom:8px}
+.timer-row{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin-bottom:5px}
+.track{height:8px;border-radius:20px;background:#edf0f4;overflow:hidden}
+.bar{height:100%;width:100%;border-radius:20px;background:var(--green)}
+.card{
+ background:#fff;border:1px solid #e0e5ed;border-radius:22px;
+ padding:12px;box-shadow:0 14px 36px rgba(63,73,105,.12)
+}
+.progress{display:flex;gap:5px;align-items:center;margin-bottom:9px}
+.pstep{height:8px;flex:1;border-radius:20px;background:#e7ebf1}
+.pstep.done{background:var(--green)}
+.pstep.now{background:var(--purple);box-shadow:0 0 0 3px #eeeaff}
+
+.mission{
+ text-align:center;background:#f7f5ff;border:1px solid #e4deff;
+ border-radius:15px;padding:8px;margin-bottom:9px
+}
+.mission small{color:#7664bd;font-weight:bold}
+.mission h2{font-size:17px;color:#4c4095;margin:3px 0}
+.mission p{margin:0;color:#68788b;font-size:12px;line-height:1.7}
+
+/* Factory */
+.factory{
+ position:relative;overflow:hidden;min-height:340px;border-radius:18px;
+ border:3px solid #3a485b;padding:12px 8px;
+ background:
+ linear-gradient(rgba(255,255,255,.04),rgba(0,0,0,.12)),
+ repeating-linear-gradient(90deg,#536276 0,#536276 28px,#4b5a6e 29px,#4b5a6e 31px);
+}
+.factory-title{
+ text-align:center;color:#dce5ef;background:#263445;
+ border:1px solid #69788c;border-radius:11px;padding:6px;font-size:11px
+}
+.machine{
+ margin:10px auto 8px;max-width:600px;min-height:176px;
+ border-radius:18px;background:#e9eef4;border:5px solid #303e50;
+ box-shadow:inset 0 0 0 3px #9ba7b4;padding:10px
+}
+.machine-screen{
+ background:#1e3138;color:#b8ffe4;border:4px solid #657781;
+ border-radius:11px;padding:7px;text-align:center;min-height:57px
+}
+.machine-screen small{color:#93acae;font-size:9px;display:block}
+.expression{
+ direction:ltr;unicode-bidi:isolate;font-weight:bold;font-size:17px;
+ line-height:1.8
+}
+.gears{
+ direction:ltr;display:flex;justify-content:center;align-items:center;
+ flex-wrap:wrap;gap:7px;min-height:94px;padding:10px 2px 3px
+}
+.gear{
+ position:relative;width:67px;height:67px;border-radius:50%;
+ display:grid;place-items:center;color:#fff;font-weight:bold;font-size:17px;
+ border:7px dashed rgba(255,255,255,.7);
+ box-shadow:0 4px 8px rgba(30,43,59,.25)
+}
+.gear.positive{background:#398bd8}
+.gear.negative{background:#df555e}
+.gear:after{
+ content:"";position:absolute;width:17px;height:17px;background:#e9eef4;
+ border-radius:50%;border:3px solid rgba(39,52,68,.3)
+}
+.gear span{position:relative;z-index:2;text-shadow:0 1px 2px #243449}
+.operator{
+ color:#526378;font-weight:bold;font-size:18px
+}
+.counter{
+ text-align:center;color:#536579;font-size:11px;line-height:1.7
+}
+.counter strong{color:#5e48b6;font-size:15px}
+
+/* decision */
+.decision{
+ background:rgba(29,42,57,.92);border:1px solid #718096;
+ border-radius:14px;padding:9px;margin-top:7px
+}
+.question{text-align:center;color:#dce6f2;font-size:12px;margin-bottom:7px}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.choice{
+ min-height:57px;border:2px solid #dce3ec;border-radius:13px;
+ background:#fff;color:#3b4d62;font-weight:bold;cursor:pointer
+}
+.choice.positive{color:#2672af}
+.choice.negative{color:#ac4049}
+.choice.correct{border-color:var(--green);background:#eaf9f1;color:#246b48}
+.choice.wrong{border-color:var(--red);background:#fff0f0;color:#984148}
+.choice:disabled{cursor:default}
+
+/* feedback */
+.feedback{
+ display:none;margin-top:9px;padding:10px;border-radius:13px;
+ font-size:12px;line-height:1.75
+}
+.feedback.good{display:block;background:#eaf9f1;border:1px solid #b8e6cc;color:#246846}
+.feedback.bad{display:block;background:#fff0f0;border:1px solid #efc1c4;color:#944147}
+.feedback.time{display:block;background:#fff7df;border:1px solid #ecd693;color:#7b601d}
+.next{
+ display:none;width:100%;min-height:50px;margin-top:9px;border:0;
+ border-radius:14px;color:#fff;background:linear-gradient(135deg,#7357d8,#3e8de7);
+ font-weight:bold;cursor:pointer
+}
+
+/* result */
+.hidden{display:none!important}
+.result{display:none;text-align:center}
+.result.show{display:block}
+.trophy{font-size:61px}
+.final-score{font-size:42px;color:#6048bd;font-weight:bold}
+.final-score small{font-size:14px;color:var(--muted);font-weight:normal}
+.result-message{margin:9px 0 16px;font-weight:bold}
+.board{max-width:510px;margin:15px auto;text-align:right}
+.board h3{text-align:center}
+.rank{
+ display:flex;justify-content:space-between;gap:8px;
+ background:#f6f8fc;border-radius:11px;padding:9px 10px;margin:6px 0
+}
+.rank-name{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.rank-score{color:#634dc0;font-weight:bold;white-space:nowrap}
+.loading{text-align:center;color:var(--muted);padding:12px}
+.restart{
+ width:min(100%,350px);min-height:51px;border:0;border-radius:14px;
+ color:#fff;background:linear-gradient(135deg,#7357d8,#3e8de7);
+ font-weight:bold;cursor:pointer
+}
+.back{
+ display:block;width:max-content;max-width:100%;margin:18px auto 0;
+ color:#6152a6;text-decoration:none;font-size:13px
+}
+@media(max-width:520px){
+ .status{grid-template-columns:repeat(2,1fr)}
+ .card{padding:9px;border-radius:18px}
+ .gear{width:55px;height:55px;border-width:6px;font-size:14px}
+ .gears{gap:4px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+
+<header class="hero" id="hero">
+ <div class="badges">
+  <span class="badge">پایه هشتم</span>
+  <span class="badge">فصل اول</span>
+  <span class="badge">درس ۱</span>
+  <span class="badge">علامت ضرب و تقسیم</span>
+ </div>
+
+ <h1>⚙️ کارخانه چرخ‌دنده‌ها 🤖</h1>
+ <p class="subtitle">موتور را روشن کن؛ بدون اینکه ضرب‌های طولانی انجام بدهی!</p>
+</header>
+
+<div id="statusWrap">
+ <section class="status">
+  <div class="stat"><small>بازیکن</small><b id="playerName">---</b></div>
+  <div class="stat"><small>موتور</small><b id="stage">۱ از ۱۰</b></div>
+  <div class="stat"><small>امتیاز</small><b id="score">۰</b></div>
+  <div class="stat"><small>زمان</small><b id="time">۳۰ ثانیه</b></div>
+ </section>
+
+ <section class="timer">
+  <div class="timer-row">
+   <span>🔋 انرژی کارخانه</span>
+   <span id="timerMini">۳۰ / ۳۰</span>
+  </div>
+  <div class="track"><div class="bar" id="timerBar"></div></div>
+ </section>
+</div>
+
+<section class="card" id="game">
+ <div class="progress" id="progress"></div>
+
+ <div class="mission">
+  <small id="missionBadge">موتور ۱</small>
+  <h2 id="missionTitle">موتور ساده</h2>
+  <p id="missionText">فقط علامت خروجی موتور را پیدا کن.</p>
+ </div>
+
+ <div class="factory">
+  <div class="factory-title">🏭 خط تولید علامت‌ها</div>
+
+  <div class="machine">
+   <div class="machine-screen">
+    <small>فرمان موتور</small>
+    <div class="expression" id="expression"></div>
+   </div>
+
+   <div class="gears" id="gears"></div>
+
+   <div class="counter" id="counter"></div>
+  </div>
+
+  <div class="decision">
+   <div class="question">خروجی موتور چه علامتی دارد؟</div>
+   <div class="buttons">
+    <button type="button" class="choice positive" id="positiveBtn">🔵 ➕ مثبت</button>
+    <button type="button" class="choice negative" id="negativeBtn">🔴 ➖ منفی</button>
+   </div>
+  </div>
+ </div>
+
+ <div class="feedback" id="feedback" aria-live="polite"></div>
+ <button type="button" class="next" id="nextBtn">موتور بعدی ⚙️</button>
+</section>
+
+<section class="card result" id="resultScreen">
+ <div class="trophy">🏆⚙️</div>
+ <h2>کارخانه روشن شد!</h2>
+ <div id="resultName"></div>
+
+ <div class="final-score">
+  <span id="finalScore">۰</span>
+  <small>از ۱۰۰ امتیاز</small>
+ </div>
+
+ <div class="result-message" id="resultMessage"></div>
+
+ <div class="board">
+  <h3>🏅 برترین مهندس‌ها</h3>
+  <div id="leaderboard" class="loading">در حال دریافت رکوردها...</div>
+ </div>
+
+ <button type="button" class="restart" id="restartBtn">🔄 راه‌اندازی دوباره</button>
+</section>
+
+<a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
+</main>
+
+<script src="/games/game-sdk.js"></script>
+<script>
+const GAME_ID = 18;
+
+const player = GameSDK.init(GAME_ID);
+
+(() => {
+"use strict";
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 30;
+const RECENT_KEY = "gear_factory_g8_l1_v1";
+const MAX_RECENT = 50;
+
+let questions=[];
+let currentIndex=0;
+let score=0;
+let startedAt=0;
+let timerId=null;
+let answerChecked=false;
+let gameFinished=false;
+let finishSubmitted=false;
+
+const $=id=>document.getElementById(id);
+const el={
+ hero:$("hero"),statusWrap:$("statusWrap"),playerName:$("playerName"),
+ stage:$("stage"),score:$("score"),time:$("time"),timerMini:$("timerMini"),
+ timerBar:$("timerBar"),game:$("game"),progress:$("progress"),
+ missionBadge:$("missionBadge"),missionTitle:$("missionTitle"),
+ missionText:$("missionText"),expression:$("expression"),gears:$("gears"),
+ counter:$("counter"),positiveBtn:$("positiveBtn"),negativeBtn:$("negativeBtn"),
+ feedback:$("feedback"),nextBtn:$("nextBtn"),resultScreen:$("resultScreen"),
+ resultName:$("resultName"),finalScore:$("finalScore"),
+ resultMessage:$("resultMessage"),leaderboard:$("leaderboard"),
+ restartBtn:$("restartBtn")
+};
+
+function faNumber(v){
+ return String(v).replace(/-/g,"−").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function shuffle(a){
+ const x=[...a];
+ for(let i=x.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [x[i],x[j]]=[x[j],x[i]];
+ }
+ return x;
+}
+function getRecent(){
+ try{
+  const x=JSON.parse(localStorage.getItem(RECENT_KEY)||"[]");
+  return Array.isArray(x)?x:[];
+ }catch{return []}
+}
+function saveRecent(sigs){
+ try{
+  const old=getRecent();
+  localStorage.setItem(
+   RECENT_KEY,
+   JSON.stringify([...sigs,...old.filter(x=>!sigs.includes(x))].slice(0,MAX_RECENT))
+  );
+ }catch{}
+}
+
+/*
+ هر مرحله فقط یک مهارت دارد:
+ تعیین علامت، نه محاسبه مقدار.
+
+ مراحل:
+ 1-4: دو عدد
+ 5-6: سه عامل
+ 7-8: چهار/پنج عامل
+ 9-10: تشخیص با شمارش عامل‌های منفی
+*/
+
+function makeQuestion(count,operation,title){
+ const values=[];
+ let negatives=0;
+
+ for(let i=0;i<count;i++){
+  const negative=Math.random()<.5;
+  const magnitude=rand(2,9);
+  if(negative)negatives++;
+  values.push(negative?-magnitude:magnitude);
+ }
+
+ /* برای تقسیم زنجیره‌ای هم علامت حاصل
+    فقط به زوج/فرد بودن تعداد منفی‌ها وابسته است. */
+ const answer=negatives%2===0?"positive":"negative";
+
+ return {
+  values,count,operation,title,negatives,answer,
+  sig:`${operation}-${values.join("_")}`
+ };
+}
+
+const generators=[
+ ()=>makeQuestion(2,"multiply","دو چرخ‌دنده"),
+ ()=>makeQuestion(2,"multiply","موتور آبی و قرمز"),
+ ()=>makeQuestion(2,"divide","گیربکس تقسیم"),
+ ()=>makeQuestion(2,"divide","دو محور تقسیم"),
+ ()=>makeQuestion(3,"multiply","موتور سه‌تایی"),
+ ()=>makeQuestion(3,"multiply","سه چرخ‌دنده بزرگ"),
+ ()=>makeQuestion(4,"multiply","موتور چهارگانه"),
+ ()=>makeQuestion(5,"multiply","خط تولید پنج‌تایی"),
+ ()=>makeQuestion(6,"multiply","موتور سریع"),
+ ()=>makeQuestion(7,"multiply","موتور غول‌پیکر")
+];
+
+function generateRound(){
+ const recent=new Set(getRecent()),made=[];
+
+ for(const gen of generators){
+  let q=null;
+
+  for(let i=0;i<18;i++){
+   const x=gen();
+   q=q||x;
+
+   if(
+    !recent.has(x.sig) &&
+    !made.some(m=>m.sig===x.sig)
+   ){
+    q=x;
+    break;
+   }
+  }
+
+  made.push(q);
+ }
+
+ questions=made.slice(0,TOTAL_QUESTIONS);
+ saveRecent(questions.map(q=>q.sig));
+}
+
+/* Timer */
+
+function remainingMs(){
+ return Math.max(0,QUESTION_TIME*1000-(Date.now()-startedAt));
+}
+function scoreForTime(s){
+ if(s<=5)return 10;
+ if(s<=10)return 8;
+ if(s<=15)return 6;
+ if(s<=20)return 4;
+ if(s<30)return 2;
+ return 0;
+}
+function stopTimer(){
+ if(timerId!==null){
+  clearInterval(timerId);
+  timerId=null;
+ }
+}
+function startTimer(){
+ stopTimer();
+ startedAt=Date.now();
+ updateTimer();
+ timerId=setInterval(updateTimer,150);
+}
+function updateTimer(){
+ const ms=remainingMs();
+ const sec=Math.max(0,Math.ceil(ms/1000));
+ const r=ms/(QUESTION_TIME*1000);
+
+ el.time.textContent=`${faNumber(sec)} ثانیه`;
+ el.timerMini.textContent=`${faNumber(sec)} / ${faNumber(QUESTION_TIME)}`;
+ el.timerBar.style.width=`${Math.max(0,r*100)}%`;
+
+ el.timerBar.style.background=
+  r>.5?"var(--green)":
+  r>.2?"var(--yellow)":
+  "var(--red)";
+
+ if(ms<=0&&!answerChecked&&!gameFinished){
+  handleTimeout();
+ }
+}
+
+/* Render */
+
+function renderProgress(){
+ el.progress.innerHTML="";
+
+ for(let i=0;i<TOTAL_QUESTIONS;i++){
+  const p=document.createElement("span");
+  p.className="pstep";
+
+  if(i<currentIndex)p.classList.add("done");
+  else if(i===currentIndex)p.classList.add("now");
+
+  el.progress.appendChild(p);
+ }
+}
+
+function renderQuestion(){
+ stopTimer();
+ answerChecked=false;
+
+ const q=questions[currentIndex];
+
+ el.stage.textContent=
+  `${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
+
+ el.score.textContent=faNumber(score);
+ el.missionBadge.textContent=`موتور ${faNumber(currentIndex+1)}`;
+ el.missionTitle.textContent=q.title;
+
+ if(currentIndex<4){
+  el.missionText.textContent=
+   "علامت‌ها را مقایسه کن؛ نیازی به محاسبه مقدار نیست.";
+ }else if(currentIndex<8){
+  el.missionText.textContent=
+   "عامل‌های منفی را بشمار و علامت خروجی را پیش‌بینی کن.";
+ }else{
+  el.missionText.textContent=
+   "موتور بزرگ است؛ فقط زوج یا فرد بودن تعداد منفی‌ها مهم است!";
+ }
+
+ const op=q.operation==="divide"?" ÷ ":" × ";
+
+ el.expression.textContent=
+  q.values
+   .map(v=>`(${v>0?"+":""}${faNumber(v)})`)
+   .join(op);
+
+ renderGears(q);
+
+ el.counter.innerHTML=
+  currentIndex<4
+   ?"به رنگ و علامت چرخ‌دنده‌ها نگاه کن."
+   :`تعداد چرخ‌دنده‌های منفی: <strong>${faNumber(q.negatives)}</strong>`;
+
+ el.feedback.className="feedback";
+ el.feedback.innerHTML="";
+ el.nextBtn.style.display="none";
+
+ el.positiveBtn.disabled=false;
+ el.negativeBtn.disabled=false;
+ el.positiveBtn.className="choice positive";
+ el.negativeBtn.className="choice negative";
+
+ renderProgress();
+ startTimer();
+}
+
+function renderGears(q){
+ el.gears.innerHTML="";
+
+ q.values.forEach((value,index)=>{
+  const gear=document.createElement("div");
+
+  gear.className=
+   `gear ${value>0?"positive":"negative"}`;
+
+  const label=document.createElement("span");
+  label.textContent=value>0?"+":"−";
+
+  gear.appendChild(label);
+  gear.title=`چرخ‌دنده ${faNumber(index+1)}: ${faNumber(value)}`;
+
+  el.gears.appendChild(gear);
+
+  if(index<q.values.length-1){
+   const op=document.createElement("span");
+   op.className="operator";
+   op.textContent=
+    q.operation==="divide"?"÷":"×";
+   el.gears.appendChild(op);
+  }
+ });
+}
+
+/* Answer */
+
+function lock(){
+ el.positiveBtn.disabled=true;
+ el.negativeBtn.disabled=true;
+}
+
+function explanation(q){
+ if(q.values.length===2){
+  if(q.answer==="positive"){
+   return "دو عدد هم‌علامت‌اند؛ در ضرب یا تقسیم، حاصل مثبت می‌شود.";
+  }
+  return "دو عدد مختلف‌العلامت‌اند؛ در ضرب یا تقسیم، حاصل منفی می‌شود.";
+ }
+
+ if(q.negatives%2===0){
+  return `تعداد عامل‌های منفی ${faNumber(q.negatives)} و زوج است؛ منفی‌ها دوتادوتا علامت مثبت می‌سازند، پس حاصل مثبت است.`;
+ }
+
+ return `تعداد عامل‌های منفی ${faNumber(q.negatives)} و فرد است؛ یک علامت منفی بدون جفت باقی می‌ماند، پس حاصل منفی است.`;
+}
+
+function checkAnswer(value,btn){
+ if(answerChecked||gameFinished)return;
+
+ if(remainingMs()<=0){
+  handleTimeout();
+  return;
+ }
+
+ answerChecked=true;
+ stopTimer();
+ lock();
+
+ const q=questions[currentIndex];
+ const correct=value===q.answer;
+
+ if(correct){
+  btn.classList.add("correct");
+
+  const elapsed=
+   Math.min(
+    QUESTION_TIME,
+    (Date.now()-startedAt)/1000
+   );
+
+  const gained=scoreForTime(elapsed);
+  score=Math.min(100,score+gained);
+  el.score.textContent=faNumber(score);
+
+  el.feedback.className="feedback good";
+  el.feedback.innerHTML=
+   `✅ <strong>موتور روشن شد! +${faNumber(gained)} امتیاز</strong><br>`+
+   explanation(q);
+ }else{
+  btn.classList.add("wrong");
+
+  const right=
+   q.answer==="positive"
+    ?el.positiveBtn
+    :el.negativeBtn;
+
+  right.classList.add("correct");
+
+  el.feedback.className="feedback bad";
+  el.feedback.innerHTML=
+   `❌ <strong>جهت موتور اشتباه بود.</strong><br>`+
+   explanation(q);
+ }
+
+ showNext();
+}
+
+function handleTimeout(){
+ if(answerChecked||gameFinished)return;
+
+ answerChecked=true;
+ stopTimer();
+ lock();
+
+ const q=questions[currentIndex];
+ const right=
+  q.answer==="positive"
+   ?el.positiveBtn
+   :el.negativeBtn;
+
+ right.classList.add("correct");
+
+ el.time.textContent="۰ ثانیه";
+ el.timerMini.textContent=`۰ / ${faNumber(QUESTION_TIME)}`;
+ el.timerBar.style.width="0%";
+ el.timerBar.style.background="var(--red)";
+
+ el.feedback.className="feedback time";
+ el.feedback.innerHTML=
+  `⏰ <strong>زمان تمام شد.</strong><br>`+
+  explanation(q);
+
+ showNext();
+}
+
+function showNext(){
+ el.nextBtn.style.display="block";
+ el.nextBtn.textContent=
+  currentIndex===TOTAL_QUESTIONS-1
+   ?"🏭 روشن‌کردن کارخانه"
+   :"موتور بعدی ⚙️";
+}
+
+/* Finish */
+
+function nextQuestion(){
+ if(!answerChecked||gameFinished)return;
+
+ if(currentIndex===TOTAL_QUESTIONS-1){
+  finishGame();
+  return;
+ }
+
+ currentIndex++;
+ renderQuestion();
+}
+
+async function finishGame(){
+ if(gameFinished)return;
+
+ gameFinished=true;
+ stopTimer();
+ score=Math.min(100,score);
+
+ el.game.classList.add("hidden");
+ el.hero.classList.add("hidden");
+ el.statusWrap.classList.add("hidden");
+ el.resultScreen.classList.add("show");
+
+ const name=player.playerName||"بازیکن";
+
+ el.resultName.textContent=
+  `${name}، تمام موتورهای کارخانه را راه انداختی.`;
+
+ el.finalScore.textContent=faNumber(score);
+
+ if(score>=90){
+  el.resultMessage.textContent=
+   "عالی بود! 🌟 استاد علامت‌ها شدی!";
+ }else if(score>=70){
+  el.resultMessage.textContent=
+   "خیلی خوب بود 👏 موتورهای مثبت و منفی را خوب شناختی.";
+ }else if(score>=50){
+  el.resultMessage.textContent=
+   "خوب بود، ادامه بده 💪 تعداد عامل‌های منفی را دقیق‌تر بشمار.";
+ }else{
+  el.resultMessage.textContent=
+   "دوباره تلاش کن 🌱 منفی‌های زوج → مثبت، منفی‌های فرد → منفی.";
+ }
+
+ if(!finishSubmitted){
+  finishSubmitted=true;
+
+  try{
+   const result=
+    await GameSDK.finishGame(score);
+   void result;
+  }catch(e){
+   console.error("finishGame failed:",e);
+  }
+ }
+
+ await loadLeaderboard();
+}
+
+async function loadLeaderboard(){
+ el.leaderboard.className="loading";
+ el.leaderboard.textContent="در حال دریافت رکوردها...";
+
+ try{
+  const scores=
+   await GameSDK.getLeaderboard(10);
+
+  const list=
+   Array.isArray(scores)?scores:[];
+
+  el.leaderboard.innerHTML="";
+  el.leaderboard.className="";
+
+  if(!list.length){
+   el.leaderboard.className="loading";
+   el.leaderboard.textContent=
+    "هنوز رکوردی برای نمایش وجود ندارد.";
+   return;
+  }
+
+  list.slice(0,10).forEach((item,i)=>{
+   const row=document.createElement("div");
+   row.className="rank";
+
+   const rank=document.createElement("span");
+   rank.textContent=
+    i===0?"🥇":
+    i===1?"🥈":
+    i===2?"🥉":
+    `${faNumber(i+1)}.`;
+
+   const name=document.createElement("span");
+   name.className="rank-name";
+   name.textContent=
+    item.playerName ??
+    item.name ??
+    item.username ??
+    "بازیکن";
+
+   const points=document.createElement("span");
+   points.className="rank-score";
+   points.textContent=
+    `${faNumber(item.score??0)} امتیاز`;
+
+   row.append(rank,name,points);
+   el.leaderboard.appendChild(row);
+  });
+
+ }catch(e){
+  console.error("Leaderboard failed:",e);
+  el.leaderboard.className="loading";
+  el.leaderboard.textContent=
+   "دریافت جدول برترین‌ها ممکن نشد.";
+ }
+}
+
+/* Restart */
+
+function restartGame(){
+ stopTimer();
+
+ GameSDK.reset();
+
+ questions=[];
+ currentIndex=0;
+ score=0;
+ startedAt=0;
+ timerId=null;
+ answerChecked=false;
+ gameFinished=false;
+ finishSubmitted=false;
+
+ el.score.textContent="۰";
+
+ el.resultScreen.classList.remove("show");
+ el.game.classList.remove("hidden");
+ el.hero.classList.remove("hidden");
+ el.statusWrap.classList.remove("hidden");
+
+ generateRound();
+
+ if(questions.length!==TOTAL_QUESTIONS){
+  throw new Error("Exactly 10 questions are required.");
+ }
+
+ renderQuestion();
+}
+
+el.positiveBtn.addEventListener(
+ "click",
+ ()=>checkAnswer("positive",el.positiveBtn)
+);
+
+el.negativeBtn.addEventListener(
+ "click",
+ ()=>checkAnswer("negative",el.negativeBtn)
+);
+
+el.nextBtn.addEventListener(
+ "click",
+ nextQuestion
+);
+
+el.restartBtn.addEventListener(
+ "click",
+ restartGame
+);
+
+el.playerName.textContent=
+ player.playerName||"بازیکن";
+
+generateRound();
+
+if(questions.length!==TOTAL_QUESTIONS){
+ throw new Error("Exactly 10 questions are required.");
+}
+
+renderQuestion();
+
+})();
+</script>
+</body>
+</html>
