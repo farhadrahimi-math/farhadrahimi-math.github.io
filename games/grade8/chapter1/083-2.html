@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>شکارچی بین دو عدد 🎯 | ریاضی هشتم</title>
+<style>
+:root{
+ --purple:#7558d8;--blue:#3d82ee;--pink:#eb6fa6;--yellow:#f5c644;
+ --green:#27ae78;--red:#e45161;--ink:#29334b;--muted:#6e7790;
+ --paper:#fff;--shadow:0 10px 28px rgba(57,52,107,.12)
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;overflow-x:hidden}
+body{
+ font-family:Tahoma,Arial,sans-serif;color:var(--ink);line-height:1.65;
+ background:
+ radial-gradient(circle at 10% 5%,#e7e2ff 0,transparent 27%),
+ radial-gradient(circle at 92% 13%,#dff5ff 0,transparent 25%),
+ #f7f7fc
+}
+button,input{font:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid #287ee8;outline-offset:2px}
+.app{width:min(100%,900px);margin:auto;padding:14px 12px 30px}
+
+.header{
+ background:linear-gradient(135deg,#7252d5,#4086eb);
+ color:#fff;border-radius:22px;padding:16px;box-shadow:var(--shadow)
+}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
+.badge{
+ padding:3px 9px;border-radius:99px;font-size:11px;font-weight:bold;
+ background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.25)
+}
+h1{font-size:clamp(23px,6vw,34px);margin:8px 0 2px}
+.subtitle{font-size:13px;color:#f1efff;margin:0}
+.status{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
+.status-card{
+ min-width:0;background:#fff;color:var(--ink);border-radius:13px;
+ padding:6px 3px;text-align:center
+}
+.status-card small{display:block;color:var(--muted);font-size:10px}
+.status-card strong{
+ display:block;font-size:14px;white-space:nowrap;
+ overflow:hidden;text-overflow:ellipsis
+}
+.timer-box{
+ margin-top:9px;padding:7px;border-radius:13px;
+ background:rgba(255,255,255,.15)
+}
+.timer-head{display:flex;justify-content:space-between;font-size:12px}
+.timer-track{
+ height:9px;margin-top:5px;background:rgba(255,255,255,.22);
+ border-radius:99px;overflow:hidden
+}
+.timer-fill{
+ height:100%;width:100%;background:#51dd91;border-radius:inherit;
+ transition:width .15s linear,background .2s
+}
+
+.game-card{
+ background:#fff;border-radius:22px;margin-top:13px;padding:15px;
+ min-height:490px;box-shadow:var(--shadow)
+}
+.topline{display:flex;justify-content:space-between;gap:7px;align-items:center}
+.level{
+ padding:4px 10px;border-radius:99px;font-size:12px;font-weight:bold;
+ background:#e9f8ef;color:#18784c
+}
+.level.master{background:#fff4cf;color:#966a00}
+.level.challenge{background:#ffe9ee;color:#bd3850}
+.prompt{
+ text-align:center;font-size:clamp(16px,4.5vw,20px);
+ font-weight:bold;margin:16px auto 4px;max-width:700px
+}
+.hint{text-align:center;color:var(--muted);font-size:12px;margin-bottom:12px}
+
+.range-card{
+ max-width:720px;margin:12px auto;padding:15px 10px 18px;
+ background:linear-gradient(135deg,#f6f4ff,#f1faff);
+ border:1px solid #dcdcef;border-radius:20px
+}
+.gates{
+ direction:ltr;display:flex;align-items:center;justify-content:center;
+ gap:9px;flex-wrap:wrap;font-weight:bold;margin-bottom:14px
+}
+.gate{
+ background:#7656d7;color:#fff;border-radius:12px;
+ padding:7px 11px;min-width:63px;text-align:center
+}
+.between-sign{font-size:20px;color:#707890}
+
+.frac{
+ display:inline-flex;flex-direction:column;text-align:center;
+ line-height:1.04;vertical-align:middle;direction:ltr;
+ min-width:31px
+}
+.frac .n{border-bottom:1.5px solid currentColor;padding:0 4px 2px}
+.frac .d{padding:2px 4px 0}
+.math{direction:ltr;unicode-bidi:isolate;display:inline-flex;align-items:center}
+
+.axis-wrap{
+ direction:ltr;position:relative;height:100px;
+ margin:12px 7px 2px;padding:30px 15px 0
+}
+.axis{
+ position:relative;height:7px;background:#68758a;border-radius:8px;
+ box-shadow:0 5px 0 #bec6d1
+}
+.safe-zone{
+ position:absolute;top:-7px;height:21px;background:rgba(39,174,120,.25);
+ border-top:2px solid #27ae78;border-bottom:2px solid #27ae78;
+ z-index:1
+}
+.tick{
+ position:absolute;top:-7px;width:2px;height:22px;
+ background:#586579;transform:translateX(-50%);z-index:2
+}
+.tick-label{
+ position:absolute;top:25px;left:50%;transform:translateX(-50%);
+ white-space:nowrap;font-size:10px;color:#59667b
+}
+.boundary{
+ position:absolute;top:-18px;height:42px;width:4px;
+ background:#7656d7;transform:translateX(-50%);z-index:4;border-radius:5px
+}
+.boundary-label{
+ position:absolute;top:-48px;transform:translateX(-50%);
+ background:#7656d7;color:white;border-radius:9px;
+ padding:3px 7px;white-space:nowrap;font-size:12px;z-index:5
+}
+
+.cards{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin:12px auto}
+.num-card{
+ border:2px solid #dbdaeb;background:#fff;color:var(--ink);
+ border-radius:13px;min-width:64px;min-height:48px;
+ padding:7px 11px;font-size:16px;font-weight:bold;cursor:pointer
+}
+.num-card.selected{background:#e9f8ef;border-color:#3cb577;color:#176d46}
+.num-card.bad-pick{background:#fff0f2;border-color:#e25b6a}
+
+.builder{
+ max-width:520px;margin:12px auto;background:#fff;
+ border:2px dashed #cbc8e3;border-radius:16px;padding:13px
+}
+.builder-title{text-align:center;font-size:12px;color:var(--muted);margin-bottom:9px}
+.builder-grid{
+ direction:ltr;display:grid;grid-template-columns:1fr auto 1fr;
+ align-items:center;gap:9px;max-width:330px;margin:auto
+}
+.number-input{
+ width:100%;min-height:48px;text-align:center;border:2px solid #d8d7e8;
+ border-radius:12px;background:#fff;font-size:17px;font-weight:bold;color:var(--ink)
+}
+.divider{font-size:22px;color:#6c7287}
+.sign-choice{
+ direction:rtl;display:flex;justify-content:center;gap:7px;margin:10px 0
+}
+.sign-btn{
+ border:2px solid #ddd9ed;background:#fff;border-radius:11px;
+ padding:6px 12px;min-height:42px;font-weight:bold
+}
+.sign-btn.selected{border-color:#7558d8;background:#eeeaff;color:#6547c8}
+.preview{
+ direction:ltr;text-align:center;font-weight:bold;font-size:21px;
+ min-height:37px;margin-top:8px
+}
+
+.hunts{
+ display:flex;justify-content:center;align-items:center;
+ flex-wrap:wrap;gap:6px;margin:10px auto;min-height:43px
+}
+.hunt{
+ direction:ltr;background:#e9f8ef;color:#176d46;border:1px solid #9fd7b8;
+ border-radius:10px;padding:6px 9px;font-weight:bold
+}
+
+.action-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn{
+ border:0;border-radius:14px;min-height:48px;padding:9px 18px;
+ font-weight:bold;cursor:pointer
+}
+.btn-primary{background:linear-gradient(135deg,#7556d7,#4283e9);color:#fff}
+.btn-secondary{background:#edf0f6;color:#3e475d}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+.feedback{
+ display:none;border-radius:14px;padding:11px 13px;
+ margin-top:13px;font-size:14px
+}
+.feedback.show{display:block}
+.feedback.good{background:#e8f8ef;border:1px solid #a8ddbf;color:#176b43}
+.feedback.bad{background:#ffebee;border:1px solid #efb4bd;color:#a62a40}
+.feedback.timeout{background:#fff3da;border:1px solid #e9ca84;color:#825c00}
+.feedback strong{display:block}
+
+.result{display:none;text-align:center}
+.result.show{display:block}
+.score-circle{
+ width:128px;height:128px;border-radius:50%;margin:17px auto;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ background:linear-gradient(135deg,#e7e1ff,#dbf3ff);
+ border:7px solid white;box-shadow:0 0 0 3px #7656d6
+}
+.score-circle strong{font-size:35px;color:#6544cf}
+.score-circle small{color:#667}
+.leaderboard{
+ max-width:530px;margin:18px auto;background:#f8f8fc;
+ border-radius:16px;padding:10px;text-align:right
+}
+.leader-row{
+ display:flex;justify-content:space-between;gap:8px;
+ padding:8px 6px;border-bottom:1px solid #e2e2ec
+}
+.leader-row:last-child{border-bottom:0}
+.error{color:#a72d43;text-align:center;font-size:12px}
+.back{
+ display:block;text-align:center;margin:17px auto;
+ color:#604bbc;font-weight:bold;text-decoration:none
+}
+
+.pop{animation:pop .28s ease}
+.shake{animation:shake .28s ease}
+@keyframes pop{50%{transform:scale(1.025)}}
+@keyframes shake{25%{transform:translateX(4px)}50%{transform:translateX(-4px)}75%{transform:translateX(3px)}}
+
+@media(min-width:650px){
+ .app{padding:22px 18px 40px}.header{padding:20px}.game-card{padding:22px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{
+  animation-duration:.001ms!important;animation-iteration-count:1!important;
+  transition-duration:.001ms!important;scroll-behavior:auto!important
+ }
+}
+</style>
+</head>
+<body>
+
+<main class="app">
+<header class="header">
+ <div class="badges">
+  <span class="badge">پایه هشتم</span>
+  <span class="badge">فصل ۱</span>
+  <span class="badge">عددهای گویا</span>
+ </div>
+ <h1>شکارچیِ بین دو عدد 🎯🔎</h1>
+ <p class="subtitle">هدف فقط یک قانون دارد: باید واقعاً داخل بازه باشد.</p>
+
+ <div class="status">
+  <div class="status-card"><small>بازیکن</small><strong id="playerName">...</strong></div>
+  <div class="status-card"><small>مأموریت</small><strong id="missionStatus">۱ از ۱۰</strong></div>
+  <div class="status-card"><small>امتیاز</small><strong id="scoreStatus">۰ از ۱۰۰</strong></div>
+ </div>
+
+ <div class="timer-box">
+  <div class="timer-head">
+   <span>⏱ زمان باقی‌مانده</span>
+   <strong id="timeText">۳۰ ثانیه</strong>
+  </div>
+  <div class="timer-track"><div id="timerFill" class="timer-fill"></div></div>
+ </div>
+</header>
+
+<section class="game-card" id="gameCard">
+ <div id="playArea">
+  <div class="topline">
+   <span id="levelBadge" class="level">🟢 پایه</span>
+   <span style="font-size:12px;color:#707890">مرزها خودِ پاسخ نیستند 🎯</span>
+  </div>
+
+  <div id="prompt" class="prompt"></div>
+  <div id="hint" class="hint"></div>
+
+  <div class="range-card">
+   <div class="gates">
+    <span class="gate" id="leftGate"></span>
+    <span class="between-sign">&lt; شکار &lt;</span>
+    <span class="gate" id="rightGate"></span>
+   </div>
+
+   <div class="axis-wrap">
+    <div id="axis" class="axis"></div>
+   </div>
+
+   <div id="cards" class="cards"></div>
+
+   <div id="builder" class="builder" hidden>
+    <div class="builder-title">یک کسر بساز و به منطقه سبز شلیک کن</div>
+    <div class="sign-choice">
+     <button id="positiveBtn" class="sign-btn selected" type="button">مثبت +</button>
+     <button id="negativeBtn" class="sign-btn" type="button">منفی −</button>
+    </div>
+    <div class="builder-grid">
+     <input id="numerator" class="number-input" type="number" inputmode="numeric" min="0" max="99" placeholder="صورت" aria-label="صورت">
+     <span class="divider">/</span>
+     <input id="denominator" class="number-input" type="number" inputmode="numeric" min="1" max="99" placeholder="مخرج" aria-label="مخرج">
+    </div>
+    <div id="preview" class="preview"></div>
+    <div style="text-align:center;margin-top:8px">
+     <button id="addHuntBtn" class="btn btn-secondary" type="button">🎯 ثبت این شکار</button>
+    </div>
+   </div>
+
+   <div id="hunts" class="hunts"></div>
+  </div>
+
+  <div class="action-row">
+   <button id="clearBtn" class="btn btn-secondary" type="button">پاک کردن</button>
+   <button id="checkBtn" class="btn btn-primary" type="button">ثبت پاسخ نهایی</button>
+   <button id="nextBtn" class="btn btn-primary" type="button" hidden>مأموریت بعدی</button>
+  </div>
+
+  <div id="feedback" class="feedback" aria-live="polite"></div>
+ </div>
+
+ <div id="resultArea" class="result">
+  <div style="font-size:48px">🎯🏆</div>
+  <h2>شکار تمام شد!</h2>
+  <p id="resultName"></p>
+  <div class="score-circle">
+   <strong id="finalScore">۰</strong>
+   <small>از ۱۰۰</small>
+  </div>
+  <p id="resultMessage"></p>
+  <button id="restartBtn" class="btn btn-primary" type="button">🔄 بازی دوباره</button>
+
+  <div class="leaderboard">
+   <h3 style="text-align:center;margin:5px">🏆 شکارچی‌های برتر</h3>
+   <div id="leaderRows">در حال دریافت...</div>
+  </div>
+ </div>
+</section>
+
+<a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
+</main>
+
+<script src="/games/game-sdk.js"></script>
+<script>
+"use strict";
+
+const GAME_ID = 25;
+const player = GameSDK.init(GAME_ID);
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 30;
+const RECENT_KEY = "betweenRationalsRecent";
+const MAX_RECENT_SIGNATURES = 40;
+
+let questions=[];
+let currentIndex=0;
+let score=0;
+let answerChecked=false;
+let gameFinished=false;
+let finishSubmitted=false;
+let timerInterval=null;
+let questionStartedAt=0;
+let questionDeadline=0;
+let interactionState={};
+let recentSignatures=loadRecent();
+
+const $=id=>document.getElementById(id);
+$("playerName").textContent=player.playerName || "بازیکن";
+
+function faNumber(value){
+ return String(value)
+  .replace(/\./g,"٫")
+  .replace(/-/g,"−")
+  .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+function gcd(a,b){
+ a=Math.abs(a); b=Math.abs(b);
+ while(b){const t=b;b=a%b;a=t}
+ return a||1;
+}
+
+function frac(n,d=1){
+ if(d<0){n=-n;d=-d}
+ const g=gcd(n,d);
+ return {n:n/g,d:d/g,value:(n/g)/(d/g)};
+}
+
+function decimal(value,digits=1){
+ const pow=10**digits;
+ const n=Math.round(value*pow);
+ return {...frac(n,pow),display:"decimal",digits};
+}
+
+function fraction(n,d){
+ return {...frac(n,d),display:"fraction"};
+}
+
+function itemHTML(x){
+ if(x.display==="decimal"){
+  const v=Number(x.value).toFixed(x.digits||1).replace(/\.?0+$/,"");
+  return `<span class="math">${faNumber(v)}</span>`;
+ }
+ if(x.d===1)return `<span class="math">${faNumber(x.n)}</span>`;
+ return `<span class="math">${x.n<0?"−":""}<span class="frac"><span class="n">${faNumber(Math.abs(x.n))}</span><span class="d">${faNumber(x.d)}</span></span></span>`;
+}
+
+function plainItem(x){
+ if(x.display==="decimal"){
+  return faNumber(Number(x.value).toFixed(x.digits||1).replace(/\.?0+$/,""));
+ }
+ if(x.d===1)return faNumber(x.n);
+ return `${x.n<0?"−":""}${faNumber(Math.abs(x.n))}/${faNumber(x.d)}`;
+}
+
+function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function shuffle(a){
+ const b=[...a];
+ for(let i=b.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [b[i],b[j]]=[b[j],b[i]];
+ }
+ return b;
+}
+
+function loadRecent(){
+ try{
+  const a=JSON.parse(localStorage.getItem(RECENT_KEY)||"[]");
+  return Array.isArray(a)?a.slice(-MAX_RECENT_SIGNATURES):[];
+ }catch(e){return[]}
+}
+
+function saveRecent(qs){
+ recentSignatures=[...recentSignatures,...qs.map(q=>q.signature)].slice(-MAX_RECENT_SIGNATURES);
+ try{localStorage.setItem(RECENT_KEY,JSON.stringify(recentSignatures))}catch(e){}
+}
+
+function strictlyBetween(value,a,b){
+ const lo=Math.min(a.value,b.value);
+ const hi=Math.max(a.value,b.value);
+ return value>lo+1e-9 && value<hi-1e-9;
+}
+
+/* ---------------- Generators ---------------- */
+
+function genIntegerCards(){
+ const left=randInt(-5,2);
+ const right=left+randInt(2,4);
+ const valid=randInt(left+1,right-1);
+ const choices=[
+  fraction(valid,1),
+  fraction(left,1),
+  fraction(right,1),
+  fraction(right+randInt(1,2),1)
+ ];
+ return {
+  type:"cards",required:1,level:1,
+  left:fraction(left,1),right:fraction(right,1),
+  choices:shuffle(choices),
+  prompt:"یک شکار انتخاب کن که دقیقاً بین دو مرز باشد.",
+  hint:"دو مرز داخل بازه نیستند؛ باید از مرز چپ بزرگ‌تر و از مرز راست کوچک‌تر باشی.",
+  explanation:`عدد انتخابی باید از ${faNumber(left)} بزرگ‌تر و از ${faNumber(right)} کوچک‌تر باشد.`,
+  signature:`int-${left}-${right}-${valid}`
+ };
+}
+
+function genUnitInterval(){
+ const choices=[
+  fraction(1,2),fraction(3,2),fraction(0,1),fraction(1,1)
+ ];
+ return {
+  type:"cards",required:1,level:1,
+  left:fraction(0,1),right:fraction(1,1),
+  choices:shuffle(choices),
+  prompt:"کدام عدد واقعاً بین صفر و یک قرار دارد؟",
+  hint:"کسری با صورت مثبتِ کوچک‌تر از مخرج، بین صفر و یک است.",
+  explanation:"۱/۲ از صفر بزرگ‌تر و از یک کوچک‌تر است.",
+  signature:"zero-one-half"
+ };
+}
+
+function genSimpleFractions(){
+ const templates=[
+  [fraction(1,4),fraction(3,4),[fraction(1,2),fraction(1,5),fraction(4,5),fraction(3,4)]],
+  [fraction(1,3),fraction(2,3),[fraction(1,2),fraction(1,4),fraction(3,4),fraction(2,3)]],
+  [fraction(1,2),fraction(1,1),[fraction(3,4),fraction(1,3),fraction(5,4),fraction(1,1)]],
+  [fraction(1,1),fraction(2,1),[fraction(3,2),fraction(3,4),fraction(2,1),fraction(5,2)]]
+ ];
+ const [left,right,choices]=pick(templates);
+ return {
+  type:"cards",required:1,level:1,left,right,choices:shuffle(choices),
+  prompt:"کارتِ داخل منطقه سبز را شکار کن.",
+  hint:"برای هر کارت از خودت بپرس: از مرز کوچک‌تر بزرگ‌تر است؟ از مرز بزرگ‌تر کوچک‌تر است؟",
+  explanation:`پاسخ باید داخل بازه ${plainItem(left)} تا ${plainItem(right)} باشد، نه روی مرزها.`,
+  signature:`sf-${left.value}-${right.value}`
+ };
+}
+
+function genMixedDisplay(){
+ const templates=[
+  [fraction(1,2),decimal(.8,1),[decimal(.6,1),fraction(2,5),fraction(4,5),decimal(.9,1)]],
+  [decimal(.2,1),fraction(3,4),[fraction(1,2),decimal(.8,1),fraction(1,5),fraction(4,5)]],
+  [fraction(3,4),decimal(1.2,1),[decimal(1,1),fraction(1,2),fraction(5,4),decimal(.7,1)]],
+  [decimal(-.2,1),fraction(1,2),[decimal(.1,1),fraction(-1,2),fraction(3,4),decimal(-.3,1)]]
+ ];
+ const [left,right,choices]=pick(templates);
+ return {
+  type:"cards",required:1,level:2,left,right,choices:shuffle(choices),
+  prompt:"کسر و اعشار ظاهر متفاوتی دارند؛ کدام یکی داخل بازه است؟",
+  hint:"ظاهر نمایش مهم نیست؛ جای واقعی عدد روی محور مهم است.",
+  explanation:`تنها عددی درست است که ارزشش میان ${plainItem(left)} و ${plainItem(right)} قرار بگیرد.`,
+  signature:`mix-${left.value}-${right.value}`
+ };
+}
+
+function genNegativeRange(){
+ const templates=[
+  [fraction(-1,1),fraction(0,1),[fraction(-1,2),fraction(1,2),fraction(-5,4),fraction(-1,1)]],
+  [fraction(-2,1),fraction(-1,1),[fraction(-3,2),fraction(-5,2),fraction(-1,1),fraction(3,2)]],
+  [fraction(-3,4),fraction(-1,4),[fraction(-1,2),fraction(-1,5),fraction(-4,5),fraction(1,2)]],
+  [decimal(-1.5,1),decimal(-.5,1),[decimal(-1.2,1),decimal(-.4,1),decimal(-1.7,1),decimal(.8,1)]]
+ ];
+ const [left,right,choices]=pick(templates);
+ return {
+  type:"cards",required:1,level:2,left,right,choices:shuffle(choices),
+  prompt:"این بار شکارگاه در سمت منفی محور است. عدد داخل بازه را پیدا کن.",
+  hint:"در منفی‌ها، عددی که به صفر نزدیک‌تر است بزرگ‌تر است.",
+  explanation:`روی محور، بازه از ${plainItem(left)} تا ${plainItem(right)} در سمت منفی قرار گرفته است.`,
+  signature:`neg-${left.value}-${right.value}`
+ };
+}
+
+function genTwoValid(){
+ const templates=[
+  [fraction(0,1),fraction(1,1),[
+   fraction(1,4),fraction(3,4),fraction(5,4),fraction(-1,2)
+  ]],
+  [fraction(-1,1),fraction(0,1),[
+   fraction(-1,4),fraction(-3,4),fraction(1,4),fraction(-5,4)
+  ]],
+  [fraction(1,1),fraction(2,1),[
+   fraction(5,4),fraction(7,4),fraction(3,4),fraction(9,4)
+  ]]
+ ];
+ const [left,right,choices]=pick(templates);
+ return {
+  type:"cards",required:2,level:2,left,right,choices:shuffle(choices),
+  prompt:"دو شکار متفاوت داخل این بازه پیدا کن.",
+  hint:"این مأموریت دو پاسخ می‌خواهد. هر دو باید واقعاً داخل منطقه سبز باشند.",
+  explanation:"بین دو عدد گویا فقط یک عدد وجود ندارد؛ می‌توان چند عدد متفاوت پیدا کرد.",
+  signature:`two-${left.value}-${right.value}`
+ };
+}
+
+function genBuilderSimple(){
+ const templates=[
+  [fraction(1,1),fraction(2,1)],
+  [fraction(0,1),fraction(1,1)],
+  [fraction(-1,1),fraction(0,1)],
+  [fraction(2,1),fraction(3,1)]
+ ];
+ const [left,right]=pick(templates);
+ return {
+  type:"builder",required:1,level:2,left,right,
+  prompt:"این بار کارت آماده نداری؛ خودت یک کسر داخل بازه بساز.",
+  hint:"صورت و مخرج را خودت انتخاب کن. مخرج هرگز نمی‌تواند صفر باشد.",
+  explanation:`هر کسر گویایی که ارزش آن میان ${plainItem(left)} و ${plainItem(right)} باشد، معتبر است.`,
+  signature:`build-simple-${left.value}-${right.value}`
+ };
+}
+
+function genCloseFractions(){
+ const templates=[
+  [fraction(1,2),fraction(2,3)],
+  [fraction(2,3),fraction(3,4)],
+  [fraction(-3,4),fraction(-2,3)],
+  [fraction(-2,3),fraction(-1,2)],
+  [fraction(3,5),fraction(2,3)]
+ ];
+ const [left,right]=pick(templates);
+ return {
+  type:"builder",required:1,level:3,left,right,
+  prompt:"مرزها نزدیک شده‌اند؛ یک کسر جدید بین آنها بساز.",
+  hint:"اگر پیدا کردن عدد سخت است، می‌توانی کسرها را با مخرج‌های مناسب‌تر تصور کنی.",
+  explanation:`با وجود نزدیک بودن ${plainItem(left)} و ${plainItem(right)}، باز هم عددهای گویای دیگری میان آنها وجود دارد.`,
+  signature:`close-${left.n}-${left.d}-${right.n}-${right.d}`
+ };
+}
+
+function genThreeBuilder(){
+ const templates=[
+  [fraction(0,1),fraction(1,1)],
+  [fraction(-1,1),fraction(0,1)],
+  [fraction(1,1),fraction(2,1)],
+  [fraction(-2,1),fraction(-1,1)]
+ ];
+ const [left,right]=pick(templates);
+ return {
+  type:"builder",required:3,level:3,left,right,
+  prompt:"سه کسر متفاوت داخل شکارگاه بساز.",
+  hint:"هر سه باید متفاوت باشند و هیچ‌کدام نباید برابر مرزها باشند.",
+  explanation:"ساخت چند پاسخ متفاوت نشان می‌دهد میان دو عدد گویا، انتخاب به یک عدد محدود نیست.",
+  signature:`three-${left.value}-${right.value}`
+ };
+}
+
+function genVeryCloseNegative(){
+ const templates=[
+  [fraction(-2,3),fraction(-1,2)],
+  [fraction(-3,5),fraction(-1,2)],
+  [fraction(-3,4),fraction(-2,3)]
+ ];
+ const [left,right]=pick(templates);
+ return {
+  type:"builder",required:2,level:3,left,right,
+  prompt:"دو کسر متفاوت بین این دو عدد منفی بساز.",
+  hint:"مراقب جهت منفی‌ها باش؛ مثلاً −۰٫۶ از −۰٫۷ بزرگ‌تر است.",
+  explanation:`حتی میان دو عدد منفی نزدیک مثل ${plainItem(left)} و ${plainItem(right)} نیز عددهای گویای فراوانی وجود دارد.`,
+  signature:`close-neg-${left.n}-${left.d}-${right.n}-${right.d}`
+ };
+}
+
+const generatorPlan=[
+ genIntegerCards,
+ genUnitInterval,
+ genSimpleFractions,
+ genMixedDisplay,
+ genNegativeRange,
+ genTwoValid,
+ genBuilderSimple,
+ genCloseFractions,
+ genThreeBuilder,
+ genVeryCloseNegative
+];
+
+function generateRound(){
+ const result=[];
+
+ for(const generator of generatorPlan){
+  let q=null;
+
+  for(let i=0;i<35;i++){
+   const candidate=generator();
+   if(
+    !recentSignatures.includes(candidate.signature) &&
+    !result.some(x=>x.signature===candidate.signature)
+   ){
+    q=candidate;
+    break;
+   }
+  }
+
+  if(!q){
+   for(let i=0;i<15;i++){
+    const candidate=generator();
+    if(!result.some(x=>x.signature===candidate.signature)){
+     q=candidate;
+     break;
+    }
+   }
+  }
+
+  result.push(q || generator());
+ }
+
+ saveRecent(result);
+ return result;
+}
+
+/* ---------------- Rendering ---------------- */
+
+function resetInteraction(){
+ interactionState={
+  selectedIndexes:[],
+  hunts:[],
+  sign:1
+ };
+}
+
+function setLevel(level){
+ const e=$("levelBadge");
+ if(level===1){
+  e.className="level";
+  e.textContent="🟢 پایه";
+ }else if(level===2){
+  e.className="level master";
+  e.textContent="🟡 تسلط";
+ }else{
+  e.className="level challenge";
+  e.textContent="🔴 چالش";
+ }
+}
+
+function renderQuestion(){
+ stopTimer();
+ answerChecked=false;
+ resetInteraction();
+
+ const q=questions[currentIndex];
+
+ $("missionStatus").textContent=`${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
+ $("scoreStatus").textContent=`${faNumber(score)} از ${faNumber(100)}`;
+ setLevel(q.level);
+
+ $("prompt").textContent=q.prompt;
+ $("hint").textContent=q.hint;
+ $("leftGate").innerHTML=itemHTML(q.left);
+ $("rightGate").innerHTML=itemHTML(q.right);
+
+ $("cards").innerHTML="";
+ $("hunts").innerHTML="";
+ $("feedback").className="feedback";
+ $("feedback").innerHTML="";
+ $("checkBtn").hidden=false;
+ $("checkBtn").disabled=false;
+ $("nextBtn").hidden=true;
+ $("clearBtn").disabled=false;
+
+ $("builder").hidden=q.type!=="builder";
+
+ if(q.type==="builder"){
+  resetBuilderInputs();
+  $("addHuntBtn").disabled=false;
+ }else{
+  renderCards(q);
+ }
+
+ renderAxis(q);
+ renderHunts();
+ startTimer();
+}
+
+function rangeLimits(q){
+ const lo=Math.min(q.left.value,q.right.value);
+ const hi=Math.max(q.left.value,q.right.value);
+ const gap=hi-lo;
+
+ let min=Math.floor(lo-gap*.45);
+ let max=Math.ceil(hi+gap*.45);
+
+ if(min===max)max=min+1;
+ if(max-min<2){
+  min-=1;
+  max+=1;
+ }
+
+ return {min,max};
+}
+
+function pct(value,min,max){
+ return ((value-min)/(max-min))*100;
+}
+
+function renderAxis(q){
+ const axis=$("axis");
+ axis.innerHTML="";
+
+ const {min,max}=rangeLimits(q);
+ const lo=Math.min(q.left.value,q.right.value);
+ const hi=Math.max(q.left.value,q.right.value);
+
+ const safe=document.createElement("div");
+ safe.className="safe-zone";
+ safe.style.left=pct(lo,min,max)+"%";
+ safe.style.width=(pct(hi,min,max)-pct(lo,min,max))+"%";
+ axis.appendChild(safe);
+
+ for(let x=Math.ceil(min);x<=Math.floor(max);x++){
+  const tick=document.createElement("div");
+  tick.className="tick";
+  tick.style.left=pct(x,min,max)+"%";
+
+  const label=document.createElement("span");
+  label.className="tick-label";
+  label.textContent=faNumber(x);
+  tick.appendChild(label);
+
+  axis.appendChild(tick);
+ }
+
+ addBoundary(axis,q.left,min,max);
+ addBoundary(axis,q.right,min,max);
+}
+
+function addBoundary(axis,item,min,max){
+ const x=Math.max(0,Math.min(100,pct(item.value,min,max)));
+
+ const bar=document.createElement("div");
+ bar.className="boundary";
+ bar.style.left=x+"%";
+ axis.appendChild(bar);
+
+ const label=document.createElement("div");
+ label.className="boundary-label";
+ label.style.left=x+"%";
+ label.innerHTML=itemHTML(item);
+ axis.appendChild(label);
+}
+
+function renderCards(q){
+ q.choices.forEach((item,index)=>{
+  const b=document.createElement("button");
+  b.type="button";
+  b.className="num-card";
+  b.innerHTML=itemHTML(item);
+
+  b.addEventListener("click",()=>{
+   if(answerChecked)return;
+
+   const pos=interactionState.selectedIndexes.indexOf(index);
+
+   if(pos>=0){
+    interactionState.selectedIndexes.splice(pos,1);
+    b.classList.remove("selected");
+   }else{
+    if(interactionState.selectedIndexes.length>=q.required){
+     const removed=interactionState.selectedIndexes.shift();
+     const old=$("cards").children[removed];
+     if(old)old.classList.remove("selected");
+    }
+
+    interactionState.selectedIndexes.push(index);
+    b.classList.add("selected");
+   }
+  });
+
+  $("cards").appendChild(b);
+ });
+}
+
+function resetBuilderInputs(){
+ $("numerator").value="";
+ $("denominator").value="";
+ interactionState.sign=1;
+
+ $("positiveBtn").classList.add("selected");
+ $("negativeBtn").classList.remove("selected");
+ $("preview").innerHTML="کسر را بساز";
+}
+
+function setSign(sign){
+ if(answerChecked)return;
+ interactionState.sign=sign;
+
+ $("positiveBtn").classList.toggle("selected",sign===1);
+ $("negativeBtn").classList.toggle("selected",sign===-1);
+ updatePreview();
+}
+
+$("positiveBtn").addEventListener("click",()=>setSign(1));
+$("negativeBtn").addEventListener("click",()=>setSign(-1));
+$("numerator").addEventListener("input",updatePreview);
+$("denominator").addEventListener("input",updatePreview);
+
+function currentBuiltFraction(){
+ const n=Number($("numerator").value);
+ const d=Number($("denominator").value);
+
+ if(!Number.isInteger(n) || !Number.isInteger(d) || n<0 || d<=0)
+  return null;
+
+ if(n>99 || d>99)return null;
+
+ return fraction(interactionState.sign*n,d);
+}
+
+function updatePreview(){
+ const f=currentBuiltFraction();
+
+ if(!f){
+  $("preview").textContent="صورت و مخرج معتبر وارد کن";
+  return;
+ }
+
+ $("preview").innerHTML=itemHTML(f);
+}
+
+$("addHuntBtn").addEventListener("click",()=>{
+ if(answerChecked)return;
+
+ const q=questions[currentIndex];
+ const f=currentBuiltFraction();
+
+ if(!f){
+  showTemporary("مخرج باید عدد صحیحِ مثبت باشد و صورت هم باید معتبر باشد.");
+  return;
+ }
+
+ if(!strictlyBetween(f.value,q.left,q.right)){
+  showTemporary(`این کسر داخل بازه نیست. باید از ${plainItem(q.left)} بزرگ‌تر و از ${plainItem(q.right)} کوچک‌تر باشد.`);
+  animate("shake");
+  return;
+ }
+
+ if(interactionState.hunts.some(x=>Math.abs(x.value-f.value)<1e-9)){
+  showTemporary("این شکار را قبلاً ثبت کرده‌ای؛ یک عدد متفاوت بساز.");
+  return;
+ }
+
+ interactionState.hunts.push(f);
+ renderHunts();
+ resetBuilderInputs();
+
+ if(interactionState.hunts.length>=q.required){
+  $("addHuntBtn").disabled=true;
+ }
+});
+
+function renderHunts(){
+ const q=questions[currentIndex];
+ const box=$("hunts");
+ box.innerHTML="";
+
+ if(q.type!=="builder")return;
+
+ if(interactionState.hunts.length===0){
+  box.innerHTML=`<span style="color:#7b8297;font-size:12px">شکارهای ثبت‌شده: ۰ از ${faNumber(q.required)}</span>`;
+  return;
+ }
+
+ interactionState.hunts.forEach(f=>{
+  const chip=document.createElement("span");
+  chip.className="hunt";
+  chip.innerHTML=itemHTML(f);
+  box.appendChild(chip);
+ });
+
+ const count=document.createElement("span");
+ count.style.cssText="color:#707890;font-size:12px";
+ count.textContent=`${faNumber(interactionState.hunts.length)} از ${faNumber(q.required)}`;
+ box.appendChild(count);
+}
+
+$("clearBtn").addEventListener("click",()=>{
+ if(answerChecked)return;
+
+ const q=questions[currentIndex];
+ resetInteraction();
+
+ if(q.type==="cards"){
+  [...$("cards").children].forEach(x=>x.classList.remove("selected"));
+ }else{
+  resetBuilderInputs();
+  $("addHuntBtn").disabled=false;
+  renderHunts();
+ }
+});
+
+function showTemporary(text){
+ const f=$("feedback");
+ f.className="feedback show timeout";
+ f.innerHTML=`<strong>🎯 هنوز شکار کامل نیست.</strong>${text}`;
+}
+
+/* ---------------- Evaluation ---------------- */
+
+function evaluate(q){
+ if(q.type==="cards"){
+  if(interactionState.selectedIndexes.length!==q.required)
+   return {ready:false,correct:false};
+
+  const items=interactionState.selectedIndexes.map(i=>q.choices[i]);
+  const allInside=items.every(x=>strictlyBetween(x.value,q.left,q.right));
+
+  const unique=new Set(items.map(x=>x.value.toFixed(10))).size===items.length;
+
+  return {
+   ready:true,
+   correct:allInside && unique
+  };
+ }
+
+ if(q.type==="builder"){
+  if(interactionState.hunts.length!==q.required)
+   return {ready:false,correct:false};
+
+  const allInside=interactionState.hunts.every(
+   x=>strictlyBetween(x.value,q.left,q.right)
+  );
+
+  const unique=new Set(
+   interactionState.hunts.map(x=>x.value.toFixed(10))
+  ).size===interactionState.hunts.length;
+
+  return {
+   ready:true,
+   correct:allInside && unique
+  };
+ }
+
+ return {ready:false,correct:false};
+}
+
+function exampleAnswer(q){
+ if(q.type==="cards"){
+  const valid=q.choices.filter(x=>strictlyBetween(x.value,q.left,q.right));
+  return valid.slice(0,q.required).map(plainItem).join(" ، ");
+ }
+
+ const mid=(q.left.value+q.right.value)/2;
+ const denominator=100;
+ const numerator=Math.round(mid*denominator);
+ return plainItem(fraction(numerator,denominator));
+}
+
+function lockInteraction(){
+ $("checkBtn").disabled=true;
+ $("clearBtn").disabled=true;
+ $("addHuntBtn").disabled=true;
+ $("positiveBtn").disabled=true;
+ $("negativeBtn").disabled=true;
+ $("numerator").disabled=true;
+ $("denominator").disabled=true;
+
+ [...$("cards").querySelectorAll("button")].forEach(b=>b.disabled=true);
+}
+
+function unlockBuilderControls(){
+ $("positiveBtn").disabled=false;
+ $("negativeBtn").disabled=false;
+ $("numerator").disabled=false;
+ $("denominator").disabled=false;
+}
+
+function scoreForElapsed(ms){
+ const s=ms/1000;
+ if(s<=5)return 10;
+ if(s<=10)return 8;
+ if(s<=15)return 6;
+ if(s<=20)return 4;
+ if(s<=30)return 2;
+ return 0;
+}
+
+function showFeedback(kind,title,text){
+ const f=$("feedback");
+ f.className=`feedback show ${kind}`;
+ f.innerHTML=`<strong>${title}</strong>${text}`;
+}
+
+function animate(cls){
+ const el=$("gameCard");
+ el.classList.remove(cls);
+ void el.offsetWidth;
+ el.classList.add(cls);
+ setTimeout(()=>el.classList.remove(cls),350);
+}
+
+function checkAnswer(){
+ if(answerChecked || gameFinished)return;
+
+ if(Date.now()>=questionDeadline){
+  handleTimeout();
+  return;
+ }
+
+ const q=questions[currentIndex];
+ const result=evaluate(q);
+
+ if(!result.ready){
+  if(q.type==="cards"){
+   showTemporary(`این مأموریت به ${faNumber(q.required)} انتخاب نیاز دارد.`);
+  }else{
+   showTemporary(`باید ${faNumber(q.required)} کسر متفاوت داخل بازه ثبت کنی.`);
+  }
+  return;
+ }
+
+ answerChecked=true;
+ stopTimer();
+ lockInteraction();
+
+ if(result.correct){
+  const gained=scoreForElapsed(Date.now()-questionStartedAt);
+  score=Math.min(100,score+gained);
+  $("scoreStatus").textContent=`${faNumber(score)} از ${faNumber(100)}`;
+
+  showFeedback(
+   "good",
+   `✅ شکار موفق! +${faNumber(gained)} امتیاز`,
+   q.explanation
+  );
+  animate("pop");
+ }else{
+  showFeedback(
+   "bad",
+   "❌ یکی از شکارها خارج از منطقه بود.",
+   `نمونه پاسخ معتبر: ${exampleAnswer(q)}<br>${q.explanation}`
+  );
+  animate("shake");
+ }
+
+ $("checkBtn").hidden=true;
+ $("nextBtn").hidden=false;
+ $("nextBtn").textContent=
+  currentIndex===TOTAL_QUESTIONS-1 ? "دیدن نتیجه 🏁" : "مأموریت بعدی";
+}
+
+function handleTimeout(){
+ if(answerChecked || gameFinished)return;
+
+ answerChecked=true;
+ stopTimer();
+ lockInteraction();
+
+ const q=questions[currentIndex];
+
+ showFeedback(
+  "timeout",
+  "⏰ زمان تمام شد.",
+  `نمونه پاسخ داخل بازه: ${exampleAnswer(q)}<br>${q.explanation}`
+ );
+
+ $("checkBtn").hidden=true;
+ $("nextBtn").hidden=false;
+ $("nextBtn").textContent=
+  currentIndex===TOTAL_QUESTIONS-1 ? "دیدن نتیجه 🏁" : "مأموریت بعدی";
+}
+
+/* ---------------- Timer ---------------- */
+
+function startTimer(){
+ stopTimer();
+
+ unlockBuilderControls();
+
+ if(questions[currentIndex].type!=="builder"){
+  $("positiveBtn").disabled=true;
+  $("negativeBtn").disabled=true;
+  $("numerator").disabled=true;
+  $("denominator").disabled=true;
+ }
+
+ questionStartedAt=Date.now();
+ questionDeadline=questionStartedAt+QUESTION_TIME*1000;
+
+ updateTimer();
+ timerInterval=setInterval(updateTimer,100);
+}
+
+function updateTimer(){
+ if(answerChecked || gameFinished)return;
+
+ const remain=Math.max(0,questionDeadline-Date.now());
+ const ratio=remain/(QUESTION_TIME*1000);
+
+ $("timeText").textContent=`${faNumber(Math.ceil(remain/1000))} ثانیه`;
+ $("timerFill").style.width=`${Math.max(0,Math.min(100,ratio*100))}%`;
+ $("timerFill").style.background=
+  ratio>.5 ? "#51dd91" :
+  ratio>.2 ? "#f5c644" : "#e45161";
+
+ if(remain<=0)handleTimeout();
+}
+
+function stopTimer(){
+ if(timerInterval!==null){
+  clearInterval(timerInterval);
+  timerInterval=null;
+ }
+}
+
+/* ---------------- Flow ---------------- */
+
+$("checkBtn").addEventListener("click",checkAnswer);
+
+$("nextBtn").addEventListener("click",()=>{
+ if(!answerChecked || gameFinished)return;
+
+ if(currentIndex===TOTAL_QUESTIONS-1){
+  finishGame();
+  return;
+ }
+
+ currentIndex++;
+ renderQuestion();
+});
+
+async function finishGame(){
+ if(gameFinished)return;
+
+ gameFinished=true;
+ stopTimer();
+
+ $("playArea").style.display="none";
+ $("resultArea").classList.add("show");
+ $("finalScore").textContent=faNumber(score);
+ $("resultName").textContent=`${player.playerName || "بازیکن"}، امتیاز نهایی تو:`;
+
+ $("resultMessage").textContent=
+  score>=90
+   ?"عالی! حتی در بازه‌های نزدیک و منفی هم جای عددهای گویا را خوب تشخیص می‌دهی. 🌟"
+  :score>=70
+   ?"خیلی خوب؛ حالا می‌دانی یک بازه فقط یک پاسخ ندارد. 🎯"
+  :score>=50
+   ?"در مسیر خوبی هستی؛ هنگام منفی‌شدن مرزها بیشتر به جای عدد روی محور توجه کن. 🔎"
+  :"در دور بعد هر پاسخ را با دو سؤال بررسی کن: از مرز کوچک‌تر بزرگ‌تر است؟ از مرز بزرگ‌تر کوچک‌تر است؟";
+
+ if(!finishSubmitted){
+  finishSubmitted=true;
+  try{
+   await GameSDK.finishGame(score);
+  }catch(e){
+   console.error("finishGame failed",e);
+  }
+ }
+
+ await loadLeaderboard();
+}
+
+async function loadLeaderboard(){
+ const box=$("leaderRows");
+ box.innerHTML='<div style="text-align:center;color:#707890">در حال دریافت...</div>';
+
+ try{
+  const scores=await GameSDK.getLeaderboard(10);
+
+  if(!scores || !scores.length){
+   box.innerHTML='<div style="text-align:center;color:#707890">هنوز رکوردی ثبت نشده است.</div>';
+   return;
+  }
+
+  box.innerHTML="";
+
+  scores.forEach((entry,index)=>{
+   const row=document.createElement("div");
+   row.className="leader-row";
+
+   const rank=
+    index===0 ? "🥇" :
+    index===1 ? "🥈" :
+    index===2 ? "🥉" :
+    `${faNumber(index+1)}.`;
+
+   const name=entry.playerName ?? entry.name ?? "بازیکن";
+   const points=entry.score ?? 0;
+
+   const left=document.createElement("span");
+   left.textContent=`${rank} ${name}`;
+
+   const right=document.createElement("strong");
+   right.textContent=`${faNumber(points)} امتیاز`;
+
+   row.append(left,right);
+   box.appendChild(row);
+  });
+
+ }catch(e){
+  console.error("leaderboard failed",e);
+  box.innerHTML='<div class="error">جدول برترین‌ها فعلاً قابل دریافت نیست.</div>';
+ }
+}
+
+$("restartBtn").addEventListener("click",()=>{
+ stopTimer();
+
+ try{
+  GameSDK.reset();
+ }catch(e){
+  console.error("reset failed",e);
+ }
+
+ score=0;
+ currentIndex=0;
+ answerChecked=false;
+ gameFinished=false;
+ finishSubmitted=false;
+ interactionState={};
+
+ $("scoreStatus").textContent=`${faNumber(0)} از ${faNumber(100)}`;
+ $("playArea").style.display="";
+ $("resultArea").classList.remove("show");
+
+ questions=generateRound();
+ renderQuestion();
+});
+
+function init(){
+ questions=generateRound();
+
+ if(questions.length!==TOTAL_QUESTIONS){
+  throw new Error("Exactly 10 missions are required.");
+ }
+
+ renderQuestion();
+}
+
+init();
+</script>
+</body>
+</html>
