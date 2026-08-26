@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>نبرد مثبت و منفی | ریاضی هشتم</title>
+<style>
+:root{
+  --purple:#7257d8;--blue:#3e8de7;--pink:#ef70a8;
+  --yellow:#f6c94c;--green:#37b978;--red:#e65860;
+  --ink:#29384c;--muted:#718096;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-height:100vh;overflow-x:hidden;
+  font-family:Tahoma,Arial,sans-serif;color:var(--ink);
+  background:
+    radial-gradient(circle at 8% 5%,#dfeeff 0,transparent 25%),
+    radial-gradient(circle at 92% 6%,#ffe0eb 0,transparent 25%),
+    linear-gradient(155deg,#f3efff,#eefaff);
+}
+button{font:inherit;touch-action:manipulation}
+.app{width:min(100% - 16px,760px);margin:auto;padding:12px 0 28px}
+.hero{text-align:center}
+.badges{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.badge{
+  background:#fff;border:1px solid #ddd8ff;border-radius:99px;
+  padding:4px 9px;color:#6351b2;font-size:11px;font-weight:bold
+}
+h1{margin:7px 0 2px;color:#5941b5;font-size:clamp(25px,7vw,38px)}
+.subtitle{margin:0 0 10px;color:var(--muted);font-size:13px}
+.status{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:9px 0 7px}
+.stat{
+  min-width:0;background:#fff;border:1px solid #e1e6ee;border-radius:12px;
+  padding:7px 4px;text-align:center
+}
+.stat small{display:block;color:var(--muted);font-size:9px}
+.stat b{display:block;font-size:12px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timer{background:#fff;border-radius:12px;padding:7px 9px;margin-bottom:8px}
+.timer-row{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:5px}
+.track{height:8px;background:#edf0f4;border-radius:20px;overflow:hidden}
+.bar{height:100%;width:100%;background:var(--green);border-radius:20px}
+.card{
+  background:#fff;border:1px solid #e0e5ed;border-radius:22px;padding:12px;
+  box-shadow:0 14px 36px rgba(63,73,105,.12)
+}
+.progress{display:flex;align-items:center;gap:5px;margin-bottom:9px}
+.pstep{flex:1;height:8px;border-radius:20px;background:#e7ebf1}
+.pstep.done{background:var(--green)}
+.pstep.now{background:var(--purple);box-shadow:0 0 0 3px #eeeaff}
+
+.mission{
+  text-align:center;background:#f7f5ff;border:1px solid #e4deff;
+  border-radius:15px;padding:8px;margin-bottom:9px
+}
+.mission small{color:#7664bd;font-weight:bold}
+.mission h2{font-size:17px;color:#4c4095;margin:3px 0}
+.mission p{font-size:12px;color:#68788b;line-height:1.7;margin:0}
+.expression{
+  direction:ltr;unicode-bidi:isolate;font-size:24px;font-weight:bold;
+  color:#493e8c;margin-top:5px
+}
+
+/* battlefield */
+.battlefield{
+  position:relative;min-height:330px;border-radius:18px;overflow:hidden;
+  border:2px solid #d7e1ec;padding:10px;
+  background:
+    linear-gradient(90deg,rgba(61,141,230,.07) 0 49.7%,#d8dee7 50%,rgba(230,87,96,.07) 50.3% 100%),
+    #fbfdff;
+}
+.camp-title{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  direction:ltr;margin-bottom:7px
+}
+.camp{
+  text-align:center;border-radius:11px;padding:6px;font-size:11px;font-weight:bold
+}
+.camp.plus{color:#246ba9;background:#e6f3ff}
+.camp.minus{color:#a8444a;background:#ffebed}
+.armies{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;direction:ltr;
+  min-height:150px
+}
+.army{
+  display:flex;align-content:flex-start;justify-content:center;flex-wrap:wrap;
+  gap:6px;padding:9px;border:1px dashed #cbd5e0;border-radius:13px
+}
+.soldier{
+  width:43px;height:43px;border:0;border-radius:50%;
+  color:#fff;font-weight:bold;font-size:19px;cursor:pointer;
+  box-shadow:0 4px 8px rgba(42,55,75,.18)
+}
+.soldier.plus{background:linear-gradient(145deg,#57aaf1,#347dc7)}
+.soldier.minus{background:linear-gradient(145deg,#f0787e,#d84c55)}
+.soldier.selected{outline:4px solid #f8cc4b;transform:scale(1.06)}
+.soldier.faded{opacity:.15;pointer-events:none}
+.empty{
+  width:100%;text-align:center;color:#9aa8b7;font-size:11px;padding:20px 5px
+}
+.scoreboard{
+  margin:9px auto 0;max-width:460px;text-align:center;
+  background:#28384b;color:#eaf3fd;border-radius:12px;padding:7px 9px;
+  font-size:11px;line-height:1.7
+}
+.scoreboard strong{color:#ffd65b;font-size:15px}
+.action-hint{
+  text-align:center;color:#657589;font-size:11px;line-height:1.7;
+  padding:7px 2px 2px
+}
+
+/* controls */
+.controls{
+  margin-top:9px;border-top:1px solid #e0e5ec;padding-top:9px
+}
+.zero-pair{
+  width:100%;min-height:46px;border:2px solid #d8cef5;border-radius:12px;
+  background:#f5f1ff;color:#5b44b3;font-weight:bold;cursor:pointer;margin-bottom:7px
+}
+.zero-pair:disabled{opacity:.5;cursor:default}
+.answer-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.answer-btn{
+  min-height:52px;border:2px solid #dce3ec;border-radius:13px;
+  background:#fff;color:#3b4d62;font-weight:bold;cursor:pointer
+}
+.answer-btn.correct{border-color:var(--green);background:#eaf9f1;color:#246b48}
+.answer-btn.wrong{border-color:var(--red);background:#fff0f0;color:#984148}
+.answer-btn:disabled{cursor:default}
+.submit{
+  width:100%;min-height:47px;border:0;border-radius:12px;
+  background:linear-gradient(135deg,#7257d8,#3e8de7);
+  color:#fff;font-weight:bold;cursor:pointer
+}
+
+/* feedback */
+.feedback{
+  display:none;margin-top:9px;padding:10px;border-radius:13px;
+  font-size:12px;line-height:1.75
+}
+.feedback.good{display:block;background:#eaf9f1;border:1px solid #b8e6cc;color:#246846}
+.feedback.bad{display:block;background:#fff0f0;border:1px solid #efc1c4;color:#944147}
+.feedback.time{display:block;background:#fff7df;border:1px solid #ecd693;color:#7b601d}
+.next{
+  display:none;width:100%;min-height:50px;margin-top:9px;border:0;
+  border-radius:14px;background:linear-gradient(135deg,#7257d8,#3e8de7);
+  color:#fff;font-weight:bold;cursor:pointer
+}
+
+/* result */
+.hidden{display:none!important}
+.result{display:none;text-align:center}
+.result.show{display:block}
+.trophy{font-size:60px}
+.final-score{font-size:42px;color:#6048bd;font-weight:bold}
+.final-score small{font-size:14px;color:var(--muted);font-weight:normal}
+.result-message{font-weight:bold;margin:9px 0 16px}
+.board{max-width:510px;margin:15px auto;text-align:right}
+.board h3{text-align:center}
+.rank{
+  display:flex;justify-content:space-between;gap:8px;
+  background:#f6f8fc;border-radius:11px;padding:9px 10px;margin:6px 0
+}
+.rank-name{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.rank-score{color:#634dc0;font-weight:bold;white-space:nowrap}
+.loading{text-align:center;color:var(--muted);padding:12px}
+.restart{
+  width:min(100%,350px);min-height:51px;border:0;border-radius:14px;
+  color:#fff;background:linear-gradient(135deg,#7257d8,#3e8de7);
+  font-weight:bold;cursor:pointer
+}
+.back{
+  display:block;width:max-content;max-width:100%;margin:18px auto 0;
+  color:#6152a6;text-decoration:none;font-size:13px
+}
+@media(max-width:520px){
+  .status{grid-template-columns:repeat(2,1fr)}
+  .card{padding:9px;border-radius:18px}
+  .soldier{width:38px;height:38px;font-size:17px}
+  .answer-buttons{gap:5px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<main class="app">
+
+<header class="hero" id="hero">
+  <div class="badges">
+    <span class="badge">پایه هشتم</span>
+    <span class="badge">فصل اول</span>
+    <span class="badge">درس ۱</span>
+    <span class="badge">جمع و تفریق صحیح</span>
+  </div>
+  <h1>⚔️ نبرد مثبت و منفی</h1>
+  <p class="subtitle">جفت‌های صفر را پیدا کن و ببین کدام نیرو در میدان می‌ماند!</p>
+</header>
+
+<div id="statusWrap">
+  <section class="status">
+    <div class="stat"><small>بازیکن</small><b id="playerName">---</b></div>
+    <div class="stat"><small>نبرد</small><b id="stage">۱ از ۱۰</b></div>
+    <div class="stat"><small>امتیاز</small><b id="score">۰</b></div>
+    <div class="stat"><small>زمان</small><b id="time">۶۰ ثانیه</b></div>
+  </section>
+
+  <section class="timer">
+    <div class="timer-row">
+      <span>⚡ زمان نبرد</span>
+      <span id="timerMini">۶۰ / ۶۰</span>
+    </div>
+    <div class="track"><div class="bar" id="timerBar"></div></div>
+  </section>
+</div>
+
+<section class="card" id="game">
+  <div class="progress" id="progress"></div>
+
+  <div class="mission">
+    <small id="missionBadge">نبرد ۱</small>
+    <h2 id="missionTitle"></h2>
+    <p id="missionText"></p>
+    <div class="expression" id="expression"></div>
+  </div>
+
+  <div class="battlefield">
+    <div class="camp-title">
+      <div class="camp plus">🔵 نیروی مثبت +۱</div>
+      <div class="camp minus">🔴 نیروی منفی −۱</div>
+    </div>
+
+    <div class="armies">
+      <div class="army" id="plusArmy"></div>
+      <div class="army" id="minusArmy"></div>
+    </div>
+
+    <div class="scoreboard" id="scoreboard"></div>
+    <div class="action-hint" id="actionHint"></div>
+
+    <div class="controls" id="controls"></div>
+  </div>
+
+  <div class="feedback" id="feedback" aria-live="polite"></div>
+  <button type="button" class="next" id="nextBtn">نبرد بعدی ⚔️</button>
+</section>
+
+<section class="card result" id="resultScreen">
+  <div class="trophy">🏆⚔️</div>
+  <h2>نبرد تمام شد!</h2>
+  <div id="resultName"></div>
+
+  <div class="final-score">
+    <span id="finalScore">۰</span>
+    <small>از ۱۰۰ امتیاز</small>
+  </div>
+
+  <div class="result-message" id="resultMessage"></div>
+
+  <div class="board">
+    <h3>🏅 برترین فرمانده‌ها</h3>
+    <div id="leaderboard" class="loading">در حال دریافت رکوردها...</div>
+  </div>
+
+  <button type="button" class="restart" id="restartBtn">🔄 نبرد دوباره</button>
+</section>
+
+<a href="/#game" class="back">← بازگشت به بازی‌های ریاضی</a>
+</main>
+
+<script src="/games/game-sdk.js"></script>
+<script>
+const GAME_ID = 17;
+
+const player = GameSDK.init(GAME_ID);
+
+(() => {
+"use strict";
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 60;
+const RECENT_KEY = "positive_negative_battle_g8_v1";
+const MAX_RECENT = 50;
+
+let questions=[];
+let currentIndex=0;
+let score=0;
+let startedAt=0;
+let timerId=null;
+let answerChecked=false;
+let gameFinished=false;
+let finishSubmitted=false;
+let state={};
+
+const $=id=>document.getElementById(id);
+const el={
+  hero:$("hero"),statusWrap:$("statusWrap"),playerName:$("playerName"),
+  stage:$("stage"),score:$("score"),time:$("time"),timerMini:$("timerMini"),
+  timerBar:$("timerBar"),game:$("game"),progress:$("progress"),
+  missionBadge:$("missionBadge"),missionTitle:$("missionTitle"),
+  missionText:$("missionText"),expression:$("expression"),
+  plusArmy:$("plusArmy"),minusArmy:$("minusArmy"),
+  scoreboard:$("scoreboard"),actionHint:$("actionHint"),controls:$("controls"),
+  feedback:$("feedback"),nextBtn:$("nextBtn"),resultScreen:$("resultScreen"),
+  resultName:$("resultName"),finalScore:$("finalScore"),
+  resultMessage:$("resultMessage"),leaderboard:$("leaderboard"),
+  restartBtn:$("restartBtn")
+};
+
+function faNumber(v){
+  return String(v).replace(/-/g,"−").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function shuffle(a){
+  const x=[...a];
+  for(let i=x.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [x[i],x[j]]=[x[j],x[i]];
+  }
+  return x;
+}
+function getRecent(){
+  try{
+    const x=JSON.parse(localStorage.getItem(RECENT_KEY)||"[]");
+    return Array.isArray(x)?x:[];
+  }catch{return []}
+}
+function saveRecent(sigs){
+  try{
+    const old=getRecent();
+    const all=[...sigs,...old.filter(x=>!sigs.includes(x))].slice(0,MAX_RECENT);
+    localStorage.setItem(RECENT_KEY,JSON.stringify(all));
+  }catch{}
+}
+
+/* سؤال‌ها:
+   add = میدان را می‌سازیم و جفت‌های صفر را حذف می‌کنیم.
+   subtract = نیرو باید واقعاً از میدان برداشته شود.
+*/
+function makeAdd(a,b,title){
+  return {
+    type:"add",a,b,answer:a+b,title,
+    text:"نیروها وارد میدان شده‌اند. جفت‌های صفر را حذف کن، بعد نتیجه را ثبت کن.",
+    sig:`add-${a}-${b}`
+  };
+}
+function makeSubtract(a,b,title){
+  return {
+    type:"subtract",a,b,answer:a-b,title,
+    text:b>0
+      ?"برای تفریق، نیروی مثبت را از میدان خارج کن."
+      :"برای تفریق، نیروی منفی را از میدان خارج کن.",
+    sig:`sub-${a}-${b}`
+  };
+}
+
+const generators=[
+  ()=>makeAdd(rand(2,5),rand(1,4),"نیروهای هم‌تیم"),
+  ()=>makeAdd(-rand(2,5),-rand(1,4),"اردوی منفی‌ها"),
+  ()=>makeAdd(rand(2,5),-rand(1,5),"اولین جفت صفر"),
+  ()=>makeAdd(-rand(2,5),rand(2,6),"نبرد دو رنگ"),
+  ()=>{
+    const a=rand(2,6);
+    return makeAdd(a,-a,"صلح کامل");
+  },
+  ()=>makeSubtract(rand(4,7),rand(1,3),"خروج مثبت‌ها"),
+  ()=>makeSubtract(-rand(4,7),-rand(1,3),"خروج منفی‌ها"),
+  ()=>makeSubtract(rand(1,4),-rand(1,4),"منفی را بردار!"),
+  ()=>makeSubtract(-rand(1,4),rand(1,4),"مثبت را بردار!"),
+  ()=>{
+    const a=rand(-4,4);
+    let b=rand(-4,4);
+    if(b===0)b=-3;
+    return makeSubtract(a,b,"نبرد نهایی");
+  }
+];
+
+function generateRound(){
+  const recent=new Set(getRecent()),made=[];
+  for(const gen of generators){
+    let q=null;
+    for(let i=0;i<18;i++){
+      const x=gen();
+      q=q||x;
+      if(!recent.has(x.sig)&&!made.some(m=>m.sig===x.sig)){q=x;break}
+    }
+    made.push(q);
+  }
+  questions=made.slice(0,TOTAL_QUESTIONS);
+  saveRecent(questions.map(q=>q.sig));
+}
+
+/* Timer */
+function remainingMs(){
+  return Math.max(0,QUESTION_TIME*1000-(Date.now()-startedAt));
+}
+function scoreForTime(s){
+  if(s<=15)return 10;
+  if(s<=25)return 8;
+  if(s<=35)return 6;
+  if(s<=45)return 4;
+  if(s<60)return 2;
+  return 0;
+}
+function stopTimer(){
+  if(timerId!==null){clearInterval(timerId);timerId=null}
+}
+function startTimer(){
+  stopTimer();startedAt=Date.now();updateTimer();
+  timerId=setInterval(updateTimer,150);
+}
+function updateTimer(){
+  const ms=remainingMs(),sec=Math.max(0,Math.ceil(ms/1000));
+  const r=ms/(QUESTION_TIME*1000);
+  el.time.textContent=`${faNumber(sec)} ثانیه`;
+  el.timerMini.textContent=`${faNumber(sec)} / ${faNumber(QUESTION_TIME)}`;
+  el.timerBar.style.width=`${Math.max(0,r*100)}%`;
+  el.timerBar.style.background=r>.5?"var(--green)":r>.2?"var(--yellow)":"var(--red)";
+  if(ms<=0&&!answerChecked&&!gameFinished)handleTimeout();
+}
+
+/* Progress */
+function renderProgress(){
+  el.progress.innerHTML="";
+  for(let i=0;i<TOTAL_QUESTIONS;i++){
+    const p=document.createElement("span");p.className="pstep";
+    if(i<currentIndex)p.classList.add("done");
+    else if(i===currentIndex)p.classList.add("now");
+    el.progress.appendChild(p);
+  }
+}
+
+/* Field model */
+function addSoldiers(sign,count){
+  for(let i=0;i<count;i++){
+    const s=document.createElement("button");
+    s.type="button";
+    s.className=`soldier ${sign>0?"plus":"minus"}`;
+    s.dataset.sign=String(sign);
+    s.textContent=sign>0?"+":"−";
+    s.setAttribute("aria-label",sign>0?"سرباز مثبت":"سرباز منفی");
+    s.addEventListener("click",()=>soldierClicked(s));
+    (sign>0?el.plusArmy:el.minusArmy).appendChild(s);
+  }
+}
+function activeSoldiers(sign){
+  const army=sign>0?el.plusArmy:el.minusArmy;
+  return [...army.querySelectorAll(".soldier:not(.faded)")];
+}
+function counts(){
+  return {
+    plus:activeSoldiers(1).length,
+    minus:activeSoldiers(-1).length
+  };
+}
+function fieldValue(){
+  const c=counts();
+  return c.plus-c.minus;
+}
+function updateField(){
+  [el.plusArmy,el.minusArmy].forEach((army,i)=>{
+    const active=[...army.querySelectorAll(".soldier:not(.faded)")];
+    const old=army.querySelector(".empty");
+    if(old)old.remove();
+    if(active.length===0){
+      const e=document.createElement("div");e.className="empty";
+      e.textContent=i===0?"مثبتی نمانده":"منفی‌ای نمانده";
+      army.appendChild(e);
+    }
+  });
+  const c=counts();
+  el.scoreboard.innerHTML=
+    `مثبت‌های میدان: <strong>${faNumber(c.plus)}</strong> &nbsp; | &nbsp; `+
+    `منفی‌های میدان: <strong>${faNumber(c.minus)}</strong><br>`+
+    `ارزش فعلی میدان: <strong>${faNumber(c.plus-c.minus)}</strong>`;
+}
+
+/* Interaction */
+function soldierClicked(btn){
+  if(answerChecked)return;
+  if(remainingMs()<=0){handleTimeout();return}
+
+  const q=questions[currentIndex];
+  const sign=Number(btn.dataset.sign);
+
+  if(q.type==="add"){
+    handleZeroPairClick(btn,sign);
+  }else{
+    handleSubtractionClick(btn,sign,q);
+  }
+}
+
+function handleZeroPairClick(btn,sign){
+  if(state.selected){
+    const old=state.selected;
+    if(old===btn){
+      old.classList.remove("selected");
+      state.selected=null;
+      return;
+    }
+    const oldSign=Number(old.dataset.sign);
+    if(oldSign+sign===0){
+      old.classList.remove("selected");
+      old.classList.add("faded");
+      btn.classList.add("faded");
+      state.selected=null;
+      updateField();
+      if(activeSoldiers(1).length===0 || activeSoldiers(-1).length===0){
+        unlockFinalAnswer();
+      }
+    }else{
+      old.classList.remove("selected");
+      btn.classList.add("selected");
+      state.selected=btn;
+    }
+  }else{
+    btn.classList.add("selected");
+    state.selected=btn;
+  }
+}
+
+function handleSubtractionClick(btn,sign,q){
+  const wantedSign=q.b>0?1:-1;
+
+  if(sign!==wantedSign){
+    el.actionHint.textContent=
+      q.b>0
+        ?"باید نیروی مثبت را برداری."
+        :"باید نیروی منفی را برداری.";
+    return;
+  }
+
+  btn.classList.add("faded");
+  state.removed++;
+  updateField();
+
+  if(state.removed>=Math.abs(q.b)){
+    unlockFinalAnswer();
+  }
+}
+
+/* Adding zero pairs for subtraction */
+function addZeroPair(){
+  if(answerChecked)return;
+  addSoldiers(1,1);
+  addSoldiers(-1,1);
+  updateField();
+  el.actionHint.textContent="یک +۱ و یک −۱ اضافه شد؛ ارزش میدان تغییر نکرد.";
+}
+
+/* render */
+function renderQuestion(){
+  stopTimer();
+  answerChecked=false;
+  state={selected:null,removed:0,unlocked:false};
+
+  const q=questions[currentIndex];
+
+  el.stage.textContent=`${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
+  el.score.textContent=faNumber(score);
+  el.missionBadge.textContent=`نبرد ${faNumber(currentIndex+1)}`;
+  el.missionTitle.textContent=q.title;
+  el.missionText.textContent=q.text;
+  el.expression.textContent=
+    q.type==="add"
+      ?`${faNumber(q.a)} + (${faNumber(q.b)})`
+      :`${faNumber(q.a)} − (${faNumber(q.b)})`;
+
+  el.plusArmy.innerHTML="";
+  el.minusArmy.innerHTML="";
+  el.controls.innerHTML="";
+  el.feedback.className="feedback";
+  el.feedback.innerHTML="";
+  el.nextBtn.style.display="none";
+  el.actionHint.textContent="";
+
+  renderProgress();
+
+  /* نمایش مقدار اول */
+  if(q.a>0)addSoldiers(1,q.a);
+  if(q.a<0)addSoldiers(-1,Math.abs(q.a));
+
+  if(q.type==="add"){
+    /* عدد دوم نیز وارد میدان می‌شود */
+    if(q.b>0)addSoldiers(1,q.b);
+    if(q.b<0)addSoldiers(-1,Math.abs(q.b));
+
+    el.actionHint.textContent=
+      (q.a*q.b<0)
+        ?"یک + و یک − را لمس کن تا یک «جفت صفر» حذف شود."
+        :"همه نیروها هم‌علامت‌اند؛ نتیجه را از روی میدان پیدا کن.";
+
+    if(q.a*q.b>=0 || q.a===0 || q.b===0){
+      unlockFinalAnswer();
+    }
+  }else{
+    prepareSubtraction(q);
+  }
+
+  updateField();
+  startTimer();
+}
+
+function prepareSubtraction(q){
+  const signToRemove=q.b>0?1:-1;
+  const need=Math.abs(q.b);
+  const available=activeSoldiers(signToRemove).length;
+
+  el.actionHint.textContent=
+    q.b>0
+      ?`باید ${faNumber(need)} نیروی +۱ را از میدان برداری.`
+      :`باید ${faNumber(need)} نیروی −۱ را از میدان برداری.`;
+
+  if(available<need){
+    const missing=need-available;
+    state.zeroPairsNeeded=missing;
+
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="zero-pair";
+    btn.textContent="➕ یک جفت صفر اضافه کن (+۱ و −۱)";
+    btn.addEventListener("click",()=>{
+      if(state.zeroPairsNeeded<=0)return;
+      addZeroPair();
+      state.zeroPairsNeeded--;
+      if(state.zeroPairsNeeded<=0)btn.disabled=true;
+    });
+    el.controls.appendChild(btn);
+
+    const info=document.createElement("div");
+    info.className="action-hint";
+    info.textContent="نیروی کافی نداری؟ جفت صفر اضافه کن؛ مقدار میدان عوض نمی‌شود.";
+    el.controls.appendChild(info);
+  }
+
+  if(need===0)unlockFinalAnswer();
+}
+
+function unlockFinalAnswer(){
+  if(state.unlocked)return;
+  state.unlocked=true;
+
+  const q=questions[currentIndex];
+  const correct=q.answer;
+  const vals=new Set([correct,correct+1,correct-1]);
+  if(vals.size<3)vals.add(correct+2);
+  const options=shuffle([...vals].slice(0,3));
+
+  const title=document.createElement("div");
+  title.className="action-hint";
+  title.textContent="حالا ارزش نهایی میدان را انتخاب کن:";
+
+  const box=document.createElement("div");
+  box.className="answer-buttons";
+
+  options.forEach(v=>{
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="answer-btn";
+    btn.dataset.value=String(v);
+    btn.textContent=faNumber(v);
+    btn.addEventListener("click",()=>checkFinal(v,btn));
+    box.appendChild(btn);
+  });
+
+  el.controls.append(title,box);
+}
+
+function lockAll(){
+  el.game.querySelectorAll("button:not(#nextBtn)").forEach(b=>b.disabled=true);
+}
+function revealCorrect(){
+  const q=questions[currentIndex];
+  el.controls.querySelectorAll("[data-value]").forEach(b=>{
+    if(Number(b.dataset.value)===q.answer)b.classList.add("correct");
+  });
+}
+
+function checkFinal(value,btn){
+  if(answerChecked||gameFinished)return;
+  if(remainingMs()<=0){handleTimeout();return}
+
+  const q=questions[currentIndex];
+  answerChecked=true;
+  stopTimer();
+  lockAll();
+
+  if(value===q.answer){
+    btn.classList.add("correct");
+
+    const elapsed=Math.min(QUESTION_TIME,(Date.now()-startedAt)/1000);
+    const gained=scoreForTime(elapsed);
+    score=Math.min(100,score+gained);
+    el.score.textContent=faNumber(score);
+
+    el.feedback.className="feedback good";
+    el.feedback.innerHTML=
+      `✅ <strong>آفرین! +${faNumber(gained)} امتیاز</strong><br>`+
+      feedbackFor(q);
+  }else{
+    btn.classList.add("wrong");
+    revealCorrect();
+
+    el.feedback.className="feedback bad";
+    el.feedback.innerHTML=
+      `❌ پاسخ درست <strong>${faNumber(q.answer)}</strong> است.<br>`+
+      feedbackFor(q);
+  }
+
+  showNext();
+}
+
+function feedbackFor(q){
+  if(q.type==="add"){
+    if(q.a*q.b<0){
+      return "هر +۱ و −۱ یک جفت صفر می‌سازند و حذف می‌شوند؛ علامت و تعداد نیروهای باقی‌مانده نتیجه جمع را نشان می‌دهد.";
+    }
+    return "وقتی دو عدد هم‌علامت‌اند، نیروها در یک اردو جمع می‌شوند و همان علامت را نگه می‌دارند.";
+  }
+
+  if(q.b<0){
+    return "تفریق عدد منفی یعنی برداشتن نیروهای منفی. اگر منفی کافی نداشتیم، جفت‌های صفر اضافه کردیم؛ با برداشتن منفی‌ها، میدان مثبت‌تر می‌شود.";
+  }
+
+  return "تفریق عدد مثبت یعنی برداشتن نیروهای مثبت. اگر نیروی کافی نبود، می‌توان جفت صفر اضافه کرد بدون اینکه مقدار میدان تغییر کند.";
+}
+
+/* Timeout */
+function handleTimeout(){
+  if(answerChecked||gameFinished)return;
+  answerChecked=true;
+  stopTimer();
+  lockAll();
+
+  const q=questions[currentIndex];
+
+  if(!state.unlocked){
+    /* در timeout پاسخ را مستقل از وضعیت فرایند نشان می‌دهیم */
+    const title=document.createElement("div");
+    title.className="action-hint";
+    title.textContent=`پاسخ صحیح: ${faNumber(q.answer)}`;
+    el.controls.appendChild(title);
+  }else{
+    revealCorrect();
+  }
+
+  el.time.textContent="۰ ثانیه";
+  el.timerMini.textContent=`۰ / ${faNumber(QUESTION_TIME)}`;
+  el.timerBar.style.width="0%";
+  el.timerBar.style.background="var(--red)";
+
+  el.feedback.className="feedback time";
+  el.feedback.innerHTML=
+    `⏰ <strong>زمان تمام شد.</strong><br>`+
+    `پاسخ درست <strong>${faNumber(q.answer)}</strong> است. ${feedbackFor(q)}`;
+
+  showNext();
+}
+
+function showNext(){
+  el.nextBtn.style.display="block";
+  el.nextBtn.textContent=
+    currentIndex===TOTAL_QUESTIONS-1
+      ?"🏆 پایان نبرد"
+      :"نبرد بعدی ⚔️";
+}
+
+/* next / result */
+function nextQuestion(){
+  if(!answerChecked||gameFinished)return;
+  if(currentIndex===TOTAL_QUESTIONS-1){finishGame();return}
+  currentIndex++;
+  renderQuestion();
+}
+
+async function finishGame(){
+  if(gameFinished)return;
+  gameFinished=true;
+  stopTimer();
+  score=Math.min(100,score);
+
+  el.game.classList.add("hidden");
+  el.hero.classList.add("hidden");
+  el.statusWrap.classList.add("hidden");
+  el.resultScreen.classList.add("show");
+
+  const name=player.playerName||"بازیکن";
+  el.resultName.textContent=`${name}، هر ۱۰ نبرد تمام شد.`;
+  el.finalScore.textContent=faNumber(score);
+
+  if(score>=90){
+    el.resultMessage.textContent="عالی بود! 🌟 فرمانده جفت‌های صفر شدی!";
+  }else if(score>=70){
+    el.resultMessage.textContent="خیلی خوب بود 👏 مثبت و منفی را خوب مدیریت کردی.";
+  }else if(score>=50){
+    el.resultMessage.textContent="خوب بود، ادامه بده 💪 جفت‌های صفر را بیشتر تمرین کن.";
+  }else{
+    el.resultMessage.textContent="دوباره تلاش کن 🌱 یادت باشد +۱ و −۱ با هم صفر می‌شوند.";
+  }
+
+  if(!finishSubmitted){
+    finishSubmitted=true;
+    try{
+      const result=await GameSDK.finishGame(score);
+      void result;
+    }catch(e){
+      console.error("finishGame failed:",e);
+    }
+  }
+
+  await loadLeaderboard();
+}
+
+async function loadLeaderboard(){
+  el.leaderboard.className="loading";
+  el.leaderboard.textContent="در حال دریافت رکوردها...";
+
+  try{
+    const scores=await GameSDK.getLeaderboard(10);
+    const list=Array.isArray(scores)?scores:[];
+
+    el.leaderboard.className="";
+    el.leaderboard.innerHTML="";
+
+    if(!list.length){
+      el.leaderboard.className="loading";
+      el.leaderboard.textContent="هنوز رکوردی برای نمایش وجود ندارد.";
+      return;
+    }
+
+    list.slice(0,10).forEach((item,i)=>{
+      const row=document.createElement("div");
+      row.className="rank";
+
+      const rank=document.createElement("span");
+      rank.textContent=i===0?"🥇":i===1?"🥈":i===2?"🥉":`${faNumber(i+1)}.`;
+
+      const name=document.createElement("span");
+      name.className="rank-name";
+      name.textContent=item.playerName??item.name??item.username??"بازیکن";
+
+      const points=document.createElement("span");
+      points.className="rank-score";
+      points.textContent=`${faNumber(item.score??0)} امتیاز`;
+
+      row.append(rank,name,points);
+      el.leaderboard.appendChild(row);
+    });
+  }catch(e){
+    console.error("Leaderboard failed:",e);
+    el.leaderboard.className="loading";
+    el.leaderboard.textContent="دریافت جدول برترین‌ها ممکن نشد.";
+  }
+}
+
+/* Restart */
+function restartGame(){
+  stopTimer();
+  GameSDK.reset();
+
+  questions=[];
+  currentIndex=0;
+  score=0;
+  startedAt=0;
+  timerId=null;
+  answerChecked=false;
+  gameFinished=false;
+  finishSubmitted=false;
+  state={};
+
+  el.score.textContent="۰";
+  el.resultScreen.classList.remove("show");
+  el.game.classList.remove("hidden");
+  el.hero.classList.remove("hidden");
+  el.statusWrap.classList.remove("hidden");
+
+  generateRound();
+
+  if(questions.length!==TOTAL_QUESTIONS){
+    throw new Error("Exactly 10 questions are required.");
+  }
+
+  renderQuestion();
+}
+
+el.nextBtn.addEventListener("click",nextQuestion);
+el.restartBtn.addEventListener("click",restartGame);
+
+el.playerName.textContent=player.playerName||"بازیکن";
+
+generateRound();
+
+if(questions.length!==TOTAL_QUESTIONS){
+  throw new Error("Exactly 10 questions are required.");
+}
+
+renderQuestion();
+
+})();
+</script>
+</body>
+</html>
