@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>اتاق کنترل عملیات | ریاضی هشتم</title>
+
+<style>
+:root{
+ --purple:#7357d8;--blue:#3d8de7;--pink:#ed6da7;
+ --yellow:#f6c84d;--green:#36b978;--red:#e65760;
+ --ink:#29384c;--muted:#718096;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+ margin:0;min-height:100vh;overflow-x:hidden;
+ font-family:Tahoma,Arial,sans-serif;color:var(--ink);
+ background:
+ radial-gradient(circle at 8% 5%,#e1edff 0,transparent 25%),
+ radial-gradient(circle at 92% 6%,#ffe1ec 0,transparent 25%),
+ linear-gradient(155deg,#f4efff,#eefaff)
+}
+button{font:inherit;touch-action:manipulation}
+.app{width:min(100% - 16px,780px);margin:auto;padding:12px 0 28px}
+.hero{text-align:center}
+.badges{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.badge{
+ background:#fff;border:1px solid #ddd8ff;border-radius:99px;
+ padding:4px 9px;color:#6250b3;font-size:11px;font-weight:bold
+}
+h1{margin:7px 0 2px;color:#5941b6;font-size:clamp(25px,7vw,38px)}
+.subtitle{margin:0 0 10px;color:var(--muted);font-size:13px}
+.status{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:9px 0 7px}
+.stat{
+ min-width:0;background:#fff;border:1px solid #e1e6ee;
+ border-radius:12px;padding:7px 4px;text-align:center
+}
+.stat small{display:block;color:var(--muted);font-size:9px}
+.stat b{display:block;font-size:12px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timer{background:#fff;border-radius:12px;padding:7px 9px;margin-bottom:8px}
+.timer-row{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin-bottom:5px}
+.track{height:8px;background:#edf0f4;border-radius:20px;overflow:hidden}
+.bar{height:100%;width:100%;background:var(--green);border-radius:20px}
+
+.card{
+ background:#fff;border:1px solid #e0e5ed;border-radius:22px;
+ padding:12px;box-shadow:0 14px 36px rgba(63,73,105,.12)
+}
+.progress{display:flex;align-items:center;gap:5px;margin-bottom:9px}
+.pstep{flex:1;height:8px;background:#e7ebf1;border-radius:20px}
+.pstep.done{background:var(--green)}
+.pstep.now{background:var(--purple);box-shadow:0 0 0 3px #eeeaff}
+
+.mission{
+ text-align:center;background:#f7f5ff;border:1px solid #e4deff;
+ border-radius:15px;padding:8px;margin-bottom:9px
+}
+.mission small{color:#7664bd;font-weight:bold}
+.mission h2{color:#4c4095;font-size:17px;margin:3px 0}
+.mission p{color:#68788b;font-size:12px;line-height:1.7;margin:0}
+
+/* Control room */
+.room{
+ border-radius:18px;border:3px solid #344357;padding:11px;
+ background:
+ linear-gradient(rgba(255,255,255,.04),rgba(0,0,0,.1)),
+ #4c5c70;
+ min-height:360px;
+}
+.warning-strip{
+ border-radius:9px;padding:6px;text-align:center;font-size:10px;font-weight:bold;
+ color:#43350c;
+ background:repeating-linear-gradient(135deg,#f7cb4d 0,#f7cb4d 13px,#303b49 14px,#303b49 26px);
+}
+.console{
+ margin-top:9px;border:5px solid #28384a;border-radius:17px;
+ background:#dce4ec;padding:10px;
+ box-shadow:inset 0 0 0 2px #8493a3
+}
+.screen{
+ min-height:92px;border:4px solid #61727d;border-radius:12px;
+ background:#1d3037;padding:8px;text-align:center;color:#d0ffec;
+ display:flex;flex-direction:column;justify-content:center
+}
+.screen small{font-size:9px;color:#91afb0}
+.expression{
+ direction:ltr;unicode-bidi:isolate;
+ font-size:clamp(19px,5vw,27px);font-weight:bold;line-height:2;
+ word-spacing:3px
+}
+.step-status{
+ display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;
+ min-height:32px;margin-top:7px;font-size:10px;color:#596b7e
+}
+.lamp{
+ width:12px;height:12px;border-radius:50%;background:#aeb8c4;
+ box-shadow:inset 0 0 0 2px #909aa5
+}
+.lamp.done{background:var(--green);box-shadow:0 0 7px #6bdda5}
+.lamp.now{background:var(--yellow);box-shadow:0 0 7px #ffe274}
+
+.panel-title{
+ text-align:center;font-size:11px;color:#4a5d72;font-weight:bold;
+ margin:9px 0 7px
+}
+.operation-panel{
+ display:grid;grid-template-columns:repeat(2,1fr);gap:7px
+}
+.op-btn{
+ min-height:56px;border:2px solid #b9c5d2;border-radius:12px;background:#fff;
+ color:#3c4e63;font-weight:bold;cursor:pointer;
+ box-shadow:0 4px 0 #8290a0
+}
+.op-btn:hover:not(:disabled){border-color:#806cdc;background:#faf8ff}
+.op-btn:active:not(:disabled){transform:translateY(2px);box-shadow:0 2px 0 #8290a0}
+.op-btn.correct{border-color:var(--green);background:#eaf9f1;color:#246b48;box-shadow:none}
+.op-btn.wrong{border-color:var(--red);background:#fff0f0;color:#994149;box-shadow:none}
+.op-btn:disabled{cursor:default}
+.rule-card{
+ margin-top:9px;border:1px solid #bfcad5;border-radius:11px;
+ padding:7px;background:#f6f8fb;text-align:center;font-size:10px;color:#647486;
+ line-height:1.7
+}
+
+/* feedback */
+.feedback{
+ display:none;margin-top:9px;padding:10px;border-radius:13px;
+ font-size:12px;line-height:1.75
+}
+.feedback.good{display:block;background:#eaf9f1;border:1px solid #b8e6cc;color:#246846}
+.feedback.bad{display:block;background:#fff0f0;border:1px solid #efc1c4;color:#944147}
+.feedback.time{display:block;background:#fff7df;border:1px solid #ecd693;color:#7b601d}
+.next{
+ display:none;width:100%;min-height:50px;margin-top:9px;border:0;
+ border-radius:14px;background:linear-gradient(135deg,#7357d8,#3e8de7);
+ color:#fff;font-weight:bold;cursor:pointer
+}
+
+/* result */
+.hidden{display:none!important}
+.result{display:none;text-align:center}
+.result.show{display:block}
+.trophy{font-size:61px}
+.final-score{font-size:42px;color:#6048bd;font-weight:bold}
+.final-score small{font-size:14px;color:var(--muted);font-weight:normal}
+.result-message{font-weight:bold;margin:9px 0 16px}
+.board{max-width:510px;margin:15px auto;text-align:right}
+.board h3{text-align:center}
+.rank{
+ display:flex;justify-content:space-between;gap:8px;
+ background:#f6f8fc;border-radius:11px;padding:9px 10px;margin:6px 0
+}
+.rank-name{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.rank-score{color:#634dc0;font-weight:bold;white-space:nowrap}
+.loading{text-align:center;color:var(--muted);padding:12px}
+.restart{
+ width:min(100%,350px);min-height:51px;border:0;border-radius:14px;
+ background:linear-gradient(135deg,#7357d8,#3e8de7);
+ color:#fff;font-weight:bold;cursor:pointer
+}
+.back{
+ display:block;width:max-content;max-width:100%;margin:18px auto 0;
+ color:#6152a6;text-decoration:none;font-size:13px
+}
+@media(max-width:520px){
+ .status{grid-template-columns:repeat(2,1fr)}
+ .card{padding:9px;border-radius:18px}
+ .room{padding:8px}
+ .op-btn{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{
+  animation:none!important;
+  transition:none!important;
+  scroll-behavior:auto!important
+ }
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+
+<header class="hero" id="hero">
+ <div class="badges">
+  <span class="badge">پایه هشتم</span>
+  <span class="badge">فصل اول</span>
+  <span class="badge">درس ۱</span>
+  <span class="badge">ترتیب عملیات</span>
+ </div>
+
+ <h1>🎛️ اتاق کنترل عملیات 🚨</h1>
+ <p class="subtitle">دستگاه‌ها را به ترتیب درست روشن کن تا نیروگاه منفجر نشود!</p>
+</header>
+
+<div id="statusWrap">
+ <section class="status">
+  <div class="stat"><small>بازیکن</small><b id="playerName">---</b></div>
+  <div class="stat"><small>پنل</small><b id="stage">۱ از ۱۰</b></div>
+  <div class="stat"><small>امتیاز</small><b id="score">۰</b></div>
+  <div class="stat"><small>زمان</small><b id="time">۶۰ ثانیه</b></div>
+ </section>
+
+ <section class="timer">
+  <div class="timer-row">
+   <span>⚡ زمان کنترل</span>
+   <span id="timerMini">۶۰ / ۶۰</span>
+  </div>
+  <div class="track"><div class="bar" id="timerBar"></div></div>
+ </section>
+</div>
+
+<section class="card" id="game">
+
+ <div class="progress" id="progress"></div>
+
+ <div class="mission">
+  <small id="missionBadge">پنل ۱</small>
+  <h2 id="missionTitle">پنل ساده</h2>
+  <p>در هر مرحله فقط عملی را بزن که «الان» باید انجام شود.</p>
+ </div>
+
+ <div class="room">
+  <div class="warning-strip">⚠️ &nbsp; CONTROL ROOM &nbsp; ⚠️</div>
+
+  <div class="console">
+   <div class="screen">
+    <small>عبارت فعلی</small>
+    <div class="expression" id="expression"></div>
+   </div>
+
+   <div class="step-status" id="stepStatus"></div>
+
+   <div class="panel-title" id="panelTitle">کدام عملیات باید اول انجام شود؟</div>
+
+   <div class="operation-panel" id="operationPanel"></div>
+
+   <div class="rule-card">
+    🎛️ ترتیب کنترل:
+    پرانتز ← توان و جذر ← ضرب و تقسیم ← جمع و تفریق
+    <br>
+    در عملیات هم‌اولویت، از چپ به راست حرکت می‌کنیم.
+   </div>
+  </div>
+ </div>
+
+ <div class="feedback" id="feedback" aria-live="polite"></div>
+
+ <button type="button" class="next" id="nextBtn">
+  پنل بعدی 🎛️
+ </button>
+
+</section>
+
+<section class="card result" id="resultScreen">
+
+ <div class="trophy">🏆🎛️</div>
+ <h2>نیروگاه نجات پیدا کرد!</h2>
+
+ <div id="resultName"></div>
+
+ <div class="final-score">
+  <span id="finalScore">۰</span>
+  <small>از ۱۰۰ امتیاز</small>
+ </div>
+
+ <div class="result-message" id="resultMessage"></div>
+
+ <div class="board">
+  <h3>🏅 برترین کنترل‌چی‌ها</h3>
+  <div id="leaderboard" class="loading">
+   در حال دریافت رکوردها...
+  </div>
+ </div>
+
+ <button type="button" class="restart" id="restartBtn">
+  🔄 راه‌اندازی دوباره
+ </button>
+
+</section>
+
+<a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
+</main>
+
+<script src="/games/game-sdk.js"></script>
+
+<script>
+const GAME_ID = 19;
+
+const player = GameSDK.init(GAME_ID);
+
+(() => {
+"use strict";
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 60;
+
+const RECENT_KEY = "operation_control_g8_l1_v1";
+const MAX_RECENT = 50;
+
+let questions=[];
+let currentIndex=0;
+let score=0;
+
+let startedAt=0;
+let timerId=null;
+
+let answerChecked=false;
+let gameFinished=false;
+let finishSubmitted=false;
+
+let stepIndex=0;
+
+const $=id=>document.getElementById(id);
+
+const el={
+ hero:$("hero"),
+ statusWrap:$("statusWrap"),
+
+ playerName:$("playerName"),
+ stage:$("stage"),
+ score:$("score"),
+ time:$("time"),
+
+ timerMini:$("timerMini"),
+ timerBar:$("timerBar"),
+
+ game:$("game"),
+ progress:$("progress"),
+ missionBadge:$("missionBadge"),
+ missionTitle:$("missionTitle"),
+
+ expression:$("expression"),
+ stepStatus:$("stepStatus"),
+ panelTitle:$("panelTitle"),
+ operationPanel:$("operationPanel"),
+
+ feedback:$("feedback"),
+ nextBtn:$("nextBtn"),
+
+ resultScreen:$("resultScreen"),
+ resultName:$("resultName"),
+ finalScore:$("finalScore"),
+ resultMessage:$("resultMessage"),
+
+ leaderboard:$("leaderboard"),
+ restartBtn:$("restartBtn")
+};
+
+/* =====================
+   Utilities
+===================== */
+
+function faNumber(value){
+ return String(value)
+  .replace(/-/g,"−")
+  .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+function rand(min,max){
+ return Math.floor(
+  Math.random()*(max-min+1)
+ )+min;
+}
+
+function getRecent(){
+ try{
+  const x=JSON.parse(
+   localStorage.getItem(RECENT_KEY)||"[]"
+  );
+
+  return Array.isArray(x)
+   ?x
+   :[];
+
+ }catch{
+  return [];
+ }
+}
+
+function saveRecent(signatures){
+ try{
+  const old=getRecent();
+
+  const combined=[
+   ...signatures,
+   ...old.filter(
+    x=>!signatures.includes(x)
+   )
+  ].slice(0,MAX_RECENT);
+
+  localStorage.setItem(
+   RECENT_KEY,
+   JSON.stringify(combined)
+  );
+
+ }catch{}
+}
+
+/* =====================
+   Question construction
+
+   sequence:
+   لیست عملیاتی که دانش‌آموز
+   باید به ترتیب فعال کند.
+
+   screens:
+   نمایش عبارت بعد از هر عمل.
+===================== */
+
+function question(
+ title,
+ screens,
+ sequence,
+ signature
+){
+ return {
+  title,
+  screens,
+  sequence,
+  signature
+ };
+}
+
+/*
+ نکته:
+ هدف این بازی «محاسبه جواب» نیست؛
+ پس اعداد عمداً ساده انتخاب شده‌اند.
+ دانش‌آموز باید ترتیب را اجرا کند.
+*/
+
+const generators=[
+
+ /* 1: multiplication before addition */
+ () => {
+  const a=rand(2,8);
+  const b=rand(2,5);
+  const c=rand(2,5);
+
+  const mult=b*c;
+  const result=a+mult;
+
+  return question(
+   "اول ضرب یا جمع؟",
+   [
+    `${a} + ${b} × ${c}`,
+    `${a} + ${mult}`,
+    `${result}`
+   ],
+   ["multiply","add"],
+   `ma-${a}-${b}-${c}`
+  );
+ },
+
+ /* 2: multiplication before subtraction */
+ () => {
+  const a=rand(10,20);
+  const b=rand(2,4);
+  const c=rand(2,4);
+
+  const mult=b*c;
+  const result=a-mult;
+
+  return question(
+   "ضرب وسط راه",
+   [
+    `${a} − ${b} × ${c}`,
+    `${a} − ${mult}`,
+    `${result}`
+   ],
+   ["multiply","subtract"],
+   `ms-${a}-${b}-${c}`
+  );
+ },
+
+ /* 3: division before addition */
+ () => {
+  const divisor=rand(2,5);
+  const quotient=rand(2,6);
+  const dividend=divisor*quotient;
+  const a=rand(2,8);
+
+  return question(
+   "گیربکس تقسیم",
+   [
+    `${a} + ${dividend} ÷ ${divisor}`,
+    `${a} + ${quotient}`,
+    `${a+quotient}`
+   ],
+   ["divide","add"],
+   `da-${a}-${dividend}-${divisor}`
+  );
+ },
+
+ /* 4: parentheses first */
+ () => {
+  const a=rand(2,5);
+  const b=rand(2,5);
+  const c=rand(2,4);
+
+  const inside=a+b;
+  const result=inside*c;
+
+  return question(
+   "پرانتز اضطراری",
+   [
+    `(${a} + ${b}) × ${c}`,
+    `${inside} × ${c}`,
+    `${result}`
+   ],
+   ["parentheses","multiply"],
+   `pm-${a}-${b}-${c}`
+  );
+ },
+
+ /* 5: parentheses then subtraction */
+ () => {
+  const a=rand(5,9);
+  const b=rand(1,4);
+  const c=rand(2,5);
+
+  const inside=a-b;
+  const result=inside+c;
+
+  return question(
+   "قفل داخل پرانتز",
+   [
+    `(${a} − ${b}) + ${c}`,
+    `${inside} + ${c}`,
+    `${result}`
+   ],
+   ["parentheses","add"],
+   `pa-${a}-${b}-${c}`
+  );
+ },
+
+ /* 6: power first, then multiplication, then addition */
+ () => {
+  const a=rand(1,5);
+  const base=rand(2,4);
+  const c=rand(2,4);
+  const power=base*base;
+  const mult=power*c;
+
+  return question(
+   "راکتور توان",
+   [
+    `${a} + ${base}² × ${c}`,
+    `${a} + ${power} × ${c}`,
+    `${a} + ${mult}`,
+    `${a+mult}`
+   ],
+   ["power","multiply","add"],
+   `pow-${a}-${base}-${c}`
+  );
+ },
+
+ /* 7: parenthesis, multiply, add */
+ () => {
+  const a=rand(1,5);
+  const b=rand(2,5);
+  const c=rand(1,4);
+  const d=rand(2,4);
+
+  const inside=b-c;
+  const mult=inside*d;
+  const result=a+mult;
+
+  return question(
+   "سه دستگاه پشت سر هم",
+   [
+    `${a} + (${b} − ${c}) × ${d}`,
+    `${a} + ${inside} × ${d}`,
+    `${a} + ${mult}`,
+    `${result}`
+   ],
+   ["parentheses","multiply","add"],
+   `pma-${a}-${b}-${c}-${d}`
+  );
+ },
+
+ /* 8: multiply and divide same priority, left-to-right */
+ () => {
+  const a=rand(2,4);
+  const b=rand(2,4);
+  const divisor=rand(2,4);
+
+  const product=a*b;
+
+  /*
+    مطمئن می‌شویم product بر divisor بخش‌پذیر باشد.
+  */
+  const adjustedProduct=
+   Math.ceil(product/divisor)*divisor;
+
+  const adjustedB=
+   adjustedProduct/a;
+
+  if(!Number.isInteger(adjustedB) || adjustedB<1 || adjustedB>8){
+   return generators[7]();
+  }
+
+  const result=adjustedProduct/divisor;
+
+  return question(
+   "از چپ به راست!",
+   [
+    `${a} × ${adjustedB} ÷ ${divisor}`,
+    `${adjustedProduct} ÷ ${divisor}`,
+    `${result}`
+   ],
+   ["multiply","divide"],
+   `lrmd-${a}-${adjustedB}-${divisor}`
+  );
+ },
+
+ /* 9: add/subtract same priority, left-to-right */
+ () => {
+  const a=rand(7,15);
+  const b=rand(2,6);
+  const c=rand(1,5);
+
+  const first=a-b;
+  const result=first+c;
+
+  return question(
+   "جمع و تفریق هم‌اولویت",
+   [
+    `${a} − ${b} + ${c}`,
+    `${first} + ${c}`,
+    `${result}`
+   ],
+   ["subtract","add"],
+   `lrsa-${a}-${b}-${c}`
+  );
+ },
+
+ /* 10: comprehensive */
+ () => {
+  const a=rand(2,5);
+  const b=rand(2,4);
+  const c=rand(1,3);
+  const d=rand(2,4);
+  const e=rand(1,4);
+
+  const inside=b+c;
+  const mult=inside*d;
+  const result=a+mult-e;
+
+  return question(
+   "پنل فرماندهی",
+   [
+    `${a} + (${b} + ${c}) × ${d} − ${e}`,
+    `${a} + ${inside} × ${d} − ${e}`,
+    `${a} + ${mult} − ${e}`,
+    `${a+mult} − ${e}`,
+    `${result}`
+   ],
+   ["parentheses","multiply","add","subtract"],
+   `final-${a}-${b}-${c}-${d}-${e}`
+  );
+ }
+];
+
+/* =====================
+   Generate
+===================== */
+
+function generateRound(){
+
+ const recent=
+  new Set(getRecent());
+
+ const made=[];
+
+ for(const generator of generators){
+
+  let candidate=null;
+
+  for(let tries=0;tries<18;tries++){
+
+   const q=generator();
+
+   if(!candidate){
+    candidate=q;
+   }
+
+   if(
+    !recent.has(q.signature) &&
+    !made.some(
+     x=>x.signature===q.signature
+    )
+   ){
+    candidate=q;
+    break;
+   }
+  }
+
+  made.push(candidate);
+ }
+
+ questions=
+  made.slice(0,TOTAL_QUESTIONS);
+
+ saveRecent(
+  questions.map(
+   q=>q.signature
+  )
+ );
+}
+
+/* =====================
+   Timer
+===================== */
+
+function remainingMs(){
+
+ return Math.max(
+  0,
+  QUESTION_TIME*1000-
+  (Date.now()-startedAt)
+ );
+}
+
+function scoreForTime(seconds){
+
+ if(seconds<=15) return 10;
+ if(seconds<=25) return 8;
+ if(seconds<=35) return 6;
+ if(seconds<=45) return 4;
+ if(seconds<60) return 2;
+
+ return 0;
+}
+
+function stopTimer(){
+
+ if(timerId!==null){
+
+  clearInterval(timerId);
+
+  timerId=null;
+ }
+}
+
+function startTimer(){
+
+ stopTimer();
+
+ startedAt=Date.now();
+
+ updateTimer();
+
+ timerId=setInterval(
+  updateTimer,
+  150
+ );
+}
+
+function updateTimer(){
+
+ const ms=remainingMs();
+
+ const seconds=
+  Math.max(
+   0,
+   Math.ceil(ms/1000)
+  );
+
+ const ratio=
+  ms/(QUESTION_TIME*1000);
+
+ el.time.textContent=
+  `${faNumber(seconds)} ثانیه`;
+
+ el.timerMini.textContent=
+  `${faNumber(seconds)} / ${faNumber(QUESTION_TIME)}`;
+
+ el.timerBar.style.width=
+  `${Math.max(0,ratio*100)}%`;
+
+ if(ratio>.5){
+
+  el.timerBar.style.background=
+   "var(--green)";
+
+ }else if(ratio>.2){
+
+  el.timerBar.style.background=
+   "var(--yellow)";
+
+ }else{
+
+  el.timerBar.style.background=
+   "var(--red)";
+ }
+
+ if(
+  ms<=0 &&
+  !answerChecked &&
+  !gameFinished
+ ){
+  handleTimeout();
+ }
+}
+
+/* =====================
+   Progress
+===================== */
+
+function renderProgress(){
+
+ el.progress.innerHTML="";
+
+ for(
+  let i=0;
+  i<TOTAL_QUESTIONS;
+  i++
+ ){
+
+  const p=
+   document.createElement("span");
+
+  p.className="pstep";
+
+  if(i<currentIndex){
+
+   p.classList.add("done");
+
+  }else if(i===currentIndex){
+
+   p.classList.add("now");
+  }
+
+  el.progress.appendChild(p);
+ }
+}
+
+function renderStepStatus(q){
+
+ el.stepStatus.innerHTML="";
+
+ q.sequence.forEach(
+  (operation,index)=>{
+
+   const lamp=
+    document.createElement("span");
+
+   lamp.className="lamp";
+
+   if(index<stepIndex){
+
+    lamp.classList.add("done");
+
+   }else if(index===stepIndex){
+
+    lamp.classList.add("now");
+   }
+
+   el.stepStatus.appendChild(lamp);
+  }
+ );
+
+ const text=
+  document.createElement("span");
+
+ text.textContent=
+  `مرحله ${faNumber(Math.min(stepIndex+1,q.sequence.length))} از ${faNumber(q.sequence.length)}`;
+
+ el.stepStatus.appendChild(text);
+}
+
+/* =====================
+   Operation labels
+===================== */
+
+const OPERATIONS={
+ parentheses:"( ) پرانتز",
+ power:"² توان",
+ multiply:"× ضرب",
+ divide:"÷ تقسیم",
+ add:"+ جمع",
+ subtract:"− تفریق"
+};
+
+function allAvailableChoices(q){
+
+ /*
+   عملیات صحیح فعلی + چند گزینه‌ای
+   که در عبارت مفهوم دارند.
+ */
+
+ const current=
+  q.sequence[stepIndex];
+
+ const set=
+  new Set([current]);
+
+ const pool=[
+  "parentheses",
+  "power",
+  "multiply",
+  "divide",
+  "add",
+  "subtract"
+ ];
+
+ /*
+   حداکثر چهار کنترل، تا رابط ساده بماند.
+ */
+ for(const op of pool){
+
+  if(
+   q.sequence.includes(op) &&
+   op!==current
+  ){
+   set.add(op);
+  }
+
+  if(set.size>=3){
+   break;
+  }
+ }
+
+ for(const op of pool){
+
+  if(set.size>=3){
+   break;
+  }
+
+  if(op!==current){
+   set.add(op);
+  }
+ }
+
+ return [...set]
+  .sort(()=>Math.random()-.5)
+  .slice(0,3);
+}
+
+/* =====================
+   Render
+===================== */
+
+function renderQuestion(){
+
+ stopTimer();
+
+ answerChecked=false;
+ stepIndex=0;
+
+ const q=
+  questions[currentIndex];
+
+ el.stage.textContent=
+  `${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
+
+ el.score.textContent=
+  faNumber(score);
+
+ el.missionBadge.textContent=
+  `پنل ${faNumber(currentIndex+1)}`;
+
+ el.missionTitle.textContent=
+  q.title;
+
+ el.feedback.className=
+  "feedback";
+
+ el.feedback.innerHTML="";
+
+ el.nextBtn.style.display=
+  "none";
+
+ renderProgress();
+
+ renderCurrentStep();
+
+ startTimer();
+}
+
+function renderCurrentStep(){
+
+ const q=
+  questions[currentIndex];
+
+ el.expression.textContent=
+  faNumber(q.screens[stepIndex]);
+
+ renderStepStatus(q);
+
+ if(
+  stepIndex>=
+  q.sequence.length
+ ){
+
+  completeQuestion();
+
+  return;
+ }
+
+ el.panelTitle.textContent=
+  stepIndex===0
+   ?"کدام دستگاه باید اول روشن شود؟"
+   :"حالا نوبت کدام دستگاه است؟";
+
+ el.operationPanel.innerHTML="";
+
+ const choices=
+  allAvailableChoices(q);
+
+ choices.forEach(operation=>{
+
+  const btn=
+   document.createElement("button");
+
+  btn.type="button";
+  btn.className="op-btn";
+
+  btn.dataset.operation=
+   operation;
+
+  btn.textContent=
+   OPERATIONS[operation];
+
+  btn.addEventListener(
+   "click",
+   ()=>operationClicked(
+    operation,
+    btn
+   )
+  );
+
+  el.operationPanel.appendChild(btn);
+ });
+}
+
+/* =====================
+   Interaction
+===================== */
+
+function operationClicked(
+ operation,
+ btn
+){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+ if(remainingMs()<=0){
+
+  handleTimeout();
+
+  return;
+ }
+
+ const q=
+  questions[currentIndex];
+
+ const expected=
+  q.sequence[stepIndex];
+
+ if(operation!==expected){
+
+  /*
+    عمل کوچک پاسخ نهایی نیست.
+    انتخاب اشتباه فقط بازخورد فوری دارد،
+    سؤال را تمام نمی‌کند و امتیاز را
+    همین‌جا قفل نمی‌کند.
+  */
+
+  btn.classList.add("wrong");
+  btn.disabled=true;
+
+  el.panelTitle.textContent=
+   hintFor(expected);
+
+  return;
+ }
+
+ btn.classList.add("correct");
+
+ /*
+   مرحله درست اجرا شد.
+ */
+ stepIndex++;
+
+ if(
+  stepIndex<
+  q.screens.length
+ ){
+  el.expression.textContent=
+   faNumber(q.screens[stepIndex]);
+ }
+
+ renderStepStatus(q);
+
+ setTimeout(
+  ()=>{
+   if(
+    !answerChecked &&
+    !gameFinished
+   ){
+    renderCurrentStep();
+   }
+  },
+  180
+ );
+}
+
+function hintFor(expected){
+
+ switch(expected){
+
+  case "parentheses":
+   return "اول داخل پرانتز را بررسی کن.";
+
+  case "power":
+   return "توان و جذر پیش از ضرب و جمع هستند.";
+
+  case "multiply":
+   return "ضرب قبل از جمع و تفریق است.";
+
+  case "divide":
+   return "تقسیم قبل از جمع و تفریق است.";
+
+  case "add":
+   return "عملیات پر‌اولویت‌تر تمام شده؛ حالا از چپ به راست.";
+
+  case "subtract":
+   return "عملیات پر‌اولویت‌تر تمام شده؛ حالا از چپ به راست.";
+
+  default:
+   return "ترتیب عملیات را دوباره نگاه کن.";
+ }
+}
+
+/* =====================
+   Complete
+===================== */
+
+function completeQuestion(){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+ answerChecked=true;
+
+ stopTimer();
+
+ el.operationPanel.innerHTML="";
+
+ el.panelTitle.textContent=
+  "✅ پنل با ترتیب درست اجرا شد!";
+
+ const q=
+  questions[currentIndex];
+
+ el.expression.textContent=
+  faNumber(
+   q.screens[
+    q.screens.length-1
+   ]
+  );
+
+ const elapsed=
+  Math.min(
+   QUESTION_TIME,
+   (Date.now()-startedAt)/1000
+  );
+
+ const gained=
+  scoreForTime(elapsed);
+
+ score=
+  Math.min(
+   100,
+   score+gained
+  );
+
+ el.score.textContent=
+  faNumber(score);
+
+ el.feedback.className=
+  "feedback good";
+
+ el.feedback.innerHTML=
+  `✅ <strong>عالی! +${faNumber(gained)} امتیاز</strong><br>`+
+  explanationFor(q);
+
+ showNext();
+}
+
+function explanationFor(q){
+
+ if(
+  q.sequence[0]==="parentheses"
+ ){
+  return "ابتدا پرانتز انجام شد؛ سپس عملیات باقی‌مانده بر اساس اولویت و از چپ به راست اجرا شدند.";
+ }
+
+ if(
+  q.sequence[0]==="power"
+ ){
+  return "توان پیش از ضرب و جمع انجام شد؛ سپس ضرب و در پایان جمع اجرا شد.";
+ }
+
+ if(
+  q.title.includes("چپ")
+ ){
+  return "وقتی ضرب و تقسیم هم‌اولویت‌اند، از چپ به راست پیش می‌رویم.";
+ }
+
+ if(
+  q.title.includes("هم‌اولویت")
+ ){
+  return "جمع و تفریق هم‌اولویت‌اند؛ بنابراین از چپ به راست انجام می‌شوند.";
+ }
+
+ return "ضرب و تقسیم پیش از جمع و تفریق انجام می‌شوند.";
+}
+
+/* =====================
+   Timeout
+===================== */
+
+function revealExpected(){
+
+ const q=
+  questions[currentIndex];
+
+ if(
+  stepIndex>=q.sequence.length
+ ){
+  return;
+ }
+
+ const expected=
+  q.sequence[stepIndex];
+
+ el.operationPanel
+  .querySelectorAll(
+   ".op-btn"
+  )
+  .forEach(btn=>{
+
+   btn.disabled=true;
+
+   if(
+    btn.dataset.operation===
+    expected
+   ){
+    btn.classList.add(
+     "correct"
+    );
+   }
+  });
+}
+
+function handleTimeout(){
+
+ if(
+  answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+ answerChecked=true;
+
+ stopTimer();
+
+ revealExpected();
+
+ const q=
+  questions[currentIndex];
+
+ el.time.textContent=
+  "۰ ثانیه";
+
+ el.timerMini.textContent=
+  `۰ / ${faNumber(QUESTION_TIME)}`;
+
+ el.timerBar.style.width=
+  "0%";
+
+ el.timerBar.style.background=
+  "var(--red)";
+
+ el.feedback.className=
+  "feedback time";
+
+ el.feedback.innerHTML=
+  `⏰ <strong>زمان تمام شد.</strong><br>`+
+  `در این مرحله باید «${OPERATIONS[q.sequence[Math.min(stepIndex,q.sequence.length-1)]]}» را اجرا می‌کردی. `+
+  explanationFor(q);
+
+ showNext();
+}
+
+/* =====================
+   Next
+===================== */
+
+function showNext(){
+
+ el.nextBtn.style.display=
+  "block";
+
+ el.nextBtn.textContent=
+  currentIndex===
+  TOTAL_QUESTIONS-1
+   ?"🚨 نجات نیروگاه"
+   :"پنل بعدی 🎛️";
+}
+
+function nextQuestion(){
+
+ if(
+  !answerChecked ||
+  gameFinished
+ ){
+  return;
+ }
+
+ if(
+  currentIndex===
+  TOTAL_QUESTIONS-1
+ ){
+
+  finishGame();
+
+  return;
+ }
+
+ currentIndex++;
+
+ renderQuestion();
+}
+
+/* =====================
+   Finish game
+===================== */
+
+async function finishGame(){
+
+ if(gameFinished){
+  return;
+ }
+
+ gameFinished=true;
+
+ stopTimer();
+
+ score=
+  Math.min(
+   100,
+   score
+  );
+
+ el.game.classList.add(
+  "hidden"
+ );
+
+ el.hero.classList.add(
+  "hidden"
+ );
+
+ el.statusWrap.classList.add(
+  "hidden"
+ );
+
+ el.resultScreen.classList.add(
+  "show"
+ );
+
+ const name=
+  player.playerName ||
+  "بازیکن";
+
+ el.resultName.textContent=
+  `${name}، همه پنل‌ها به ترتیب درست فعال شدند.`;
+
+ el.finalScore.textContent=
+  faNumber(score);
+
+ if(score>=90){
+
+  el.resultMessage.textContent=
+   "عالی بود! 🌟 فرمانده اتاق کنترل شدی!";
+
+ }else if(score>=70){
+
+  el.resultMessage.textContent=
+   "خیلی خوب بود 👏 ترتیب عملیات را خوب کنترل کردی.";
+
+ }else if(score>=50){
+
+  el.resultMessage.textContent=
+   "خوب بود، ادامه بده 💪 اولویت عملیات را کمی بیشتر تمرین کن.";
+
+ }else{
+
+  el.resultMessage.textContent=
+   "دوباره تلاش کن 🌱 پرانتز، توان، ضرب و تقسیم، سپس جمع و تفریق.";
+ }
+
+ if(!finishSubmitted){
+
+  finishSubmitted=true;
+
+  try{
+
+   const result=
+    await GameSDK.finishGame(
+     score
+    );
+
+   void result;
+
+  }catch(error){
+
+   console.error(
+    "finishGame failed:",
+    error
+   );
+  }
+ }
+
+ await loadLeaderboard();
+}
+
+/* =====================
+   Leaderboard
+===================== */
+
+async function loadLeaderboard(){
+
+ el.leaderboard.className=
+  "loading";
+
+ el.leaderboard.textContent=
+  "در حال دریافت رکوردها...";
+
+ try{
+
+  const scores=
+   await GameSDK.getLeaderboard(
+    10
+   );
+
+  const list=
+   Array.isArray(scores)
+    ?scores
+    :[];
+
+  el.leaderboard.className="";
+  el.leaderboard.innerHTML="";
+
+  if(!list.length){
+
+   el.leaderboard.className=
+    "loading";
+
+   el.leaderboard.textContent=
+    "هنوز رکوردی برای نمایش وجود ندارد.";
+
+   return;
+  }
+
+  list
+   .slice(0,10)
+   .forEach(
+    (item,index)=>{
+
+     const row=
+      document.createElement(
+       "div"
+      );
+
+     row.className="rank";
+
+     const rank=
+      document.createElement(
+       "span"
+      );
+
+     if(index===0){
+
+      rank.textContent="🥇";
+
+     }else if(index===1){
+
+      rank.textContent="🥈";
+
+     }else if(index===2){
+
+      rank.textContent="🥉";
+
+     }else{
+
+      rank.textContent=
+       `${faNumber(index+1)}.`;
+     }
+
+     const name=
+      document.createElement(
+       "span"
+      );
+
+     name.className=
+      "rank-name";
+
+     name.textContent=
+      item.playerName ??
+      item.name ??
+      item.username ??
+      "بازیکن";
+
+     const points=
+      document.createElement(
+       "span"
+      );
+
+     points.className=
+      "rank-score";
+
+     points.textContent=
+      `${faNumber(item.score ?? 0)} امتیاز`;
+
+     row.append(
+      rank,
+      name,
+      points
+     );
+
+     el.leaderboard.appendChild(
+      row
+     );
+    }
+   );
+
+ }catch(error){
+
+  console.error(
+   "Leaderboard failed:",
+   error
+  );
+
+  el.leaderboard.className=
+   "loading";
+
+  el.leaderboard.textContent=
+   "دریافت جدول برترین‌ها ممکن نشد.";
+ }
+}
+
+/* =====================
+   Restart
+===================== */
+
+function restartGame(){
+
+ stopTimer();
+
+ GameSDK.reset();
+
+ questions=[];
+
+ currentIndex=0;
+ score=0;
+
+ startedAt=0;
+ timerId=null;
+
+ answerChecked=false;
+ gameFinished=false;
+ finishSubmitted=false;
+
+ stepIndex=0;
+
+ el.score.textContent="۰";
+
+ el.resultScreen.classList.remove(
+  "show"
+ );
+
+ el.game.classList.remove(
+  "hidden"
+ );
+
+ el.hero.classList.remove(
+  "hidden"
+ );
+
+ el.statusWrap.classList.remove(
+  "hidden"
+ );
+
+ generateRound();
+
+ if(
+  questions.length!==
+  TOTAL_QUESTIONS
+ ){
+  throw new Error(
+   "Exactly 10 questions are required."
+  );
+ }
+
+ renderQuestion();
+}
+
+/* =====================
+   Events / Start
+===================== */
+
+el.nextBtn.addEventListener(
+ "click",
+ nextQuestion
+);
+
+el.restartBtn.addEventListener(
+ "click",
+ restartGame
+);
+
+el.playerName.textContent=
+ player.playerName ||
+ "بازیکن";
+
+generateRound();
+
+if(
+ questions.length!==
+ TOTAL_QUESTIONS
+){
+ throw new Error(
+  "Exactly 10 questions are required."
+ );
+}
+
+renderQuestion();
+
+})();
+</script>
+
+</body>
+</html>
