@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>کارگاه کسرها 🧩🔧 | ریاضی هشتم</title>
+<style>
+:root{
+ --purple:#7758d7;--blue:#3f82ec;--pink:#ea6ca4;--yellow:#f6c645;
+ --green:#29ad78;--red:#e55262;--ink:#29324b;--muted:#6e7690;
+ --bg:#f5f5fc;--paper:#fff;--line:#dddced;
+ --shadow:0 10px 28px rgba(60,52,112,.12)
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;overflow-x:hidden}
+body{
+ font-family:Tahoma,Arial,sans-serif;color:var(--ink);line-height:1.65;
+ background:
+ radial-gradient(circle at 12% 5%,#e7e2ff 0,transparent 27%),
+ radial-gradient(circle at 91% 14%,#dcf4ff 0,transparent 25%),
+ #f7f7fc
+}
+button{font:inherit}
+button:focus-visible{outline:3px solid #267be5;outline-offset:3px}
+.app{width:min(100%,900px);margin:auto;padding:14px 12px 30px}
+
+.header{
+ background:linear-gradient(135deg,#7655d7,#3e85e9);
+ border-radius:22px;padding:16px;color:#fff;box-shadow:var(--shadow)
+}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
+.badge{
+ background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.25);
+ border-radius:99px;padding:3px 9px;font-size:11px;font-weight:bold
+}
+h1{margin:8px 0 2px;font-size:clamp(23px,6vw,34px)}
+.subtitle{margin:0;color:#f2efff;font-size:13px}
+.status{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
+.status-card{
+ min-width:0;background:#fff;color:var(--ink);border-radius:13px;
+ text-align:center;padding:6px 3px
+}
+.status-card small{display:block;color:var(--muted);font-size:10px}
+.status-card strong{
+ display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.timer-box{background:rgba(255,255,255,.15);padding:7px;border-radius:13px;margin-top:9px}
+.timer-head{display:flex;justify-content:space-between;font-size:12px}
+.timer-track{height:9px;background:rgba(255,255,255,.22);border-radius:99px;overflow:hidden;margin-top:5px}
+.timer-fill{height:100%;width:100%;background:#51dd91;border-radius:inherit;transition:width .15s linear,background .2s}
+
+.game-card{
+ background:#fff;border-radius:22px;margin-top:13px;padding:15px;
+ box-shadow:var(--shadow);min-height:475px
+}
+.topline{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.level{font-size:12px;font-weight:bold;border-radius:99px;padding:4px 10px;background:#eaf8ef;color:#18794e}
+.level.master{background:#fff3ca;color:#916600}
+.level.challenge{background:#ffe9ee;color:#bd3750}
+
+.prompt{
+ font-size:clamp(16px,4.5vw,20px);font-weight:bold;
+ text-align:center;margin:16px auto 4px;max-width:680px
+}
+.hint{text-align:center;color:var(--muted);font-size:12px;margin-bottom:13px}
+
+.workbench{
+ max-width:700px;margin:12px auto;padding:16px 10px;
+ border:2px solid #d9d9ed;border-radius:20px;
+ background:
+ linear-gradient(135deg,rgba(117,85,215,.04),rgba(63,130,236,.05)),
+ #fbfbff;
+ position:relative;overflow:hidden
+}
+.workbench::before{
+ content:"🔧";position:absolute;left:10px;top:4px;font-size:31px;opacity:.13;
+ transform:rotate(-20deg)
+}
+.machine-label{text-align:center;color:#6a6e87;font-size:12px;font-weight:bold}
+.equation{
+ direction:ltr;unicode-bidi:isolate;display:flex;align-items:center;
+ justify-content:center;gap:11px;flex-wrap:wrap;
+ min-height:110px;margin:5px 0;font-size:25px;font-weight:bold
+}
+.frac{
+ display:inline-flex;flex-direction:column;align-items:stretch;
+ text-align:center;direction:ltr;unicode-bidi:isolate;
+ vertical-align:middle;min-width:48px;line-height:1.08
+}
+.frac .num{border-bottom:2px solid currentColor;padding:3px 7px 5px}
+.frac .den{padding:5px 7px 3px}
+.frac.big{font-size:26px}
+.frac.editable .num,.frac.editable .den{min-width:58px}
+
+.slot{
+ display:inline-flex;align-items:center;justify-content:center;
+ min-width:48px;min-height:37px;border:2px dashed #927ce1;
+ background:#f0edff;color:#684ac8;border-radius:9px;padding:2px 6px
+}
+.slot.filled{border-style:solid;background:#e8f8ef;border-color:#69bd8d;color:#216b45}
+
+.factor-view{
+ direction:ltr;display:flex;align-items:center;justify-content:center;
+ gap:8px;flex-wrap:wrap;margin:8px 0 1px
+}
+.gear{
+ padding:6px 10px;background:#edf5ff;border:1px solid #b9d8f8;
+ border-radius:12px;color:#326da6;font-size:13px;font-weight:bold
+}
+.arrow{color:#8c82a6;font-size:19px}
+
+.controls{
+ border-top:1px dashed #d7d6e6;margin-top:11px;padding-top:13px
+}
+.control-title{text-align:center;font-size:12px;color:var(--muted);margin-bottom:8px}
+.chips{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}
+.chip{
+ border:2px solid #ddd9ee;background:#fff;color:var(--ink);
+ border-radius:13px;min-width:55px;min-height:45px;padding:6px 11px;
+ font-size:16px;font-weight:bold;cursor:pointer
+}
+.chip.selected{
+ background:#eeeaff;border-color:var(--purple);color:#6443c8;transform:translateY(-2px)
+}
+.chip:disabled{opacity:.45;cursor:not-allowed}
+
+.two-actions{
+ display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:450px;margin:0 auto
+}
+.operation-btn{
+ border:2px solid #d7d5e8;background:#fff;border-radius:14px;
+ min-height:50px;font-weight:bold;color:#404960
+}
+.operation-btn.selected{border-color:#7655d7;background:#eeeaff;color:#6142c5}
+
+.action-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn{border:0;border-radius:14px;min-height:48px;padding:9px 18px;font-weight:bold;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,#7556d6,#4482e8);color:#fff}
+.btn-secondary{background:#edf0f6;color:#3c465d}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+.feedback{display:none;border-radius:14px;padding:11px 13px;margin-top:13px;font-size:14px}
+.feedback.show{display:block}
+.feedback.good{background:#e8f8ef;border:1px solid #a8ddbf;color:#176b43}
+.feedback.bad{background:#ffebee;border:1px solid #efb3bd;color:#a52b40}
+.feedback.timeout{background:#fff3da;border:1px solid #e8ca85;color:#835c00}
+.feedback strong{display:block}
+
+.result{display:none;text-align:center}
+.result.show{display:block}
+.score-circle{
+ width:128px;height:128px;border-radius:50%;margin:17px auto;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ background:linear-gradient(135deg,#e7e1ff,#daf3ff);
+ border:7px solid white;box-shadow:0 0 0 3px #7656d6
+}
+.score-circle strong{font-size:35px;color:#6544cf}
+.score-circle small{color:#667}
+.leaderboard{max-width:530px;margin:18px auto;background:#f8f8fc;border-radius:16px;padding:10px;text-align:right}
+.leader-row{display:flex;justify-content:space-between;gap:8px;padding:8px 6px;border-bottom:1px solid #e2e2ec}
+.leader-row:last-child{border-bottom:0}
+.back{display:block;text-align:center;margin:17px auto;color:#604bbc;font-weight:bold;text-decoration:none}
+.error{color:#ad3045;text-align:center;font-size:12px}
+
+.pulse{animation:pulse .28s ease}
+.shake{animation:shake .28s ease}
+@keyframes pulse{50%{transform:scale(1.025)}}
+@keyframes shake{25%{transform:translateX(4px)}50%{transform:translateX(-4px)}75%{transform:translateX(3px)}}
+
+@media(min-width:650px){
+ .app{padding:22px 18px 40px}.header{padding:20px}.game-card{padding:22px}
+ .workbench{padding:21px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{
+  animation-duration:.001ms!important;animation-iteration-count:1!important;
+  transition-duration:.001ms!important;scroll-behavior:auto!important
+ }
+}
+</style>
+</head>
+<body>
+
+<main class="app">
+<header class="header">
+ <div class="badges">
+  <span class="badge">پایه هشتم</span>
+  <span class="badge">فصل ۱</span>
+  <span class="badge">عددهای گویا</span>
+ </div>
+ <h1>کارگاه کسرها 🧩🔧</h1>
+ <p class="subtitle">نمایش کسر را تعمیر کن، بدون اینکه مقدارش عوض شود.</p>
+
+ <div class="status">
+  <div class="status-card"><small>بازیکن</small><strong id="playerName">...</strong></div>
+  <div class="status-card"><small>مأموریت</small><strong id="missionStatus">۱ از ۱۰</strong></div>
+  <div class="status-card"><small>امتیاز</small><strong id="scoreStatus">۰ از ۱۰۰</strong></div>
+ </div>
+
+ <div class="timer-box">
+  <div class="timer-head">
+   <span>⏱ زمان باقی‌مانده</span>
+   <strong id="timeText">۳۰ ثانیه</strong>
+  </div>
+  <div class="timer-track"><div class="timer-fill" id="timerFill"></div></div>
+ </div>
+</header>
+
+<section class="game-card" id="gameCard">
+ <div id="playArea">
+  <div class="topline">
+   <span class="level" id="levelBadge">🟢 پایه</span>
+   <span style="font-size:12px;color:#707890">مقدار کسر باید ثابت بماند 🧩</span>
+  </div>
+
+  <div class="prompt" id="prompt"></div>
+  <div class="hint" id="hint"></div>
+
+  <div class="workbench">
+   <div class="machine-label" id="machineLabel">میز کار</div>
+   <div class="equation" id="equation"></div>
+   <div class="factor-view" id="factorView"></div>
+
+   <div class="controls" id="controls">
+    <div class="control-title" id="controlTitle"></div>
+    <div class="chips" id="chips"></div>
+    <div class="two-actions" id="twoActions" hidden></div>
+   </div>
+  </div>
+
+  <div class="action-row">
+   <button class="btn btn-secondary" id="resetWorkBtn" type="button">↩ بازنشانی</button>
+   <button class="btn btn-primary" id="checkBtn" type="button">ثبت تعمیر</button>
+   <button class="btn btn-primary" id="nextBtn" type="button" hidden>مأموریت بعدی</button>
+  </div>
+
+  <div class="feedback" id="feedback" aria-live="polite"></div>
+ </div>
+
+ <div class="result" id="resultArea">
+  <div style="font-size:48px">🛠️🏆</div>
+  <h2>کارگاه با موفقیت بسته شد!</h2>
+  <p id="resultName"></p>
+  <div class="score-circle">
+   <strong id="finalScore">۰</strong>
+   <small>از ۱۰۰</small>
+  </div>
+  <p id="resultMessage"></p>
+  <button class="btn btn-primary" id="restartBtn" type="button">🔄 بازی دوباره</button>
+
+  <div class="leaderboard">
+   <h3 style="text-align:center;margin:5px">🏆 استادکارهای برتر</h3>
+   <div id="leaderRows">در حال دریافت...</div>
+  </div>
+ </div>
+</section>
+
+<a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
+</main>
+
+<script src="/games/game-sdk.js"></script>
+<script>
+"use strict";
+
+const GAME_ID = 24;
+const player = GameSDK.init(GAME_ID);
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 30;
+const RECENT_KEY = "fractionWorkshopRecent";
+const MAX_RECENT_SIGNATURES = 40;
+
+let questions=[];
+let currentIndex=0;
+let score=0;
+let answerChecked=false;
+let gameFinished=false;
+let finishSubmitted=false;
+let interactionState={};
+let timerInterval=null;
+let questionStartedAt=0;
+let questionDeadline=0;
+let recentSignatures=loadRecent();
+
+const $=id=>document.getElementById(id);
+
+$("playerName").textContent=player.playerName || "بازیکن";
+
+function faNumber(v){
+ return String(v)
+  .replace(/\./g,"٫")
+  .replace(/-/g,"−")
+  .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+function gcd(a,b){
+ a=Math.abs(a);b=Math.abs(b);
+ while(b){const t=b;b=a%b;a=t}
+ return a||1;
+}
+
+function normalize(n,d){
+ if(d<0){n=-n;d=-d}
+ return {n,d};
+}
+
+function simplify(n,d){
+ const x=normalize(n,d);
+ const g=gcd(x.n,x.d);
+ return {n:x.n/g,d:x.d/g};
+}
+
+function sameFraction(a,b){
+ return a.n*b.d===b.n*a.d;
+}
+
+function isSimplest(f){
+ return gcd(f.n,f.d)===1;
+}
+
+function fracHTML(f,editableNum=false,editableDen=false){
+ const x=normalize(f.n,f.d);
+ const sign=x.n<0?"−":"";
+ const num=editableNum
+  ? `<span class="slot" id="numSlot">؟</span>`
+  : faNumber(Math.abs(x.n));
+ const den=editableDen
+  ? `<span class="slot" id="denSlot">؟</span>`
+  : faNumber(x.d);
+
+ return `${sign}<span class="frac big">
+   <span class="num">${num}</span>
+   <span class="den">${den}</span>
+ </span>`;
+}
+
+function plainFrac(f){
+ const x=normalize(f.n,f.d);
+ if(x.d===1)return faNumber(x.n);
+ return `${x.n<0?"−":""}${faNumber(Math.abs(x.n))}/${faNumber(x.d)}`;
+}
+
+function randInt(a,b){
+ return Math.floor(Math.random()*(b-a+1))+a;
+}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+
+function shuffle(a){
+ const b=[...a];
+ for(let i=b.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [b[i],b[j]]=[b[j],b[i]];
+ }
+ return b;
+}
+
+function loadRecent(){
+ try{
+  const a=JSON.parse(localStorage.getItem(RECENT_KEY)||"[]");
+  return Array.isArray(a)?a.slice(-MAX_RECENT_SIGNATURES):[];
+ }catch(e){return[]}
+}
+
+function storeRecent(qs){
+ recentSignatures=[...recentSignatures,...qs.map(q=>q.signature)].slice(-MAX_RECENT_SIGNATURES);
+ try{localStorage.setItem(RECENT_KEY,JSON.stringify(recentSignatures))}catch(e){}
+}
+
+/* ---------- Question generators ---------- */
+
+function genScaleUp(){
+ let n=randInt(1,8),d=randInt(2,10);
+ while(gcd(n,d)!==1 || n===d){n=randInt(1,8);d=randInt(2,10)}
+ if(Math.random()<.35)n=-n;
+ const k=pick([2,3,4,5]);
+ return {
+  type:"factor",level:1,base:{n,d},target:{n:n*k,d:d*k},operation:"multiply",answer:k,
+  prompt:"با چه ضریبی باید صورت و مخرج را تغییر بدهی تا کسر سمت راست ساخته شود؟",
+  hint:"برای ثابت ماندن مقدار کسر، صورت و مخرج باید در یک عدد یکسان ضرب شوند.",
+  explanation:`صورت و مخرج هر دو در ${faNumber(k)} ضرب شده‌اند؛ پس مقدار کسر تغییر نکرده است.`,
+  signature:`up-${n}-${d}-${k}`
+ };
+}
+
+function genScaleDown(){
+ const a=randInt(1,8),b=randInt(2,9);
+ const k=pick([2,3,4,5]);
+ let n=a*k,d=b*k;
+ if(Math.random()<.35)n=-n;
+ return {
+  type:"factor",level:1,base:{n,d},target:{n:n/k,d:d/k},operation:"divide",answer:k,
+  prompt:"کدام تقسیم مشترک، کسر سمت چپ را به کسر سمت راست تبدیل می‌کند؟",
+  hint:"صورت و مخرج را بر یک عدد غیرصفر یکسان تقسیم کن.",
+  explanation:`صورت و مخرج هر دو بر ${faNumber(k)} تقسیم شده‌اند؛ بنابراین دو کسر مساوی‌اند.`,
+  signature:`down-${n}-${d}-${k}`
+ };
+}
+
+function genMissingNumerator(){
+ let n=randInt(1,8),d=randInt(2,10);
+ while(gcd(n,d)!==1){n=randInt(1,8);d=randInt(2,10)}
+ if(Math.random()<.4)n=-n;
+ const k=pick([2,3,4,5]);
+ return {
+  type:"missingNum",level:1,left:{n,d},right:{n:n*k,d:d*k},answer:n*k,
+  prompt:"قطعه گمشده صورت را بساز تا دو کسر مساوی شوند.",
+  hint:`مخرج از ${faNumber(d)} به ${faNumber(d*k)} رسیده؛ همان تغییر را روی صورت انجام بده.`,
+  explanation:`مخرج در ${faNumber(k)} ضرب شده، پس صورت هم باید در ${faNumber(k)} ضرب شود.`,
+  signature:`mn-${n}-${d}-${k}`
+ };
+}
+
+function genMissingDenominator(){
+ let n=randInt(1,8),d=randInt(2,10);
+ while(gcd(n,d)!==1){n=randInt(1,8);d=randInt(2,10)}
+ if(Math.random()<.35)n=-n;
+ const k=pick([2,3,4,5]);
+ return {
+  type:"missingDen",level:1,left:{n,d},right:{n:n*k,d:d*k},answer:d*k,
+  prompt:"مخرج گمشده را پیدا کن تا مقدار کسر عوض نشود.",
+  hint:`صورت در ${faNumber(k)} ضرب شده؛ مخرج هم باید دقیقاً همین تغییر را داشته باشد.`,
+  explanation:`چون صورت در ${faNumber(k)} ضرب شده است، مخرج نیز باید در ${faNumber(k)} ضرب شود.`,
+  signature:`md-${n}-${d}-${k}`
+ };
+}
+
+function genSimplify(){
+ const bases=[
+  [3,4,12],[2,5,9],[5,7,6],[4,9,8],[7,11,5],[3,8,10],
+  [5,6,7],[7,9,4]
+ ];
+ const [a,b,k]=pick(bases);
+ const sign=Math.random()<.4?-1:1;
+ return {
+  type:"simplify",level:2,base:{n:sign*a*k,d:b*k},target:{n:sign*a,d:b},answer:k,
+  prompt:"کسر را در یک حرکت تا ساده‌ترین حالت تعمیر کن.",
+  hint:"بزرگ‌ترین عددی را پیدا کن که صورت و مخرج هر دو بر آن بخش‌پذیر باشند.",
+  explanation:`ب.م.م صورت و مخرج ${faNumber(k)} است. با تقسیم هر دو بر ${faNumber(k)}، کسر به ساده‌ترین صورت می‌رسد.`,
+  signature:`simp-${sign*a*k}-${b*k}`
+ };
+}
+
+function genChooseEquivalent(){
+ let n=randInt(1,7),d=randInt(2,9);
+ while(gcd(n,d)!==1 || n===d){n=randInt(1,7);d=randInt(2,9)}
+ if(Math.random()<.4)n=-n;
+ const k=pick([2,3,4]);
+ const correct={n:n*k,d:d*k};
+ const wrong1={n:n*k,d:d};
+ const wrong2={n:n+k,d:d+k};
+ const wrong3={n:n*k,d:d*(k+1)};
+ return {
+  type:"chooseFraction",level:2,base:{n,d},
+  choices:shuffle([correct,wrong1,wrong2,wrong3]),correct,
+  prompt:"کدام قطعه می‌تواند جایگزین کسر اصلی شود بدون اینکه مقدار آن تغییر کند؟",
+  hint:"در کسر مساوی، صورت و مخرج با یک ضریب یکسان تغییر می‌کنند.",
+  explanation:`کسر ${plainFrac(correct)} با ضرب صورت و مخرج کسر اصلی در ${faNumber(k)} ساخته شده است.`,
+  signature:`eq-${n}-${d}-${k}`
+ };
+}
+
+function genDetectRepair(){
+ let n=randInt(1,8),d=randInt(2,9);
+ while(gcd(n,d)!==1){n=randInt(1,8);d=randInt(2,9)}
+ const k=pick([2,3,4]);
+ const broken=Math.random()<.5;
+ const right=broken
+  ? {n:n*k,d:d*(k+1)}
+  : {n:n*k,d:d*k};
+ return {
+  type:"validity",level:2,left:{n,d},right,
+  answer:!broken,
+  prompt:"دستگاه این تبدیل را انجام داده است. آیا مقدار کسر ثابت مانده؟",
+  hint:"ضریب تغییر صورت و مخرج را جداگانه بررسی کن.",
+  explanation:broken
+   ?"صورت و مخرج با یک ضریب یکسان تغییر نکرده‌اند؛ پس این دو نمایش مساوی نیستند."
+   :`صورت و مخرج هر دو در ${faNumber(k)} ضرب شده‌اند؛ پس مقدار ثابت مانده است.`,
+  signature:`valid-${n}-${d}-${right.n}-${right.d}`
+ };
+}
+
+function genNegativeSigns(){
+ const a=pick([2,3,4,5,7]);
+ const b=pick([3,5,6,8,9]);
+ const source={n:-a,d:b};
+ const equivalent={n:a,d:-b};
+ const other={n:a,d:b};
+ const twice={n:-a*2,d:b*2};
+ return {
+  type:"chooseFraction",level:2,base:source,
+  choices:shuffle([equivalent,other,twice,{n:-a*2,d:b*3}]),
+  correct:equivalent,
+  alsoValid:twice,
+  prompt:"کدام کسر با کسر منفیِ روی میز هم‌ارز است؟",
+  hint:"علامت منفی می‌تواند جلوی کسر، در صورت یا در مخرج باشد؛ دو منفی پاسخ را مثبت می‌کنند.",
+  explanation:`علامت منفیِ ${plainFrac(source)} می‌تواند در صورت یا مخرج باشد و ارزش کسر تغییر نمی‌کند.`,
+  signature:`neg-${a}-${b}`
+ };
+}
+
+function genReverseMissing(){
+ const k=pick([2,3,4,5]);
+ const a=randInt(1,7),b=randInt(2,9);
+ const sign=Math.random()<.4?-1:1;
+ return {
+  type:"missingNum",level:3,
+  left:{n:sign*a*k,d:b*k},
+  right:{n:sign*a,d:b},
+  answer:sign*a,
+  prompt:"این بار کسر بزرگ‌تر ساده شده است؛ صورت گمشده را پیدا کن.",
+  hint:`از ${faNumber(b*k)} به ${faNumber(b)} رسیده‌ای؛ ببین هر دو جزء بر چه عددی تقسیم شده‌اند.`,
+  explanation:`صورت و مخرج هر دو بر ${faNumber(k)} تقسیم می‌شوند، پس صورت جدید ${faNumber(sign*a)} است.`,
+  signature:`reverse-${sign*a}-${b}-${k}`
+ };
+}
+
+function genSimplifyChoice(){
+ const primitive=pick([[3,5],[4,7],[5,8],[7,9],[2,11]]);
+ const k1=pick([4,6,8,10]);
+ const n=primitive[0]*k1;
+ const d=primitive[1]*k1;
+ const full={n:primitive[0],d:primitive[1]};
+ const half={n:n/2,d:d/2};
+ const bad={n:primitive[0]+1,d:primitive[1]};
+ return {
+  type:"chooseFraction",level:3,base:{n,d},
+  choices:shuffle([full,half,bad,{n:n/2,d:d}]),correct:full,
+  requireSimplest:true,
+  prompt:"کدام خروجی هم با کسر اصلی مساوی است و هم کاملاً ساده شده؟",
+  hint:"دو شرط را هم‌زمان بررسی کن: ارزش کسر ثابت باشد و صورت و مخرج عامل مشترک نداشته باشند.",
+  explanation:`${plainFrac(full)} هم با کسر اصلی مساوی است و هم ب.م.م صورت و مخرجش ۱ است.`,
+  signature:`simpchoice-${n}-${d}`
+ };
+}
+
+function genWrongCancellation(){
+ const base=pick([
+  {n:36,d:48},{n:42,d:56},{n:54,d:72},{n:45,d:60},{n:63,d:81}
+ ]);
+ const g=gcd(base.n,base.d);
+ const correct={n:base.n/g,d:base.d/g};
+ const wrong={n:base.n/g,d:base.d};
+ return {
+  type:"chooseFraction",level:3,base,
+  choices:shuffle([
+   correct,
+   wrong,
+   {n:base.n,d:base.d/g},
+   {n:correct.n+1,d:correct.d}
+  ]),
+  correct,
+  requireSimplest:true,
+  prompt:"یک تعمیرکار فقط یکی از دو قسمت کسر را تقسیم کرده! خروجی درست و ساده را انتخاب کن.",
+  hint:"اگر صورت را بر عددی تقسیم می‌کنی، برای حفظ مقدار باید مخرج هم بر همان عدد تقسیم شود.",
+  explanation:`باید صورت و مخرج هر دو بر ${faNumber(g)} تقسیم شوند؛ خروجی درست ${plainFrac(correct)} است.`,
+  signature:`cancel-${base.n}-${base.d}`
+ };
+}
+
+function genOneDenominator(){
+ const d=pick([3,4,5,6,7,8]);
+ const n=d*pick([2,3,4]);
+ const s=simplify(n,d);
+ return {
+  type:"simplify",level:3,base:{n,d},target:s,answer:d,
+  prompt:"این کسر یک عدد صحیح پنهان کرده است. آن را تا انتها ساده کن.",
+  hint:"وقتی مخرج بتواند کاملاً با صورت ساده شود، ممکن است مخرج نهایی ۱ شود.",
+  explanation:`با تقسیم صورت و مخرج بر ${faNumber(d)}، مخرج ۱ می‌شود و کسر همان عدد صحیح ${faNumber(s.n)} است.`,
+  signature:`intfrac-${n}-${d}`
+ };
+}
+
+const plan=[
+ genScaleUp,
+ genScaleDown,
+ genMissingNumerator,
+ genMissingDenominator,
+ genSimplify,
+ genChooseEquivalent,
+ genDetectRepair,
+ genNegativeSigns,
+ ()=>pick([genReverseMissing,genWrongCancellation])(),
+ ()=>pick([genSimplifyChoice,genOneDenominator])()
+];
+
+function generateRound(){
+ const result=[];
+ for(const generator of plan){
+  let selected=null;
+  for(let tries=0;tries<35;tries++){
+   const q=generator();
+   if(!recentSignatures.includes(q.signature) &&
+      !result.some(x=>x.signature===q.signature)){
+    selected=q;break;
+   }
+  }
+  if(!selected){
+   for(let tries=0;tries<15;tries++){
+    const q=generator();
+    if(!result.some(x=>x.signature===q.signature)){
+     selected=q;break;
+    }
+   }
+  }
+  result.push(selected || generator());
+ }
+ storeRecent(result);
+ return result;
+}
+
+/* ---------- Rendering ---------- */
+
+function resetInteraction(){
+ interactionState={selected:null};
+}
+
+function setLevel(level){
+ const e=$("levelBadge");
+ if(level===1){e.className="level";e.textContent="🟢 پایه"}
+ else if(level===2){e.className="level master";e.textContent="🟡 تسلط"}
+ else{e.className="level challenge";e.textContent="🔴 چالش"}
+}
+
+function renderQuestion(){
+ stopTimer();
+ answerChecked=false;
+ resetInteraction();
+
+ const q=questions[currentIndex];
+ $("missionStatus").textContent=`${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
+ $("scoreStatus").textContent=`${faNumber(score)} از ${faNumber(100)}`;
+ setLevel(q.level);
+ $("prompt").textContent=q.prompt;
+ $("hint").textContent=q.hint;
+ $("feedback").className="feedback";
+ $("feedback").innerHTML="";
+ $("checkBtn").hidden=false;
+ $("checkBtn").disabled=false;
+ $("nextBtn").hidden=true;
+ $("resetWorkBtn").hidden=false;
+ $("resetWorkBtn").disabled=false;
+ $("chips").innerHTML="";
+ $("twoActions").innerHTML="";
+ $("twoActions").hidden=true;
+ $("factorView").innerHTML="";
+
+ renderWorkbench(q);
+ startTimer();
+}
+
+function renderWorkbench(q){
+ const eq=$("equation");
+ const title=$("controlTitle");
+ eq.innerHTML="";
+
+ if(q.type==="factor"){
+  eq.innerHTML=`${fracHTML(q.base)} <span>=</span> ${fracHTML(q.target)}`;
+  $("factorView").innerHTML=
+   `<span class="gear">صورت</span><span class="arrow">؟</span>
+    <span class="gear">مخرج</span><span class="arrow">؟</span>`;
+  title.textContent=q.operation==="multiply"
+   ?"ضریب مشترک را انتخاب کن:"
+   :"عددِ تقسیم مشترک را انتخاب کن:";
+  makeNumberChips(makeChoices(q.answer,[2,3,4,5,6]));
+ }
+
+ else if(q.type==="missingNum"){
+  eq.innerHTML=`${fracHTML(q.left)} <span>=</span> ${fracHTML({n:0,d:q.right.d},true,false)}`;
+  title.textContent="صورت مناسب را انتخاب کن:";
+  makeNumberChips(makeSignedChoices(q.answer));
+ }
+
+ else if(q.type==="missingDen"){
+  eq.innerHTML=`${fracHTML(q.left)} <span>=</span> ${fracHTML({n:q.right.n,d:1},false,true)}`;
+  title.textContent="مخرج مناسب را انتخاب کن:";
+  makeNumberChips(makePositiveChoices(q.answer));
+ }
+
+ else if(q.type==="simplify"){
+  eq.innerHTML=`${fracHTML(q.base)} <span>→</span> <span class="slot" id="resultSlot">ساده‌ترین کسر</span>`;
+  $("factorView").innerHTML='<span class="gear">صورت ÷ ؟</span><span class="gear">مخرج ÷ ؟</span>';
+  title.textContent="هر دو را بر چه عددی تقسیم کنیم؟";
+  makeNumberChips(makeDivisorChoices(q.answer,q.base));
+ }
+
+ else if(q.type==="chooseFraction"){
+  eq.innerHTML=`${fracHTML(q.base)} <span>=</span> <span class="slot" id="resultSlot">؟</span>`;
+  title.textContent=q.requireSimplest
+   ?"خروجی مساوی و کاملاً ساده را انتخاب کن:"
+   :"کسر مساوی را انتخاب کن:";
+  makeFractionChips(q);
+ }
+
+ else if(q.type==="validity"){
+  eq.innerHTML=`${fracHTML(q.left)} <span>→</span> ${fracHTML(q.right)}`;
+  title.textContent="تبدیل دستگاه را بررسی کن:";
+  $("twoActions").hidden=false;
+  makeValidityButtons();
+ }
+
+ updateSelectionView(q);
+}
+
+function makeChoices(answer,pool){
+ const set=new Set([answer]);
+ const mixed=shuffle(pool.filter(x=>x!==answer));
+ for(const x of mixed){
+  if(set.size>=4)break;
+  set.add(x);
+ }
+ while(set.size<4)set.add(Math.max(2,answer+randInt(-3,3)));
+ return shuffle([...set]);
+}
+
+function makePositiveChoices(answer){
+ const vals=new Set([answer]);
+ while(vals.size<4){
+  const v=Math.max(1,answer+pick([-6,-4,-3,3,4,6]));
+  vals.add(v);
+ }
+ return shuffle([...vals]);
+}
+
+function makeSignedChoices(answer){
+ const vals=new Set([answer]);
+ vals.add(-answer);
+ vals.add(answer+(answer>=0?pick([1,2,3]):-pick([1,2,3])));
+ vals.add(answer+(answer>=0?-pick([1,2]):-(-pick([1,2]))));
+ while(vals.size<4) vals.add(answer+randInt(-5,5));
+ return shuffle([...vals]).slice(0,4);
+}
+
+function makeDivisorChoices(answer,base){
+ const vals=new Set([answer]);
+ const candidates=[];
+ for(let i=2;i<=Math.min(12,Math.max(Math.abs(base.n),base.d));i++){
+  if(base.n%i===0 && base.d%i===0)candidates.push(i);
+ }
+ shuffle(candidates).forEach(x=>{
+  if(vals.size<4)vals.add(x);
+ });
+ while(vals.size<4){
+  const v=randInt(2,Math.max(6,answer+3));
+  vals.add(v);
+ }
+ return shuffle([...vals]);
+}
+
+function makeNumberChips(values){
+ const box=$("chips");
+ values.forEach(v=>{
+  const b=document.createElement("button");
+  b.type="button";
+  b.className="chip";
+  b.textContent=faNumber(v);
+  b.addEventListener("click",()=>{
+   if(answerChecked)return;
+   interactionState.selected=v;
+   selectButton(b,box);
+   updateSelectionView(questions[currentIndex]);
+  });
+  box.appendChild(b);
+ });
+}
+
+function makeFractionChips(q){
+ const box=$("chips");
+ q.choices.forEach((f,index)=>{
+  const b=document.createElement("button");
+  b.type="button";
+  b.className="chip";
+  b.style.minWidth="68px";
+  b.innerHTML=fracHTML(f);
+  b.addEventListener("click",()=>{
+   if(answerChecked)return;
+   interactionState.selected=index;
+   selectButton(b,box);
+   updateSelectionView(q);
+  });
+  box.appendChild(b);
+ });
+}
+
+function makeValidityButtons(){
+ const box=$("twoActions");
+ [
+  {v:true,t:"✅ مقدار ثابت مانده"},
+  {v:false,t:"🔧 تبدیل خراب است"}
+ ].forEach(o=>{
+  const b=document.createElement("button");
+  b.type="button";b.className="operation-btn";b.textContent=o.t;
+  b.addEventListener("click",()=>{
+   if(answerChecked)return;
+   interactionState.selected=o.v;
+   [...box.children].forEach(x=>x.classList.remove("selected"));
+   b.classList.add("selected");
+  });
+  box.appendChild(b);
+ });
+}
+
+function selectButton(button,parent){
+ [...parent.children].forEach(x=>x.classList.remove("selected"));
+ button.classList.add("selected");
+}
+
+function updateSelectionView(q){
+ const s=interactionState.selected;
+
+ if(q.type==="missingNum"){
+  const slot=$("numSlot");
+  if(slot){
+   slot.textContent=s===null?"؟":faNumber(s);
+   slot.classList.toggle("filled",s!==null);
+  }
+ }
+
+ if(q.type==="missingDen"){
+  const slot=$("denSlot");
+  if(slot){
+   slot.textContent=s===null?"؟":faNumber(s);
+   slot.classList.toggle("filled",s!==null);
+  }
+ }
+
+ if(q.type==="factor" && s!==null){
+  $("factorView").innerHTML=
+   `<span class="gear">صورت ${q.operation==="multiply"?"×":"÷"} ${faNumber(s)}</span>
+    <span class="arrow">⚙️</span>
+    <span class="gear">مخرج ${q.operation==="multiply"?"×":"÷"} ${faNumber(s)}</span>`;
+ }
+
+ if(q.type==="simplify" && s!==null){
+  const valid=q.base.n%s===0 && q.base.d%s===0;
+  if(valid){
+   const out={n:q.base.n/s,d:q.base.d/s};
+   $("resultSlot").innerHTML=fracHTML(out);
+  }else{
+   $("resultSlot").textContent="تقسیم دقیق نیست";
+  }
+ }
+
+ if(q.type==="chooseFraction" && s!==null){
+  $("resultSlot").innerHTML=fracHTML(q.choices[s]);
+ }
+}
+
+$("resetWorkBtn").addEventListener("click",()=>{
+ if(answerChecked)return;
+ resetInteraction();
+ renderWorkbench(questions[currentIndex]);
+});
+
+/* ---------- Evaluation ---------- */
+
+function evaluate(q){
+ const s=interactionState.selected;
+ if(s===null)return {ready:false,correct:false};
+
+ if(q.type==="factor" || q.type==="missingNum" || q.type==="missingDen"){
+  return {ready:true,correct:s===q.answer};
+ }
+
+ if(q.type==="simplify"){
+  if(s===0 || q.base.n%s!==0 || q.base.d%s!==0)
+   return {ready:true,correct:false};
+  const out=simplify(q.base.n/s,q.base.d/s);
+  return {
+   ready:true,
+   correct:s===q.answer && sameFraction(out,q.target) && isSimplest(out)
+  };
+ }
+
+ if(q.type==="validity"){
+  return {ready:true,correct:s===q.answer};
+ }
+
+ if(q.type==="chooseFraction"){
+  const chosen=q.choices[s];
+  if(!chosen)return {ready:false,correct:false};
+
+  if(q.requireSimplest){
+   return {
+    ready:true,
+    correct:sameFraction(chosen,q.base) && isSimplest(chosen)
+   };
+  }
+
+  const valid=sameFraction(chosen,q.base);
+  return {ready:true,correct:valid};
+ }
+
+ return {ready:false,correct:false};
+}
+
+function answerText(q){
+ if(q.type==="factor")
+  return `ضریب درست ${faNumber(q.answer)} است.`;
+ if(q.type==="missingNum")
+  return `صورت درست ${faNumber(q.answer)} است.`;
+ if(q.type==="missingDen")
+  return `مخرج درست ${faNumber(q.answer)} است.`;
+ if(q.type==="simplify")
+  return `باید صورت و مخرج را بر ${faNumber(q.answer)} تقسیم کرد؛ نتیجه ${plainFrac(q.target)} است.`;
+ if(q.type==="validity")
+  return q.answer?"این تبدیل درست است.":"این تبدیل درست نیست.";
+ if(q.type==="chooseFraction"){
+  const valid=q.choices.filter(x=>sameFraction(x,q.base) && (!q.requireSimplest || isSimplest(x)));
+  return `پاسخ معتبر: ${valid.map(plainFrac).join(" ، ")}`;
+ }
+ return "";
+}
+
+function lockInteraction(){
+ $("checkBtn").disabled=true;
+ $("resetWorkBtn").disabled=true;
+ [...document.querySelectorAll("#chips button,#twoActions button")].forEach(b=>b.disabled=true);
+}
+
+function scoreForTime(ms){
+ const s=ms/1000;
+ if(s<=5)return 10;
+ if(s<=10)return 8;
+ if(s<=15)return 6;
+ if(s<=20)return 4;
+ if(s<=30)return 2;
+ return 0;
+}
+
+function showFeedback(kind,title,text){
+ const f=$("feedback");
+ f.className=`feedback show ${kind}`;
+ f.innerHTML=`<strong>${title}</strong>${text}`;
+}
+
+function animate(cls){
+ const card=$("gameCard");
+ card.classList.remove(cls);
+ void card.offsetWidth;
+ card.classList.add(cls);
+ setTimeout(()=>card.classList.remove(cls),350);
+}
+
+function checkAnswer(){
+ if(answerChecked || gameFinished)return;
+
+ if(Date.now()>=questionDeadline){
+  handleTimeout();return;
+ }
+
+ const q=questions[currentIndex];
+ const r=evaluate(q);
+
+ if(!r.ready){
+  showFeedback("timeout","یک قطعه هنوز انتخاب نشده است.","اول دستگاه را تنظیم کن، بعد «ثبت تعمیر» را بزن.");
+  return;
+ }
+
+ answerChecked=true;
+ stopTimer();
+ lockInteraction();
+
+ if(r.correct){
+  const gained=scoreForTime(Date.now()-questionStartedAt);
+  score=Math.min(100,score+gained);
+  $("scoreStatus").textContent=`${faNumber(score)} از ${faNumber(100)}`;
+  showFeedback("good",`✅ تعمیر درست! +${faNumber(gained)} امتیاز`,q.explanation);
+  animate("pulse");
+ }else{
+  showFeedback("bad","❌ مقدار کسر درست حفظ نشده.",`${answerText(q)}<br>${q.explanation}`);
+  animate("shake");
+ }
+
+ $("checkBtn").hidden=true;
+ $("nextBtn").hidden=false;
+ $("nextBtn").textContent=currentIndex===TOTAL_QUESTIONS-1?"دیدن نتیجه 🏁":"مأموریت بعدی";
+}
+
+function handleTimeout(){
+ if(answerChecked || gameFinished)return;
+ answerChecked=true;
+ stopTimer();
+ lockInteraction();
+
+ const q=questions[currentIndex];
+ showFeedback("timeout","⏰ زمان تمام شد.",`${answerText(q)}<br>${q.explanation}`);
+
+ $("checkBtn").hidden=true;
+ $("nextBtn").hidden=false;
+ $("nextBtn").textContent=currentIndex===TOTAL_QUESTIONS-1?"دیدن نتیجه 🏁":"مأموریت بعدی";
+}
+
+/* ---------- Timer ---------- */
+
+function startTimer(){
+ stopTimer();
+ questionStartedAt=Date.now();
+ questionDeadline=questionStartedAt+QUESTION_TIME*1000;
+ updateTimer();
+ timerInterval=setInterval(updateTimer,100);
+}
+
+function updateTimer(){
+ if(answerChecked || gameFinished)return;
+ const remain=Math.max(0,questionDeadline-Date.now());
+ const ratio=remain/(QUESTION_TIME*1000);
+ $("timeText").textContent=`${faNumber(Math.ceil(remain/1000))} ثانیه`;
+ $("timerFill").style.width=`${Math.max(0,Math.min(100,ratio*100))}%`;
+ $("timerFill").style.background=ratio>.5?"#51dd91":ratio>.2?"#f4c542":"#e55262";
+ if(remain<=0)handleTimeout();
+}
+
+function stopTimer(){
+ if(timerInterval!==null){
+  clearInterval(timerInterval);
+  timerInterval=null;
+ }
+}
+
+/* ---------- Game flow ---------- */
+
+$("checkBtn").addEventListener("click",checkAnswer);
+
+$("nextBtn").addEventListener("click",()=>{
+ if(!answerChecked || gameFinished)return;
+ if(currentIndex===TOTAL_QUESTIONS-1){
+  finishGame();return;
+ }
+ currentIndex++;
+ renderQuestion();
+});
+
+async function finishGame(){
+ if(gameFinished)return;
+ gameFinished=true;
+ stopTimer();
+
+ $("playArea").style.display="none";
+ $("resultArea").classList.add("show");
+ $("finalScore").textContent=faNumber(score);
+ $("resultName").textContent=`${player.playerName || "بازیکن"}، امتیاز کارگاه تو:`;
+
+ $("resultMessage").textContent=
+  score>=90?"ارزش کسر را حتی وقتی ظاهرش عوض می‌شود خیلی خوب دنبال می‌کنی. 🌟":
+  score>=70?"کسرهای مساوی را خوب می‌سازی؛ روی ساده‌ترین صورت کمی بیشتر تمرین کن. 🔧":
+  score>=50?"اصل کار را گرفته‌ای: هر تغییری در صورت، باید با همان ضریب در مخرج هم انجام شود. 🧩":
+  "در دور بعد روی یک قانون تمرکز کن: برای حفظ مقدار، صورت و مخرج باید با همان عدد غیرصفر تغییر کنند.";
+
+ if(!finishSubmitted){
+  finishSubmitted=true;
+  try{
+   await GameSDK.finishGame(score);
+  }catch(e){
+   console.error("finishGame failed",e);
+  }
+ }
+
+ await loadLeaderboard();
+}
+
+async function loadLeaderboard(){
+ const box=$("leaderRows");
+ box.innerHTML='<div style="text-align:center;color:#707890">در حال دریافت...</div>';
+
+ try{
+  const scores=await GameSDK.getLeaderboard(10);
+  if(!scores || !scores.length){
+   box.innerHTML='<div style="text-align:center;color:#707890">هنوز رکوردی ثبت نشده است.</div>';
+   return;
+  }
+
+  box.innerHTML="";
+  scores.forEach((entry,i)=>{
+   const row=document.createElement("div");
+   row.className="leader-row";
+
+   const medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":`${faNumber(i+1)}.`;
+   const name=entry.playerName ?? entry.name ?? "بازیکن";
+   const points=entry.score ?? 0;
+
+   const a=document.createElement("span");
+   a.textContent=`${medal} ${name}`;
+   const b=document.createElement("strong");
+   b.textContent=`${faNumber(points)} امتیاز`;
+
+   row.append(a,b);
+   box.appendChild(row);
+  });
+ }catch(e){
+  console.error("leaderboard failed",e);
+  box.innerHTML='<div class="error">جدول برترین‌ها فعلاً قابل دریافت نیست.</div>';
+ }
+}
+
+$("restartBtn").addEventListener("click",()=>{
+ stopTimer();
+
+ try{GameSDK.reset()}catch(e){console.error("reset failed",e)}
+
+ score=0;
+ currentIndex=0;
+ answerChecked=false;
+ gameFinished=false;
+ finishSubmitted=false;
+ interactionState={};
+
+ $("scoreStatus").textContent=`${faNumber(0)} از ${faNumber(100)}`;
+ $("playArea").style.display="";
+ $("resultArea").classList.remove("show");
+
+ questions=generateRound();
+ renderQuestion();
+});
+
+function init(){
+ questions=generateRound();
+ if(questions.length!==TOTAL_QUESTIONS){
+  throw new Error("Exactly 10 missions are required.");
+ }
+ renderQuestion();
+}
+
+init();
+</script>
+</body>
+</html>
