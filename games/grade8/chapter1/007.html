@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>تیرانداز محور | ریاضی هشتم</title>
+<style>
+:root{
+ --purple:#7357d8;--blue:#3d8de7;--pink:#ed6da7;
+ --yellow:#f6c84d;--green:#36b978;--red:#e65760;
+ --ink:#29384c;--muted:#718096;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+ margin:0;min-height:100vh;overflow-x:hidden;
+ font-family:Tahoma,Arial,sans-serif;color:var(--ink);
+ background:
+ radial-gradient(circle at 8% 5%,#e1edff 0,transparent 25%),
+ radial-gradient(circle at 92% 6%,#ffe1ed 0,transparent 25%),
+ linear-gradient(155deg,#f5efff,#eefaff);
+}
+button{font:inherit;touch-action:manipulation}
+.app{width:min(100% - 16px,780px);margin:auto;padding:12px 0 28px}
+.hero{text-align:center}
+.badges{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.badge{
+ background:#fff;border:1px solid #ddd8ff;border-radius:99px;
+ padding:4px 9px;color:#6250b3;font-size:11px;font-weight:bold
+}
+h1{margin:7px 0 2px;color:#5941b6;font-size:clamp(25px,7vw,38px)}
+.subtitle{margin:0 0 10px;color:var(--muted);font-size:13px}
+.status{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:9px 0 7px}
+.stat{
+ min-width:0;background:#fff;border:1px solid #e1e6ee;
+ border-radius:12px;padding:7px 4px;text-align:center
+}
+.stat small{display:block;color:var(--muted);font-size:9px}
+.stat b{
+ display:block;margin-top:2px;font-size:12px;white-space:nowrap;
+ overflow:hidden;text-overflow:ellipsis
+}
+.timer{background:#fff;border-radius:12px;padding:7px 9px;margin-bottom:8px}
+.timer-row{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin-bottom:5px}
+.track{height:8px;background:#edf0f4;border-radius:20px;overflow:hidden}
+.bar{height:100%;width:100%;background:var(--green);border-radius:20px}
+.card{
+ background:#fff;border:1px solid #e0e5ed;border-radius:22px;padding:12px;
+ box-shadow:0 14px 36px rgba(63,73,105,.12)
+}
+.progress{display:flex;gap:5px;align-items:center;margin-bottom:9px}
+.pstep{flex:1;height:8px;border-radius:20px;background:#e7ebf1}
+.pstep.done{background:var(--green)}
+.pstep.now{background:var(--purple);box-shadow:0 0 0 3px #eeeaff}
+
+.mission{
+ text-align:center;background:#f7f5ff;border:1px solid #e4deff;
+ border-radius:15px;padding:8px;margin-bottom:9px
+}
+.mission small{color:#7664bd;font-weight:bold}
+.mission h2{font-size:17px;color:#4c4095;margin:3px 0}
+.mission p{margin:0;color:#68788b;font-size:12px;line-height:1.7}
+
+/* range */
+.range{
+ position:relative;overflow:hidden;min-height:360px;border-radius:18px;
+ border:3px solid #43718a;padding:11px 7px;
+ background:
+ radial-gradient(circle at 50% 12%,rgba(255,255,255,.8),transparent 25%),
+ linear-gradient(#dff4ff 0 61%,#ccebbd 61% 100%);
+}
+.cloud{position:absolute;font-size:31px;opacity:.7}
+.cloud.a{top:7px;right:13px}.cloud.b{top:43px;left:15px;font-size:24px}
+.target-board{
+ max-width:500px;margin:3px auto 5px;background:#fff;border:2px solid #d5e0e8;
+ border-radius:13px;padding:8px;text-align:center;position:relative;z-index:2
+}
+.target-board small{font-size:9px;color:#748396}
+.target-number{
+ min-height:48px;display:flex;align-items:center;justify-content:center;
+ direction:ltr;color:#5b45b1;font-size:24px;font-weight:bold
+}
+.frac{
+ display:inline-flex;flex-direction:column;align-items:stretch;
+ text-align:center;line-height:1.02;min-width:30px;vertical-align:middle
+}
+.frac .top{border-bottom:1.6px solid currentColor;padding:0 5px 3px}
+.frac .bottom{padding:3px 5px 0}
+.negfrac{display:inline-flex;align-items:center;direction:ltr}
+.negfrac:before{content:"−";margin-right:3px}
+.mixed{display:inline-flex;align-items:center;gap:4px;direction:ltr}
+
+.axis-wrap{
+ position:relative;z-index:3;width:100%;overflow-x:auto;
+ padding:42px 1px 14px;scrollbar-width:thin;direction:ltr
+}
+.axis{
+ position:relative;min-width:700px;height:127px;
+ display:grid;align-items:end
+}
+.axis:before{
+ content:"";position:absolute;left:2%;right:2%;bottom:37px;height:6px;
+ border-radius:20px;background:#477f9a;box-shadow:0 3px 0 rgba(34,73,91,.15)
+}
+.axis:after{
+ content:"▶";position:absolute;right:0;bottom:25px;
+ font-size:23px;color:#477f9a
+}
+.cell{
+ position:relative;height:108px;display:flex;justify-content:center;
+ align-items:flex-end;cursor:crosshair;border-radius:9px
+}
+.cell:hover{background:rgba(255,255,255,.36)}
+.tick{
+ position:absolute;bottom:31px;width:2px;height:15px;background:#39718c
+}
+.tick.major{height:23px;width:3px}
+.label{position:absolute;bottom:3px;font-size:9px;color:#45687a}
+.cell.zero .label{color:#a56e00;font-weight:bold}
+.shot{
+ position:absolute;bottom:56px;width:29px;height:29px;border-radius:50%;
+ display:grid;place-items:center;background:#f5c84d;color:#6e4e05;
+ font-size:17px;z-index:5;box-shadow:0 0 0 6px rgba(245,200,77,.25)
+}
+.shot.wrong{background:#e65760;color:#fff;box-shadow:0 0 0 5px rgba(230,87,96,.2)}
+.given-point{
+ position:absolute;bottom:57px;width:27px;height:27px;border-radius:50%;
+ display:grid;place-items:center;background:#7357d8;color:#fff;
+ font-size:11px;z-index:4;box-shadow:0 0 0 5px rgba(115,87,216,.17)
+}
+.interval{
+ position:absolute;bottom:39px;height:10px;border-radius:10px;
+ background:rgba(237,109,167,.48);border:2px solid #e76da5;z-index:2;
+ pointer-events:none
+}
+.guide{
+ position:relative;z-index:2;text-align:center;font-size:11px;
+ color:#506c76;line-height:1.7;margin:2px 0 7px
+}
+.read-buttons{
+ position:relative;z-index:4;display:grid;grid-template-columns:repeat(3,1fr);
+ gap:7px;max-width:520px;margin:auto
+}
+.choice{
+ min-height:52px;border:2px solid #c5d5df;border-radius:12px;
+ background:#fff;color:#3b4d62;font-weight:bold;cursor:pointer
+}
+.choice.correct{border-color:var(--green);background:#eaf9f1;color:#246b48}
+.choice.wrong{border-color:var(--red);background:#fff0f0;color:#994149}
+.choice:disabled{cursor:default}
+
+/* feedback */
+.feedback{
+ display:none;margin-top:9px;padding:10px;border-radius:13px;
+ font-size:12px;line-height:1.75
+}
+.feedback.good{display:block;background:#eaf9f1;border:1px solid #b8e6cc;color:#246846}
+.feedback.bad{display:block;background:#fff0f0;border:1px solid #efc1c4;color:#944147}
+.feedback.time{display:block;background:#fff7df;border:1px solid #ecd693;color:#7b601d}
+.next{
+ display:none;width:100%;min-height:50px;margin-top:9px;border:0;border-radius:14px;
+ background:linear-gradient(135deg,#7357d8,#3e8de7);
+ color:#fff;font-weight:bold;cursor:pointer
+}
+
+/* result */
+.hidden{display:none!important}
+.result{display:none;text-align:center}
+.result.show{display:block}
+.trophy{font-size:61px}
+.final-score{font-size:42px;color:#6048bd;font-weight:bold}
+.final-score small{font-size:14px;color:var(--muted);font-weight:normal}
+.result-message{margin:9px 0 16px;font-weight:bold}
+.board{max-width:510px;margin:15px auto;text-align:right}
+.board h3{text-align:center}
+.rank{
+ display:flex;justify-content:space-between;gap:8px;background:#f6f8fc;
+ border-radius:11px;padding:9px 10px;margin:6px 0
+}
+.rank-name{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.rank-score{color:#634dc0;font-weight:bold;white-space:nowrap}
+.loading{text-align:center;color:var(--muted);padding:12px}
+.restart{
+ width:min(100%,350px);min-height:51px;border:0;border-radius:14px;
+ background:linear-gradient(135deg,#7357d8,#3e8de7);
+ color:#fff;font-weight:bold;cursor:pointer
+}
+.back{
+ display:block;width:max-content;max-width:100%;margin:18px auto 0;
+ color:#6152a6;text-decoration:none;font-size:13px
+}
+@media(max-width:520px){
+ .status{grid-template-columns:repeat(2,1fr)}
+ .card{padding:9px;border-radius:18px}
+ .read-buttons{gap:5px}
+ .choice{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{
+  animation:none!important;transition:none!important;scroll-behavior:auto!important
+ }
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+
+<header class="hero" id="hero">
+ <div class="badges">
+  <span class="badge">پایه هشتم</span>
+  <span class="badge">فصل اول</span>
+  <span class="badge">درس ۲</span>
+  <span class="badge">نمایش عدد گویا</span>
+ </div>
+ <h1>🎯 تیرانداز محور 🏹</h1>
+ <p class="subtitle">عدد را بخوان، نشانه بگیر و درست روی محور بزن!</p>
+</header>
+
+<div id="statusWrap">
+ <section class="status">
+  <div class="stat"><small>بازیکن</small><b id="playerName">---</b></div>
+  <div class="stat"><small>هدف</small><b id="stage">۱ از ۱۰</b></div>
+  <div class="stat"><small>امتیاز</small><b id="score">۰</b></div>
+  <div class="stat"><small>زمان</small><b id="time">۳۰ ثانیه</b></div>
+ </section>
+
+ <section class="timer">
+  <div class="timer-row">
+   <span>🏹 زمان نشانه‌گیری</span>
+   <span id="timerMini">۳۰ / ۳۰</span>
+  </div>
+  <div class="track"><div class="bar" id="timerBar"></div></div>
+ </section>
+</div>
+
+<section class="card" id="game">
+ <div class="progress" id="progress"></div>
+
+ <div class="mission">
+  <small id="missionBadge">هدف ۱</small>
+  <h2 id="missionTitle"></h2>
+  <p id="missionText"></p>
+ </div>
+
+ <div class="range">
+  <span class="cloud a">☁️</span>
+  <span class="cloud b">☁️</span>
+
+  <div class="target-board">
+   <small id="targetLabel">عدد هدف</small>
+   <div class="target-number" id="targetNumber"></div>
+  </div>
+
+  <div class="guide" id="guide"></div>
+
+  <div class="axis-wrap" id="axisWrap">
+   <div class="axis" id="axis"></div>
+  </div>
+
+  <div class="read-buttons" id="choices"></div>
+ </div>
+
+ <div class="feedback" id="feedback" aria-live="polite"></div>
+
+ <button type="button" class="next" id="nextBtn">
+  هدف بعدی 🎯
+ </button>
+</section>
+
+<section class="card result" id="resultScreen">
+ <div class="trophy">🏆🎯</div>
+ <h2>تیرانداز ماهر شدی!</h2>
+ <div id="resultName"></div>
+
+ <div class="final-score">
+  <span id="finalScore">۰</span>
+  <small>از ۱۰۰ امتیاز</small>
+ </div>
+
+ <div class="result-message" id="resultMessage"></div>
+
+ <div class="board">
+  <h3>🏅 برترین تیراندازها</h3>
+  <div id="leaderboard" class="loading">در حال دریافت رکوردها...</div>
+ </div>
+
+ <button type="button" class="restart" id="restartBtn">🔄 بازی دوباره</button>
+</section>
+
+<a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
+
+</main>
+
+<script src="/games/game-sdk.js"></script>
+<script>
+const GAME_ID = 22;
+
+const player = GameSDK.init(GAME_ID);
+
+(() => {
+"use strict";
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 30;
+const RECENT_KEY = "rational_axis_archer_g8_v2";
+const MAX_RECENT = 50;
+
+let questions=[];
+let currentIndex=0;
+let score=0;
+let startedAt=0;
+let timerId=null;
+let answerChecked=false;
+let gameFinished=false;
+let finishSubmitted=false;
+
+const $=id=>document.getElementById(id);
+const el={
+ hero:$("hero"),statusWrap:$("statusWrap"),playerName:$("playerName"),
+ stage:$("stage"),score:$("score"),time:$("time"),timerMini:$("timerMini"),
+ timerBar:$("timerBar"),game:$("game"),progress:$("progress"),
+ missionBadge:$("missionBadge"),missionTitle:$("missionTitle"),
+ missionText:$("missionText"),targetLabel:$("targetLabel"),
+ targetNumber:$("targetNumber"),guide:$("guide"),
+ axisWrap:$("axisWrap"),axis:$("axis"),choices:$("choices"),
+ feedback:$("feedback"),nextBtn:$("nextBtn"),
+ resultScreen:$("resultScreen"),resultName:$("resultName"),
+ finalScore:$("finalScore"),resultMessage:$("resultMessage"),
+ leaderboard:$("leaderboard"),restartBtn:$("restartBtn")
+};
+
+function faNumber(v){
+ return String(v).replace(/-/g,"−").replace(/\./g,"٫")
+  .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function gcd(a,b){
+ a=Math.abs(a);b=Math.abs(b);
+ while(b){const t=b;b=a%b;a=t}
+ return a||1;
+}
+function norm(n,d){
+ if(d<0){n=-n;d=-d}
+ const g=gcd(n,d);
+ return {n:n/g,d:d/g};
+}
+function shuffle(a){
+ const x=[...a];
+ for(let i=x.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [x[i],x[j]]=[x[j],x[i]];
+ }
+ return x;
+}
+function recent(){
+ try{
+  const x=JSON.parse(localStorage.getItem(RECENT_KEY)||"[]");
+  return Array.isArray(x)?x:[];
+ }catch{return []}
+}
+function saveRecent(sigs){
+ try{
+  const old=recent();
+  localStorage.setItem(
+   RECENT_KEY,
+   JSON.stringify([...sigs,...old.filter(x=>!sigs.includes(x))].slice(0,MAX_RECENT))
+  );
+ }catch{}
+}
+
+/* ---------- Number display ---------- */
+
+function fracHTML(x){
+ const negative=x.n<0;
+ const abs=Math.abs(x.n);
+
+ if(x.d===1)return faNumber(x.n);
+
+ const f=
+  `<span class="frac"><span class="top">${faNumber(abs)}</span>`+
+  `<span class="bottom">${faNumber(x.d)}</span></span>`;
+
+ return negative?`<span class="negfrac">${f}</span>`:f;
+}
+
+function mixedHTML(x){
+ const neg=x.n<0;
+ const a=Math.abs(x.n);
+ const whole=Math.floor(a/x.d);
+ const rem=a%x.d;
+
+ if(rem===0)return faNumber(x.n);
+
+ const part=
+  `<span class="mixed">${faNumber(whole)}`+
+  `<span class="frac"><span class="top">${faNumber(rem)}</span>`+
+  `<span class="bottom">${faNumber(x.d)}</span></span></span>`;
+
+ return neg?`<span style="direction:ltr;display:inline-flex">−${part}</span>`:part;
+}
+
+function displayHTML(q){
+ if(q.display==="decimal"){
+  return faNumber(q.value);
+ }
+ if(q.display==="mixed"){
+  return mixedHTML(q.rational);
+ }
+ return fracHTML(q.rational);
+}
+
+/* ---------- generators ---------- */
+
+function makeLocate(value,den,display,title,step){
+ const rational=norm(Math.round(value*den),den);
+ return {
+  type:"locate",value:rational.n/rational.d,rational,display,title,step,
+  text:"جای دقیق عدد را روی محور هدف بزن.",
+  signature:`loc-${rational.n}-${rational.d}-${display}-${step}`
+ };
+}
+
+function makeRead(value,den,title,step){
+ const rational=norm(Math.round(value*den),den);
+ return {
+  type:"read",value:rational.n/rational.d,rational,display:"fraction",title,step,
+  text:"نقطه روی محور را بخوان و عدد درست را انتخاب کن.",
+  signature:`read-${rational.n}-${rational.d}-${step}`
+ };
+}
+
+function halfPositive(){
+ const k=rand(1,5);
+ return makeLocate(k/2,2,"fraction","نیمه‌ها",.5);
+}
+function halfSigned(){
+ let k=rand(-5,5);if(k===0)k=-3;
+ return makeLocate(k/2,2,"fraction","نیمه‌های مثبت و منفی",.5);
+}
+function quarterLocate(){
+ let k=rand(-9,9);if(k===0)k=5;
+ return makeLocate(k/4,4,"fraction","ربع‌ها",.25);
+}
+function thirdLocate(){
+ let k=rand(-7,7);if(k===0)k=4;
+ return makeLocate(k/3,3,"fraction","سه قسمت مساوی",1/3);
+}
+function decimalLocate(){
+ const options=[-2.5,-1.5,-0.5,0.5,1.5,2.5];
+ const v=options[rand(0,options.length-1)];
+ return makeLocate(v,2,"decimal","اعشار روی محور",.5);
+}
+function mixedLocate(){
+ let k=rand(3,9);
+ if(Math.random()<.5)k*=-1;
+ return makeLocate(k/2,2,"mixed","عدد مخلوط",.5);
+}
+function readHalf(){
+ let k=rand(-6,6);if(k===0)k=3;
+ return makeRead(k/2,2,"از نقطه به عدد",.5);
+}
+function readQuarter(){
+ let k=rand(-9,9);if(k===0)k=-5;
+ return makeRead(k/4,4,"هدف بی‌نام",.25);
+}
+function intervalQuestion(){
+ const left=rand(-3,1);
+ const numerator=rand(1,3);
+ const v=left+numerator/4;
+ const rational=norm(left*4+numerator,4);
+
+ return {
+  type:"interval",
+  value:v,rational,display:"fraction",
+  title:"وسط بازه",
+  text:`هدف را بین ${faNumber(left)} و ${faNumber(left+1)} پیدا کن.`,
+  step:.25,left,right:left+1,
+  signature:`interval-${left}-${numerator}`
+ };
+}
+function negativeChallenge(){
+ const d=[2,3,4][rand(0,2)];
+ let k=rand(1,d*3-1);
+ while(k%d===0)k=rand(1,d*3-1);
+ return makeLocate(-k/d,d,"fraction","هدف منفی",1/d);
+}
+
+const generators=[
+ halfPositive,
+ halfSigned,
+ quarterLocate,
+ thirdLocate,
+ decimalLocate,
+ mixedLocate,
+ readHalf,
+ readQuarter,
+ intervalQuestion,
+ negativeChallenge,
+ quarterLocate,
+ thirdLocate
+];
+
+function generateRound(){
+ const old=new Set(recent());
+ const order=[
+  generators[0],generators[1],generators[2],generators[3],
+  generators[4],generators[5],generators[6],generators[7],
+  generators[8],generators[9]
+ ];
+ const made=[];
+
+ for(const gen of order){
+  let q=null;
+  for(let t=0;t<18;t++){
+   const x=gen();
+   q=q||x;
+   if(!old.has(x.signature)&&!made.some(m=>m.signature===x.signature)){
+    q=x;break;
+   }
+  }
+  made.push(q);
+ }
+
+ questions=made.slice(0,TOTAL_QUESTIONS);
+ saveRecent(questions.map(q=>q.signature));
+}
+
+/* ---------- Axis ---------- */
+
+function axisBounds(q){
+ const spread=3.5;
+ let min=Math.floor(q.value-spread);
+ let max=Math.ceil(q.value+spread);
+
+ min=Math.min(min,-1);
+ max=Math.max(max,1);
+
+ return {min,max};
+}
+
+function buildAxis(q){
+ el.axis.innerHTML="";
+ const {min,max}=axisBounds(q);
+
+ q.axisMin=min;
+ q.axisMax=max;
+
+ const step=q.step;
+ const count=Math.round((max-min)/step)+1;
+
+ el.axis.style.gridTemplateColumns=`repeat(${count},1fr)`;
+
+ for(let i=0;i<count;i++){
+  const value=min+i*step;
+  const clean=Math.round(value*100000)/100000;
+
+  const cell=document.createElement("div");
+  cell.className="cell";
+  cell.dataset.value=String(clean);
+
+  if(Math.abs(clean)<1e-6)cell.classList.add("zero");
+
+  const tick=document.createElement("span");
+  tick.className="tick";
+
+  if(Number.isInteger(clean))tick.classList.add("major");
+  cell.appendChild(tick);
+
+  if(Number.isInteger(clean)){
+   const label=document.createElement("span");
+   label.className="label";
+   label.textContent=faNumber(clean);
+   cell.appendChild(label);
+  }
+
+  if(q.type==="read" && near(clean,q.value)){
+   const p=document.createElement("span");
+   p.className="given-point";
+   p.textContent="🎯";
+   cell.appendChild(p);
+  }
+
+  cell.addEventListener("click",()=>cellClicked(q,clean,cell));
+
+  el.axis.appendChild(cell);
+ }
+
+ if(q.type==="interval")renderInterval(q);
+ focusValue(q.value);
+}
+
+function renderInterval(q){
+ const cells=[...el.axis.children];
+
+ const leftIndex=Math.round((q.left-q.axisMin)/q.step);
+ const rightIndex=Math.round((q.right-q.axisMin)/q.step);
+
+ if(leftIndex<0||rightIndex>=cells.length)return;
+
+ const start=cells[leftIndex];
+ const end=cells[rightIndex];
+
+ const marker=document.createElement("span");
+ marker.className="interval";
+ marker.style.left=`${start.offsetLeft+start.offsetWidth/2}px`;
+ marker.style.width=`${end.offsetLeft-start.offsetLeft}px`;
+
+ el.axis.appendChild(marker);
+}
+
+function near(a,b){
+ return Math.abs(a-b)<0.00001;
+}
+
+function focusValue(v){
+ requestAnimationFrame(()=>{
+  const idx=Math.round((v-questions[currentIndex].axisMin)/questions[currentIndex].step);
+  const cell=el.axis.children[idx];
+  if(!cell)return;
+
+  el.axisWrap.scrollLeft=Math.max(
+   0,
+   cell.offsetLeft-el.axisWrap.clientWidth/2+cell.clientWidth/2
+  );
+ });
+}
+
+function cellClicked(q,value,cell){
+ if(answerChecked||gameFinished||q.type==="read")return;
+
+ if(remainingMs()<=0){
+  handleTimeout();
+  return;
+ }
+
+ const correct=near(value,q.value);
+
+ const old=el.axis.querySelector(".shot.wrong");
+ if(old)old.remove();
+
+ const shot=document.createElement("span");
+ shot.className=`shot ${correct?"":"wrong"}`;
+ shot.textContent=correct?"🎯":"×";
+ cell.appendChild(shot);
+
+ if(correct){
+  finishAnswer(true,null,explanation(q));
+ }else{
+  /* خطای نشانه‌گیری میانی است؛
+     دانش‌آموز فرصت اصلاح دارد. */
+  el.guide.textContent=
+   value<q.value
+    ?"تیر کمی چپ‌تر افتاد؛ هدف بزرگ‌تر است."
+    :"تیر کمی راست‌تر افتاد؛ هدف کوچک‌تر است.";
+ }
+}
+
+/* ---------- Read point ---------- */
+
+function buildReadChoices(q){
+ const c=q.rational;
+ const map=new Map();
+
+ map.set(`${c.n}/${c.d}`,c);
+ map.set(`${c.n+c.d}/${c.d}`,norm(c.n+c.d,c.d));
+ map.set(`${c.n-c.d}/${c.d}`,norm(c.n-c.d,c.d));
+ map.set(`${-c.n}/${c.d}`,norm(-c.n,c.d));
+
+ return shuffle([...map.values()])
+  .filter((x,i,a)=>a.findIndex(y=>y.n===x.n&&y.d===x.d)===i)
+  .slice(0,3);
+}
+
+function renderReadChoices(q){
+ el.choices.innerHTML="";
+
+ const options=buildReadChoices(q);
+
+ options.forEach(x=>{
+  const btn=document.createElement("button");
+  btn.type="button";
+  btn.className="choice";
+  btn.dataset.key=`${x.n}/${x.d}`;
+  btn.innerHTML=fracHTML(x);
+
+  btn.addEventListener("click",()=>{
+   const correct=x.n===q.rational.n&&x.d===q.rational.d;
+   finishAnswer(correct,btn,explanation(q));
+  });
+
+  el.choices.appendChild(btn);
+ });
+}
+
+/* ---------- Timer ---------- */
+
+function remainingMs(){
+ return Math.max(0,QUESTION_TIME*1000-(Date.now()-startedAt));
+}
+function scoreForTime(s){
+ if(s<=5)return 10;
+ if(s<=10)return 8;
+ if(s<=15)return 6;
+ if(s<=20)return 4;
+ if(s<30)return 2;
+ return 0;
+}
+function stopTimer(){
+ if(timerId!==null){clearInterval(timerId);timerId=null}
+}
+function startTimer(){
+ stopTimer();
+ startedAt=Date.now();
+ updateTimer();
+ timerId=setInterval(updateTimer,150);
+}
+function updateTimer(){
+ const ms=remainingMs();
+ const sec=Math.max(0,Math.ceil(ms/1000));
+ const r=ms/(QUESTION_TIME*1000);
+
+ el.time.textContent=`${faNumber(sec)} ثانیه`;
+ el.timerMini.textContent=`${faNumber(sec)} / ${faNumber(QUESTION_TIME)}`;
+ el.timerBar.style.width=`${Math.max(0,r*100)}%`;
+ el.timerBar.style.background=r>.5?"var(--green)":r>.2?"var(--yellow)":"var(--red)";
+
+ if(ms<=0&&!answerChecked&&!gameFinished)handleTimeout();
+}
+
+/* ---------- Render ---------- */
+
+function renderProgress(){
+ el.progress.innerHTML="";
+ for(let i=0;i<TOTAL_QUESTIONS;i++){
+  const p=document.createElement("span");
+  p.className="pstep";
+  if(i<currentIndex)p.classList.add("done");
+  else if(i===currentIndex)p.classList.add("now");
+  el.progress.appendChild(p);
+ }
+}
+
+function renderQuestion(){
+ stopTimer();
+ answerChecked=false;
+
+ const q=questions[currentIndex];
+
+ el.stage.textContent=`${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
+ el.score.textContent=faNumber(score);
+ el.missionBadge.textContent=`هدف ${faNumber(currentIndex+1)}`;
+ el.missionTitle.textContent=q.title;
+ el.missionText.textContent=q.text;
+
+ el.feedback.className="feedback";
+ el.feedback.innerHTML="";
+ el.nextBtn.style.display="none";
+ el.choices.innerHTML="";
+
+ renderProgress();
+
+ if(q.type==="read"){
+  el.targetLabel.textContent="این نقطه چه عددی است؟";
+  el.targetNumber.innerHTML="❓";
+  el.guide.textContent="فاصله بین دو عدد صحیح را به قسمت‌های مساوی بشمار.";
+ }else if(q.type==="interval"){
+  el.targetLabel.textContent="عدد هدف";
+  el.targetNumber.innerHTML=fracHTML(q.rational);
+  el.guide.textContent="بازه صورتی را پیدا کن، سپس جای دقیق کسر را بزن.";
+ }else{
+  el.targetLabel.textContent="عدد هدف";
+  el.targetNumber.innerHTML=displayHTML(q);
+  el.guide.textContent="هر فاصله بزرگ را با توجه به خط‌های کوچک تقسیم کن.";
+ }
+
+ buildAxis(q);
+
+ if(q.type==="read")renderReadChoices(q);
+
+ startTimer();
+}
+
+/* ---------- Feedback ---------- */
+
+function explanation(q){
+ if(q.type==="read"){
+  return `فاصله هر دو عدد صحیح به قسمت‌های مساوی تقسیم شده است. نقطه مشخص‌شده همان ${plainRational(q.rational)} است.`;
+ }
+
+ if(q.value<0){
+  return `${plainRational(q.rational)} منفی است؛ پس در سمت چپ صفر قرار می‌گیرد. فاصله آن از عددهای صحیح را از تقسیم‌های محور پیدا می‌کنیم.`;
+ }
+
+ return `${plainRational(q.rational)} مثبت است؛ پس در سمت راست صفر قرار می‌گیرد و تقسیم‌های مساوی محور جای دقیق آن را مشخص می‌کنند.`;
+}
+
+function plainRational(x){
+ if(x.d===1)return faNumber(x.n);
+ return `${faNumber(x.n)} روی ${faNumber(x.d)}`;
+}
+
+function lock(){
+ el.axis.style.pointerEvents="none";
+ el.choices.querySelectorAll("button").forEach(b=>b.disabled=true);
+}
+
+function revealCorrect(q){
+ const idx=Math.round((q.value-q.axisMin)/q.step);
+ const cell=el.axis.children[idx];
+
+ if(cell && !cell.querySelector(".shot")){
+  const shot=document.createElement("span");
+  shot.className="shot";
+  shot.textContent="🎯";
+  cell.appendChild(shot);
+ }
+
+ if(q.type==="read"){
+  el.choices.querySelectorAll(".choice").forEach(btn=>{
+   if(btn.dataset.key===`${q.rational.n}/${q.rational.d}`){
+    btn.classList.add("correct");
+   }
+  });
+ }
+}
+
+function finishAnswer(correct,btn,message){
+ if(answerChecked||gameFinished)return;
+
+ if(remainingMs()<=0){
+  handleTimeout();
+  return;
+ }
+
+ /* در read انتخاب غلط پاسخ نهایی است.
+    در تیراندازی، کلیک غلط فقط خطای میانی بود
+    و اصلاً این تابع فراخوانی نشد. */
+ answerChecked=true;
+ stopTimer();
+ lock();
+
+ const q=questions[currentIndex];
+
+ if(correct){
+  if(btn)btn.classList.add("correct");
+  revealCorrect(q);
+
+  const elapsed=Math.min(QUESTION_TIME,(Date.now()-startedAt)/1000);
+  const gained=scoreForTime(elapsed);
+
+  score=Math.min(100,score+gained);
+  el.score.textContent=faNumber(score);
+
+  el.feedback.className="feedback good";
+  el.feedback.innerHTML=
+   `✅ <strong>به هدف خورد! +${faNumber(gained)} امتیاز</strong><br>${message}`;
+ }else{
+  if(btn)btn.classList.add("wrong");
+  revealCorrect(q);
+
+  el.feedback.className="feedback bad";
+  el.feedback.innerHTML=
+   `❌ <strong>عدد نقطه را درست نخواندی.</strong><br>${message}`;
+ }
+
+ showNext();
+}
+
+function handleTimeout(){
+ if(answerChecked||gameFinished)return;
+
+ answerChecked=true;
+ stopTimer();
+ lock();
+
+ const q=questions[currentIndex];
+ revealCorrect(q);
+
+ el.time.textContent="۰ ثانیه";
+ el.timerMini.textContent=`۰ / ${faNumber(QUESTION_TIME)}`;
+ el.timerBar.style.width="0%";
+ el.timerBar.style.background="var(--red)";
+
+ el.feedback.className="feedback time";
+ el.feedback.innerHTML=
+  `⏰ <strong>زمان تمام شد.</strong><br>${explanation(q)}`;
+
+ showNext();
+}
+
+function showNext(){
+ el.nextBtn.style.display="block";
+ el.nextBtn.textContent=
+  currentIndex===TOTAL_QUESTIONS-1
+   ?"🏆 پایان مسابقه"
+   :"هدف بعدی 🎯";
+}
+
+/* ---------- Finish ---------- */
+
+function nextQuestion(){
+ if(!answerChecked||gameFinished)return;
+
+ if(currentIndex===TOTAL_QUESTIONS-1){
+  finishGame();
+  return;
+ }
+
+ currentIndex++;
+ renderQuestion();
+}
+
+async function finishGame(){
+ if(gameFinished)return;
+
+ gameFinished=true;
+ stopTimer();
+ score=Math.min(100,score);
+
+ el.game.classList.add("hidden");
+ el.hero.classList.add("hidden");
+ el.statusWrap.classList.add("hidden");
+ el.resultScreen.classList.add("show");
+
+ const name=player.playerName||"بازیکن";
+
+ el.resultName.textContent=
+  `${name}، هر ۱۰ هدف محور را پشت سر گذاشتی.`;
+
+ el.finalScore.textContent=faNumber(score);
+
+ if(score>=90){
+  el.resultMessage.textContent="عالی بود! 🌟 تیرت دقیقاً جای عددها می‌نشیند!";
+ }else if(score>=70){
+  el.resultMessage.textContent="خیلی خوب بود 👏 محور عددهای گویا را خوب می‌خوانی.";
+ }else if(score>=50){
+  el.resultMessage.textContent="خوب بود، ادامه بده 💪 تقسیم‌های کوچک محور را دقیق‌تر بشمار.";
+ }else{
+  el.resultMessage.textContent="دوباره تلاش کن 🌱 اول دو عدد صحیح اطراف هدف را پیدا کن.";
+ }
+
+ if(!finishSubmitted){
+  finishSubmitted=true;
+  try{
+   const result=await GameSDK.finishGame(score);
+   void result;
+  }catch(e){
+   console.error("finishGame failed:",e);
+  }
+ }
+
+ await loadLeaderboard();
+}
+
+async function loadLeaderboard(){
+ el.leaderboard.className="loading";
+ el.leaderboard.textContent="در حال دریافت رکوردها...";
+
+ try{
+  const scores=await GameSDK.getLeaderboard(10);
+  const list=Array.isArray(scores)?scores:[];
+
+  el.leaderboard.className="";
+  el.leaderboard.innerHTML="";
+
+  if(!list.length){
+   el.leaderboard.className="loading";
+   el.leaderboard.textContent="هنوز رکوردی برای نمایش وجود ندارد.";
+   return;
+  }
+
+  list.slice(0,10).forEach((item,i)=>{
+   const row=document.createElement("div");
+   row.className="rank";
+
+   const r=document.createElement("span");
+   r.textContent=i===0?"🥇":i===1?"🥈":i===2?"🥉":`${faNumber(i+1)}.`;
+
+   const n=document.createElement("span");
+   n.className="rank-name";
+   n.textContent=item.playerName??item.name??item.username??"بازیکن";
+
+   const s=document.createElement("span");
+   s.className="rank-score";
+   s.textContent=`${faNumber(item.score??0)} امتیاز`;
+
+   row.append(r,n,s);
+   el.leaderboard.appendChild(row);
+  });
+ }catch(e){
+  console.error("Leaderboard failed:",e);
+  el.leaderboard.className="loading";
+  el.leaderboard.textContent="دریافت جدول برترین‌ها ممکن نشد.";
+ }
+}
+
+/* ---------- Restart ---------- */
+
+function restartGame(){
+ stopTimer();
+ GameSDK.reset();
+
+ questions=[];
+ currentIndex=0;
+ score=0;
+ startedAt=0;
+ timerId=null;
+ answerChecked=false;
+ gameFinished=false;
+ finishSubmitted=false;
+
+ el.score.textContent="۰";
+ el.resultScreen.classList.remove("show");
+ el.game.classList.remove("hidden");
+ el.hero.classList.remove("hidden");
+ el.statusWrap.classList.remove("hidden");
+
+ generateRound();
+
+ if(questions.length!==TOTAL_QUESTIONS){
+  throw new Error("Exactly 10 questions are required.");
+ }
+
+ renderQuestion();
+}
+
+el.nextBtn.addEventListener("click",nextQuestion);
+el.restartBtn.addEventListener("click",restartGame);
+
+el.playerName.textContent=player.playerName||"بازیکن";
+
+generateRound();
+
+if(questions.length!==TOTAL_QUESTIONS){
+ throw new Error("Exactly 10 questions are required.");
+}
+
+renderQuestion();
+
+})();
+</script>
+</body>
+</html>
