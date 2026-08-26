@@ -2,282 +2,199 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>نینجای میان‌بُر | ریاضی هشتم</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>نینجای میان‌بُر 🥷⚡ | ریاضی هشتم</title>
 <style>
 :root{
- --purple:#7357d8;--blue:#3d8de7;--pink:#ed6da7;
- --yellow:#f6c84d;--green:#36b978;--red:#e65760;
- --dark:#192737;--ink:#29384c;--muted:#718096;
+ --purple:#7456d8;--blue:#3e83ed;--pink:#ec70a7;--yellow:#f5c543;
+ --green:#29ad78;--red:#e65362;--ink:#29334b;--muted:#6d7690;
+ --dark:#252b40;--shadow:0 10px 28px rgba(58,51,108,.12)
 }
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;overflow-x:hidden}
 body{
- margin:0;min-height:100vh;overflow-x:hidden;
- font-family:Tahoma,Arial,sans-serif;color:var(--ink);
+ font-family:Tahoma,Arial,sans-serif;color:var(--ink);line-height:1.65;
  background:
- radial-gradient(circle at 7% 5%,#e0edff 0,transparent 24%),
- radial-gradient(circle at 93% 6%,#ffe0ec 0,transparent 25%),
- linear-gradient(155deg,#f4efff,#eefaff)
+ radial-gradient(circle at 10% 4%,#e7e2ff 0,transparent 27%),
+ radial-gradient(circle at 92% 14%,#dcf4ff 0,transparent 25%),
+ #f7f7fc
 }
-button{font:inherit;touch-action:manipulation}
-.app{width:min(100% - 16px,760px);margin:auto;padding:12px 0 28px}
-.hero{text-align:center}
-.badges{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+button{font:inherit}
+button:focus-visible{outline:3px solid #267ee8;outline-offset:3px}
+.app{width:min(100%,920px);margin:auto;padding:14px 12px 30px}
+.header{
+ background:linear-gradient(135deg,#7353d6,#4086eb);color:#fff;
+ border-radius:22px;padding:16px;box-shadow:var(--shadow)
+}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
 .badge{
- background:#fff;border:1px solid #ded8ff;border-radius:99px;
- padding:4px 9px;color:#6250b3;font-size:11px;font-weight:bold
+ padding:3px 9px;border-radius:99px;font-size:11px;font-weight:bold;
+ background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.26)
 }
-h1{margin:7px 0 2px;color:#5941b6;font-size:clamp(25px,7vw,38px)}
-.subtitle{margin:0 0 10px;color:var(--muted);font-size:13px}
-.status{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:9px 0 7px}
-.stat{
- min-width:0;background:#fff;border:1px solid #e1e6ee;border-radius:12px;
- padding:7px 4px;text-align:center
-}
-.stat small{display:block;color:var(--muted);font-size:9px}
-.stat b{display:block;margin-top:2px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.timer{background:#fff;border-radius:12px;padding:7px 9px;margin-bottom:8px}
-.timer-row{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin-bottom:5px}
-.track{height:8px;background:#edf0f4;border-radius:20px;overflow:hidden}
-.bar{height:100%;width:100%;background:var(--green);border-radius:20px}
-.card{
- background:#fff;border:1px solid #e0e5ed;border-radius:22px;
- padding:12px;box-shadow:0 14px 36px rgba(63,73,105,.12)
-}
-.progress{display:flex;align-items:center;gap:5px;margin-bottom:9px}
-.pstep{flex:1;height:8px;background:#e7ebf1;border-radius:20px}
-.pstep.done{background:var(--green)}
-.pstep.now{background:var(--purple);box-shadow:0 0 0 3px #eeeaff}
+h1{font-size:clamp(23px,6vw,34px);margin:8px 0 2px}
+.subtitle{margin:0;color:#f2efff;font-size:13px}
+.status{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
+.status-card{min-width:0;background:#fff;color:var(--ink);border-radius:13px;padding:6px 3px;text-align:center}
+.status-card small{display:block;color:var(--muted);font-size:10px}
+.status-card strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timer-box{margin-top:9px;padding:7px;border-radius:13px;background:rgba(255,255,255,.15)}
+.timer-head{display:flex;justify-content:space-between;font-size:12px}
+.timer-track{height:9px;margin-top:5px;background:rgba(255,255,255,.22);border-radius:99px;overflow:hidden}
+.timer-fill{height:100%;width:100%;background:#51dd91;border-radius:inherit;transition:width .15s linear,background .2s}
 
-/* mission */
-.mission{
- text-align:center;background:#f7f5ff;border:1px solid #e4deff;
- border-radius:15px;padding:8px;margin-bottom:9px
-}
-.mission small{color:#7664bd;font-weight:bold}
-.mission h2{font-size:17px;color:#4c4095;margin:3px 0}
-.mission p{color:#68788b;font-size:12px;line-height:1.7;margin:0}
+.game-card{margin-top:13px;background:#fff;border-radius:22px;padding:15px;min-height:490px;box-shadow:var(--shadow)}
+.topline{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.level{padding:4px 10px;border-radius:99px;font-size:12px;font-weight:bold;background:#e9f8ef;color:#18794d}
+.level.master{background:#fff3ca;color:#916600}.level.challenge{background:#ffe9ee;color:#bc3850}
+.prompt{text-align:center;font-weight:bold;font-size:clamp(16px,4.5vw,20px);margin:15px auto 4px}
+.hint{text-align:center;color:var(--muted);font-size:12px;margin-bottom:11px}
 
-/* dojo */
 .dojo{
- position:relative;overflow:hidden;min-height:350px;border-radius:18px;
- border:3px solid #263547;padding:10px;
- background:
- radial-gradient(circle at 50% 15%,rgba(255,211,79,.08),transparent 35%),
- linear-gradient(#293a4f,#172636);
+ max-width:740px;margin:auto;border-radius:20px;padding:15px 10px;
+ background:linear-gradient(145deg,#282d43,#343957);
+ color:white;position:relative;overflow:hidden
 }
-.moon{
- position:absolute;left:14px;top:11px;font-size:35px;opacity:.85
+.dojo::after{
+ content:"🥷";position:absolute;left:-5px;bottom:-24px;
+ font-size:105px;opacity:.045;pointer-events:none
 }
-.ninja{
- position:absolute;right:13px;top:13px;font-size:45px;
- filter:drop-shadow(0 3px 2px rgba(0,0,0,.3))
-}
-.scroll{
- max-width:570px;margin:8px auto 10px;padding:10px 8px;
- border:3px solid #c9973e;border-radius:13px;
- background:#fff3ce;color:#4e402a;text-align:center;
- min-height:80px;display:flex;flex-direction:column;justify-content:center
-}
-.scroll small{color:#907343;font-size:9px}
+.dojo-head{text-align:center;color:#cbd3eb;font-size:12px}
 .expression{
- direction:ltr;unicode-bidi:isolate;font-size:clamp(18px,5vw,25px);
- font-weight:bold;line-height:2;overflow-wrap:anywhere
+ direction:ltr;unicode-bidi:isolate;display:flex;justify-content:center;
+ align-items:center;flex-wrap:wrap;gap:6px;min-height:95px;padding:12px 4px
 }
-.hint{
- text-align:center;color:#bdcad8;font-size:11px;line-height:1.7;
- margin:4px 0 8px
+.term{
+ min-width:55px;min-height:49px;border:2px solid #626c8a;
+ background:#3d4565;color:#fff;border-radius:13px;
+ padding:6px 10px;font-weight:bold;font-size:17px;cursor:pointer
+}
+.term.selected{border-color:#f5c543;box-shadow:0 0 0 3px rgba(245,197,67,.25);transform:translateY(-2px)}
+.term.cleared{opacity:.25;text-decoration:line-through}
+.term.key{border-color:#4fc185;background:#324e49}
+.operator{color:#cbd5ed;font-size:18px;font-weight:bold}
+.factor{
+ min-width:68px;min-height:52px;border:2px solid #626c8a;
+ background:#3d4565;color:#fff;border-radius:13px;padding:6px 9px;
+ font-weight:bold;cursor:pointer
+}
+.factor.selected{border-color:#f5c543;box-shadow:0 0 0 3px rgba(245,197,67,.22)}
+.factor.found{background:#294f43;border-color:#4fc185}
+
+.mission-meter{
+ max-width:600px;margin:4px auto 10px;background:#21263a;
+ border-radius:13px;padding:9px 11px;text-align:center;
+ color:#cbd3e9;font-size:12px
+}
+.mission-meter strong{color:#fff}
+.discovery{
+ min-height:38px;text-align:center;color:#d8dff1;
+ font-size:13px;margin-top:8px
 }
 
-/* cards */
-.cards{
- display:grid;grid-template-columns:repeat(3,1fr);gap:7px;
- max-width:580px;margin:auto
+.sequence{
+ direction:ltr;display:flex;justify-content:center;align-items:center;
+ gap:6px;flex-wrap:wrap;padding:11px 3px
 }
-.number-card{
- min-height:54px;border:2px solid #728299;border-radius:12px;
- background:#f9fbfd;color:#36495f;font-size:17px;font-weight:bold;
- cursor:pointer;box-shadow:0 4px 0 #0e1b29
+.seq-card{
+ min-width:48px;min-height:45px;border:2px solid #626c8a;
+ background:#3d4565;color:#fff;border-radius:12px;
+ font-weight:bold;cursor:pointer
 }
-.number-card:hover:not(:disabled){border-color:#a990ec;background:#f5f1ff}
-.number-card.active{border-color:var(--yellow);background:#fff6d6;color:#755b19}
-.number-card.vanish{opacity:.16;box-shadow:none;pointer-events:none}
-.number-card.correct{border-color:var(--green);background:#eaf9f1;color:#246b48;box-shadow:none}
-.number-card.wrong{border-color:var(--red);background:#fff0f0;color:#994149;box-shadow:none}
-.number-card:disabled{cursor:default}
+.seq-card.selected{border-color:#f5c543;background:#554e57}
+.seq-card.paired{opacity:.28;text-decoration:line-through}
+.pairs{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;min-height:36px;margin-top:6px}
+.pair-chip{background:#2d594a;border:1px solid #4db984;color:#e7fff3;border-radius:10px;padding:5px 8px;font-size:12px}
 
-/* sign puzzle */
-.sign-row{
- direction:ltr;display:flex;align-items:center;justify-content:center;
- flex-wrap:wrap;gap:6px;margin:15px auto;max-width:580px
-}
-.chip{
- min-width:57px;padding:10px 8px;border-radius:11px;
- background:#e8edf4;color:#30445b;text-align:center;
- font-weight:bold;font-size:17px
-}
-.sign-btn{
- width:45px;height:45px;border:2px solid #ac99e6;border-radius:12px;
- background:#f4f0ff;color:#5b43b2;font-size:21px;font-weight:bold;cursor:pointer
-}
-.submit{
- width:min(100%,400px);min-height:47px;border:0;border-radius:12px;
- display:block;margin:9px auto 0;color:#fff;font-weight:bold;cursor:pointer;
- background:linear-gradient(135deg,#7357d8,#3e8de7)
-}
+.action-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn{border:0;border-radius:14px;min-height:48px;padding:9px 18px;font-weight:bold;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,#7556d7,#4283e9);color:#fff}
+.btn-secondary{background:#edf0f6;color:#3e485e}
+.btn:disabled{opacity:.45;cursor:not-allowed}
 
-/* answer */
-.answer-zone{max-width:500px;margin:10px auto 0}
-.answer-title{text-align:center;color:#c8d4e1;font-size:11px;margin-bottom:6px}
-.answer-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.answer-btn{
- min-height:51px;border:2px solid #738399;border-radius:12px;
- background:#fff;color:#35485e;font-weight:bold;cursor:pointer
-}
-.answer-btn.correct{border-color:var(--green);background:#eaf9f1;color:#246b48}
-.answer-btn.wrong{border-color:var(--red);background:#fff0f0;color:#994149}
-.answer-btn:disabled{cursor:default}
+.feedback{display:none;margin-top:13px;padding:11px 13px;border-radius:14px;font-size:14px}
+.feedback.show{display:block}
+.feedback.good{background:#e8f8ef;border:1px solid #a8ddbf;color:#176b43}
+.feedback.bad{background:#ffebee;border:1px solid #efb4bd;color:#a52b40}
+.feedback.timeout{background:#fff3da;border:1px solid #e9ca84;color:#835c00}
+.feedback strong{display:block}
 
-/* feedback */
-.feedback{
- display:none;margin-top:9px;padding:10px;border-radius:13px;
- font-size:12px;line-height:1.75
+.result{display:none;text-align:center}.result.show{display:block}
+.score-circle{
+ width:128px;height:128px;border-radius:50%;margin:17px auto;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ background:linear-gradient(135deg,#e7e1ff,#daf3ff);
+ border:7px solid #fff;box-shadow:0 0 0 3px #7456d8
 }
-.feedback.good{display:block;background:#eaf9f1;border:1px solid #b8e6cc;color:#246846}
-.feedback.bad{display:block;background:#fff0f0;border:1px solid #efc1c4;color:#944147}
-.feedback.time{display:block;background:#fff7df;border:1px solid #ecd693;color:#7b601d}
-.next{
- display:none;width:100%;min-height:50px;margin-top:9px;border:0;border-radius:14px;
- background:linear-gradient(135deg,#7357d8,#3e8de7);
- color:#fff;font-weight:bold;cursor:pointer
-}
-
-/* result */
-.hidden{display:none!important}
-.result{display:none;text-align:center}
-.result.show{display:block}
-.trophy{font-size:61px}
-.final-score{font-size:42px;color:#6048bd;font-weight:bold}
-.final-score small{font-size:14px;color:var(--muted);font-weight:normal}
-.result-message{margin:9px 0 16px;font-weight:bold}
-.board{max-width:510px;margin:15px auto;text-align:right}
-.board h3{text-align:center}
-.rank{
- display:flex;justify-content:space-between;gap:8px;
- background:#f6f8fc;border-radius:11px;padding:9px 10px;margin:6px 0
-}
-.rank-name{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.rank-score{color:#634dc0;font-weight:bold;white-space:nowrap}
-.loading{text-align:center;color:var(--muted);padding:12px}
-.restart{
- width:min(100%,350px);min-height:51px;border:0;border-radius:14px;
- background:linear-gradient(135deg,#7357d8,#3e8de7);
- color:#fff;font-weight:bold;cursor:pointer
-}
-.back{
- display:block;width:max-content;max-width:100%;margin:18px auto 0;
- color:#6152a6;text-decoration:none;font-size:13px
-}
-@media(max-width:520px){
- .status{grid-template-columns:repeat(2,1fr)}
- .card{padding:9px;border-radius:18px}
- .cards{grid-template-columns:repeat(2,1fr)}
- .number-card{font-size:15px}
- .ninja{font-size:37px}
-}
+.score-circle strong{font-size:35px;color:#6544cf}.score-circle small{color:#667}
+.leaderboard{max-width:530px;margin:18px auto;background:#f8f8fc;border-radius:16px;padding:10px;text-align:right}
+.leader-row{display:flex;justify-content:space-between;gap:8px;padding:8px 6px;border-bottom:1px solid #e2e2ec}
+.leader-row:last-child{border-bottom:0}.error{text-align:center;color:#a72e43;font-size:12px}
+.back{display:block;text-align:center;margin:17px auto;color:#604bbc;font-weight:bold;text-decoration:none}
+.pop{animation:pop .28s ease}.shake{animation:shake .28s ease}
+@keyframes pop{50%{transform:scale(1.025)}}@keyframes shake{25%{transform:translateX(4px)}50%{transform:translateX(-4px)}75%{transform:translateX(3px)}}
+@media(min-width:650px){.app{padding:22px 18px 40px}.header{padding:20px}.game-card{padding:22px}}
 @media(prefers-reduced-motion:reduce){
- *,*:before,*:after{
-  animation:none!important;transition:none!important;scroll-behavior:auto!important
- }
+ *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 </style>
 </head>
-
 <body>
-<main class="app">
 
-<header class="hero" id="hero">
- <div class="badges">
-  <span class="badge">پایه هشتم</span>
-  <span class="badge">فصل اول</span>
-  <span class="badge">درس ۱</span>
-  <span class="badge">محاسبه هوشمند</span>
+<main class="app">
+<header class="header">
+ <div class="badges"><span class="badge">پایه هشتم</span><span class="badge">فصل ۱</span><span class="badge">درس ۱</span></div>
+ <h1>نینجای میان‌بُر 🥷⚡</h1>
+ <p class="subtitle">قبل از محاسبه، چیزی را پیدا کن که محاسبه را کوتاه می‌کند.</p>
+
+ <div class="status">
+  <div class="status-card"><small>بازیکن</small><strong id="playerName">...</strong></div>
+  <div class="status-card"><small>مأموریت</small><strong id="missionStatus">۱ از ۱۰</strong></div>
+  <div class="status-card"><small>امتیاز</small><strong id="scoreStatus">۰ از ۱۰۰</strong></div>
  </div>
 
- <h1>🥷 نینجای میان‌بُر ⚡</h1>
- <p class="subtitle">نینجا همه‌چیز را حساب نمی‌کند؛ راه کوتاه را پیدا می‌کند!</p>
+ <div class="timer-box">
+  <div class="timer-head"><span>⏱ زمان باقی‌مانده</span><strong id="timeText">۳۰ ثانیه</strong></div>
+  <div class="timer-track"><div id="timerFill" class="timer-fill"></div></div>
+ </div>
 </header>
 
-<div id="statusWrap">
- <section class="status">
-  <div class="stat"><small>بازیکن</small><b id="playerName">---</b></div>
-  <div class="stat"><small>مأموریت</small><b id="stage">۱ از ۱۰</b></div>
-  <div class="stat"><small>امتیاز</small><b id="score">۰</b></div>
-  <div class="stat"><small>زمان</small><b id="time">۶۰ ثانیه</b></div>
- </section>
-
- <section class="timer">
-  <div class="timer-row">
-   <span>⚡ انرژی نینجا</span>
-   <span id="timerMini">۶۰ / ۶۰</span>
-  </div>
-  <div class="track"><div class="bar" id="timerBar"></div></div>
- </section>
-</div>
-
-<section class="card" id="game">
- <div class="progress" id="progress"></div>
-
- <div class="mission">
-  <small id="missionBadge">مأموریت ۱</small>
-  <h2 id="missionTitle"></h2>
-  <p id="missionText"></p>
- </div>
-
- <div class="dojo">
-  <span class="moon">🌙</span>
-  <span class="ninja">🥷</span>
-
-  <div class="scroll">
-   <small>طومار مأموریت</small>
-   <div class="expression" id="expression"></div>
+<section id="gameCard" class="game-card">
+ <div id="playArea">
+  <div class="topline">
+   <span id="levelBadge" class="level">🟢 پایه</span>
+   <span style="font-size:12px;color:#707890">کمتر حساب کن، بیشتر ببین ⚡</span>
   </div>
 
-  <div class="hint" id="hint"></div>
+  <div id="prompt" class="prompt"></div>
+  <div id="hint" class="hint"></div>
 
-  <div id="interaction"></div>
+  <div class="dojo">
+   <div class="dojo-head">میدان تمرین نینجا</div>
+   <div id="workspace"></div>
+   <div id="meter" class="mission-meter"></div>
+   <div id="discovery" class="discovery"></div>
+  </div>
 
-  <div class="answer-zone" id="answerZone"></div>
+  <div class="action-row">
+   <button id="resetBtn" class="btn btn-secondary" type="button">↩ بازنشانی</button>
+   <button id="checkBtn" class="btn btn-primary" type="button">ثبت میان‌بُر ⚡</button>
+   <button id="nextBtn" class="btn btn-primary" type="button" hidden>مأموریت بعدی</button>
+  </div>
+
+  <div id="feedback" class="feedback" aria-live="polite"></div>
  </div>
 
- <div class="feedback" id="feedback" aria-live="polite"></div>
+ <div id="resultArea" class="result">
+  <div style="font-size:48px">🥷🏆</div><h2>دوره نینجا کامل شد!</h2><p id="resultName"></p>
+  <div class="score-circle"><strong id="finalScore">۰</strong><small>از ۱۰۰</small></div>
+  <p id="resultMessage"></p>
+  <button id="restartBtn" class="btn btn-primary" type="button">🔄 بازی دوباره</button>
 
- <button type="button" class="next" id="nextBtn">
-  مأموریت بعدی 🥷
- </button>
-</section>
-
-<section class="card result" id="resultScreen">
- <div class="trophy">🏆🥷</div>
- <h2>استاد میان‌بُر شدی!</h2>
-
- <div id="resultName"></div>
-
- <div class="final-score">
-  <span id="finalScore">۰</span>
-  <small>از ۱۰۰ امتیاز</small>
+  <div class="leaderboard">
+   <h3 style="text-align:center;margin:5px">🏆 نینجاهای برتر</h3>
+   <div id="leaderRows"></div>
+  </div>
  </div>
-
- <div class="result-message" id="resultMessage"></div>
-
- <div class="board">
-  <h3>🏅 برترین نینجاها</h3>
-  <div id="leaderboard" class="loading">در حال دریافت رکوردها...</div>
- </div>
-
- <button type="button" class="restart" id="restartBtn">🔄 مأموریت دوباره</button>
 </section>
 
 <a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
@@ -285,659 +202,1101 @@ h1{margin:7px 0 2px;color:#5941b6;font-size:clamp(25px,7vw,38px)}
 
 <script src="/games/game-sdk.js"></script>
 <script>
-const GAME_ID = 20;
-
-const player = GameSDK.init(GAME_ID);
-
-(() => {
 "use strict";
 
+const GAME_ID = 20;
+const player = GameSDK.init(GAME_ID);
+
 const TOTAL_QUESTIONS = 10;
-const QUESTION_TIME = 60;
+const QUESTION_TIME = 30;
+const RECENT_KEY = "grade8Lesson1ShortcutNinjaRecent";
+const MAX_RECENT_SIGNATURES = 40;
 
-const RECENT_KEY = "shortcut_ninja_g8_l1_v1";
-const MAX_RECENT = 50;
-
-let questions=[];
-let currentIndex=0;
-let score=0;
-let startedAt=0;
-let timerId=null;
-let answerChecked=false;
-let gameFinished=false;
-let finishSubmitted=false;
-let state={};
+let questions=[],currentIndex=0,score=0;
+let answerChecked=false,gameFinished=false,finishSubmitted=false;
+let timerInterval=null,questionStartedAt=0,questionDeadline=0;
+let interactionState={};
+let recentSignatures=loadRecent();
 
 const $=id=>document.getElementById(id);
-
-const el={
- hero:$("hero"),statusWrap:$("statusWrap"),
- playerName:$("playerName"),stage:$("stage"),score:$("score"),time:$("time"),
- timerMini:$("timerMini"),timerBar:$("timerBar"),
- game:$("game"),progress:$("progress"),
- missionBadge:$("missionBadge"),missionTitle:$("missionTitle"),
- missionText:$("missionText"),expression:$("expression"),hint:$("hint"),
- interaction:$("interaction"),answerZone:$("answerZone"),
- feedback:$("feedback"),nextBtn:$("nextBtn"),
- resultScreen:$("resultScreen"),resultName:$("resultName"),
- finalScore:$("finalScore"),resultMessage:$("resultMessage"),
- leaderboard:$("leaderboard"),restartBtn:$("restartBtn")
-};
+$("playerName").textContent=player.playerName||"بازیکن";
 
 function faNumber(v){
  return String(v).replace(/-/g,"−").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
 }
-function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function signed(v){return v>0?`+${faNumber(v)}`:faNumber(v)}
+function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
 function shuffle(a){
- const x=[...a];
- for(let i=x.length-1;i>0;i--){
+ const b=[...a];
+ for(let i=b.length-1;i>0;i--){
   const j=Math.floor(Math.random()*(i+1));
-  [x[i],x[j]]=[x[j],x[i]];
+  [b[i],b[j]]=[b[j],b[i]];
  }
- return x;
+ return b;
 }
-function getRecent(){
+function sum(a){return a.reduce((s,x)=>s+x,0)}
+
+function loadRecent(){
  try{
-  const x=JSON.parse(localStorage.getItem(RECENT_KEY)||"[]");
-  return Array.isArray(x)?x:[];
- }catch{return []}
+  const a=JSON.parse(localStorage.getItem(RECENT_KEY)||"[]");
+  return Array.isArray(a)?a.slice(-MAX_RECENT_SIGNATURES):[];
+ }catch(e){return[]}
 }
-function saveRecent(sigs){
- try{
-  const old=getRecent();
-  localStorage.setItem(
-   RECENT_KEY,
-   JSON.stringify([...sigs,...old.filter(x=>!sigs.includes(x))].slice(0,MAX_RECENT))
-  );
- }catch{}
-}
-function answerChoices(correct){
- const s=new Set([correct,correct+1,correct-1]);
- let d=2;
- while(s.size<3){s.add(correct+d);d++}
- return shuffle([...s].slice(0,3));
+function saveRecent(qs){
+ recentSignatures=[...recentSignatures,...qs.map(q=>q.signature)].slice(-MAX_RECENT_SIGNATURES);
+ try{localStorage.setItem(RECENT_KEY,JSON.stringify(recentSignatures))}catch(e){}
 }
 
-/* ---------- Generators ---------- */
+/* =====================================================
+   GENERATORS
+   ===================================================== */
 
-function pairQuestion(pairCount){
- const cards=[];
- let total=0;
- const used=new Set();
-
- for(let i=0;i<pairCount;i++){
-  let a=rand(4,25);
-  while(used.has(a))a=rand(4,25);
-  used.add(a);
-  cards.push(a,-a);
- }
-
- const extra=rand(2,12)*(Math.random()<.5?-1:1);
- cards.push(extra);
- total=extra;
+function genOneOppositePair(){
+ const a=randInt(8,40);
+ let extras=[randInt(2,15),-randInt(2,15)];
+ while(extras[0]===-extras[1])extras=[randInt(2,15),-randInt(2,15)];
+ const terms=shuffle([a,-a,...extras]);
 
  return {
-  type:"pairs",
-  title:"سایه‌های قرینه",
-  text:`${faNumber(pairCount)} جفت قرینه را حذف کن.`,
-  cards:shuffle(cards),
-  required:pairCount,
-  answer:total,
-  expression:shuffle(cards).join(" + "),
-  sig:`pairs-${cards.join("_")}`
+  type:"zeroPairs",level:1,terms,required:1,
+  prompt:"یک جفت قرینه پیدا کن که فوراً صفر شود.",
+  hint:"دو عدد قرینه جمعشان صفر است.",
+  explanation:`${signed(a)} و ${signed(-a)} قرینه‌اند؛ جمعشان صفر است و می‌توانی آن دو را بدون محاسبه طولانی حذف کنی.`,
+  signature:`zp1-${a}-${terms.join("_")}`
  };
 }
 
-function zeroQuestion(){
- const z=rand(3,8);
- const end=rand(10,15);
+function genCancellationInLongSum(){
+ const a=randInt(20,70),b=randInt(5,18),c=randInt(2,13);
+ const terms=shuffle([-a,b,a,-c]);
+
  return {
-  type:"zero",
-  title:"ضربِ بی‌دردسر",
-  text:"عامل صفر را شکار کن؛ بقیه را حساب نکن.",
-  z,end,answer:0,
-  expression:Array.from({length:end},(_,i)=>`(${z}−${i+1})`).join(" × "),
-  sig:`zero-${z}-${end}`
+  type:"zeroPairs",level:1,terms,required:1,
+  prompt:"در این جمع طولانی، جفتی را پیدا کن که بهتر است اول حذف شود.",
+  hint:"دنبال دو عددی بگرد که مجموعشان صفر باشد.",
+  explanation:`${signed(-a)} و ${signed(a)} یک جفت صفر هستند. بعد از حذف آن‌ها فقط عددهای کوچک‌تر باقی می‌مانند.`,
+  signature:`longcancel-${a}-${b}-${c}`
  };
 }
 
-function groupingQuestion(){
- const a=rand(20,60);
- const b=rand(5,25);
- const c=rand(3,15);
-
- /* -a + b + a - c + (c-b) = 0 */
- const values=[-a,b,a,-c,c-b];
+function genTwoOppositePairs(){
+ const a=randInt(8,35);
+ let b=randInt(4,25);
+ while(b===a)b=randInt(4,25);
+ const extra=randInt(1,12);
+ const terms=shuffle([a,-a,b,-b,extra]);
 
  return {
-  type:"group",
-  title:"ضربه دوگانه",
-  text:"جفت‌هایی را پیدا کن که محاسبه را کوتاه می‌کنند.",
-  values,
-  answer:0,
-  expression:values.map((v,i)=>i===0?`${v}`:`${v>=0?"+":"−"} ${Math.abs(v)}`).join(" "),
-  sig:`group-${a}-${b}-${c}`
+  type:"zeroPairs",level:2,terms,required:2,
+  prompt:"دو جفت قرینه را پیدا و از میدان حذف کن.",
+  hint:"هر جفت باید شامل x و −x باشد.",
+  explanation:`دو جفت قرینه صفر می‌شوند و بدون محاسبه آن چهار جمله، فقط ${faNumber(extra)} باقی می‌ماند.`,
+  signature:`zp2-${a}-${b}-${extra}`
  };
 }
 
-function signPuzzle(mode){
- const a=rand(2,7);
- const b=rand(3,9);
- const c=rand(2,8);
-
- /*
-   expression: -a □ (-b) □ (+c)
-   max => - +
-   min => + -
- */
- const answer=mode==="max"?"-+":"+-";
-
- const finalValue=
-  mode==="max"
-   ?-a+b+c
-   :-a-b-c;
+function genSmartGrouping(){
+ const a=randInt(20,60);
+ const b=randInt(5,20);
+ const c=randInt(1,12);
+ const d=-(b+c);
+ const terms=shuffle([-a,b,a,d,c]);
 
  return {
-  type:"signs",
-  mode,
-  title:mode==="max"?"بالاترین ضربه":"پایین‌ترین سایه",
-  text:mode==="max"
-   ?"علامت‌ها را برای بیشترین مقدار تنظیم کن."
-   :"علامت‌ها را برای کوچک‌ترین مقدار تنظیم کن.",
-  a,b,c,
-  code:answer,
-  answer:finalValue,
-  expression:`−${a} □ (−${b}) □ (+${c})`,
-  sig:`${mode}-${a}-${b}-${c}`
+  type:"zeroPairs",level:2,terms,required:1,
+  prompt:"اول واضح‌ترین میان‌بُر را پیدا کن؛ کدام دو جمله بی‌درنگ حذف می‌شوند؟",
+  hint:"لازم نیست از سمت چپ شروع کنی؛ جفت قرینه را پیدا کن.",
+  explanation:`${signed(-a)} و ${signed(a)} بدون هیچ محاسبه‌ای صفر می‌شوند؛ این اولین میان‌بُر مناسب است.`,
+  signature:`group-${a}-${b}-${c}`
  };
 }
 
-const generators=[
- ()=>pairQuestion(1),
- ()=>pairQuestion(2),
- ()=>groupingQuestion(),
- ()=>groupingQuestion(),
- ()=>zeroQuestion(),
- ()=>zeroQuestion(),
- ()=>pairQuestion(3),
- ()=>signPuzzle("max"),
- ()=>signPuzzle("min"),
- ()=>{
-  const q=groupingQuestion();
-  q.title="مأموریت استاد";
-  q.text="همه میان‌بُرهای ممکن را پیدا کن و نتیجه را بزن.";
-  return q;
- }
+function genZeroFactor(){
+ const k=randInt(3,12);
+ const start=randInt(2,10);
+ const end=start+randInt(5,10);
+ let root=randInt(start,end);
+
+ const factors=[];
+ for(let i=start;i<=end;i++)factors.push({a:root,b:i,value:root-i});
+
+ return {
+  type:"zeroFactor",level:2,factors,
+  prompt:"بدون انجام همه ضرب‌ها، عاملی را پیدا کن که کل حاصل‌ضرب را تعیین می‌کند.",
+  hint:"اگر حتی یکی از عامل‌ها صفر باشد، تمام حاصل‌ضرب صفر است.",
+  explanation:`عامل (${faNumber(root)}−${faNumber(root)}) برابر صفر است؛ بنابراین کل حاصل‌ضرب، بدون توجه به بقیه عامل‌ها، صفر می‌شود.`,
+  signature:`zerofactor-${root}-${start}-${end}-${k}`
+ };
+}
+
+function genZeroFactorClassic(){
+ const root=randInt(2,9),end=root+randInt(6,13);
+ const factors=[];
+ for(let i=1;i<=end;i++)factors.push({a:root,b:i,value:root-i});
+
+ return {
+  type:"zeroFactor",level:2,factors,
+  prompt:"عامل مخفیِ صفر را در این زنجیره شکار کن.",
+  hint:"یکی از پرانتزها به شکل عدد منهای خودش است.",
+  explanation:`(${faNumber(root)}−${faNumber(root)})=۰، پس کل ضرب برابر صفر است.`,
+  signature:`classiczero-${root}-${end}`
+ };
+}
+
+function genSequenceEven(){
+ const end=pick([20,30,40,50,60,80,100]);
+ return {
+  type:"sequence",level:2,start:1,end,
+  required:end/2,
+  visibleCount:Math.min(end,10),
+  prompt:`برای جمع ۱ تا ${faNumber(end)}، قانون جفت‌سازی ابتدا و انتها را کشف کن.`,
+  hint:"اولین و آخرین، دومین و یکی‌مانده‌به‌آخر را با هم جفت کن.",
+  pairSum:end+1,
+  answer:(end*(end+1))/2,
+  explanation:`هر جفت ${faNumber(end+1)} می‌شود و ${faNumber(end/2)} جفت داریم؛ پس حاصل ${faNumber((end/2)*(end+1))} است.`,
+  signature:`seq-even-${end}`
+ };
+}
+
+function genSequenceSmall(){
+ const start=1,end=pick([10,12,14,16,18]);
+ return {
+  type:"sequence",level:2,start,end,required:end/2,
+  visibleCount:end,
+  prompt:"کارت‌های ابتدا و انتهای دنباله را جفت کن تا یک مجموع ثابت بسازی.",
+  hint:"اگر قانون درست باشد، مجموع همه جفت‌ها برابر است.",
+  pairSum:end+1,
+  answer:end*(end+1)/2,
+  explanation:`همه جفت‌ها ${faNumber(end+1)} می‌شوند؛ بنابراین لازم نیست اعداد را یکی‌یکی جمع کنی.`,
+  signature:`seq-small-${end}`
+ };
+}
+
+function genSequenceOdd(){
+ const end=pick([9,11,15,19,25]);
+ return {
+  type:"sequence",level:3,start:1,end,
+  required:Math.floor(end/2),
+  visibleCount:end<=15?end:9,
+  middle:(end+1)/2,
+  pairSum:end+1,
+  answer:end*(end+1)/2,
+  prompt:`این دنباله تعداد فردی جمله دارد؛ جفت‌های ابتدا و انتها را پیدا کن.`,
+  hint:"بعد از جفت‌کردن دو سر دنباله، یک عدد وسط بدون جفت می‌ماند.",
+  explanation:`هر جفت ${faNumber(end+1)} است و عدد وسط ${faNumber((end+1)/2)} باقی می‌ماند؛ حاصل کل ${faNumber(end*(end+1)/2)} است.`,
+  signature:`seq-odd-${end}`
+ };
+}
+
+function genBestPair(){
+ const target=pick([50,100]);
+ const a=randInt(8,target-8);
+ const b=target-a;
+ const x=randInt(3,17);
+ let y=randInt(3,17);
+ while(x+y===target||x===a||y===b)y=randInt(3,17);
+ const terms=shuffle([a,b,x,y]);
+
+ return {
+  type:"targetPair",level:3,terms,target,
+  prompt:`دو عددی را پیدا کن که با هم ${faNumber(target)} می‌شوند و جمع را سریع‌تر می‌کنند.`,
+  hint:"گاهی میان‌بُر، ساختن یک عدد رُند مثل ۵۰ یا ۱۰۰ است.",
+  explanation:`${faNumber(a)} + ${faNumber(b)} = ${faNumber(target)}؛ ساختن عدد رُند ادامه محاسبه را ساده‌تر می‌کند.`,
+  signature:`target-${target}-${a}-${b}-${x}-${y}`
+ };
+}
+
+function genBestZeroAmongDistractors(){
+ const a=randInt(15,45);
+ const b=randInt(5,14);
+ const terms=shuffle([a,-a,b,b+1,-b+2]);
+
+ return {
+  type:"zeroPairs",level:3,terms,required:1,
+  prompt:"در میان چند جفت وسوسه‌کننده، میان‌بُری را انتخاب کن که محاسبه را کاملاً حذف می‌کند.",
+  hint:"جمع‌های کوچک خوب‌اند؛ اما جفت صفر حتی بهتر است.",
+  explanation:`${signed(a)} و ${signed(-a)} دقیقاً صفر می‌شوند و هیچ محاسبه دیگری برای آن دو لازم نیست.`,
+  signature:`distract-${a}-${b}`
+ };
+}
+
+function genZeroProductChoice(){
+ const root=randInt(4,10);
+ const data=[
+  {text:`(${faNumber(root)}−${faNumber(root-1)})`,value:1},
+  {text:`(${faNumber(root)}−${faNumber(root)})`,value:0},
+  {text:`(${faNumber(root)}−${faNumber(root+1)})`,value:-1},
+  {text:`(${faNumber(root+2)}−${faNumber(root)})`,value:2}
+ ];
+
+ return {
+  type:"factorCards",level:3,factors:shuffle(data),
+  prompt:"کدام عامل را کافی است بررسی کنی تا بفهمی کل ضرب صفر است؟",
+  hint:"در حاصل‌ضرب، وجود یک عامل صفر برای تعیین کل جواب کافی است.",
+  explanation:`عامل (${faNumber(root)}−${faNumber(root)}) صفر است؛ بنابراین کل حاصل‌ضرب صفر است.`,
+  signature:`factorcards-${root}`
+ };
+}
+
+const plan=[
+ genOneOppositePair,
+ genCancellationInLongSum,
+ genTwoOppositePairs,
+ genSmartGrouping,
+ genZeroFactor,
+ ()=>pick([genZeroFactorClassic,genZeroFactor])(),
+ genSequenceSmall,
+ ()=>pick([genSequenceEven,genBestPair])(),
+ ()=>pick([genSequenceOdd,genBestZeroAmongDistractors])(),
+ ()=>pick([genZeroProductChoice,genSequenceEven,genBestPair])()
 ];
 
 function generateRound(){
- const recent=new Set(getRecent()),made=[];
+ const result=[];
 
- for(const gen of generators){
+ for(const generator of plan){
   let q=null;
 
-  for(let i=0;i<18;i++){
-   const x=gen();
-   q=q||x;
+  for(let tries=0;tries<35;tries++){
+   const candidate=generator();
 
    if(
-    !recent.has(x.sig) &&
-    !made.some(m=>m.sig===x.sig)
+    !recentSignatures.includes(candidate.signature) &&
+    !result.some(x=>x.signature===candidate.signature)
    ){
-    q=x;
+    q=candidate;
     break;
    }
   }
 
-  made.push(q);
+  if(!q){
+   for(let tries=0;tries<20;tries++){
+    const candidate=generator();
+
+    if(!result.some(x=>x.signature===candidate.signature)){
+     q=candidate;
+     break;
+    }
+   }
+  }
+
+  result.push(q||generator());
  }
 
- questions=made.slice(0,TOTAL_QUESTIONS);
- saveRecent(questions.map(q=>q.sig));
+ saveRecent(result);
+ return result;
 }
 
-/* ---------- Timer ---------- */
+/* =====================================================
+   STATE + RENDER
+   ===================================================== */
 
-function remainingMs(){
- return Math.max(0,QUESTION_TIME*1000-(Date.now()-startedAt));
-}
-function scoreForTime(s){
- if(s<=15)return 10;
- if(s<=25)return 8;
- if(s<=35)return 6;
- if(s<=45)return 4;
- if(s<60)return 2;
- return 0;
-}
-function stopTimer(){
- if(timerId!==null){clearInterval(timerId);timerId=null}
-}
-function startTimer(){
- stopTimer();startedAt=Date.now();updateTimer();
- timerId=setInterval(updateTimer,150);
-}
-function updateTimer(){
- const ms=remainingMs(),sec=Math.max(0,Math.ceil(ms/1000));
- const r=ms/(QUESTION_TIME*1000);
-
- el.time.textContent=`${faNumber(sec)} ثانیه`;
- el.timerMini.textContent=`${faNumber(sec)} / ${faNumber(QUESTION_TIME)}`;
- el.timerBar.style.width=`${Math.max(0,r*100)}%`;
- el.timerBar.style.background=r>.5?"var(--green)":r>.2?"var(--yellow)":"var(--red)";
-
- if(ms<=0&&!answerChecked&&!gameFinished)handleTimeout();
+function resetInteraction(){
+ interactionState={
+  selected:[],
+  cleared:[],
+  pairs:[],
+  found:false
+ };
 }
 
-/* ---------- Progress / Render ---------- */
+function setLevel(level){
+ const e=$("levelBadge");
 
-function renderProgress(){
- el.progress.innerHTML="";
- for(let i=0;i<TOTAL_QUESTIONS;i++){
-  const p=document.createElement("span");p.className="pstep";
-  if(i<currentIndex)p.classList.add("done");
-  else if(i===currentIndex)p.classList.add("now");
-  el.progress.appendChild(p);
+ if(level===1){
+  e.className="level";
+  e.textContent="🟢 پایه";
+ }else if(level===2){
+  e.className="level master";
+  e.textContent="🟡 تسلط";
+ }else{
+  e.className="level challenge";
+  e.textContent="🔴 چالش";
  }
 }
 
 function renderQuestion(){
  stopTimer();
+
  answerChecked=false;
- state={};
+ resetInteraction();
+
  const q=questions[currentIndex];
 
- el.stage.textContent=`${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
- el.score.textContent=faNumber(score);
- el.missionBadge.textContent=`مأموریت ${faNumber(currentIndex+1)}`;
- el.missionTitle.textContent=q.title;
- el.missionText.textContent=q.text;
- el.expression.textContent=faNumber(q.expression);
- el.interaction.innerHTML="";
- el.answerZone.innerHTML="";
- el.feedback.className="feedback";
- el.feedback.innerHTML="";
- el.nextBtn.style.display="none";
+ $("missionStatus").textContent=
+  `${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
 
- renderProgress();
+ $("scoreStatus").textContent=
+  `${faNumber(score)} از ${faNumber(100)}`;
 
- if(q.type==="pairs")renderPairs(q);
- else if(q.type==="zero")renderZero(q);
- else if(q.type==="group")renderGroup(q);
- else if(q.type==="signs")renderSigns(q);
+ setLevel(q.level);
 
+ $("prompt").textContent=q.prompt;
+ $("hint").textContent=q.hint;
+
+ $("feedback").className="feedback";
+ $("feedback").innerHTML="";
+
+ $("checkBtn").hidden=false;
+ $("checkBtn").disabled=false;
+ $("nextBtn").hidden=true;
+ $("resetBtn").disabled=false;
+
+ renderWorkspace();
  startTimer();
 }
 
-/* ---------- Pairs ---------- */
+function renderWorkspace(){
+ const q=questions[currentIndex];
+ const box=$("workspace");
 
-function renderPairs(q){
- state.first=null;
- state.firstValue=null;
- state.matched=new Set();
- state.count=0;
+ box.innerHTML="";
 
- el.hint.textContent="دو کارت را لمس کن؛ اگر جمعشان صفر باشد، ناپدید می‌شوند.";
+ if(q.type==="zeroPairs"){
+  renderZeroPairs(q,box);
+ }
 
- const box=document.createElement("div");
- box.className="cards";
+ if(q.type==="zeroFactor"){
+  renderZeroFactor(q,box);
+ }
 
- q.cards.forEach((v,i)=>{
+ if(q.type==="factorCards"){
+  renderFactorCards(q,box);
+ }
+
+ if(q.type==="sequence"){
+  renderSequence(q,box);
+ }
+
+ if(q.type==="targetPair"){
+  renderTargetPair(q,box);
+ }
+
+ updateMeter();
+}
+
+function renderZeroPairs(q,box){
+ const row=document.createElement("div");
+ row.className="expression";
+
+ q.terms.forEach((term,index)=>{
   const b=document.createElement("button");
+
   b.type="button";
-  b.className="number-card";
-  b.textContent=faNumber(v);
-  b.addEventListener("click",()=>pairClick(q,v,i,b,box));
-  box.appendChild(b);
+  b.className="term";
+  b.textContent=signed(term);
+
+  if(interactionState.selected.includes(index)){
+   b.classList.add("selected");
+  }
+
+  if(interactionState.cleared.includes(index)){
+   b.classList.add("cleared");
+   b.disabled=true;
+  }
+
+  b.addEventListener("click",()=>{
+   choosePairItem(index,q.terms,"zero");
+  });
+
+  row.appendChild(b);
  });
 
- el.interaction.appendChild(box);
+ box.appendChild(row);
+
+ $("discovery").textContent=
+  interactionState.pairs.length
+   ? `⚡ ${faNumber(interactionState.pairs.length)} جفت صفر کشف شد.`
+   : "دو جمله‌ای را لمس کن که همدیگر را خنثی می‌کنند.";
 }
 
-function pairClick(q,v,i,b,box){
- if(answerChecked||state.matched.has(i))return;
- if(remainingMs()<=0){handleTimeout();return}
+function renderTargetPair(q,box){
+ const row=document.createElement("div");
+ row.className="expression";
 
- if(state.first===null){
-  state.first=i;state.firstValue=v;b.classList.add("active");return;
- }
-
- if(state.first===i)return;
-
- const firstBtn=box.children[state.first];
-
- if(state.firstValue+v===0){
-  state.matched.add(state.first);
-  state.matched.add(i);
-  firstBtn.className="number-card vanish";
-  b.className="number-card vanish";
-  state.count++;
-
-  if(state.count>=q.required){
-   unlockAnswer(q);
-  }
- }else{
-  firstBtn.classList.remove("active");
- }
-
- state.first=null;
- state.firstValue=null;
-}
-
-/* ---------- Zero ---------- */
-
-function renderZero(q){
- el.hint.textContent="فقط عاملی را لمس کن که مقدارش صفر می‌شود.";
-
- const positions=new Set([q.z,q.z-1,q.z+1]);
- while(positions.size<6)positions.add(rand(1,q.end));
-
- const box=document.createElement("div");
- box.className="cards";
-
- shuffle([...positions]).forEach(k=>{
+ q.terms.forEach((term,index)=>{
   const b=document.createElement("button");
+
   b.type="button";
-  b.className="number-card";
-  b.dataset.zero=String(k===q.z);
-  b.textContent=`(${faNumber(q.z)}−${faNumber(k)})`;
+  b.className="term";
+  b.textContent=faNumber(term);
+
+  if(interactionState.selected.includes(index)){
+   b.classList.add("selected");
+  }
+
+  if(interactionState.cleared.includes(index)){
+   b.classList.add("cleared");
+   b.disabled=true;
+  }
+
+  b.addEventListener("click",()=>{
+   choosePairItem(index,q.terms,"target");
+  });
+
+  row.appendChild(b);
+ });
+
+ box.appendChild(row);
+
+ $("discovery").textContent=
+  interactionState.pairs.length
+   ? `⚡ جفتِ ${faNumber(q.target)} ساخته شد.`
+   : `دو کارت را برای ساختن ${faNumber(q.target)} انتخاب کن.`;
+}
+
+function choosePairItem(index,values,mode){
+ if(answerChecked)return;
+
+ if(interactionState.cleared.includes(index))return;
+
+ const pos=interactionState.selected.indexOf(index);
+
+ if(pos>=0){
+  interactionState.selected.splice(pos,1);
+  renderWorkspace();
+  return;
+ }
+
+ if(interactionState.selected.length===1){
+  const firstIndex=interactionState.selected[0];
+  const first=values[firstIndex];
+  const second=values[index];
+
+  const q=questions[currentIndex];
+
+  const correct=
+   mode==="zero"
+    ? first+second===0
+    : first+second===q.target;
+
+  if(correct){
+   interactionState.pairs.push([firstIndex,index]);
+   interactionState.cleared.push(firstIndex,index);
+   interactionState.selected=[];
+   renderWorkspace();
+   return;
+  }
+
+  interactionState.selected=[];
+  showMidFeedback(
+   mode==="zero"
+    ? "این دو عدد قرینه نیستند؛ مجموعشان صفر نمی‌شود."
+    : `این دو عدد ${faNumber(q.target)} نمی‌شوند.`
+  );
+
+  animate("shake");
+  renderWorkspace();
+  return;
+ }
+
+ interactionState.selected=[index];
+ renderWorkspace();
+}
+
+function renderZeroFactor(q,box){
+ const row=document.createElement("div");
+ row.className="expression";
+
+ q.factors.forEach((factor,index)=>{
+  const b=document.createElement("button");
+
+  b.type="button";
+  b.className="factor";
+  b.textContent=
+   `(${faNumber(factor.a)}−${faNumber(factor.b)})`;
+
+  if(interactionState.selected.includes(index)){
+   b.classList.add("selected");
+  }
+
+  if(
+   interactionState.found &&
+   factor.value===0
+  ){
+   b.classList.add("found");
+  }
 
   b.addEventListener("click",()=>{
    if(answerChecked)return;
-   if(k===q.z){
-    b.classList.add("correct");
-    unlockAnswer(q,true);
+
+   interactionState.selected=[index];
+
+   if(factor.value===0){
+    interactionState.found=true;
+    $("discovery").textContent="⚡ عامل صفر پیدا شد؛ دیگر هیچ ضربی لازم نیست!";
    }else{
-    b.classList.add("wrong");
-    b.disabled=true;
-    el.hint.textContent="این عامل صفر نیست؛ عاملی را پیدا کن که دو عددش برابر باشند.";
+    $("discovery").textContent=
+     `${b.textContent} صفر نیست؛ دنبال عاملی بگرد که کل ضرب را خاموش کند.`;
+
+    animate("shake");
    }
+
+   renderWorkspace();
   });
 
-  box.appendChild(b);
- });
+  row.appendChild(b);
 
- el.interaction.appendChild(box);
-}
-
-/* ---------- Group ---------- */
-
-function renderGroup(q){
- state.first=null;
- state.firstValue=null;
- state.matched=new Set();
-
- el.hint.textContent="اول جفت‌های قرینه را حذف کن؛ بعد محاسبه خیلی کوتاه می‌شود.";
-
- const box=document.createElement("div");
- box.className="cards";
-
- q.values.forEach((v,i)=>{
-  const b=document.createElement("button");
-  b.type="button";
-  b.className="number-card";
-  b.textContent=faNumber(v);
-
-  b.addEventListener("click",()=>{
-   if(answerChecked||state.matched.has(i))return;
-
-   if(state.first===null){
-    state.first=i;state.firstValue=v;b.classList.add("active");return;
-   }
-
-   if(state.first===i)return;
-
-   const first=box.children[state.first];
-
-   if(state.firstValue+v===0){
-    state.matched.add(state.first);state.matched.add(i);
-    first.className="number-card vanish";
-    b.className="number-card vanish";
-    state.first=null;state.firstValue=null;
-    el.hint.textContent="عالی! حالا بقیه عبارت را هوشمندانه بررسی کن.";
-    unlockAnswer(q);
-   }else{
-    first.classList.remove("active");
-    b.classList.add("active");
-    state.first=i;state.firstValue=v;
-   }
-  });
-
-  box.appendChild(b);
- });
-
- el.interaction.appendChild(box);
-}
-
-/* ---------- Signs ---------- */
-
-function renderSigns(q){
- state.signs=["+","+"];
- el.hint.textContent=q.mode==="max"
-  ?"کم‌کردن یک عدد منفی چه اثری دارد؟"
-  :"چطور می‌توانی هر دو بخش بعدی را تا جای ممکن منفی کنی؟";
-
- const row=document.createElement("div");
- row.className="sign-row";
-
- row.append(
-  chip(-q.a),
-  signButton(0),
-  chip(-q.b),
-  signButton(1),
-  chip(q.c)
- );
-
- const submit=document.createElement("button");
- submit.type="button";
- submit.className="submit";
- submit.textContent=q.mode==="max"?"⚡ بیشترین مقدار":"🌑 کمترین مقدار";
-
- submit.addEventListener("click",()=>{
-  if(answerChecked)return;
-  if(remainingMs()<=0){handleTimeout();return}
-
-  const correct=state.signs.join("")===q.code;
-
-  if(correct){
-   unlockAnswer(q,true);
-  }else{
-   el.hint.textContent=q.mode==="max"
-    ?"دوباره فکر کن: کم‌کردن عدد منفی، عدد مثبت اضافه می‌کند."
-    :"برای کمینه، عدد منفی را جمع و عدد مثبت را کم کن.";
+  if(index<q.factors.length-1){
+   const op=document.createElement("span");
+   op.className="operator";
+   op.textContent="×";
+   row.appendChild(op);
   }
  });
 
- el.interaction.append(row,submit);
+ box.appendChild(row);
+
+ if(!interactionState.found){
+  $("discovery").textContent=
+   "یک عامل را لمس کن؛ هدف پیدا کردن عامل صفر است.";
+ }
 }
 
-function chip(v){
- const s=document.createElement("span");
- s.className="chip";
- s.textContent=`(${v>0?"+":""}${faNumber(v)})`;
- return s;
-}
+function renderFactorCards(q,box){
+ const row=document.createElement("div");
+ row.className="expression";
 
-function signButton(i){
- const b=document.createElement("button");
- b.type="button";b.className="sign-btn";b.textContent="+";
+ q.factors.forEach((factor,index)=>{
+  const b=document.createElement("button");
 
- b.addEventListener("click",()=>{
-  if(answerChecked)return;
-  state.signs[i]=state.signs[i]==="+"?"-":"+";
-  b.textContent=state.signs[i]==="+"?"+":"−";
+  b.type="button";
+  b.className="factor";
+  b.textContent=factor.text;
+
+  if(interactionState.selected.includes(index)){
+   b.classList.add("selected");
+  }
+
+  if(interactionState.found && factor.value===0){
+   b.classList.add("found");
+  }
+
+  b.addEventListener("click",()=>{
+   if(answerChecked)return;
+
+   interactionState.selected=[index];
+   interactionState.found=factor.value===0;
+
+   if(factor.value===0){
+    $("discovery").textContent=
+     "⚡ درست! همین یک عامل کافی است تا کل ضرب صفر شود.";
+   }else{
+    $("discovery").textContent=
+     `این عامل برابر ${faNumber(factor.value)} است، نه صفر.`;
+
+    animate("shake");
+   }
+
+   renderWorkspace();
+  });
+
+  row.appendChild(b);
  });
 
- return b;
+ box.appendChild(row);
+
+ if(!interactionState.found){
+  $("discovery").textContent=
+   "عامل تعیین‌کننده کل حاصل‌ضرب را شکار کن.";
+ }
 }
 
-/* ---------- Final answer ---------- */
+function sequenceVisibleValues(q){
+ if(q.visibleCount>=q.end-q.start+1){
+  const result=[];
 
-function unlockAnswer(q,autoCorrect=false){
- if(state.answerUnlocked)return;
- state.answerUnlocked=true;
+  for(let i=q.start;i<=q.end;i++){
+   result.push(i);
+  }
 
- if(q.type==="zero" && autoCorrect){
-  /* دانش‌آموز مفهوم را با پیدا کردن عامل صفر اجرا کرده؛
-     هنوز یک ثبت نهایی ساده دارد. */
+  return result;
  }
 
- const title=document.createElement("div");
- title.className="answer-title";
- title.textContent="نتیجه نهایی چیست؟";
+ /*
+   برای دنباله‌های بلند فقط چند کارت ابتدا و انتها نمایش داده می‌شود.
+   این کارت‌ها برای کشف قانون‌اند؛ لازم نیست تمام ۱۰۰ کارت ساخته شود.
+ */
+ const count=Math.floor(q.visibleCount/2);
+ const values=[];
 
- const box=document.createElement("div");
- box.className="answer-buttons";
+ for(let i=0;i<count;i++){
+  values.push(q.start+i);
+ }
 
- answerChoices(q.answer).forEach(v=>{
+ for(let i=count-1;i>=0;i--){
+  values.push(q.end-i);
+ }
+
+ return values;
+}
+
+function renderSequence(q,box){
+ const values=sequenceVisibleValues(q);
+
+ const row=document.createElement("div");
+ row.className="sequence";
+
+ values.forEach((value,index)=>{
   const b=document.createElement("button");
+
   b.type="button";
-  b.className="answer-btn";
-  b.dataset.value=String(v);
-  b.textContent=faNumber(v);
-  b.addEventListener("click",()=>checkAnswer(q,v,b));
-  box.appendChild(b);
+  b.className="seq-card";
+  b.textContent=faNumber(value);
+
+  if(interactionState.selected.includes(index)){
+   b.classList.add("selected");
+  }
+
+  if(interactionState.cleared.includes(index)){
+   b.classList.add("paired");
+   b.disabled=true;
+  }
+
+  b.addEventListener("click",()=>{
+   chooseSequence(index,values);
+  });
+
+  row.appendChild(b);
  });
 
- el.answerZone.append(title,box);
-}
+ if(q.visibleCount<q.end-q.start+1){
+  const dots=document.createElement("span");
+  dots.className="operator";
+  dots.textContent="…";
+  row.insertBefore(
+   dots,
+   row.children[Math.floor(row.children.length/2)] || null
+  );
+ }
 
-function lockAll(){
- el.game.querySelectorAll("button:not(#nextBtn)").forEach(b=>b.disabled=true);
-}
+ box.appendChild(row);
 
-function revealCorrect(q){
- el.answerZone.querySelectorAll("[data-value]").forEach(b=>{
-  if(Number(b.dataset.value)===q.answer)b.classList.add("correct");
+ const pairs=document.createElement("div");
+ pairs.className="pairs";
+
+ interactionState.pairs.forEach(pair=>{
+  const chip=document.createElement("span");
+  chip.className="pair-chip";
+
+  chip.textContent=
+   `${faNumber(pair[0])}+${faNumber(pair[1])}=${faNumber(pair[0]+pair[1])}`;
+
+  pairs.appendChild(chip);
  });
+
+ box.appendChild(pairs);
+
+ if(interactionState.pairs.length===0){
+  $("discovery").textContent=
+   "دو سر دنباله را امتحان کن و ببین مجموعشان چه الگویی دارد.";
+ }else{
+  $("discovery").textContent=
+   `⚡ مجموع جفت‌های کشف‌شده ${faNumber(q.pairSum)} است.`;
+ }
 }
 
-function checkAnswer(q,value,b){
+function chooseSequence(index,values){
+ if(answerChecked)return;
+
+ if(interactionState.cleared.includes(index))return;
+
+ const existing=
+  interactionState.selected.indexOf(index);
+
+ if(existing>=0){
+  interactionState.selected.splice(existing,1);
+  renderWorkspace();
+  return;
+ }
+
+ if(interactionState.selected.length===0){
+  interactionState.selected=[index];
+  renderWorkspace();
+  return;
+ }
+
+ const firstIndex=interactionState.selected[0];
+ const a=values[firstIndex];
+ const b=values[index];
+ const q=questions[currentIndex];
+
+ if(a+b===q.pairSum){
+  interactionState.pairs.push([a,b]);
+  interactionState.cleared.push(firstIndex,index);
+  interactionState.selected=[];
+ }else{
+  interactionState.selected=[];
+
+  showMidFeedback(
+   `این جفت ${faNumber(a+b)} می‌شود. دنبال جفت‌هایی با مجموع ثابت ${faNumber(q.pairSum)} باش.`
+  );
+
+  animate("shake");
+ }
+
+ renderWorkspace();
+}
+
+function updateMeter(){
+ const q=questions[currentIndex];
+
+ if(q.type==="zeroPairs"){
+  $("meter").innerHTML=
+   `جفت صفر پیدا شده: <strong>${faNumber(interactionState.pairs.length)} از ${faNumber(q.required)}</strong>`;
+ }
+
+ if(q.type==="targetPair"){
+  $("meter").innerHTML=
+   `جفت رُند پیدا شده: <strong>${interactionState.pairs.length?"آماده ✓":"هنوز نه"}</strong>`;
+ }
+
+ if(q.type==="zeroFactor" || q.type==="factorCards"){
+  $("meter").innerHTML=
+   `عامل صفر: <strong>${interactionState.found?"پیدا شد ✓":"هنوز پیدا نشده"}</strong>`;
+ }
+
+ if(q.type==="sequence"){
+  const neededForPattern=
+   Math.min(2,Math.floor(sequenceVisibleValues(q).length/2));
+
+  $("meter").innerHTML=
+   `جفت‌های لازم برای کشف الگو: <strong>${faNumber(Math.min(interactionState.pairs.length,neededForPattern))} از ${faNumber(neededForPattern)}</strong>`;
+ }
+}
+
+$("resetBtn").addEventListener("click",()=>{
+ if(answerChecked)return;
+
+ resetInteraction();
+
+ $("feedback").className="feedback";
+ renderWorkspace();
+});
+
+function showMidFeedback(text){
+ const f=$("feedback");
+
+ f.className="feedback show timeout";
+ f.innerHTML=
+  `<strong>🥷 این میان‌بُر هنوز مناسب نیست.</strong>${text}`;
+}
+
+/* =====================================================
+   EVALUATION
+   ===================================================== */
+
+function evaluate(q){
+ if(q.type==="zeroPairs"){
+  return {
+   ready:interactionState.pairs.length>=q.required,
+   correct:interactionState.pairs.length>=q.required
+  };
+ }
+
+ if(q.type==="targetPair"){
+  return {
+   ready:interactionState.pairs.length>=1,
+   correct:interactionState.pairs.length>=1
+  };
+ }
+
+ if(q.type==="zeroFactor" || q.type==="factorCards"){
+  return {
+   ready:interactionState.selected.length===1,
+   correct:interactionState.found
+  };
+ }
+
+ if(q.type==="sequence"){
+  const needed=
+   Math.min(
+    2,
+    Math.floor(sequenceVisibleValues(q).length/2)
+   );
+
+  return {
+   ready:interactionState.pairs.length>=needed,
+   correct:
+    interactionState.pairs.length>=needed &&
+    interactionState.pairs.every(
+     pair=>pair[0]+pair[1]===q.pairSum
+    )
+  };
+ }
+
+ return {ready:false,correct:false};
+}
+
+function correctText(q){
+ if(q.type==="zeroPairs"){
+  for(let i=0;i<q.terms.length;i++){
+   for(let j=i+1;j<q.terms.length;j++){
+    if(q.terms[i]+q.terms[j]===0){
+     return `${signed(q.terms[i])} و ${signed(q.terms[j])}`;
+    }
+   }
+  }
+ }
+
+ if(q.type==="targetPair"){
+  for(let i=0;i<q.terms.length;i++){
+   for(let j=i+1;j<q.terms.length;j++){
+    if(q.terms[i]+q.terms[j]===q.target){
+     return `${faNumber(q.terms[i])} و ${faNumber(q.terms[j])}`;
+    }
+   }
+  }
+ }
+
+ if(q.type==="zeroFactor"){
+  const f=q.factors.find(x=>x.value===0);
+
+  if(f){
+   return `(${faNumber(f.a)}−${faNumber(f.b)})`;
+  }
+ }
+
+ if(q.type==="factorCards"){
+  const f=q.factors.find(x=>x.value===0);
+  return f?f.text:"";
+ }
+
+ if(q.type==="sequence"){
+  return `${faNumber(q.start)}+${faNumber(q.end)}=${faNumber(q.pairSum)}`;
+ }
+
+ return "";
+}
+
+function scoreForElapsed(ms){
+ const seconds=ms/1000;
+
+ if(seconds<=5)return 10;
+ if(seconds<=10)return 8;
+ if(seconds<=15)return 6;
+ if(seconds<=20)return 4;
+ if(seconds<=30)return 2;
+
+ return 0;
+}
+
+function lockInteraction(){
+ $("checkBtn").disabled=true;
+ $("resetBtn").disabled=true;
+
+ [...$("workspace").querySelectorAll("button")]
+  .forEach(button=>button.disabled=true);
+}
+
+function showFeedback(kind,title,text){
+ const f=$("feedback");
+
+ f.className=`feedback show ${kind}`;
+ f.innerHTML=`<strong>${title}</strong>${text}`;
+}
+
+function animate(cls){
+ const e=$("gameCard");
+
+ e.classList.remove(cls);
+ void e.offsetWidth;
+ e.classList.add(cls);
+
+ setTimeout(()=>{
+  e.classList.remove(cls);
+ },350);
+}
+
+function checkAnswer(){
  if(answerChecked||gameFinished)return;
- if(remainingMs()<=0){handleTimeout();return}
+
+ if(Date.now()>=questionDeadline){
+  handleTimeout();
+  return;
+ }
+
+ const q=questions[currentIndex];
+ const result=evaluate(q);
+
+ if(!result.ready){
+  showFeedback(
+   "timeout",
+   "میان‌بُر هنوز کامل نشده.",
+   q.type==="sequence"
+    ? "حداقل دو جفت با مجموع ثابت بساز تا نشان بدهی الگو را پیدا کرده‌ای."
+    : "اول عنصر یا جفت کلیدی را در خود عبارت پیدا کن."
+  );
+
+  return;
+ }
 
  answerChecked=true;
  stopTimer();
- lockAll();
+ lockInteraction();
 
- if(value===q.answer){
-  b.classList.add("correct");
+ if(result.correct){
+  const gained=
+   scoreForElapsed(Date.now()-questionStartedAt);
 
-  const elapsed=Math.min(QUESTION_TIME,(Date.now()-startedAt)/1000);
-  const gained=scoreForTime(elapsed);
   score=Math.min(100,score+gained);
-  el.score.textContent=faNumber(score);
 
-  el.feedback.className="feedback good";
-  el.feedback.innerHTML=
-   `✅ <strong>ضربه نینجایی! +${faNumber(gained)} امتیاز</strong><br>${explanation(q)}`;
+  $("scoreStatus").textContent=
+   `${faNumber(score)} از ${faNumber(100)}`;
+
+  showFeedback(
+   "good",
+   `✅ میان‌بُر کشف شد! +${faNumber(gained)} امتیاز`,
+   q.explanation
+  );
+
+  animate("pop");
  }else{
-  b.classList.add("wrong");
-  revealCorrect(q);
+  showFeedback(
+   "bad",
+   "❌ این انتخاب محاسبه را به شکل هدف کوتاه نمی‌کند.",
+   `عنصر کلیدی: ${correctText(q)}<br>${q.explanation}`
+  );
 
-  el.feedback.className="feedback bad";
-  el.feedback.innerHTML=
-   `❌ پاسخ درست <strong>${faNumber(q.answer)}</strong> است.<br>${explanation(q)}`;
+  animate("shake");
  }
 
- showNext();
+ $("checkBtn").hidden=true;
+ $("nextBtn").hidden=false;
+
+ $("nextBtn").textContent=
+  currentIndex===TOTAL_QUESTIONS-1
+   ? "دیدن نتیجه 🏁"
+   : "مأموریت بعدی";
 }
 
-function explanation(q){
- if(q.type==="pairs"){
-  return "هر عدد و قرینه‌اش مجموع صفر دارند؛ حذف جفت‌های قرینه، محاسبه را کوتاه می‌کند.";
- }
- if(q.type==="zero"){
-  return `عامل (${faNumber(q.z)}−${faNumber(q.z)}) صفر است؛ وجود یک عامل صفر کافی است تا کل حاصل‌ضرب صفر شود.`;
- }
- if(q.type==="group"){
-  return "قبل از محاسبه از چپ به راست، جفت‌های قرینه و گروه‌های ساده را پیدا می‌کنیم.";
- }
- if(q.type==="signs"){
-  return q.mode==="max"
-   ?`برای بیشینه: −${faNumber(q.a)} − (−${faNumber(q.b)}) + ${faNumber(q.c)}.`
-   :`برای کمینه: −${faNumber(q.a)} + (−${faNumber(q.b)}) − ${faNumber(q.c)}.`;
- }
- return "راه کوتاه‌تر را قبل از محاسبه پیدا کن.";
-}
-
-/* ---------- Timeout ---------- */
+$("checkBtn").addEventListener("click",checkAnswer);
 
 function handleTimeout(){
  if(answerChecked||gameFinished)return;
 
  answerChecked=true;
  stopTimer();
- lockAll();
+ lockInteraction();
 
  const q=questions[currentIndex];
 
- if(state.answerUnlocked){
-  revealCorrect(q);
+ showFeedback(
+  "timeout",
+  "⏰ زمان تمام شد.",
+  `میان‌بُر پیشنهادی: ${correctText(q)}<br>${q.explanation}`
+ );
+
+ $("checkBtn").hidden=true;
+ $("nextBtn").hidden=false;
+
+ $("nextBtn").textContent=
+  currentIndex===TOTAL_QUESTIONS-1
+   ? "دیدن نتیجه 🏁"
+   : "مأموریت بعدی";
+}
+
+/* =====================================================
+   TIMER
+   ===================================================== */
+
+function startTimer(){
+ stopTimer();
+
+ questionStartedAt=Date.now();
+ questionDeadline=
+  questionStartedAt+QUESTION_TIME*1000;
+
+ updateTimer();
+
+ timerInterval=
+  setInterval(updateTimer,100);
+}
+
+function updateTimer(){
+ if(answerChecked||gameFinished)return;
+
+ const remaining=
+  Math.max(0,questionDeadline-Date.now());
+
+ const ratio=
+  remaining/(QUESTION_TIME*1000);
+
+ $("timeText").textContent=
+  `${faNumber(Math.ceil(remaining/1000))} ثانیه`;
+
+ $("timerFill").style.width=
+  `${Math.max(0,Math.min(100,ratio*100))}%`;
+
+ $("timerFill").style.background=
+  ratio>.5
+   ? "#51dd91"
+   : ratio>.2
+   ? "#f5c543"
+   : "#e65362";
+
+ if(remaining<=0){
+  handleTimeout();
+ }
+}
+
+function stopTimer(){
+ if(timerInterval!==null){
+  clearInterval(timerInterval);
+  timerInterval=null;
+ }
+}
+
+/* =====================================================
+   FLOW
+   ===================================================== */
+
+$("nextBtn").addEventListener("click",()=>{
+ if(!answerChecked||gameFinished)return;
+
+ if(currentIndex===TOTAL_QUESTIONS-1){
+  finishGame();
+  return;
  }
 
- el.time.textContent="۰ ثانیه";
- el.timerMini.textContent=`۰ / ${faNumber(QUESTION_TIME)}`;
- el.timerBar.style.width="0%";
- el.timerBar.style.background="var(--red)";
-
- el.feedback.className="feedback time";
- el.feedback.innerHTML=
-  `⏰ <strong>زمان تمام شد.</strong><br>`+
-  `پاسخ صحیح ${faNumber(q.answer)} است. ${explanation(q)}`;
-
- showNext();
-}
-
-function showNext(){
- el.nextBtn.style.display="block";
- el.nextBtn.textContent=
-  currentIndex===TOTAL_QUESTIONS-1
-   ?"🏆 دریافت کمربند نینجا"
-   :"مأموریت بعدی 🥷";
-}
-
-/* ---------- Finish ---------- */
-
-function nextQuestion(){
- if(!answerChecked||gameFinished)return;
- if(currentIndex===TOTAL_QUESTIONS-1){finishGame();return}
  currentIndex++;
  renderQuestion();
-}
+});
 
 async function finishGame(){
  if(gameFinished)return;
 
  gameFinished=true;
  stopTimer();
- score=Math.min(100,score);
 
- el.game.classList.add("hidden");
- el.hero.classList.add("hidden");
- el.statusWrap.classList.add("hidden");
- el.resultScreen.classList.add("show");
+ $("playArea").style.display="none";
+ $("resultArea").classList.add("show");
 
- const name=player.playerName||"بازیکن";
- el.resultName.textContent=`${name}، تمام مأموریت‌های مخفی را انجام دادی.`;
- el.finalScore.textContent=faNumber(score);
+ $("finalScore").textContent=faNumber(score);
 
- if(score>=90){
-  el.resultMessage.textContent="عالی بود! 🌟 استاد بزرگ میان‌بُرها شدی!";
- }else if(score>=70){
-  el.resultMessage.textContent="خیلی خوب بود 👏 قبل از محاسبه خوب فکر می‌کنی.";
- }else if(score>=50){
-  el.resultMessage.textContent="خوب بود، ادامه بده 💪 جفت‌های قرینه و عامل صفر را بیشتر شکار کن.";
- }else{
-  el.resultMessage.textContent="دوباره تلاش کن 🌱 نینجا اول راه کوتاه را پیدا می‌کند، بعد حساب می‌کند.";
- }
+ $("resultName").textContent=
+  `${player.playerName||"بازیکن"}، امتیاز نهایی تو:`;
+
+ $("resultMessage").textContent=
+  score>=90
+   ? "عالی! قبل از شروع محاسبه، ساختار عبارت را می‌بینی و راه کوتاه‌تر را پیدا می‌کنی. 🌟"
+   : score>=70
+   ? "خیلی خوب! جفت قرینه و عامل صفر را سریع پیدا می‌کنی؛ روی الگوی دنباله‌ها هم ادامه بده. ⚡"
+   : score>=50
+   ? "میان‌بُرهای اصلی را می‌شناسی؛ قبل از حساب‌کردن همیشه چند ثانیه دنبال ساختار بگرد. 🥷"
+   : "در دور بعد قبل از هر محاسبه سه چیز را جست‌وجو کن: جفت صفر، عامل صفر و جفت‌هایی با مجموع ثابت.";
 
  if(!finishSubmitted){
   finishSubmitted=true;
+
   try{
-   const result=await GameSDK.finishGame(score);
-   void result;
-  }catch(e){
-   console.error("finishGame failed:",e);
+   await GameSDK.finishGame(score);
+  }catch(error){
+   console.error(
+    "finishGame failed",
+    error
+   );
   }
  }
 
@@ -945,93 +1304,113 @@ async function finishGame(){
 }
 
 async function loadLeaderboard(){
- el.leaderboard.className="loading";
- el.leaderboard.textContent="در حال دریافت رکوردها...";
+ const box=$("leaderRows");
+
+ box.innerHTML=
+  '<div style="text-align:center;color:#707890">در حال دریافت...</div>';
 
  try{
-  const scores=await GameSDK.getLeaderboard(10);
-  const list=Array.isArray(scores)?scores:[];
+  const scores=
+   await GameSDK.getLeaderboard(10);
 
-  el.leaderboard.className="";
-  el.leaderboard.innerHTML="";
+  if(!scores||!scores.length){
+   box.innerHTML=
+    '<div style="text-align:center;color:#707890">هنوز رکوردی ثبت نشده است.</div>';
 
-  if(!list.length){
-   el.leaderboard.className="loading";
-   el.leaderboard.textContent="هنوز رکوردی برای نمایش وجود ندارد.";
    return;
   }
 
-  list.slice(0,10).forEach((item,i)=>{
-   const row=document.createElement("div");
-   row.className="rank";
+  box.innerHTML="";
 
-   const rank=document.createElement("span");
-   rank.textContent=i===0?"🥇":i===1?"🥈":i===2?"🥉":`${faNumber(i+1)}.`;
+  scores.forEach((entry,index)=>{
+   const row=
+    document.createElement("div");
 
-   const name=document.createElement("span");
-   name.className="rank-name";
-   name.textContent=item.playerName??item.name??item.username??"بازیکن";
+   row.className="leader-row";
 
-   const points=document.createElement("span");
-   points.className="rank-score";
-   points.textContent=`${faNumber(item.score??0)} امتیاز`;
+   const rank=
+    index===0
+     ? "🥇"
+     : index===1
+     ? "🥈"
+     : index===2
+     ? "🥉"
+     : `${faNumber(index+1)}.`;
 
-   row.append(rank,name,points);
-   el.leaderboard.appendChild(row);
+   const left=
+    document.createElement("span");
+
+   left.textContent=
+    `${rank} ${entry.playerName??entry.name??"بازیکن"}`;
+
+   const right=
+    document.createElement("strong");
+
+   right.textContent=
+    `${faNumber(entry.score??0)} امتیاز`;
+
+   row.append(left,right);
+   box.appendChild(row);
   });
 
- }catch(e){
-  console.error("Leaderboard failed:",e);
-  el.leaderboard.className="loading";
-  el.leaderboard.textContent="دریافت جدول برترین‌ها ممکن نشد.";
+ }catch(error){
+  console.error(
+   "leaderboard failed",
+   error
+  );
+
+  box.innerHTML=
+   '<div class="error">جدول برترین‌ها فعلاً قابل دریافت نیست.</div>';
  }
 }
 
-/* ---------- Restart ---------- */
-
-function restartGame(){
+$("restartBtn").addEventListener("click",()=>{
  stopTimer();
- GameSDK.reset();
 
- questions=[];
- currentIndex=0;
+ try{
+  GameSDK.reset();
+ }catch(error){
+  console.error(
+   "reset failed",
+   error
+  );
+ }
+
  score=0;
- startedAt=0;
- timerId=null;
+ currentIndex=0;
  answerChecked=false;
  gameFinished=false;
  finishSubmitted=false;
- state={};
+ interactionState={};
 
- el.score.textContent="۰";
- el.resultScreen.classList.remove("show");
- el.game.classList.remove("hidden");
- el.hero.classList.remove("hidden");
- el.statusWrap.classList.remove("hidden");
+ $("scoreStatus").textContent=
+  "۰ از ۱۰۰";
 
- generateRound();
+ $("playArea").style.display="";
+ $("resultArea").classList.remove("show");
+
+ questions=generateRound();
+
+ renderQuestion();
+});
+
+/* =====================================================
+   INIT
+   ===================================================== */
+
+function init(){
+ questions=generateRound();
 
  if(questions.length!==TOTAL_QUESTIONS){
-  throw new Error("Exactly 10 questions are required.");
+  throw new Error(
+   "Exactly 10 missions are required."
+  );
  }
 
  renderQuestion();
 }
 
-el.nextBtn.addEventListener("click",nextQuestion);
-el.restartBtn.addEventListener("click",restartGame);
-
-el.playerName.textContent=player.playerName||"بازیکن";
-
-generateRound();
-
-if(questions.length!==TOTAL_QUESTIONS){
- throw new Error("Exactly 10 questions are required.");
-}
-
-renderQuestion();
-
-})();
+init();
 </script>
 </body>
 </html>
