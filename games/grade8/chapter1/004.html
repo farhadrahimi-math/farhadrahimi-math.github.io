@@ -2,1657 +2,726 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>اتاق کنترل عملیات | ریاضی هشتم</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>اتاق فرمان عملیات 🎛️🚨 | ریاضی هشتم</title>
 <style>
 :root{
- --purple:#7357d8;--blue:#3d8de7;--pink:#ed6da7;
- --yellow:#f6c84d;--green:#36b978;--red:#e65760;
- --ink:#29384c;--muted:#718096;
+ --purple:#7456d8;--blue:#3e83ed;--pink:#ec70a7;--yellow:#f5c543;
+ --green:#29ad78;--red:#e65362;--ink:#29334b;--muted:#6d7690;
+ --shadow:0 10px 28px rgba(58,51,108,.12)
 }
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;overflow-x:hidden}
 body{
- margin:0;min-height:100vh;overflow-x:hidden;
- font-family:Tahoma,Arial,sans-serif;color:var(--ink);
+ font-family:Tahoma,Arial,sans-serif;color:var(--ink);line-height:1.65;
  background:
- radial-gradient(circle at 8% 5%,#e1edff 0,transparent 25%),
- radial-gradient(circle at 92% 6%,#ffe1ec 0,transparent 25%),
- linear-gradient(155deg,#f4efff,#eefaff)
+ radial-gradient(circle at 9% 4%,#e7e2ff 0,transparent 28%),
+ radial-gradient(circle at 92% 14%,#dcf4ff 0,transparent 25%),
+ #f7f7fc
 }
-button{font:inherit;touch-action:manipulation}
-.app{width:min(100% - 16px,780px);margin:auto;padding:12px 0 28px}
-.hero{text-align:center}
-.badges{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+button{font:inherit}
+button:focus-visible{outline:3px solid #287ee9;outline-offset:3px}
+.app{width:min(100%,920px);margin:auto;padding:14px 12px 30px}
+.header{
+ background:linear-gradient(135deg,#7353d6,#4086eb);color:white;
+ border-radius:22px;padding:16px;box-shadow:var(--shadow)
+}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
 .badge{
- background:#fff;border:1px solid #ddd8ff;border-radius:99px;
- padding:4px 9px;color:#6250b3;font-size:11px;font-weight:bold
+ padding:3px 9px;border-radius:99px;font-size:11px;font-weight:bold;
+ background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.26)
 }
-h1{margin:7px 0 2px;color:#5941b6;font-size:clamp(25px,7vw,38px)}
-.subtitle{margin:0 0 10px;color:var(--muted);font-size:13px}
-.status{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:9px 0 7px}
-.stat{
- min-width:0;background:#fff;border:1px solid #e1e6ee;
- border-radius:12px;padding:7px 4px;text-align:center
-}
-.stat small{display:block;color:var(--muted);font-size:9px}
-.stat b{display:block;font-size:12px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.timer{background:#fff;border-radius:12px;padding:7px 9px;margin-bottom:8px}
-.timer-row{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin-bottom:5px}
-.track{height:8px;background:#edf0f4;border-radius:20px;overflow:hidden}
-.bar{height:100%;width:100%;background:var(--green);border-radius:20px}
+h1{font-size:clamp(23px,6vw,34px);margin:8px 0 2px}
+.subtitle{margin:0;color:#f2efff;font-size:13px}
+.status{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
+.status-card{min-width:0;background:#fff;color:var(--ink);border-radius:13px;padding:6px 3px;text-align:center}
+.status-card small{display:block;color:var(--muted);font-size:10px}
+.status-card strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timer-box{margin-top:9px;padding:7px;border-radius:13px;background:rgba(255,255,255,.15)}
+.timer-head{display:flex;justify-content:space-between;font-size:12px}
+.timer-track{height:9px;background:rgba(255,255,255,.22);border-radius:99px;overflow:hidden;margin-top:5px}
+.timer-fill{width:100%;height:100%;background:#51dd91;border-radius:inherit;transition:width .15s linear,background .2s}
 
-.card{
- background:#fff;border:1px solid #e0e5ed;border-radius:22px;
- padding:12px;box-shadow:0 14px 36px rgba(63,73,105,.12)
-}
-.progress{display:flex;align-items:center;gap:5px;margin-bottom:9px}
-.pstep{flex:1;height:8px;background:#e7ebf1;border-radius:20px}
-.pstep.done{background:var(--green)}
-.pstep.now{background:var(--purple);box-shadow:0 0 0 3px #eeeaff}
+.game-card{background:#fff;border-radius:22px;margin-top:13px;padding:15px;min-height:500px;box-shadow:var(--shadow)}
+.topline{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.level{padding:4px 10px;border-radius:99px;font-size:12px;font-weight:bold;background:#e9f8ef;color:#18794d}
+.level.master{background:#fff3ca;color:#916600}.level.challenge{background:#ffe9ee;color:#bc3850}
+.prompt{text-align:center;font-size:clamp(16px,4.5vw,20px);font-weight:bold;margin:15px auto 4px}
+.hint{text-align:center;color:var(--muted);font-size:12px;margin-bottom:11px}
 
-.mission{
- text-align:center;background:#f7f5ff;border:1px solid #e4deff;
- border-radius:15px;padding:8px;margin-bottom:9px
+.control-room{
+ max-width:740px;margin:auto;border:1px solid #d7deed;border-radius:20px;
+ background:linear-gradient(145deg,#f4f6ff,#f3fbff);padding:15px 10px;
+ position:relative;overflow:hidden
 }
-.mission small{color:#7664bd;font-weight:bold}
-.mission h2{color:#4c4095;font-size:17px;margin:3px 0}
-.mission p{color:#68788b;font-size:12px;line-height:1.7;margin:0}
+.lights{display:flex;justify-content:center;gap:7px;margin-bottom:13px}
+.light{width:12px;height:12px;border-radius:50%;background:#cdd3df;box-shadow:inset 0 1px 3px #8893a5}
+.light.red{background:#ef5b66}.light.yellow{background:#f5c543}.light.green{background:#40bf7d}
 
-/* Control room */
-.room{
- border-radius:18px;border:3px solid #344357;padding:11px;
- background:
- linear-gradient(rgba(255,255,255,.04),rgba(0,0,0,.1)),
- #4c5c70;
- min-height:360px;
-}
-.warning-strip{
- border-radius:9px;padding:6px;text-align:center;font-size:10px;font-weight:bold;
- color:#43350c;
- background:repeating-linear-gradient(135deg,#f7cb4d 0,#f7cb4d 13px,#303b49 14px,#303b49 26px);
-}
-.console{
- margin-top:9px;border:5px solid #28384a;border-radius:17px;
- background:#dce4ec;padding:10px;
- box-shadow:inset 0 0 0 2px #8493a3
-}
 .screen{
- min-height:92px;border:4px solid #61727d;border-radius:12px;
- background:#1d3037;padding:8px;text-align:center;color:#d0ffec;
- display:flex;flex-direction:column;justify-content:center
+ background:#273149;color:#fff;border-radius:16px;padding:16px 9px;
+ box-shadow:inset 0 0 0 3px #414c67;min-height:118px
 }
-.screen small{font-size:9px;color:#91afb0}
+.screen-title{text-align:center;font-size:11px;color:#bfc9dc;margin-bottom:9px}
 .expression{
- direction:ltr;unicode-bidi:isolate;
- font-size:clamp(19px,5vw,27px);font-weight:bold;line-height:2;
- word-spacing:3px
+ direction:ltr;unicode-bidi:isolate;display:flex;justify-content:center;
+ align-items:center;gap:5px;flex-wrap:wrap;min-height:55px;
+ font-size:clamp(19px,6vw,28px);font-weight:bold
 }
-.step-status{
- display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;
- min-height:32px;margin-top:7px;font-size:10px;color:#596b7e
+.number{padding:5px 4px;white-space:nowrap}
+.op-button{
+ border:2px solid #677590;background:#34405c;color:#fff;
+ border-radius:10px;min-width:45px;min-height:43px;
+ font-size:20px;font-weight:bold;cursor:pointer
 }
-.lamp{
- width:12px;height:12px;border-radius:50%;background:#aeb8c4;
- box-shadow:inset 0 0 0 2px #909aa5
+.op-button:hover{background:#405071}
+.op-button:disabled{cursor:not-allowed;opacity:.55}
+.paren{color:#79d9ff;font-size:1.1em}
+.group{
+ display:inline-flex;direction:ltr;align-items:center;gap:4px;
+ padding:3px 2px;border-radius:10px
 }
-.lamp.done{background:var(--green);box-shadow:0 0 7px #6bdda5}
-.lamp.now{background:var(--yellow);box-shadow:0 0 7px #ffe274}
+.group.active-group{box-shadow:0 0 0 2px rgba(121,217,255,.25)}
 
-.panel-title{
- text-align:center;font-size:11px;color:#4a5d72;font-weight:bold;
- margin:9px 0 7px
+.rule-panel{
+ display:grid;grid-template-columns:repeat(3,1fr);gap:6px;
+ max-width:570px;margin:13px auto 4px
 }
-.operation-panel{
- display:grid;grid-template-columns:repeat(2,1fr);gap:7px
+.rule-step{
+ border-radius:12px;padding:7px 4px;text-align:center;
+ background:#fff;border:1px solid #d8dce8;font-size:11px;color:#606a7e
 }
-.op-btn{
- min-height:56px;border:2px solid #b9c5d2;border-radius:12px;background:#fff;
- color:#3c4e63;font-weight:bold;cursor:pointer;
- box-shadow:0 4px 0 #8290a0
-}
-.op-btn:hover:not(:disabled){border-color:#806cdc;background:#faf8ff}
-.op-btn:active:not(:disabled){transform:translateY(2px);box-shadow:0 2px 0 #8290a0}
-.op-btn.correct{border-color:var(--green);background:#eaf9f1;color:#246b48;box-shadow:none}
-.op-btn.wrong{border-color:var(--red);background:#fff0f0;color:#994149;box-shadow:none}
-.op-btn:disabled{cursor:default}
-.rule-card{
- margin-top:9px;border:1px solid #bfcad5;border-radius:11px;
- padding:7px;background:#f6f8fb;text-align:center;font-size:10px;color:#647486;
- line-height:1.7
-}
+.rule-step strong{display:block;color:#354158;font-size:13px}
+.rule-step.active{background:#eeeaff;border-color:#8e77dd;color:#5d49a7}
 
-/* feedback */
-.feedback{
- display:none;margin-top:9px;padding:10px;border-radius:13px;
- font-size:12px;line-height:1.75
-}
-.feedback.good{display:block;background:#eaf9f1;border:1px solid #b8e6cc;color:#246846}
-.feedback.bad{display:block;background:#fff0f0;border:1px solid #efc1c4;color:#944147}
-.feedback.time{display:block;background:#fff7df;border:1px solid #ecd693;color:#7b601d}
-.next{
- display:none;width:100%;min-height:50px;margin-top:9px;border:0;
- border-radius:14px;background:linear-gradient(135deg,#7357d8,#3e8de7);
- color:#fff;font-weight:bold;cursor:pointer
-}
+.progress-box{max-width:580px;margin:12px auto 0}
+.progress-head{display:flex;justify-content:space-between;font-size:11px;color:#70798e;margin-bottom:5px}
+.progress-track{height:8px;border-radius:99px;background:#e4e7ee;overflow:hidden}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#40bc7b,#3e83ed);border-radius:inherit;transition:width .2s}
 
-/* result */
-.hidden{display:none!important}
-.result{display:none;text-align:center}
-.result.show{display:block}
-.trophy{font-size:61px}
-.final-score{font-size:42px;color:#6048bd;font-weight:bold}
-.final-score small{font-size:14px;color:var(--muted);font-weight:normal}
-.result-message{font-weight:bold;margin:9px 0 16px}
-.board{max-width:510px;margin:15px auto;text-align:right}
-.board h3{text-align:center}
-.rank{
- display:flex;justify-content:space-between;gap:8px;
- background:#f6f8fc;border-radius:11px;padding:9px 10px;margin:6px 0
+.message{
+ text-align:center;min-height:29px;margin-top:10px;font-size:13px;color:#5c677d
 }
-.rank-name{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.rank-score{color:#634dc0;font-weight:bold;white-space:nowrap}
-.loading{text-align:center;color:var(--muted);padding:12px}
-.restart{
- width:min(100%,350px);min-height:51px;border:0;border-radius:14px;
- background:linear-gradient(135deg,#7357d8,#3e8de7);
- color:#fff;font-weight:bold;cursor:pointer
+.message.ok{color:#19754b;font-weight:bold}
+.message.warn{color:#b64052;font-weight:bold}
+
+.action-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn{border:0;border-radius:14px;min-height:48px;padding:9px 18px;font-weight:bold;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,#7556d7,#4283e9);color:white}
+.btn-secondary{background:#edf0f6;color:#3e485e}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+.feedback{display:none;margin-top:13px;padding:11px 13px;border-radius:14px;font-size:14px}
+.feedback.show{display:block}
+.feedback.good{background:#e8f8ef;border:1px solid #a8ddbf;color:#176b43}
+.feedback.bad{background:#ffebee;border:1px solid #efb4bd;color:#a52b40}
+.feedback.timeout{background:#fff3da;border:1px solid #e9ca84;color:#835c00}
+.feedback strong{display:block}
+
+.result{display:none;text-align:center}.result.show{display:block}
+.score-circle{
+ width:128px;height:128px;border-radius:50%;margin:17px auto;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ background:linear-gradient(135deg,#e7e1ff,#daf3ff);
+ border:7px solid white;box-shadow:0 0 0 3px #7456d8
 }
-.back{
- display:block;width:max-content;max-width:100%;margin:18px auto 0;
- color:#6152a6;text-decoration:none;font-size:13px
-}
-@media(max-width:520px){
- .status{grid-template-columns:repeat(2,1fr)}
- .card{padding:9px;border-radius:18px}
- .room{padding:8px}
- .op-btn{font-size:12px}
-}
+.score-circle strong{font-size:35px;color:#6544cf}.score-circle small{color:#667}
+.leaderboard{max-width:530px;margin:18px auto;background:#f8f8fc;border-radius:16px;padding:10px;text-align:right}
+.leader-row{display:flex;justify-content:space-between;gap:8px;padding:8px 6px;border-bottom:1px solid #e2e2ec}
+.leader-row:last-child{border-bottom:0}.error{text-align:center;color:#a72e43;font-size:12px}
+.back{display:block;text-align:center;margin:17px auto;color:#604bbc;font-weight:bold;text-decoration:none}
+.pop{animation:pop .28s ease}.shake{animation:shake .28s ease}
+@keyframes pop{50%{transform:scale(1.025)}}@keyframes shake{25%{transform:translateX(4px)}50%{transform:translateX(-4px)}75%{transform:translateX(3px)}}
+@media(min-width:650px){.app{padding:22px 18px 40px}.header{padding:20px}.game-card{padding:22px}.rule-step{font-size:12px}}
 @media(prefers-reduced-motion:reduce){
- *,*:before,*:after{
-  animation:none!important;
-  transition:none!important;
-  scroll-behavior:auto!important
- }
+ *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 </style>
 </head>
-
 <body>
+
 <main class="app">
-
-<header class="hero" id="hero">
- <div class="badges">
-  <span class="badge">پایه هشتم</span>
-  <span class="badge">فصل اول</span>
-  <span class="badge">درس ۱</span>
-  <span class="badge">ترتیب عملیات</span>
+<header class="header">
+ <div class="badges"><span class="badge">پایه هشتم</span><span class="badge">فصل ۱</span><span class="badge">درس ۱</span></div>
+ <h1>اتاق فرمان عملیات 🎛️🚨</h1>
+ <p class="subtitle">جواب را حدس نزن؛ عملیات بعدی را به ترتیب درست فعال کن.</p>
+ <div class="status">
+  <div class="status-card"><small>بازیکن</small><strong id="playerName">...</strong></div>
+  <div class="status-card"><small>مأموریت</small><strong id="missionStatus">۱ از ۱۰</strong></div>
+  <div class="status-card"><small>امتیاز</small><strong id="scoreStatus">۰ از ۱۰۰</strong></div>
  </div>
-
- <h1>🎛️ اتاق کنترل عملیات 🚨</h1>
- <p class="subtitle">دستگاه‌ها را به ترتیب درست روشن کن تا نیروگاه منفجر نشود!</p>
+ <div class="timer-box">
+  <div class="timer-head"><span>⏱ زمان باقی‌مانده</span><strong id="timeText">۶۰ ثانیه</strong></div>
+  <div class="timer-track"><div id="timerFill" class="timer-fill"></div></div>
+ </div>
 </header>
 
-<div id="statusWrap">
- <section class="status">
-  <div class="stat"><small>بازیکن</small><b id="playerName">---</b></div>
-  <div class="stat"><small>پنل</small><b id="stage">۱ از ۱۰</b></div>
-  <div class="stat"><small>امتیاز</small><b id="score">۰</b></div>
-  <div class="stat"><small>زمان</small><b id="time">۶۰ ثانیه</b></div>
- </section>
+<section id="gameCard" class="game-card">
+ <div id="playArea">
+  <div class="topline"><span id="levelBadge" class="level">🟢 پایه</span><span style="font-size:12px;color:#707890">هر بار فقط یک فرمان</span></div>
+  <div id="prompt" class="prompt">عملیات بعدی را روی نمایشگر لمس کن.</div>
+  <div id="hint" class="hint"></div>
 
- <section class="timer">
-  <div class="timer-row">
-   <span>⚡ زمان کنترل</span>
-   <span id="timerMini">۶۰ / ۶۰</span>
-  </div>
-  <div class="track"><div class="bar" id="timerBar"></div></div>
- </section>
-</div>
-
-<section class="card" id="game">
-
- <div class="progress" id="progress"></div>
-
- <div class="mission">
-  <small id="missionBadge">پنل ۱</small>
-  <h2 id="missionTitle">پنل ساده</h2>
-  <p>در هر مرحله فقط عملی را بزن که «الان» باید انجام شود.</p>
- </div>
-
- <div class="room">
-  <div class="warning-strip">⚠️ &nbsp; CONTROL ROOM &nbsp; ⚠️</div>
-
-  <div class="console">
+  <div class="control-room">
+   <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
    <div class="screen">
-    <small>عبارت فعلی</small>
-    <div class="expression" id="expression"></div>
+    <div class="screen-title">نمایشگر اصلی</div>
+    <div id="expression" class="expression"></div>
    </div>
 
-   <div class="step-status" id="stepStatus"></div>
-
-   <div class="panel-title" id="panelTitle">کدام عملیات باید اول انجام شود؟</div>
-
-   <div class="operation-panel" id="operationPanel"></div>
-
-   <div class="rule-card">
-    🎛️ ترتیب کنترل:
-    پرانتز ← توان و جذر ← ضرب و تقسیم ← جمع و تفریق
-    <br>
-    در عملیات هم‌اولویت، از چپ به راست حرکت می‌کنیم.
+   <div class="rule-panel">
+    <div id="ruleParen" class="rule-step"><strong>۱</strong>پرانتز</div>
+    <div id="ruleMul" class="rule-step"><strong>۲</strong>ضرب و تقسیم</div>
+    <div id="ruleAdd" class="rule-step"><strong>۳</strong>جمع و تفریق</div>
    </div>
+
+   <div class="progress-box">
+    <div class="progress-head"><span>پیشرفت حل</span><span id="progressText">۰٪</span></div>
+    <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+   </div>
+   <div id="message" class="message">عملیات درست را انتخاب کن.</div>
   </div>
- </div>
 
- <div class="feedback" id="feedback" aria-live="polite"></div>
-
- <button type="button" class="next" id="nextBtn">
-  پنل بعدی 🎛️
- </button>
-
-</section>
-
-<section class="card result" id="resultScreen">
-
- <div class="trophy">🏆🎛️</div>
- <h2>نیروگاه نجات پیدا کرد!</h2>
-
- <div id="resultName"></div>
-
- <div class="final-score">
-  <span id="finalScore">۰</span>
-  <small>از ۱۰۰ امتیاز</small>
- </div>
-
- <div class="result-message" id="resultMessage"></div>
-
- <div class="board">
-  <h3>🏅 برترین کنترل‌چی‌ها</h3>
-  <div id="leaderboard" class="loading">
-   در حال دریافت رکوردها...
+  <div class="action-row">
+   <button id="resetBtn" class="btn btn-secondary" type="button">↩ شروع دوباره عبارت</button>
+   <button id="nextBtn" class="btn btn-primary" type="button" hidden>مأموریت بعدی</button>
   </div>
+  <div id="feedback" class="feedback" aria-live="polite"></div>
  </div>
 
- <button type="button" class="restart" id="restartBtn">
-  🔄 راه‌اندازی دوباره
- </button>
-
+ <div id="resultArea" class="result">
+  <div style="font-size:48px">🎛️🏆</div><h2>اتاق فرمان پایدار شد!</h2><p id="resultName"></p>
+  <div class="score-circle"><strong id="finalScore">۰</strong><small>از ۱۰۰</small></div>
+  <p id="resultMessage"></p>
+  <button id="restartBtn" class="btn btn-primary" type="button">🔄 بازی دوباره</button>
+  <div class="leaderboard"><h3 style="text-align:center;margin:5px">🏆 فرمانده‌های برتر</h3><div id="leaderRows"></div></div>
+ </div>
 </section>
 
 <a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
 </main>
 
 <script src="/games/game-sdk.js"></script>
-
 <script>
-const GAME_ID = 19;
-
-const player = GameSDK.init(GAME_ID);
-
-(() => {
 "use strict";
+
+const GAME_ID = 19;
+const player = GameSDK.init(GAME_ID);
 
 const TOTAL_QUESTIONS = 10;
 const QUESTION_TIME = 60;
+const RECENT_KEY = "grade8Lesson1OperationControlRecent";
+const MAX_RECENT_SIGNATURES = 40;
 
-const RECENT_KEY = "operation_control_g8_l1_v1";
-const MAX_RECENT = 50;
-
-let questions=[];
-let currentIndex=0;
-let score=0;
-
-let startedAt=0;
-let timerId=null;
-
-let answerChecked=false;
-let gameFinished=false;
-let finishSubmitted=false;
-
-let stepIndex=0;
-
+let questions=[],currentIndex=0,score=0;
+let answerChecked=false,gameFinished=false,finishSubmitted=false;
+let interactionState={};
+let timerInterval=null,questionStartedAt=0,questionDeadline=0;
+let recentSignatures=loadRecent();
 const $=id=>document.getElementById(id);
 
-const el={
- hero:$("hero"),
- statusWrap:$("statusWrap"),
+$("playerName").textContent=player.playerName || "بازیکن";
 
- playerName:$("playerName"),
- stage:$("stage"),
- score:$("score"),
- time:$("time"),
+function faNumber(v){return String(v).replace(/-/g,"−").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d])}
+function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
 
- timerMini:$("timerMini"),
- timerBar:$("timerBar"),
-
- game:$("game"),
- progress:$("progress"),
- missionBadge:$("missionBadge"),
- missionTitle:$("missionTitle"),
-
- expression:$("expression"),
- stepStatus:$("stepStatus"),
- panelTitle:$("panelTitle"),
- operationPanel:$("operationPanel"),
-
- feedback:$("feedback"),
- nextBtn:$("nextBtn"),
-
- resultScreen:$("resultScreen"),
- resultName:$("resultName"),
- finalScore:$("finalScore"),
- resultMessage:$("resultMessage"),
-
- leaderboard:$("leaderboard"),
- restartBtn:$("restartBtn")
-};
-
-/* =====================
-   Utilities
-===================== */
-
-function faNumber(value){
- return String(value)
-  .replace(/-/g,"−")
-  .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+function loadRecent(){
+ try{const a=JSON.parse(localStorage.getItem(RECENT_KEY)||"[]");return Array.isArray(a)?a.slice(-MAX_RECENT_SIGNATURES):[]}catch(e){return[]}
+}
+function saveRecent(qs){
+ recentSignatures=[...recentSignatures,...qs.map(q=>q.signature)].slice(-MAX_RECENT_SIGNATURES);
+ try{localStorage.setItem(RECENT_KEY,JSON.stringify(recentSignatures))}catch(e){}
 }
 
-function rand(min,max){
- return Math.floor(
-  Math.random()*(max-min+1)
- )+min;
+/*
+ AST:
+ num -> {type:"num",value}
+ expr -> {type:"expr",items:[node,op,node,...],paren:boolean}
+ Operators are + - * /
+*/
+const N=value=>({type:"num",value});
+const E=(items,paren=false)=>({type:"expr",items,paren});
+
+function opSymbol(op){return op==="*"?"×":op==="/"?"÷":op==="-"?"−":"+"}
+function precedence(op){return (op==="*"||op==="/")?2:1}
+function applyOp(a,op,b){
+ if(op==="+")return a+b;
+ if(op==="-")return a-b;
+ if(op==="*")return a*b;
+ if(op==="/")return a/b;
+ throw new Error("Unknown operation");
 }
 
-function getRecent(){
- try{
-  const x=JSON.parse(
-   localStorage.getItem(RECENT_KEY)||"[]"
-  );
-
-  return Array.isArray(x)
-   ?x
-   :[];
-
- }catch{
-  return [];
+function evaluateAST(node){
+ if(node.type==="num")return node.value;
+ let items=node.items.map(x=>typeof x==="string"?x:evaluateAST(x));
+ for(let p=2;p>=1;p--){
+  let i=1;
+  while(i<items.length){
+   if(precedence(items[i])===p){
+    const value=applyOp(items[i-1],items[i],items[i+1]);
+    items.splice(i-1,3,value);
+    i=1;
+   }else i+=2;
+  }
  }
+ return items[0];
 }
 
-function saveRecent(signatures){
- try{
-  const old=getRecent();
-
-  const combined=[
-   ...signatures,
-   ...old.filter(
-    x=>!signatures.includes(x)
-   )
-  ].slice(0,MAX_RECENT);
-
-  localStorage.setItem(
-   RECENT_KEY,
-   JSON.stringify(combined)
-  );
-
- }catch{}
+function countOperations(node){
+ if(node.type==="num")return 0;
+ return node.items.reduce((sum,item)=>sum+(typeof item==="string"?1:countOperations(item)),0);
 }
 
-/* =====================
-   Question construction
+/* ---------- Generators: integer-only and exact division ---------- */
 
-   sequence:
-   لیست عملیاتی که دانش‌آموز
-   باید به ترتیب فعال کند.
-
-   screens:
-   نمایش عبارت بعد از هر عمل.
-===================== */
-
-function question(
- title,
- screens,
- sequence,
- signature
-){
+function makeQ(ast,level,family,hint){
+ const result=evaluateAST(ast);
  return {
-  title,
-  screens,
-  sequence,
-  signature
+  ast,level,family,result,hint,
+  totalOps:countOperations(ast),
+  signature:`${family}-${serialize(ast)}`,
+  explanation:`با رعایت ترتیب عملیات، مقدار نهایی عبارت ${faNumber(result)} است.`
+ };
+}
+function serialize(n){
+ if(n.type==="num")return String(n.value);
+ return `${n.paren?"(": "["}${n.items.map(x=>typeof x==="string"?x:serialize(x)).join(",")}${n.paren?")":"]"}`;
+}
+
+function genMulBeforeAdd(){
+ const a=randInt(2,9),b=randInt(2,6),c=randInt(2,6);
+ return makeQ(E([N(a),"+",N(b),"*",N(c)]),1,"muladd","ضرب قبل از جمع انجام می‌شود.");
+}
+function genMulBeforeSub(){
+ const a=randInt(4,10),b=randInt(2,5),c=-randInt(2,5);
+ return makeQ(E([N(a),"-",N(b),"*",N(c)]),1,"mulsub","ضرب از جمع و تفریق اولویت بالاتری دارد.");
+}
+function genDivBeforeAdd(){
+ const d=randInt(2,6),q=randInt(2,7),a=randInt(-5,8);
+ return makeQ(E([N(d*q),"/",N(d),"+",N(a)]),1,"divadd","ابتدا تقسیم را انجام بده.");
+}
+function genParenFirst(){
+ const a=randInt(2,8),b=randInt(1,6),c=randInt(2,5);
+ return makeQ(E([E([N(a),"-",N(b)],true),"*",N(c)]),1,"paren","هر عملی که داخل پرانتز است زودتر انجام می‌شود.");
+}
+function genParenThenAdd(){
+ const a=randInt(2,6),b=randInt(1,5),c=randInt(-6,7);
+ return makeQ(E([N(c),"+",E([N(a),"*",N(b)],true)]),2,"parenmul","داخل پرانتز را کامل کن، سپس به بیرون برگرد.");
+}
+function genLeftRightMulDiv(){
+ const b=randInt(2,5),c=randInt(2,5),k=randInt(1,4);
+ const a=b*c*k;
+ return makeQ(E([N(a),"/",N(b),"*",N(c)]),2,"leftmd","ضرب و تقسیم هم‌اولویت‌اند؛ از چپ به راست جلو برو.");
+}
+function genLeftRightAddSub(){
+ const a=randInt(-8,8),b=randInt(2,9),c=randInt(2,9);
+ return makeQ(E([N(a),"-",N(b),"+",N(c)]),2,"leftas","جمع و تفریق هم‌اولویت‌اند؛ از چپ به راست انجام می‌شوند.");
+}
+function genTwoPriority(){
+ const a=randInt(-8,8),b=randInt(2,5),c=randInt(2,5),d=randInt(2,6);
+ return makeQ(E([N(a),"+",N(b),"*",N(c),"-",N(d)]),2,"twopriority","اول عملیات با اولویت بیشتر را فعال کن.");
+}
+function genTwoMulDiv(){
+ const d1=randInt(2,4),d2=randInt(2,4),k=randInt(2,5);
+ const a=d1*d2*k;
+ return makeQ(E([N(a),"/",N(d1),"/",N(d2),"+",N(randInt(-5,6))]),3,"twodiv","در چند تقسیم پیاپی، از چپ به راست حرکت کن.");
+}
+function genNestedStyle(){
+ const a=randInt(-6,7),b=randInt(2,6),c=-randInt(2,5),d=randInt(2,6);
+ return makeQ(E([N(a),"+",E([N(b),"*",N(c)],true),"-",N(d)]),3,"complexparen","پرانتز را اول کامل کن؛ بعد دوباره ترتیب عملیات را روی عبارت جدید بررسی کن.");
+}
+function genParenDivision(){
+ const b=randInt(2,5),inside=randInt(1,5),c=randInt(1,4);
+ const a=inside+c;
+ const numerator=a*b;
+ return makeQ(E([N(numerator),"/",E([N(a),"-",N(c)],true),"+",N(randInt(-4,6))]),3,"pardiv","پرانتزِ مقسوم‌علیه باید قبل از تقسیم کامل شود.");
+}
+function genDoubleGroups(){
+ const a=randInt(2,6),b=randInt(1,5),c=randInt(2,5),d=randInt(1,4);
+ return makeQ(E([E([N(a),"+",N(b)],true),"*",E([N(c),"-",N(d)],true)]),3,"groups","هر دو پرانتز باید پیش از ضرب بیرونی کامل شوند؛ اگر هر دو آماده‌اند، چپ‌تر را اول اجرا کن.");
+}
+
+const plan=[
+ genMulBeforeAdd,genMulBeforeSub,genDivBeforeAdd,genParenFirst,
+ genParenThenAdd,genLeftRightMulDiv,genLeftRightAddSub,
+ genTwoPriority,()=>pick([genTwoMulDiv,genNestedStyle])(),
+ ()=>pick([genParenDivision,genDoubleGroups,genNestedStyle])()
+];
+
+function generateRound(){
+ const out=[];
+ for(const g of plan){
+  let q=null;
+  for(let tries=0;tries<35;tries++){
+   const c=g();
+   if(Number.isInteger(c.result)&&!recentSignatures.includes(c.signature)&&!out.some(x=>x.signature===c.signature)){q=c;break}
+  }
+  if(!q){
+   for(let tries=0;tries<20;tries++){
+    const c=g();if(Number.isInteger(c.result)&&!out.some(x=>x.signature===c.signature)){q=c;break}
+   }
+  }
+  q=q||g();out.push(q);
+ }
+ saveRecent(out);return out;
+}
+
+/* ---------- Working AST ---------- */
+
+function cloneNode(node){return JSON.parse(JSON.stringify(node))}
+
+function resetInteraction(){
+ const q=questions[currentIndex];
+ interactionState={
+  ast:cloneNode(q.ast),
+  completed:0,
+  mistakes:0
  };
 }
 
 /*
- نکته:
- هدف این بازی «محاسبه جواب» نیست؛
- پس اعداد عمداً ساده انتخاب شده‌اند.
- دانش‌آموز باید ترتیب را اجرا کند.
+ Find all currently executable operations.
+ Rule:
+ 1) If there are unresolved parentheses, only operations inside the deepest/available
+    parentheses are eligible.
+ 2) Within a given expression: * / first left-to-right; then + - left-to-right.
+ 3) If multiple independent parenthesized groups exist, choose leftmost group for a
+    deterministic game sequence.
 */
+function hasOperations(node){return node.type==="expr"&&countOperations(node)>0}
 
-const generators=[
+function findExecutable(node,path=[]){
+ if(node.type==="num")return null;
 
- /* 1: multiplication before addition */
- () => {
-  const a=rand(2,8);
-  const b=rand(2,5);
-  const c=rand(2,5);
-
-  const mult=b*c;
-  const result=a+mult;
-
-  return question(
-   "اول ضرب یا جمع؟",
-   [
-    `${a} + ${b} × ${c}`,
-    `${a} + ${mult}`,
-    `${result}`
-   ],
-   ["multiply","add"],
-   `ma-${a}-${b}-${c}`
-  );
- },
-
- /* 2: multiplication before subtraction */
- () => {
-  const a=rand(10,20);
-  const b=rand(2,4);
-  const c=rand(2,4);
-
-  const mult=b*c;
-  const result=a-mult;
-
-  return question(
-   "ضرب وسط راه",
-   [
-    `${a} − ${b} × ${c}`,
-    `${a} − ${mult}`,
-    `${result}`
-   ],
-   ["multiply","subtract"],
-   `ms-${a}-${b}-${c}`
-  );
- },
-
- /* 3: division before addition */
- () => {
-  const divisor=rand(2,5);
-  const quotient=rand(2,6);
-  const dividend=divisor*quotient;
-  const a=rand(2,8);
-
-  return question(
-   "گیربکس تقسیم",
-   [
-    `${a} + ${dividend} ÷ ${divisor}`,
-    `${a} + ${quotient}`,
-    `${a+quotient}`
-   ],
-   ["divide","add"],
-   `da-${a}-${dividend}-${divisor}`
-  );
- },
-
- /* 4: parentheses first */
- () => {
-  const a=rand(2,5);
-  const b=rand(2,5);
-  const c=rand(2,4);
-
-  const inside=a+b;
-  const result=inside*c;
-
-  return question(
-   "پرانتز اضطراری",
-   [
-    `(${a} + ${b}) × ${c}`,
-    `${inside} × ${c}`,
-    `${result}`
-   ],
-   ["parentheses","multiply"],
-   `pm-${a}-${b}-${c}`
-  );
- },
-
- /* 5: parentheses then subtraction */
- () => {
-  const a=rand(5,9);
-  const b=rand(1,4);
-  const c=rand(2,5);
-
-  const inside=a-b;
-  const result=inside+c;
-
-  return question(
-   "قفل داخل پرانتز",
-   [
-    `(${a} − ${b}) + ${c}`,
-    `${inside} + ${c}`,
-    `${result}`
-   ],
-   ["parentheses","add"],
-   `pa-${a}-${b}-${c}`
-  );
- },
-
- /* 6: power first, then multiplication, then addition */
- () => {
-  const a=rand(1,5);
-  const base=rand(2,4);
-  const c=rand(2,4);
-  const power=base*base;
-  const mult=power*c;
-
-  return question(
-   "راکتور توان",
-   [
-    `${a} + ${base}² × ${c}`,
-    `${a} + ${power} × ${c}`,
-    `${a} + ${mult}`,
-    `${a+mult}`
-   ],
-   ["power","multiply","add"],
-   `pow-${a}-${base}-${c}`
-  );
- },
-
- /* 7: parenthesis, multiply, add */
- () => {
-  const a=rand(1,5);
-  const b=rand(2,5);
-  const c=rand(1,4);
-  const d=rand(2,4);
-
-  const inside=b-c;
-  const mult=inside*d;
-  const result=a+mult;
-
-  return question(
-   "سه دستگاه پشت سر هم",
-   [
-    `${a} + (${b} − ${c}) × ${d}`,
-    `${a} + ${inside} × ${d}`,
-    `${a} + ${mult}`,
-    `${result}`
-   ],
-   ["parentheses","multiply","add"],
-   `pma-${a}-${b}-${c}-${d}`
-  );
- },
-
- /* 8: multiply and divide same priority, left-to-right */
- () => {
-  const a=rand(2,4);
-  const b=rand(2,4);
-  const divisor=rand(2,4);
-
-  const product=a*b;
-
-  /*
-    مطمئن می‌شویم product بر divisor بخش‌پذیر باشد.
-  */
-  const adjustedProduct=
-   Math.ceil(product/divisor)*divisor;
-
-  const adjustedB=
-   adjustedProduct/a;
-
-  if(!Number.isInteger(adjustedB) || adjustedB<1 || adjustedB>8){
-   return generators[7]();
+ /* leftmost child expression with unresolved operation = parenthesis/inner group first */
+ for(let i=0;i<node.items.length;i+=2){
+  const child=node.items[i];
+  if(child && typeof child!=="string" && child.type==="expr" && hasOperations(child)){
+   return findExecutable(child,[...path,i]);
   }
-
-  const result=adjustedProduct/divisor;
-
-  return question(
-   "از چپ به راست!",
-   [
-    `${a} × ${adjustedB} ÷ ${divisor}`,
-    `${adjustedProduct} ÷ ${divisor}`,
-    `${result}`
-   ],
-   ["multiply","divide"],
-   `lrmd-${a}-${adjustedB}-${divisor}`
-  );
- },
-
- /* 9: add/subtract same priority, left-to-right */
- () => {
-  const a=rand(7,15);
-  const b=rand(2,6);
-  const c=rand(1,5);
-
-  const first=a-b;
-  const result=first+c;
-
-  return question(
-   "جمع و تفریق هم‌اولویت",
-   [
-    `${a} − ${b} + ${c}`,
-    `${first} + ${c}`,
-    `${result}`
-   ],
-   ["subtract","add"],
-   `lrsa-${a}-${b}-${c}`
-  );
- },
-
- /* 10: comprehensive */
- () => {
-  const a=rand(2,5);
-  const b=rand(2,4);
-  const c=rand(1,3);
-  const d=rand(2,4);
-  const e=rand(1,4);
-
-  const inside=b+c;
-  const mult=inside*d;
-  const result=a+mult-e;
-
-  return question(
-   "پنل فرماندهی",
-   [
-    `${a} + (${b} + ${c}) × ${d} − ${e}`,
-    `${a} + ${inside} × ${d} − ${e}`,
-    `${a} + ${mult} − ${e}`,
-    `${a+mult} − ${e}`,
-    `${result}`
-   ],
-   ["parentheses","multiply","add","subtract"],
-   `final-${a}-${b}-${c}-${d}-${e}`
-  );
  }
-];
 
-/* =====================
-   Generate
-===================== */
+ /* collapse completed child exprs conceptually before choosing outer op */
+ for(let i=0;i<node.items.length;i+=2){
+  const child=node.items[i];
+  if(child && child.type==="expr" && !hasOperations(child)){
+   node.items[i]=N(evaluateAST(child));
+  }
+ }
 
-function generateRound(){
+ const ops=[];
+ for(let i=1;i<node.items.length;i+=2)ops.push({index:i,op:node.items[i]});
+ if(!ops.length)return null;
 
- const recent=
-  new Set(getRecent());
+ const high=ops.filter(x=>precedence(x.op)===2);
+ const chosen=(high.length?high:ops)[0];
 
- const made=[];
+ return {
+  exprPath:path,
+  opIndex:chosen.index,
+  op:chosen.op
+ };
+}
 
- for(const generator of generators){
+function nodeAtPath(root,path){
+ let n=root;
+ for(const i of path)n=n.items[i];
+ return n;
+}
 
-  let candidate=null;
+function operationKey(path,index){return `${path.join(".")}|${index}`}
 
-  for(let tries=0;tries<18;tries++){
+function executeOperation(path,opIndex){
+ const expr=nodeAtPath(interactionState.ast,path);
+ const left=expr.items[opIndex-1];
+ const op=expr.items[opIndex];
+ const right=expr.items[opIndex+1];
 
-   const q=generator();
+ if(left.type!=="num"||right.type!=="num")return false;
 
-   if(!candidate){
-    candidate=q;
-   }
+ const result=applyOp(left.value,op,right.value);
+ if(!Number.isInteger(result))return false;
 
-   if(
-    !recent.has(q.signature) &&
-    !made.some(
-     x=>x.signature===q.signature
-    )
-   ){
-    candidate=q;
-    break;
+ expr.items.splice(opIndex-1,3,N(result));
+ interactionState.completed++;
+
+ collapseSingletons();
+ return true;
+}
+
+function collapseSingletons(){
+ function walk(node){
+  if(node.type==="num")return node;
+
+  for(let i=0;i<node.items.length;i+=2){
+   if(node.items[i].type==="expr"){
+    node.items[i]=walk(node.items[i]);
    }
   }
 
-  made.push(candidate);
+  if(node.items.length===1)return node.items[0];
+  return node;
  }
-
- questions=
-  made.slice(0,TOTAL_QUESTIONS);
-
- saveRecent(
-  questions.map(
-   q=>q.signature
-  )
- );
+ interactionState.ast=walk(interactionState.ast);
 }
 
-/* =====================
-   Timer
-===================== */
+/* ---------- Rendering ---------- */
 
-function remainingMs(){
-
- return Math.max(
-  0,
-  QUESTION_TIME*1000-
-  (Date.now()-startedAt)
- );
+function setLevel(level){
+ const e=$("levelBadge");
+ if(level===1){e.className="level";e.textContent="🟢 پایه"}
+ else if(level===2){e.className="level master";e.textContent="🟡 تسلط"}
+ else{e.className="level challenge";e.textContent="🔴 چالش"}
 }
-
-function scoreForTime(seconds){
-
- if(seconds<=15) return 10;
- if(seconds<=25) return 8;
- if(seconds<=35) return 6;
- if(seconds<=45) return 4;
- if(seconds<60) return 2;
-
- return 0;
-}
-
-function stopTimer(){
-
- if(timerId!==null){
-
-  clearInterval(timerId);
-
-  timerId=null;
- }
-}
-
-function startTimer(){
-
- stopTimer();
-
- startedAt=Date.now();
-
- updateTimer();
-
- timerId=setInterval(
-  updateTimer,
-  150
- );
-}
-
-function updateTimer(){
-
- const ms=remainingMs();
-
- const seconds=
-  Math.max(
-   0,
-   Math.ceil(ms/1000)
-  );
-
- const ratio=
-  ms/(QUESTION_TIME*1000);
-
- el.time.textContent=
-  `${faNumber(seconds)} ثانیه`;
-
- el.timerMini.textContent=
-  `${faNumber(seconds)} / ${faNumber(QUESTION_TIME)}`;
-
- el.timerBar.style.width=
-  `${Math.max(0,ratio*100)}%`;
-
- if(ratio>.5){
-
-  el.timerBar.style.background=
-   "var(--green)";
-
- }else if(ratio>.2){
-
-  el.timerBar.style.background=
-   "var(--yellow)";
-
- }else{
-
-  el.timerBar.style.background=
-   "var(--red)";
- }
-
- if(
-  ms<=0 &&
-  !answerChecked &&
-  !gameFinished
- ){
-  handleTimeout();
- }
-}
-
-/* =====================
-   Progress
-===================== */
-
-function renderProgress(){
-
- el.progress.innerHTML="";
-
- for(
-  let i=0;
-  i<TOTAL_QUESTIONS;
-  i++
- ){
-
-  const p=
-   document.createElement("span");
-
-  p.className="pstep";
-
-  if(i<currentIndex){
-
-   p.classList.add("done");
-
-  }else if(i===currentIndex){
-
-   p.classList.add("now");
-  }
-
-  el.progress.appendChild(p);
- }
-}
-
-function renderStepStatus(q){
-
- el.stepStatus.innerHTML="";
-
- q.sequence.forEach(
-  (operation,index)=>{
-
-   const lamp=
-    document.createElement("span");
-
-   lamp.className="lamp";
-
-   if(index<stepIndex){
-
-    lamp.classList.add("done");
-
-   }else if(index===stepIndex){
-
-    lamp.classList.add("now");
-   }
-
-   el.stepStatus.appendChild(lamp);
-  }
- );
-
- const text=
-  document.createElement("span");
-
- text.textContent=
-  `مرحله ${faNumber(Math.min(stepIndex+1,q.sequence.length))} از ${faNumber(q.sequence.length)}`;
-
- el.stepStatus.appendChild(text);
-}
-
-/* =====================
-   Operation labels
-===================== */
-
-const OPERATIONS={
- parentheses:"( ) پرانتز",
- power:"² توان",
- multiply:"× ضرب",
- divide:"÷ تقسیم",
- add:"+ جمع",
- subtract:"− تفریق"
-};
-
-function allAvailableChoices(q){
-
- /*
-   عملیات صحیح فعلی + چند گزینه‌ای
-   که در عبارت مفهوم دارند.
- */
-
- const current=
-  q.sequence[stepIndex];
-
- const set=
-  new Set([current]);
-
- const pool=[
-  "parentheses",
-  "power",
-  "multiply",
-  "divide",
-  "add",
-  "subtract"
- ];
-
- /*
-   حداکثر چهار کنترل، تا رابط ساده بماند.
- */
- for(const op of pool){
-
-  if(
-   q.sequence.includes(op) &&
-   op!==current
-  ){
-   set.add(op);
-  }
-
-  if(set.size>=3){
-   break;
-  }
- }
-
- for(const op of pool){
-
-  if(set.size>=3){
-   break;
-  }
-
-  if(op!==current){
-   set.add(op);
-  }
- }
-
- return [...set]
-  .sort(()=>Math.random()-.5)
-  .slice(0,3);
-}
-
-/* =====================
-   Render
-===================== */
 
 function renderQuestion(){
+ stopTimer();answerChecked=false;resetInteraction();
+ const q=questions[currentIndex];
 
- stopTimer();
+ $("missionStatus").textContent=`${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
+ $("scoreStatus").textContent=`${faNumber(score)} از ${faNumber(100)}`;
+ setLevel(q.level);
+ $("hint").textContent=q.hint;
+ $("feedback").className="feedback";
+ $("nextBtn").hidden=true;$("resetBtn").disabled=false;
+ $("message").className="message";$("message").textContent="عملیات بعدی را روی نمایشگر لمس کن.";
 
- answerChecked=false;
- stepIndex=0;
-
- const q=
-  questions[currentIndex];
-
- el.stage.textContent=
-  `${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
-
- el.score.textContent=
-  faNumber(score);
-
- el.missionBadge.textContent=
-  `پنل ${faNumber(currentIndex+1)}`;
-
- el.missionTitle.textContent=
-  q.title;
-
- el.feedback.className=
-  "feedback";
-
- el.feedback.innerHTML="";
-
- el.nextBtn.style.display=
-  "none";
-
- renderProgress();
-
- renderCurrentStep();
-
+ renderExpression();
  startTimer();
 }
 
-function renderCurrentStep(){
+function renderExpression(){
+ const box=$("expression");box.innerHTML="";
+ const executable=findExecutable(interactionState.ast);
 
- const q=
-  questions[currentIndex];
+ renderNode(interactionState.ast,box,[],executable);
 
- el.expression.textContent=
-  faNumber(q.screens[stepIndex]);
+ const q=questions[currentIndex];
+ const pct=Math.round((interactionState.completed/q.totalOps)*100);
+ $("progressFill").style.width=`${pct}%`;
+ $("progressText").textContent=`${faNumber(pct)}٪`;
 
- renderStepStatus(q);
+ updateRuleHighlight(executable);
 
- if(
-  stepIndex>=
-  q.sequence.length
- ){
+ if(countOperations(interactionState.ast)===0 && !answerChecked){
+  completeMission();
+ }
+}
 
-  completeQuestion();
-
-  return;
+function renderNode(node,parent,path,executable){
+ if(node.type==="num"){
+  const span=document.createElement("span");
+  span.className="number";span.textContent=formatNumber(node.value);parent.appendChild(span);return;
  }
 
- el.panelTitle.textContent=
-  stepIndex===0
-   ?"کدام دستگاه باید اول روشن شود؟"
-   :"حالا نوبت کدام دستگاه است؟";
+ const wrap=document.createElement("span");wrap.className="group";
+ if(node.paren)wrap.classList.add("active-group");
 
- el.operationPanel.innerHTML="";
+ if(node.paren){
+  const l=document.createElement("span");l.className="paren";l.textContent="(";wrap.appendChild(l);
+ }
 
- const choices=
-  allAvailableChoices(q);
-
- choices.forEach(operation=>{
-
-  const btn=
-   document.createElement("button");
-
-  btn.type="button";
-  btn.className="op-btn";
-
-  btn.dataset.operation=
-   operation;
-
-  btn.textContent=
-   OPERATIONS[operation];
-
-  btn.addEventListener(
-   "click",
-   ()=>operationClicked(
-    operation,
-    btn
-   )
-  );
-
-  el.operationPanel.appendChild(btn);
+ node.items.forEach((item,index)=>{
+  if(typeof item==="string"){
+   const b=document.createElement("button");
+   b.type="button";b.className="op-button";b.textContent=opSymbol(item);
+   const localPath=[...path];
+   b.addEventListener("click",()=>operationClicked(localPath,index));
+   wrap.appendChild(b);
+  }else{
+   renderNode(item,wrap,[...path,index],executable);
+  }
  });
+
+ if(node.paren){
+  const r=document.createElement("span");r.className="paren";r.textContent=")";wrap.appendChild(r);
+ }
+ parent.appendChild(wrap);
 }
 
-/* =====================
-   Interaction
-===================== */
+function formatNumber(v){
+ return v<0?`(${faNumber(v)})`:faNumber(v);
+}
 
-function operationClicked(
- operation,
- btn
-){
+function operationClicked(path,index){
+ if(answerChecked||gameFinished)return;
+ const correct=findExecutable(interactionState.ast);
+ if(!correct)return;
 
- if(
-  answerChecked ||
-  gameFinished
- ){
+ const clicked=operationKey(path,index),wanted=operationKey(correct.exprPath,correct.opIndex);
+
+ if(clicked!==wanted){
+  interactionState.mistakes++;
+  const clickedExpr=nodeAtPath(interactionState.ast,path);
+  const clickedOp=clickedExpr.items[index];
+  $("message").className="message warn";
+
+  if(hasUnresolvedChild(interactionState.ast)){
+   $("message").textContent="🚨 هنوز یک پرانتز حل‌نشده داریم؛ اول داخل آن را کامل کن.";
+  }else if(precedence(clickedOp)===1 && correct && precedence(correct.op)===2){
+   $("message").textContent="🚨 هنوز ضرب یا تقسیم باقی مانده؛ جمع/تفریق فعلاً نوبتش نیست.";
+  }else{
+   $("message").textContent="🚨 عملیات هم‌اولویت را از چپ به راست انجام بده.";
+  }
+  animate("shake");
   return;
  }
 
- if(remainingMs()<=0){
-
-  handleTimeout();
-
-  return;
- }
-
- const q=
-  questions[currentIndex];
-
- const expected=
-  q.sequence[stepIndex];
-
- if(operation!==expected){
-
-  /*
-    عمل کوچک پاسخ نهایی نیست.
-    انتخاب اشتباه فقط بازخورد فوری دارد،
-    سؤال را تمام نمی‌کند و امتیاز را
-    همین‌جا قفل نمی‌کند.
-  */
-
-  btn.classList.add("wrong");
-  btn.disabled=true;
-
-  el.panelTitle.textContent=
-   hintFor(expected);
-
-  return;
- }
-
- btn.classList.add("correct");
-
- /*
-   مرحله درست اجرا شد.
- */
- stepIndex++;
-
- if(
-  stepIndex<
-  q.screens.length
- ){
-  el.expression.textContent=
-   faNumber(q.screens[stepIndex]);
- }
-
- renderStepStatus(q);
-
- setTimeout(
-  ()=>{
-   if(
-    !answerChecked &&
-    !gameFinished
-   ){
-    renderCurrentStep();
-   }
-  },
-  180
- );
+ executeOperation(path,index);
+ $("message").className="message ok";
+ $("message").textContent="✅ فرمان درست بود؛ عبارت کوتاه‌تر شد.";
+ renderExpression();
 }
 
-function hintFor(expected){
-
- switch(expected){
-
-  case "parentheses":
-   return "اول داخل پرانتز را بررسی کن.";
-
-  case "power":
-   return "توان و جذر پیش از ضرب و جمع هستند.";
-
-  case "multiply":
-   return "ضرب قبل از جمع و تفریق است.";
-
-  case "divide":
-   return "تقسیم قبل از جمع و تفریق است.";
-
-  case "add":
-   return "عملیات پر‌اولویت‌تر تمام شده؛ حالا از چپ به راست.";
-
-  case "subtract":
-   return "عملیات پر‌اولویت‌تر تمام شده؛ حالا از چپ به راست.";
-
-  default:
-   return "ترتیب عملیات را دوباره نگاه کن.";
- }
+function hasUnresolvedChild(node){
+ if(node.type==="num")return false;
+ return node.items.some((x,i)=>i%2===0&&x.type==="expr"&&hasOperations(x));
 }
 
-/* =====================
-   Complete
-===================== */
+function updateRuleHighlight(executable){
+ ["ruleParen","ruleMul","ruleAdd"].forEach(id=>$(id).classList.remove("active"));
+ if(!executable)return;
 
-function completeQuestion(){
-
- if(
-  answerChecked ||
-  gameFinished
- ){
-  return;
- }
-
- answerChecked=true;
-
- stopTimer();
-
- el.operationPanel.innerHTML="";
-
- el.panelTitle.textContent=
-  "✅ پنل با ترتیب درست اجرا شد!";
-
- const q=
-  questions[currentIndex];
-
- el.expression.textContent=
-  faNumber(
-   q.screens[
-    q.screens.length-1
-   ]
-  );
-
- const elapsed=
-  Math.min(
-   QUESTION_TIME,
-   (Date.now()-startedAt)/1000
-  );
-
- const gained=
-  scoreForTime(elapsed);
-
- score=
-  Math.min(
-   100,
-   score+gained
-  );
-
- el.score.textContent=
-  faNumber(score);
-
- el.feedback.className=
-  "feedback good";
-
- el.feedback.innerHTML=
-  `✅ <strong>عالی! +${faNumber(gained)} امتیاز</strong><br>`+
-  explanationFor(q);
-
- showNext();
+ if(hasUnresolvedChild(interactionState.ast))$("ruleParen").classList.add("active");
+ else if(precedence(executable.op)===2)$("ruleMul").classList.add("active");
+ else $("ruleAdd").classList.add("active");
 }
 
-function explanationFor(q){
+$("resetBtn").addEventListener("click",()=>{
+ if(answerChecked)return;
+ resetInteraction();$("message").className="message";$("message").textContent="عبارت از ابتدا برگشت.";
+ renderExpression();
+});
 
- if(
-  q.sequence[0]==="parentheses"
- ){
-  return "ابتدا پرانتز انجام شد؛ سپس عملیات باقی‌مانده بر اساس اولویت و از چپ به راست اجرا شدند.";
- }
+/* ---------- Mission completion ---------- */
 
- if(
-  q.sequence[0]==="power"
- ){
-  return "توان پیش از ضرب و جمع انجام شد؛ سپس ضرب و در پایان جمع اجرا شد.";
- }
-
- if(
-  q.title.includes("چپ")
- ){
-  return "وقتی ضرب و تقسیم هم‌اولویت‌اند، از چپ به راست پیش می‌رویم.";
- }
-
- if(
-  q.title.includes("هم‌اولویت")
- ){
-  return "جمع و تفریق هم‌اولویت‌اند؛ بنابراین از چپ به راست انجام می‌شوند.";
- }
-
- return "ضرب و تقسیم پیش از جمع و تفریق انجام می‌شوند.";
+function scoreForTime(ms){
+ const s=ms/1000;
+ if(s<=15)return 10;if(s<=25)return 8;if(s<=35)return 6;if(s<=45)return 4;if(s<=60)return 2;return 0;
+}
+function showFeedback(kind,title,text){
+ const f=$("feedback");f.className=`feedback show ${kind}`;f.innerHTML=`<strong>${title}</strong>${text}`;
+}
+function animate(cls){
+ const e=$("gameCard");e.classList.remove(cls);void e.offsetWidth;e.classList.add(cls);setTimeout(()=>e.classList.remove(cls),350);
+}
+function lockInteraction(){
+ $("resetBtn").disabled=true;
+ [...$("expression").querySelectorAll("button")].forEach(b=>b.disabled=true);
 }
 
-/* =====================
-   Timeout
-===================== */
+function completeMission(){
+ if(answerChecked||gameFinished)return;
+ answerChecked=true;stopTimer();lockInteraction();
 
-function revealExpected(){
+ const q=questions[currentIndex];
+ const gained=scoreForTime(Date.now()-questionStartedAt);
+ score=Math.min(100,score+gained);
+ $("scoreStatus").textContent=`${faNumber(score)} از ${faNumber(100)}`;
 
- const q=
-  questions[currentIndex];
+ const mistakeNote=interactionState.mistakes>0
+  ? ` در مسیر حل ${faNumber(interactionState.mistakes)} بار ترتیب را اصلاح کردی.`
+  : " تمام فرمان‌ها را با ترتیب درست در همان تلاش اول اجرا کردی.";
 
- if(
-  stepIndex>=q.sequence.length
- ){
-  return;
- }
-
- const expected=
-  q.sequence[stepIndex];
-
- el.operationPanel
-  .querySelectorAll(
-   ".op-btn"
-  )
-  .forEach(btn=>{
-
-   btn.disabled=true;
-
-   if(
-    btn.dataset.operation===
-    expected
-   ){
-    btn.classList.add(
-     "correct"
-    );
-   }
-  });
+ showFeedback("good",`✅ عبارت کامل شد! +${faNumber(gained)} امتیاز`,`${q.explanation}${mistakeNote}`);
+ $("nextBtn").hidden=false;
+ $("nextBtn").textContent=currentIndex===TOTAL_QUESTIONS-1?"دیدن نتیجه 🏁":"مأموریت بعدی";
+ animate("pop");
 }
 
 function handleTimeout(){
+ if(answerChecked||gameFinished)return;
+ answerChecked=true;stopTimer();lockInteraction();
 
- if(
-  answerChecked ||
-  gameFinished
- ){
-  return;
+ const q=questions[currentIndex];
+ const correct=findExecutable(interactionState.ast);
+ let tip="";
+ if(correct){
+  if(hasUnresolvedChild(interactionState.ast))tip=" در وضعیت فعلی باید ابتدا عملیات داخل پرانتز را انجام می‌دادی.";
+  else if(precedence(correct.op)===2)tip=" در وضعیت فعلی نوبت ضرب یا تقسیم بود.";
+  else tip=" در وضعیت فعلی نوبت چپ‌ترین جمع یا تفریق بود.";
  }
 
- answerChecked=true;
-
- stopTimer();
-
- revealExpected();
-
- const q=
-  questions[currentIndex];
-
- el.time.textContent=
-  "۰ ثانیه";
-
- el.timerMini.textContent=
-  `۰ / ${faNumber(QUESTION_TIME)}`;
-
- el.timerBar.style.width=
-  "0%";
-
- el.timerBar.style.background=
-  "var(--red)";
-
- el.feedback.className=
-  "feedback time";
-
- el.feedback.innerHTML=
-  `⏰ <strong>زمان تمام شد.</strong><br>`+
-  `در این مرحله باید «${OPERATIONS[q.sequence[Math.min(stepIndex,q.sequence.length-1)]]}» را اجرا می‌کردی. `+
-  explanationFor(q);
-
- showNext();
+ showFeedback("timeout","⏰ زمان تمام شد.",`پاسخ نهایی عبارت ${faNumber(q.result)} است.${tip} ${q.explanation}`);
+ $("nextBtn").hidden=false;
+ $("nextBtn").textContent=currentIndex===TOTAL_QUESTIONS-1?"دیدن نتیجه 🏁":"مأموریت بعدی";
 }
 
-/* =====================
-   Next
-===================== */
+/* ---------- Timer ---------- */
 
-function showNext(){
-
- el.nextBtn.style.display=
-  "block";
-
- el.nextBtn.textContent=
-  currentIndex===
-  TOTAL_QUESTIONS-1
-   ?"🚨 نجات نیروگاه"
-   :"پنل بعدی 🎛️";
+function startTimer(){
+ stopTimer();questionStartedAt=Date.now();questionDeadline=questionStartedAt+QUESTION_TIME*1000;
+ updateTimer();timerInterval=setInterval(updateTimer,100);
 }
-
-function nextQuestion(){
-
- if(
-  !answerChecked ||
-  gameFinished
- ){
-  return;
- }
-
- if(
-  currentIndex===
-  TOTAL_QUESTIONS-1
- ){
-
-  finishGame();
-
-  return;
- }
-
- currentIndex++;
-
- renderQuestion();
+function updateTimer(){
+ if(answerChecked||gameFinished)return;
+ const remain=Math.max(0,questionDeadline-Date.now()),ratio=remain/(QUESTION_TIME*1000);
+ $("timeText").textContent=`${faNumber(Math.ceil(remain/1000))} ثانیه`;
+ $("timerFill").style.width=`${Math.max(0,Math.min(100,ratio*100))}%`;
+ $("timerFill").style.background=ratio>.5?"#51dd91":ratio>.2?"#f5c543":"#e65362";
+ if(remain<=0)handleTimeout();
 }
+function stopTimer(){if(timerInterval!==null){clearInterval(timerInterval);timerInterval=null}}
 
-/* =====================
-   Finish game
-===================== */
+/* ---------- Flow ---------- */
+
+$("nextBtn").addEventListener("click",()=>{
+ if(!answerChecked||gameFinished)return;
+ if(currentIndex===TOTAL_QUESTIONS-1){finishGame();return}
+ currentIndex++;renderQuestion();
+});
 
 async function finishGame(){
-
- if(gameFinished){
-  return;
- }
-
- gameFinished=true;
-
- stopTimer();
-
- score=
-  Math.min(
-   100,
-   score
-  );
-
- el.game.classList.add(
-  "hidden"
- );
-
- el.hero.classList.add(
-  "hidden"
- );
-
- el.statusWrap.classList.add(
-  "hidden"
- );
-
- el.resultScreen.classList.add(
-  "show"
- );
-
- const name=
-  player.playerName ||
-  "بازیکن";
-
- el.resultName.textContent=
-  `${name}، همه پنل‌ها به ترتیب درست فعال شدند.`;
-
- el.finalScore.textContent=
-  faNumber(score);
-
- if(score>=90){
-
-  el.resultMessage.textContent=
-   "عالی بود! 🌟 فرمانده اتاق کنترل شدی!";
-
- }else if(score>=70){
-
-  el.resultMessage.textContent=
-   "خیلی خوب بود 👏 ترتیب عملیات را خوب کنترل کردی.";
-
- }else if(score>=50){
-
-  el.resultMessage.textContent=
-   "خوب بود، ادامه بده 💪 اولویت عملیات را کمی بیشتر تمرین کن.";
-
- }else{
-
-  el.resultMessage.textContent=
-   "دوباره تلاش کن 🌱 پرانتز، توان، ضرب و تقسیم، سپس جمع و تفریق.";
- }
+ if(gameFinished)return;
+ gameFinished=true;stopTimer();
+ $("playArea").style.display="none";$("resultArea").classList.add("show");
+ $("finalScore").textContent=faNumber(score);
+ $("resultName").textContent=`${player.playerName||"بازیکن"}، امتیاز نهایی تو:`;
+ $("resultMessage").textContent=
+  score>=90?"عالی! ترتیب عملیات را به‌صورت مرحله‌به‌مرحله کنترل می‌کنی. 🌟":
+  score>=70?"خیلی خوب! فقط در عملیات هم‌اولویت، قانون چپ به راست را همیشه بررسی کن. 🎛️":
+  score>=50?"قاعده کلی را می‌دانی؛ روی تفاوت «اولویت» و «چپ به راست» بیشتر تمرین کن. 🚨":
+  "برای دور بعد سه سؤال بپرس: پرانتز داریم؟ ضرب/تقسیم داریم؟ اگر هم‌اولویت‌اند کدام چپ‌تر است؟";
 
  if(!finishSubmitted){
-
   finishSubmitted=true;
-
-  try{
-
-   const result=
-    await GameSDK.finishGame(
-     score
-    );
-
-   void result;
-
-  }catch(error){
-
-   console.error(
-    "finishGame failed:",
-    error
-   );
-  }
+  try{await GameSDK.finishGame(score)}catch(e){console.error("finishGame failed",e)}
  }
-
  await loadLeaderboard();
 }
 
-/* =====================
-   Leaderboard
-===================== */
-
 async function loadLeaderboard(){
-
- el.leaderboard.className=
-  "loading";
-
- el.leaderboard.textContent=
-  "در حال دریافت رکوردها...";
-
+ const box=$("leaderRows");box.innerHTML='<div style="text-align:center;color:#707890">در حال دریافت...</div>';
  try{
-
-  const scores=
-   await GameSDK.getLeaderboard(
-    10
-   );
-
-  const list=
-   Array.isArray(scores)
-    ?scores
-    :[];
-
-  el.leaderboard.className="";
-  el.leaderboard.innerHTML="";
-
-  if(!list.length){
-
-   el.leaderboard.className=
-    "loading";
-
-   el.leaderboard.textContent=
-    "هنوز رکوردی برای نمایش وجود ندارد.";
-
-   return;
-  }
-
-  list
-   .slice(0,10)
-   .forEach(
-    (item,index)=>{
-
-     const row=
-      document.createElement(
-       "div"
-      );
-
-     row.className="rank";
-
-     const rank=
-      document.createElement(
-       "span"
-      );
-
-     if(index===0){
-
-      rank.textContent="🥇";
-
-     }else if(index===1){
-
-      rank.textContent="🥈";
-
-     }else if(index===2){
-
-      rank.textContent="🥉";
-
-     }else{
-
-      rank.textContent=
-       `${faNumber(index+1)}.`;
-     }
-
-     const name=
-      document.createElement(
-       "span"
-      );
-
-     name.className=
-      "rank-name";
-
-     name.textContent=
-      item.playerName ??
-      item.name ??
-      item.username ??
-      "بازیکن";
-
-     const points=
-      document.createElement(
-       "span"
-      );
-
-     points.className=
-      "rank-score";
-
-     points.textContent=
-      `${faNumber(item.score ?? 0)} امتیاز`;
-
-     row.append(
-      rank,
-      name,
-      points
-     );
-
-     el.leaderboard.appendChild(
-      row
-     );
-    }
-   );
-
- }catch(error){
-
-  console.error(
-   "Leaderboard failed:",
-   error
-  );
-
-  el.leaderboard.className=
-   "loading";
-
-  el.leaderboard.textContent=
-   "دریافت جدول برترین‌ها ممکن نشد.";
- }
+  const scores=await GameSDK.getLeaderboard(10);
+  if(!scores||!scores.length){box.innerHTML='<div style="text-align:center;color:#707890">هنوز رکوردی ثبت نشده است.</div>';return}
+  box.innerHTML="";
+  scores.forEach((entry,i)=>{
+   const row=document.createElement("div");row.className="leader-row";
+   const rank=i===0?"🥇":i===1?"🥈":i===2?"🥉":`${faNumber(i+1)}.`;
+   const a=document.createElement("span");a.textContent=`${rank} ${entry.playerName??entry.name??"بازیکن"}`;
+   const b=document.createElement("strong");b.textContent=`${faNumber(entry.score??0)} امتیاز`;
+   row.append(a,b);box.appendChild(row);
+  });
+ }catch(e){console.error("leaderboard failed",e);box.innerHTML='<div class="error">جدول برترین‌ها فعلاً قابل دریافت نیست.</div>'}
 }
 
-/* =====================
-   Restart
-===================== */
-
-function restartGame(){
-
+$("restartBtn").addEventListener("click",()=>{
  stopTimer();
+ try{GameSDK.reset()}catch(e){console.error("reset failed",e)}
+ score=0;currentIndex=0;answerChecked=false;gameFinished=false;finishSubmitted=false;interactionState={};
+ $("scoreStatus").textContent="۰ از ۱۰۰";$("playArea").style.display="";$("resultArea").classList.remove("show");
+ questions=generateRound();renderQuestion();
+});
 
- GameSDK.reset();
-
- questions=[];
-
- currentIndex=0;
- score=0;
-
- startedAt=0;
- timerId=null;
-
- answerChecked=false;
- gameFinished=false;
- finishSubmitted=false;
-
- stepIndex=0;
-
- el.score.textContent="۰";
-
- el.resultScreen.classList.remove(
-  "show"
- );
-
- el.game.classList.remove(
-  "hidden"
- );
-
- el.hero.classList.remove(
-  "hidden"
- );
-
- el.statusWrap.classList.remove(
-  "hidden"
- );
-
- generateRound();
-
- if(
-  questions.length!==
-  TOTAL_QUESTIONS
- ){
-  throw new Error(
-   "Exactly 10 questions are required."
-  );
- }
-
+function init(){
+ questions=generateRound();
+ if(questions.length!==TOTAL_QUESTIONS)throw new Error("Exactly 10 missions are required.");
  renderQuestion();
 }
-
-/* =====================
-   Events / Start
-===================== */
-
-el.nextBtn.addEventListener(
- "click",
- nextQuestion
-);
-
-el.restartBtn.addEventListener(
- "click",
- restartGame
-);
-
-el.playerName.textContent=
- player.playerName ||
- "بازیکن";
-
-generateRound();
-
-if(
- questions.length!==
- TOTAL_QUESTIONS
-){
- throw new Error(
-  "Exactly 10 questions are required."
- );
-}
-
-renderQuestion();
-
-})();
+init();
 </script>
-
 </body>
 </html>
