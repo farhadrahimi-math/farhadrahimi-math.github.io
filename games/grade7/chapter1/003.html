@@ -2,3610 +2,650 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>کارخانه حالت‌ها | ریاضی هفتم</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>کارخانه علامت‌ها ⚙️🤖 | ریاضی هشتم</title>
 <style>
-*{box-sizing:border-box}
-
 :root{
- --purple:#8b5cf6;--purple2:#6d28d9;
- --blue:#38bdf8;--blue2:#0284c7;
- --pink:#f472b6;--yellow:#fbbf24;
- --orange:#fb923c;--green:#22c55e;
- --red:#fb7185;--text:#293449;--muted:#64748b
+ --purple:#7456d8;--blue:#3e83ed;--pink:#ec70a7;--yellow:#f5c543;
+ --green:#29ad78;--red:#e65362;--ink:#29334b;--muted:#6d7690;
+ --shadow:0 10px 28px rgba(58,51,108,.12)
 }
-
-html{color-scheme:light only;-webkit-text-size-adjust:100%}
-
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;overflow-x:hidden}
 body{
- margin:0;min-height:100vh;direction:rtl;
- font-family:Tahoma,Arial,sans-serif;color:var(--text);
- overflow-x:hidden;
+ font-family:Tahoma,Arial,sans-serif;color:var(--ink);line-height:1.65;
  background:
-  radial-gradient(circle at 8% 5%,#fbcfe855,transparent 24%),
-  radial-gradient(circle at 92% 7%,#7dd3fc66,transparent 25%),
-  radial-gradient(circle at 84% 92%,#fde68a55,transparent 24%),
-  linear-gradient(150deg,#fff7fd,#effcff 53%,#fff9df)
+ radial-gradient(circle at 10% 5%,#e7e2ff 0,transparent 27%),
+ radial-gradient(circle at 91% 12%,#dcf4ff 0,transparent 26%),
+ #f7f7fc
 }
+button{font:inherit}
+button:focus-visible{outline:3px solid #277ee8;outline-offset:3px}
+.app{width:min(100%,920px);margin:auto;padding:14px 12px 30px}
 
-button,a{font-family:inherit}
-button{touch-action:manipulation}
-.app{width:min(100%,960px);margin:auto;padding:12px}
-
-/* HEADER */
-
-.hero{text-align:center;padding:7px 4px 14px}
-
+.header{
+ background:linear-gradient(135deg,#7353d6,#4086eb);
+ color:white;border-radius:22px;padding:16px;box-shadow:var(--shadow)
+}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
 .badge{
- display:inline-block;padding:6px 14px;border-radius:999px;
- background:linear-gradient(90deg,#fef3c7,#fce7f3);
- border:1px solid #f1cc5d;color:#825900;
- font-size:12px;font-weight:bold
+ padding:3px 9px;border-radius:99px;font-size:11px;font-weight:bold;
+ background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.26)
 }
+h1{font-size:clamp(23px,6vw,34px);margin:8px 0 2px}
+.subtitle{margin:0;color:#f2efff;font-size:13px}
+.status{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
+.status-card{min-width:0;background:white;color:var(--ink);border-radius:13px;text-align:center;padding:6px 3px}
+.status-card small{display:block;color:var(--muted);font-size:10px}
+.status-card strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timer-box{margin-top:9px;padding:7px;border-radius:13px;background:rgba(255,255,255,.15)}
+.timer-head{display:flex;justify-content:space-between;font-size:12px}
+.timer-track{height:9px;margin-top:5px;background:rgba(255,255,255,.22);border-radius:99px;overflow:hidden}
+.timer-fill{height:100%;width:100%;border-radius:inherit;background:#51dd91;transition:width .15s linear,background-color .2s}
 
-.hero h1{
- margin:9px 0 4px;font-size:clamp(29px,7vw,43px);
- background:linear-gradient(90deg,var(--purple),var(--blue2),var(--pink));
- color:transparent;background-clip:text;-webkit-background-clip:text
-}
-
-.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.8}
-
-/* PANEL */
-
-.panel{
- background:#fffffff7;border-radius:25px;overflow:hidden;
- box-shadow:0 16px 42px #6d28d91c
-}
-
-.status{
- display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
- padding:10px;
- background:linear-gradient(90deg,#f5f3ff,#ecfeff,#fff7ed,#fdf2f8)
-}
-
-.stat{
- background:#fff;text-align:center;padding:8px 4px;
- border-radius:13px;min-width:0;box-shadow:0 2px 7px #0000000a
-}
-
-.stat:nth-child(1){border-bottom:4px solid var(--purple)}
-.stat:nth-child(2){border-bottom:4px solid var(--blue)}
-.stat:nth-child(3){border-bottom:4px solid var(--yellow)}
-.stat:nth-child(4){border-bottom:4px solid var(--pink)}
-
-.stat small{display:block;color:var(--muted);font-size:10px}
-
-.stat strong{
- display:block;margin-top:2px;color:#544274;font-size:14px;
- overflow:hidden;white-space:nowrap;text-overflow:ellipsis
-}
-
-/* FACTORY SCENE */
+.game-card{margin-top:13px;background:#fff;border-radius:22px;padding:15px;box-shadow:var(--shadow);min-height:490px}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.level{padding:4px 10px;border-radius:99px;font-size:12px;font-weight:bold;background:#e9f8ef;color:#18794d}
+.level.master{background:#fff3ca;color:#916600}.level.challenge{background:#ffe9ee;color:#bc3850}
+.prompt{text-align:center;font-weight:bold;font-size:clamp(16px,4.5vw,20px);margin:15px auto 4px}
+.hint{text-align:center;color:var(--muted);font-size:12px;margin-bottom:12px}
 
 .factory{
- height:128px;position:relative;overflow:hidden;
- background:linear-gradient(#c9f1ff 0 58%,#d7e2e6 58%);
- border-bottom:1px solid #cbd5e1
+ max-width:730px;margin:auto;border:1px solid #d9deed;border-radius:20px;
+ padding:15px 10px;background:linear-gradient(135deg,#f7f5ff,#f1faff);
+ position:relative;overflow:hidden
 }
-
-.factory-building{
- position:absolute;bottom:27px;right:6%;
- width:120px;height:66px;background:#a78bfa;
- border:4px solid #6d28d9;border-radius:8px 8px 0 0
+.factory::after{
+ content:"⚙️";position:absolute;left:-10px;bottom:-25px;font-size:100px;
+ opacity:.045;transform:rotate(15deg);pointer-events:none
 }
-
-.factory-building:before{
- content:"";position:absolute;top:-29px;right:10px;
- width:21px;height:29px;background:#64748b;border-radius:4px 4px 0 0
+.expression{
+ direction:ltr;unicode-bidi:isolate;text-align:center;
+ font-weight:bold;font-size:clamp(20px,6vw,29px);
+ margin:3px auto 15px;overflow-wrap:anywhere
 }
-
-.factory-building:after{
- content:"🏭";position:absolute;font-size:43px;right:35px;top:8px
+.belt{
+ direction:ltr;display:flex;justify-content:center;align-items:center;
+ flex-wrap:wrap;gap:7px;padding:11px;border-radius:15px;
+ background:#fff;border:2px dashed #cfd6e5;min-height:86px
 }
-
-.conveyor{
- position:absolute;bottom:18px;left:4%;width:69%;height:19px;
- background:#64748b;border-radius:6px;border-top:4px solid #475569
+.factor{
+ min-width:54px;min-height:52px;border:2px solid #dad9e8;
+ background:white;border-radius:13px;font-weight:bold;font-size:17px;
+ color:#344057;cursor:pointer;padding:6px 9px
 }
+.factor.negative{border-color:#efb3bc;background:#fff2f4;color:#b63249}
+.factor.positive{border-color:#aed7f7;background:#eff8ff;color:#256da9}
+.factor.selected{box-shadow:0 0 0 4px #f5c543;transform:translateY(-2px)}
+.factor.paired{opacity:.35;text-decoration:line-through}
+.factor:disabled{cursor:not-allowed}
 
-.conveyor:after{
- content:"";position:absolute;inset:5px 4px;
- background:repeating-linear-gradient(90deg,#cbd5e1 0 14px,#64748b 14px 23px)
+.pair-info{
+ text-align:center;min-height:28px;margin-top:10px;
+ color:#59647b;font-size:13px
 }
-
-.box-runner{
- position:absolute;left:9%;bottom:38px;font-size:34px;
- transition:left .5s,transform .2s
+.gears{
+ display:flex;justify-content:center;align-items:center;gap:8px;
+ margin:12px auto 5px;direction:ltr;flex-wrap:wrap
 }
-
 .gear{
- position:absolute;font-size:28px;animation:spin 5s linear infinite
+ width:66px;height:66px;border-radius:50%;
+ display:flex;align-items:center;justify-content:center;
+ background:#edf2fa;border:4px dashed #8c96a9;
+ font-size:27px;font-weight:bold;color:#576276
 }
-.g1{left:74%;bottom:38px}
-.g2{left:80%;bottom:59px;font-size:20px;animation-direction:reverse}
+.gear.pos{background:#e9f8ef;border-color:#57b583;color:#19764b}
+.gear.neg{background:#ffebee;border-color:#e26170;color:#ac2d44}
+.arrow{font-size:22px;color:#8a829e}
+.output-title{text-align:center;font-size:12px;color:#6e7790}
 
-/* CONTENT */
-
-.content{padding:15px}
-
-.factory-progress{
- display:grid;grid-template-columns:repeat(10,1fr);
- gap:5px;margin-bottom:14px
+.sign-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:420px;margin:12px auto 0}
+.sign-btn{
+ min-height:54px;border:2px solid #dad9e9;border-radius:14px;
+ background:white;font-size:17px;font-weight:bold;color:#3d465d;cursor:pointer
 }
+.sign-btn.positive.selected{background:#e8f8ef;border-color:#45af77;color:#177348}
+.sign-btn.negative.selected{background:#ffebee;border-color:#e15566;color:#af2b43}
 
-.lamp{
- height:23px;border-radius:999px;background:#e5e7eb;
- border:2px solid #d1d5db;transition:.25s
-}
+.action-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn{min-height:48px;border:0;border-radius:14px;padding:9px 18px;font-weight:bold;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,#7556d7,#4283e9);color:#fff}
+.btn-secondary{background:#edf0f6;color:#3e485e}
+.btn:disabled,.sign-btn:disabled{opacity:.45;cursor:not-allowed}
 
-.lamp.done{
- background:var(--green);border-color:#16a34a;
- box-shadow:0 0 10px #22c55e88
-}
+.feedback{display:none;margin-top:13px;padding:11px 13px;border-radius:14px;font-size:14px}
+.feedback.show{display:block}
+.feedback.good{background:#e8f8ef;border:1px solid #a8ddbf;color:#176b43}
+.feedback.bad{background:#ffebee;border:1px solid #efb4bd;color:#a52b40}
+.feedback.timeout{background:#fff3da;border:1px solid #e9ca84;color:#835c00}
+.feedback strong{display:block}
 
-.lamp.current{
- background:var(--yellow);border-color:#e5a900;
- box-shadow:0 0 10px #fbbf2488
-}
-
-/* TIMER */
-
-.timer-head{
- display:flex;justify-content:space-between;align-items:center;
- font-size:13px;font-weight:bold;margin-bottom:6px
-}
-
-#timerNumber{font-size:20px;color:var(--green)}
-
-.timer-track{
- height:13px;padding:2px;background:#e7e9f2;
- border-radius:999px;overflow:hidden;margin-bottom:14px
-}
-
-.timer-bar{
- height:100%;width:100%;border-radius:999px;background:var(--green);
- transition:width .1s linear,background .2s
-}
-
-/* QUESTION */
-
-.labels{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-
-.mission-label,.family-label{
- display:inline-block;padding:5px 11px;border-radius:999px;
- font-size:11px;font-weight:bold
-}
-
-.mission-label{background:#eee9ff;color:#6835bd}
-.family-label{background:#e0f7ff;color:#087aa8}
-
-.problem{
- margin:8px 0 7px;padding:14px 15px;background:#fff8dd;
- border:2px solid #f3d36d;border-radius:16px;text-align:center;
- font-size:clamp(15px,4vw,19px);font-weight:bold;line-height:1.9
-}
-
-.tip{
- text-align:center;color:var(--muted);font-size:12px;
- line-height:1.8;margin:7px 0 13px
-}
-
-/* MACHINE */
-
-.machine{
- background:linear-gradient(145deg,#f8f7ff,#f0fbff);
- border:2px solid #ddd8ee;border-radius:19px;padding:12px
-}
-
-.machine-title{
- text-align:center;font-weight:bold;color:#554276;
- font-size:14px;margin-bottom:11px
-}
-
-.choice-group{
- background:#fff;border:1px solid #e5e0f3;
- border-radius:14px;padding:9px;margin-bottom:9px
-}
-
-.choice-title{
- display:flex;align-items:center;justify-content:space-between;
- gap:7px;margin-bottom:7px;color:#615672;
- font-size:12px;font-weight:bold
-}
-
-.choice-status{
- color:#8b5cf6;font-size:10px;font-weight:normal
-}
-
-.choice-buttons{
- display:flex;flex-wrap:wrap;justify-content:center;gap:7px
-}
-
-.choice-btn{
- min-width:55px;min-height:44px;padding:8px 11px;
- border:2px solid #c9bcef;border-radius:12px;
- background:#f9f7ff;color:#523c83;font-weight:bold;
- font-size:13px;cursor:pointer;transition:.15s
-}
-
-.choice-btn:hover:not(:disabled){
- border-color:var(--purple);transform:translateY(-2px)
-}
-
-.choice-btn.selected{
- color:#fff;border-color:var(--purple2);
- background:linear-gradient(135deg,var(--purple),var(--purple2));
- box-shadow:0 4px 9px #8b5cf633
-}
-
-.choice-btn:disabled{cursor:default}
-
-.selection-preview{
- margin:10px 0 2px;padding:9px;text-align:center;
- background:#eee9ff;border-radius:12px;color:#60419e;
- font-size:12px;font-weight:bold
-}
-
-/* OUTPUT */
-
-.output-section{margin-top:13px}
-
-.output-head{
- display:flex;align-items:center;justify-content:space-between;
- gap:7px;margin-bottom:7px;font-size:12px;font-weight:bold
-}
-
-.output-count{
- background:#ede9fe;color:#6d28d9;
- border-radius:999px;padding:4px 9px
-}
-
-.output{
- min-height:75px;display:flex;flex-wrap:wrap;
- align-content:flex-start;gap:7px;padding:9px;background:#fff;
- border:2px dashed #cbd5e1;border-radius:14px
-}
-
-.empty-output{
- width:100%;text-align:center;color:#94a3b8;
- font-size:12px;padding:18px 3px
-}
-
-.product{
- border:2px solid #b9a8ed;background:#f4f0ff;color:#57349c;
- padding:8px 10px;border-radius:11px;font-weight:bold;
- font-size:13px;cursor:pointer;animation:productIn .2s
-}
-
-.product:after{
- content:" ×";color:#a78bfa;font-size:11px
-}
-
-.production-note{
- min-height:24px;margin-top:8px;text-align:center;
- font-size:12px;font-weight:bold
-}
-
-.production-note.good{color:#16803a}
-.production-note.warn{color:#b77900}
-.production-note.bad{color:#d7435c}
-
-.finish-production{
- width:100%;margin-top:11px;padding:14px;border:0;
- border-radius:14px;background:linear-gradient(90deg,var(--purple),var(--blue2));
- color:#fff;font-size:16px;font-weight:bold;cursor:pointer;
- box-shadow:0 6px 15px #6d28d925
-}
-
-.finish-production.ready{
- background:linear-gradient(90deg,#16a34a,#22c55e);
- animation:readyPulse 1.2s infinite
-}
-
-.finish-production:disabled{opacity:.55;cursor:default}
-
-/* FEEDBACK */
-
-.feedback{
- display:none;margin-top:14px;padding:13px;
- border-radius:14px;line-height:1.8
-}
-
-.feedback.show{display:block;animation:pop .25s}
-.feedback.success{background:#e8faed;border:2px solid #a6dfb7}
-.feedback.error{background:#fff0f3;border:2px solid #f3bbc5}
-.feedback.timeout{background:#fff7d9;border:2px solid #e9cb69}
-
-.feedback strong{display:block;font-size:17px;margin-bottom:3px}
-.feedback-text{font-size:13px;color:#4d5c61}
-
-.answer-list{
- margin-top:7px;padding:8px 9px;border-radius:9px;
- background:#ffffffaa;font-size:12px;line-height:1.9
-}
-
-.next{
- display:none;width:100%;margin-top:12px;padding:14px;
- border:0;border-radius:14px;
- background:linear-gradient(90deg,var(--pink),var(--purple));
- color:#fff;font-size:16px;font-weight:bold;cursor:pointer
-}
-
-.next.show{display:block}
-
-/* RESULT */
-
-.result{
- display:none;text-align:center;padding:25px 16px;
- background:
- radial-gradient(circle at 10% 5%,#fbcfe844,transparent 25%),
- radial-gradient(circle at 90% 5%,#7dd3fc44,transparent 25%)
-}
-
-.result.show{display:block}
-
-.result-icon{font-size:72px;animation:float 2s ease-in-out infinite}
-
-.result h2{
- color:var(--purple2);font-size:27px;margin:5px
-}
-
-.final-score{
- width:160px;height:160px;margin:17px auto;
+.result{display:none;text-align:center}.result.show{display:block}
+.score-circle{
+ width:128px;height:128px;border-radius:50%;margin:17px auto;
  display:flex;flex-direction:column;align-items:center;justify-content:center;
- border-radius:50%;border:8px solid transparent;
- background:linear-gradient(#fff,#fff) padding-box,
- linear-gradient(135deg,var(--pink),var(--yellow),var(--blue),var(--purple)) border-box
+ background:linear-gradient(135deg,#e7e1ff,#daf3ff);
+ border:7px solid white;box-shadow:0 0 0 3px #7456d8
 }
-
-.final-score strong{font-size:43px;color:var(--purple2)}
-.final-score span{font-size:13px;color:var(--muted)}
-
-.motivation{
- font-size:20px;font-weight:bold;margin-bottom:19px
-}
-
-.leaderboard{
- max-width:540px;margin:20px auto;padding:13px;text-align:right;
- background:#faf8ff;border:2px solid #e4dafa;border-radius:16px
-}
-
-.leaderboard h3{
- text-align:center;color:var(--purple2);margin:0 0 10px
-}
-
-.rank-row{
- display:flex;justify-content:space-between;gap:8px;
- padding:9px 5px;border-bottom:1px dashed #ddd6e8
-}
-
-.rank-row:last-child{border:0}
-
-.rank-name{
- overflow:hidden;text-overflow:ellipsis;white-space:nowrap
-}
-
-.rank-score{font-weight:bold;color:var(--purple2)}
-
-.loading{text-align:center;color:var(--muted);padding:8px}
-
-.restart{
- width:100%;max-width:420px;padding:14px;border:0;border-radius:14px;
- background:linear-gradient(90deg,var(--pink),var(--purple));
- color:#fff;font-weight:bold;font-size:16px;cursor:pointer
-}
-
-.back{
- display:block;text-align:center;margin:17px 0;padding:10px;
- text-decoration:none;color:var(--purple2);font-weight:bold
-}
-
-/* ANIMATION */
-
-.spark{
- position:fixed;z-index:999;pointer-events:none;
- font-size:20px;animation:spark .8s forwards
-}
-
-@keyframes spin{to{transform:rotate(360deg)}}
-
-@keyframes productIn{
- from{opacity:.2;transform:translateY(-8px) scale(.9)}
- to{opacity:1;transform:none}
-}
-
-@keyframes pop{
- from{opacity:.2;transform:scale(.97)}
- to{opacity:1;transform:scale(1)}
-}
-
-@keyframes spark{
- from{opacity:1;transform:translate(0,0) scale(.5)}
- to{opacity:0;transform:translate(var(--x),var(--y)) scale(1.5) rotate(180deg)}
-}
-
-@keyframes float{
- 0%,100%{transform:translateY(0)}
- 50%{transform:translateY(-7px)}
-}
-
-@keyframes readyPulse{
- 0%,100%{box-shadow:0 0 0 0 #22c55e44}
- 50%{box-shadow:0 0 0 6px #22c55e18}
-}
-
-/* MOBILE */
-
-@media(max-width:650px){
- .app{padding:7px}
- .status{grid-template-columns:1fr 1fr}
- .content{padding:11px}
- .factory{height:110px}
- .factory-building{
-  transform:scale(.78);
-  transform-origin:right bottom
- }
- .choice-btn{
-  flex:1 1 auto;
-  min-width:52px
- }
-}
-
-@media(max-width:380px){
- .choice-buttons{gap:5px}
- .choice-btn{
-  min-height:42px;padding:7px 8px;font-size:12px
- }
-}
-
+.score-circle strong{font-size:35px;color:#6544cf}.score-circle small{color:#667}
+.leaderboard{max-width:530px;margin:18px auto;background:#f8f8fc;border-radius:16px;padding:10px;text-align:right}
+.leader-row{display:flex;justify-content:space-between;gap:8px;padding:8px 6px;border-bottom:1px solid #e2e2ec}
+.leader-row:last-child{border-bottom:0}.error{color:#a72e43;text-align:center;font-size:12px}
+.back{display:block;text-align:center;margin:17px auto;color:#604bbc;font-weight:bold;text-decoration:none}
+.pop{animation:pop .28s ease}.shake{animation:shake .28s ease}
+@keyframes pop{50%{transform:scale(1.025)}}
+@keyframes shake{25%{transform:translateX(4px)}50%{transform:translateX(-4px)}75%{transform:translateX(3px)}}
+@media(min-width:650px){.app{padding:22px 18px 40px}.header{padding:20px}.game-card{padding:22px}}
 @media(prefers-reduced-motion:reduce){
- *{animation:none!important;transition:none!important}
+ *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 </style>
 </head>
-
 <body>
 
 <main class="app">
-
-<header class="hero">
- <div class="badge">🎓 ریاضی هفتم • فصل اول • درس ۳</div>
- <h1>🏭 کارخانه حالت‌ها</h1>
- <p>همه حالت‌های ممکن را منظم بساز؛ نه چیزی جا بیفتد و نه چیزی تکرار شود!</p>
-</header>
-
-<section class="panel">
-
-<div id="gameScreen">
+<header class="header">
+ <div class="badges"><span class="badge">پایه هشتم</span><span class="badge">فصل ۱</span><span class="badge">درس ۱</span></div>
+ <h1>کارخانه علامت‌ها ⚙️🤖</h1>
+ <p class="subtitle">قبل از محاسبه، علامت خروجی موتور را پیش‌بینی کن.</p>
 
  <div class="status">
-  <div class="stat">
-   <small>👷 کارخانه‌دار</small>
-   <strong id="playerName">---</strong>
-  </div>
-
-  <div class="stat">
-   <small>📦 مأموریت</small>
-   <strong id="questionNumber">۱ از ۱۰</strong>
-  </div>
-
-  <div class="stat">
-   <small>⭐ امتیاز</small>
-   <strong id="score">۰</strong>
-  </div>
-
-  <div class="stat">
-   <small>⏱️ زمان</small>
-   <strong id="timeStatus">۶۰ ثانیه</strong>
-  </div>
+  <div class="status-card"><small>بازیکن</small><strong id="playerName">...</strong></div>
+  <div class="status-card"><small>مأموریت</small><strong id="missionStatus">۱ از ۱۰</strong></div>
+  <div class="status-card"><small>امتیاز</small><strong id="scoreStatus">۰ از ۱۰۰</strong></div>
  </div>
 
- <div class="factory">
-
-  <div class="factory-building"></div>
-
-  <div class="conveyor"></div>
-
-  <div class="box-runner" id="boxRunner">📦</div>
-
-  <div class="gear g1">⚙️</div>
-  <div class="gear g2">⚙️</div>
-
+ <div class="timer-box">
+  <div class="timer-head"><span>⏱ زمان باقی‌مانده</span><strong id="timeText">۳۰ ثانیه</strong></div>
+  <div class="timer-track"><div id="timerFill" class="timer-fill"></div></div>
  </div>
+</header>
 
- <div class="content">
-
-  <div class="factory-progress" id="factoryProgress"></div>
-
-  <div class="timer-head">
-   <span>⏱️ زمان تولید</span>
-   <strong id="timerNumber">۶۰</strong>
+<section id="gameCard" class="game-card">
+ <div id="playArea">
+  <div class="topline">
+   <span id="levelBadge" class="level">🟢 پایه</span>
+   <span style="font-size:12px;color:#707890">هدف: علامت، نه حاصل دقیق</span>
   </div>
 
-  <div class="timer-track">
-   <div class="timer-bar" id="timerBar"></div>
-  </div>
+  <div id="prompt" class="prompt"></div>
+  <div id="hint" class="hint"></div>
 
-  <div class="labels">
-   <span class="mission-label" id="missionLabel">📦 سفارش ۱</span>
-   <span class="family-label" id="familyLabel"></span>
-  </div>
+  <div class="factory">
+   <div id="expression" class="expression"></div>
+   <div id="belt" class="belt"></div>
+   <div id="pairInfo" class="pair-info"></div>
 
-  <div class="problem" id="problemText"></div>
-
-  <div class="tip">
-   💡 یک انتخاب را ثابت نگه دار و بقیه انتخاب‌ها را منظم تغییر بده.
-  </div>
-
-  <div class="machine">
-
-   <div class="machine-title">
-    ⚙️ دستگاه حالت‌ساز — کارت‌ها را به‌ترتیب انتخاب کن
+   <div class="gears">
+    <div id="negativeGear" class="gear">−</div>
+    <div class="arrow">⚙️ →</div>
+    <div id="outputGear" class="gear">؟</div>
    </div>
+   <div class="output-title">خروجی موتور</div>
 
-   <div id="choiceArea"></div>
-
-   <div class="selection-preview" id="selectionPreview">
-    👆 انتخاب را از ردیف اول شروع کن.
+   <div class="sign-controls">
+    <button id="positiveBtn" class="sign-btn positive" type="button">➕ مثبت</button>
+    <button id="negativeBtn" class="sign-btn negative" type="button">➖ منفی</button>
    </div>
-
-   <div class="output-section">
-
-    <div class="output-head">
-     <span>📦 حالت‌های ساخته‌شده</span>
-     <span class="output-count" id="outputCount">۰ حالت</span>
-    </div>
-
-    <div class="output" id="output"></div>
-
-    <div class="production-note" id="productionNote"></div>
-
-   </div>
-
   </div>
 
-  <button class="finish-production" id="finishButton" type="button">
-   ✅ پایان تولید و بررسی
-  </button>
-
-  <div class="feedback" id="feedback">
-
-   <strong id="feedbackTitle"></strong>
-
-   <div class="feedback-text" id="feedbackText"></div>
-
-   <div class="answer-list" id="answerList"></div>
-
+  <div class="action-row">
+   <button id="resetBtn" class="btn btn-secondary" type="button">↩ بازنشانی</button>
+   <button id="checkBtn" class="btn btn-primary" type="button">روشن کردن موتور ⚙️</button>
+   <button id="nextBtn" class="btn btn-primary" type="button" hidden>مأموریت بعدی</button>
   </div>
 
-  <button class="next" id="nextButton" type="button">
-   سفارش بعدی 📦
-  </button>
-
+  <div id="feedback" class="feedback" aria-live="polite"></div>
  </div>
 
-</div>
+ <div id="resultArea" class="result">
+  <div style="font-size:48px">⚙️🏆</div>
+  <h2>خط تولید کامل شد!</h2>
+  <p id="resultName"></p>
+  <div class="score-circle"><strong id="finalScore">۰</strong><small>از ۱۰۰</small></div>
+  <p id="resultMessage"></p>
+  <button id="restartBtn" class="btn btn-primary" type="button">🔄 بازی دوباره</button>
 
-
-<div class="result" id="resultScreen">
-
- <div class="result-icon">🏭🏆</div>
-
- <h2>شیفت کارخانه تمام شد!</h2>
-
- <p>
-  کارخانه‌دار:
-  <strong id="resultName"></strong>
- </p>
-
- <div class="final-score">
-  <strong id="finalScore">۰</strong>
-  <span>از 100 امتیاز</span>
- </div>
-
- <div class="motivation" id="motivation"></div>
-
- <div class="leaderboard">
-
-  <h3>🏅 برترین کارخانه‌دارها</h3>
-
-  <div id="leaderboardContent" class="loading">
-   در حال دریافت جدول برترین‌ها...
+  <div class="leaderboard">
+   <h3 style="text-align:center;margin:5px">🏆 مهندس‌های برتر</h3>
+   <div id="leaderRows"></div>
   </div>
-
  </div>
-
- <button class="restart" id="restartButton" type="button">
-  🔄 بازی دوباره
- </button>
-
-</div>
-
 </section>
 
-<a class="back" href="/#game">
- ← بازگشت به بازی‌های ریاضی
-</a>
-
+<a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
 </main>
 
-
 <script src="/games/game-sdk.js"></script>
-
 <script>
+"use strict";
 
 const GAME_ID = 10;
-
-const TOTAL_QUESTIONS = 10;
-
-/*
- این بازی به دلیل نیاز به ساخت چند حالت در هر مأموریت
- 60 ثانیه زمان دارد.
-*/
-const QUESTION_TIME = 60;
-
 const player = GameSDK.init(GAME_ID);
 
-
-/* =====================================================
-   HISTORY
-===================================================== */
-
-const HISTORY_KEY="math_factory_states_recent_v2";
-const MAX_HISTORY=40;
-
-
-/* =====================================================
-   TOOLS
-===================================================== */
-
-function faNumber(value){
-
- return String(value)
-  .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
-}
-
-
-function pick(array){
-
- return array[
-  Math.floor(Math.random()*array.length)
- ];
-}
-
-
-function shuffle(array){
-
- const a=[...array];
-
- for(let i=a.length-1;i>0;i--){
-
-  const j=
-   Math.floor(
-    Math.random()*(i+1)
-   );
-
-  [a[i],a[j]]=
-  [a[j],a[i]];
- }
-
- return a;
-}
-
-
-/*
- امتیازدهی مخصوص زمان 60 ثانیه‌ای این بازی
-*/
-function pointsForTime(seconds){
-
- if(seconds<=15)return 10;
-
- if(seconds<=25)return 8;
-
- if(seconds<=35)return 6;
-
- if(seconds<=45)return 4;
-
- if(seconds<=60)return 2;
-
- return 0;
-}
-
-
-function loadHistory(){
-
- try{
-
-  const data=
-   JSON.parse(
-    localStorage.getItem(HISTORY_KEY)||
-    "[]"
-   );
-
-  return Array.isArray(data)
-   ?data
-   :[];
-
- }catch{
-
-  return [];
- }
-}
-
-
-function saveHistory(signatures){
-
- try{
-
-  const merged=[
-   ...signatures,
-   ...loadHistory()
-  ];
-
-  const unique=[
-   ...new Set(merged)
-  ].slice(0,MAX_HISTORY);
-
-  localStorage.setItem(
-   HISTORY_KEY,
-   JSON.stringify(unique)
-  );
-
- }catch(error){
-
-  console.warn(
-   "History unavailable:",
-   error
-  );
- }
-}
-
-
-function sameSet(a,b){
-
- if(a.length!==b.length){
-  return false;
- }
-
- const setA=new Set(a);
-
- if(setA.size!==a.length){
-  return false;
- }
-
- return b.every(
-  item=>setA.has(item)
- );
-}
-
-
-/* =====================================================
-   GENERATOR 1
-   اعداد دو رقمی
-===================================================== */
-
-function genTwoDigit(){
-
- const digits=
-  shuffle([1,2,3,4,5,6,7,8,9])
-  .slice(0,3)
-  .sort((a,b)=>a-b);
-
- const answers=[];
-
- for(const a of digits){
-
-  for(const b of digits){
-
-   if(a!==b){
-
-    answers.push(
-     String(a)+String(b)
-    );
-   }
-  }
- }
-
- return{
-
-  family:"عددسازی",
-
-  signature:
-   "two-"+digits.join("-"),
-
-  q:
-   `با رقم‌های ${digits.map(faNumber).join("، ")} تمام عددهای دو رقمی بدون تکرار رقم را بساز.`,
-
-  labels:[
-   "دهگان",
-   "یکان"
-  ],
-
-  choices:[
-   digits,
-   digits
-  ],
-
-  answers,
-
-  build:selected=>{
-
-   if(
-    selected[0]===
-    selected[1]
-   ){
-
-    return{
-     valid:false,
-     message:
-      "در این مأموریت یک رقم نباید تکرار شود."
-    };
-   }
-
-   const key=
-    String(selected[0])+
-    String(selected[1]);
-
-   return{
-    valid:true,
-    key,
-    label:faNumber(key)
-   };
-  },
-
-  explanation:
-   "برای منظم‌نویسی، رقم دهگان را ثابت نگه می‌داریم و یکان را بین انتخاب‌های مجاز تغییر می‌دهیم؛ سپس دهگان بعدی را انتخاب می‌کنیم."
- };
-}
-
-
-/* =====================================================
-   GENERATOR 2
-   عدد سه رقمی
-===================================================== */
-
-function genThreeDigit(){
-
- const digits=
-  shuffle([1,2,3,4,5,6,7,8,9])
-  .slice(0,3)
-  .sort((a,b)=>a-b);
-
- const answers=[];
-
- for(const a of digits){
-
-  for(const b of digits){
-
-   for(const c of digits){
-
-    if(
-     a!==b &&
-     a!==c &&
-     b!==c
-    ){
-
-     answers.push(
-      ""+a+b+c
-     );
-    }
-   }
-  }
- }
-
- return{
-
-  family:"عدد سه‌رقمی",
-
-  signature:
-   "three-"+digits.join("-"),
-
-  q:
-   `با رقم‌های ${digits.map(faNumber).join("، ")} تمام عددهای سه‌رقمی بدون تکرار رقم را بساز.`,
-
-  labels:[
-   "صدگان",
-   "دهگان",
-   "یکان"
-  ],
-
-  choices:[
-   digits,
-   digits,
-   digits
-  ],
-
-  answers,
-
-  build:selected=>{
-
-   if(
-    new Set(selected).size!==3
-   ){
-
-    return{
-     valid:false,
-     message:
-      "هر سه رقم باید متفاوت باشند."
-    };
-   }
-
-   const key=
-    selected.join("");
-
-   return{
-    valid:true,
-    key,
-    label:faNumber(key)
-   };
-  },
-
-  explanation:
-   "ابتدا صدگان را ثابت نگه می‌داریم و همه ترتیب‌های ممکن دهگان و یکان را می‌سازیم؛ سپس صدگان را تغییر می‌دهیم."
- };
-}
-
-
-/* =====================================================
-   GENERATOR 3
-   ترتیب افراد
-===================================================== */
-
-function genSeating(){
-
- const names=
-  pick([
-   ["آراد","بهار","پارسا"],
-   ["سارا","مینا","علی"],
-   ["رها","نیما","کیان"],
-   ["هلیا","سام","آوا"]
-  ]);
-
- const answers=[];
-
- for(const a of names){
-
-  for(const b of names){
-
-   for(const c of names){
-
-    if(
-     a!==b &&
-     a!==c &&
-     b!==c
-    ){
-
-     answers.push(
-      a+"|"+b+"|"+c
-     );
-    }
-   }
-  }
- }
-
- return{
-
-  family:"ترتیب افراد",
-
-  signature:
-   "seat-"+names.join("-"),
-
-  q:
-   `${names.join("، ")} می‌خواهند روی سه صندلی کنار هم بنشینند. تمام ترتیب‌های ممکن را بساز.`,
-
-  labels:[
-   "صندلی ۱",
-   "صندلی ۲",
-   "صندلی ۳"
-  ],
-
-  choices:[
-   names,
-   names,
-   names
-  ],
-
-  answers,
-
-  build:selected=>{
-
-   if(
-    new Set(selected).size!==3
-   ){
-
-    return{
-     valid:false,
-     message:
-      "هر دانش‌آموز باید فقط روی یک صندلی قرار بگیرد."
-    };
-   }
-
-   return{
-    valid:true,
-    key:selected.join("|"),
-    label:selected.join(" ← ")
-   };
-  },
-
-  explanation:
-   "نفر صندلی اول را ثابت نگه می‌داریم و جای دو نفر دیگر را عوض می‌کنیم؛ سپس نفر اول بعدی را بررسی می‌کنیم."
- };
-}
-
-
-/* =====================================================
-   GENERATOR 4
-   لباس
-===================================================== */
-
-function genClothes(){
-
- const tops=
-  pick([
-   ["آبی","قرمز"],
-   ["سبز","زرد"],
-   ["سفید","بنفش"]
-  ]);
-
- const bottoms=
-  pick([
-   ["مشکی","طوسی","آبی"],
-   ["سفید","مشکی","قهوه‌ای"],
-   ["سرمه‌ای","طوسی","کرم"]
-  ]);
-
- const answers=[];
-
- tops.forEach(top=>{
-
-  bottoms.forEach(bottom=>{
-
-   answers.push(
-    top+"|"+bottom
-   );
-  });
- });
-
- return{
-
-  family:"ترکیب انتخاب‌ها",
-
-  signature:
-   "clothes-"+
-   tops.join("-")+"-"+
-   bottoms.join("-"),
-
-  q:
-   `دو پیراهن ${tops.join(" و ")} و سه شلوار ${bottoms.join("، ")} داریم. تمام حالت‌های انتخاب یک پیراهن و یک شلوار را بساز.`,
-
-  labels:[
-   "پیراهن",
-   "شلوار"
-  ],
-
-  choices:[
-   tops,
-   bottoms
-  ],
-
-  answers,
-
-  build:selected=>({
-
-   valid:true,
-
-   key:
-    selected.join("|"),
-
-   label:
-    selected[0]+
-    " + "+
-    selected[1]
-  }),
-
-  explanation:
-   "یک پیراهن را ثابت نگه می‌داریم و همه شلوارها را با آن ترکیب می‌کنیم؛ سپس همین کار را برای پیراهن بعدی انجام می‌دهیم."
- };
-}
-
-
-/* =====================================================
-   GENERATOR 5
-   خوراکی
-===================================================== */
-
-function genMenu(){
-
- const foods=
-  pick([
-   ["ساندویچ","پیتزا"],
-   ["کیک","بیسکویت"],
-   ["سیب","موز"]
-  ]);
-
- const drinks=
-  pick([
-   ["آب","شیر","آبمیوه"],
-   ["شیر","چای","آب"],
-   ["آب","دوغ","آبمیوه"]
-  ]);
-
- const answers=[];
-
- foods.forEach(food=>{
-
-  drinks.forEach(drink=>{
-
-   answers.push(
-    food+"|"+drink
-   );
-  });
- });
-
- return{
-
-  family:"انتخاب منظم",
-
-  signature:
-   "menu-"+
-   foods.join("-")+"-"+
-   drinks.join("-"),
-
-  q:
-   `برای میان‌وعده یکی از «${foods.join("، ")}» و یکی از «${drinks.join("، ")}» انتخاب می‌شود. تمام حالت‌های ممکن را بساز.`,
-
-  labels:[
-   "خوراکی",
-   "نوشیدنی"
-  ],
-
-  choices:[
-   foods,
-   drinks
-  ],
-
-  answers,
-
-  build:selected=>({
-
-   valid:true,
-
-   key:selected.join("|"),
-
-   label:selected.join(" + ")
-  }),
-
-  explanation:
-   "یک خوراکی را ثابت نگه می‌داریم و همه نوشیدنی‌ها را کنارش قرار می‌دهیم؛ بعد سراغ خوراکی بعدی می‌رویم."
- };
-}
-
-
-/* =====================================================
-   GENERATOR 6
-   زوج حاصل‌ضرب
-===================================================== */
-
-function genProductPairs(){
-
- const target=
-  pick([24,30,36,40,48]);
-
- const answers=[];
-
- for(
-  let a=1;
-  a<=Math.sqrt(target);
-  a++
- ){
-
-  if(target%a===0){
-
-   answers.push(
-    a+"|"+(target/a)
-   );
-  }
- }
-
- const divisors=[];
-
- for(
-  let i=1;
-  i<=target;
-  i++
- ){
-
-  if(target%i===0){
-   divisors.push(i);
-  }
- }
-
- return{
-
-  family:"زوج‌های ضرب",
-
-  signature:
-   "product-"+target,
-
-  q:
-   `دو عدد طبیعی حاصل‌ضربشان ${faNumber(target)} است. تمام زوج‌های ممکن را بدون درنظرگرفتن جابه‌جایی بساز.`,
-
-  labels:[
-   "عدد اول",
-   "عدد دوم"
-  ],
-
-  choices:[
-   divisors,
-   divisors
-  ],
-
-  answers,
-
-  build:selected=>{
-
-   let a=
-    Number(selected[0]);
-
-   let b=
-    Number(selected[1]);
-
-   if(a>b){
-    [a,b]=[b,a];
-   }
-
-   if(a*b!==target){
-
-    return{
-     valid:false,
-
-     message:
-      `حاصل‌ضرب ${faNumber(a)} و ${faNumber(b)} برابر ${faNumber(target)} نیست.`
-    };
-   }
-
-   return{
-    valid:true,
-
-    key:
-     a+"|"+b,
-
-    label:
-     faNumber(a)+
-     " × "+
-     faNumber(b)
-   };
-  },
-
-  explanation:
-   "از کوچک‌ترین عامل شروع می‌کنیم و زوج آن را پیدا می‌کنیم. با افزایش منظم عامل اول، همه زوج‌ها بدون تکرار پیدا می‌شوند."
- };
-}
-
-
-/* =====================================================
-   GENERATOR 7
-   زوج مجموع
-===================================================== */
-
-function genSumPairs(){
-
- const target=
-  pick([8,9,10,11,12]);
-
- const numbers=
-  Array.from(
-   {length:target-1},
-   (_,i)=>i+1
-  );
-
- const answers=[];
-
- for(
-  let a=1;
-  a<=Math.floor(target/2);
-  a++
- ){
-
-  const b=target-a;
-
-  if(a<=b){
-
-   answers.push(
-    a+"|"+b
-   );
-  }
- }
-
- return{
-
-  family:"زوج‌های جمع",
-
-  signature:
-   "sum-"+target,
-
-  q:
-   `تمام زوج‌های عدد طبیعی را که مجموعشان ${faNumber(target)} است، بدون درنظرگرفتن جابه‌جایی بساز.`,
-
-  labels:[
-   "عدد اول",
-   "عدد دوم"
-  ],
-
-  choices:[
-   numbers,
-   numbers
-  ],
-
-  answers,
-
-  build:selected=>{
-
-   let a=
-    Number(selected[0]);
-
-   let b=
-    Number(selected[1]);
-
-   if(a>b){
-    [a,b]=[b,a];
-   }
-
-   if(a+b!==target){
-
-    return{
-     valid:false,
-
-     message:
-      `مجموع ${faNumber(a)} و ${faNumber(b)} برابر ${faNumber(target)} نیست.`
-    };
-   }
-
-   return{
-    valid:true,
-
-    key:
-     a+"|"+b,
-
-    label:
-     faNumber(a)+
-     " + "+
-     faNumber(b)
-   };
-  },
-
-  explanation:
-   "عدد اول را منظم افزایش می‌دهیم و عدد دوم را طوری کاهش می‌دهیم که مجموع ثابت بماند."
- };
-}
-
-
-/* =====================================================
-   GENERATOR 8
-   سکه
-===================================================== */
-
-function genCoins(){
-
- const config=
-  pick([
-   {a:5,b:10,target:30},
-   {a:10,b:20,target:60},
-   {a:5,b:15,target:30},
-   {a:10,b:30,target:60}
-  ]);
-
- const maxA=
-  Math.floor(
-   config.target/config.a
-  );
-
- const maxB=
-  Math.floor(
-   config.target/config.b
-  );
-
- const aChoices=
-  Array.from(
-   {length:maxA+1},
-   (_,i)=>i
-  );
-
- const bChoices=
-  Array.from(
-   {length:maxB+1},
-   (_,i)=>i
-  );
-
- const answers=[];
-
- for(const a of aChoices){
-
-  for(const b of bChoices){
-
-   if(
-    a*config.a+
-    b*config.b===
-    config.target
-   ){
-
-    answers.push(
-     a+"|"+b
-    );
-   }
-  }
- }
-
- return{
-
-  family:"روش‌های پرداخت",
-
-  signature:
-   `coins-${config.a}-${config.b}-${config.target}`,
-
-  q:
-   `با سکه‌های ${faNumber(config.a)} و ${faNumber(config.b)} هزار تومانی، مبلغ ${faNumber(config.target)} هزار تومان را به چند روش می‌توان پرداخت؟ تمام حالت‌ها را بساز. استفاده نکردن از یک نوع سکه مجاز است.`,
-
-  labels:[
-   `تعداد ${faNumber(config.a)}هزاری`,
-   `تعداد ${faNumber(config.b)}هزاری`
-  ],
-
-  choices:[
-   aChoices,
-   bChoices
-  ],
-
-  answers,
-
-  build:selected=>{
-
-   const a=
-    Number(selected[0]);
-
-   const b=
-    Number(selected[1]);
-
-   const sum=
-    a*config.a+
-    b*config.b;
-
-   if(sum!==config.target){
-
-    return{
-     valid:false,
-
-     message:
-      `این انتخاب ${faNumber(sum)} هزار تومان می‌شود؛ باید ${faNumber(config.target)} هزار تومان شود.`
-    };
-   }
-
-   return{
-    valid:true,
-
-    key:
-     a+"|"+b,
-
-    label:
-     faNumber(a)+
-     "×"+
-     faNumber(config.a)+
-     " + "+
-     faNumber(b)+
-     "×"+
-     faNumber(config.b)
-   };
-  },
-
-  explanation:
-   "تعداد یکی از سکه‌ها را منظم تغییر می‌دهیم و هر بار تعداد لازم از سکه نوع دوم را بررسی می‌کنیم."
- };
-}
-
-
-/* =====================================================
-   GENERATOR 9
-   مسیر
-===================================================== */
-
-function genRoutes(){
-
- const first=
-  pick([
-   ["پل","تونل"],
-   ["مسیر A","مسیر B"],
-   ["خیابان ۱","خیابان ۲"]
-  ]);
-
- const second=
-  pick([
-   ["راه قرمز","راه آبی","راه سبز"],
-   ["خروجی ۱","خروجی ۲","خروجی ۳"],
-   ["کوچه A","کوچه B","کوچه C"]
-  ]);
-
- const answers=[];
-
- first.forEach(a=>{
-
-  second.forEach(b=>{
-
-   answers.push(
-    a+"|"+b
-   );
-  });
- });
-
- return{
-
-  family:"مسیرها",
-
-  signature:
-   "route-"+
-   first.join("-")+"-"+
-   second.join("-"),
-
-  q:
-   `برای رسیدن به مقصد ابتدا یکی از «${first.join(" یا ")}» و سپس یکی از «${second.join("، ")}» انتخاب می‌شود. تمام مسیرهای ممکن را بساز.`,
-
-  labels:[
-   "مرحله اول",
-   "مرحله دوم"
-  ],
-
-  choices:[
-   first,
-   second
-  ],
-
-  answers,
-
-  build:selected=>({
-
-   valid:true,
-
-   key:
-    selected.join("|"),
-
-   label:
-    selected.join(" ← ")
-  }),
-
-  explanation:
-   "یکی از مسیرهای مرحله اول را ثابت می‌کنیم و همه مسیرهای مرحله دوم را با آن جفت می‌کنیم."
- };
-}
-
-
-/* =====================================================
-   GENERATOR 10
-   کدسازی
-===================================================== */
-
-function genCodes(){
-
- const colors=
-  pick([
-   ["قرمز","آبی"],
-   ["سبز","بنفش"],
-   ["زرد","آبی"]
-  ]);
-
- const numbers=
-  shuffle([1,2,3,4,5])
-  .slice(0,3)
-  .sort((a,b)=>a-b);
-
- const answers=[];
-
- colors.forEach(color=>{
-
-  numbers.forEach(number=>{
-
-   answers.push(
-    color+"|"+number
-   );
-  });
- });
-
- return{
-
-  family:"کدسازی",
-
-  signature:
-   "code-"+
-   colors.join("-")+"-"+
-   numbers.join("-"),
-
-  q:
-   `هر کد از یک رنگ «${colors.join(" یا ")}» و یکی از عددهای ${numbers.map(faNumber).join("، ")} ساخته می‌شود. تمام کدهای ممکن را تولید کن.`,
-
-  labels:[
-   "رنگ",
-   "عدد"
-  ],
-
-  choices:[
-   colors,
-   numbers
-  ],
-
-  answers,
-
-  build:selected=>({
-
-   valid:true,
-
-   key:
-    selected[0]+"|"+selected[1],
-
-   label:
-    selected[0]+
-    " "+
-    faNumber(selected[1])
-  }),
-
-  explanation:
-   "رنگ اول را ثابت نگه می‌داریم و همه عددها را با آن می‌سازیم؛ بعد رنگ دوم را بررسی می‌کنیم."
- };
-}
-
-
-/* =====================================================
-   GENERATOR 11
-   شکل و رنگ
-===================================================== */
-
-function genShapeColor(){
-
- const shapes=
-  pick([
-   ["دایره","مربع"],
-   ["مثلث","ستاره"],
-   ["مستطیل","دایره"]
-  ]);
-
- const colors=
-  pick([
-   ["قرمز","سبز","آبی"],
-   ["زرد","بنفش","آبی"],
-   ["نارنجی","سبز","صورتی"]
-  ]);
-
- const answers=[];
-
- shapes.forEach(shape=>{
-
-  colors.forEach(color=>{
-
-   answers.push(
-    shape+"|"+color
-   );
-  });
- });
-
- return{
-
-  family:"شکل و رنگ",
-
-  signature:
-   "shape-"+
-   shapes.join("-")+"-"+
-   colors.join("-"),
-
-  q:
-   `یک نشانه از یکی از شکل‌های «${shapes.join("، ")}» و یکی از رنگ‌های «${colors.join("، ")}» ساخته می‌شود. همه نشانه‌های ممکن را بساز.`,
-
-  labels:[
-   "شکل",
-   "رنگ"
-  ],
-
-  choices:[
-   shapes,
-   colors
-  ],
-
-  answers,
-
-  build:selected=>({
-
-   valid:true,
-
-   key:
-    selected.join("|"),
-
-   label:
-    selected.join(" • ")
-  }),
-
-  explanation:
-   "یک شکل را ثابت نگه می‌داریم و همه رنگ‌ها را برای آن استفاده می‌کنیم؛ سپس شکل بعدی را بررسی می‌کنیم."
- };
-}
-
-
-/* =====================================================
-   GENERATOR 12
-   حیوان و خانه
-===================================================== */
-
-function genAnimals(){
-
- const animals=
-  pick([
-   ["🐱 گربه","🐶 سگ"],
-   ["🐰 خرگوش","🐼 پاندا"],
-   ["🐸 قورباغه","🐢 لاک‌پشت"]
-  ]);
-
- const homes=[
-  "خانه ۱",
-  "خانه ۲",
-  "خانه ۳"
- ];
-
- const answers=[];
-
- animals.forEach(animal=>{
-
-  homes.forEach(home=>{
-
-   answers.push(
-    animal+"|"+home
-   );
-  });
- });
-
- return{
-
-  family:"جدول حالت‌ها",
-
-  signature:
-   "animal-"+animals.join("-"),
-
-  q:
-   `هرکدام از «${animals.join(" و ")}» می‌تواند یکی از سه خانه را انتخاب کند. تمام حالت‌های انتخاب یک حیوان و یک خانه را بساز.`,
-
-  labels:[
-   "حیوان",
-   "خانه"
-  ],
-
-  choices:[
-   animals,
-   homes
-  ],
-
-  answers,
-
-  build:selected=>({
-
-   valid:true,
-
-   key:
-    selected.join("|"),
-
-   label:
-    selected.join(" ← ")
-  }),
-
-  explanation:
-   "یک حیوان را ثابت نگه می‌داریم و هر سه خانه را برای آن بررسی می‌کنیم؛ سپس حیوان بعدی را انتخاب می‌کنیم."
- };
-}
-
-
-/* =====================================================
-   GENERATORS
-===================================================== */
-
-const GENERATORS=[
- genTwoDigit,
- genThreeDigit,
- genSeating,
- genClothes,
- genMenu,
- genProductPairs,
- genSumPairs,
- genCoins,
- genRoutes,
- genCodes,
- genShapeColor,
- genAnimals
-];
-
-
-/* =====================================================
-   ROUND GENERATION
-===================================================== */
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 30;
+const RECENT_KEY = "grade8Lesson1SignFactoryRecent";
+const MAX_RECENT_SIGNATURES = 40;
 
 let questions=[];
-
-
-function generateRound(){
-
- const recent=
-  new Set(
-   loadHistory()
-  );
-
- const selectedGenerators=
-  shuffle(GENERATORS)
-  .slice(
-   0,
-   TOTAL_QUESTIONS
-  );
-
- const generated=[];
-
-
- for(
-  const generator
-  of selectedGenerators
- ){
-
-  let candidate=null;
-
-  for(
-   let attempt=0;
-   attempt<30;
-   attempt++
-  ){
-
-   const q=
-    generator();
-
-   candidate=q;
-
-   if(
-    !recent.has(
-     q.signature
-    )
-   ){
-    break;
-   }
-  }
-
-  generated.push(
-   candidate
-  );
-
-  recent.add(
-   candidate.signature
-  );
- }
-
-
- questions=
-  shuffle(generated);
-
-
- saveHistory(
-  generated.map(
-   q=>q.signature
-  )
- );
-}
-
-
-/* =====================================================
-   STATE
-===================================================== */
-
 let currentIndex=0;
 let score=0;
-
 let answerChecked=false;
-
-let questionStartTime=0;
-let timerInterval=null;
-
 let gameFinished=false;
 let finishSubmitted=false;
+let timerInterval=null;
+let questionStartedAt=0;
+let questionDeadline=0;
+let interactionState={};
+let recentSignatures=loadRecent();
 
-let produced=[];
-let productLabels=new Map();
+const $=id=>document.getElementById(id);
+$("playerName").textContent=player.playerName || "بازیکن";
 
-let currentSelection=[];
+function faNumber(v){
+ return String(v).replace(/-/g,"−").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+function signed(v){return v>0?`+${faNumber(v)}`:faNumber(v)}
+function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function shuffle(a){const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
 
-
-/* =====================================================
-   DOM
-===================================================== */
-
-const $=
- id=>
- document.getElementById(id);
-
-const playerNameEl=$("playerName");
-const questionNumberEl=$("questionNumber");
-const scoreEl=$("score");
-const timeStatusEl=$("timeStatus");
-
-const timerNumberEl=$("timerNumber");
-const timerBarEl=$("timerBar");
-
-const factoryProgressEl=$("factoryProgress");
-const boxRunnerEl=$("boxRunner");
-
-const missionLabelEl=$("missionLabel");
-const familyLabelEl=$("familyLabel");
-const problemTextEl=$("problemText");
-
-const choiceAreaEl=$("choiceArea");
-const selectionPreviewEl=$("selectionPreview");
-
-const outputEl=$("output");
-const outputCountEl=$("outputCount");
-const productionNoteEl=$("productionNote");
-
-const finishButton=$("finishButton");
-
-const feedbackEl=$("feedback");
-const feedbackTitleEl=$("feedbackTitle");
-const feedbackTextEl=$("feedbackText");
-const answerListEl=$("answerList");
-
-const nextButton=$("nextButton");
-
-const gameScreen=$("gameScreen");
-const resultScreen=$("resultScreen");
-
-const resultNameEl=$("resultName");
-const finalScoreEl=$("finalScore");
-const motivationEl=$("motivation");
-
-const leaderboardContent=$("leaderboardContent");
-const restartButton=$("restartButton");
-
-
-/* =====================================================
-   PROGRESS
-===================================================== */
-
-function buildProgress(){
-
- factoryProgressEl.innerHTML="";
-
- for(
-  let i=0;
-  i<TOTAL_QUESTIONS;
-  i++
- ){
-
-  const lamp=
-   document.createElement("div");
-
-  lamp.className="lamp";
-
-  factoryProgressEl
-   .appendChild(lamp);
- }
+function loadRecent(){
+ try{
+  const x=JSON.parse(localStorage.getItem(RECENT_KEY)||"[]");
+  return Array.isArray(x)?x.slice(-MAX_RECENT_SIGNATURES):[];
+ }catch(e){return[]}
+}
+function saveRecent(qs){
+ recentSignatures=[...recentSignatures,...qs.map(q=>q.signature)].slice(-MAX_RECENT_SIGNATURES);
+ try{localStorage.setItem(RECENT_KEY,JSON.stringify(recentSignatures))}catch(e){}
 }
 
+/* ---------- Generation ---------- */
 
-function updateProgress(){
+function nonzeroMag(){return randInt(2,9)}
+function signedNum(sign){return sign*nonzeroMag()}
 
- const lamps=[
-  ...factoryProgressEl.children
- ];
+function makeQuestion(signs,ops,level,family){
+ const nums=signs.map(s=>signedNum(s));
+ const negativeCount=signs.filter(s=>s<0).length;
+ const answerSign=negativeCount%2===0?1:-1;
 
- lamps.forEach(
-  (lamp,index)=>{
+ return {
+  type:"signChain",nums,ops,signs,negativeCount,answerSign,level,family,
+  prompt:level===1
+   ?"علامت حاصل را قبل از محاسبه تعیین کن."
+   :"منفی‌ها را دوتادوتا جفت کن؛ بعد علامت خروجی را تنظیم کن.",
+  hint:negativeCount===0
+   ?"هیچ عامل منفی‌ای در زنجیره نیست."
+   :"هر دو علامت منفی در ضرب یا تقسیم، اثر علامتی یکدیگر را خنثی می‌کنند.",
+  explanation:negativeCount===0
+   ?"همه عددها مثبت‌اند، پس حاصل مثبت است."
+   :negativeCount%2===0
+   ? `${faNumber(negativeCount)} عدد منفی داریم. تعداد منفی‌ها زوج است؛ پس حاصل مثبت است.`
+   : `${faNumber(negativeCount)} عدد منفی داریم. تعداد منفی‌ها فرد است؛ پس یک منفی بدون جفت می‌ماند و حاصل منفی است.`,
+  signature:`${family}-${signs.join("_")}-${ops.join("_")}-${nums.map(Math.abs).join("_")}`
+ };
+}
 
-   lamp.classList.toggle(
-    "done",
-    index<currentIndex
-   );
+function genPP(){return makeQuestion([1,1],["×"],1,"pp")}
+function genPN(){return makeQuestion([1,-1],["×"],1,"pn")}
+function genNN(){return makeQuestion([-1,-1],["×"],1,"nn")}
+function genDivSame(){const s=pick([1,-1]);return makeQuestion([s,s],["÷"],1,"divsame")}
+function genDivDifferent(){return Math.random()<.5?makeQuestion([-1,1],["÷"],1,"divdiff"):makeQuestion([1,-1],["÷"],1,"divdiff")}
+function genTripleEven(){return makeQuestion(shuffle([-1,-1,1]),["×","×"],2,"tripleeven")}
+function genTripleOdd(){return makeQuestion(shuffle([-1,-1,-1]),["×","×"],2,"tripleodd")}
+function genFourOdd(){return makeQuestion(shuffle([-1,-1,-1,1]),["×","×","×"],2,"fourodd")}
+function genFourEven(){return makeQuestion(shuffle([-1,-1,1,1]),["×","×","×"],3,"foureven")}
+function genFive(){
+ const negatives=pick([1,2,3,4,5]);
+ const signs=[];
+ for(let i=0;i<negatives;i++)signs.push(-1);
+ while(signs.length<5)signs.push(1);
+ return makeQuestion(shuffle(signs),["×","×","×","×"],3,"five");
+}
+function genMixedOps(){
+ const negatives=pick([1,2,3,4]);
+ const signs=[];
+ for(let i=0;i<negatives;i++)signs.push(-1);
+ while(signs.length<4)signs.push(1);
+ return makeQuestion(shuffle(signs),shuffle(["×","×","÷"]),3,"mixedops");
+}
+function genLongEven(){return makeQuestion(shuffle([-1,-1,-1,-1,1]),["×","×","×","×"],3,"longeven")}
+function genLongOdd(){return makeQuestion(shuffle([-1,-1,-1,1,1]),["×","×","×","×"],3,"longodd")}
 
-   lamp.classList.toggle(
-    "current",
-    index===currentIndex
-   );
+const plan=[
+ genPP,genPN,genNN,
+ ()=>pick([genDivSame,genDivDifferent])(),
+ genTripleEven,
+ genTripleOdd,
+ ()=>pick([genFourOdd,genFourEven])(),
+ ()=>pick([genFive,genLongEven])(),
+ genMixedOps,
+ ()=>pick([genLongOdd,genFive,genMixedOps])()
+];
+
+function generateRound(){
+ const result=[];
+ for(const generator of plan){
+  let q=null;
+  for(let tries=0;tries<35;tries++){
+   const candidate=generator();
+   if(!recentSignatures.includes(candidate.signature)&&!result.some(x=>x.signature===candidate.signature)){
+    q=candidate;break;
+   }
   }
- );
-
-
- const ratio=
-  currentIndex/
-  (TOTAL_QUESTIONS-1);
-
-
- boxRunnerEl.style.left=
-  (9+ratio*50)+"%";
-}
-
-
-/* =====================================================
-   TIMER
-===================================================== */
-
-function stopTimer(){
-
- if(timerInterval){
-
-  clearInterval(
-   timerInterval
-  );
-
-  timerInterval=null;
+  if(!q){
+   for(let tries=0;tries<15;tries++){
+    const candidate=generator();
+    if(!result.some(x=>x.signature===candidate.signature)){q=candidate;break}
+   }
+  }
+  result.push(q||generator());
  }
+ saveRecent(result);
+ return result;
 }
 
+/* ---------- State ---------- */
 
-function startTimer(){
+function resetInteraction(){
+ interactionState={
+  outputSign:null,
+  selectedNegative:null,
+  pairedNegativeIndexes:[]
+ };
+}
 
+function setLevel(level){
+ const e=$("levelBadge");
+ if(level===1){e.className="level";e.textContent="🟢 پایه"}
+ else if(level===2){e.className="level master";e.textContent="🟡 تسلط"}
+ else{e.className="level challenge";e.textContent="🔴 چالش"}
+}
+
+function expressionText(q){
+ let text=`(${signed(q.nums[0])})`;
+ for(let i=1;i<q.nums.length;i++){
+  text+=` ${q.ops[i-1]} (${signed(q.nums[i])})`;
+ }
+ return text;
+}
+
+function renderQuestion(){
  stopTimer();
-
- questionStartTime=
-  Date.now();
-
- timerNumberEl.textContent=
-  faNumber(
-   QUESTION_TIME
-  );
-
- timeStatusEl.textContent=
-  faNumber(
-   QUESTION_TIME
-  )+
-  " ثانیه";
-
- timerBarEl.style.width=
-  "100%";
-
- timerBarEl.style.background=
-  "var(--green)";
-
- timerNumberEl.style.color=
-  "var(--green)";
-
- timerInterval=
-  setInterval(
-   updateTimer,
-   100
-  );
-}
-
-
-function updateTimer(){
-
- if(
-  answerChecked ||
-  gameFinished
- ){
-
-  stopTimer();
-
-  return;
- }
-
-
- const elapsed=
-  (
-   Date.now()-
-   questionStartTime
-  )/1000;
-
-
- const remaining=
-  Math.max(
-   0,
-   QUESTION_TIME-elapsed
-  );
-
-
- const seconds=
-  Math.ceil(
-   remaining
-  );
-
-
- timerNumberEl.textContent=
-  faNumber(seconds);
-
- timeStatusEl.textContent=
-  faNumber(seconds)+
-  " ثانیه";
-
-
- timerBarEl.style.width=
-  (
-   remaining/
-   QUESTION_TIME*
-   100
-  )+"%";
-
-
- /*
-  سبز: بیشتر از 30
-  زرد: 15 تا 30
-  قرمز: 15 ثانیه آخر
- */
-
- if(remaining>30){
-
-  timerBarEl.style.background=
-   "var(--green)";
-
-  timerNumberEl.style.color=
-   "var(--green)";
- }
-
- else if(remaining>15){
-
-  timerBarEl.style.background=
-   "var(--yellow)";
-
-  timerNumberEl.style.color=
-   "#ad7700";
- }
-
- else{
-
-  timerBarEl.style.background=
-   "var(--red)";
-
-  timerNumberEl.style.color=
-   "var(--red)";
- }
-
-
- if(remaining<=0){
-
-  handleTimeout();
- }
-}
-
-
-/* =====================================================
-   SHOW QUESTION
-===================================================== */
-
-function showQuestion(){
-
- stopTimer();
-
  answerChecked=false;
+ resetInteraction();
 
- produced=[];
+ const q=questions[currentIndex];
+ $("missionStatus").textContent=`${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
+ $("scoreStatus").textContent=`${faNumber(score)} از ${faNumber(100)}`;
+ setLevel(q.level);
+ $("prompt").textContent=q.prompt;
+ $("hint").textContent=q.hint;
+ $("expression").textContent=expressionText(q);
+ $("feedback").className="feedback";
+ $("checkBtn").hidden=false;$("checkBtn").disabled=false;
+ $("nextBtn").hidden=true;$("resetBtn").disabled=false;
+ $("positiveBtn").disabled=false;$("negativeBtn").disabled=false;
 
- productLabels=
-  new Map();
-
- currentSelection=[];
-
-
- const q=
-  questions[currentIndex];
-
-
- updateProgress();
-
-
- questionNumberEl.textContent=
-  faNumber(
-   currentIndex+1
-  )+
-  " از "+
-  faNumber(
-   TOTAL_QUESTIONS
-  );
-
-
- scoreEl.textContent=
-  faNumber(score);
-
-
- missionLabelEl.textContent=
-  "📦 سفارش "+
-  faNumber(
-   currentIndex+1
-  );
-
-
- familyLabelEl.textContent=
-  "🎯 "+
-  q.family;
-
-
- problemTextEl.textContent=
-  q.q;
-
-
- feedbackEl.className=
-  "feedback";
-
- feedbackTitleEl.textContent="";
- feedbackTextEl.textContent="";
- answerListEl.textContent="";
-
-
- productionNoteEl.textContent="";
- productionNoteEl.className=
-  "production-note";
-
-
- finishButton.disabled=false;
-
- finishButton.classList.remove(
-  "ready"
- );
-
-
- nextButton.classList.remove(
-  "show"
- );
-
-
- nextButton.textContent=
-  currentIndex===
-  TOTAL_QUESTIONS-1
-
-  ?"مشاهده نتیجه 🏆"
-
-  :"سفارش بعدی 📦";
-
-
- buildChoiceArea();
-
- renderOutput();
-
- updateSelectionPreview();
-
+ renderBelt();
+ updateOutput();
  startTimer();
 }
 
-
-/* =====================================================
-   CHOICE AREA
-===================================================== */
-
-function buildChoiceArea(){
-
- const q=
-  questions[currentIndex];
-
- choiceAreaEl.innerHTML="";
-
-
- q.choices.forEach(
-  (choices,groupIndex)=>{
-
-   const group=
-    document.createElement("div");
-
-   group.className=
-    "choice-group";
-
-
-   const head=
-    document.createElement("div");
-
-   head.className=
-    "choice-title";
-
-
-   const title=
-    document.createElement("span");
-
-   title.textContent=
-    (groupIndex+1)+
-    ") "+
-    q.labels[groupIndex];
-
-
-   const state=
-    document.createElement("span");
-
-   state.className=
-    "choice-status";
-
-   state.dataset.groupStatus=
-    groupIndex;
-
-   state.textContent=
-    "انتخاب نشده";
-
-
-   head.appendChild(title);
-   head.appendChild(state);
-
-
-   const buttons=
-    document.createElement("div");
-
-   buttons.className=
-    "choice-buttons";
-
-
-   choices.forEach(
-    value=>{
-
-     const button=
-      document.createElement("button");
-
-     button.type="button";
-
-     button.className=
-      "choice-btn";
-
-     button.dataset.group=
-      groupIndex;
-
-
-     button.textContent=
-      typeof value==="number"
-      ?faNumber(value)
-      :value;
-
-
-     button.addEventListener(
-      "click",
-      ()=>selectChoice(
-       groupIndex,
-       value,
-       button
-      )
-     );
-
-
-     buttons.appendChild(
-      button
-     );
-    }
-   );
-
-
-   group.appendChild(head);
-   group.appendChild(buttons);
-
-   choiceAreaEl.appendChild(
-    group
-   );
-  }
- );
-}
-
-
-/* =====================================================
-   CARD SELECTION
-===================================================== */
-
-function selectChoice(
- groupIndex,
- value,
- button
-){
-
- if(
-  answerChecked ||
-  gameFinished
- ){
-  return;
- }
-
-
- const elapsed=
-  (
-   Date.now()-
-   questionStartTime
-  )/1000;
-
-
- if(
-  elapsed>=
-  QUESTION_TIME
- ){
-
-  handleTimeout();
-
-  return;
- }
-
-
- currentSelection[
-  groupIndex
- ]=value;
-
-
- const groupButtons=[
-  ...choiceAreaEl.querySelectorAll(
-   `.choice-btn[data-group="${groupIndex}"]`
-  )
- ];
-
-
- groupButtons.forEach(
-  item=>
-   item.classList.remove(
-    "selected"
-   )
- );
-
-
- button.classList.add(
-  "selected"
- );
-
-
- const status=
-  choiceAreaEl.querySelector(
-   `[data-group-status="${groupIndex}"]`
-  );
-
-
- if(status){
-
-  status.textContent=
-   typeof value==="number"
-   ?faNumber(value)
-   :value;
- }
-
-
- updateSelectionPreview();
-
-
- const q=
-  questions[currentIndex];
-
-
- const complete=
-  q.choices.every(
-   (_,index)=>
-    currentSelection[index]!==
-    undefined
-  );
-
-
- if(complete){
-
-  produceAutomatic();
- }
-}
-
-
-/* =====================================================
-   PREVIEW
-===================================================== */
-
-function updateSelectionPreview(){
-
- const q=
-  questions[currentIndex];
-
-
- const selected=[];
-
-
- for(
-  let i=0;
-  i<q.choices.length;
-  i++
- ){
-
-  const value=
-   currentSelection[i];
-
-  if(value===undefined){
-
-   selected.push(
-    "❔"
-   );
+function renderBelt(){
+ const q=questions[currentIndex],belt=$("belt");
+ belt.innerHTML="";
+
+ q.nums.forEach((num,index)=>{
+  const b=document.createElement("button");
+  b.type="button";
+  b.className=`factor ${num<0?"negative":"positive"}`;
+  b.textContent=signed(num);
+
+  if(interactionState.pairedNegativeIndexes.includes(index))b.classList.add("paired");
+  if(interactionState.selectedNegative===index)b.classList.add("selected");
+
+  if(num<0 && q.level>=2){
+   b.addEventListener("click",()=>negativeClicked(index));
+  }else{
+   b.disabled=true;
   }
 
-  else{
+  belt.appendChild(b);
 
-   selected.push(
-    typeof value==="number"
-    ?faNumber(value)
-    :value
-   );
+  if(index<q.ops.length){
+   const op=document.createElement("span");
+   op.textContent=q.ops[index];
+   op.style.cssText="font-weight:bold;color:#747b8e;font-size:18px";
+   belt.appendChild(op);
+  }
+ });
+
+ updatePairInfo();
+}
+
+function negativeClicked(index){
+ if(answerChecked)return;
+ if(interactionState.pairedNegativeIndexes.includes(index))return;
+
+ if(interactionState.selectedNegative===null){
+  interactionState.selectedNegative=index;
+ }else if(interactionState.selectedNegative===index){
+  interactionState.selectedNegative=null;
+ }else{
+  interactionState.pairedNegativeIndexes.push(interactionState.selectedNegative,index);
+  interactionState.selectedNegative=null;
+ }
+
+ renderBelt();
+}
+
+function updatePairInfo(){
+ const q=questions[currentIndex];
+ const paired=interactionState.pairedNegativeIndexes.length;
+ const unpaired=q.negativeCount-paired;
+
+ if(q.level===1){
+  $("pairInfo").textContent=q.negativeCount===0
+   ?"همه ورودی‌ها مثبت‌اند."
+   :`تعداد ورودی‌های منفی: ${faNumber(q.negativeCount)}`;
+ }else{
+  $("pairInfo").textContent=
+   `منفی‌های جفت‌شده: ${faNumber(paired)} از ${faNumber(q.negativeCount)} | بدون جفت: ${faNumber(unpaired)}`;
+ }
+
+ $("negativeGear").className="gear "+(unpaired%2===0?"pos":"neg");
+ $("negativeGear").textContent=unpaired%2===0?"+":"−";
+}
+
+function selectOutput(sign){
+ if(answerChecked)return;
+ interactionState.outputSign=sign;
+ $("positiveBtn").classList.toggle("selected",sign===1);
+ $("negativeBtn").classList.toggle("selected",sign===-1);
+ updateOutput();
+}
+
+$("positiveBtn").addEventListener("click",()=>selectOutput(1));
+$("negativeBtn").addEventListener("click",()=>selectOutput(-1));
+
+function updateOutput(){
+ const sign=interactionState.outputSign;
+ const gear=$("outputGear");
+
+ gear.className="gear";
+ gear.textContent="؟";
+
+ if(sign===1){gear.classList.add("pos");gear.textContent="+"}
+ if(sign===-1){gear.classList.add("neg");gear.textContent="−"}
+}
+
+$("resetBtn").addEventListener("click",()=>{
+ if(answerChecked)return;
+ resetInteraction();
+ $("positiveBtn").classList.remove("selected");
+ $("negativeBtn").classList.remove("selected");
+ $("feedback").className="feedback";
+ renderBelt();updateOutput();
+});
+
+/* ---------- Evaluation ---------- */
+
+function evaluate(q){
+ if(interactionState.outputSign===null)return {ready:false,correct:false};
+
+ if(q.level>=2){
+  const expectedPaired=Math.floor(q.negativeCount/2)*2;
+  if(interactionState.pairedNegativeIndexes.length!==expectedPaired){
+   return {ready:false,correct:false,reason:"pairs"};
   }
  }
 
-
- selectionPreviewEl.textContent=
-  "انتخاب فعلی: "+
-  selected.join(" ← ");
+ return {ready:true,correct:interactionState.outputSign===q.answerSign};
 }
 
-
-/* =====================================================
-   AUTO PRODUCTION
-===================================================== */
-
-function produceAutomatic(){
-
- if(
-  answerChecked ||
-  gameFinished
- ){
-  return;
- }
-
-
- const q=
-  questions[currentIndex];
-
-
- const selected=[
-  ...currentSelection
- ];
-
-
- const result=
-  q.build(
-   selected
-  );
-
-
- if(!result.valid){
-
-  setProductionNote(
-   "⚠️ "+
-   result.message,
-   "bad"
-  );
-
-  resetSelection();
-
-  return;
- }
-
-
- if(
-  produced.includes(
-   result.key
-  )
- ){
-
-  setProductionNote(
-   "🔁 این حالت قبلاً ساخته شده؛ یک حالت تازه انتخاب کن.",
-   "warn"
-  );
-
-  resetSelection();
-
-  return;
- }
-
-
- produced.push(
-  result.key
- );
-
-
- productLabels.set(
-  result.key,
-  result.label
- );
-
-
- setProductionNote(
-  "✅ حالت جدید تولید شد!",
-  "good"
- );
-
-
- renderOutput();
-
- animateFactory();
-
- resetSelection();
-
-
- /*
-  فقط راهنمای بصری است؛
-  پاسخ خودکار ثبت نمی‌شود.
- */
- if(
-  produced.length===
-  q.answers.length
- ){
-
-  finishButton
-   .classList
-   .add("ready");
-
-  setProductionNote(
-   "💡 تعداد حالت‌های ساخته‌شده زیاد شده؛ اگر فکر می‌کنی فهرست کامل است، پایان تولید را بزن.",
-   "good"
-  );
- }
+function scoreForTime(ms){
+ const s=ms/1000;
+ if(s<=5)return 10;
+ if(s<=10)return 8;
+ if(s<=15)return 6;
+ if(s<=20)return 4;
+ if(s<=30)return 2;
+ return 0;
 }
 
-
-/* =====================================================
-   RESET SELECTION
-===================================================== */
-
-function resetSelection(){
-
- currentSelection=[];
-
-
- [
-  ...choiceAreaEl
-   .querySelectorAll(
-    ".choice-btn"
-   )
- ].forEach(
-  button=>
-   button.classList.remove(
-    "selected"
-   )
- );
-
-
- [
-  ...choiceAreaEl
-   .querySelectorAll(
-    "[data-group-status]"
-   )
- ].forEach(
-  status=>
-   status.textContent=
-    "انتخاب نشده"
- );
-
-
- updateSelectionPreview();
+function lockInteraction(){
+ $("checkBtn").disabled=true;$("resetBtn").disabled=true;
+ $("positiveBtn").disabled=true;$("negativeBtn").disabled=true;
+ [...$("belt").querySelectorAll("button")].forEach(b=>b.disabled=true);
 }
 
+function feedback(kind,title,text){
+ const f=$("feedback");f.className=`feedback show ${kind}`;f.innerHTML=`<strong>${title}</strong>${text}`;
+}
+function animate(cls){
+ const e=$("gameCard");e.classList.remove(cls);void e.offsetWidth;e.classList.add(cls);setTimeout(()=>e.classList.remove(cls),350);
+}
 
-/* =====================================================
-   OUTPUT
-===================================================== */
+function checkAnswer(){
+ if(answerChecked||gameFinished)return;
+ if(Date.now()>=questionDeadline){handleTimeout();return}
 
-function renderOutput(){
+ const q=questions[currentIndex],r=evaluate(q);
 
- outputEl.innerHTML="";
-
-
- outputCountEl.textContent=
-  faNumber(
-   produced.length
-  )+
-  " حالت";
-
-
- if(
-  produced.length===0
- ){
-
-  const empty=
-   document.createElement("div");
-
-  empty.className=
-   "empty-output";
-
-  empty.textContent=
-   "هنوز حالتی تولید نشده است.";
-
-  outputEl.appendChild(
-   empty
-  );
-
-  return;
- }
-
-
- produced.forEach(
-  key=>{
-
-   const button=
-    document.createElement(
-     "button"
-    );
-
-
-   button.type=
-    "button";
-
-   button.className=
-    "product";
-
-
-   button.textContent=
-    productLabels.get(key)||
-    key;
-
-
-   button.title=
-    "برای حذف این حالت لمس کن";
-
-
-   button.disabled=
-    answerChecked;
-
-
-   button.addEventListener(
-    "click",
-    ()=>{
-
-     if(answerChecked){
-      return;
-     }
-
-
-     produced=
-      produced.filter(
-       x=>x!==key
-      );
-
-
-     productLabels.delete(
-      key
-     );
-
-
-     finishButton
-      .classList
-      .remove("ready");
-
-
-     setProductionNote(
-      "🗑️ حالت انتخاب‌شده حذف شد.",
-      "warn"
-     );
-
-
-     renderOutput();
-    }
-   );
-
-
-   outputEl.appendChild(
-    button
-   );
+ if(!r.ready){
+  if(r.reason==="pairs"){
+   feedback("timeout","موتور هنوز آماده نیست.","اول همه منفی‌هایی را که می‌توانند دوتادوتا جفت شوند، جفت کن.");
+  }else{
+   feedback("timeout","خروجی تنظیم نشده.","علامت مثبت یا منفی را برای خروجی موتور انتخاب کن.");
   }
- );
-}
-
-
-/* =====================================================
-   NOTE
-===================================================== */
-
-function setProductionNote(
- text,
- type
-){
-
- productionNoteEl.textContent=
-  text;
-
- productionNoteEl.className=
-  "production-note "+
-  type;
-}
-
-
-/* =====================================================
-   FACTORY ANIMATION
-===================================================== */
-
-function animateFactory(){
-
- boxRunnerEl.style.transform=
-  "translateY(-9px) scale(1.12)";
-
-
- setTimeout(
-  ()=>{
-
-   boxRunnerEl.style.transform=
-    "";
-
-  },
-  220
- );
-}
-
-
-/* =====================================================
-   FINAL SUBMISSION
-===================================================== */
-
-finishButton.addEventListener(
- "click",
- submitAnswer
-);
-
-
-function submitAnswer(){
-
- if(
-  answerChecked ||
-  gameFinished
- ){
   return;
  }
 
+ answerChecked=true;stopTimer();lockInteraction();
 
- const elapsed=
-  (
-   Date.now()-
-   questionStartTime
-  )/1000;
-
-
- if(
-  elapsed>=
-  QUESTION_TIME
- ){
-
-  handleTimeout();
-
-  return;
+ if(r.correct){
+  const gained=scoreForTime(Date.now()-questionStartedAt);
+  score=Math.min(100,score+gained);
+  $("scoreStatus").textContent=`${faNumber(score)} از ${faNumber(100)}`;
+  feedback("good",`✅ موتور درست کار کرد! +${faNumber(gained)} امتیاز`,q.explanation);
+  animate("pop");
+ }else{
+  feedback("bad","❌ علامت خروجی اشتباه است.",`علامت صحیح ${q.answerSign===1?"مثبت":"منفی"} است. ${q.explanation}`);
+  animate("shake");
  }
 
-
- answerChecked=true;
-
- stopTimer();
-
- lockQuestion();
-
-
- const q=
-  questions[currentIndex];
-
-
- const correct=
-  sameSet(
-   produced,
-   q.answers
-  );
-
-
- if(correct){
-
-  const earned=
-   pointsForTime(
-    elapsed
-   );
-
-
-  score=
-   Math.min(
-    100,
-    score+earned
-   );
-
-
-  feedbackEl.className=
-   "feedback success show";
-
-
-  feedbackTitleEl.textContent=
-   "✅ آفرین! +"+
-   faNumber(earned)+
-   " امتیاز";
-
-
-  feedbackTextEl.textContent=
-   "همه حالت‌های ممکن را بدون تکرار و جاافتادگی پیدا کردی. "+
-   q.explanation;
-
-
-  answerListEl.textContent=
-   "✅ فهرست کامل: "+
-   formatAnswers(q);
-
-
-  celebrate();
- }
-
- else{
-
-  const missing=
-   q.answers.filter(
-    answer=>
-     !produced.includes(answer)
-   );
-
-
-  feedbackEl.className=
-   "feedback error show";
-
-
-  feedbackTitleEl.textContent=
-   "❌ خط تولید کامل نیست!";
-
-
-  feedbackTextEl.textContent=
-   (
-    missing.length
-    ?faNumber(
-      missing.length
-     )+
-     " حالت جا افتاده است. "
-    :""
-   )+
-   q.explanation;
-
-
-  answerListEl.textContent=
-   "✅ پاسخ درست: "+
-   formatAnswers(q);
- }
-
-
- scoreEl.textContent=
-  faNumber(score);
-
-
- nextButton.classList.add(
-  "show"
- );
+ $("checkBtn").hidden=true;$("nextBtn").hidden=false;
+ $("nextBtn").textContent=currentIndex===TOTAL_QUESTIONS-1?"دیدن نتیجه 🏁":"مأموریت بعدی";
 }
-
-
-/* =====================================================
-   FORMAT ANSWERS
-===================================================== */
-
-function formatAnswers(q){
-
- return q.answers
-  .map(key=>{
-
-   const parts=
-    key.split("|");
-
-
-   if(
-    q.family===
-    "زوج‌های ضرب"
-   ){
-
-    return(
-     faNumber(parts[0])+
-     "×"+
-     faNumber(parts[1])
-    );
-   }
-
-
-   if(
-    q.family===
-    "زوج‌های جمع"
-   ){
-
-    return(
-     faNumber(parts[0])+
-     "+"+
-     faNumber(parts[1])
-    );
-   }
-
-
-   if(
-    q.family===
-    "روش‌های پرداخت"
-   ){
-
-    return(
-     "("+
-     faNumber(parts[0])+
-     "، "+
-     faNumber(parts[1])+
-     ")"
-    );
-   }
-
-
-   if(
-    parts.length>1
-   ){
-
-    return parts
-     .map(faNumber)
-     .join(" + ");
-   }
-
-
-   return faNumber(
-    key
-   );
-
-  })
-  .join(" ، ");
-}
-
-
-/* =====================================================
-   LOCK QUESTION
-===================================================== */
-
-function lockQuestion(){
-
- finishButton.disabled=
-  true;
-
-
- [
-  ...choiceAreaEl
-   .querySelectorAll(
-    ".choice-btn"
-   )
- ].forEach(
-  button=>{
-   button.disabled=true;
-  }
- );
-
-
- [
-  ...outputEl
-   .querySelectorAll(
-    ".product"
-   )
- ].forEach(
-  button=>{
-   button.disabled=true;
-  }
- );
-}
-
-
-/* =====================================================
-   TIMEOUT
-===================================================== */
+$("checkBtn").addEventListener("click",checkAnswer);
 
 function handleTimeout(){
-
- if(
-  answerChecked ||
-  gameFinished
- ){
-  return;
- }
-
-
- answerChecked=true;
-
- stopTimer();
-
- lockQuestion();
-
-
- timerNumberEl.textContent=
-  "۰";
-
- timeStatusEl.textContent=
-  "۰ ثانیه";
-
- timerBarEl.style.width=
-  "0%";
-
- timerBarEl.style.background=
-  "var(--red)";
-
-
- const q=
-  questions[currentIndex];
-
-
- feedbackEl.className=
-  "feedback timeout show";
-
-
- feedbackTitleEl.textContent=
-  "⏰ زمان تمام شد! ۰ امتیاز";
-
-
- feedbackTextEl.textContent=
-  "پاسخ دیگر قابل ثبت نیست. "+
-  q.explanation;
-
-
- answerListEl.textContent=
-  "✅ پاسخ کامل: "+
-  formatAnswers(q);
-
-
- nextButton.classList.add(
-  "show"
- );
+ if(answerChecked||gameFinished)return;
+ answerChecked=true;stopTimer();lockInteraction();
+ const q=questions[currentIndex];
+ feedback("timeout","⏰ زمان تمام شد.",`خروجی باید ${q.answerSign===1?"مثبت":"منفی"} باشد. ${q.explanation}`);
+ $("checkBtn").hidden=true;$("nextBtn").hidden=false;
+ $("nextBtn").textContent=currentIndex===TOTAL_QUESTIONS-1?"دیدن نتیجه 🏁":"مأموریت بعدی";
 }
 
+/* ---------- Timer ---------- */
 
-/* =====================================================
-   CELEBRATION
-===================================================== */
-
-function celebrate(){
-
- const rect=
-  finishButton
-   .getBoundingClientRect();
-
-
- const icons=[
-  "✨","⭐","⚙️","📦","🎉"
- ];
-
-
- for(
-  let i=0;
-  i<11;
-  i++
- ){
-
-  const spark=
-   document.createElement(
-    "span"
-   );
-
-
-  spark.className=
-   "spark";
-
-
-  spark.textContent=
-   pick(icons);
-
-
-  spark.style.left=
-   (
-    rect.left+
-    rect.width/2
-   )+"px";
-
-
-  spark.style.top=
-   (
-    rect.top+
-    rect.height/2
-   )+"px";
-
-
-  spark.style.setProperty(
-   "--x",
-   (
-    Math.random()*180-
-    90
-   )+"px"
-  );
-
-
-  spark.style.setProperty(
-   "--y",
-   (
-    -30-
-    Math.random()*120
-   )+"px"
-  );
-
-
-  document.body
-   .appendChild(
-    spark
-   );
-
-
-  setTimeout(
-   ()=>spark.remove(),
-   850
-  );
- }
+function startTimer(){
+ stopTimer();questionStartedAt=Date.now();questionDeadline=questionStartedAt+QUESTION_TIME*1000;
+ updateTimer();timerInterval=setInterval(updateTimer,100);
 }
+function updateTimer(){
+ if(answerChecked||gameFinished)return;
+ const remain=Math.max(0,questionDeadline-Date.now()),ratio=remain/(QUESTION_TIME*1000);
+ $("timeText").textContent=`${faNumber(Math.ceil(remain/1000))} ثانیه`;
+ $("timerFill").style.width=`${Math.max(0,Math.min(100,ratio*100))}%`;
+ $("timerFill").style.background=ratio>.5?"#51dd91":ratio>.2?"#f5c543":"#e65362";
+ if(remain<=0)handleTimeout();
+}
+function stopTimer(){if(timerInterval!==null){clearInterval(timerInterval);timerInterval=null}}
 
+/* ---------- Flow ---------- */
 
-/* =====================================================
-   NEXT
-===================================================== */
-
-nextButton.addEventListener(
- "click",
- ()=>{
-
-  if(!answerChecked){
-   return;
-  }
-
-
-  if(
-   currentIndex<
-   TOTAL_QUESTIONS-1
-  ){
-
-   currentIndex++;
-
-   showQuestion();
-
-
-   window.scrollTo({
-    top:0,
-    behavior:"smooth"
-   });
-  }
-
-  else{
-
-   finishGame();
-  }
- }
-);
-
-
-/* =====================================================
-   FINISH GAME
-===================================================== */
+$("nextBtn").addEventListener("click",()=>{
+ if(!answerChecked||gameFinished)return;
+ if(currentIndex===TOTAL_QUESTIONS-1){finishGame();return}
+ currentIndex++;renderQuestion();
+});
 
 async function finishGame(){
+ if(gameFinished)return;
+ gameFinished=true;stopTimer();
+ $("playArea").style.display="none";$("resultArea").classList.add("show");
+ $("finalScore").textContent=faNumber(score);
+ $("resultName").textContent=`${player.playerName||"بازیکن"}، امتیاز نهایی تو:`;
+ $("resultMessage").textContent=
+  score>=90?"عالی! بدون محاسبه طولانی، علامت زنجیره را از تعداد منفی‌ها تشخیص می‌دهی. 🌟":
+  score>=70?"خیلی خوب! یادت بماند تعداد زوج منفی خروجی مثبت و تعداد فرد منفی خروجی منفی می‌دهد. ⚙️":
+  score>=50?"قاعده دو علامت را می‌دانی؛ روی زنجیره‌های چندعاملی بیشتر تمرین کن. 🤖":
+  "در دور بعد منفی‌ها را دوتادوتا جفت کن؛ اگر هیچ منفی بدون جفت نماند خروجی مثبت است، و اگر یکی بماند خروجی منفی.";
 
- if(gameFinished){
-  return;
+ if(!finishSubmitted){
+  finishSubmitted=true;
+  try{await GameSDK.finishGame(score)}catch(e){console.error("finishGame failed",e)}
  }
-
-
- gameFinished=true;
-
- stopTimer();
-
-
- [
-  ...factoryProgressEl.children
- ].forEach(
-  lamp=>{
-
-   lamp.classList.remove(
-    "current"
-   );
-
-   lamp.classList.add(
-    "done"
-   );
-  }
- );
-
-
- gameScreen.style.display=
-  "none";
-
-
- resultScreen
-  .classList
-  .add("show");
-
-
- const name=
-  player&&
-  player.playerName
-
-  ?player.playerName
-
-  :"بازیکن";
-
-
- resultNameEl.textContent=
-  name;
-
-
- finalScoreEl.textContent=
-  faNumber(score);
-
-
- if(score>=90){
-
-  motivationEl.textContent=
-   "عالی بود! 🌟 استاد پیدا کردن همه حالت‌ها شدی!";
- }
-
- else if(score>=70){
-
-  motivationEl.textContent=
-   "خیلی خوب بود 👏 تفکر نظام‌دارت حسابی قوی شده!";
- }
-
- else if(score>=50){
-
-  motivationEl.textContent=
-   "خوب بود، ادامه بده 💪 حالت‌ها را منظم‌تر دسته‌بندی کن!";
- }
-
- else{
-
-  motivationEl.textContent=
-   "دوباره تلاش کن 🌱 یک انتخاب را ثابت نگه دار و بقیه را منظم تغییر بده!";
- }
-
-
- leaderboardContent.innerHTML=
-  '<div class="loading">'+
-  'در حال ثبت نتیجه و دریافت جدول برترین‌ها...'+
-  '</div>';
-
-
- try{
-
-  if(
-   !finishSubmitted
-  ){
-
-   finishSubmitted=true;
-
-   const result=
-    await GameSDK
-     .finishGame(score);
-  }
-
- }
-
- catch(error){
-
-  console.error(
-   "finishGame error:",
-   error
-  );
- }
-
-
  await loadLeaderboard();
 }
 
-
-/* =====================================================
-   LEADERBOARD
-===================================================== */
-
 async function loadLeaderboard(){
-
+ const box=$("leaderRows");
+ box.innerHTML='<div style="text-align:center;color:#707890">در حال دریافت...</div>';
  try{
-
-  const scores=
-   await GameSDK
-    .getLeaderboard(10);
-
-
-  leaderboardContent.innerHTML=
-   "";
-
-
-  if(
-   !Array.isArray(scores) ||
-   scores.length===0
-  ){
-
-   leaderboardContent.innerHTML=
-    '<div class="loading">'+
-    'هنوز رکوردی ثبت نشده است.'+
-    '</div>';
-
-   return;
-  }
-
-
-  scores.forEach(
-   (item,index)=>{
-
-    const row=
-     document.createElement(
-      "div"
-     );
-
-
-    row.className=
-     "rank-row";
-
-
-    let rank;
-
-
-    if(index===0){
-     rank="🥇";
-    }
-
-    else if(index===1){
-     rank="🥈";
-    }
-
-    else if(index===2){
-     rank="🥉";
-    }
-
-    else{
-     rank=
-      faNumber(index+1)+
-      ".";
-    }
-
-
-    const name=
-     item.playerName ??
-     item.player_name ??
-     item.name ??
-     "بازیکن";
-
-
-    const value=
-     item.score ??
-     0;
-
-
-    const nameEl=
-     document.createElement(
-      "span"
-     );
-
-
-    nameEl.className=
-     "rank-name";
-
-
-    nameEl.textContent=
-     rank+
-     " "+
-     name;
-
-
-    const scoreItemEl=
-     document.createElement(
-      "span"
-     );
-
-
-    scoreItemEl.className=
-     "rank-score";
-
-
-    scoreItemEl.textContent=
-     faNumber(value)+
-     " امتیاز";
-
-
-    row.appendChild(
-     nameEl
-    );
-
-
-    row.appendChild(
-     scoreItemEl
-    );
-
-
-    leaderboardContent
-     .appendChild(
-      row
-     );
-   }
-  );
- }
-
- catch(error){
-
-  console.error(
-   "leaderboard error:",
-   error
-  );
-
-
-  leaderboardContent.innerHTML=
-   '<div class="loading">'+
-   'دریافت جدول برترین‌ها فعلاً امکان‌پذیر نیست.'+
-   '</div>';
- }
-}
-
-
-/* =====================================================
-   RESTART
-===================================================== */
-
-restartButton.addEventListener(
- "click",
- ()=>{
-
-  stopTimer();
-
-
-  GameSDK.reset();
-
-
-  score=0;
-
-  currentIndex=0;
-
-  answerChecked=false;
-
-  questionStartTime=0;
-
-  gameFinished=false;
-
-  finishSubmitted=false;
-
-  produced=[];
-
-  productLabels=
-   new Map();
-
-  currentSelection=[];
-
-
-  resultScreen
-   .classList
-   .remove("show");
-
-
-  gameScreen.style.display=
-   "block";
-
-
-  leaderboardContent.innerHTML=
-   "";
-
-
-  generateRound();
-
-  buildProgress();
-
-  showQuestion();
-
-
-  window.scrollTo({
-   top:0,
-   behavior:"smooth"
+  const scores=await GameSDK.getLeaderboard(10);
+  if(!scores||!scores.length){box.innerHTML='<div style="text-align:center;color:#707890">هنوز رکوردی ثبت نشده است.</div>';return}
+  box.innerHTML="";
+  scores.forEach((entry,i)=>{
+   const row=document.createElement("div");row.className="leader-row";
+   const rank=i===0?"🥇":i===1?"🥈":i===2?"🥉":`${faNumber(i+1)}.`;
+   const a=document.createElement("span");a.textContent=`${rank} ${entry.playerName??entry.name??"بازیکن"}`;
+   const b=document.createElement("strong");b.textContent=`${faNumber(entry.score??0)} امتیاز`;
+   row.append(a,b);box.appendChild(row);
   });
- }
-);
-
-
-/* =====================================================
-   START
-===================================================== */
-
-function startGame(){
-
- const name=
-  player&&
-  player.playerName
-
-  ?player.playerName
-
-  :"بازیکن";
-
-
- playerNameEl.textContent=
-  name;
-
-
- score=0;
-
- currentIndex=0;
-
- answerChecked=false;
-
- gameFinished=false;
-
- finishSubmitted=false;
-
- produced=[];
-
- productLabels=
-  new Map();
-
- currentSelection=[];
-
-
- generateRound();
-
- buildProgress();
-
- showQuestion();
+ }catch(e){console.error("leaderboard failed",e);box.innerHTML='<div class="error">جدول برترین‌ها فعلاً قابل دریافت نیست.</div>'}
 }
 
+$("restartBtn").addEventListener("click",()=>{
+ stopTimer();
+ try{GameSDK.reset()}catch(e){console.error("reset failed",e)}
+ score=0;currentIndex=0;answerChecked=false;gameFinished=false;finishSubmitted=false;interactionState={};
+ $("scoreStatus").textContent="۰ از ۱۰۰";$("playArea").style.display="";$("resultArea").classList.remove("show");
+ questions=generateRound();renderQuestion();
+});
 
-startGame();
-
+function init(){
+ questions=generateRound();
+ if(questions.length!==TOTAL_QUESTIONS)throw new Error("Exactly 10 missions are required.");
+ renderQuestion();
+}
+init();
 </script>
-
 </body>
 </html>
