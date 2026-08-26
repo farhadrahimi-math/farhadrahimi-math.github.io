@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>هتل عددها | ریاضی هشتم</title>
+
+<style>
+:root{
+ --purple:#7357d8;--blue:#3e8de7;--pink:#ed6da7;
+ --yellow:#f6c84d;--green:#36b978;--red:#e65760;
+ --ink:#29384c;--muted:#718096;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+ margin:0;min-height:100vh;overflow-x:hidden;
+ font-family:Tahoma,Arial,sans-serif;color:var(--ink);
+ background:
+ radial-gradient(circle at 8% 5%,#e2eeff 0,transparent 25%),
+ radial-gradient(circle at 92% 5%,#ffe1ec 0,transparent 25%),
+ linear-gradient(155deg,#f5efff,#effaff)
+}
+button{font:inherit;touch-action:manipulation}
+.app{width:min(100% - 16px,780px);margin:auto;padding:12px 0 28px}
+.hero{text-align:center}
+.badges{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.badge{
+ background:#fff;border:1px solid #ded8ff;border-radius:99px;
+ padding:4px 9px;color:#6250b3;font-size:11px;font-weight:bold
+}
+h1{margin:7px 0 2px;color:#5941b6;font-size:clamp(25px,7vw,38px)}
+.subtitle{margin:0 0 10px;color:var(--muted);font-size:13px}
+.status{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:9px 0 7px}
+.stat{
+ min-width:0;background:#fff;border:1px solid #e1e6ee;border-radius:12px;
+ padding:7px 4px;text-align:center
+}
+.stat small{display:block;color:var(--muted);font-size:9px}
+.stat b{
+ display:block;font-size:12px;margin-top:2px;white-space:nowrap;
+ overflow:hidden;text-overflow:ellipsis
+}
+.timer{background:#fff;border-radius:12px;padding:7px 9px;margin-bottom:8px}
+.timer-row{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin-bottom:5px}
+.track{height:8px;background:#edf0f4;border-radius:20px;overflow:hidden}
+.bar{height:100%;width:100%;border-radius:20px;background:var(--green)}
+.card{
+ background:#fff;border:1px solid #e0e5ed;border-radius:22px;padding:12px;
+ box-shadow:0 14px 36px rgba(63,73,105,.12)
+}
+.progress{display:flex;gap:5px;align-items:center;margin-bottom:9px}
+.pstep{height:8px;flex:1;border-radius:20px;background:#e7ebf1}
+.pstep.done{background:var(--green)}
+.pstep.now{background:var(--purple);box-shadow:0 0 0 3px #eeeaff}
+
+.mission{
+ text-align:center;background:#f7f5ff;border:1px solid #e4deff;
+ border-radius:15px;padding:8px;margin-bottom:9px
+}
+.mission small{color:#7664bd;font-weight:bold}
+.mission h2{font-size:17px;color:#4c4095;margin:3px 0}
+.mission p{margin:0;color:#68788b;font-size:12px;line-height:1.7}
+
+/* hotel */
+.hotel{
+ min-height:380px;overflow:hidden;border-radius:18px;border:3px solid #845f45;
+ padding:10px;
+ background:
+ linear-gradient(rgba(255,255,255,.05),rgba(0,0,0,.06)),
+ #d99b67
+}
+.hotel-sign{
+ width:max-content;max-width:100%;margin:0 auto 9px;
+ padding:7px 16px;border-radius:8px;background:#49362e;
+ color:#ffe2a4;border:2px solid #e8bb65;font-size:12px;font-weight:bold;
+ box-shadow:0 4px 0 #382920
+}
+.reception{
+ background:#f9f3e7;border:2px solid #c99a6a;border-radius:14px;
+ padding:9px;margin-bottom:10px;text-align:center
+}
+.reception small{font-size:9px;color:#877360}
+.guest{
+ min-height:60px;display:flex;align-items:center;justify-content:center;
+ gap:8px;color:#5a44ae;font-size:20px;font-weight:bold
+}
+.guest-emoji{font-size:32px}
+
+/* math */
+.math-number{
+ direction:ltr;unicode-bidi:isolate;display:inline-flex;
+ align-items:center;justify-content:center;white-space:nowrap
+}
+.frac{
+ display:inline-flex;flex-direction:column;align-items:stretch;
+ text-align:center;line-height:1.02;min-width:29px;margin:0 3px
+}
+.frac .top{border-bottom:1.6px solid currentColor;padding:0 5px 3px}
+.frac .bottom{padding:3px 5px 0}
+.negfrac{display:inline-flex;align-items:center;direction:ltr}
+.negfrac:before{content:"−";margin-right:2px}
+.mixed{display:inline-flex;align-items:center;gap:3px;direction:ltr}
+
+/* rooms */
+.hotel-body{
+ display:grid;grid-template-columns:repeat(2,1fr);
+ gap:8px;max-width:650px;margin:auto
+}
+.room{
+ min-height:94px;border:3px solid #704c37;border-radius:11px;
+ background:#f8e4bf;position:relative;overflow:hidden;
+ cursor:pointer;padding:8px 5px 6px;text-align:center;
+ box-shadow:inset 0 -13px 0 #c68857
+}
+.room:hover:not(.locked){background:#fff0cf}
+.room.correct{border-color:var(--green);background:#e4f6df}
+.room.wrong{border-color:var(--red);background:#ffdfe0}
+.room.locked{cursor:default}
+.room-no{
+ display:inline-block;background:#7657d8;color:#fff;border-radius:99px;
+ font-size:9px;padding:2px 7px;margin-bottom:5px
+}
+.room-label{
+ min-height:30px;font-size:11px;font-weight:bold;color:#4b3b32;
+ direction:ltr;unicode-bidi:isolate;display:flex;align-items:center;justify-content:center
+}
+.bed{font-size:19px;margin-top:3px}
+.inside-guest{font-size:27px;margin-top:2px}
+
+/* sorting */
+.sort-area{
+ background:#f9f3e7;border:2px solid #c99a6a;border-radius:14px;
+ padding:9px;max-width:650px;margin:auto
+}
+.sort-title{text-align:center;color:#755f4d;font-size:11px;margin-bottom:7px}
+.guest-cards{
+ display:grid;grid-template-columns:repeat(3,1fr);gap:7px;
+ direction:rtl
+}
+.guest-card{
+ min-height:61px;border:2px solid #d3b791;border-radius:11px;
+ background:#fffaf0;color:#5743a8;font-weight:bold;cursor:pointer
+}
+.guest-card.selected{
+ border-color:#7357d8;background:#eeeaff;box-shadow:0 0 0 3px rgba(115,87,216,.13)
+}
+.guest-card.used{opacity:.2;pointer-events:none}
+.order-slots{
+ display:grid;grid-template-columns:repeat(3,1fr);gap:7px;
+ margin-top:8px;direction:ltr
+}
+.slot{
+ min-height:62px;border:2px dashed #b89569;border-radius:11px;
+ background:#f5e3c6;display:flex;align-items:center;justify-content:center;
+ color:#8a745e;font-size:10px;cursor:pointer
+}
+.slot.filled{
+ border-style:solid;background:#fff;color:#5743a8;font-weight:bold
+}
+.submit{
+ width:100%;min-height:46px;border:0;border-radius:12px;margin-top:8px;
+ color:#fff;font-weight:bold;cursor:pointer;
+ background:linear-gradient(135deg,#7357d8,#3e8de7)
+}
+.guide{
+ text-align:center;color:#5d4b40;font-size:10px;line-height:1.7;
+ max-width:620px;margin:8px auto 0;background:rgba(255,244,221,.72);
+ border-radius:10px;padding:5px
+}
+
+/* feedback */
+.feedback{
+ display:none;margin-top:9px;padding:10px;border-radius:13px;
+ font-size:12px;line-height:1.75
+}
+.feedback.good{display:block;background:#eaf9f1;border:1px solid #b8e6cc;color:#246846}
+.feedback.bad{display:block;background:#fff0f0;border:1px solid #efc1c4;color:#944147}
+.feedback.time{display:block;background:#fff7df;border:1px solid #ecd693;color:#7b601d}
+.next{
+ display:none;width:100%;min-height:50px;margin-top:9px;border:0;border-radius:14px;
+ color:#fff;background:linear-gradient(135deg,#7357d8,#3e8de7);
+ font-weight:bold;cursor:pointer
+}
+
+/* result */
+.hidden{display:none!important}
+.result{display:none;text-align:center}
+.result.show{display:block}
+.trophy{font-size:61px}
+.final-score{font-size:42px;color:#6048bd;font-weight:bold}
+.final-score small{font-size:14px;color:var(--muted);font-weight:normal}
+.result-message{font-weight:bold;margin:9px 0 16px}
+.board{max-width:510px;margin:15px auto;text-align:right}
+.board h3{text-align:center}
+.rank{
+ display:flex;justify-content:space-between;gap:8px;
+ background:#f6f8fc;border-radius:11px;padding:9px 10px;margin:6px 0
+}
+.rank-name{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.rank-score{color:#634dc0;font-weight:bold;white-space:nowrap}
+.loading{text-align:center;color:var(--muted);padding:12px}
+.restart{
+ width:min(100%,350px);min-height:51px;border:0;border-radius:14px;
+ color:#fff;background:linear-gradient(135deg,#7357d8,#3e8de7);
+ font-weight:bold;cursor:pointer
+}
+.back{
+ display:block;width:max-content;max-width:100%;margin:18px auto 0;
+ color:#6152a6;text-decoration:none;font-size:13px
+}
+@media(max-width:540px){
+ .status{grid-template-columns:repeat(2,1fr)}
+ .card{padding:9px;border-radius:18px}
+ .hotel-body{grid-template-columns:1fr 1fr;gap:6px}
+ .room{min-height:88px;padding-left:3px;padding-right:3px}
+ .room-label{font-size:10px}
+ .guest-cards,.order-slots{gap:5px}
+ .guest-card{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{
+  animation:none!important;transition:none!important;scroll-behavior:auto!important
+ }
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+
+<header class="hero" id="hero">
+ <div class="badges">
+  <span class="badge">پایه هشتم</span>
+  <span class="badge">فصل اول</span>
+  <span class="badge">درس ۲</span>
+  <span class="badge">مقایسه عددهای گویا</span>
+ </div>
+
+ <h1>🏨 هتل عددها 🔢</h1>
+ <p class="subtitle">هر مهمان را با توجه به اندازه عددش به اتاق درست بفرست!</p>
+</header>
+
+<div id="statusWrap">
+ <section class="status">
+  <div class="stat"><small>بازیکن</small><b id="playerName">---</b></div>
+  <div class="stat"><small>مهمان</small><b id="stage">۱ از ۱۰</b></div>
+  <div class="stat"><small>امتیاز</small><b id="score">۰</b></div>
+  <div class="stat"><small>زمان</small><b id="time">۶۰ ثانیه</b></div>
+ </section>
+
+ <section class="timer">
+  <div class="timer-row">
+   <span>🛎️ زمان پذیرش</span>
+   <span id="timerMini">۶۰ / ۶۰</span>
+  </div>
+  <div class="track"><div class="bar" id="timerBar"></div></div>
+ </section>
+</div>
+
+<section class="card" id="game">
+
+ <div class="progress" id="progress"></div>
+
+ <div class="mission">
+  <small id="missionBadge">مهمان ۱</small>
+  <h2 id="missionTitle"></h2>
+  <p id="missionText"></p>
+ </div>
+
+ <div class="hotel">
+  <div class="hotel-sign">⭐ هتل عددهای گویا ⭐</div>
+
+  <div id="gameArea"></div>
+
+  <div class="guide" id="guide"></div>
+ </div>
+
+ <div class="feedback" id="feedback" aria-live="polite"></div>
+
+ <button type="button" class="next" id="nextBtn">
+  مهمان بعدی 🛎️
+ </button>
+</section>
+
+<section class="card result" id="resultScreen">
+ <div class="trophy">🏆🏨</div>
+ <h2>هتل پر شد!</h2>
+
+ <div id="resultName"></div>
+
+ <div class="final-score">
+  <span id="finalScore">۰</span>
+  <small>از ۱۰۰ امتیاز</small>
+ </div>
+
+ <div class="result-message" id="resultMessage"></div>
+
+ <div class="board">
+  <h3>🏅 برترین هتل‌دارها</h3>
+  <div id="leaderboard" class="loading">در حال دریافت رکوردها...</div>
+ </div>
+
+ <button type="button" class="restart" id="restartBtn">🔄 پذیرش دوباره</button>
+</section>
+
+<a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
+
+</main>
+
+<script src="/games/game-sdk.js"></script>
+<script>
+const GAME_ID = 23;
+
+const player = GameSDK.init(GAME_ID);
+
+(() => {
+"use strict";
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 60;
+const RECENT_KEY = "rational_hotel_g8_l2_v1";
+const MAX_RECENT = 50;
+
+let questions=[];
+let currentIndex=0;
+let score=0;
+let startedAt=0;
+let timerId=null;
+let answerChecked=false;
+let gameFinished=false;
+let finishSubmitted=false;
+let state={};
+
+const $=id=>document.getElementById(id);
+const el={
+ hero:$("hero"),statusWrap:$("statusWrap"),
+ playerName:$("playerName"),stage:$("stage"),score:$("score"),
+ time:$("time"),timerMini:$("timerMini"),timerBar:$("timerBar"),
+ game:$("game"),progress:$("progress"),
+ missionBadge:$("missionBadge"),missionTitle:$("missionTitle"),
+ missionText:$("missionText"),gameArea:$("gameArea"),guide:$("guide"),
+ feedback:$("feedback"),nextBtn:$("nextBtn"),
+ resultScreen:$("resultScreen"),resultName:$("resultName"),
+ finalScore:$("finalScore"),resultMessage:$("resultMessage"),
+ leaderboard:$("leaderboard"),restartBtn:$("restartBtn")
+};
+
+function faNumber(v){
+ return String(v).replace(/-/g,"−").replace(/\./g,"٫")
+  .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function gcd(a,b){
+ a=Math.abs(a);b=Math.abs(b);
+ while(b){const t=b;b=a%b;a=t}
+ return a||1;
+}
+function norm(n,d){
+ if(d<0){n=-n;d=-d}
+ const g=gcd(n,d);
+ return {n:n/g,d:d/g};
+}
+function val(x){return x.n/x.d}
+function key(x){return `${x.n}/${x.d}`}
+function shuffle(a){
+ const x=[...a];
+ for(let i=x.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [x[i],x[j]]=[x[j],x[i]];
+ }
+ return x;
+}
+function getRecent(){
+ try{
+  const x=JSON.parse(localStorage.getItem(RECENT_KEY)||"[]");
+  return Array.isArray(x)?x:[];
+ }catch{return []}
+}
+function saveRecent(sigs){
+ try{
+  const old=getRecent();
+  localStorage.setItem(
+   RECENT_KEY,
+   JSON.stringify([...sigs,...old.filter(x=>!sigs.includes(x))].slice(0,MAX_RECENT))
+  );
+ }catch{}
+}
+
+/* ---------- Math display ---------- */
+
+function fracHTML(x){
+ if(x.d===1)return `<span class="math-number">${faNumber(x.n)}</span>`;
+
+ const neg=x.n<0;
+ const n=Math.abs(x.n);
+
+ const f=
+  `<span class="frac"><span class="top">${faNumber(n)}</span>`+
+  `<span class="bottom">${faNumber(x.d)}</span></span>`;
+
+ return `<span class="math-number">${neg?`<span class="negfrac">${f}</span>`:f}</span>`;
+}
+
+function mixedHTML(x){
+ const negative=x.n<0;
+ const abs=Math.abs(x.n);
+ const whole=Math.floor(abs/x.d);
+ const remainder=abs%x.d;
+
+ if(remainder===0)return faNumber(x.n);
+
+ const f=
+  `<span class="mixed">${faNumber(whole)}`+
+  `<span class="frac"><span class="top">${faNumber(remainder)}</span>`+
+  `<span class="bottom">${faNumber(x.d)}</span></span></span>`;
+
+ return `<span class="math-number">${negative?"−":""}${f}</span>`;
+}
+
+function numberHTML(item){
+ if(item.display==="decimal"){
+  return `<span class="math-number">${faNumber(val(item.r))}</span>`;
+ }
+ if(item.display==="mixed"){
+  return mixedHTML(item.r);
+ }
+ return fracHTML(item.r);
+}
+
+/* ---------- Numbers ---------- */
+
+function item(n,d,display="fraction"){
+ return {r:norm(n,d),display};
+}
+
+function randomFraction(min=-3,max=3){
+ const d=[2,3,4,5,6][rand(0,4)];
+ let n=rand(Math.ceil(min*d),Math.floor(max*d));
+
+ while(n%d===0)n=rand(Math.ceil(min*d),Math.floor(max*d));
+
+ return item(n,d,"fraction");
+}
+
+function randomDecimal(min=-2,max=2){
+ const values=[];
+ for(let i=min*4;i<=max*4;i++){
+  if(i%4!==0)values.push(i/4);
+ }
+ const v=values[rand(0,values.length-1)];
+ return item(Math.round(v*4),4,"decimal");
+}
+
+/* ---------- Rooms ---------- */
+
+const ROOM_SETS=[
+ [
+  {min:-Infinity,max:-1,label:"x < −۱"},
+  {min:-1,max:0,label:"−۱ < x < ۰"},
+  {min:0,max:1,label:"۰ < x < ۱"},
+  {min:1,max:Infinity,label:"x > ۱"}
+ ],
+ [
+  {min:-Infinity,max:-2,label:"x < −۲"},
+  {min:-2,max:-1,label:"−۲ < x < −۱"},
+  {min:-1,max:0,label:"−۱ < x < ۰"},
+  {min:0,max:Infinity,label:"x > ۰"}
+ ],
+ [
+  {min:-Infinity,max:0,label:"منفی"},
+  {min:0,max:1,label:"بین ۰ و ۱"},
+  {min:1,max:2,label:"بین ۱ و ۲"},
+  {min:2,max:Infinity,label:"بزرگ‌تر از ۲"}
+ ]
+];
+
+function roomIndex(value,rooms){
+ for(let i=0;i<rooms.length;i++){
+  if(value>rooms[i].min && value<rooms[i].max)return i;
+ }
+ return -1;
+}
+
+/* ---------- Questions ---------- */
+
+function roomQuestion(level){
+ const rooms=ROOM_SETS[level%ROOM_SETS.length];
+
+ let guest;
+ let answer=-1;
+
+ do{
+  guest=level<2?randomDecimal(-2,2):randomFraction(-3,3);
+  answer=roomIndex(val(guest.r),rooms);
+ }while(answer<0);
+
+ return {
+  type:"room",
+  rooms,guest,answer,
+  title:"اتاق مناسب",
+  text:"مهمان را با توجه به اندازه عددش به اتاق درست بفرست.",
+  signature:`room-${key(guest.r)}-${level}`
+ };
+}
+
+function compareRoomQuestion(){
+ const rooms=[
+  {min:-Infinity,max:-1,label:"کمتر از −۱"},
+  {min:-1,max:0,label:"بین −۱ و ۰"},
+  {min:0,max:1,label:"بین ۰ و ۱"},
+  {min:1,max:Infinity,label:"بیشتر از ۱"}
+ ];
+
+ let guest=randomFraction(-2,2);
+ let answer=roomIndex(val(guest.r),rooms);
+
+ while(answer<0){
+  guest=randomFraction(-2,2);
+  answer=roomIndex(val(guest.r),rooms);
+ }
+
+ guest.display=Math.random()<.5?"fraction":"decimal";
+
+ return {
+  type:"room",rooms,guest,answer,
+  title:"کسر یا اعشار؟",
+  text:"نمایش مهم نیست؛ جای عدد را پیدا کن.",
+  signature:`mixroom-${key(guest.r)}-${guest.display}`
+ };
+}
+
+function sortQuestion(count=3){
+ const guests=[];
+ const seen=new Set();
+
+ while(guests.length<count){
+  const g=Math.random()<.5?randomFraction(-3,3):randomDecimal(-3,3);
+  const k=key(g.r);
+
+  if(!seen.has(k)){
+   seen.add(k);
+   guests.push(g);
+  }
+ }
+
+ const sorted=[...guests].sort((a,b)=>val(a.r)-val(b.r));
+
+ return {
+  type:"sort",
+  guests:shuffle(guests),
+  sorted,
+  answer:sorted.map(g=>key(g.r)).join("|"),
+  title:"ردیف اتاق‌ها",
+  text:"مهمان‌ها را از کوچک به بزرگ در اتاق‌ها بچین.",
+  signature:`sort-${sorted.map(g=>key(g.r)).join("_")}`
+ };
+}
+
+const generators=[
+ ()=>roomQuestion(0),
+ ()=>roomQuestion(0),
+ ()=>roomQuestion(1),
+ ()=>roomQuestion(1),
+ ()=>compareRoomQuestion(),
+ ()=>roomQuestion(2),
+ ()=>sortQuestion(3),
+ ()=>sortQuestion(3),
+ ()=>sortQuestion(3),
+ ()=>sortQuestion(3),
+ ()=>roomQuestion(2),
+ ()=>compareRoomQuestion()
+];
+
+function generateRound(){
+ const old=new Set(getRecent());
+ const order=[
+  generators[0],generators[2],generators[1],generators[4],
+  generators[3],generators[5],generators[6],generators[7],
+  generators[8],generators[9]
+ ];
+ const made=[];
+
+ for(const gen of order){
+  let q=null;
+
+  for(let t=0;t<18;t++){
+   const x=gen();
+   q=q||x;
+
+   if(!old.has(x.signature)&&!made.some(m=>m.signature===x.signature)){
+    q=x;break;
+   }
+  }
+
+  made.push(q);
+ }
+
+ questions=made.slice(0,TOTAL_QUESTIONS);
+ saveRecent(questions.map(q=>q.signature));
+}
+
+/* ---------- Timer ---------- */
+
+function remainingMs(){
+ return Math.max(0,QUESTION_TIME*1000-(Date.now()-startedAt));
+}
+function scoreForTime(s){
+ if(s<=15)return 10;
+ if(s<=25)return 8;
+ if(s<=35)return 6;
+ if(s<=45)return 4;
+ if(s<60)return 2;
+ return 0;
+}
+function stopTimer(){
+ if(timerId!==null){clearInterval(timerId);timerId=null}
+}
+function startTimer(){
+ stopTimer();
+ startedAt=Date.now();
+ updateTimer();
+ timerId=setInterval(updateTimer,150);
+}
+function updateTimer(){
+ const ms=remainingMs();
+ const sec=Math.max(0,Math.ceil(ms/1000));
+ const r=ms/(QUESTION_TIME*1000);
+
+ el.time.textContent=`${faNumber(sec)} ثانیه`;
+ el.timerMini.textContent=`${faNumber(sec)} / ${faNumber(QUESTION_TIME)}`;
+ el.timerBar.style.width=`${Math.max(0,r*100)}%`;
+ el.timerBar.style.background=r>.5?"var(--green)":r>.2?"var(--yellow)":"var(--red)";
+
+ if(ms<=0&&!answerChecked&&!gameFinished)handleTimeout();
+}
+
+/* ---------- Progress ---------- */
+
+function renderProgress(){
+ el.progress.innerHTML="";
+ for(let i=0;i<TOTAL_QUESTIONS;i++){
+  const p=document.createElement("span");
+  p.className="pstep";
+  if(i<currentIndex)p.classList.add("done");
+  else if(i===currentIndex)p.classList.add("now");
+  el.progress.appendChild(p);
+ }
+}
+
+/* ---------- Room mechanic ---------- */
+
+function renderRoomQuestion(q){
+ el.gameArea.innerHTML="";
+
+ const reception=document.createElement("div");
+ reception.className="reception";
+ reception.innerHTML=
+  `<small>مهمان جدید</small>`+
+  `<div class="guest"><span class="guest-emoji">🧳</span>${numberHTML(q.guest)}</div>`;
+
+ const body=document.createElement("div");
+ body.className="hotel-body";
+
+ q.rooms.forEach((room,index)=>{
+  const r=document.createElement("button");
+  r.type="button";
+  r.className="room";
+  r.dataset.index=String(index);
+
+  r.innerHTML=
+   `<span class="room-no">اتاق ${faNumber(index+1)}</span>`+
+   `<div class="room-label">${faNumber(room.label)}</div>`+
+   `<div class="bed">🛏️</div>`;
+
+  r.addEventListener("click",()=>roomClicked(q,index,r,body));
+  body.appendChild(r);
+ });
+
+ el.gameArea.append(reception,body);
+ el.guide.textContent="عدد را با صفر و عددهای صحیح اطرافش مقایسه کن.";
+}
+
+function roomClicked(q,index,btn,body){
+ if(answerChecked||gameFinished)return;
+ if(remainingMs()<=0){handleTimeout();return}
+
+ const correct=index===q.answer;
+
+ answerChecked=true;
+ stopTimer();
+
+ [...body.children].forEach(r=>{
+  r.classList.add("locked");
+  r.disabled=true;
+ });
+
+ if(correct){
+  btn.classList.add("correct");
+  btn.querySelector(".bed").innerHTML="🧳😴";
+  awardCorrect(explanationRoom(q));
+ }else{
+  btn.classList.add("wrong");
+  const right=body.children[q.answer];
+  right.classList.add("correct");
+  right.querySelector(".bed").innerHTML="🧳";
+  wrongFinal(explanationRoom(q));
+ }
+}
+
+function explanationRoom(q){
+ const v=val(q.guest.r);
+ const room=q.rooms[q.answer];
+
+ if(v<0){
+  return `این عدد منفی است. مقدار آن در بازه «${room.label}» قرار می‌گیرد؛ پس اتاق ${faNumber(q.answer+1)} درست است.`;
+ }
+
+ return `مقدار این عدد در بازه «${room.label}» قرار دارد؛ پس اتاق ${faNumber(q.answer+1)} مناسب است.`;
+}
+
+/* ---------- Sorting mechanic ---------- */
+
+function renderSortQuestion(q){
+ el.gameArea.innerHTML="";
+ state={selected:null,placement:[],cardMap:new Map()};
+
+ const area=document.createElement("div");
+ area.className="sort-area";
+
+ const title=document.createElement("div");
+ title.className="sort-title";
+ title.textContent="اول یک مهمان را لمس کن، بعد اتاق خالی را انتخاب کن.";
+
+ const cards=document.createElement("div");
+ cards.className="guest-cards";
+
+ q.guests.forEach((g,index)=>{
+  const b=document.createElement("button");
+  b.type="button";
+  b.className="guest-card";
+  b.dataset.index=String(index);
+  b.dataset.key=key(g.r);
+  b.innerHTML=`🧳<br>${numberHTML(g)}`;
+
+  b.addEventListener("click",()=>{
+   if(answerChecked||b.classList.contains("used"))return;
+
+   cards.querySelectorAll(".guest-card").forEach(x=>x.classList.remove("selected"));
+   b.classList.add("selected");
+   state.selected={guest:g,button:b};
+  });
+
+  cards.appendChild(b);
+ });
+
+ const slots=document.createElement("div");
+ slots.className="order-slots";
+
+ for(let i=0;i<q.guests.length;i++){
+  const slot=document.createElement("button");
+  slot.type="button";
+  slot.className="slot";
+  slot.dataset.slot=String(i);
+  slot.textContent=i===0?"کوچک‌ترین":i===q.guests.length-1?"بزرگ‌ترین":faNumber(i+1);
+
+  slot.addEventListener("click",()=>fillSlot(i,slot));
+  slots.appendChild(slot);
+ }
+
+ const submit=document.createElement("button");
+ submit.type="button";
+ submit.className="submit";
+ submit.textContent="🛎️ ثبت ترتیب";
+ submit.addEventListener("click",()=>submitSort(q,slots));
+
+ area.append(title,cards,slots,submit);
+ el.gameArea.appendChild(area);
+
+ el.guide.textContent=
+  "برای عددهای منفی دقت کن: عددی که از صفر دورتر و سمت چپ‌تر است کوچک‌تر است.";
+}
+
+function fillSlot(i,slot){
+ if(answerChecked||!state.selected)return;
+
+ /* اگر slot قبلاً پر بوده کارت قبلی آزاد شود */
+ if(slot.dataset.cardIndex!==undefined){
+  const oldIndex=Number(slot.dataset.cardIndex);
+  const all=el.gameArea.querySelectorAll(".guest-card");
+  const old=all[oldIndex];
+  if(old)old.classList.remove("used");
+ }
+
+ const selected=state.selected;
+ const cardIndex=Number(selected.button.dataset.index);
+
+ state.placement[i]=selected.guest;
+
+ slot.dataset.cardIndex=String(cardIndex);
+ slot.dataset.key=key(selected.guest.r);
+ slot.classList.add("filled");
+ slot.innerHTML=numberHTML(selected.guest);
+
+ selected.button.classList.add("used");
+ selected.button.classList.remove("selected");
+
+ state.selected=null;
+}
+
+function submitSort(q,slots){
+ if(answerChecked||gameFinished)return;
+ if(remainingMs()<=0){handleTimeout();return}
+
+ const filled=[...slots.children].every(s=>s.dataset.key);
+
+ if(!filled){
+  el.guide.textContent="هنوز همه اتاق‌ها پر نشده‌اند.";
+  return;
+ }
+
+ const submitted=[...slots.children].map(s=>s.dataset.key).join("|");
+ const correct=submitted===q.answer;
+
+ answerChecked=true;
+ stopTimer();
+ lockGame();
+
+ if(correct){
+  [...slots.children].forEach(s=>s.style.borderColor="var(--green)");
+  awardCorrect(
+   "در ترتیب صعودی، از عددی که روی محور چپ‌تر است شروع می‌کنیم. مقایسه نمایش کسری و اعشاری باید بر اساس مقدار عدد باشد."
+  );
+ }else{
+  [...slots.children].forEach((s,i)=>{
+   if(s.dataset.key!==key(q.sorted[i].r)){
+    s.style.borderColor="var(--red)";
+   }
+  });
+
+  el.guide.innerHTML=
+   `ترتیب درست: ${q.sorted.map(g=>numberHTML(g)).join(" &lt; ")}`;
+
+  wrongFinal(
+   "برای مرتب‌کردن، مقدار واقعی عددها را مقایسه کن؛ در عددهای منفی، قدرمطلق بزرگ‌تر به معنی عدد کوچک‌تر است."
+  );
+ }
+}
+
+/* ---------- Score / answer ---------- */
+
+function lockGame(){
+ el.gameArea.querySelectorAll("button").forEach(b=>b.disabled=true);
+}
+
+function awardCorrect(message){
+ const elapsed=Math.min(QUESTION_TIME,(Date.now()-startedAt)/1000);
+ const gained=scoreForTime(elapsed);
+
+ score=Math.min(100,score+gained);
+ el.score.textContent=faNumber(score);
+
+ el.feedback.className="feedback good";
+ el.feedback.innerHTML=
+  `✅ <strong>اتاق درست! +${faNumber(gained)} امتیاز</strong><br>${message}`;
+
+ showNext();
+}
+
+function wrongFinal(message){
+ el.feedback.className="feedback bad";
+ el.feedback.innerHTML=
+  `❌ <strong>این جای مهمان نبود.</strong><br>${message}`;
+ showNext();
+}
+
+/* ---------- Main render ---------- */
+
+function renderQuestion(){
+ stopTimer();
+ answerChecked=false;
+ state={};
+
+ const q=questions[currentIndex];
+
+ el.stage.textContent=`${faNumber(currentIndex+1)} از ${faNumber(TOTAL_QUESTIONS)}`;
+ el.score.textContent=faNumber(score);
+ el.missionBadge.textContent=`مهمان ${faNumber(currentIndex+1)}`;
+ el.missionTitle.textContent=q.title;
+ el.missionText.textContent=q.text;
+
+ el.feedback.className="feedback";
+ el.feedback.innerHTML="";
+ el.nextBtn.style.display="none";
+
+ renderProgress();
+
+ if(q.type==="room")renderRoomQuestion(q);
+ else renderSortQuestion(q);
+
+ startTimer();
+}
+
+/* ---------- Timeout ---------- */
+
+function timeoutExplanation(q){
+ if(q.type==="room"){
+  const room=q.rooms[q.answer];
+  return `این مهمان در بازه «${room.label}» قرار می‌گیرد.`;
+ }
+
+ return `ترتیب درست از کوچک به بزرگ: ${q.sorted.map(g=>{
+  const div=document.createElement("div");
+  div.innerHTML=numberHTML(g);
+  return div.textContent;
+ }).join(" ، ")}`;
+}
+
+function revealTimeout(q){
+ if(q.type==="room"){
+  const rooms=el.gameArea.querySelectorAll(".room");
+  rooms.forEach(r=>r.disabled=true);
+
+  const right=rooms[q.answer];
+  if(right)right.classList.add("correct");
+ }else{
+  lockGame();
+  el.guide.innerHTML=
+   `ترتیب درست: ${q.sorted.map(g=>numberHTML(g)).join(" &lt; ")}`;
+ }
+}
+
+function handleTimeout(){
+ if(answerChecked||gameFinished)return;
+
+ answerChecked=true;
+ stopTimer();
+
+ const q=questions[currentIndex];
+ revealTimeout(q);
+
+ el.time.textContent="۰ ثانیه";
+ el.timerMini.textContent=`۰ / ${faNumber(QUESTION_TIME)}`;
+ el.timerBar.style.width="0%";
+ el.timerBar.style.background="var(--red)";
+
+ el.feedback.className="feedback time";
+ el.feedback.innerHTML=
+  `⏰ <strong>زمان پذیرش تمام شد.</strong><br>${timeoutExplanation(q)}`;
+
+ showNext();
+}
+
+function showNext(){
+ el.nextBtn.style.display="block";
+ el.nextBtn.textContent=
+  currentIndex===TOTAL_QUESTIONS-1
+   ?"🏨 بستن پذیرش"
+   :"مهمان بعدی 🛎️";
+}
+
+/* ---------- Finish ---------- */
+
+function nextQuestion(){
+ if(!answerChecked||gameFinished)return;
+
+ if(currentIndex===TOTAL_QUESTIONS-1){
+  finishGame();
+  return;
+ }
+
+ currentIndex++;
+ renderQuestion();
+}
+
+async function finishGame(){
+ if(gameFinished)return;
+
+ gameFinished=true;
+ stopTimer();
+ score=Math.min(100,score);
+
+ el.game.classList.add("hidden");
+ el.hero.classList.add("hidden");
+ el.statusWrap.classList.add("hidden");
+ el.resultScreen.classList.add("show");
+
+ const name=player.playerName||"بازیکن";
+
+ el.resultName.textContent=
+  `${name}، همه مهمان‌ها را پذیرش کردی.`;
+
+ el.finalScore.textContent=faNumber(score);
+
+ if(score>=90){
+  el.resultMessage.textContent="عالی بود! 🌟 مدیر حرفه‌ای هتل عددها شدی!";
+ }else if(score>=70){
+  el.resultMessage.textContent="خیلی خوب بود 👏 جای عددهای گویا را خوب می‌شناسی.";
+ }else if(score>=50){
+  el.resultMessage.textContent="خوب بود، ادامه بده 💪 بازه‌ها و عددهای منفی را بیشتر تمرین کن.";
+ }else{
+  el.resultMessage.textContent="دوباره تلاش کن 🌱 اول عدد را با صفر و عددهای صحیح اطرافش مقایسه کن.";
+ }
+
+ if(!finishSubmitted){
+  finishSubmitted=true;
+
+  try{
+   const result=await GameSDK.finishGame(score);
+   void result;
+  }catch(e){
+   console.error("finishGame failed:",e);
+  }
+ }
+
+ await loadLeaderboard();
+}
+
+async function loadLeaderboard(){
+ el.leaderboard.className="loading";
+ el.leaderboard.textContent="در حال دریافت رکوردها...";
+
+ try{
+  const scores=await GameSDK.getLeaderboard(10);
+  const list=Array.isArray(scores)?scores:[];
+
+  el.leaderboard.className="";
+  el.leaderboard.innerHTML="";
+
+  if(!list.length){
+   el.leaderboard.className="loading";
+   el.leaderboard.textContent="هنوز رکوردی برای نمایش وجود ندارد.";
+   return;
+  }
+
+  list.slice(0,10).forEach((item,i)=>{
+   const row=document.createElement("div");
+   row.className="rank";
+
+   const rank=document.createElement("span");
+   rank.textContent=i===0?"🥇":i===1?"🥈":i===2?"🥉":`${faNumber(i+1)}.`;
+
+   const name=document.createElement("span");
+   name.className="rank-name";
+   name.textContent=item.playerName??item.name??item.username??"بازیکن";
+
+   const points=document.createElement("span");
+   points.className="rank-score";
+   points.textContent=`${faNumber(item.score??0)} امتیاز`;
+
+   row.append(rank,name,points);
+   el.leaderboard.appendChild(row);
+  });
+
+ }catch(e){
+  console.error("Leaderboard failed:",e);
+  el.leaderboard.className="loading";
+  el.leaderboard.textContent="دریافت جدول برترین‌ها ممکن نشد.";
+ }
+}
+
+/* ---------- Restart ---------- */
+
+function restartGame(){
+ stopTimer();
+ GameSDK.reset();
+
+ questions=[];
+ currentIndex=0;
+ score=0;
+ startedAt=0;
+ timerId=null;
+ answerChecked=false;
+ gameFinished=false;
+ finishSubmitted=false;
+ state={};
+
+ el.score.textContent="۰";
+
+ el.resultScreen.classList.remove("show");
+ el.game.classList.remove("hidden");
+ el.hero.classList.remove("hidden");
+ el.statusWrap.classList.remove("hidden");
+
+ generateRound();
+
+ if(questions.length!==TOTAL_QUESTIONS){
+  throw new Error("Exactly 10 questions are required.");
+ }
+
+ renderQuestion();
+}
+
+el.nextBtn.addEventListener("click",nextQuestion);
+el.restartBtn.addEventListener("click",restartGame);
+
+el.playerName.textContent=player.playerName||"بازیکن";
+
+generateRound();
+
+if(questions.length!==TOTAL_QUESTIONS){
+ throw new Error("Exactly 10 questions are required.");
+}
+
+renderQuestion();
+
+})();
+</script>
+</body>
+</html>
