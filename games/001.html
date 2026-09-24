@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>گاوصندوق مجموعه‌ها | ریاضی نهم</title>
+
+<style>
+:root{
+  --purple:#7257d9;
+  --purple-dark:#4d36ad;
+  --blue:#3695e8;
+  --pink:#ef6eaa;
+  --yellow:#ffd45c;
+  --green:#3abf83;
+  --red:#ed5b67;
+  --ink:#26334d;
+  --muted:#69738a;
+  --paper:#ffffff;
+  --bg:#f4f2ff;
+  --line:#dddaf0;
+  --shadow:0 12px 32px rgba(62,48,115,.13);
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html{
+  direction:rtl;
+  background:var(--bg);
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 10% 5%,#ffe7f2 0,transparent 26%),
+    radial-gradient(circle at 90% 15%,#dff2ff 0,transparent 25%),
+    linear-gradient(180deg,#f7f4ff,#eef8ff);
+  font-family:Tahoma,Arial,sans-serif;
+  overflow-x:hidden;
+}
+
+button{
+  font:inherit;
+}
+
+button:focus-visible,
+a:focus-visible{
+  outline:3px solid #222;
+  outline-offset:3px;
+}
+
+.app{
+  width:min(100%,760px);
+  margin:0 auto;
+  padding:14px 12px 30px;
+}
+
+.top-card{
+  background:rgba(255,255,255,.94);
+  border:1px solid rgba(114,87,217,.14);
+  border-radius:24px;
+  padding:15px;
+  box-shadow:var(--shadow);
+}
+
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-bottom:10px;
+}
+
+.badge{
+  background:#eee9ff;
+  color:var(--purple-dark);
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.badge.blue{
+  color:#176ba5;
+  background:#e3f3ff;
+}
+
+.title-row{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.logo{
+  width:55px;
+  height:55px;
+  flex:0 0 55px;
+  display:grid;
+  place-items:center;
+  border-radius:18px;
+  font-size:29px;
+  background:linear-gradient(145deg,#8067e3,#5a41bf);
+  box-shadow:0 7px 16px rgba(79,57,173,.23);
+}
+
+h1{
+  margin:0;
+  color:var(--purple-dark);
+  font-size:clamp(22px,6vw,30px);
+}
+
+.subtitle{
+  color:var(--muted);
+  font-size:13px;
+  margin:4px 0 0;
+  line-height:1.7;
+}
+
+.status{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:14px;
+}
+
+.status-item{
+  padding:9px 5px;
+  border-radius:14px;
+  background:#f6f7fc;
+  text-align:center;
+  min-width:0;
+}
+
+.status-label{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:3px;
+}
+
+.status-value{
+  display:block;
+  overflow:hidden;
+  color:var(--ink);
+  font-size:14px;
+  font-weight:bold;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.timer-box{
+  margin-top:11px;
+}
+
+.timer-line{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:13px;
+  margin-bottom:6px;
+}
+
+#timeText{
+  font-weight:bold;
+  color:#22875b;
+}
+
+.timer-track{
+  width:100%;
+  height:10px;
+  overflow:hidden;
+  border-radius:999px;
+  background:#e8e8ee;
+}
+
+#timerBar{
+  width:100%;
+  height:100%;
+  background:var(--green);
+  border-radius:inherit;
+  transition:width .2s linear,background-color .2s linear;
+}
+
+.game-card{
+  position:relative;
+  overflow:hidden;
+  margin-top:13px;
+  padding:16px;
+  border:1px solid rgba(114,87,217,.13);
+  border-radius:25px;
+  background:rgba(255,255,255,.96);
+  box-shadow:var(--shadow);
+}
+
+.level-line{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.level-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#eaf8ef;
+  color:#23834c;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.mission-type{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.prompt{
+  margin:0 0 10px;
+  text-align:center;
+  font-size:clamp(17px,4.5vw,21px);
+  line-height:1.9;
+}
+
+.hint{
+  min-height:26px;
+  margin:0 0 8px;
+  color:var(--muted);
+  text-align:center;
+  font-size:13px;
+  line-height:1.8;
+}
+
+.reference{
+  margin:10px auto 14px;
+  padding:10px 12px;
+  border:2px dashed #c8c0ed;
+  border-radius:16px;
+  background:#f9f8ff;
+  text-align:center;
+  line-height:1.9;
+}
+
+.math{
+  direction:ltr;
+  unicode-bidi:isolate;
+  display:inline-block;
+  font-family:Arial,Tahoma,sans-serif;
+  font-weight:bold;
+}
+
+.vault-wrap{
+  margin:13px 0;
+}
+
+.vault{
+  min-height:122px;
+  padding:13px;
+  border:4px solid #51449d;
+  border-radius:24px;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.4),transparent),
+    #dedcf0;
+  box-shadow:
+    inset 0 0 0 5px #b5b0d5,
+    inset 0 0 22px rgba(55,42,108,.12);
+}
+
+.vault-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:10px;
+  color:#4d4477;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.vault-items{
+  min-height:60px;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+
+.empty-note{
+  color:#817b9e;
+  font-size:13px;
+}
+
+.tray-label{
+  margin:16px 0 8px;
+  color:var(--muted);
+  text-align:center;
+  font-size:12px;
+}
+
+.tray{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:9px;
+}
+
+.token{
+  min-width:55px;
+  min-height:50px;
+  padding:8px 13px;
+  border:2px solid #d8d4eb;
+  border-radius:15px;
+  background:#fff;
+  color:var(--ink);
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 4px 0 #cbc7dd;
+  touch-action:manipulation;
+  transition:transform .12s ease,border-color .12s ease,background .12s ease;
+}
+
+.token:active{
+  transform:translateY(2px);
+  box-shadow:0 2px 0 #cbc7dd;
+}
+
+.token.selected{
+  color:#392787;
+  border-color:#8064e3;
+  background:#eee9ff;
+  box-shadow:0 4px 0 #9a89dd;
+}
+
+.token.in-vault{
+  min-width:53px;
+  min-height:45px;
+  border-color:#6550c2;
+  background:#fff;
+  box-shadow:0 3px 0 #958bbf;
+}
+
+.token[disabled]{
+  cursor:default;
+  opacity:.72;
+}
+
+.action-row{
+  display:flex;
+  gap:9px;
+  margin-top:17px;
+}
+
+.primary,
+.secondary{
+  flex:1;
+  min-height:51px;
+  border:0;
+  border-radius:16px;
+  cursor:pointer;
+  font-weight:bold;
+  touch-action:manipulation;
+}
+
+.primary{
+  color:white;
+  background:linear-gradient(135deg,var(--purple),var(--purple-dark));
+  box-shadow:0 6px 14px rgba(83,61,183,.25);
+}
+
+.secondary{
+  color:#55469b;
+  border:2px solid #d4ccf3;
+  background:#f4f1ff;
+}
+
+.primary:disabled,
+.secondary:disabled{
+  opacity:.5;
+  cursor:default;
+}
+
+.feedback{
+  display:none;
+  margin-top:14px;
+  padding:13px;
+  border-radius:17px;
+  line-height:1.85;
+  font-size:14px;
+}
+
+.feedback.show{
+  display:block;
+  animation:pop .2s ease;
+}
+
+.feedback.good{
+  color:#17683f;
+  border:1px solid #9ddcba;
+  background:#eaf9f1;
+}
+
+.feedback.bad{
+  color:#8e313b;
+  border:1px solid #f0afb6;
+  background:#fff0f2;
+}
+
+.feedback.time{
+  color:#825e11;
+  border:1px solid #efd78c;
+  background:#fff8dc;
+}
+
+.feedback strong{
+  display:block;
+  margin-bottom:2px;
+}
+
+#nextBtn{
+  display:none;
+  width:100%;
+  margin-top:10px;
+}
+
+.lock-burst{
+  pointer-events:none;
+  position:absolute;
+  top:45%;
+  left:50%;
+  z-index:5;
+  transform:translate(-50%,-50%) scale(.6);
+  font-size:58px;
+  opacity:0;
+}
+
+.lock-burst.play{
+  animation:unlock .55s ease;
+}
+
+.result-card{
+  display:none;
+  margin-top:13px;
+  padding:20px 15px;
+  border-radius:25px;
+  border:1px solid rgba(114,87,217,.14);
+  background:#fff;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+
+.result-card.show{
+  display:block;
+}
+
+.result-emoji{
+  font-size:54px;
+}
+
+.result-card h2{
+  margin:6px 0;
+  color:var(--purple-dark);
+}
+
+.final-score{
+  display:inline-block;
+  margin:8px 0 15px;
+  padding:8px 20px;
+  border-radius:999px;
+  color:#553da9;
+  background:#eee9ff;
+  font-size:24px;
+  font-weight:bold;
+}
+
+.result-actions{
+  display:flex;
+  gap:9px;
+  max-width:480px;
+  margin:0 auto;
+}
+
+.leaderboard{
+  max-width:520px;
+  margin:19px auto 0;
+  padding-top:15px;
+  border-top:1px solid var(--line);
+}
+
+.leaderboard h3{
+  margin:0 0 10px;
+}
+
+.rank-row{
+  display:grid;
+  grid-template-columns:50px 1fr 65px;
+  gap:8px;
+  align-items:center;
+  padding:9px 6px;
+  border-bottom:1px solid #eeeaf7;
+  font-size:13px;
+}
+
+.rank-name{
+  overflow:hidden;
+  text-align:right;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.rank-score{
+  font-weight:bold;
+  color:var(--purple-dark);
+}
+
+.leader-message{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.back{
+  display:block;
+  margin:22px auto 0;
+  color:#524298;
+  text-align:center;
+  font-size:14px;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+@keyframes pop{
+  from{transform:scale(.98);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+@keyframes unlock{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.5) rotate(-10deg)}
+  40%{opacity:1;transform:translate(-50%,-50%) scale(1.15) rotate(6deg)}
+  100%{opacity:0;transform:translate(-50%,-65%) scale(1)}
+}
+
+@media(min-width:560px){
+  .app{padding:22px 18px 36px}
+  .top-card,.game-card,.result-card{padding:20px}
+  .status-item{padding:10px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+  <section class="top-card">
+    <div class="badges">
+      <span class="badge">پایه نهم</span>
+      <span class="badge blue">فصل ۱: مجموعه‌ها</span>
+      <span class="badge">درس‌های ۱، ۲ و ۴</span>
+    </div>
+
+    <div class="title-row">
+      <div class="logo" aria-hidden="true">🧰</div>
+      <div>
+        <h1>گاوصندوق مجموعه‌ها 🔐</h1>
+        <p class="subtitle">کارت‌های لازم را داخل گاوصندوق بگذار و ترکیب درست را پیدا کن.</p>
+      </div>
+    </div>
+
+    <div class="status">
+      <div class="status-item">
+        <span class="status-label">بازیکن</span>
+        <span class="status-value" id="playerName">—</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">مأموریت</span>
+        <span class="status-value" id="missionText">۱ از ۱۰</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">امتیاز</span>
+        <span class="status-value" id="scoreText">۰ از ۱۰۰</span>
+      </div>
+    </div>
+
+    <div class="timer-box">
+      <div class="timer-line">
+        <span>⏱️ زمان باقی‌مانده</span>
+        <span id="timeText">۳۰ ثانیه</span>
+      </div>
+      <div class="timer-track" aria-hidden="true">
+        <div id="timerBar"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="game-card" id="gameCard">
+    <div class="lock-burst" id="lockBurst" aria-hidden="true">🔓</div>
+
+    <div class="level-line">
+      <span class="level-badge" id="levelBadge">🟢 پایه</span>
+      <span class="mission-type" id="missionType"></span>
+    </div>
+
+    <p class="prompt" id="prompt"></p>
+    <p class="hint" id="hint"></p>
+
+    <div class="reference" id="reference"></div>
+
+    <div class="vault-wrap">
+      <div class="vault">
+        <div class="vault-head">
+          <span>🔐 محتویات گاوصندوق</span>
+          <span id="vaultCount">۰ کارت</span>
+        </div>
+        <div class="vault-items" id="vaultItems">
+          <span class="empty-note">هنوز کارتی انتخاب نشده است.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tray-label">کارت را لمس کن تا وارد یا خارج گاوصندوق شود.</div>
+    <div class="tray" id="tray"></div>
+
+    <div class="action-row">
+      <button class="secondary" id="clearBtn" type="button">پاک کردن انتخاب‌ها</button>
+      <button class="primary" id="checkBtn" type="button">امتحان قفل 🔐</button>
+    </div>
+
+    <div class="feedback" id="feedback" aria-live="polite"></div>
+    <button class="primary" id="nextBtn" type="button">مأموریت بعدی ←</button>
+  </section>
+
+  <section class="result-card" id="resultCard">
+    <div class="result-emoji" id="resultEmoji">🏆</div>
+    <h2>گاوصندوق‌ها بررسی شدند!</h2>
+    <p id="resultMessage"></p>
+    <div class="final-score" id="finalScore">۰ از ۱۰۰</div>
+
+    <div class="result-actions">
+      <button class="primary" id="restartBtn" type="button">بازی دوباره 🔄</button>
+    </div>
+
+    <div class="leaderboard">
+      <h3>🏆 برترین رکوردها</h3>
+      <div id="leaderboardList">
+        <p class="leader-message">در حال دریافت رکوردها...</p>
+      </div>
+    </div>
+  </section>
+
+  <a class="back" href="/#game">← بازگشت به بازی‌های ریاضی</a>
+
+</main>
+
+<script src="/games/game-sdk.js"></script>
+
+<script>
+const GAME_ID = __GAME_ID__;
+
+const player = GameSDK.init(GAME_ID);
+
+const TOTAL_QUESTIONS = 10;
+const QUESTION_TIME = 30;
+const RECENT_LIMIT = 40;
+
+let score = 0;
+let currentIndex = 0;
+let questions = [];
+let selectedIds = new Set();
+
+let timerInterval = null;
+let questionStartedAt = 0;
+
+let answerChecked = false;
+let gameFinished = false;
+let finishSubmitted = false;
+let interactionState = "idle";
+
+const el = {
+  playerName: document.getElementById("playerName"),
+  missionText: document.getElementById("missionText"),
+  scoreText: document.getElementById("scoreText"),
+  timeText: document.getElementById("timeText"),
+  timerBar: document.getElementById("timerBar"),
+  levelBadge: document.getElementById("levelBadge"),
+  missionType: document.getElementById("missionType"),
+  prompt: document.getElementById("prompt"),
+  hint: document.getElementById("hint"),
+  reference: document.getElementById("reference"),
+  vaultItems: document.getElementById("vaultItems"),
+  vaultCount: document.getElementById("vaultCount"),
+  tray: document.getElementById("tray"),
+  clearBtn: document.getElementById("clearBtn"),
+  checkBtn: document.getElementById("checkBtn"),
+  feedback: document.getElementById("feedback"),
+  nextBtn: document.getElementById("nextBtn"),
+  gameCard: document.getElementById("gameCard"),
+  resultCard: document.getElementById("resultCard"),
+  finalScore: document.getElementById("finalScore"),
+  resultMessage: document.getElementById("resultMessage"),
+  resultEmoji: document.getElementById("resultEmoji"),
+  leaderboardList: document.getElementById("leaderboardList"),
+  restartBtn: document.getElementById("restartBtn"),
+  lockBurst: document.getElementById("lockBurst")
+};
+
+function faNumber(value){
+  return String(value)
+    .replace(/-/g,"−")
+    .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+function shuffle(array){
+  const a = [...array];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function sample(array){
+  return array[Math.floor(Math.random()*array.length)];
+}
+
+function unique(array){
+  return [...new Set(array)];
+}
+
+function sameSet(a,b){
+  const aa=unique(a);
+  const bb=unique(b);
+  return aa.length===bb.length && aa.every(x=>bb.includes(x));
+}
+
+function formatToken(token){
+  if(/^[-]?\d+$/.test(token)){
+    return faNumber(token);
+  }
+  return token
+    .replace(/-/g,"−")
+    .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+function setHTML(items){
+  if(items.length===0){
+    return '<span class="math">∅</span>';
+  }
+  return '<span class="math">{'+items.map(formatToken).join(" , ")+"}</span>";
+}
+
+function randomDistinctNumbers(count,min=-5,max=12){
+  const pool=[];
+  for(let i=min;i<=max;i++) pool.push(String(i));
+  return shuffle(pool).slice(0,count);
+}
+
+function makeOptions(correct,decoys){
+  const all=unique([...correct,...decoys]);
+  return shuffle(all).map((value,index)=>({
+    id:"card-"+index+"-"+Math.random().toString(36).slice(2,7),
+    value
+  }));
+}
+
+function loadRecentSignatures(){
+  try{
+    const data=JSON.parse(localStorage.getItem("setVaultRecent") || "[]");
+    return Array.isArray(data) ? data : [];
+  }catch(e){
+    return [];
+  }
+}
+
+function saveSignatures(signatures){
+  try{
+    const old=loadRecentSignatures();
+    const merged=unique([...signatures,...old]).slice(0,RECENT_LIMIT);
+    localStorage.setItem("setVaultRecent",JSON.stringify(merged));
+  }catch(e){}
+}
+
+function questionSignature(q){
+  return q.signature;
+}
+
+/* ---------- Generator families ---------- */
+
+function genMembership(){
+  const members=randomDistinctNumbers(4,-4,11);
+  let outsiders=randomDistinctNumbers(8,-8,15).filter(x=>!members.includes(x));
+  while(outsiders.length<3){
+    outsiders.push(String(20+Math.floor(Math.random()*20)));
+    outsiders=unique(outsiders).filter(x=>!members.includes(x));
+  }
+  outsiders=outsiders.slice(0,3);
+
+  return {
+    type:"عضویت",
+    level:"🟢 پایه",
+    prompt:"فقط عضوهای مجموعه A را وارد گاوصندوق کن.",
+    hint:"هر کارت را با اعضای نوشته‌شده در A مقایسه کن.",
+    reference:"A = "+setHTML(members),
+    correct:members,
+    options:makeOptions(members,outsiders),
+    explanation:"هر چیزی که در فهرست A آمده عضو A است؛ کارت‌های دیگر نباید وارد گاوصندوق شوند.",
+    signature:"membership-"+[...members].sort().join("_")
+  };
+}
+
+function genRemoveDuplicates(){
+  const base=randomDistinctNumbers(3+Math.floor(Math.random()*2),0,12);
+  const noisy=[...base,sample(base),sample(base)];
+  if(Math.random()<.5) noisy.push(sample(base));
+
+  return {
+    type:"تکرار عضو",
+    level:"🟢 پایه",
+    prompt:"محتویات واقعی این مجموعه را بساز؛ هر عضو را فقط یک بار بگذار.",
+    hint:"تکرار یک عضو، عضو تازه‌ای ایجاد نمی‌کند.",
+    reference:"مجموعه داده‌شده: "+setHTML(shuffle(noisy)),
+    correct:base,
+    options:makeOptions(base,[]),
+    explanation:"در مجموعه، تکرار اثری ندارد؛ بنابراین هر عضو متمایز فقط یک بار شمرده می‌شود.",
+    signature:"duplicate-"+[...base].sort().join("_")+"-"+noisy.length
+  };
+}
+
+function genCountByBuild(){
+  const base=randomDistinctNumbers(4,-3,10);
+  const noisy=shuffle([...base,sample(base),sample(base)]);
+
+  return {
+    type:"تعداد اعضا",
+    level:"🟢 پایه",
+    prompt:"کارت‌های متمایز را داخل گاوصندوق بگذار تا n(A) مشخص شود.",
+    hint:"به جای شمردن نوشته‌ها، اشیای متفاوت را پیدا کن.",
+    reference:"A = "+setHTML(noisy),
+    correct:base,
+    options:makeOptions(base,[]),
+    explanation:"A دارای "+faNumber(base.length)+" عضو متمایز است؛ عضوهای تکراری دوباره شمرده نمی‌شوند.",
+    signature:"count-"+[...base].sort().join("_")+"-"+noisy.length
+  };
+}
+
+function genEmpty(){
+  const variant=Math.floor(Math.random()*2);
+
+  if(variant===0){
+    return {
+      type:"مجموعه تهی",
+      level:"🟢 پایه",
+      prompt:"گاوصندوق باید نمایش‌دهنده مجموعه تهی باشد. محتویات درست را بساز.",
+      hint:"مجموعه تهی هیچ عضوی ندارد.",
+      reference:'هدف: <span class="math">∅</span>',
+      correct:[],
+      options:makeOptions(["∅","0","{∅}"],[]),
+      explanation:"∅ هیچ عضو ندارد؛ پس برای ساخت خودِ مجموعه تهی نباید هیچ کارتی داخل گاوصندوق باشد.",
+      signature:"empty-zero"
+    };
+  }
+
+  return {
+    type:"تهی یا تک‌عضوی؟",
+    level:"🟡 تسلط",
+    prompt:"مجموعه {∅} را بساز.",
+    hint:"این مجموعه یک عضو دارد و آن عضو، خودِ ∅ است.",
+    reference:'هدف: <span class="math">{∅}</span>',
+    correct:["∅"],
+    options:makeOptions(["∅","0","{∅}"],[]),
+    explanation:"{∅} تهی نیست. این مجموعه دقیقاً یک عضو دارد: ∅.",
+    signature:"empty-singleton"
+  };
+}
+
+function genEqualityFill(){
+  const base=randomDistinctNumbers(4,0,13);
+  const missing=sample(base);
+  const shown=base.filter(x=>x!==missing);
+  const decoys=randomDistinctNumbers(8,-5,18)
+    .filter(x=>!base.includes(x))
+    .slice(0,3);
+
+  return {
+    type:"برابری مجموعه‌ها",
+    level:"🟡 تسلط",
+    prompt:"کارت لازم را اضافه کن تا مجموعه B دقیقاً با A برابر شود.",
+    hint:"برای برابری، دو مجموعه باید دقیقاً اعضای یکسان داشته باشند.",
+    reference:
+      "A = "+setHTML(base)+
+      "<br>B اکنون = "+setHTML(shown),
+    correct:[missing],
+    options:makeOptions([missing],decoys),
+    explanation:"عضو گمشده "+formatToken(missing)+" است. ترتیب اعضا در برابری مجموعه‌ها اهمیتی ندارد.",
+    signature:"equality-fill-"+[...base].sort().join("_")+"-"+missing
+  };
+}
+
+function genEqualityIgnoreOrder(){
+  const base=randomDistinctNumbers(4,-4,10);
+  const shuffled=shuffle([...base]);
+  const extra=sample(base);
+
+  return {
+    type:"ترتیب و تکرار",
+    level:"🟡 تسلط",
+    prompt:"محتویات مشترک دو مجموعه برابر را در گاوصندوق بساز.",
+    hint:"ترتیب و تکرار را کنار بگذار و فقط اعضای متمایز را نگه دار.",
+    reference:
+      "A = "+setHTML(base)+
+      "<br>B = "+setHTML([...shuffled,extra]),
+    correct:base,
+    options:makeOptions(base,[]),
+    explanation:"A و B برابرند؛ چون دقیقاً اعضای متمایز یکسانی دارند. ترتیب و تکرار بر مجموعه اثر نمی‌گذارد.",
+    signature:"equality-order-"+[...base].sort().join("_")
+  };
+}
+
+function genZeroVsEmpty(){
+  const target=Math.random()<.5 ? ["0"] : [];
+
+  return {
+    type:"صفر و مجموعه تهی",
+    level:"🟡 تسلط",
+    prompt:target.length
+      ?"مجموعه {0} را دقیقاً بساز."
+      :"مجموعه ∅ را دقیقاً بساز.",
+    hint:"عدد صفر یک شیء است؛ ∅ یعنی مجموعه‌ای بدون عضو.",
+    reference:target.length
+      ?'هدف: <span class="math">{0}</span>'
+      :'هدف: <span class="math">∅</span>',
+    correct:target,
+    options:makeOptions(["0","∅","{∅}"],[]),
+    explanation:target.length
+      ?"{0} یک مجموعه تک‌عضوی است و عضو آن عدد صفر است."
+      :"∅ هیچ عضوی ندارد؛ صفر هم نباید داخل آن قرار گیرد.",
+    signature:"zero-empty-"+(target.length?"zero":"empty")
+  };
+}
+
+function genNestedEmpty(){
+  const variant=Math.floor(Math.random()*3);
+  const configs=[
+    {
+      target:["∅","0"],
+      display:"{∅ , 0}",
+      text:"مجموعه {∅,0} را بساز.",
+      explanation:"∅ و ۰ دو شیء متفاوت‌اند؛ پس این مجموعه دو عضو دارد."
+    },
+    {
+      target:["∅","{∅}"],
+      display:"{∅ , {∅}}",
+      text:"مجموعه {∅,{∅}} را بساز.",
+      explanation:"∅ و {∅} برابر نیستند. اولی مجموعه تهی و دومی مجموعه‌ای تک‌عضوی است."
+    },
+    {
+      target:["0","{0}"],
+      display:"{0 , {0}}",
+      text:"مجموعه {0,{0}} را بساز.",
+      explanation:"۰ و {۰} دو شیء متفاوت‌اند؛ یکی عدد و دیگری یک مجموعه تک‌عضوی است."
+    }
+  ];
+
+  const c=configs[variant];
+
+  return {
+    type:"اعضای مجموعه‌ای",
+    level:"🔴 چالش",
+    prompt:c.text,
+    hint:"به تفاوت یک شیء با مجموعه‌ای که آن شیء را در خود دارد توجه کن.",
+    reference:'هدف: <span class="math">'+
+      c.display
+        .replace(/0/g,"۰")+
+      "</span>",
+    correct:c.target,
+    options:makeOptions(["∅","{∅}","0","{0}"],[]),
+    explanation:c.explanation,
+    signature:"nested-"+variant
+  };
+}
+
+function genFindDifferent(){
+  const base=randomDistinctNumbers(4,1,12);
+  const wrong=sample(base);
+  let replacement;
+  do{
+    replacement=String(Math.floor(Math.random()*16));
+  }while(base.includes(replacement));
+
+  const damaged=base.map(x=>x===wrong?replacement:x);
+
+  return {
+    type:"تعمیر برابری",
+    level:"🔴 چالش",
+    prompt:"گاوصندوق B خراب شده است. فقط عضوهایی را بساز که باید در B باشند تا با A برابر شود.",
+    hint:"هدف نهایی این است که B همان محتویات A را داشته باشد.",
+    reference:
+      "A = "+setHTML(base)+
+      "<br>B خراب = "+setHTML(damaged),
+    correct:base,
+    options:makeOptions(
+      base,
+      [replacement]
+    ),
+    explanation:"برای A=B، نه عضو اضافه مجاز است و نه عضو گمشده. ترتیب کارت‌ها اهمیتی ندارد.",
+    signature:"repair-"+[...base].sort().join("_")+"-"+replacement
+  };
+}
+
+function genCountNested(){
+  const configs=[
+    {
+      shown:["∅","{∅}","0","{0}"],
+      answer:["∅","{∅}","0","{0}"],
+      explain:"∅، {∅}، ۰ و {۰} چهار عضو متفاوت‌اند."
+    },
+    {
+      shown:["∅","∅","{∅}","0"],
+      answer:["∅","{∅}","0"],
+      explain:"دو بار نوشتن ∅ عضو جدید ایجاد نمی‌کند؛ این مجموعه سه عضو متمایز دارد."
+    }
+  ];
+
+  const c=sample(configs);
+
+  return {
+    type:"شمارش دقیق",
+    level:"🔴 چالش",
+    prompt:"همه اعضای متمایز را یک بار وارد گاوصندوق کن.",
+    hint:"کارت‌های مجموعه‌ای را با محتوای داخل آنها اشتباه نگیر.",
+    reference:"D = "+setHTML(c.shown),
+    correct:c.answer,
+    options:makeOptions(unique(c.shown),[]),
+    explanation:c.explain+" پس n(D) = "+faNumber(c.answer.length)+".",
+    signature:"nested-count-"+c.shown.join("_")
+  };
+}
+
+/* ---------- Round generation ---------- */
+
+const generatorPlan=[
+  genMembership,
+  genRemoveDuplicates,
+  genCountByBuild,
+  genEmpty,
+  genEqualityFill,
+  genEqualityIgnoreOrder,
+  genZeroVsEmpty,
+  genNestedEmpty,
+  genFindDifferent,
+  genCountNested
+];
+
+function generateFreshQuestion(generator,recent,roundSignatures){
+  let fallback=null;
+
+  for(let tries=0;tries<25;tries++){
+    const q=generator();
+    fallback=q;
+
+    if(!recent.includes(q.signature) &&
+       !roundSignatures.includes(q.signature)){
+      return q;
+    }
+  }
+
+  return fallback || generator();
+}
+
+function generateRound(){
+  const recent=loadRecentSignatures();
+  const roundSignatures=[];
+
+  const generated=generatorPlan.map(generator=>{
+    const q=generateFreshQuestion(generator,recent,roundSignatures);
+    roundSignatures.push(questionSignature(q));
+    return q;
+  });
+
+  saveSignatures(roundSignatures);
+  return generated;
+}
+
+/* ---------- Rendering ---------- */
+
+function renderQuestion(){
+  stopTimer();
+
+  const q=questions[currentIndex];
+
+  selectedIds=new Set();
+  answerChecked=false;
+  interactionState="answering";
+
+  el.missionText.textContent=
+    faNumber(currentIndex+1)+" از "+faNumber(TOTAL_QUESTIONS);
+
+  el.scoreText.textContent=
+    faNumber(score)+" از "+faNumber(100);
+
+  el.levelBadge.textContent=q.level;
+  el.missionType.textContent=q.type;
+  el.prompt.textContent=q.prompt;
+  el.hint.textContent=q.hint;
+  el.reference.innerHTML=q.reference;
+
+  el.feedback.className="feedback";
+  el.feedback.innerHTML="";
+
+  el.nextBtn.style.display="none";
+  el.checkBtn.disabled=false;
+  el.clearBtn.disabled=false;
+  el.tray.innerHTML="";
+
+  q.options.forEach(card=>{
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="token";
+    button.dataset.id=card.id;
+    button.textContent=formatToken(card.value);
+    button.setAttribute("aria-pressed","false");
+
+    button.addEventListener("click",()=>{
+      toggleCard(card.id);
+    });
+
+    el.tray.appendChild(button);
+  });
+
+  renderVault();
+  startTimer();
+}
+
+function toggleCard(id){
+  if(answerChecked || interactionState!=="answering"){
+    return;
+  }
+
+  if(selectedIds.has(id)){
+    selectedIds.delete(id);
+  }else{
+    selectedIds.add(id);
+  }
+
+  const buttons=el.tray.querySelectorAll(".token");
+  buttons.forEach(button=>{
+    const isSelected=selectedIds.has(button.dataset.id);
+    button.classList.toggle("selected",isSelected);
+    button.setAttribute("aria-pressed",String(isSelected));
+  });
+
+  renderVault();
+}
+
+function selectedValues(){
+  const q=questions[currentIndex];
+
+  return q.options
+    .filter(card=>selectedIds.has(card.id))
+    .map(card=>card.value);
+}
+
+function renderVault(){
+  const values=selectedValues();
+
+  el.vaultItems.innerHTML="";
+
+  if(values.length===0){
+    const note=document.createElement("span");
+    note.className="empty-note";
+    note.textContent="گاوصندوق خالی است.";
+    el.vaultItems.appendChild(note);
+  }else{
+    values.forEach(value=>{
+      const item=document.createElement("button");
+      item.type="button";
+      item.className="token in-vault";
+      item.textContent=formatToken(value);
+      item.title="برای خارج کردن، کارت پایین را دوباره لمس کنید";
+      item.disabled=true;
+      el.vaultItems.appendChild(item);
+    });
+  }
+
+  el.vaultCount.textContent=
+    faNumber(values.length)+" کارت";
+}
+
+function clearSelection(){
+  if(answerChecked || interactionState!=="answering"){
+    return;
+  }
+
+  selectedIds.clear();
+
+  el.tray.querySelectorAll(".token").forEach(button=>{
+    button.classList.remove("selected");
+    button.setAttribute("aria-pressed","false");
+  });
+
+  renderVault();
+}
+
+/* ---------- Timer ---------- */
+
+function startTimer(){
+  stopTimer();
+
+  questionStartedAt=Date.now();
+
+  updateTimer();
+
+  timerInterval=setInterval(()=>{
+    updateTimer();
+  },100);
+}
+
+function updateTimer(){
+  if(answerChecked || gameFinished){
+    return;
+  }
+
+  const elapsed=(Date.now()-questionStartedAt)/1000;
+  const remaining=Math.max(0,QUESTION_TIME-elapsed);
+  const shown=Math.ceil(remaining);
+  const ratio=remaining/QUESTION_TIME;
+
+  el.timeText.textContent=faNumber(shown)+" ثانیه";
+  el.timerBar.style.width=(ratio*100)+"%";
+
+  if(remaining>20){
+    el.timerBar.style.backgroundColor="var(--green)";
+    el.timeText.style.color="#22875b";
+  }else if(remaining>10){
+    el.timerBar.style.backgroundColor="var(--yellow)";
+    el.timeText.style.color="#99700b";
+  }else{
+    el.timerBar.style.backgroundColor="var(--red)";
+    el.timeText.style.color="#bc3945";
+  }
+
+  if(remaining<=0){
+    handleTimeout();
+  }
+}
+
+function stopTimer(){
+  if(timerInterval!==null){
+    clearInterval(timerInterval);
+    timerInterval=null;
+  }
+}
+
+/* ---------- Checking and scoring ---------- */
+
+function pointsForElapsed(seconds){
+  if(seconds<=5) return 10;
+  if(seconds<=10) return 8;
+  if(seconds<=15) return 6;
+  if(seconds<=20) return 4;
+  if(seconds<=30) return 2;
+  return 0;
+}
+
+function lockInteraction(){
+  interactionState="locked";
+
+  el.checkBtn.disabled=true;
+  el.clearBtn.disabled=true;
+
+  el.tray.querySelectorAll("button").forEach(button=>{
+    button.disabled=true;
+  });
+}
+
+function correctSetDescription(q){
+  if(q.correct.length===0){
+    return "گاوصندوق باید خالی باشد: ∅";
+  }
+
+  return "محتویات درست: "+
+    "{"+q.correct.map(formatToken).join("، ")+"}";
+}
+
+function checkAnswer(){
+  if(answerChecked ||
+     gameFinished ||
+     interactionState!=="answering"){
+    return;
+  }
+
+  /* جلوگیری از Race Condition در مرز پایان زمان */
+  const elapsed=(Date.now()-questionStartedAt)/1000;
+
+  if(elapsed>=QUESTION_TIME){
+    handleTimeout();
+    return;
+  }
+
+  answerChecked=true;
+  stopTimer();
+  lockInteraction();
+
+  const q=questions[currentIndex];
+  const chosen=selectedValues();
+  const isCorrect=sameSet(chosen,q.correct);
+
+  if(isCorrect){
+    const earned=pointsForElapsed(elapsed);
+
+    score=Math.min(100,score+earned);
+    el.scoreText.textContent=
+      faNumber(score)+" از "+faNumber(100);
+
+    showFeedback(
+      "good",
+      "✅ آفرین! قفل باز شد — +"+faNumber(earned)+" امتیاز",
+      q.explanation
+    );
+
+    playUnlock();
+  }else{
+    showFeedback(
+      "bad",
+      "❌ این ترکیب قفل را باز نمی‌کند",
+      correctSetDescription(q)+"<br>"+q.explanation
+    );
+  }
+
+  prepareNext();
+}
+
+function handleTimeout(){
+  if(answerChecked || gameFinished){
+    return;
+  }
+
+  answerChecked=true;
+  stopTimer();
+  lockInteraction();
+
+  el.timeText.textContent="۰ ثانیه";
+  el.timerBar.style.width="0%";
+  el.timerBar.style.backgroundColor="var(--red)";
+
+  const q=questions[currentIndex];
+
+  showFeedback(
+    "time",
+    "⏰ زمان تمام شد — امتیاز این مأموریت ۰ است",
+    correctSetDescription(q)+"<br>"+q.explanation
+  );
+
+  prepareNext();
+}
+
+function showFeedback(kind,title,bodyHTML){
+  el.feedback.className="feedback show "+kind;
+  el.feedback.innerHTML=
+    "<strong>"+title+"</strong>"+
+    "<div>"+bodyHTML+"</div>";
+}
+
+function prepareNext(){
+  if(currentIndex===TOTAL_QUESTIONS-1){
+    el.nextBtn.textContent="دیدن نتیجه 🏆";
+  }else{
+    el.nextBtn.textContent="مأموریت بعدی ←";
+  }
+
+  el.nextBtn.style.display="block";
+}
+
+function playUnlock(){
+  el.lockBurst.classList.remove("play");
+  void el.lockBurst.offsetWidth;
+  el.lockBurst.classList.add("play");
+}
+
+/* ---------- Progress ---------- */
+
+function goNext(){
+  if(!answerChecked || gameFinished){
+    return;
+  }
+
+  if(currentIndex>=TOTAL_QUESTIONS-1){
+    finishGame();
+    return;
+  }
+
+  currentIndex++;
+  renderQuestion();
+
+  window.scrollTo({
+    top:0,
+    behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ?"auto"
+      :"smooth"
+  });
+}
+
+/* ---------- Finish and leaderboard ---------- */
+
+async function finishGame(){
+  if(gameFinished){
+    return;
+  }
+
+  gameFinished=true;
+  stopTimer();
+  interactionState="finished";
+
+  el.gameCard.style.display="none";
+  el.resultCard.classList.add("show");
+
+  score=Math.min(100,Math.max(0,score));
+  el.finalScore.textContent=
+    faNumber(score)+" از "+faNumber(100);
+
+  if(score>=80){
+    el.resultEmoji.textContent="🏆🔓";
+    el.resultMessage.textContent=
+      "تشخیص اعضا و هویت مجموعه‌ها را با دقت خوبی انجام دادی.";
+  }else if(score>=50){
+    el.resultEmoji.textContent="⭐🔐";
+    el.resultMessage.textContent=
+      "بخش زیادی از قفل‌ها باز شد. تفاوت ∅، {∅} و اعضای تکراری ارزش مرور دوباره دارد.";
+  }else{
+    el.resultEmoji.textContent="🧰🔐";
+    el.resultMessage.textContent=
+      "یک دور دیگر بازی کن و قبل از ثبت پاسخ، محتویات واقعی هر مجموعه را بررسی کن.";
+  }
+
+  if(!finishSubmitted){
+    finishSubmitted=true;
+
+    try{
+      await GameSDK.finishGame(score);
+    }catch(error){
+      console.error("finishGame failed:",error);
+    }
+  }
+
+  await loadLeaderboard();
+}
+
+async function loadLeaderboard(){
+  el.leaderboardList.innerHTML=
+    '<p class="leader-message">در حال دریافت رکوردها...</p>';
+
+  try{
+    const scores=await GameSDK.getLeaderboard(10);
+
+    if(!Array.isArray(scores) || scores.length===0){
+      el.leaderboardList.innerHTML=
+        '<p class="leader-message">هنوز رکوردی برای نمایش وجود ندارد.</p>';
+      return;
+    }
+
+    el.leaderboardList.innerHTML="";
+
+    scores.forEach((entry,index)=>{
+      const row=document.createElement("div");
+      row.className="rank-row";
+
+      const rank=document.createElement("span");
+      const name=document.createElement("span");
+      const result=document.createElement("span");
+
+      rank.textContent=
+        index===0 ? "🥇" :
+        index===1 ? "🥈" :
+        index===2 ? "🥉" :
+        faNumber(index+1)+".";
+
+      name.className="rank-name";
+      name.textContent=
+        entry.playerName ||
+        entry.name ||
+        "بازیکن";
+
+      result.className="rank-score";
+
+      const rawScore=
+        typeof entry.score==="number"
+          ? entry.score
+          : Number(entry.score || 0);
+
+      result.textContent=faNumber(rawScore);
+
+      row.append(rank,name,result);
+      el.leaderboardList.appendChild(row);
+    });
+
+  }catch(error){
+    console.error("getLeaderboard failed:",error);
+
+    el.leaderboardList.innerHTML=
+      '<p class="leader-message">دریافت جدول رکوردها در حال حاضر ممکن نیست.</p>';
+  }
+}
+
+/* ---------- Restart ---------- */
+
+function restartGame(){
+  stopTimer();
+
+  GameSDK.reset();
+
+  score=0;
+  currentIndex=0;
+
+  answerChecked=false;
+  gameFinished=false;
+  finishSubmitted=false;
+
+  interactionState="idle";
+  selectedIds=new Set();
+
+  el.feedback.className="feedback";
+  el.feedback.innerHTML="";
+  el.nextBtn.style.display="none";
+  el.resultCard.classList.remove("show");
+  el.gameCard.style.display="block";
+
+  questions=generateRound();
+
+  renderQuestion();
+
+  window.scrollTo({
+    top:0,
+    behavior:"auto"
+  });
+}
+
+/* ---------- Events ---------- */
+
+el.clearBtn.addEventListener("click",clearSelection);
+el.checkBtn.addEventListener("click",checkAnswer);
+el.nextBtn.addEventListener("click",goNext);
+el.restartBtn.addEventListener("click",restartGame);
+
+/* ---------- Start ---------- */
+
+function startGame(){
+  const safeName=
+    player && player.playerName
+      ? String(player.playerName)
+      : "بازیکن";
+
+  el.playerName.textContent=safeName;
+
+  score=0;
+  currentIndex=0;
+  answerChecked=false;
+  gameFinished=false;
+  finishSubmitted=false;
+  interactionState="idle";
+
+  questions=generateRound();
+
+  if(questions.length!==TOTAL_QUESTIONS){
+    console.error("Invalid question count.");
+    return;
+  }
+
+  renderQuestion();
+}
+
+startGame();
+</script>
+
+</body>
+</html>
